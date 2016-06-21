@@ -5,6 +5,9 @@ module.exports = {
   entry: './main.js',
   output: { path: __dirname, filename: 'bundle.js' },
   module: {
+    preLoaders: [
+        { test: /\.json$/, exclude: /node_modules/, loader: 'json'},
+    ],
     loaders: [
       {
         test: /.jsx?$/,

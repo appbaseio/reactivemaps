@@ -1,4 +1,4 @@
-{
+module.exports = {
   "appbase": {
     "appname": "surge_price",
     "username": "s7I79Hzeb",
