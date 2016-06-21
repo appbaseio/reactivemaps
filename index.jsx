@@ -28,49 +28,31 @@ var requestObject = {
 class Map extends Component {
 
     state = {
-        markers: [
-            { position: { lat: 61.5, lng: 23.766667 }}
-        ],
+        markers: [],
         selectedMarker: null
     }
 
     constructor(props) {
         super(props)
     }
+
     componentDidMount() {
         var self = this;
-        appbaseRef.search(requestObject).on('data', function(data) {
-            console.log(data)
-            data.hits.hits.map(function(hit, index){
-                if(!hit._source.query)
-                    return;
-                let positionMarker = {
-                    position: {lat: hit._source.query.location.lon, lng: hit._source.query.location.lat}
-                }
-                let myNewState = self.state.markers;
-                console.log(positionMarker)
-                myNewState.push(positionMarker)
-                self.setState({
-                    markers: myNewState 
-                }, function(){
-                    console.log("insider render", )
-                });
-            })
+        appbaseRef.searchStream(requestObject).on('data', function(stream) {
+            console.log(stream)
+            let positionMarker = {
+                position: {lat: stream._source.location[1], lng: stream._source.location[0]}
+            }
+            let myNewState = self.state.markers;
+            myNewState.push(positionMarker)
+            self.setState({
+                markers: myNewState 
+            });
         }).on('error', function(error) {
             console.log(error)
         });
     }
-
-    handleMarkerClick(index, event) {
-        console.log('hi')
-        var temp = [
-            { position: { lat: 61.52, lng: 23.76 }}
-        ]
-        this.setState({
-            markers: temp
-        })
-    }
-
+    
     render() {
       return (
         <section style={{height: "100%"}}>
@@ -87,7 +69,7 @@ class Map extends Component {
                 {this.state.markers.map((marker, index) => {
                     console.log("inside the render------", this.state.markers)
                     return (
-                        <Marker {...marker} onClick={this.handleMarkerClick.bind(this, index)} key={index} />
+                        <Marker {...marker} key={index} />
                     )
                 })}
               </GoogleMap>
