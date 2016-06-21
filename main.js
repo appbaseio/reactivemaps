@@ -7,9 +7,15 @@ console.log(config);
 
 
 class Main extends AppbaseMap {
+	onIndex() {
+
+	}
+	onDelete() {
+
+	}
 	render() {
 		return(
-			<AppbaseMap config={config} defaultZoom={13} defaultCenter={{lat: 37.74, lng: -122.45}} historicalData={true}/>
+			<AppbaseMap config={config} defaultZoom={13} defaultCenter={{lat: 37.74, lng: -122.45}} historicalData={true} onDelete={this.onDelete} onIndex={this.onIndex}/>
 		);
 	}
 }

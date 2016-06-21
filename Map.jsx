@@ -45,7 +45,15 @@ export class AppbaseMap extends Component {
                 position: {lat: stream._source.location[1], lng: stream._source.location[0]}
             }
             let myNewState = self.state.markers;
-            myNewState.push(positionMarker)
+            if(stream._deleted == true){
+                var deleteIndex = myNewState.indexOf(positionMarker);
+                myNewState.splice(deleteIndex, 1);
+                self.props.onDelete;
+            }
+            else{
+                myNewState.push(positionMarker)
+                self.props.onIndex;
+            }
             self.setState({
                 markers: myNewState 
             });
