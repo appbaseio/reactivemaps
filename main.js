@@ -9,7 +9,7 @@ console.log(config);
 class Main extends AppbaseMap {
 	render() {
 		return(
-			<AppbaseMap config={config} defaultZoom={13} defaultCenter={{lat: 37.74, lng: -122.45}}/>
+			<AppbaseMap config={config} defaultZoom={13} defaultCenter={{lat: 37.74, lng: -122.45}} historicalData={true}/>
 		);
 	}
 }
