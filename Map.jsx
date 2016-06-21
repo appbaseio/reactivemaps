@@ -15,7 +15,29 @@ export class AppbaseMap extends Component {
         super(props)
     }
 
-    callStreamingSearch(appbaseRef, requestObject) {
+    callStaticUpdates(appbaseRef, requestObject) {
+        var self = this;
+        appbaseRef.search(requestObject).on('data', function(data) {
+            console.log(data)
+            data.hits.hits.map(function(hit, index){
+                console.log(hit._source.location);
+                let positionMarker = {
+                    position: {lat: hit._source.location[1], lng: hit._source.location[0]}
+                }
+                let myNewState = self.state.markers;
+                myNewState.push(positionMarker)
+                self.setState({
+                    markers: myNewState 
+                }, function() {
+                    self.callRealtimeUpdates(appbaseRef, requestObject);
+                });
+            })
+        }).on('error', function(error) {
+            console.log(error)
+        });
+    }
+
+    callRealtimeUpdates(appbaseRef, requestObject) {
         var self = this;
         appbaseRef.searchStream(requestObject).on('data', function(stream) {
             console.log(stream)
@@ -33,11 +55,11 @@ export class AppbaseMap extends Component {
     }
 
     listentoUpdates(appbaseRef, requestObject) {
-        if(this.props.historicalData == false){
-
+        if(this.props.historicalData == true){
+            this.callStaticUpdates(appbaseRef, requestObject);
         }
         else
-            this.callStreamingSearch(appbaseRef, requestObject);
+            this.callRealtimeUpdates(appbaseRef, requestObject);
     }
 
     componentDidMount() {
