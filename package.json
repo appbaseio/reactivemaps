@@ -2,7 +2,7 @@
   "name": "react-realtime-maps",
   "version": "0.0.1",
   "description": "React component for realtime maps",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack-server": "webpack-dev-server --hot --progress --colors",

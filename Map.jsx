@@ -25,7 +25,7 @@ var requestObject = {
 }
   
 
-class Map extends Component {
+export class AppbaseMap extends Component {
 
     state = {
         markers: [],
@@ -37,6 +37,9 @@ class Map extends Component {
     }
 
     componentDidMount() {
+       // console.log(this.props.username)
+       // console.log(this.props.password)
+
         var self = this;
         appbaseRef.searchStream(requestObject).on('data', function(stream) {
             console.log(stream)
@@ -63,8 +66,7 @@ class Map extends Component {
             googleMapElement={
               <GoogleMap
                     ref={(map) => (this._googleMapComponent = map) && console.log(map.getZoom())}
-                defaultZoom={13}
-                defaultCenter={{lat: 37.74, lng: -122.45}}
+                {...this.props}
               >
                 {this.state.markers.map((marker, index) => {
                     console.log("inside the render------", this.state.markers)
@@ -80,5 +82,3 @@ class Map extends Component {
     }
 
 }
-
-render(<Map />, document.getElementById('hello'));
