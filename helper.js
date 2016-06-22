@@ -5,10 +5,22 @@ module.exports = {
 		return({
 			type: type,
         	body: {
-            	"query": {
-        	    	"match_all": {}
-           		} 
-        	}
+		        "query": {
+		          "filtered" : {
+		            "query" : {
+		              "match_all" : {}
+		            },
+		            "filter" : {
+		              "geo_bounding_box" : {
+			                "venue" : {
+			                    "top_left" : [-123.0,38.94],
+			                    "bottom_right" : [-122.0, 36.54]
+			                }
+		               }
+		            }
+		          }
+		        }
+      		}
 		});
         
 	},

@@ -18,11 +18,11 @@ export class AppbaseMap extends Component {
     callStaticUpdates(appbaseRef, requestObject) {
         var self = this;
         appbaseRef.search(requestObject).on('data', function(data) {
-            console.log(data)
+            console.log(JSON.stringify(data))
             data.hits.hits.map(function(hit, index){
                 console.log(hit._source.location);
                 let positionMarker = {
-                    position: {lat: hit._source.location[1], lng: hit._source.location[0]}
+                    position: {lat: hit._source.venue.lat, lng: hit._source.venue.lon}
                 }
                 let myNewState = self.state.markers;
                 myNewState.push(positionMarker)
@@ -33,6 +33,7 @@ export class AppbaseMap extends Component {
                 });
             })
         }).on('error', function(error) {
+            console.log("in error")
             console.log(error)
         });
     }
@@ -63,7 +64,7 @@ export class AppbaseMap extends Component {
     }
 
     listentoUpdates(appbaseRef, requestObject) {
-        if(this.props.historicalData == false){
+        if(this.props.historicalData == true){
             this.callStaticUpdates(appbaseRef, requestObject);
         }
         else{
