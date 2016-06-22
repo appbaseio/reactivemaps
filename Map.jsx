@@ -38,11 +38,11 @@ export class AppbaseMap extends Component {
     }
 
     callRealtimeUpdates(appbaseRef, requestObject) {
-        var self = this;
-        appbaseRef.searchStream(requestObject).on('data', function(stream) {
+        var self = this;        
+        appbaseRef.searchStream(requestObject).on('data', function(stream) {            
             console.log(stream)
             let positionMarker = {
-                position: {lat: stream._source.location[1], lng: stream._source.location[0]}
+                position: {lat: stream._source.venue.lat, lng: stream._source.venue.lon}
             }
             let myNewState = self.state.markers;
             if(stream._deleted == true){
@@ -63,18 +63,18 @@ export class AppbaseMap extends Component {
     }
 
     listentoUpdates(appbaseRef, requestObject) {
-        if(this.props.historicalData == true){
+        if(this.props.historicalData == false){
             this.callStaticUpdates(appbaseRef, requestObject);
         }
-        else
-            this.callRealtimeUpdates(appbaseRef, requestObject);
+        else{
+            this.callRealtimeUpdates(appbaseRef, requestObject)
+        }
     }
 
     componentDidMount() {
        var self = this;
        var requestObject = helper.createRequestObject(self.props.config.appbase.type)
        var appbaseRef = helper.createAppbaseRef(self.props.config.appbase.appname, self.props.config.appbase.username, self.props.config.appbase.password);
-
        this.listentoUpdates(appbaseRef, requestObject);
        
     }
