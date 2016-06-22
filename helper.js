@@ -1,7 +1,7 @@
 var Appbase = require('appbase-js');
 
 module.exports = {
-	createRequestObject : function(type) {
+	createRequestObject : function(type, venue) {
 		return({
 			type: type,
         	body: {
@@ -12,10 +12,7 @@ module.exports = {
 		            },
 		            "filter" : {
 		              "geo_bounding_box" : {
-			                "venue" : {
-			                    "top_left" : [-123.0,38.94],
-			                    "bottom_right" : [-122.0, 36.54]
-			                }
+			                "venue" : venue
 		               }
 		            }
 		          }

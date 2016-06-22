@@ -72,11 +72,28 @@ export class AppbaseMap extends Component {
         }
     }
 
+    handleBoundsChanged() {
+        var mapBounds = this.refs.map.getBounds();
+        var north = mapBounds.getNorthEast().lat();
+        var south = mapBounds.getSouthWest().lat();
+        var east = mapBounds.getNorthEast().lng();
+        var west = mapBounds.getSouthWest().lng();
+        //console.log(north+" "+south+" "+east+" "+west);
+        var venue = {
+            "top_left": [west, north],
+            "bottom_right": [east, south]
+        }
+        var appbaseRef = helper.createAppbaseRef(this.props.config.appbase.appname, this.props.config.appbase.username, this.props.config.appbase.password);
+        var requestObject = helper.createRequestObject(this.props.config.appbase.type, venue);
+        this.listentoUpdates(appbaseRef, requestObject);
+    }
+
     componentDidMount() {
-       var self = this;
-       var requestObject = helper.createRequestObject(self.props.config.appbase.type)
-       var appbaseRef = helper.createAppbaseRef(self.props.config.appbase.appname, self.props.config.appbase.username, self.props.config.appbase.password);
-       this.listentoUpdates(appbaseRef, requestObject);
+       // var self = this;
+       // var appbaseRef = helper.createAppbaseRef(self.props.config.appbase.appname, self.props.config.appbase.username, self.props.config.appbase.password);
+       // var requestObject = helper.createRequestObject(self.props.config.appbase.type)
+
+       // this.listentoUpdates(appbaseRef, requestObject);
        
     }
 
@@ -89,8 +106,10 @@ export class AppbaseMap extends Component {
       }
       googleMapElement={
           <GoogleMap
-          ref={(map) => (this._googleMapComponent = map) && console.log(map.getZoom())}
+          ref = "map"
+          // ref={(map) => (this._googleMapComponent = map) && console.log(map.getZoom())}
           {...this.props}
+          onBoundsChanged = {::this.handleBoundsChanged}
           >
           {this.state.markers.map((marker, index) => {
             console.log("inside the render------", this.state.markers)
