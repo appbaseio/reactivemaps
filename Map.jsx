@@ -83,15 +83,15 @@ export class AppbaseMap extends Component {
             "top_left": [west, north],
             "bottom_right": [east, south]
         }
-        var appbaseRef = helper.createAppbaseRef(this.props.config.appbase.appname, this.props.config.appbase.username, this.props.config.appbase.password);
-        var requestObject = helper.createRequestObject(this.props.config.appbase.type, venue);
+        var appbaseRef = helper.getAppbaseRef(this.props.config.appbase.appname, this.props.config.appbase.username, this.props.config.appbase.password);
+        var requestObject = helper.getRequestObject(this.props.config.appbase.type, venue);
         this.listentoUpdates(appbaseRef, requestObject);
     }
 
     componentDidMount() {
        // var self = this;
-       // var appbaseRef = helper.createAppbaseRef(self.props.config.appbase.appname, self.props.config.appbase.username, self.props.config.appbase.password);
-       // var requestObject = helper.createRequestObject(self.props.config.appbase.type)
+       // var appbaseRef = helper.getAppbaseRef(self.props.config.appbase.appname, self.props.config.appbase.username, self.props.config.appbase.password);
+       // var requestObject = helper.getRequestObject(self.props.config.appbase.type)
 
        // this.listentoUpdates(appbaseRef, requestObject);
        

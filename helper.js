@@ -1,7 +1,7 @@
 var Appbase = require('appbase-js');
 
 module.exports = {
-	createRequestObject : function(type, venue) {
+	getRequestObject : function(type, venue) {
 		return({
 			type: type,
         	body: {
@@ -22,7 +22,7 @@ module.exports = {
         
 	},
 
-	createAppbaseRef : function(appname, username, password){
+	getAppbaseRef : function(appname, username, password){
 		return (
 			new Appbase({
 		        url: 'https://scalr.api.appbase.io',
