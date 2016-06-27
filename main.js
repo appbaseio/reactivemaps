@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var config = require('./config.js');
-import {AppbaseMap} from './AppbaseMap.jsx'
+import {AppbaseMap} from './AppbaseMap'
 
 console.log(config);
 
