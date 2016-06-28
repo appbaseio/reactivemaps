@@ -18,15 +18,15 @@ export class AppbaseMap extends Component {
     callStaticUpdates(appbaseRef, requestObject) {
         var self = this;
         appbaseRef.search(requestObject).on('data', function (data) {
-            let myNewState=[];
+            let newMarkersArray=[];
             data.hits.hits.map(function (hit, index) {
                 let positionMarker = {
                     position: { lat: hit._source[self.props.fieldName].lat, lng: hit._source[self.props.fieldName].lon }
                 }
-                myNewState.push(positionMarker)
+                newMarkersArray.push(positionMarker)
             })
             self.setState({
-                markers: myNewState
+                markers: newMarkersArray
             }, function () {
                 self.callRealtimeUpdates(appbaseRef, requestObject);
             });
@@ -43,18 +43,18 @@ export class AppbaseMap extends Component {
             let positionMarker = {
                 position: { lat: stream._source[self.props.fieldName].lat, lng: stream._source[self.props.fieldName].lon }
             }
-            let myNewState = self.state.markers;
+            let newMarkersArray = self.state.markers;
             if (stream._deleted == true) {
-                var deleteIndex = myNewState.indexOf(positionMarker);
-                myNewState.splice(deleteIndex, 1);
+                var deleteIndex = newMarkersArray.indexOf(positionMarker);
+                newMarkersArray.splice(deleteIndex, 1);
                 self.props.onDelete(positionMarker);
             }
             else {
-                myNewState.push(positionMarker)
+                newMarkersArray.push(positionMarker)
                 self.props.onIndex(positionMarker);
             }
             self.setState({
-                markers: myNewState
+                markers: newMarkersArray
             });
         }).on('error', function (error) {
             console.log(error)
