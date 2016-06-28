@@ -86,15 +86,6 @@ export class AppbaseMap extends Component {
         this.listentoUpdates(appbaseRef, requestObject);
     }
 
-    componentDidMount() {
-        // var self = this;
-        // var appbaseRef = helper.getAppbaseRef(self.props.config.appbase.appname, self.props.config.appbase.username, self.props.config.appbase.password);
-        // var requestObject = helper.getRequestObject(self.props.config.appbase.type)
-
-        // this.listentoUpdates(appbaseRef, requestObject);
-
-    }
-
     render() {
         return (
             <section style={{ height: "100%" }}>
