@@ -21,7 +21,7 @@ export class AppbaseMap extends Component {
             let myNewState=[];
             data.hits.hits.map(function (hit, index) {
                 let positionMarker = {
-                    position: { lat: hit._source.venue.lat, lng: hit._source.venue.lon }
+                    position: { lat: hit._source[self.props.fieldName].lat, lng: hit._source[self.props.fieldName].lon }
                 }
                 myNewState.push(positionMarker)
             })
@@ -41,7 +41,7 @@ export class AppbaseMap extends Component {
         appbaseRef.searchStream(requestObject).on('data', function (stream) {
             console.log(stream)
             let positionMarker = {
-                position: { lat: stream._source.venue.lat, lng: stream._source.venue.lon }
+                position: { lat: stream._source[self.props.fieldName].lat, lng: stream._source[self.props.fieldName].lon }
             }
             let myNewState = self.state.markers;
             if (stream._deleted == true) {

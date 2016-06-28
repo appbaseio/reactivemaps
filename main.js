@@ -14,6 +14,7 @@ class Main extends Component {
 		return (
 			<AppbaseMap
 				config={config}
+				fieldName="venue"
 				defaultZoom={13}
 				defaultCenter={{ lat: 37.74, lng: -122.45 }}
 				historicalData={true}
