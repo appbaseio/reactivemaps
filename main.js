@@ -24,4 +24,4 @@ class Main extends Component {
 	}
 }
 
-ReactDOM.render(<Main />, document.getElementById('hello'));
+ReactDOM.render(<Main />, document.getElementById('map'));
