@@ -109,3 +109,7 @@ export class AppbaseMap extends Component {
     }
 
 }
+
+AppbaseMap.defaultProps = {
+    historicalData: true,
+};
