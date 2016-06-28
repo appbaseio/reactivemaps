@@ -19,19 +19,19 @@ export class AppbaseMap extends Component {
         var self = this;
         appbaseRef.search(requestObject).on('data', function (data) {
             console.log(JSON.stringify(data))
+            let myNewState=[];
             data.hits.hits.map(function (hit, index) {
                 console.log(hit._source.location);
                 let positionMarker = {
                     position: { lat: hit._source.venue.lat, lng: hit._source.venue.lon }
                 }
-                let myNewState = self.state.markers;
                 myNewState.push(positionMarker)
-                self.setState({
-                    markers: myNewState
-                }, function () {
-                    self.callRealtimeUpdates(appbaseRef, requestObject);
-                });
             })
+            self.setState({
+                markers: myNewState
+            }, function () {
+                self.callRealtimeUpdates(appbaseRef, requestObject);
+            });
         }).on('error', function (error) {
             console.log("in error")
             console.log(error)
