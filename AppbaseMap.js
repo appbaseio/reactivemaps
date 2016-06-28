@@ -76,13 +76,12 @@ export class AppbaseMap extends Component {
         var south = mapBounds.getSouthWest().lat();
         var east = mapBounds.getNorthEast().lng();
         var west = mapBounds.getSouthWest().lng();
-        //console.log(north+" "+south+" "+east+" "+west);
-        var venue = {
+        var boundingBoxCoordinates = {
             "top_left": [west, north],
             "bottom_right": [east, south]
         }
         var appbaseRef = helper.getAppbaseRef(this.props.config.appbase.appname, this.props.config.appbase.username, this.props.config.appbase.password);
-        var requestObject = helper.getRequestObject(this.props.config.appbase.type, venue);
+        var requestObject = helper.getRequestObject(this.props.config.appbase.type, boundingBoxCoordinates);
         this.listentoUpdates(appbaseRef, requestObject);
     }
 
