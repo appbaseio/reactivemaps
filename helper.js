@@ -1,9 +1,10 @@
 var Appbase = require('appbase-js');
 
 module.exports = {
-	getRequestObject: function (type, venue) {
+	getRequestObject: function (config, fieldName, boundingBoxCoordinates) {
+    var geo_bounding_box = JSON.parse(`{"${fieldName}":` + JSON.stringify(boundingBoxCoordinates) + '}');
 		return ({
-			type: type,
+			type: config.appbase.type,
 			body: {
 				"size": 1000,
 				"query": {
@@ -12,9 +13,7 @@ module.exports = {
 							"match_all": {}
 						},
 						"filter": {
-							"geo_bounding_box": {
-								"venue": venue
-							}
+							geo_bounding_box
 						}
 					}
 				}
