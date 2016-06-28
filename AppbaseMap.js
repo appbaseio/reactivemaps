@@ -16,30 +16,9 @@ export class AppbaseMap extends Component {
         this.appbaseRef = helper.getAppbaseRef(this.props.config);
     }
 
-    callStaticUpdates(appbaseRef, requestObject) {
+    startStreaming(requestObject) {
         var self = this;
-        appbaseRef.search(requestObject).on('data', function (data) {
-            let newMarkersArray=[];
-            data.hits.hits.map(function (hit, index) {
-                let positionMarker = {
-                    position: { lat: hit._source[self.props.fieldName].lat, lng: hit._source[self.props.fieldName].lon }
-                }
-                newMarkersArray.push(positionMarker)
-            })
-            self.setState({
-                markers: newMarkersArray
-            }, function () {
-                self.callRealtimeUpdates(appbaseRef, requestObject);
-            });
-        }).on('error', function (error) {
-            console.log("in error")
-            console.log(error)
-        });
-    }
-
-    callRealtimeUpdates(appbaseRef, requestObject) {
-        var self = this;
-        appbaseRef.searchStream(requestObject).on('data', function (stream) {
+        this.appbaseRef.searchStream(requestObject).on('data', function (stream) {
             console.log(stream)
             let positionMarker = {
                 position: { lat: stream._source[self.props.fieldName].lat, lng: stream._source[self.props.fieldName].lon }
@@ -62,12 +41,30 @@ export class AppbaseMap extends Component {
         });
     }
 
-    listentoUpdates(appbaseRef, requestObject) {
+    getNewMarkers(boundingBoxCoordinates) {
+        var requestObject = helper.getRequestObject(this.props.config, this.props.fieldName, boundingBoxCoordinates);
+        var self = this;
+
         if (this.props.historicalData == true) {
-            this.callStaticUpdates(appbaseRef, requestObject);
+            this.appbaseRef.search(requestObject).on('data', function (data) {
+                let newMarkersArray=[];
+                data.hits.hits.map(function (hit, index) {
+                    let positionMarker = {
+                        position: { lat: hit._source[self.props.fieldName].lat, lng: hit._source[self.props.fieldName].lon }
+                    }
+                    newMarkersArray.push(positionMarker)
+                })
+                self.setState({
+                    markers: newMarkersArray
+                }, function () {
+                    self.startStreaming(requestObject);
+                });
+            }).on('error', function (error) {
+                console.log(error)
+            });
         }
         else {
-            this.callRealtimeUpdates(appbaseRef, requestObject)
+            this.startStreaming(requestObject)
         }
     }
 
@@ -81,9 +78,7 @@ export class AppbaseMap extends Component {
             "top_left": [west, north],
             "bottom_right": [east, south]
         }
-        var appbaseRef = helper.getAppbaseRef(this.props.config.appbase.appname, this.props.config.appbase.username, this.props.config.appbase.password);
-        var requestObject = helper.getRequestObject(this.props.config.appbase.type, boundingBoxCoordinates);
-        this.listentoUpdates(appbaseRef, requestObject);
+        this.getNewMarkers(boundingBoxCoordinates);
     }
 
     render() {
