@@ -95,6 +95,16 @@ export class AppbaseMap extends Component {
             top: '15px',
             right: '15px',
         };
+        var divAppbaseStyle = {
+            position: 'absolute',
+            width: '200px',
+            bottom: '15px',
+            left: '0px',
+            right: '0px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            textAlign: 'center',
+        };
         return (
             <section style={{ height: "100%" }}>
                 <GoogleMapLoader
@@ -114,6 +124,7 @@ export class AppbaseMap extends Component {
                     }
                 />
                 <div style={divStatusStyle} ref="status" > {this.state.streamingStatus} </div>
+                <div style={divAppbaseStyle} > Powered by<img width='200px' height='auto' src="http://slashon.appbase.io/img/Appbase.png" /> </div>                
             </section >
         )
     }
