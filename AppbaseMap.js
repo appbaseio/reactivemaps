@@ -13,6 +13,7 @@ export class AppbaseMap extends Component {
             markers: [],
             selectedMarker: null
         }
+        this.appbaseRef = helper.getAppbaseRef(this.props.config);
     }
 
     callStaticUpdates(appbaseRef, requestObject) {

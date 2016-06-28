@@ -22,13 +22,13 @@ module.exports = {
 		});
 	},
 
-	getAppbaseRef: function (appname, username, password) {
+	getAppbaseRef: function (config) {
 		return (
 			new Appbase({
 				url: 'https://scalr.api.appbase.io',
-				appname: appname,
-				username: username,
-				password: password
+				appname: config.appbase.appname,
+				username: config.appbase.username,
+				password: config.appbase.password
     		})
 		);
 	}
