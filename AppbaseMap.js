@@ -11,13 +11,17 @@ export class AppbaseMap extends Component {
         super(props)
         this.state = {
             markers: [],
-            selectedMarker: null
+            selectedMarker: null,
+            streamingStatus: 'Intializing..'
         }
         this.appbaseRef = helper.getAppbaseRef(this.props.config);
     }
 
     startStreaming(requestObject) {
         var self = this;
+        self.setState({
+            streamingStatus: 'Listening...'
+        });
         this.appbaseRef.searchStream(requestObject).on('data', function (stream) {
             console.log(stream)
             let positionMarker = {
@@ -34,7 +38,8 @@ export class AppbaseMap extends Component {
                 self.props.onIndex(positionMarker);
             }
             self.setState({
-                markers: newMarkersArray
+                markers: newMarkersArray,
+                streamingStatus: 'Listening...'
             });
         }).on('error', function (error) {
             console.log(error)
@@ -69,6 +74,9 @@ export class AppbaseMap extends Component {
     }
 
     handleBoundsChanged() {
+        this.setState({
+            streamingStatus: 'Fetching...'
+        });
         var mapBounds = this.refs.map.getBounds();
         var north = mapBounds.getNorthEast().lat();
         var south = mapBounds.getSouthWest().lat();
@@ -82,6 +90,11 @@ export class AppbaseMap extends Component {
     }
 
     render() {
+        var divStatusStyle = {
+            position: 'absolute',
+            top: '15px',
+            right: '15px',
+        };
         return (
             <section style={{ height: "100%" }}>
                 <GoogleMapLoader
@@ -100,6 +113,7 @@ export class AppbaseMap extends Component {
                         </GoogleMap>
                     }
                 />
+                <div style={divStatusStyle} ref="status" > {this.state.streamingStatus} </div>
             </section >
         )
     }
