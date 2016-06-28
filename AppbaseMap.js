@@ -7,12 +7,12 @@ var helper = require('./helper.js')
 
 export class AppbaseMap extends Component {
 
-    state = {
-        markers: [],
-        selectedMarker: null
-    }
     constructor(props) {
         super(props)
+        this.state = {
+            markers: [],
+            selectedMarker: null
+        }
     }
 
     callStaticUpdates(appbaseRef, requestObject) {
