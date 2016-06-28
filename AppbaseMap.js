@@ -18,10 +18,8 @@ export class AppbaseMap extends Component {
     callStaticUpdates(appbaseRef, requestObject) {
         var self = this;
         appbaseRef.search(requestObject).on('data', function (data) {
-            console.log(JSON.stringify(data))
             let myNewState=[];
             data.hits.hits.map(function (hit, index) {
-                console.log(hit._source.location);
                 let positionMarker = {
                     position: { lat: hit._source.venue.lat, lng: hit._source.venue.lon }
                 }
@@ -105,23 +103,19 @@ export class AppbaseMap extends Component {
                         <div {...this.props} style={{ height: "100%" }} />
                     }
                     googleMapElement={
-                        <GoogleMap
-                            ref = "map"
-                            // ref={(map) => (this._googleMapComponent = map) && console.log(map.getZoom())}
+                        <GoogleMap ref = "map"
                             {...this.props}
-                            onBoundsChanged = {:: this.handleBoundsChanged}
-                >
-                {this.state.markers.map((marker, index) => {
-                    console.log("inside the render------", this.state.markers)
-                    return (
-                        <Marker {...marker} key={index} />
-                    )
-                }) }
-          </GoogleMap>
-      }
-      />
-      </section >
-      )
+                            onIdle = {:: this.handleBoundsChanged}>
+                            {this.state.markers.map((marker, index) => {
+                                return (
+                                    <Marker {...marker} key={index} />
+                                )
+                            })}
+                        </GoogleMap>
+                    }
+                />
+            </section >
+        )
     }
 
 }
