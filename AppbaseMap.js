@@ -47,11 +47,11 @@ export class AppbaseMap extends Component {
             if (stream._deleted == true) {
                 var deleteIndex = myNewState.indexOf(positionMarker);
                 myNewState.splice(deleteIndex, 1);
-                self.props.onDelete;
+                self.props.onDelete(positionMarker);
             }
             else {
                 myNewState.push(positionMarker)
-                self.props.onIndex;
+                self.props.onIndex(positionMarker);
             }
             self.setState({
                 markers: myNewState

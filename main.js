@@ -4,10 +4,10 @@ var config = require('./config.js');
 import {AppbaseMap} from './AppbaseMap'
 
 class Main extends Component {
-	onIndex() {
-
+	onIndex(data) {
+		
 	}
-	onDelete() {
+	onDelete(data) {
 
 	}
 	render() {
