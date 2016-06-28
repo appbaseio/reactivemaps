@@ -5,6 +5,7 @@ module.exports = {
 		return ({
 			type: type,
 			body: {
+				"size": 1000,
 				"query": {
 					"filtered": {
 						"query": {
