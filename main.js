@@ -18,6 +18,7 @@ class Main extends Component {
 				defaultZoom={13}
 				defaultCenter={{ lat: 37.74, lng: -122.45 }}
 				historicalData={true}
+				markerCluster={true}
 				onDelete={this.onDelete}
 				onIndex={this.onIndex} />
 		);
