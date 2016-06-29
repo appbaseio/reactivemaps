@@ -20,6 +20,7 @@ class Main extends Component {
 				historicalData={true}
 				markerCluster={true}
 				onDelete={this.onDelete}
+				searchComponent={true}
 				onIndex={this.onIndex} />
 		);
 	}

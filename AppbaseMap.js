@@ -90,8 +90,21 @@ export class AppbaseMap extends Component {
         }
         this.getNewMarkers(boundingBoxCoordinates);
     }
+    handleBoundsChanged(){
+        this.setState({
+            center: this.refs.map.getCenter()
+        });
+    }
+    handlePlacesChanged() {
+        const places = this.refs.searchBox.getPlaces();
+        this.setState({
+            center: places[0].geometry.location
+        });
+    }
 
     render() {
+        var markerComponent, searchComponent;
+        var searchComponentProps={};
         if (this.props.markerCluster) {
             markerComponent = <MarkerClusterer averageCenter enableRetinaIcons gridSize={ 60 } >
                 {this.state.markers.map((marker, index) => {
@@ -108,6 +121,17 @@ export class AppbaseMap extends Component {
                 )
             })
         }
+        if(this.props.searchComponent){
+            searchComponent = <SearchBox
+                controlPosition={google.maps.ControlPosition.TOP_LEFT}
+                onPlacesChanged={:: this.handlePlacesChanged}
+                ref="searchBox"
+                placeholder="Search location"
+                style={Style.inputStyle}
+            />
+            searchComponentProps.center = this.state.center;
+            searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
+        }
         return (
             <section style={{ height: "100%" }}>
                 <GoogleMapLoader
@@ -116,8 +140,10 @@ export class AppbaseMap extends Component {
                     }
                     googleMapElement={
                         <GoogleMap ref = "map"
+                            {...searchComponentProps}
                             {...this.props}
-                            onIdle = {:: this.handleBoundsChanged}>
+                            onIdle = {:: this.handleOnIdle}>
+                            {searchComponent}
                             {markerComponent}
                         </GoogleMap>
                     }
@@ -132,5 +158,6 @@ export class AppbaseMap extends Component {
 
 AppbaseMap.defaultProps = {
     historicalData: true,
-    markerCluster: true
+    markerCluster: true,
+    searchComponent: false
 };
