@@ -2,6 +2,7 @@ import { default as React, Component } from 'react'
 import { render } from 'react-dom'
 import { GoogleMapLoader, GoogleMap, Marker } from "react-google-maps"
 import InfoBox from 'react-google-maps/lib/addons/InfoBox'
+import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerClusterer";
 var Appbase = require('appbase-js');
 var helper = require('./helper.js')
 
@@ -105,6 +106,23 @@ export class AppbaseMap extends Component {
             marginRight: 'auto',
             textAlign: 'center',
         };
+        var markerComponent;
+        if (this.props.markerCluster) {
+            markerComponent = <MarkerClusterer averageCenter enableRetinaIcons gridSize={ 60 } >
+                {this.state.markers.map((marker, index) => {
+                    return (
+                        <Marker {...marker} key={index} />
+                    )
+                }) }
+            </MarkerClusterer>
+        }
+        else {
+            markerComponent = this.state.markers.map((marker, index) => {
+                return (
+                    <Marker {...marker} key={index} />
+                )
+            })
+        }
         return (
             <section style={{ height: "100%" }}>
                 <GoogleMapLoader
@@ -115,11 +133,7 @@ export class AppbaseMap extends Component {
                         <GoogleMap ref = "map"
                             {...this.props}
                             onIdle = {:: this.handleBoundsChanged}>
-                            {this.state.markers.map((marker, index) => {
-                                return (
-                                    <Marker {...marker} key={index} />
-                                )
-                            })}
+                            {markerComponent}
                         </GoogleMap>
                     }
                 />
