@@ -1,11 +1,11 @@
 import { default as React, Component } from 'react'
 import { render } from 'react-dom'
-import { GoogleMapLoader, GoogleMap, Marker } from "react-google-maps"
+import { GoogleMapLoader, GoogleMap, Marker, SearchBox } from "react-google-maps"
 import InfoBox from 'react-google-maps/lib/addons/InfoBox'
 import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerClusterer";
 var Appbase = require('appbase-js');
 var helper = require('./helper.js')
-
+var Style = require('./Style.js')
 export class AppbaseMap extends Component {
 
     constructor(props) {
@@ -13,7 +13,8 @@ export class AppbaseMap extends Component {
         this.state = {
             markers: [],
             selectedMarker: null,
-            streamingStatus: 'Intializing..'
+            streamingStatus: 'Intializing..',
+            center: this.props.defaultCenter
         }
         this.appbaseRef = helper.getAppbaseRef(this.props.config);
     }
@@ -74,7 +75,7 @@ export class AppbaseMap extends Component {
         }
     }
 
-    handleBoundsChanged() {
+    handleOnIdle() {
         this.setState({
             streamingStatus: 'Fetching...'
         });
@@ -91,22 +92,6 @@ export class AppbaseMap extends Component {
     }
 
     render() {
-        var divStatusStyle = {
-            position: 'absolute',
-            top: '15px',
-            right: '15px',
-        };
-        var divAppbaseStyle = {
-            position: 'absolute',
-            width: '200px',
-            bottom: '15px',
-            left: '0px',
-            right: '0px',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            textAlign: 'center',
-        };
-        var markerComponent;
         if (this.props.markerCluster) {
             markerComponent = <MarkerClusterer averageCenter enableRetinaIcons gridSize={ 60 } >
                 {this.state.markers.map((marker, index) => {
@@ -137,8 +122,8 @@ export class AppbaseMap extends Component {
                         </GoogleMap>
                     }
                 />
-                <div style={divStatusStyle} ref="status" > {this.state.streamingStatus} </div>
-                <div style={divAppbaseStyle} > Powered by<img width='200px' height='auto' src="http://slashon.appbase.io/img/Appbase.png" /> </div>                
+                <div style={Style.divStatusStyle} ref="status" > {this.state.streamingStatus} </div>
+                <div style={Style.divAppbaseStyle} > Powered by<img width='200px' height='auto' src="http://slashon.appbase.io/img/Appbase.png" /> </div>                
             </section >
         )
     }
