@@ -147,4 +147,5 @@ export class AppbaseMap extends Component {
 
 AppbaseMap.defaultProps = {
     historicalData: true,
+    markerCluster: true
 };
