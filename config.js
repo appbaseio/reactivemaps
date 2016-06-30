@@ -1,8 +1,8 @@
 module.exports = {
   "appbase": {
-    "appname": "map-demo",
-    "username": "mgVijsReD",
-    "password": "d67f1d62-26c5-49cb-b8b3-c6e2a6f04e74",
-    "type": "demo"
+    "appname": "map_demo",
+    "username": "aT29UsiAp",
+    "password": "e0d26007-d818-4559-8244-c3c2fbad45ad",
+    "type": "meetupdata1"
   }
 }
