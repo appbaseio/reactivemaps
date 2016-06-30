@@ -17,6 +17,7 @@ export class AppbaseMap extends Component {
             center: this.props.defaultCenter
         }
         this.appbaseRef = helper.getAppbaseRef(this.props.config);
+        this.streamingInstance;
     }
 
     startStreaming(requestObject) {
@@ -24,7 +25,11 @@ export class AppbaseMap extends Component {
         self.setState({
             streamingStatus: 'Listening...'
         });
-        this.appbaseRef.searchStream(requestObject).on('data', function (stream) {
+        if(this.streamingInstance){
+          console.log("Stopped")
+          this.streamingInstance.stop()
+        }
+        this.streamingInstance = this.appbaseRef.searchStream(requestObject).on('data', function (stream) {
             console.log(stream)
             let positionMarker = {
                 position: { lat: stream._source[self.props.fieldName].lat, lng: stream._source[self.props.fieldName].lon }
