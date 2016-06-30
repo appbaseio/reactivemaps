@@ -54,7 +54,7 @@ export class AppbaseMap extends Component {
 
         if (this.props.historicalData == true) {
             this.appbaseRef.search(requestObject).on('data', function (data) {
-                let newMarkersArray=[];
+                let newMarkersArray = [];
                 data.hits.hits.map(function (hit, index) {
                     let positionMarker = {
                         position: { lat: hit._source[self.props.fieldName].lat, lng: hit._source[self.props.fieldName].lon }
@@ -90,7 +90,7 @@ export class AppbaseMap extends Component {
         }
         this.getNewMarkers(boundingBoxCoordinates);
     }
-    handleBoundsChanged(){
+    handleBoundsChanged() {
         this.setState({
             center: this.refs.map.getCenter()
         });
@@ -104,7 +104,7 @@ export class AppbaseMap extends Component {
 
     render() {
         var markerComponent, searchComponent;
-        var searchComponentProps={};
+        var searchComponentProps = {};
         if (this.props.markerCluster) {
             markerComponent = <MarkerClusterer averageCenter enableRetinaIcons gridSize={ 60 } >
                 {this.state.markers.map((marker, index) => {
