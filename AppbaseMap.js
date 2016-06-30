@@ -22,6 +22,7 @@ export class AppbaseMap extends Component {
 
     startStreaming(requestObject) {
         var self = this;
+        
         self.setState({
             streamingStatus: 'Listening...'
         });
@@ -34,14 +35,15 @@ export class AppbaseMap extends Component {
             let positionMarker = {
                 position: { lat: stream._source[self.props.fieldName].lat, lng: stream._source[self.props.fieldName].lon }
             }
+            let newMarker = <Marker {...positionMarker} key={Date.now()} icon="images/map.png" zIndex={100} />
             let newMarkersArray = self.state.markers;
             if (stream._deleted == true) {
-                var deleteIndex = newMarkersArray.indexOf(positionMarker);
+                var deleteIndex = newMarkersArray.indexOf(newMarker);
                 newMarkersArray.splice(deleteIndex, 1);
                 self.props.onDelete(positionMarker);
             }
             else {
-                newMarkersArray.push(positionMarker)
+                newMarkersArray.push(newMarker)
                 self.props.onIndex(positionMarker);
             }
             self.setState({
@@ -60,11 +62,13 @@ export class AppbaseMap extends Component {
         if (this.props.historicalData == true) {
             this.appbaseRef.search(requestObject).on('data', function (data) {
                 let newMarkersArray = [];
-                data.hits.hits.map(function (hit, index) {
-                    let positionMarker = {
-                        position: { lat: hit._source[self.props.fieldName].lat, lng: hit._source[self.props.fieldName].lon }
-                    }
-                    newMarkersArray.push(positionMarker)
+                newMarkersArray = data.hits.hits.map((hit, index) => {
+                   let position = {
+                       position: { lat: hit._source[self.props.fieldName].lat, lng: hit._source[self.props.fieldName].lon }
+                   }
+                   return (
+                      <Marker {...position} key={index} zIndex={1}/>
+                   )
                 })
                 self.setState({
                     markers: newMarkersArray
@@ -112,20 +116,13 @@ export class AppbaseMap extends Component {
         var searchComponentProps = {};
         if (this.props.markerCluster) {
             markerComponent = <MarkerClusterer averageCenter enableRetinaIcons gridSize={ 60 } >
-                {this.state.markers.map((marker, index) => {
-                    return (
-                        <Marker {...marker} key={index} />
-                    )
-                }) }
+                {this.state.markers}
             </MarkerClusterer>
         }
         else {
-            markerComponent = this.state.markers.map((marker, index) => {
-                return (
-                    <Marker {...marker} key={index} />
-                )
-            })
+            markerComponent = this.state.markers
         }
+
         if(this.props.searchComponent){
             searchComponent = <SearchBox
                 controlPosition={google.maps.ControlPosition.TOP_LEFT}
