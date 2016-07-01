@@ -28,10 +28,11 @@ export class AppbaseList extends Component {
       this.streamingInstance.stop();
     }
     this.streamingInstance = this.appbaseRef.searchStream(requestObject).on('data', function (stream) {
-      console.log(stream)
-      var updated = this.state.items;
-      updated.unshift(JSON.stringify(item._source));
-      this.setState({ items: updated });
+      var updated = self.state.items;
+      updated.unshift(JSON.stringify(stream._source.location));
+      self.setState({
+        items: updated
+      });
     }).on('error', function (error) {
       console.log(error);
     });
@@ -41,15 +42,15 @@ export class AppbaseList extends Component {
     var requestObject = helper.getMatchAllQuery(this.props.config, this.props.fieldName, "1", false);
     var self = this;
     this.appbaseRef.search(requestObject).on('data', function (data) {
-      console.log(data)
-      self.addItemsToList(data.hits.hits)
+      self.addItemsToList(data.hits.hits);
+      self.subscribeToUpdates();
     }).on('error', function (error) {
       console.log(error)
     });
   }
   addItemsToList(newItems) {
     var updated = this.state.items;
-    newItems.map( function (item) {
+    newItems.map(function (item) {
       updated.push(JSON.stringify(item._source));
     });
     this.setState({ items: updated });
