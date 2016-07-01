@@ -20,14 +20,14 @@ export class AppbaseMap extends Component {
         this.streamingInstance;
     }
 
-    startStreaming(requestObject) {
+    startStreaming(boundingBoxCoordinates) {
+        var requestObject = helper.getRequestObject(this.props.config, this.props.fieldName, boundingBoxCoordinates, true);   
         var self = this;
         
         self.setState({
             streamingStatus: 'Listening...'
         });
         if(this.streamingInstance){
-          console.log("Stopped")
           this.streamingInstance.stop()
         }
         this.streamingInstance = this.appbaseRef.searchStream(requestObject).on('data', function (stream) {
@@ -73,14 +73,14 @@ export class AppbaseMap extends Component {
                 self.setState({
                     markers: newMarkersArray
                 }, function () {
-                    self.startStreaming(requestObject);
+                    self.startStreaming(boundingBoxCoordinates);
                 });
             }).on('error', function (error) {
                 console.log(error)
             });
         }
         else {
-            this.startStreaming(requestObject)
+            this.startStreaming(boundingBoxCoordinates)
         }
     }
 
