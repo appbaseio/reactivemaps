@@ -22,6 +22,23 @@ module.exports = {
 			}
 		});
 	},
+	getMatchAllQuery: function(config, fieldName, page, streaming){
+		var _source = !streaming ?  `${fieldName}` : null;		
+		return ({
+			type: config.appbase.type,
+			body: {
+				"size": 100,
+				"_source": [_source],
+				"query": {
+					"filtered": {
+						"query": {
+							"match_all": {}
+						}
+					}
+				}
+			}
+		});
+	},
 
 	getAppbaseRef: function (config) {
 		return (
@@ -32,5 +49,5 @@ module.exports = {
 				password: config.appbase.password
     		})
 		);
-	}
+	},
 };
