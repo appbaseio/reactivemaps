@@ -29,7 +29,7 @@ export class AppbaseList extends Component {
     }
     this.streamingInstance = this.appbaseRef.searchStream(requestObject).on('data', function (stream) {
       var updated = self.state.items;
-      updated.unshift(JSON.stringify(stream._source.location));
+      updated.unshift(eval(`stream._source.${self.props.fieldName}`));
       self.setState({
         items: updated
       });
@@ -50,8 +50,9 @@ export class AppbaseList extends Component {
   }
   addItemsToList(newItems) {
     var updated = this.state.items;
+    var self = this;
     newItems.map(function (item) {
-      updated.push(JSON.stringify(item._source));
+      updated.push(eval(`item._source.${self.props.fieldName}`));
     });
     this.setState({ items: updated });
   }
