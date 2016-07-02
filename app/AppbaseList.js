@@ -3,7 +3,6 @@ import { render } from 'react-dom';
 var Appbase = require('appbase-js');
 var helper = require('./helper.js');
 import {List} from './component/List.js';
-import {Tags} from './component/Tags.js';
 var Waypoint = require('react-waypoint');
 
 export class AppbaseList extends Component {
@@ -18,8 +17,6 @@ export class AppbaseList extends Component {
     this.appbaseRef = helper.getAppbaseRef(this.props.config);
     this.streamingInstance;
     this.pageNumber = 0;
-    this.handleListClick = this.handleListClick.bind(this);
-    this.handleTagClick = this.handleTagClick.bind(this);
   }
   subscribeToUpdates() {
     var requestObject = helper.getMatchAllQuery(this.props.config, this.props.fieldName, 1, this.props.size, true);
@@ -63,24 +60,10 @@ export class AppbaseList extends Component {
     this.getItems(this.pageNumber);
     this.pageNumber++;
   }
-  handleListClick(_id) {
-    // var updated = this.state.items
-    // delete updated[_id]
-    // this.props.onSelected(_id, this.state.items[_id]);
-    var updated = this.state.selectedItems;
-    updated[_id] = this.state.items[_id];
-    this.setState({
-      selectedItems: updated
-    });
-  }
-  handleTagClick(){
-    console.log("clicked")
-  }
   render() {
     return (
       <div>
-        <Tags items={this.state.selectedItems} onClick={this.handleTagClick} />
-        <List items={this.state.items} onClick={this.handleListClick}/>
+        <List items={this.state.items} />
         <Waypoint
           onEnter={this.handleWaypointEnter.bind(this) }
           />
