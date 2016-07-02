@@ -22,12 +22,13 @@ module.exports = {
 			}
 		});
 	},
-	getMatchAllQuery: function(config, fieldName, page, streaming){
+	getMatchAllQuery: function(config, fieldName, pageNumber, size, streaming){
 		var _source = !streaming ?  `${fieldName}` : null;		
 		return ({
 			type: config.appbase.type,
 			body: {
-				"size": 100,
+				"size": size,
+				"from": pageNumber*size,				
 				"_source": [_source],
 				"query": {
 					"filtered": {
