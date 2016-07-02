@@ -6,8 +6,10 @@ export class List extends Component {
     super(props);
   }
   render() {
-    var itemsComponent = this.props.items.map(function (value, index) {
-      return <Item key={index} value={value} />;
+    let items = this.props.items; 
+    var itemsComponent = []
+    Object.keys(items).forEach(function (key) {
+          itemsComponent.push(<Item key={key} value={items[key]} />);
     });
     return (
       <div>

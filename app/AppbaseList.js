@@ -10,7 +10,7 @@ export class AppbaseList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [],
+      items: {},
       selectedItems: [],
       streamingStatus: 'Intializing..'
     };
@@ -29,7 +29,7 @@ export class AppbaseList extends Component {
     }
     this.streamingInstance = this.appbaseRef.searchStream(requestObject).on('data', function (stream) {
       var updated = self.state.items;
-      updated.unshift(eval(`stream._source.${self.props.fieldName}`));
+      updated[stream._id] = eval(`stream._source.${self.props.fieldName}`);
       self.setState({
         items: updated
       });
@@ -52,7 +52,7 @@ export class AppbaseList extends Component {
     var updated = this.state.items;
     var self = this;
     newItems.map(function (item) {
-      updated.push(eval(`item._source.${self.props.fieldName}`));
+      updated[item._id] = eval(`item._source.${self.props.fieldName}`);
     });
     this.setState({ items: updated });
   }
