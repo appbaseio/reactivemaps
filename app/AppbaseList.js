@@ -1,8 +1,10 @@
-import { default as React, Component } from 'react'
-import { render } from 'react-dom'
+import { default as React, Component } from 'react';
+import { render } from 'react-dom';
 var Appbase = require('appbase-js');
-var helper = require('./helper.js')
-import {List} from './component/List.js'
+var helper = require('./helper.js');
+import {List} from './component/List.js';
+var Waypoint = require('react-waypoint');
+
 export class AppbaseList extends Component {
 
   constructor(props) {
@@ -14,12 +16,10 @@ export class AppbaseList extends Component {
     };
     this.appbaseRef = helper.getAppbaseRef(this.props.config);
     this.streamingInstance;
-  }
-  componentDidMount() {
-    this.getItems();
+    this.pageNumber = 0;
   }
   subscribeToUpdates() {
-    var requestObject = helper.getMatchAllQuery(this.props.config, this.props.fieldName, 1, true);
+    var requestObject = helper.getMatchAllQuery(this.props.config, this.props.fieldName, 1, this.props.size, true);
     var self = this;
     self.setState({
       streamingStatus: 'Listening...'
@@ -38,8 +38,8 @@ export class AppbaseList extends Component {
     });
   }
 
-  getItems() {
-    var requestObject = helper.getMatchAllQuery(this.props.config, this.props.fieldName, "1", false);
+  getItems(pageNumber) {
+    var requestObject = helper.getMatchAllQuery(this.props.config, this.props.fieldName, pageNumber, this.props.size, false);
     var self = this;
     this.appbaseRef.search(requestObject).on('data', function (data) {
       self.addItemsToList(data.hits.hits);
@@ -55,14 +55,24 @@ export class AppbaseList extends Component {
     });
     this.setState({ items: updated });
   }
+  handleWaypointEnter() {
+    this.getItems(this.pageNumber);
+    this.pageNumber++;
+  }
 
   render() {
     return (
       <div>
         <List items={this.state.items} />
+        <Waypoint
+          onEnter={this.handleWaypointEnter.bind(this) }
+          />
       </div>
 
     );
   }
 
 }
+AppbaseList.defaultProps = {
+  size: 60,
+};
