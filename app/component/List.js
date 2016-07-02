@@ -6,11 +6,11 @@ export class List extends Component {
     super(props);
   }
   render() {
-    let items = this.props.items; 
+    let items = this.props.items;
     var itemsComponent = []
     Object.keys(items).forEach(function (key) {
-          itemsComponent.push(<Item key={key} value={items[key]} />);
-    });
+      itemsComponent.push(<Item key={key} value={items[key]} _id={key} onClick={this.props.onClick} />);
+    }.bind(this));
     return (
       <div>
         {itemsComponent}
@@ -23,13 +23,11 @@ class Item extends Component {
   constructor(props) {
     super(props);
   }
-  handleClick() {
-    checklistActions.toggleItem(this.props.item_id);
-  }
+
   render() {
     // var status = (this.props.complete) ? 'complete' : 'pending';
     return (
-      <div onClick={this.handleClick}>
+      <div onClick={this.props.onClick.bind(null, this.props._id) }>
         <input type="checkbox" />
         <label >{this.props.value}</label>
       </div>

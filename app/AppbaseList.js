@@ -17,6 +17,8 @@ export class AppbaseList extends Component {
     this.appbaseRef = helper.getAppbaseRef(this.props.config);
     this.streamingInstance;
     this.pageNumber = 0;
+    this.handleClick = this.handleClick.bind(this);
+
   }
   subscribeToUpdates() {
     var requestObject = helper.getMatchAllQuery(this.props.config, this.props.fieldName, 1, this.props.size, true);
@@ -60,11 +62,19 @@ export class AppbaseList extends Component {
     this.getItems(this.pageNumber);
     this.pageNumber++;
   }
+  handleClick(_id) {
+    var updated = this.state.items
+    delete updated[_id]
+    // this.props.onSelected(_id, this.state.items[_id]);
+    this.setState({
+      items: updated
+    });
+  }
 
   render() {
     return (
       <div>
-        <List items={this.state.items} />
+        <List items={this.state.items} onClick={this.handleClick}/>
         <Waypoint
           onEnter={this.handleWaypointEnter.bind(this) }
           />
