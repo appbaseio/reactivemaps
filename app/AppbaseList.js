@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 var Appbase = require('appbase-js');
 var helper = require('./helper.js');
 import {List} from './component/List.js';
+import {Tags} from './component/Tags.js';
 var Waypoint = require('react-waypoint');
 
 export class AppbaseList extends Component {
@@ -11,14 +12,14 @@ export class AppbaseList extends Component {
     super(props);
     this.state = {
       items: {},
-      selectedItems: [],
+      selectedItems: {},
       streamingStatus: 'Intializing..'
     };
     this.appbaseRef = helper.getAppbaseRef(this.props.config);
     this.streamingInstance;
     this.pageNumber = 0;
-    this.handleClick = this.handleClick.bind(this);
-
+    this.handleListClick = this.handleListClick.bind(this);
+    this.handleTagClick = this.handleTagClick.bind(this);
   }
   subscribeToUpdates() {
     var requestObject = helper.getMatchAllQuery(this.props.config, this.props.fieldName, 1, this.props.size, true);
@@ -62,19 +63,24 @@ export class AppbaseList extends Component {
     this.getItems(this.pageNumber);
     this.pageNumber++;
   }
-  handleClick(_id) {
-    var updated = this.state.items
-    delete updated[_id]
+  handleListClick(_id) {
+    // var updated = this.state.items
+    // delete updated[_id]
     // this.props.onSelected(_id, this.state.items[_id]);
+    var updated = this.state.selectedItems;
+    updated[_id] = this.state.items[_id];
     this.setState({
-      items: updated
+      selectedItems: updated
     });
   }
-
+  handleTagClick(){
+    console.log("clicked")
+  }
   render() {
     return (
       <div>
-        <List items={this.state.items} onClick={this.handleClick}/>
+        <Tags items={this.state.selectedItems} onClick={this.handleTagClick} />
+        <List items={this.state.items} onClick={this.handleListClick}/>
         <Waypoint
           onEnter={this.handleWaypointEnter.bind(this) }
           />
