@@ -25,9 +25,13 @@ class Item extends Component {
   }
 
   render() {
+    var divStyle = {
+      margin: "5px",
+      padding: "3px"
+    };
     // var status = (this.props.complete) ? 'complete' : 'pending';
     return (
-      <div onClick={this.props.onClick.bind(null, this.props._id) }>
+      <div onClick={this.props.onClick.bind(null, this.props._id) } style={divStyle}>
         <label ><input type="checkbox" />{this.props.value}</label>
       </div>
     );
