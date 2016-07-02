@@ -18,7 +18,8 @@
     "google-map-react": "^0.14.5",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
-    "react-google-maps": "^4.11.0"
+    "react-google-maps": "^4.11.0",
+    "react-waypoint": "^3.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.9.1",
