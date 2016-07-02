@@ -28,8 +28,7 @@ class Item extends Component {
     // var status = (this.props.complete) ? 'complete' : 'pending';
     return (
       <div onClick={this.props.onClick.bind(null, this.props._id) }>
-        <input type="checkbox" />
-        <label >{this.props.value}</label>
+        <label ><input type="checkbox" />{this.props.value}</label>
       </div>
     );
   }
