@@ -11,7 +11,6 @@ export class List extends Component {
     this.handleTagClick = this.handleTagClick.bind(this);
   }
   handleListClick(_id, value) {
-    console.log(_id)
     var updated = this.state.selectedItems;
     updated[_id] = value;
     this.setState({
@@ -19,6 +18,8 @@ export class List extends Component {
     });
   }
   handleTagClick(_id) {
+    var checkboxElement = eval(`this.refs.${_id}`)
+    checkboxElement.state.status = false;
     var updated = this.state.selectedItems;
     delete updated[_id];
     this.setState({
@@ -27,11 +28,11 @@ export class List extends Component {
   }
   render() {
     let items = this.props.items;
-    let selectedItems = this.state.selectedItems;    
+    let selectedItems = this.state.selectedItems;
     var ListItemsArray = [];
     var TagItemsArray = [];
     Object.keys(items).forEach(function (key) {
-      ListItemsArray.push(<ListItem key={key} value={items[key]} _id={key} onClick={this.handleListClick} />);
+      ListItemsArray.push(<ListItem key={key} value={items[key]} _id={key} handleClick={this.handleListClick} status={false} ref={key} />);
     }.bind(this));
     Object.keys(selectedItems).forEach(function (key) {
       TagItemsArray.push(<Tag key={key} value={selectedItems[key]} _id={key} onClick={this.handleTagClick} />);
@@ -49,14 +50,19 @@ class ListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      status: false,
+      status: this.props.status || false,
     };
   }
-  handleClick(){
+  handleClick() {
     this.setState({
       status: !this.state.status
     });
-    this.props.onClick(this.props._id, this.props.value);
+    this.props.handleClick(this.props._id, this.props.value);
+  }
+  handleCheckboxChange(event){
+    this.setState({
+      status: event.target.checked
+    });
   }
   render() {
     var divStyle = {
@@ -65,7 +71,8 @@ class ListItem extends Component {
     };
     return (
       <div onClick={this.handleClick.bind(this) } style={divStyle}>
-        <label ><input type="checkbox" checked={this.state.status} />{this.props.value}</label>
+        <input type="checkbox" checked={this.state.status} onChange={this.handleCheckboxChange.bind(this)} />
+        <label >{this.props.value}</label>
       </div>
     );
   }
