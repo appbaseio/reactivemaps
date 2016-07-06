@@ -5,6 +5,8 @@ var helper = require('./helper.js');
 import {List} from './component/List.js';
 var Waypoint = require('react-waypoint');
 
+var {EventEmitter} = require('fbemitter');
+var emitter = new EventEmitter();
 export class AppbaseList extends Component {
 
   constructor(props) {
@@ -12,11 +14,17 @@ export class AppbaseList extends Component {
     this.state = {
       items: {},
       selectedItems: {},
-      streamingStatus: 'Intializing..'
+      streamingStatus: 'Intializing..',
+      query: {}
     };
     this.appbaseRef = helper.getAppbaseRef(this.props.config);
     this.streamingInstance;
     this.pageNumber = 0;
+    emitter.addListener('change', function(query) { 
+      this.setState({
+        query: query
+      });
+    });
   }
   subscribeToUpdates() {
     var requestObject = helper.getMatchAllQuery(this.props.config, this.props.fieldName, 1, this.props.size, true);
