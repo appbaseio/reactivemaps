@@ -61,14 +61,8 @@ export class AppbaseList extends Component {
     this.pageNumber++;
   }
   render() {
-    var appbaseListStyle = {
-      height: "400px",
-      width: "400px",
-      margin: "5px",
-      overflow: "auto"
-    };
     return (
-      <div style={appbaseListStyle}>
+      <div>
         <List items={this.state.items} />
         <Waypoint
           onEnter={this.handleWaypointEnter.bind(this) }
