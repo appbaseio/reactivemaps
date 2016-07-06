@@ -1,3 +1,6 @@
+var {EventEmitter} = require('fbemitter');
+var emitter = new EventEmitter();
+
 class ImmutableQuery {
 
   constructor() {
@@ -22,6 +25,7 @@ class ImmutableQuery {
       }
     };
     console.log(JSON.stringify(this.query));
+    emitter.emit('change', this.query);
     return this.query;
   }
   getTermQuery(key, value) {
