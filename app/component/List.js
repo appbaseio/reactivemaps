@@ -37,10 +37,18 @@ export class List extends Component {
     Object.keys(selectedItems).forEach(function (key) {
       TagItemsArray.push(<Tag key={key} value={selectedItems[key]} _id={key} onClick={this.handleTagClick} />);
     }.bind(this));
+    var scrollStyle = {
+      overflow: "auto",
+      height: "400px",
+      width: "400px",
+      margin: "5px",
+    };
     return (
       <div>
         {TagItemsArray}
-        {ListItemsArray}
+        <div style={scrollStyle}>
+          {ListItemsArray}
+        </div>
       </div>
     );
   }
@@ -59,7 +67,7 @@ class ListItem extends Component {
     });
     this.props.handleClick(this.props._id, this.props.value);
   }
-  handleCheckboxChange(event){
+  handleCheckboxChange(event) {
     this.setState({
       status: event.target.checked
     });
@@ -71,7 +79,7 @@ class ListItem extends Component {
     };
     return (
       <div onClick={this.handleClick.bind(this) } style={divStyle}>
-        <input type="checkbox" checked={this.state.status} onChange={this.handleCheckboxChange.bind(this)} />
+        <input type="checkbox" checked={this.state.status} onChange={this.handleCheckboxChange.bind(this) } />
         <label >{this.props.value}</label>
       </div>
     );
