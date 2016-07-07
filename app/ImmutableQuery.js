@@ -27,7 +27,7 @@ class ImmutableQuery {
     return this.query;
   }
   getTermQuery(key, value) {
-    var term = JSON.parse(`{"${key}":` + value + '}');
+    var term = JSON.parse(`{"${key}":"` + value + '"}');
     return { term };
   }
   getShouldArrayIndex(key, value){
