@@ -14,6 +14,11 @@ class ImmutableQuery {
     this.shouldArray.push(this.getKeyValueObject(key, value));
     return this.buildQuery();
   }
+  updateGeoFilter(key, boundingBoxCoordinates) {
+    var geoObject = JSON.parse(`{"${key}":` + JSON.stringify(boundingBoxCoordinates) + '}');
+    this.filterArray[0] = { geo_bounding_box: geoObject };
+    return this.buildQuery(true);
+  }
   removeShouldClause(key, value) {
     var index = this.getShouldArrayIndex(key, value);
     this.shouldArray.splice(index, 1);
