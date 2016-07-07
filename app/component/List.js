@@ -11,12 +11,17 @@ export class List extends Component {
     this.handleListClick = this.handleListClick.bind(this);
     this.handleTagClick = this.handleTagClick.bind(this);
   }
-  handleListClick(_id, value) {
+  handleListClick(_id, value, status) {
     var updated = this.state.selectedItems;
-    updated[_id] = value;
-    this.setState({
-      selectedItems: updated
-    });
+    if (status) {
+      updated[_id] = value;
+      this.setState({
+        selectedItems: updated
+      });
+    }
+    else {
+      this.handleTagClick(_id);
+    }
   }
   handleTagClick(_id) {
     var checkboxElement = eval(`this.refs.${_id}`)
@@ -69,7 +74,7 @@ class ListItem extends Component {
     this.setState({
       status: !this.state.status
     });
-    this.props.handleClick(this.props._id, this.props.value);
+    this.props.handleClick(this.props._id, this.props.value, !this.state.status);
   }
   handleCheckboxChange(event) {
     this.setState({
