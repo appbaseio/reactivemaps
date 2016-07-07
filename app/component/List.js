@@ -18,6 +18,7 @@ export class List extends Component {
       this.setState({
         selectedItems: updated
       });
+      this.props.onSelect(_id, value);
     }
     else {
       this.handleTagClick(_id);
@@ -25,12 +26,14 @@ export class List extends Component {
   }
   handleTagClick(_id) {
     var checkboxElement = eval(`this.refs.${_id}`)
+    var value = checkboxElement.props.value;
     checkboxElement.state.status = false;
     var updated = this.state.selectedItems;
     delete updated[_id];
     this.setState({
       selectedItems: updated
     });
+    this.props.onRemove(_id, value);
   }
   render() {
     let items = this.props.items;
