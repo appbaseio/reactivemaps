@@ -2,12 +2,16 @@ var {EventEmitter} = require('fbemitter');
 export var emitter = new EventEmitter();
 
 class ImmutableQuery {
-
   constructor() {
     this.shouldArray = [];
+    this.filterArray = [];
+    this.config = [];
+  }
+  setConfig(config) {
+    this.config = config.appbase;
   }
   addShouldClause(key, value) {
-    this.shouldArray.push(this.getTermQuery(key, value));
+    this.shouldArray.push(this.getKeyValueObject(key, value));
     return this.buildQuery();
   }
   removeShouldClause(key, value) {
@@ -17,28 +21,32 @@ class ImmutableQuery {
   }
   buildQuery(geo) {
     this.query = {
-      "query": {
-        "bool": {
-          "should": this.shouldArray
+      type: this.config.type,
+      body: {
+        "size": 100,
+        "query": {
+          "bool": {
+            "must": this.shouldArray,
+            "filter": this.filterArray
+          }
         }
       }
     };
-    emitter.emit('change', this.query);
-    if(!geo)
+    if (!geo)
       emitter.emit('change', this.query);
     return this.query;
   }
-  getTermQuery(key, value) {
-    var term = JSON.parse(`{"${key}":"` + value + '"}');
+  getKeyValueObject(key, value) {
+    var term = JSON.parse(`{"${key}":` + JSON.stringify(value) + '}');
     return { term };
   }
-  getShouldArrayIndex(key, value){
-    var array = this.shouldArray 
-    var encode64 = btoa(JSON.stringify(this.getTermQuery(key,value)));
-    for(var i = 0; i < array.length; i++) {
-        if (btoa(JSON.stringify(array[i])) === encode64){
-          return i;
-        }
+  getShouldArrayIndex(key, value) {
+    var array = this.shouldArray
+    var encode64 = btoa(JSON.stringify(this.getKeyValueObject(key, value)));
+    for (var i = 0; i < array.length; i++) {
+      if (btoa(JSON.stringify(array[i])) === encode64) {
+        return i;
+      }
     }
     return -1;
   }
