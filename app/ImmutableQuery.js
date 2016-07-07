@@ -1,5 +1,5 @@
 var {EventEmitter} = require('fbemitter');
-var emitter = new EventEmitter();
+export var emitter = new EventEmitter();
 
 class ImmutableQuery {
 
@@ -15,7 +15,7 @@ class ImmutableQuery {
     this.shouldArray.splice(index, 1);
     return this.buildQuery();
   }
-  buildQuery() {
+  buildQuery(geo) {
     this.query = {
       "query": {
         "bool": {
@@ -24,6 +24,8 @@ class ImmutableQuery {
       }
     };
     emitter.emit('change', this.query);
+    if(!geo)
+      emitter.emit('change', this.query);
     return this.query;
   }
   getTermQuery(key, value) {
