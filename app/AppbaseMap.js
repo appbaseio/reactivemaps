@@ -20,11 +20,16 @@ export class AppbaseMap extends Component {
         }
         this.appbaseRef = helper.getAppbaseRef(this.props.config);
         this.streamingInstance;
-        emitter.addListener('change', function(query) { 
-            this.setState({
+        var self = this;
+        emitter.addListener('change', function(query) {
+            console.log("Heyyyyyyyyy, it changed!");
+            self.setState({
                 query: query
+            }, function(){
+                 self.getNewMarkers();
             });
         });
+        queryObject.setConfig(this.props.config);
     }
 
     startStreaming() {
