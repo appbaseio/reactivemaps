@@ -22,7 +22,6 @@ export class AppbaseMap extends Component {
         this.streamingInstance;
         var self = this;
         emitter.addListener('change', function(query) {
-            console.log("Heyyyyyyyyy, it changed!");
             self.setState({
                 query: query
             }, function(){
