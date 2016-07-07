@@ -27,8 +27,7 @@ export class AppbaseMap extends Component {
         });
     }
 
-    startStreaming(boundingBoxCoordinates) {
-        var requestObject = helper.getRequestObject(this.props.config, this.props.fieldName, boundingBoxCoordinates, true);   
+    startStreaming() {
         var self = this;
         
         self.setState({
@@ -37,7 +36,7 @@ export class AppbaseMap extends Component {
         if(this.streamingInstance){
           this.streamingInstance.stop()
         }
-        this.streamingInstance = this.appbaseRef.searchStream(requestObject).on('data', function (stream) {
+        this.streamingInstance = this.appbaseRef.searchStream(this.state.query).on('data', function (stream) {
             console.log(stream)
             let positionMarker = {
                 position: { lat: stream._source[self.props.fieldName].lat, lng: stream._source[self.props.fieldName].lon }
@@ -62,12 +61,11 @@ export class AppbaseMap extends Component {
         });
     }
 
-    getNewMarkers(boundingBoxCoordinates) {
-        var requestObject = helper.getRequestObject(this.props.config, this.props.fieldName, boundingBoxCoordinates);
+    getNewMarkers() {
         var self = this;
 
         if (this.props.historicalData == true) {
-            this.appbaseRef.search(requestObject).on('data', function (data) {
+            this.appbaseRef.search(this.state.query).on('data', function (data) {
                 let newMarkersArray = [];
                 newMarkersArray = data.hits.hits.map((hit, index) => {
                    let position = {
@@ -80,14 +78,14 @@ export class AppbaseMap extends Component {
                 self.setState({
                     markers: newMarkersArray
                 }, function () {
-                    self.startStreaming(boundingBoxCoordinates);
+                    self.startStreaming();
                 });
             }).on('error', function (error) {
                 console.log(error)
             });
         }
         else {
-            this.startStreaming(boundingBoxCoordinates)
+            this.startStreaming()
         }
     }
 
