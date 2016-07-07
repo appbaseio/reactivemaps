@@ -3,8 +3,6 @@ import { render } from 'react-dom';
 var Appbase = require('appbase-js');
 var helper = require('./helper.js');
 import {List} from './component/List.js';
-var Waypoint = require('react-waypoint');
-
 var {EventEmitter} = require('fbemitter');
 var emitter = new EventEmitter();
 export class AppbaseList extends Component {
