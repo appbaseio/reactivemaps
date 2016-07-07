@@ -8,12 +8,11 @@ class ImmutableQuery {
   }
   addShouldClause(key, value) {
     this.shouldArray.push(this.getTermQuery(key, value));
-    console.log(this.getTermQuery(key, value))
     return this.buildQuery();
   }
   removeShouldClause(key, value) {
-    this.shouldArray.push(this.getTermQuery(key, value));
-    console.log(this.getTermQuery(key, value))
+    var index = this.getShouldArrayIndex(key, value);
+    this.shouldArray.splice(index, 1);
     return this.buildQuery();
   }
   buildQuery() {
@@ -24,13 +23,22 @@ class ImmutableQuery {
         }
       }
     };
-    console.log(JSON.stringify(this.query));
     emitter.emit('change', this.query);
     return this.query;
   }
   getTermQuery(key, value) {
     var term = JSON.parse(`{"${key}":` + value + '}');
     return { term };
+  }
+  getShouldArrayIndex(key, value){
+    var array = this.shouldArray 
+    var encode64 = btoa(JSON.stringify(this.getTermQuery(key,value)));
+    for(var i = 0; i < array.length; i++) {
+        if (btoa(JSON.stringify(array[i])) === encode64){
+          return i;
+        }
+    }
+    return -1;
   }
 }
 
