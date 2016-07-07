@@ -107,7 +107,12 @@ export class AppbaseMap extends Component {
             "top_left": [west, north],
             "bottom_right": [east, south]
         }
-        this.getNewMarkers(boundingBoxCoordinates);
+        var query = queryObject.updateGeoFilter(this.props.fieldName, boundingBoxCoordinates)
+        this.setState({
+            query: query
+        }, function(){
+            this.getNewMarkers();
+        });
     }
     handleBoundsChanged() {
         this.setState({
