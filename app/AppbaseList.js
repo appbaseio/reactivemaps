@@ -25,6 +25,8 @@ export class AppbaseList extends Component {
         query: query
       });
     });
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);    
   }
   subscribeToUpdates() {
     var requestObject = helper.getMatchAllQuery(this.props.config, this.props.fieldName, 1, this.props.size, true);
@@ -67,6 +69,14 @@ export class AppbaseList extends Component {
   handleWaypointEnter() {
     this.getItems(this.pageNumber);
     this.pageNumber++;
+  }
+  handleSelect(_id, value){
+    value = value.toString()
+    console.log(value)
+    console.log(queryObject.addShouldClause(this.props.fieldName, value));    
+  }
+  handleRemove(_id, value){
+    queryObject.removeShouldClause(this.props.fieldName, value);    
   }
   render() {
     return (
