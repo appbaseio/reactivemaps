@@ -6,6 +6,8 @@ import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerC
 var Appbase = require('appbase-js');
 var helper = require('./helper.js')
 var Style = require('./Style.js')
+var {EventEmitter} = require('fbemitter');
+var emitter = new EventEmitter();
 export class AppbaseMap extends Component {
 
     constructor(props) {
@@ -14,10 +16,16 @@ export class AppbaseMap extends Component {
             markers: [],
             selectedMarker: null,
             streamingStatus: 'Intializing..',
-            center: this.props.defaultCenter
+            center: this.props.defaultCenter,
+            query: {}
         }
         this.appbaseRef = helper.getAppbaseRef(this.props.config);
         this.streamingInstance;
+        emitter.addListener('change', function(query) { 
+            this.setState({
+                query: query
+            });
+        });
     }
 
     startStreaming(boundingBoxCoordinates) {

@@ -4,8 +4,6 @@ var Appbase = require('appbase-js');
 var helper = require('./helper.js');
 import {List} from './component/List.js';
 import {queryObject} from './ImmutableQuery.js';
-var {EventEmitter} = require('fbemitter');
-var emitter = new EventEmitter();
 export class AppbaseList extends Component {
 
   constructor(props) {
@@ -13,17 +11,11 @@ export class AppbaseList extends Component {
     this.state = {
       items: {},
       selectedItems: {},
-      streamingStatus: 'Intializing..',
-      query: {}
+      streamingStatus: 'Intializing..'
     };
     this.appbaseRef = helper.getAppbaseRef(this.props.config);
     this.streamingInstance;
     this.pageNumber = 0;
-    emitter.addListener('change', function(query) { 
-      this.setState({
-        query: query
-      });
-    });
     this.handleSelect = this.handleSelect.bind(this);
     this.handleRemove = this.handleRemove.bind(this);    
   }
