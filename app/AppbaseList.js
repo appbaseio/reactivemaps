@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 var Appbase = require('appbase-js');
 var helper = require('./helper.js');
 import {List} from './component/List.js';
+import {queryObject} from './ImmutableQuery.js';
 var {EventEmitter} = require('fbemitter');
 var emitter = new EventEmitter();
 export class AppbaseList extends Component {
@@ -70,8 +71,7 @@ export class AppbaseList extends Component {
   }
   handleSelect(_id, value){
     value = value.toString()
-    console.log(value)
-    console.log(queryObject.addShouldClause(this.props.fieldName, value));    
+    queryObject.addShouldClause(this.props.fieldName, value);    
   }
   handleRemove(_id, value){
     queryObject.removeShouldClause(this.props.fieldName, value);    
