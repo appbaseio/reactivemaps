@@ -6,8 +6,7 @@ import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerC
 var Appbase = require('appbase-js');
 var helper = require('./helper.js')
 var Style = require('./Style.js')
-var {EventEmitter} = require('fbemitter');
-var emitter = new EventEmitter();
+import {queryObject, emitter} from './ImmutableQuery.js';
 export class AppbaseMap extends Component {
 
     constructor(props) {
