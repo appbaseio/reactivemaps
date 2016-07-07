@@ -71,10 +71,7 @@ export class AppbaseList extends Component {
   render() {
     return (
       <div>
-        <List items={this.state.items} />
-        <Waypoint
-          onEnter={this.handleWaypointEnter.bind(this) }
-          />
+        <List items={this.state.items} onSelect={this.handleSelect} onRemove={this.handleRemove} onPageEnd={this.handleWaypointEnter.bind(this)} />
       </div>
 
     );

@@ -1,5 +1,6 @@
 import { default as React, Component } from 'react';
 import { render } from 'react-dom';
+var Waypoint = require('react-waypoint');
 
 export class List extends Component {
   constructor(props) {
@@ -48,6 +49,9 @@ export class List extends Component {
         {TagItemsArray}
         <div style={scrollStyle}>
           {ListItemsArray}
+          <Waypoint
+            onEnter={this.props.onPageEnd}
+            />
         </div>
       </div>
     );
