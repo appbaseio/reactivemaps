@@ -10,8 +10,9 @@ class ImmutableQuery {
   setConfig(config) {
     this.config = config.appbase;
   }
-  addShouldClause(key, value) {
-    this.shouldArray.push(this.getKeyValueObject(key, value));
+  addShouldClause(key, value, type) {
+    var obj = eval(`this.get${type}Object(key, value)`);
+    this.shouldArray[0] = obj;
     return this.buildQuery();
   }
   updateGeoFilter(key, boundingBoxCoordinates) {
@@ -19,8 +20,8 @@ class ImmutableQuery {
     this.filterArray[0] = { geo_bounding_box: geoObject };
     return this.buildQuery(true);
   }
-  removeShouldClause(key, value) {
-    var index = this.getShouldArrayIndex(key, value);
+  removeShouldClause(key, value, type) {
+    var index = this.getShouldArrayIndex(key, value, type);
     this.shouldArray.splice(index, 1);
     return this.buildQuery();
   }
@@ -41,13 +42,23 @@ class ImmutableQuery {
       emitter.emit('change', this.query);
     return this.query;
   }
-  getKeyValueObject(key, value) {
+  getTermObject(key, value) {
     var term = JSON.parse(`{"${key}":` + JSON.stringify(value) + '}');
     return { term };
   }
-  getShouldArrayIndex(key, value) {
-    var array = this.shouldArray
-    var encode64 = btoa(JSON.stringify(this.getKeyValueObject(key, value)));
+  getRangeObject(key, value) {
+    var rangeObj = {
+      "gte": value.min,
+      "lte": value.max
+    };
+    var range = JSON.parse(`{"${key}":` + JSON.stringify(rangeObj) + '}');
+    console.log(JSON.stringify(range));
+    return { range };    
+  }
+  getShouldArrayIndex(key, value, type) {
+    var array = this.shouldArray;
+    var obj = eval(`this.get${type}Object(key, value)`);
+    var encode64 = btoa(JSON.stringify(obj));
     for (var i = 0; i < array.length; i++) {
       if (btoa(JSON.stringify(array[i])) === encode64) {
         return i;
