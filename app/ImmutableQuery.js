@@ -6,6 +6,7 @@ class ImmutableQuery {
     this.shouldArray = [];
     this.filterArray = [];
     this.config = [];
+    this.aggs = {};
   }
   setConfig(config) {
     this.config = config.appbase;
@@ -20,6 +21,17 @@ class ImmutableQuery {
     this.filterArray[0] = { geo_bounding_box: geoObject };
     return this.buildQuery(true);
   }
+  addAggregation(key, value) {
+    this.aggs = {
+      "country_name": {
+        "terms": {
+          "field": "country_name",
+          "size": 10
+        }
+      }
+    };
+    return this.buildQuery();
+  }
   removeShouldClause(key, value, type) {
     var index = this.getShouldArrayIndex(key, value, type);
     this.shouldArray.splice(index, 1);
@@ -30,6 +42,7 @@ class ImmutableQuery {
       type: this.config.type,
       body: {
         "size": 100,
+        "aggs": this.aggs,
         "query": {
           "bool": {
             "must": this.shouldArray,
