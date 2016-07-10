@@ -21,15 +21,15 @@ class ImmutableQuery {
     this.filterArray[0] = { geo_bounding_box: geoObject };
     return this.buildQuery(true);
   }
-  addAggregation(key, value) {
-    this.aggs = {
-      "country_name": {
+  addAggregation(key, size=10) {
+    this.aggs = JSON.parse(`{
+      "${key}": {
         "terms": {
-          "field": "country_name",
-          "size": 10
+          "field": "${key}",
+          "size": ${size}
         }
       }
-    };
+    }`);
     return this.buildQuery();
   }
   removeShouldClause(key, value, type) {
@@ -66,7 +66,7 @@ class ImmutableQuery {
     };
     var range = JSON.parse(`{"${key}":` + JSON.stringify(rangeObj) + '}');
     console.log(JSON.stringify(range));
-    return { range };    
+    return { range };
   }
   getShouldArrayIndex(key, value, type) {
     var array = this.shouldArray;
