@@ -1,9 +1,11 @@
 import { default as React, Component } from 'react'
 var ReactDOM = require('react-dom');
 var config = require('./config.js');
-import {AppbaseMap} from './app/AppbaseMap'
-import {AppbaseList} from './app/AppbaseList'
+import {AppbaseMap} from './app/AppbaseMap';
+import {AppbaseList} from './app/AppbaseList';
 import {AppbaseSlider} from './app/AppbaseSlider';
+import {AppbaseFacet} from './app/AppbaseFacet';
+
 
 class Main extends Component {
 	onIndex(data) {
@@ -31,6 +33,7 @@ class Main extends Component {
 					onIndex={this.onIndex} />
 				<AppbaseList config={config} fieldName="country_name" />
 				<AppbaseSlider fieldName="guests" config={config} />
+				<AppbaseFacet fieldName="country_name" config={config} />
 			</div>
 		);
 	}
