@@ -12,8 +12,11 @@ export class AppbaseFacet extends Component {
     };
     this.handleClick = this.handleClick.bind(this);
     this.appbaseRef = helper.getAppbaseRef(this.props.config);
-    this.getItems();
   }
+  componentDidMount() {
+    this.getItems();    
+  }
+  
   handleClick(value) {
     this.setState({
       selectedItem: value
