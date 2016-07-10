@@ -3,6 +3,7 @@ var ReactDOM = require('react-dom');
 var config = require('./config.js');
 import {AppbaseMap} from './app/AppbaseMap'
 import {AppbaseList} from './app/AppbaseList'
+import {AppbaseSlider} from './app/AppbaseSlider';
 
 class Main extends Component {
 	onIndex(data) {
@@ -29,6 +30,7 @@ class Main extends Component {
 					searchComponent={true}
 					onIndex={this.onIndex} />
 				<AppbaseList config={config} fieldName="country_name" />
+				<AppbaseSlider fieldName="guests" config={config} />
 			</div>
 		);
 	}
