@@ -14,18 +14,18 @@ export class AppbaseFacet extends Component {
     this.appbaseRef = helper.getAppbaseRef(this.props.config);
   }
   componentDidMount() {
-    this.getItems();    
+    this.getItems();
   }
-  
+
   handleClick(value) {
     this.setState({
       selectedItem: value
-    }, function(){
+    }, function () {
       console.log(value);
     });
   }
   getItems() {
-    var requestObject = queryObject.addAggregation();
+    var requestObject = queryObject.addAggregation(this.props.fieldName);
     var self = this;
     this.appbaseRef.search(requestObject).on('data', function (data) {
       self.addItemsToList(eval(`data.aggregations.${self.props.fieldName}.buckets`));
@@ -67,16 +67,20 @@ class FacetItem extends Component {
   render() {
     var defaultStyle = {
       margin: "5px",
-      padding: "3px"
+      padding: "3px",
+      
     };
     var selectedStyle = {
       margin: "5px",
       padding: "3px",
-      fontWeight: "bold"
+      fontWeight: "bold",
     };
     return (
       <div onClick={this.handleClick.bind(this) } style={this.props.value === this.props.selectedItem ? selectedStyle : defaultStyle}>
-        <a href="#">{this.props.value} : {this.props.count}</a>
+        <a href="#">
+          <span> {this.props.value} -> </span>
+          <span> {this.props.count} </span>
+        </a>
       </div>
     );
   }
