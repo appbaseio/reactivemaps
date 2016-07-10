@@ -33,7 +33,7 @@ class Main extends Component {
 					onIndex={this.onIndex} />
 				<AppbaseList config={config} fieldName="country_name" />
 				<AppbaseSlider fieldName="guests" config={config} />
-				<AppbaseFacet fieldName="country_name" config={config} />
+				<AppbaseFacet fieldName="guests" config={config} />
 			</div>
 		);
 	}
