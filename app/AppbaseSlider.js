@@ -10,10 +10,10 @@ export class AppbaseSlider extends Component {
     this.state = {
       values: {
         min: 0,
-        max: 2,
+        max: 20,
       },
       minThreshold: 0,
-      maxThreshold:10
+      maxThreshold:20
     };
   }
   handleValuesChange(component, values) {
