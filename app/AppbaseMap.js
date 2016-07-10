@@ -69,7 +69,9 @@ export class AppbaseMap extends Component {
         var self = this;
 
         if (this.props.historicalData == true) {
-            this.appbaseRef.search(this.state.query).on('data', function (data) {
+            var reqObject = this.state.query
+            delete reqObject.aggs;
+            this.appbaseRef.search(reqObject).on('data', function (data) {
                 let newMarkersArray = [];
                 newMarkersArray = data.hits.hits.map((hit, index) => {
                    let position = {
