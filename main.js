@@ -34,7 +34,7 @@ class Main extends Component {
 				<AppbaseList config={config} fieldName="country_name" />
 				<AppbaseSlider fieldName="guests" config={config} />
 				<AppbaseFacet fieldName="guests" config={config} />
-				<AppbaseSearch fieldName="guests" config={config} />				
+				<AppbaseSearch fieldName="venue.venue_name" config={config} />				
 			</div>
 		);
 	}
