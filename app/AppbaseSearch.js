@@ -12,25 +12,46 @@ export class AppbaseSearch extends Component {
     };
     this.appbaseRef = helper.getAppbaseRef(this.props.config);
   }
+  getQuery(input) {
+    return JSON.parse(`{
+      "type": "${this.props.config.appbase.type}",
+      "body": {
+        "from": 0,
+        "size": 10,
+        "query": {
+          "multi_match": {
+            "query": "${input}",
+            "fields": "${this.props.fieldName}",
+            "operator": "and"
+          }
+        }
+      }
+    }`);
+  }
   getItems(input, callback) {
-    console.log("Hello")
-    setTimeout(function () {
-      callback(null, {
-        options: [
-          { value: 'one', label: 'One' },
-          { value: 'two', label: 'Two' }
-        ],
-        // CAREFUL! Only set this to true when there are no more options,
-        // or more specific queries will not be sent to the server.
-        complete: true
+    var requestObject = this.getQuery(input);
+    var self = this;
+    var field = `hit._source.${this.props.fieldName}`
+    this.appbaseRef.search(requestObject).on('data', function (data) {
+      var options = [];
+      data.hits.hits.map(function(hit){
+        options.push({value: eval(field), label: eval(field)});
       });
+      callback(null, {
+        options: options
+      });
+    }).on('error', function (error) {
+      console.log(error);
+    });
+    setTimeout(function () {
+      
     }, 500);
   }
   render() {
     return (
       <Select.Async
         name="appbase-search"
-        loadOptions={this.getItems}
+        loadOptions={this.getItems.bind(this)}
         />
     );
   }
