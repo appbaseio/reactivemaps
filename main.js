@@ -17,24 +17,41 @@ class Main extends Component {
 	render() {
 		var divStyle = {
 			height: "100%",
-			width: "100%"
 		};
 		return (
-			<div style={divStyle}>
-				<AppbaseMap
-					config={config}
-					fieldName="location"
-					defaultZoom={13}
-					defaultCenter={{ lat: 37.74, lng: -122.45 }}
-					historicalData={true}
-					markerCluster={false}
-					onDelete={this.onDelete}
-					searchComponent={true}
-					onIndex={this.onIndex} />
-				<AppbaseList config={config} fieldName="country_name" />
-				<AppbaseSlider fieldName="guests" config={config} />
-				<AppbaseFacet fieldName="guests" config={config} />
-				<AppbaseSearch fieldName="venue.venue_name" config={config} />				
+			<div className="row" style={divStyle}>
+				<div className="col s6">
+					<div className="row" style={divStyle}>
+						<div className="col s6">
+							<h5> Countries </h5>
+							<AppbaseList config={config} fieldName="country_name" />
+						</div>
+						<div className="col s6">
+							<h5> Number of guests </h5>
+							<AppbaseFacet fieldName="guests" config={config} />
+						</div>
+					</div>
+					<div className="col s12">
+						<h5> Range of guests </h5>
+						<AppbaseSlider fieldName="guests" config={config} />
+					</div><br/><br/><br/>
+					<div className="col s12">
+						<h5> Select Venue </h5>					
+						<AppbaseSearch fieldName="venue.venue_name" config={config} />
+					</div>
+				</div>
+				<div className="col s6" style={divStyle}>
+					<AppbaseMap
+						config={config}
+						fieldName="location"
+						defaultZoom={13}
+						defaultCenter={{ lat: 37.74, lng: -122.45 }}
+						historicalData={true}
+						markerCluster={false}
+						onDelete={this.onDelete}
+						searchComponent={true}
+						onIndex={this.onIndex} />
+				</div>
 			</div>
 		);
 	}
