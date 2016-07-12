@@ -151,7 +151,7 @@ export class AppbaseMap extends Component {
             searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
         }
         return (
-            <section style={{ height: "100%" }}>
+            <div style={{ height: "100%" }}>
                 <GoogleMapLoader
                     containerElement={
                         <div {...this.props} style={{ height: "100%" }} />
@@ -168,7 +168,7 @@ export class AppbaseMap extends Component {
                 />
                 <div style={Style.divStatusStyle} ref="status" > {this.state.streamingStatus} </div>
                 <div style={Style.divAppbaseStyle} > Powered by<img width='200px' height='auto' src="http://slashon.appbase.io/img/Appbase.png" /> </div>                
-            </section >
+            </div >
         )
     }
 
