@@ -46,7 +46,7 @@ export class AppbaseFacet extends Component {
     var scrollStyle = {
       overflow: "auto",
       height: "400px",
-      width: "400px",
+      width: "100%",
       margin: "5px",
     };
     return (
