@@ -28,4 +28,7 @@ module.exports = {
         marginRight: 'auto',
         textAlign: 'center',
     },
+    divContainer: {
+        padding: "1em"
+    },
 };

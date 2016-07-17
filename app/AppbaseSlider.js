@@ -2,6 +2,7 @@ import { default as React, Component } from 'react';
 import { render } from 'react-dom';
 import {queryObject} from './ImmutableQuery.js';
 import InputRange from 'react-input-range';
+var Style = require('./Style.js');
 
 export class AppbaseSlider extends Component {
 
@@ -25,12 +26,8 @@ export class AppbaseSlider extends Component {
     queryObject.addShouldClause(this.props.fieldName, values, "Range");
   }
   render() {
-    var divStyle = {
-      width: "90%",
-      padding: "20px"
-    };
     return (
-      <div style={divStyle}>
+      <div style={Style.divContainer}>
         <InputRange
           maxValue={this.state.maxThreshold}
           minValue={this.state.minThreshold}
