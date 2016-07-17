@@ -1,5 +1,6 @@
 module.exports = {
     inputStyle: {
+        "backgroundColor": "white",
         "border": `1px solid transparent`,
         "borderRadius": `1px`,
         "boxShadow": `0 2px 6px rgba(0, 0, 0, 0.3)`,
