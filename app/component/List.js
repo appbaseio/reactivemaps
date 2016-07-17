@@ -1,6 +1,7 @@
 import { default as React, Component } from 'react';
 import { render } from 'react-dom';
 var Waypoint = require('react-waypoint');
+var Style = require('../Style.js');
 
 export class List extends Component {
   constructor(props) {
@@ -46,16 +47,11 @@ export class List extends Component {
     Object.keys(selectedItems).forEach(function (key) {
       TagItemsArray.push(<Tag key={key} value={selectedItems[key]} _id={key} onClick={this.handleTagClick} />);
     }.bind(this));
-    var scrollStyle = {
-      overflow: "auto",
-      height: "400px",
-      width: "100%",
-      margin: "5px",
-    };
+    
     return (
       <div>
         {TagItemsArray}
-        <div style={scrollStyle}>
+        <div style={Style.divScroll}>
           {ListItemsArray}
           <Waypoint
             onEnter={this.props.onPageEnd}
@@ -85,12 +81,8 @@ class ListItem extends Component {
     });
   }
   render() {
-    var divStyle = {
-      margin: "5px",
-      padding: "3px"
-    };
     return (
-      <div onClick={this.handleClick.bind(this) } style={divStyle}>
+      <div onClick={this.handleClick.bind(this) } style={Style.divListItem}>
         <input type="checkbox" checked={this.state.status} onChange={this.handleCheckboxChange.bind(this) } />
         <label >{this.props.value}</label>
       </div>
@@ -103,13 +95,8 @@ class Tag extends Component {
     super(props);
   }
   render() {
-    var divStyle = {
-      backgroundColor: "#ddd",
-      margin: "5px",
-      padding: "5px"
-    };
     return (
-      <span onClick={this.props.onClick.bind(null, this.props._id) } style={divStyle}>
+      <span onClick={this.props.onClick.bind(null, this.props._id) } style={Style.divListTag}>
         <span>{this.props.value}</span>
         <span><b>&nbsp; x</b></span>
       </span>

@@ -31,4 +31,20 @@ module.exports = {
     divContainer: {
         padding: "1em"
     },
+    divListTag: {
+        backgroundColor: "#ddd",
+        margin: "5px",
+        padding: "5px"
+    },
+    divListItem: {
+        margin: "5px",
+        padding: "3px"
+    },
+    divScroll: {
+        overflow: "auto",
+        height: "400px",
+        width: "100%",
+        margin: "5px",
+    },
+
 };
