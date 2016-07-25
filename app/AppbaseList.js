@@ -19,26 +19,6 @@ export class AppbaseList extends Component {
     this.handleSelect = this.handleSelect.bind(this);
     this.handleRemove = this.handleRemove.bind(this);    
   }
-  subscribeToUpdates() {
-    var requestObject = helper.getMatchAllQuery(this.props.config, this.props.fieldName, 1, this.props.size, true);
-    var self = this;
-    self.setState({
-      streamingStatus: 'Listening...'
-    });
-    if (this.streamingInstance) {
-      this.streamingInstance.stop();
-    }
-    this.streamingInstance = this.appbaseRef.searchStream(requestObject).on('data', function (stream) {
-      var updated = self.state.items;
-      updated[stream._id] = eval(`stream._source.${self.props.fieldName}`);
-      self.setState({
-        items: updated
-      });
-    }).on('error', function (error) {
-      console.log(error);
-    });
-  }
-
   getItems(pageNumber) {
     var requestObject = helper.getMatchAllQuery(this.props.config, this.props.fieldName, pageNumber, this.props.size, false);
     var self = this;
