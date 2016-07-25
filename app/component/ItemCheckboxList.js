@@ -7,34 +7,34 @@ export class ItemCheckboxList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedItems: {},
+      selectedItems: [],
     };
     this.handleListClick = this.handleListClick.bind(this);
     this.handleTagClick = this.handleTagClick.bind(this);
   }
-  handleListClick(_id, value, status) {
+  handleListClick(value, status) {
     var updated = this.state.selectedItems;
     if (status) {
-      updated[_id] = value;
+      updated.push(value);
       this.setState({
         selectedItems: updated
       });
-      this.props.onSelect(_id, value);
+      this.props.onSelect(value);
     }
     else {
-      this.handleTagClick(_id);
+      this.handleTagClick(value);
     }
   }
-  handleTagClick(_id) {
-    var checkboxElement = eval(`this.refs.${_id}`)
-    var value = checkboxElement.props.value;
+  handleTagClick(value) {
+    var checkboxElement = eval(`this.refs.ref${value}`)
     checkboxElement.state.status = false;
     var updated = this.state.selectedItems;
-    delete updated[_id];
+    let index = updated.indexOf(value);
+    updated.splice(index, 1);
     this.setState({
       selectedItems: updated
     });
-    this.props.onRemove(_id, value);
+    this.props.onRemove(value);
   }
   render() {
     let items = this.props.items;
@@ -42,12 +42,11 @@ export class ItemCheckboxList extends Component {
     var ListItemsArray = [];
     var TagItemsArray = [];
     Object.keys(items).forEach(function (key) {
-      ListItemsArray.push(<ListItem key={key} value={items[key]} _id={key} handleClick={this.handleListClick} status={false} ref={key} />);
+      ListItemsArray.push(<ListItem key={key} value={key} doc_count={items[key]} handleClick={this.handleListClick} status={false} ref={"ref" + key} />);
     }.bind(this));
-    Object.keys(selectedItems).forEach(function (key) {
-      TagItemsArray.push(<Tag key={key} value={selectedItems[key]} _id={key} onClick={this.handleTagClick} />);
+    selectedItems.forEach(function (item) {
+      TagItemsArray.push(<Tag key={item} value={item} onClick={this.handleTagClick} />);
     }.bind(this));
-    
     return (
       <div>
         {TagItemsArray}
@@ -70,7 +69,7 @@ class ListItem extends Component {
     this.setState({
       status: !this.state.status
     });
-    this.props.handleClick(this.props._id, this.props.value, !this.state.status);
+    this.props.handleClick(this.props.value, !this.state.status);
   }
   handleCheckboxChange(event) {
     this.setState({
@@ -81,7 +80,7 @@ class ListItem extends Component {
     return (
       <div onClick={this.handleClick.bind(this) } style={Style.divListItem}>
         <input type="checkbox" checked={this.state.status} onChange={this.handleCheckboxChange.bind(this) } />
-        <label >{this.props.value}</label>
+        <label >{this.props.value} ({this.props.doc_count})</label>
       </div>
     );
   }
@@ -93,7 +92,7 @@ class Tag extends Component {
   }
   render() {
     return (
-      <span onClick={this.props.onClick.bind(null, this.props._id) } style={Style.divListTag}>
+      <span onClick={this.props.onClick.bind(null, this.props.value) } style={Style.divListTag}>
         <span>{this.props.value}</span>
         <span><b>&nbsp; x</b></span>
       </span>
