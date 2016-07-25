@@ -20,7 +20,7 @@ export class AppbaseList extends Component {
     this.handleRemove = this.handleRemove.bind(this);    
   }
   getItems(pageNumber) {
-    var requestObject = helper.getMatchAllQuery(this.props.config, this.props.fieldName, pageNumber, this.props.size, false);
+    var requestObject = queryObject.addAggregation(this.props.fieldName);
     var self = this;
     this.appbaseRef.search(requestObject).on('data', function (data) {
       self.addItemsToList(data.hits.hits);
