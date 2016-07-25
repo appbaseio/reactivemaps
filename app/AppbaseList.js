@@ -24,9 +24,8 @@ export class AppbaseList extends Component {
     var self = this;
     this.appbaseRef.search(requestObject).on('data', function (data) {
       self.addItemsToList(data.hits.hits);
-      self.subscribeToUpdates();
     }).on('error', function (error) {
-      console.log(error)
+      console.log(error);
     });
   }
   addItemsToList(newItems) {
