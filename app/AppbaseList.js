@@ -36,10 +36,6 @@ export class AppbaseList extends Component {
     });
     this.setState({ items: updated });
   }
-  handleWaypointEnter() {
-    this.getItems(this.pageNumber);
-    this.pageNumber++;
-  }
   handleSelect(_id, value){
     value = value.toString()
     queryObject.addShouldClause(this.props.fieldName, value, "Term");    
@@ -50,7 +46,7 @@ export class AppbaseList extends Component {
   render() {
     return (
       <div>
-        <ItemCheckboxList items={this.state.items} onSelect={this.handleSelect} onRemove={this.handleRemove} onPageEnd={this.handleWaypointEnter.bind(this)} />
+        <ItemCheckboxList items={this.state.items} onSelect={this.handleSelect} onRemove={this.handleRemove} />
       </div>
 
     );
