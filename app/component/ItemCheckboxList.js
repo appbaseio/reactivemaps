@@ -53,9 +53,6 @@ export class ItemCheckboxList extends Component {
         {TagItemsArray}
         <div style={Style.divScroll}>
           {ListItemsArray}
-          <Waypoint
-            onEnter={this.props.onPageEnd}
-            />
         </div>
       </div>
     );
