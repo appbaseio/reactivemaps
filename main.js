@@ -24,7 +24,7 @@ class Main extends Component {
 					<div className="row" style={divStyle}>
 						<div className="col s6">
 							<h5> Countries </h5>
-							<AppbaseList config={config} fieldName="country_name" />
+							<AppbaseList config={config} fieldName="guests" />
 						</div>
 						<div className="col s6">
 							<h5> Number of guests </h5>
