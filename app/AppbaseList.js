@@ -32,7 +32,7 @@ export class AppbaseList extends Component {
     var updated = this.state.items;
     var self = this;
     newItems.map(function (item) {
-      updated[item._id] = eval(`item._source.${self.props.fieldName}`);
+      updated[eval(`item._source.${self.props.fieldName}`)] = eval(`item._source.${self.props.fieldName}`);
     });
     this.setState({ items: updated });
   }
