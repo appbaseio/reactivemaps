@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 var Waypoint = require('react-waypoint');
 var Style = require('../Style.js');
 
-export class List extends Component {
+export class ItemCheckboxList extends Component {
   constructor(props) {
     super(props);
     this.state = {

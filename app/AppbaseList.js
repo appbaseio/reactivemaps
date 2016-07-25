@@ -2,7 +2,7 @@ import { default as React, Component } from 'react';
 import { render } from 'react-dom';
 var Appbase = require('appbase-js');
 var helper = require('./helper.js');
-import {List} from './component/List.js';
+import {ItemCheckboxList} from './component/ItemCheckboxList.js';
 import {queryObject} from './ImmutableQuery.js';
 export class AppbaseList extends Component {
 
@@ -50,7 +50,7 @@ export class AppbaseList extends Component {
   render() {
     return (
       <div>
-        <List items={this.state.items} onSelect={this.handleSelect} onRemove={this.handleRemove} onPageEnd={this.handleWaypointEnter.bind(this)} />
+        <ItemCheckboxList items={this.state.items} onSelect={this.handleSelect} onRemove={this.handleRemove} onPageEnd={this.handleWaypointEnter.bind(this)} />
       </div>
 
     );
