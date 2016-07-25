@@ -10,20 +10,21 @@ export class AppbaseList extends Component {
     super(props);
     this.state = {
       items: {},
-      selectedItems: {},
       streamingStatus: 'Intializing..'
     };
     this.appbaseRef = helper.getAppbaseRef(this.props.config);
     this.streamingInstance;
-    this.pageNumber = 0;
     this.handleSelect = this.handleSelect.bind(this);
     this.handleRemove = this.handleRemove.bind(this);    
   }
-  getItems(pageNumber) {
+  componentDidMount() {
+    this.getItems();
+  }
+  getItems() {
     var requestObject = queryObject.addAggregation(this.props.fieldName);
     var self = this;
     this.appbaseRef.search(requestObject).on('data', function (data) {
-      self.addItemsToList(data.hits.hits);
+      self.addItemsToList(eval(`data.aggregations.${self.props.fieldName}.buckets`));
     }).on('error', function (error) {
       console.log(error);
     });
@@ -32,15 +33,15 @@ export class AppbaseList extends Component {
     var updated = this.state.items;
     var self = this;
     newItems.map(function (item) {
-      updated[eval(`item._source.${self.props.fieldName}`)] = eval(`item._source.${self.props.fieldName}`);
+      updated[item.key] = item.doc_count;
     });
     this.setState({ items: updated });
   }
-  handleSelect(_id, value){
+  handleSelect(value){
     value = value.toString()
     queryObject.addShouldClause(this.props.fieldName, value, "Term");    
   }
-  handleRemove(_id, value){
+  handleRemove(value){
     queryObject.removeShouldClause(this.props.fieldName, value, "Term");    
   }
   render() {
