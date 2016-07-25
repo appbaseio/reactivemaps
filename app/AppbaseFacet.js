@@ -78,8 +78,8 @@ class FacetItem extends Component {
     return (
       <div onClick={this.handleClick.bind(this) } style={this.props.value === this.props.selectedItem ? selectedStyle : defaultStyle}>
         <a href="#">
-          <span> {this.props.value} -> </span>
-          <span> {this.props.count} </span>
+          <span> {this.props.value} </span>
+          <span> ({this.props.count}) </span>
         </a>
       </div>
     );
