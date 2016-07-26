@@ -23,7 +23,7 @@ export class AppbaseList extends Component {
     this.getItems();
   }
   getItems() {
-    var requestObject = queryObject.addAggregation(this.props.fieldName);
+    var requestObject = queryObject.addAggregation(this.props.fieldName, this.props.size, this.props.sort);
     var self = this;
     this.appbaseRef.search(requestObject).on('data', function (data) {
       self.addItemsToList(eval(`data.aggregations.${self.props.fieldName}.buckets`));

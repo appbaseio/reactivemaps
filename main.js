@@ -23,11 +23,11 @@ class Main extends Component {
 					<div className="row" style={divStyle}>
 						<div className="col s6">
 							<h5> Number of guests (Multiple Select) </h5>
-							<AppbaseList config={config} fieldName="guests" showCount={true} />
+							<AppbaseList config={config} fieldName="guests" showCount={true} size={20}/>
 						</div>
 						<div className="col s6">
 							<h5> Number of guests (Single Select)</h5>
-							<AppbaseList  config={config} fieldName="guests" multipleSelect={false} showCount={true} />
+							<AppbaseList config={config} fieldName="guests" multipleSelect={false} showCount={true} />
 						</div>
 					</div>
 					<div className="col s12">

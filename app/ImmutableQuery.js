@@ -21,12 +21,29 @@ class ImmutableQuery {
     this.filterArray[0] = { geo_bounding_box: geoObject };
     return this.buildQuery(true);
   }
-  addAggregation(key, size=10) {
+  addAggregation(key, size, sort) {
+    let order, type;
+    if(sort=="count"){
+      order = "dsc";
+      type = "_count";
+    }
+    else if(sort=="asc"){
+      order = "asc";
+      type = "_term";
+    }
+    else{
+      order = "desc";
+      type = "_term";
+    }
+    let orderQuery = `{ 
+      "${type}" : "${order}" 
+    }`;
     this.aggs = JSON.parse(`{
       "${key}": {
         "terms": {
           "field": "${key}",
-          "size": ${size}
+          "size": ${size},
+          "order": ${orderQuery}
         }
       }
     }`);
