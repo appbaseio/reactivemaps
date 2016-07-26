@@ -24,7 +24,7 @@ class ImmutableQuery {
   addAggregation(key, size, sort) {
     let order, type;
     if(sort=="count"){
-      order = "dsc";
+      order = "desc";
       type = "_count";
     }
     else if(sort=="asc"){
