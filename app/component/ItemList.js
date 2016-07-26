@@ -26,7 +26,6 @@ export class ItemList extends Component {
       margin: "5px",
     };
     let items = this.props.items;
-    console.log(items)
     let FacetItems = [];
     Object.keys(items).forEach(function (key) {
       FacetItems.push(<FacetItem key={key} value={key} doc_count={items[key]} countField={this.props.showCount} handleClick={this.handleClick} selected={this.state.selectedItem}/>)

@@ -66,6 +66,6 @@ export class AppbaseList extends Component {
 }
 AppbaseList.defaultProps = {
   showCount: true,
-  multipleSelect: false,
+  multipleSelect: true,
   size: 60,
 };

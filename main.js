@@ -4,7 +4,6 @@ var config = require('./config.js');
 import {AppbaseMap} from './app/AppbaseMap';
 import {AppbaseList} from './app/AppbaseList';
 import {AppbaseSlider} from './app/AppbaseSlider';
-import {AppbaseFacet} from './app/AppbaseFacet';
 import {AppbaseSearch} from './app/AppbaseSearch';
 
 class Main extends Component {
@@ -23,12 +22,12 @@ class Main extends Component {
 				<div className="col s6">
 					<div className="row" style={divStyle}>
 						<div className="col s6">
-							<h5> Countries </h5>
+							<h5> Number of guests (Multiple Select) </h5>
 							<AppbaseList config={config} fieldName="guests" />
 						</div>
 						<div className="col s6">
-							<h5> Number of guests </h5>
-							<AppbaseFacet fieldName="guests" config={config} />
+							<h5> Number of guests (Single Select)</h5>
+							<AppbaseList  config={config} fieldName="guests" multipleSelect={false} />
 						</div>
 					</div>
 					<div className="col s12">
