@@ -3,6 +3,8 @@ import { render } from 'react-dom';
 var Appbase = require('appbase-js');
 var helper = require('./helper.js');
 import {ItemCheckboxList} from './component/ItemCheckboxList.js';
+import {ItemList} from './component/ItemList.js';
+
 import {queryObject} from './ImmutableQuery.js';
 export class AppbaseList extends Component {
 
@@ -45,15 +47,25 @@ export class AppbaseList extends Component {
     queryObject.removeShouldClause(this.props.fieldName, value, "Term");    
   }
   render() {
+    // Checking if component is single select or multiple select
+    let listComponent;
+    if(this.props.multipleSelect){
+      listComponent = <ItemCheckboxList items={this.state.items} onSelect={this.handleSelect} onRemove={this.handleRemove} showCount={this.props.showCount} />
+    }
+    else {
+      listComponent = <ItemList items={this.state.items} onSelect={this.handleSelect} onRemove={this.handleRemove} showCount={this.props.showCount} />      
+    }
+
     return (
       <div>
-        <ItemCheckboxList items={this.state.items} onSelect={this.handleSelect} onRemove={this.handleRemove} />
+        {listComponent}
       </div>
-
     );
   }
 
 }
 AppbaseList.defaultProps = {
+  showCount: true,
+  multipleSelect: false,
   size: 60,
 };
