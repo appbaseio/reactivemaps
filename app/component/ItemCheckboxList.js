@@ -41,7 +41,7 @@ export class ItemCheckboxList extends Component {
     var ListItemsArray = [];
     var TagItemsArray = [];
     Object.keys(items).forEach(function (key) {
-      ListItemsArray.push(<ListItem key={key} value={key} doc_count={items[key]} handleClick={this.handleListClick} status={false} ref={"ref" + key} />);
+      ListItemsArray.push(<ListItem key={key} value={key} doc_count={items[key]} countField={this.props.showCount} handleClick={this.handleListClick} status={false} ref={"ref" + key} />);
     }.bind(this));
     selectedItems.forEach(function (item) {
       TagItemsArray.push(<Tag key={item} value={item} onClick={this.handleTagClick} />);
@@ -76,10 +76,15 @@ class ListItem extends Component {
     });
   }
   render() {
+    let count;
+    if (this.props.countField) {
+      count = <label> ({this.props.doc_count}) </label>
+    }
     return (
       <div onClick={this.handleClick.bind(this) } style={Style.divListItem}>
         <input type="checkbox" checked={this.state.status} onChange={this.handleCheckboxChange.bind(this) } />
-        <label >{this.props.value} ({this.props.doc_count})</label>
+        <label >{this.props.value}</label>
+        {count}
       </div>
     );
   }
