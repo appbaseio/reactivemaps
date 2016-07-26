@@ -35,7 +35,9 @@ module.exports = {
     divListTag: {
         backgroundColor: "#ddd",
         margin: "5px",
-        padding: "5px"
+        padding: "5px",
+        lineHeight: "20px",
+        display: "inline-block",
     },
     divListItem: {
         margin: "5px",
