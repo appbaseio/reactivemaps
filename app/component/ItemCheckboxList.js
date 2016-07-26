@@ -40,8 +40,8 @@ export class ItemCheckboxList extends Component {
     let selectedItems = this.state.selectedItems;
     var ListItemsArray = [];
     var TagItemsArray = [];
-    Object.keys(items).forEach(function (key) {
-      ListItemsArray.push(<ListItem key={key} value={key} doc_count={items[key]} countField={this.props.showCount} handleClick={this.handleListClick} status={false} ref={"ref" + key} />);
+    items.forEach(function (item) {
+      ListItemsArray.push(<ListItem key={item.key} value={item.key} doc_count={item.doc_count} countField={this.props.showCount} handleClick={this.handleListClick} status={false} ref={"ref" + item.key} />);
     }.bind(this));
     selectedItems.forEach(function (item) {
       TagItemsArray.push(<Tag key={item} value={item} onClick={this.handleTagClick} />);

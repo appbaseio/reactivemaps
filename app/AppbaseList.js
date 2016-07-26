@@ -11,7 +11,7 @@ export class AppbaseList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: {},
+      items: [],
       streamingStatus: 'Intializing..'
     };
     this.appbaseRef = helper.getAppbaseRef(this.props.config);
@@ -32,12 +32,7 @@ export class AppbaseList extends Component {
     });
   }
   addItemsToList(newItems) {
-    var updated = this.state.items;
-    var self = this;
-    newItems.map(function (item) {
-      updated[item.key] = item.doc_count;
-    });
-    this.setState({ items: updated });
+    this.setState({ items: newItems });
   }
   handleSelect(value){
     value = value.toString()

@@ -27,8 +27,8 @@ export class ItemList extends Component {
     };
     let items = this.props.items;
     let FacetItems = [];
-    Object.keys(items).forEach(function (key) {
-      FacetItems.push(<FacetItem key={key} value={key} doc_count={items[key]} countField={this.props.showCount} handleClick={this.handleClick} selected={this.state.selectedItem}/>)
+    items.forEach(function (item) {
+      FacetItems.push(<FacetItem  key={item.key} value={item.key} doc_count={item.doc_count} countField={this.props.showCount} handleClick={this.handleClick} selected={this.state.selectedItem}/>)
     }.bind(this));
     return (
       <div style={scrollStyle}>
