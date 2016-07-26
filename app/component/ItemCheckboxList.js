@@ -1,6 +1,5 @@
 import { default as React, Component } from 'react';
 import { render } from 'react-dom';
-var Waypoint = require('react-waypoint');
 var Style = require('../Style.js');
 
 export class ItemCheckboxList extends Component {
