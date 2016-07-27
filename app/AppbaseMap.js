@@ -70,7 +70,7 @@ export class AppbaseMap extends Component {
 
         if (this.props.historicalData == true) {
             var reqObject = this.state.query
-            delete reqObject.aggs;
+            delete reqObject.body.aggs;
             this.appbaseRef.search(reqObject).on('data', function (data) {
                 let newMarkersArray = [];
                 newMarkersArray = data.hits.hits.map((hit, index) => {
