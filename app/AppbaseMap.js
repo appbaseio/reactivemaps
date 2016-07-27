@@ -7,6 +7,8 @@ var Appbase = require('appbase-js');
 var helper = require('./helper.js')
 var Style = require('./Style.js')
 import {queryObject, emitter} from './ImmutableQuery.js';
+import {AppbaseSearch} from './AppbaseSearch';
+
 export class AppbaseMap extends Component {
 
     constructor(props) {
@@ -126,6 +128,11 @@ export class AppbaseMap extends Component {
             center: places[0].geometry.location
         });
     }
+    handleSearch(location){
+        this.setState({
+            center: new google.maps.LatLng(location.value.lat, location.value.lon)
+        });
+    }
 
     render() {
         var markerComponent, searchComponent;
@@ -167,7 +174,8 @@ export class AppbaseMap extends Component {
                     }
                 />
                 <div style={Style.divStatusStyle} ref="status" > {this.state.streamingStatus} </div>
-                <div style={Style.divAppbaseStyle} > Powered by<img width='200px' height='auto' src="http://slashon.appbase.io/img/Appbase.png" /> </div>                
+                <div style={Style.divAppbaseStyle} > Powered by<img width='200px' height='auto' src="http://slashon.appbase.io/img/Appbase.png" /> </div>
+                <AppbaseSearch fieldName="venue.venue_name" config={this.props.config} handleSearch={this.handleSearch.bind(this)} latField="location.lat" lonField="location.lon" />                
             </div >
         )
     }
