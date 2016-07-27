@@ -66,7 +66,11 @@ export class AppbaseSearch extends Component {
         value={this.state.value}
         loadOptions={this.getItems.bind(this) }
         onChange={this.handleSearch.bind(this)}
+        {...this.props}
         />
     );
   }
 }
+AppbaseSearch.defaultProps = {
+    placeholder: "Search..."
+};
