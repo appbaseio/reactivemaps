@@ -13,7 +13,7 @@ class ImmutableQuery {
   }
   addShouldClause(key, value, type) {
     var obj = eval(`this.get${type}Object(key, value)`);
-    this.shouldArray[0] = obj;
+    this.shouldArray.push(obj);
     return this.buildQuery();
   }
   updateGeoFilter(key, boundingBoxCoordinates) {
@@ -62,7 +62,8 @@ class ImmutableQuery {
         "aggs": this.aggs,
         "query": {
           "bool": {
-            "must": this.shouldArray,
+            "should": this.shouldArray,
+            "minimum_should_match" : 1,
             "filter": this.filterArray
           }
         }
@@ -82,7 +83,6 @@ class ImmutableQuery {
       "lte": value.max
     };
     var range = JSON.parse(`{"${key}":` + JSON.stringify(rangeObj) + '}');
-    console.log(JSON.stringify(range));
     return { range };
   }
   getShouldArrayIndex(key, value, type) {

@@ -35,10 +35,9 @@ export class AppbaseList extends Component {
     this.setState({ items: newItems });
   }
   handleSelect(value){
-    value = value.toString()
     queryObject.addShouldClause(this.props.fieldName, value, "Term");    
   }
-  handleRemove(value){
+  handleRemove(value){ 
     queryObject.removeShouldClause(this.props.fieldName, value, "Term");    
   }
   render() {
