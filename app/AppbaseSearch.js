@@ -17,7 +17,7 @@ export class AppbaseSearch extends Component {
       "type": "${this.props.config.appbase.type}",
       "body": {
         "from": 0,
-        "size": 10,
+        "size": 5,
         "query": {
           "multi_match": {
             "query": "${input}",
@@ -31,11 +31,17 @@ export class AppbaseSearch extends Component {
   getItems(input, callback) {
     var requestObject = this.getQuery(input);
     var self = this;
-    var field = `hit._source.${this.props.fieldName}`
+    var searchField = `hit._source.${this.props.fieldName}`;
+    var latField = `hit._source.${this.props.latField}`;
+    var lonField = `hit._source.${this.props.lonField}`;
     this.appbaseRef.search(requestObject).on('data', function (data) {
       var options = [];
-      data.hits.hits.map(function(hit){
-        options.push({value: eval(field), label: eval(field)});
+      data.hits.hits.map(function (hit) {
+        var location = {
+          lat: eval(latField),
+          lon: eval(lonField)
+        };
+        options.push({ value: location, label: eval(searchField) });
       });
       callback(null, {
         options: options
@@ -44,14 +50,15 @@ export class AppbaseSearch extends Component {
       console.log(error);
     });
     setTimeout(function () {
-      
+
     }, 500);
   }
   render() {
     return (
       <Select.Async
         name="appbase-search"
-        loadOptions={this.getItems.bind(this)}
+        loadOptions={this.getItems.bind(this) }
+        onChange={this.props.handleSearch}
         />
     );
   }
