@@ -145,8 +145,10 @@ export class AppbaseMap extends Component {
         else {
             markerComponent = this.state.markers
         }
-
-        if(this.props.searchComponent){
+        let appbaseSearch;
+        if(this.props.searchComponent === "appbase"){
+            appbaseSearch = <AppbaseSearch fieldName="venue.venue_name" config={this.props.config} handleSearch={this.handleSearch.bind(this)} latField="location.lat" lonField="location.lon" />
+        } else if(this.props.searchComponent === "google"){
             searchComponent = <SearchBox
                 controlPosition={google.maps.ControlPosition.TOP_LEFT}
                 onPlacesChanged={:: this.handlePlacesChanged}
@@ -159,6 +161,7 @@ export class AppbaseMap extends Component {
         }
         return (
             <div style={{ height: "100%" }}>
+                {appbaseSearch}
                 <GoogleMapLoader
                     containerElement={
                         <div {...this.props} style={{ height: "100%" }} />
@@ -174,8 +177,7 @@ export class AppbaseMap extends Component {
                     }
                 />
                 <div style={Style.divStatusStyle} ref="status" > {this.state.streamingStatus} </div>
-                <div style={Style.divAppbaseStyle} > Powered by<img width='200px' height='auto' src="http://slashon.appbase.io/img/Appbase.png" /> </div>
-                <AppbaseSearch fieldName="venue.venue_name" config={this.props.config} handleSearch={this.handleSearch.bind(this)} latField="location.lat" lonField="location.lon" />                
+                <div style={Style.divAppbaseStyle} > Powered by<img width='200px' height='auto' src="http://slashon.appbase.io/img/Appbase.png" /> </div>                
             </div >
         )
     }
