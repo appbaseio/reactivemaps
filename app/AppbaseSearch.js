@@ -53,12 +53,19 @@ export class AppbaseSearch extends Component {
 
     }, 500);
   }
+  handleSearch(value){
+    this.setState({
+      value: value
+    });
+    this.props.handleSearch(value);
+  }
   render() {
     return (
       <Select.Async
         name="appbase-search"
+        value={this.state.value}
         loadOptions={this.getItems.bind(this) }
-        onChange={this.props.handleSearch}
+        onChange={this.handleSearch.bind(this)}
         />
     );
   }
