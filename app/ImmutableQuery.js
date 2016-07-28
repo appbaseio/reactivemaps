@@ -49,10 +49,10 @@ class ImmutableQuery {
     }`);
     return this.buildQuery();
   }
-  removeShouldClause(key, value, type) {
-    var index = this.getShouldArrayIndex(key, value, type);
+  removeShouldClause(key, value, type, isExecuteQuery=false) {
+    var index = this.getShouldArrayIndex(key, value, type);    
     this.shouldArray.splice(index, 1);
-    return this.buildQuery();
+    return this.buildQuery(isExecuteQuery);
   }
   buildQuery(geo) {
     this.query = {
