@@ -14,7 +14,8 @@ export class AppbaseSlider extends Component {
         max: 20,
       },
       minThreshold: 0,
-      maxThreshold:20
+      maxThreshold:20,
+      currentValues: [],
     };
   }
   handleValuesChange(component, values) {
@@ -23,7 +24,12 @@ export class AppbaseSlider extends Component {
     });
   }
   handleResults(component, values) {
+    queryObject.removeShouldClause(this.props.fieldName, this.state.currentValues, "Range", true);    
     queryObject.addShouldClause(this.props.fieldName, values, "Range");
+    this.setState({
+      currentValues: values
+    });
+    
   }
   render() {
     return (
