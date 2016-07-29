@@ -48,7 +48,8 @@ class Main extends Component {
 						historicalData={true}
 						markerCluster={false}
 						onDelete={this.onDelete}
-						searchComponent="google"
+						searchComponent="appbase"
+						searchField="venue_name_ngrams"
 						onIndex={this.onIndex} />
 				</div>
 			</div>
