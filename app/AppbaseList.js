@@ -26,7 +26,7 @@ export class AppbaseList extends Component {
     var requestObject = queryObject.addAggregation(this.props.fieldName, this.props.size, this.props.sort);
     var self = this;
     this.appbaseRef.search(requestObject).on('data', function (data) {
-      self.addItemsToList(eval(`data.aggregations.${self.props.fieldName}.buckets`));
+      self.addItemsToList(eval(`data.aggregations["${self.props.fieldName}"].buckets`));
     }).on('error', function (error) {
       console.log(error);
     });
