@@ -8,7 +8,8 @@ export class AppbaseSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: []
+      items: [],
+      currentValue: {}
     };
     this.appbaseRef = helper.getAppbaseRef(this.props.config);
   }
@@ -32,40 +33,50 @@ export class AppbaseSearch extends Component {
     var requestObject = this.getQuery(input);
     var self = this;
     var searchField = `hit._source.${this.props.fieldName}`;
-    var latField = `hit._source.${this.props.latField}`;
-    var lonField = `hit._source.${this.props.lonField}`;
     this.appbaseRef.search(requestObject).on('data', function (data) {
       var options = [];
-      data.hits.hits.map(function (hit) {
-        var location = {
-          lat: eval(latField),
-          lon: eval(lonField)
-        };
-        options.push({ value: location, label: eval(searchField) });
-      });
+      if (self.props.isGeoSearch) {
+        var latField = `hit._source.${self.props.latField}`;
+        var lonField = `hit._source.${self.props.lonField}`;
+        data.hits.hits.map(function (hit) {
+          var location = {
+            lat: eval(latField),
+            lon: eval(lonField)
+          };
+          options.push({ value: location, label: eval(searchField) });
+        });
+      } else {
+        data.hits.hits.map(function (hit) {
+          options.push({ value: eval(searchField), label: eval(searchField) });
+        });
+      }
       callback(null, {
         options: options
       });
     }).on('error', function (error) {
       console.log(error);
     });
-    setTimeout(function () {
-
-    }, 500);
   }
-  handleSearch(value){
+  handleSearch(currentValue) {
+    if (this.props.isGeoSearch)
+      this.props.handleSearch(currentValue);
+    else {
+      if (this.state.currentValue)
+        queryObject.removeShouldClause(this.props.fieldName, this.state.currentValue.value, "Term", true);
+      if (currentValue)
+        queryObject.addShouldClause(this.props.fieldName, currentValue.value, "Term");
+    }
     this.setState({
-      value: value
+      currentValue: currentValue
     });
-    this.props.handleSearch(value);
   }
   render() {
     return (
       <Select.Async
         name="appbase-search"
-        value={this.state.value}
+        value={this.state.currentValue}
         loadOptions={this.getItems.bind(this) }
-        onChange={this.handleSearch.bind(this)}
+        onChange={this.handleSearch.bind(this) }
         {...this.props}
         />
     );
