@@ -36,7 +36,7 @@ class Main extends Component {
 					</div><br/><br/><br/>
 					<div className="col s12">
 						<h5> Select Venue </h5>					
-						<AppbaseSearch fieldName="venue.venue_name" config={config} />
+						<AppbaseSearch fieldName="venue_name_ngrams" config={config} />
 					</div>
 				</div>
 				<div className="col s6" style={divStyle}>
