@@ -12,6 +12,9 @@ class ImmutableQuery {
     this.config = config.appbase;
   }
   addShouldClause(key, value, type) {
+    if(value===undefined || value===null){
+      return;
+    }
     var obj = eval(`this.get${type}Object(key, value)`);
     this.shouldArray.push(obj);
     return this.buildQuery();
@@ -50,6 +53,9 @@ class ImmutableQuery {
     return this.buildQuery();
   }
   removeShouldClause(key, value, type, isExecuteQuery=false) {
+    if(value===undefined || value===null){
+      return;
+    }
     var index = this.getShouldArrayIndex(key, value, type);    
     this.shouldArray.splice(index, 1);
     return this.buildQuery(isExecuteQuery);
