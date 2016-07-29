@@ -83,5 +83,6 @@ export class AppbaseSearch extends Component {
   }
 }
 AppbaseSearch.defaultProps = {
-    placeholder: "Search..."
+  placeholder: "Search...",
+  isGeoSearch: false
 };
