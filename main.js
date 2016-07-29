@@ -26,8 +26,8 @@ class Main extends Component {
 							<AppbaseList config={config} fieldName="guests" showCount={true} size={20}/>
 						</div>
 						<div className="col s6">
-							<h5> Number of guests (Single Select)</h5>
-							<AppbaseList config={config} fieldName="guests" multipleSelect={false} showCount={true} />
+							<h5> Topics (Single Select)</h5>
+							<AppbaseList config={config} fieldName="group.group_topics.topic_name_raw" multipleSelect={false} showCount={true} />
 						</div>
 					</div>
 					<div className="col s12">
