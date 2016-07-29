@@ -22,8 +22,8 @@ class Main extends Component {
 				<div className="col s6">
 					<div className="row" style={divStyle}>
 						<div className="col s6">
-							<h5> Number of guests (Multiple Select) </h5>
-							<AppbaseList config={config} fieldName="guests" showCount={true} size={20}/>
+							<h5> Countries (Multiple Select) </h5>
+							<AppbaseList config={config} fieldName="country_name" showCount={true} size={20}/>
 						</div>
 						<div className="col s6">
 							<h5> Topics (Single Select)</h5>
