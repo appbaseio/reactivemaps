@@ -148,6 +148,8 @@ export class AppbaseMap extends Component {
         let appbaseSearch;
         if(this.props.searchComponent === "appbase"){
             appbaseSearch = <AppbaseSearch fieldName={this.props.searchField} config={this.props.config} handleSearch={this.handleSearch.bind(this)} latField="location.lat" lonField="location.lon" placeholder="Search location.." />
+            searchComponentProps.center = this.state.center;
+            searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;            
         } else if(this.props.searchComponent === "google"){
             searchComponent = <SearchBox
                 controlPosition={google.maps.ControlPosition.TOP_LEFT}
