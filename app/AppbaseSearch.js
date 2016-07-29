@@ -61,10 +61,11 @@ export class AppbaseSearch extends Component {
     if (this.props.isGeoSearch)
       this.props.handleSearch(currentValue);
     else {
-      if (this.state.currentValue)
-        queryObject.removeShouldClause(this.props.fieldName, this.state.currentValue.value, "Term", true);
+      if (this.state.currentValue){
+        queryObject.removeShouldClause(this.props.fieldName, this.state.currentValue.value, "Match");
+      }
       if (currentValue)
-        queryObject.addShouldClause(this.props.fieldName, currentValue.value, "Term");
+        queryObject.addShouldClause(this.props.fieldName, currentValue.value, "Match");
     }
     this.setState({
       currentValue: currentValue
