@@ -83,6 +83,11 @@ class ImmutableQuery {
     var term = JSON.parse(`{"${key}":` + JSON.stringify(value) + '}');
     return { term };
   }
+  getMatchObject(key, value) {
+    value = value.toLowerCase();
+    var match = JSON.parse(`{"${key}":` + JSON.stringify(value) + '}');
+    return { match };
+  }
   getRangeObject(key, value) {
     var rangeObj = {
       "gte": value.min,
