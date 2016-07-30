@@ -50,6 +50,7 @@ export class AppbaseSearch extends Component {
           options.push({ value: eval(searchField), label: eval(searchField) });
         });
       }
+      options = self.removeDuplicates(options, "label")
       callback(null, {
         options: options
       });
@@ -57,11 +58,16 @@ export class AppbaseSearch extends Component {
       console.log(error);
     });
   }
+  removeDuplicates(myArr, prop) {
+    return myArr.filter((obj, pos, arr) => {
+      return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+    });
+  }
   handleSearch(currentValue) {
     if (this.props.isGeoSearch)
       this.props.handleSearch(currentValue);
     else {
-      if (this.state.currentValue){
+      if (this.state.currentValue) {
         queryObject.removeShouldClause(this.props.fieldName, this.state.currentValue.value, "Match");
       }
       if (currentValue)

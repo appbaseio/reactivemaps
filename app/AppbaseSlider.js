@@ -29,7 +29,6 @@ export class AppbaseSlider extends Component {
     this.setState({
       currentValues: values
     });
-    
   }
   render() {
     return (
