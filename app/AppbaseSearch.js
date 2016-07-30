@@ -18,7 +18,7 @@ export class AppbaseSearch extends Component {
       "type": "${this.props.config.appbase.type}",
       "body": {
         "from": 0,
-        "size": 5,
+        "size": 10,
         "query": {
           "multi_match": {
             "query": "${input}",
