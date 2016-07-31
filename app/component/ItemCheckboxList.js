@@ -11,21 +11,27 @@ export class ItemCheckboxList extends Component {
     this.handleListClick = this.handleListClick.bind(this);
     this.handleTagClick = this.handleTagClick.bind(this);
   }
-  handleListClick(value, status) {
-    var updated = this.state.selectedItems;
-    if (status) {
+  // Handler function when a checkbox is clicked
+  handleListClick(value, selectedStatus) {
+    // If the checkbox selectedStatus is true, then update selectedItems array
+    if (selectedStatus) {
+      var updated = this.state.selectedItems;
       updated.push(value);
       this.setState({
         selectedItems: updated
       });
+      // Pass the props to parent components to add to the Query
       this.props.onSelect(value);
     }
+    // If the checkbox selectedStatus is false
+    // Call handleTagClick to remove it from the selected Items
     else {
       this.handleTagClick(value);
     }
   }
+  // Handler function when a cancel button on tag is clicked to remove it
   handleTagClick(value) {
-    var checkboxElement = eval(`this.refs.ref${value}`)
+    var checkboxElement = eval(`this.refs.ref${value}`);
     checkboxElement.state.status = false;
     var updated = this.state.selectedItems;
     let index = updated.indexOf(value);
@@ -33,6 +39,7 @@ export class ItemCheckboxList extends Component {
     this.setState({
       selectedItems: updated
     });
+    // Pass the removed value props to parent components to remove from the Query
     this.props.onRemove(value);
   }
   render() {
@@ -40,11 +47,23 @@ export class ItemCheckboxList extends Component {
     let selectedItems = this.state.selectedItems;
     var ListItemsArray = [];
     var TagItemsArray = [];
+    // Build the array for the checkboxList items
     items.forEach(function (item) {
-      ListItemsArray.push(<ListItem key={item.key} value={item.key} doc_count={item.doc_count} countField={this.props.showCount} handleClick={this.handleListClick} status={false} ref={"ref" + item.key} />);
+      ListItemsArray.push(<ListItem
+        key={item.key}
+        value={item.key}
+        doc_count={item.doc_count}
+        countField={this.props.showCount}
+        handleClick={this.handleListClick}
+        status={false}
+        ref={"ref" + item.key} />);
     }.bind(this));
+    // Build the array of Tags for selected items
     selectedItems.forEach(function (item) {
-      TagItemsArray.push(<Tag key={item} value={item} onClick={this.handleTagClick} />);
+      TagItemsArray.push(<Tag
+        key={item}
+        value={item}
+        onClick={this.handleTagClick} />);
     }.bind(this));
     return (
       <div>
@@ -77,12 +96,15 @@ class ListItem extends Component {
   }
   render() {
     let count;
+    // Check if the user has set to display countField 
     if (this.props.countField) {
-      count = <label> ({this.props.doc_count}) </label>
+      count = <label> ({this.props.doc_count}) </label>;
     }
     return (
       <div onClick={this.handleClick.bind(this) } style={Style.divListItem}>
-        <input type="checkbox" checked={this.state.status} onChange={this.handleCheckboxChange.bind(this) } />
+        <input type="checkbox"
+          checked={this.state.status}
+          onChange={this.handleCheckboxChange.bind(this) } />
         <label >{this.props.value}</label>
         {count}
       </div>
