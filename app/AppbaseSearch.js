@@ -1,8 +1,8 @@
 import { default as React, Component } from 'react';
 import { render } from 'react-dom';
 import {queryObject} from './ImmutableQuery.js';
-var helper = require('./helper.js');
 import Select from 'react-select';
+var helper = require('./helper.js');
 
 export class AppbaseSearch extends Component {
   constructor(props) {
