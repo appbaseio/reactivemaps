@@ -5,14 +5,16 @@ var Style = require('../Style.js');
 export class ItemList extends Component {
   constructor(props) {
     super(props);
-    var self = this;
     this.state = {
       selectedItem: []
     };
     this.handleClick = this.handleClick.bind(this);
   }
+  // Handler function is called when the list item is clicked
   handleClick(value) {
+    // Pass the previously selected value to be removed from the query
     this.props.onRemove(this.state.selectedItem);
+    // Pass the new selected value to be added to the query    
     this.props.onSelect(value);
     this.setState({
       selectedItem: value
@@ -26,23 +28,27 @@ export class ItemList extends Component {
       margin: "5px",
     };
     let items = this.props.items;
-    let FacetItems = [];
+    let itemsComponent = [];
+    // Build the array of components for each item
     items.forEach(function (item) {
-      FacetItems.push(<FacetItem  key={item.key} value={item.key} doc_count={item.doc_count} countField={this.props.showCount} handleClick={this.handleClick} selectedItem={this.state.selectedItem}/>)
+      itemsComponent.push(<Item
+        key={item.key}
+        value={item.key}
+        doc_count={item.doc_count}
+        countField={this.props.showCount}
+        handleClick={this.handleClick}
+        selectedItem={this.state.selectedItem}/>)
     }.bind(this));
     return (
       <div style={scrollStyle}>
-        {FacetItems}
+        {itemsComponent}
       </div>
     );
   }
 }
-class FacetItem extends Component {
+class Item extends Component {
   constructor(props) {
     super(props);
-  }
-  handleClick() {
-    this.props.handleClick(this.props.value);
   }
   render() {
     var defaultStyle = {
@@ -56,10 +62,11 @@ class FacetItem extends Component {
     };
     let count;
     if (this.props.countField) {
-      count = <span> ({this.props.doc_count}) </span>
+      count = <span> ({this.props.doc_count}) </span>;
     }
     return (
-      <div onClick={this.handleClick.bind(this) } style={this.props.value === this.props.selectedItem ? selectedStyle : defaultStyle}>
+      <div onClick={this.props.handleClick(this.props.value)}
+        style={this.props.value === this.props.selectedItem ? selectedStyle : defaultStyle}>
         <a href="#">
           <span> {this.props.value} </span>
           {count}
