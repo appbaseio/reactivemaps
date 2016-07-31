@@ -21,17 +21,11 @@ export class ItemList extends Component {
     });
   }
   render() {
-    var scrollStyle = {
-      overflow: "auto",
-      height: "400px",
-      width: "100%",
-      margin: "5px",
-    };
     let items = this.props.items;
     let itemsComponent = [];
     // Build the array of components for each item
     items.forEach(function (item) {
-      itemsComponent.push(<Item
+      itemsComponent.push(<ItemRow
         key={item.key}
         value={item.key}
         doc_count={item.doc_count}
@@ -40,33 +34,25 @@ export class ItemList extends Component {
         selectedItem={this.state.selectedItem}/>)
     }.bind(this));
     return (
-      <div style={scrollStyle}>
+      <div style={Style.divScroll}>
         {itemsComponent}
       </div>
     );
   }
 }
-class Item extends Component {
+class ItemRow extends Component {
   constructor(props) {
     super(props);
   }
   render() {
-    var defaultStyle = {
-      margin: "5px",
-      padding: "3px",
-    };
-    var selectedStyle = {
-      margin: "5px",
-      padding: "3px",
-      fontWeight: "bold",
-    };
     let count;
+    // Check if user wants to show count field
     if (this.props.countField) {
       count = <span> ({this.props.doc_count}) </span>;
     }
     return (
-      <div onClick={this.props.handleClick(this.props.value)}
-        style={this.props.value === this.props.selectedItem ? selectedStyle : defaultStyle}>
+      <div onClick={this.props.handleClick.bind(null, this.props.value)}
+        style={this.props.value === this.props.selectedItem ? Style.selectedListItem : Style.listItem}>
         <a href="#">
           <span> {this.props.value} </span>
           {count}
