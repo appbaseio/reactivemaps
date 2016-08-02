@@ -51,7 +51,7 @@ class ItemRow extends Component {
       count = <span> ({this.props.doc_count}) </span>;
     }
     return (
-      <div onClick={this.props.handleClick.bind(null, this.props.value)}
+      <div onClick={this.props.handleClick.bind(null, this.props.value) }
         style={this.props.value === this.props.selectedItem ? Style.selectedListItem : Style.listItem}>
         <a href="#">
           <span> {this.props.value} </span>

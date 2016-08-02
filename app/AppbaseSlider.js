@@ -18,13 +18,17 @@ export class AppbaseSlider extends Component {
       currentValues: [],
     };
   }
+  // Handle function when value slider option is changing
   handleValuesChange(component, values) {
     this.setState({
       values: values,
     });
   }
+  // Handle function when slider option change is completed
   handleResults(component, values) {
-    queryObject.removeShouldClause(this.props.fieldName, this.state.currentValues, "Range", true);    
+    // Remove the last Range query
+    queryObject.removeShouldClause(this.props.fieldName, this.state.currentValues, "Range", true);
+    // Add new should query    
     queryObject.addShouldClause(this.props.fieldName, values, "Range");
     this.setState({
       currentValues: values
