@@ -49,5 +49,25 @@ module.exports = {
         width: "100%",
         margin: "5px",
     },
-
+    searchBox: {
+        border: "1px solid transparent",
+        height: "32px",
+        marginTop: "27px",
+        outline: "none",
+        padding: "0px 12px",
+        width: "400px",
+        position: "absolute",
+        left: "114px",
+        top: "0px",
+        backgroundColor: "white",
+    },
+    listItem: {
+        margin: "5px",
+        padding: "3px",
+    },
+    selectedListItem: {
+        margin: "5px",
+        padding: "3px",
+        fontWeight: "bold",
+    },
 };
