@@ -186,11 +186,11 @@ export class AppbaseMap extends Component {
       searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
   }
   return(
-    <div style={{ height: "100%" }}>
+    <div style={Style.fullHeightDiv}>
       {appbaseSearch}
       <GoogleMapLoader
         containerElement={
-          <div {...this.props} style={{ height: "100%" }} />
+          <div {...this.props} style={Style.fullHeightDiv} />
         }
         googleMapElement={<GoogleMap ref = "map"
           {...searchComponentProps}

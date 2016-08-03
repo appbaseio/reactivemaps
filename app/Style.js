@@ -70,4 +70,7 @@ module.exports = {
         padding: "3px",
         fontWeight: "bold",
     },
+    fullHeightDiv: {
+        height: "100%",
+    }
 };
