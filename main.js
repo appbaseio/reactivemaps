@@ -5,6 +5,7 @@ import {AppbaseMap} from './app/AppbaseMap';
 import {AppbaseList} from './app/AppbaseList';
 import {AppbaseSlider} from './app/AppbaseSlider';
 import {AppbaseSearch} from './app/AppbaseSearch';
+import {ReactiveMap} from './app/ReactiveMap';
 
 class Main extends Component {
 	onIndex(data) {
@@ -19,6 +20,7 @@ class Main extends Component {
 		};
 		return (
 			<div className="row" style={divStyle}>
+				<ReactiveMap config={config} />
 				<div className="col s6">
 					<div className="row" style={divStyle}>
 						<div className="col s6">
