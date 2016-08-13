@@ -1,7 +1,10 @@
 var Appbase = require('appbase-js');
-
+let config;
 module.exports = {
-	getAppbaseRef: function (config) {
+	setConfigObject: function(configObject){
+		config = configObject;
+	},
+	appbaseRef: function () {
 		return (
 			new Appbase({
 				url: 'https://scalr.api.appbase.io',
