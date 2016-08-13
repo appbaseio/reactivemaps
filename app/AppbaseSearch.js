@@ -16,7 +16,7 @@ export class AppbaseSearch extends Component {
   // For autocomplete to work, field should be mapped to Ngram 
   getQuery(input) {
     return JSON.parse(`{
-      "type": "${this.props.config.appbase.type}",
+      "type": "${helper.appbaseConfig.type}",
       "body": {
         "from": 0,
         "size": ${this.props.size},
