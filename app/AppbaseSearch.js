@@ -32,18 +32,18 @@ export class AppbaseSearch extends Component {
   }
   // Fetch the items from Appbase
   getItems(input, callback) {
-    var self = this;
-    var requestObject = this.getQuery(input);
-    var searchField = `hit._source.${this.props.fieldName}`;
+    let self = this;
+    let requestObject = this.getQuery(input);
+    let searchField = `hit._source.${this.props.fieldName}`;
     helper.appbaseRef.search(requestObject).on('data', function (data) {
-      var options = [];
+      let options = [];
       // Check if this is Geo search or field tag search
       if (self.props.isGeoSearch) {
         // If it is Geo, we return the location field
-        var latField = `hit._source.${self.props.latField}`;
-        var lonField = `hit._source.${self.props.lonField}`;
+        let latField = `hit._source.${self.props.latField}`;
+        let lonField = `hit._source.${self.props.lonField}`;
         data.hits.hits.map(function (hit) {
-          var location = {
+          let location = {
             lat: eval(latField),
             lon: eval(lonField)
           };
