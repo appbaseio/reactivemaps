@@ -18,7 +18,6 @@ export class AppbaseMap extends Component {
       center: this.props.defaultCenter,
       query: {}
     }
-    this.appbaseRef = helper.getAppbaseRef(this.props.config);
     var streamingInstance;
     queryObject.setConfig(this.props.config);
   }
@@ -42,7 +41,7 @@ export class AppbaseMap extends Component {
       var reqObject = this.state.query
       // Delete aggs part of the request as it will be irrelevant for Map query
       delete reqObject.body.aggs;
-      this.appbaseRef.search(reqObject).on('data', function (data) {
+      helper.appbaseRef.search(reqObject).on('data', function (data) {
         let newMarkersArray = [];
         newMarkersArray = data.hits.hits.map((hit, index) => {
           let position = {

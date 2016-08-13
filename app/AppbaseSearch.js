@@ -11,7 +11,6 @@ export class AppbaseSearch extends Component {
       items: [],
       currentValue: {}
     };
-    this.appbaseRef = helper.getAppbaseRef(this.props.config);
   }
   // Builds the query for the search by taking search input as query input
   // For autocomplete to work, field should be mapped to Ngram 
@@ -36,7 +35,7 @@ export class AppbaseSearch extends Component {
     var self = this;
     var requestObject = this.getQuery(input);
     var searchField = `hit._source.${this.props.fieldName}`;
-    this.appbaseRef.search(requestObject).on('data', function (data) {
+    helper.appbaseRef.search(requestObject).on('data', function (data) {
       var options = [];
       // Check if this is Geo search or field tag search
       if (self.props.isGeoSearch) {
