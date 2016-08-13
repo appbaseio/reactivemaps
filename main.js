@@ -1,4 +1,4 @@
-import { default as React, Component } from 'react'
+import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 var config = require('./config.js');
 import {AppbaseMap} from './app/AppbaseMap';

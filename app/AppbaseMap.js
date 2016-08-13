@@ -78,7 +78,7 @@ export class AppbaseMap extends Component {
     if (this.streamingInstance) {
       this.streamingInstance.stop()
     };
-    this.streamingInstance = this.appbaseRef.searchStream(query).on('data', function (stream) {
+    this.streamingInstance = helper.appbaseRef.searchStream(query).on('data', function (stream) {
       let positionMarker = {
         position: {
           lat: stream._source[self.props.fieldName].lat,
