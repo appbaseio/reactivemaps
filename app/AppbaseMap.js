@@ -19,7 +19,6 @@ export class AppbaseMap extends Component {
       query: {}
     }
     var streamingInstance;
-    queryObject.setConfig(this.props.config);
   }
   componentDidMount() {
     var self = this;
