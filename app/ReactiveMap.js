@@ -6,7 +6,7 @@ export class ReactiveMap extends Component {
 
   constructor(props) {
     super(props);
-    this.appbaseRef = helper.getAppbaseRef(this.props.config);
+    helper.setConfigObject(this.props.config);
   }
   render() {
     return false;
