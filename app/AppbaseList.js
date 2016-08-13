@@ -12,7 +12,6 @@ export class AppbaseList extends Component {
     this.state = {
       items: []
     };
-    this.appbaseRef = helper.getAppbaseRef(this.props.config);
     this.handleSelect = this.handleSelect.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
   }
@@ -25,7 +24,7 @@ export class AppbaseList extends Component {
       this.props.size,
       this.props.sort);
     var self = this;
-    this.appbaseRef.search(requestObject).on('data', function (data) {
+    helper.appbaseRef.search(requestObject).on('data', function (data) {
       self.addItemsToList(eval(`data.aggregations["${self.props.fieldName}"].buckets`));
     }).on('error', function (error) {
       console.log(error);
