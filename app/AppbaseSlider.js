@@ -14,6 +14,8 @@ export class AppbaseSlider extends Component {
       maxThreshold: this.props.maxThreshold,
       currentValues: [],
     };
+    this.handleValuesChange = this.handleValuesChange.bind(this);
+    this.handleResults = this.handleResults.bind(this);
   }
   // Handle function when value slider option is changing
   handleValuesChange(component, values) {
@@ -38,8 +40,8 @@ export class AppbaseSlider extends Component {
           maxValue={this.state.maxThreshold}
           minValue={this.state.minThreshold}
           value={this.state.values}
-          onChange={this.handleValuesChange.bind(this) }
-          onChangeComplete={this.handleResults.bind(this) }
+          onChange={this.handleValuesChange}
+          onChangeComplete={this.handleResults}
           />
       </div>
     );

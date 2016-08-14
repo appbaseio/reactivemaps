@@ -19,6 +19,7 @@ export class AppbaseMap extends Component {
       query: {}
     }
     var streamingInstance;
+    this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
     var self = this;
@@ -165,7 +166,7 @@ export class AppbaseMap extends Component {
       appbaseSearch = <AppbaseSearch
         fieldName={this.props.searchField}
         config={this.props.config}
-        handleSearch={this.handleSearch.bind(this) }
+        handleSearch={this.handleSearch}
         latField="location.lat"
         lonField="location.lon"
         placeholder="Search location.."

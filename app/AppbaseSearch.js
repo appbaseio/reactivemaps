@@ -11,6 +11,9 @@ export class AppbaseSearch extends Component {
       items: [],
       currentValue: {}
     };
+    this.getItems = this.getItems.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+
   }
   // Builds the query for the search by taking search input as query input
   // For autocomplete to work, field should be mapped to Ngram 
@@ -91,8 +94,8 @@ export class AppbaseSearch extends Component {
       <Select.Async
         name="appbase-search"
         value={this.state.currentValue}
-        loadOptions={this.getItems.bind(this) }
-        onChange={this.handleSearch.bind(this) }
+        loadOptions={this.getItems}
+        onChange={this.handleSearch}
         {...this.props}
         />
     );
