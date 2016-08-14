@@ -69,6 +69,13 @@ export class AppbaseList extends Component {
   }
 
 }
+AppbaseList.propTypes = {
+  fieldName: React.PropTypes.string.isRequired,
+  size: React.PropTypes.number,
+  showCount: React.PropTypes.bool,
+  multipleSelect: React.PropTypes.bool,
+  sort: React.PropTypes.string,   
+};
 // Default props value
 AppbaseList.defaultProps = {
   showCount: true,
