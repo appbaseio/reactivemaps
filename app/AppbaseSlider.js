@@ -9,12 +9,9 @@ export class AppbaseSlider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      values: {
-        min: 0,
-        max: 20,
-      },
-      minThreshold: 0,
-      maxThreshold:20,
+      values: this.props.values,
+      minThreshold: this.props.minThreshold,
+      maxThreshold: this.props.maxThreshold,
       currentValues: [],
     };
   }
@@ -41,11 +38,18 @@ export class AppbaseSlider extends Component {
           maxValue={this.state.maxThreshold}
           minValue={this.state.minThreshold}
           value={this.state.values}
-          onChange={this.handleValuesChange.bind(this) }          
+          onChange={this.handleValuesChange.bind(this) }
           onChangeComplete={this.handleResults.bind(this) }
           />
       </div>
     );
   }
 
-}
+}AppbaseSlider.defaultProps = {
+  minThreshold: 0,
+  maxThreshold: 20,
+  values: {
+    min: 0,
+    max: 20,
+  },
+};
