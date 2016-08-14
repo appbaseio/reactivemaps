@@ -3,15 +3,8 @@ import { render } from 'react-dom';
 import {queryObject} from './ImmutableQuery.js';
 var helper = require('./helper.js');
 
-export class ReactiveMap extends Component {
-
-  constructor(props) {
-    super(props);
-    helper.setConfigObject(this.props.config);
-    queryObject.setConfig(this.props.config.appbase);
-  }
-  render() {
-    return false;
-  }
-
-}
+export const ReactiveMap  = ({config}) => {
+  helper.setConfigObject(config);
+  queryObject.setConfig(config.appbase);
+  return false;
+};
