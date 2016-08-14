@@ -45,7 +45,16 @@ export class AppbaseSlider extends Component {
     );
   }
 
-}AppbaseSlider.defaultProps = {
+}
+
+AppbaseSlider.propTypes = {
+  fieldName: React.PropTypes.string.isRequired,
+  minThreshold: React.PropTypes.number,
+  maxThreshold: React.PropTypes.number,
+  values: React.PropTypes.object,  
+};
+
+AppbaseSlider.defaultProps = {
   minThreshold: 0,
   maxThreshold: 20,
   values: {
