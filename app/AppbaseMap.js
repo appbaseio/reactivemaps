@@ -205,7 +205,15 @@ export class AppbaseMap extends Component {
     )
   }
 }
-
+AppbaseMap.propTypes = {
+  fieldName: React.PropTypes.string.isRequired,
+  searchField: React.PropTypes.string,
+  searchComponent: React.PropTypes.string,
+  onDelete: React.PropTypes.func,
+  onIndex: React.PropTypes.func,
+  markerCluster: React.PropTypes.bool,
+  historicalData: React.PropTypes.bool,
+};
 AppbaseMap.defaultProps = {
   historicalData: true,
   markerCluster: true,
