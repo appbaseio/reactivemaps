@@ -98,6 +98,12 @@ export class AppbaseSearch extends Component {
     );
   }
 }
+AppbaseSearch.propTypes = {
+  fieldName: React.PropTypes.string.isRequired,
+  placeholder: React.PropTypes.string,
+  isGeoSearch: React.PropTypes.bool,
+  size: React.PropTypes.number,
+};
 // Default props value
 AppbaseSearch.defaultProps = {
   placeholder: "Search...",
