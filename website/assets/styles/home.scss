@@ -1,6 +1,6 @@
-$primary-color: #9CFFE3;
-$font-color: #003588;
-$light-color: #E6FFF7;
+$primary-color: #E6E6E6;
+$font-color: #0035EB;
+$light-color: #F8F8F8;
 
 html, body {
 	font-size: 14px;
@@ -81,6 +81,7 @@ footer {
 }
 .theme-btn {
 	background: $primary-color;
+	color: $font-color;
 	text-transform: uppercase;
 	font-size: 1.5em;
 	padding: 0.6em 2.5em;
