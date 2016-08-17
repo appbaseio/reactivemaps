@@ -42,6 +42,7 @@ export class AppbaseSlider extends Component {
           value={this.state.values}
           onChange={this.handleValuesChange}
           onChangeComplete={this.handleResults}
+          {...this.props}
           />
       </div>
     );
