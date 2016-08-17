@@ -11,13 +11,15 @@ export class AppbaseSearch extends Component {
       items: [],
       currentValue: {}
     };
-    this.appbaseRef = helper.getAppbaseRef(this.props.config);
+    this.getItems = this.getItems.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+
   }
   // Builds the query for the search by taking search input as query input
   // For autocomplete to work, field should be mapped to Ngram 
   getQuery(input) {
     return JSON.parse(`{
-      "type": "${this.props.config.appbase.type}",
+      "type": "${helper.appbaseConfig.type}",
       "body": {
         "from": 0,
         "size": ${this.props.size},
@@ -33,18 +35,18 @@ export class AppbaseSearch extends Component {
   }
   // Fetch the items from Appbase
   getItems(input, callback) {
-    var self = this;
-    var requestObject = this.getQuery(input);
-    var searchField = `hit._source.${this.props.fieldName}`;
-    this.appbaseRef.search(requestObject).on('data', function (data) {
-      var options = [];
+    let self = this;
+    let requestObject = this.getQuery(input);
+    let searchField = `hit._source.${this.props.fieldName}`;
+    helper.appbaseRef.search(requestObject).on('data', function (data) {
+      let options = [];
       // Check if this is Geo search or field tag search
       if (self.props.isGeoSearch) {
         // If it is Geo, we return the location field
-        var latField = `hit._source.${self.props.latField}`;
-        var lonField = `hit._source.${self.props.lonField}`;
+        let latField = `hit._source.${self.props.latField}`;
+        let lonField = `hit._source.${self.props.lonField}`;
         data.hits.hits.map(function (hit) {
-          var location = {
+          let location = {
             lat: eval(latField),
             lon: eval(lonField)
           };
@@ -92,13 +94,19 @@ export class AppbaseSearch extends Component {
       <Select.Async
         name="appbase-search"
         value={this.state.currentValue}
-        loadOptions={this.getItems.bind(this) }
-        onChange={this.handleSearch.bind(this) }
+        loadOptions={this.getItems}
+        onChange={this.handleSearch}
         {...this.props}
         />
     );
   }
 }
+AppbaseSearch.propTypes = {
+  fieldName: React.PropTypes.string.isRequired,
+  placeholder: React.PropTypes.string,
+  isGeoSearch: React.PropTypes.bool,
+  size: React.PropTypes.number,
+};
 // Default props value
 AppbaseSearch.defaultProps = {
   placeholder: "Search...",

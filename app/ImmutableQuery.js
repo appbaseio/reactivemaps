@@ -9,7 +9,7 @@ class ImmutableQuery {
     this.aggs = {};
   }
   setConfig(config) {
-    this.config = config.appbase;
+    this.config = config;
   }
   addShouldClause(key, value, type) {
     if(value===undefined || value===null){

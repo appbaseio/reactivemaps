@@ -9,14 +9,13 @@ export class AppbaseSlider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      values: {
-        min: 0,
-        max: 20,
-      },
-      minThreshold: 0,
-      maxThreshold:20,
+      values: this.props.values,
+      minThreshold: this.props.minThreshold,
+      maxThreshold: this.props.maxThreshold,
       currentValues: [],
     };
+    this.handleValuesChange = this.handleValuesChange.bind(this);
+    this.handleResults = this.handleResults.bind(this);
   }
   // Handle function when value slider option is changing
   handleValuesChange(component, values) {
@@ -41,11 +40,27 @@ export class AppbaseSlider extends Component {
           maxValue={this.state.maxThreshold}
           minValue={this.state.minThreshold}
           value={this.state.values}
-          onChange={this.handleValuesChange.bind(this) }          
-          onChangeComplete={this.handleResults.bind(this) }
+          onChange={this.handleValuesChange}
+          onChangeComplete={this.handleResults}
           />
       </div>
     );
   }
 
 }
+
+AppbaseSlider.propTypes = {
+  fieldName: React.PropTypes.string.isRequired,
+  minThreshold: React.PropTypes.number,
+  maxThreshold: React.PropTypes.number,
+  values: React.PropTypes.object,  
+};
+
+AppbaseSlider.defaultProps = {
+  minThreshold: 0,
+  maxThreshold: 20,
+  values: {
+    min: 0,
+    max: 20,
+  },
+};

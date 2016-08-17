@@ -18,9 +18,8 @@ export class AppbaseMap extends Component {
       center: this.props.defaultCenter,
       query: {}
     }
-    this.appbaseRef = helper.getAppbaseRef(this.props.config);
     var streamingInstance;
-    queryObject.setConfig(this.props.config);
+    this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
     var self = this;
@@ -42,7 +41,7 @@ export class AppbaseMap extends Component {
       var reqObject = this.state.query
       // Delete aggs part of the request as it will be irrelevant for Map query
       delete reqObject.body.aggs;
-      this.appbaseRef.search(reqObject).on('data', function (data) {
+      helper.appbaseRef.search(reqObject).on('data', function (data) {
         let newMarkersArray = [];
         newMarkersArray = data.hits.hits.map((hit, index) => {
           let position = {
@@ -79,7 +78,7 @@ export class AppbaseMap extends Component {
     if (this.streamingInstance) {
       this.streamingInstance.stop()
     };
-    this.streamingInstance = this.appbaseRef.searchStream(query).on('data', function (stream) {
+    this.streamingInstance = helper.appbaseRef.searchStream(query).on('data', function (stream) {
       let positionMarker = {
         position: {
           lat: stream._source[self.props.fieldName].lat,
@@ -167,7 +166,7 @@ export class AppbaseMap extends Component {
       appbaseSearch = <AppbaseSearch
         fieldName={this.props.searchField}
         config={this.props.config}
-        handleSearch={this.handleSearch.bind(this) }
+        handleSearch={this.handleSearch}
         latField="location.lat"
         lonField="location.lon"
         placeholder="Search location.."
@@ -207,9 +206,17 @@ export class AppbaseMap extends Component {
     )
   }
 }
-
+AppbaseMap.propTypes = {
+  fieldName: React.PropTypes.string.isRequired,
+  searchField: React.PropTypes.string,
+  searchComponent: React.PropTypes.string,
+  onDelete: React.PropTypes.func,
+  onIndex: React.PropTypes.func,
+  markerCluster: React.PropTypes.bool,
+  historicalData: React.PropTypes.bool,
+};
 AppbaseMap.defaultProps = {
   historicalData: true,
   markerCluster: true,
-  searchComponent: false
+  searchComponent: "google"
 };
