@@ -218,5 +218,5 @@ AppbaseMap.propTypes = {
 AppbaseMap.defaultProps = {
   historicalData: true,
   markerCluster: true,
-  searchComponent: false
+  searchComponent: "google"
 };
