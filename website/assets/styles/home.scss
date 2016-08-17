@@ -1,0 +1,116 @@
+$primary-color: #9CFFE3;
+$font-color: #003588;
+$light-color: #E6FFF7;
+
+html, body {
+	font-size: 14px;
+	color: $font-color;
+}
+#home {
+	.navbar {
+		background: #fff;
+		border: 0;
+		border-radius: 0;
+		border-bottom: 1px solid $primary-color;
+		.navbar-collapse {
+			text-align: center;
+			.navbar-center {
+				float: none;
+				display: inline-block;
+				margin-bottom: -5px;
+				clear: both;
+			}
+		}
+		.navbar-brand {
+			img {
+				width: 15px;
+			}
+		}
+		.navbar-nav {
+			li.active {
+				a {
+					background: transparent;
+					border-bottom: 3px solid $primary-color;
+				}
+			}
+			li a {
+				color: $font-color;
+				font-weight: bold;
+				&:hover {
+					border-bottom: 2px solid $primary-color;
+				}
+			}
+		}
+	}
+}
+section {
+	padding: 60px 0;
+}
+#top {
+	.website-title {
+		font-size: 4em;
+		margin: 0 0 30px 0;
+	}
+	p {
+		margin-bottom: 30px;
+	}
+}
+#features {
+	background: $light-color;
+	.feature {
+		img {
+			max-width: 100px;
+			margin: auto;
+		}
+		.description {
+			margin-top: 20px;
+		}
+	}
+}
+#footer, footer {
+	background: $primary-color;
+	h2 {
+		margin-bottom: 40px;
+	}
+}
+footer {
+	padding-bottom: 15px;
+	.footer-link {
+		color: $font-color;
+	}
+}
+.theme-btn {
+	background: $primary-color;
+	text-transform: uppercase;
+	font-size: 1.5em;
+	padding: 0.6em 2.5em;
+	font-weight: bold;
+	&.theme-btn-inverse {
+		background: $font-color;
+		color: $primary-color;
+		&:hover {
+			color: $primary-color;
+			background: darken($font-color, 5%);
+		}
+	}
+	&:hover {
+		color: $font-color;
+		background: darken($primary-color, 5%);
+	}
+}
+@media screen and (max-width: 768px) {
+	#features {
+		.feature {
+			padding-bottom: 30px;
+		}
+	}
+	footer {
+		text-align: center;
+		.footer-link {
+			float: none;
+			width: 100%;
+			display: block;
+			padding: 10px 0;
+		}
+	}
+}
