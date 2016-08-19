@@ -1,8 +1,8 @@
 import { default as React, Component } from 'react';
 import { render } from 'react-dom';
-import {queryObject} from './ImmutableQuery.js';
+import {queryObject} from '../middleware/ImmutableQuery.js';
 import InputRange from 'react-input-range';
-var Style = require('./Style.js');
+var Style = require('../helper/Style.js');
 
 export class AppbaseSlider extends Component {
 

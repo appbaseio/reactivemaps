@@ -1,11 +1,14 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 var config = require('./config.js');
-import {AppbaseMap} from './app/AppbaseMap';
-import {AppbaseList} from './app/AppbaseList';
-import {AppbaseSlider} from './app/AppbaseSlider';
-import {AppbaseSearch} from './app/AppbaseSearch';
-import {ReactiveMap} from './app/ReactiveMap';
+// sensors
+import {AppbaseList} from './app/sensors/AppbaseList';
+import {AppbaseSlider} from './app/sensors/AppbaseSlider';
+import {AppbaseSearch} from './app/sensors/AppbaseSearch';
+// actuators
+import {AppbaseMap} from './app/actuators/AppbaseMap';
+// middleware
+import {ReactiveMap} from './app/middleware/ReactiveMap';
 
 class Main extends Component {
 	onIndex(data) {

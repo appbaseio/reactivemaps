@@ -3,10 +3,10 @@ import { render } from 'react-dom';
 import { GoogleMapLoader, GoogleMap, Marker, SearchBox } from "react-google-maps";
 import InfoBox from 'react-google-maps/lib/addons/InfoBox';
 import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerClusterer";
-import {queryObject, emitter} from './ImmutableQuery.js';
-import {AppbaseSearch} from './AppbaseSearch';
-var helper = require('./helper.js');
-var Style = require('./Style.js');
+import {queryObject, emitter} from '../middleware/ImmutableQuery.js';
+import {AppbaseSearch} from '../sensors/AppbaseSearch';
+var helper = require('../middleware/helper.js');
+var Style = require('../helper/Style.js');
 
 export class AppbaseMap extends Component {
   constructor(props) {
@@ -51,7 +51,7 @@ export class AppbaseMap extends Component {
             }
           }
           return (
-            <Marker {...position} key={index} zIndex={1}/>
+            <Marker {...position} key={index} zIndex={1} />
           )
         })
         self.setState({

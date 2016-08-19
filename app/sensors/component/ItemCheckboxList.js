@@ -1,6 +1,6 @@
 import { default as React, Component } from 'react';
 import { render } from 'react-dom';
-var Style = require('../Style.js');
+var Style = require('../../helper/Style.js');
 
 export class ItemCheckboxList extends Component {
   constructor(props) {
