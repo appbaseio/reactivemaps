@@ -43,19 +43,32 @@ export class AppbaseMap extends Component {
       delete reqObject.body.aggs;
       helper.appbaseRef.search(reqObject).on('data', function (data) {
         let newMarkersArray = [];
-        newMarkersArray = data.hits.hits.map((hit, index) => {
+        var totalPosition = {lat: 0, lng: 0};
+        console.log(self.props.fieldName);
+        newMarkersArray = data.hits.hits.filter((hit, index) => {
+          return hit._source.hasOwnProperty(self.props.fieldName);
+        });
+        newMarkersArray = newMarkersArray.map((hit, index) => {
+          let field = hit._source[self.props.fieldName];
           let position = {
             position: {
-              lat: hit._source[self.props.fieldName].lat,
-              lng: hit._source[self.props.fieldName].lon
+              lat: field.lat,
+              lng: field.lon
             }
           }
+          totalPosition.lat += field.lat;
+          totalPosition.lng += field.lon;
           return (
             <Marker {...position} key={index} zIndex={1} />
           )
         })
+        var defaultCenter = {
+          lat: Number((totalPosition.lat/newMarkersArray.length).toFixed(2)),
+          lng: Number((totalPosition.lng/newMarkersArray.length).toFixed(2))
+        };
         self.setState({
-          markers: newMarkersArray
+          markers: newMarkersArray,
+          defaultCenter: defaultCenter
         }, function () {
           self.startStreaming();
         });

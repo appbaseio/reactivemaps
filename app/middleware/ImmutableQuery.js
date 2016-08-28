@@ -19,10 +19,14 @@ class ImmutableQuery {
     this.shouldArray.push(obj);
     return this.buildQuery();
   }
-  updateGeoFilter(key, boundingBoxCoordinates) {
-    var geoObject = JSON.parse(`{"${key}":` + JSON.stringify(boundingBoxCoordinates) + '}');
-    this.filterArray[0] = { geo_bounding_box: geoObject };
-    return this.buildQuery(true);
+  updateGeoFilter(key, boundingBoxCoordinates, geoFlag) {
+    if(typeof geoFlag !== 'undefined' && !geoFlag) {}
+    else {  
+      var geoObject = JSON.parse(`{"${key}":` + JSON.stringify(boundingBoxCoordinates) + '}');
+      this.filterArray[0] = { geo_bounding_box: geoObject };
+    }
+    var geoFlag = typeof geoFlag !== 'undefined' ? geoFlag : true; 
+    return this.buildQuery(geoFlag);
   }
   addAggregation(key, size, sort) {
     let order, type;
@@ -69,14 +73,16 @@ class ImmutableQuery {
         "query": {
           "bool": {
             "should": this.shouldArray,
-            "minimum_should_match" : 1,
-            "filter": this.filterArray
+            "minimum_should_match" : 1
           }
         }
       }
     };
-    if (!geo)
+    if (!geo) 
       emitter.emit('change', this.query);
+    else {
+      this.query.body.query.bool.filter = this.filterArray;
+    }
     return this.query;
   }
   getTermObject(key, value) {
