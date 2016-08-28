@@ -28,7 +28,7 @@ class Main extends Component {
 					<div className="row" style={divStyle}>
 						<div className="col s6">
 							<h5> Countries (Multiple Select) </h5>
-							<AppbaseList fieldName="country_name" showCount={true} size={20}/>
+							<AppbaseList fieldName="country_name" showCount={true} size={20} multipleSelect={false} />
 						</div>
 						<div className="col s6">
 							<h5> Topics (Single Select)</h5>
@@ -47,7 +47,7 @@ class Main extends Component {
 				<div className="col s6" style={divStyle}>
 					<AppbaseMap
 						fieldName="location"
-						defaultZoom={13}
+						defaultZoom={4}
 						defaultCenter={{ lat: 37.74, lng: -122.45 }}
 						historicalData={true}
 						markerCluster={false}

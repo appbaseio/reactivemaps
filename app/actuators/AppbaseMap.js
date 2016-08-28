@@ -63,8 +63,8 @@ export class AppbaseMap extends Component {
           )
         })
         var defaultCenter = {
-          lat: Number((totalPosition.lat/newMarkersArray.length).toFixed(2)),
-          lng: Number((totalPosition.lng/newMarkersArray.length).toFixed(2))
+          lat: Number((totalPosition.lat/newMarkersArray.length).toFixed(4)),
+          lng: Number((totalPosition.lng/newMarkersArray.length).toFixed(4))
         };
         self.setState({
           markers: newMarkersArray,
@@ -197,6 +197,7 @@ export class AppbaseMap extends Component {
       searchComponentProps.center = this.state.center;
       searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
   }
+  console.log(this.state.defaultCenter);
   return(
     <div style={Style.fullHeightDiv}>
       {appbaseSearch}
@@ -207,7 +208,7 @@ export class AppbaseMap extends Component {
         googleMapElement={<GoogleMap ref = "map"
           {...searchComponentProps}
           {...this.props}
-          onIdle = {:: this.handleOnIdle}>
+          center = {this.state.defaultCenter}>
           {searchComponent}
           {markerComponent}
       </GoogleMap>}/>
