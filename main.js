@@ -22,7 +22,7 @@ class Main extends Component {
 			height: "100%",
 		};
 		return (
-			<div className="row" style={divStyle}>
+			<div className="row m-0" style={divStyle}>
 				<ReactiveMap config={config} />
 				<div className="col s6">
 					<div className="row" style={divStyle}>

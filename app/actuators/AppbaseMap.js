@@ -214,7 +214,7 @@ export class AppbaseMap extends Component {
   }
   console.log(searchComponentProps.center);
   return(
-    <div style={Style.fullHeightDiv}>
+    <div className="map-container" style={Style.fullHeightDiv}>
       {appbaseSearch}
       <GoogleMapLoader
         containerElement={
