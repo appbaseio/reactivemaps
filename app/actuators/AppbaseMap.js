@@ -62,17 +62,24 @@ export class AppbaseMap extends Component {
           return (
             <Marker {...position} key={index} zIndex={1} />
           )
-        })
-        var defaultCenter = {
-          lat: Number((totalPosition.lat/newMarkersArray.length).toFixed(4)),
-          lng: Number((totalPosition.lng/newMarkersArray.length).toFixed(4))
-        };
-        self.setState({
-          markers: newMarkersArray,
-          center: defaultCenter
-        }, function () {
-          self.startStreaming();
         });
+        if(newMarkersArray.length) {
+          console.log(totalPosition, newMarkersArray);
+          var defaultCenter = {
+            lat: Number((totalPosition.lat/newMarkersArray.length).toFixed(4)),
+            lng: Number((totalPosition.lng/newMarkersArray.length).toFixed(4))
+          };
+          self.setState({
+            markers: newMarkersArray,
+            center: defaultCenter
+          }, function () {
+            self.startStreaming();
+          });
+        } else {
+          self.setState({
+            markers: newMarkersArray
+          });
+        }
       }).on('error', function (error) {
         console.log(error)
       });

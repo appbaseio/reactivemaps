@@ -19,6 +19,17 @@ class ImmutableQuery {
     this.shouldArray.push(obj);
     return this.buildQuery();
   }
+
+  removeShouldClause(key, value, type, isExecuteQuery=false) {
+    if(value===undefined || value===null){
+      return;
+    }
+    var index = this.getShouldArrayIndex(key, value, type); 
+    if(index >= 0) {
+      this.shouldArray.splice(index, 1);
+    }
+    return this.buildQuery(isExecuteQuery);
+  }
   updateGeoFilter(key, boundingBoxCoordinates, geoFlag) {
     if(typeof geoFlag !== 'undefined' && !geoFlag) {}
     else {  
@@ -56,14 +67,6 @@ class ImmutableQuery {
     }`);
     return this.buildQuery();
   }
-  removeShouldClause(key, value, type, isExecuteQuery=false) {
-    if(value===undefined || value===null){
-      return;
-    }
-    var index = this.getShouldArrayIndex(key, value, type);    
-    this.shouldArray.splice(index, 1);
-    return this.buildQuery(isExecuteQuery);
-  }
   buildQuery(geo) {
     this.query = {
       type: this.config.type,
@@ -72,8 +75,7 @@ class ImmutableQuery {
         "aggs": this.aggs,
         "query": {
           "bool": {
-            "should": this.shouldArray,
-            "minimum_should_match" : 1
+            "must": this.shouldArray
           }
         }
       }
