@@ -42,6 +42,7 @@ export class AppbaseMap extends Component {
       // Delete aggs part of the request as it will be irrelevant for Map query
       delete reqObject.body.aggs;
       helper.appbaseRef.search(reqObject).on('data', function (data) {
+        self.searchQueryProgress = true;
         let newMarkersArray = [];
         var totalPosition = {lat: 0, lng: 0};
         console.log(self.props.fieldName);
@@ -68,7 +69,7 @@ export class AppbaseMap extends Component {
         };
         self.setState({
           markers: newMarkersArray,
-          defaultCenter: defaultCenter
+          center: defaultCenter
         }, function () {
           self.startStreaming();
         });
@@ -132,23 +133,31 @@ export class AppbaseMap extends Component {
     var boundingBoxCoordinates = {
       "top_left": [west, north],
       "bottom_right": [east, south]
+    };
+    if(!this.searchQueryProgress) {
+      var query = queryObject.updateGeoFilter(this.props.fieldName, boundingBoxCoordinates)
+      this.setState({
+        streamingStatus: 'Fetching...'
+      });
+      // Get the new bounds of the map
+      this.setState({
+        query: query
+      }, function () {
+        this.getNewMarkers();
+      });
     }
-    var query = queryObject.updateGeoFilter(this.props.fieldName, boundingBoxCoordinates)
-    this.setState({
-      streamingStatus: 'Fetching...'
-    });
-    // Get the new bounds of the map
-    this.setState({
-      query: query
-    }, function () {
-      this.getNewMarkers();
-    });
   }
   // Handler function for bounds changed which udpates the map center
   handleBoundsChanged() {
-    this.setState({
-      center: this.refs.map.getCenter()
-    });
+    if(!this.searchQueryProgress) {
+      this.setState({
+        center: this.refs.map.getCenter()
+      });
+    } else {
+      setTimeout(()=> {
+        this.searchQueryProgress = false;
+      }, 1000*1);
+    }
   }
   // Handler function which is fired when an input is selected from autocomplete google places 
   handlePlacesChanged() {
@@ -175,6 +184,7 @@ export class AppbaseMap extends Component {
     else {
       markerComponent = this.state.markers;
     }
+    searchComponentProps.center = this.state.center;
     if (this.props.searchComponent === "appbase") {
       appbaseSearch = <AppbaseSearch
         fieldName={this.props.searchField}
@@ -184,7 +194,6 @@ export class AppbaseMap extends Component {
         lonField="location.lon"
         placeholder="Search location.."
         isGeoSearch={true} />
-      searchComponentProps.center = this.state.center;
       searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
     } else if (this.props.searchComponent === "google") {
       searchComponent = <SearchBox
@@ -194,10 +203,9 @@ export class AppbaseMap extends Component {
         placeholder = "Search location"
         style = { Style.inputStyle }
       />;
-      searchComponentProps.center = this.state.center;
       searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
   }
-  console.log(this.state.defaultCenter);
+  console.log(searchComponentProps.center);
   return(
     <div style={Style.fullHeightDiv}>
       {appbaseSearch}
@@ -208,7 +216,7 @@ export class AppbaseMap extends Component {
         googleMapElement={<GoogleMap ref = "map"
           {...searchComponentProps}
           {...this.props}
-          center = {this.state.defaultCenter}>
+          onIdle = {:: this.handleOnIdle}>
           {searchComponent}
           {markerComponent}
       </GoogleMap>}/>
