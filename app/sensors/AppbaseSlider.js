@@ -59,9 +59,9 @@ AppbaseSlider.propTypes = {
 
 AppbaseSlider.defaultProps = {
   minThreshold: 0,
-  maxThreshold: 20,
+  maxThreshold: 1000,
   values: {
     min: 0,
-    max: 20,
+    max: 1000,
   },
 };
