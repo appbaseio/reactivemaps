@@ -45,12 +45,12 @@ export class AppbaseMap extends Component {
         self.searchQueryProgress = true;
         let newMarkersArray = [];
         var totalPosition = {lat: 0, lng: 0};
-        console.log(self.props.fieldName);
         newMarkersArray = data.hits.hits.filter((hit, index) => {
-          return hit._source.hasOwnProperty(self.props.fieldName);
+          return hit._source.hasOwnProperty(self.props.fieldName) && !(hit._source[self.props.fieldName].lat == 0 && hit._source[self.props.fieldName].lon == 0);
         });
         newMarkersArray = newMarkersArray.map((hit, index) => {
           let field = hit._source[self.props.fieldName];
+          console.log(field.lat, field.lon);
           let position = {
             position: {
               lat: field.lat,
@@ -64,11 +64,11 @@ export class AppbaseMap extends Component {
           )
         });
         if(newMarkersArray.length) {
-          console.log(totalPosition, newMarkersArray);
           var defaultCenter = {
             lat: Number((totalPosition.lat/newMarkersArray.length).toFixed(4)),
             lng: Number((totalPosition.lng/newMarkersArray.length).toFixed(4))
           };
+          console.log(defaultCenter.lat, defaultCenter.lng);
           self.setState({
             markers: newMarkersArray,
             center: defaultCenter
@@ -212,7 +212,6 @@ export class AppbaseMap extends Component {
       />;
       searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
   }
-  console.log(searchComponentProps.center);
   return(
     <div className="map-container" style={Style.fullHeightDiv}>
       {appbaseSearch}

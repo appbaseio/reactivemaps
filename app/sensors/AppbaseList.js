@@ -38,11 +38,12 @@ export class AppbaseList extends Component {
   // Handler function when a value is selected
   handleSelect(value) {
     // queryObject.updateGeoFilter(null, null, false);
-    queryObject.addShouldClause(this.props.fieldName, value, "Term");
+    queryObject.addShouldClause(this.props.fieldName, value, "Term", this.props.includeGeo);
   }
   // Handler function when a value is deselected or removed
   handleRemove(value) {
-    queryObject.removeShouldClause(this.props.fieldName, value, "Term");
+    let isExecuteQuery = this.props.multipleSelect ? true : false;
+    queryObject.removeShouldClause(this.props.fieldName, value, "Term", isExecuteQuery, this.props.includeGeo);
   }
   render() {
     // Checking if component is single select or multiple select

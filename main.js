@@ -28,11 +28,11 @@ class Main extends Component {
 					<div className="row" style={divStyle}>
 						<div className="col s6">
 							<h5> Cities (Single Select) </h5>
-							<AppbaseList fieldName="group.group_city_new.group_city_simple" showCount={true} size={100} multipleSelect={false} />
+							<AppbaseList fieldName="group.group_city_new.group_city_simple" showCount={true} size={100} multipleSelect={false} includeGeo={false} />
 						</div>
 						<div className="col s6">
 							<h5> Topics (Multiple Select)</h5>
-							<AppbaseList fieldName="group.group_topics.topic_name_raw" multipleSelect={true} showCount={true} />
+							<AppbaseList fieldName="group.group_topics.topic_name_raw" multipleSelect={true} showCount={true} includeGeo={true} />
 						</div>
 					</div>
 					<div className="col s12">
