@@ -15,13 +15,14 @@ export class ItemCheckboxList extends Component {
   handleListClick(value, selectedStatus) {
     // If the checkbox selectedStatus is true, then update selectedItems array
     if (selectedStatus) {
+      this.props.onRemove(this.state.selectedItems, false);
       var updated = this.state.selectedItems;
       updated.push(value);
       this.setState({
         selectedItems: updated
       });
       // Pass the props to parent components to add to the Query
-      this.props.onSelect(value);
+      this.props.onSelect(this.state.selectedItems);
     }
     // If the checkbox selectedStatus is false
     // Call handleTagClick to remove it from the selected Items
@@ -31,6 +32,9 @@ export class ItemCheckboxList extends Component {
   }
   // Handler function when a cancel button on tag is clicked to remove it
   handleTagClick(value) {
+    // Pass the older value props to parent components to remove older list in terms query
+    var isExecutable = this.state.selectedItems.length === 1 ? true:false;
+    this.props.onRemove(this.state.selectedItems, isExecutable);
     var keyRef = value.replace(/ /g,'_');
     var checkboxElement = eval(`this.refs.ref${keyRef}`);
     checkboxElement.state.status = false;
@@ -40,8 +44,10 @@ export class ItemCheckboxList extends Component {
     this.setState({
       selectedItems: updated
     });
-    // Pass the removed value props to parent components to remove from the Query
-    this.props.onRemove(value);
+    // Pass the removed value props to parent components to add updated list in terms query
+    if(this.state.selectedItems.length) {
+      this.props.onSelect(this.state.selectedItems);
+    }
   }
   render() {
     let items = this.props.items;

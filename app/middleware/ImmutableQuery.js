@@ -93,6 +93,10 @@ class ImmutableQuery {
     var term = JSON.parse(`{"${key}":` + JSON.stringify(value) + '}');
     return { term };
   }
+  getTermsObject(key, value) {
+    var terms = JSON.parse(`{"${key}":` + JSON.stringify(value) + '}');
+    return { terms };
+  }
   getMatchObject(key, value) {
     value = value.toLowerCase();
     var match = JSON.parse(`{"${key}":` + JSON.stringify(value) + '}');
