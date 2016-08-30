@@ -10,7 +10,8 @@ export class AppbaseList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: []
+      items: [],
+      selectedSensor: {}
     };
     this.handleSelect = this.handleSelect.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
@@ -18,6 +19,17 @@ export class AppbaseList extends Component {
   // Get the items from Appbase when component is mounted
   componentDidMount() {
     this.getItems();
+  }
+  componentDidUpdate() {
+    console.log(this.state.selectedSensor, this.props.selectedSensor);
+    if(this.props.selectedSensor && this.props.selectedSensor.hasOwnProperty(this.props.cityField) && this.props.selectedSensor[this.props.cityField] !== this.state.selectedSensor[this.props.cityField]) {
+      try {
+        this.setState({
+          'selectedSensor': JSON.parse(JSON.stringify(this.props.selectedSensor))
+        });
+        this.getItems();
+      } catch(e) {}
+    }
   }
   getItems() {
     var requestObject = queryObject.addAggregation(this.props.fieldName,

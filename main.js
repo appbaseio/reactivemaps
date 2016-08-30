@@ -15,6 +15,8 @@ class Main extends Component {
 		super(props);
 		this.onSelect = this.onSelect.bind(this);
 	    this.state = {
+	    	city: 'group.group_city.raw',
+	    	topic: 'group.group_topics.topic_name_raw',
 	    	selectedSensor: {}
 	    };
 	}
@@ -35,7 +37,8 @@ class Main extends Component {
 		var divStyle = {
 			height: "100%"
 		};
-		var includeGeo = this.state.selectedSensor["group.group_city.raw"] ? false : true;
+		var includeGeo = this.state.selectedSensor[this.state.city] ? false : true;
+                
 		return (
 			<div className="row m-0" style={divStyle}>
 				<ReactiveMap config={config} />
@@ -43,11 +46,15 @@ class Main extends Component {
 					<div className="row" style={divStyle}>
 						<div className="col s6">
 							<h5> Cities (Single Select) </h5>
-							<AppbaseList onSelect={this.onSelect} fieldName="group.group_city.raw" showCount={true} size={100} multipleSelect={false} includeGeo={false} />
+							<AppbaseList onSelect={this.onSelect} fieldName={this.state.city} showCount={true} size={100} multipleSelect={false} includeGeo={false} />
 						</div>
 						<div className="col s6">
 							<h5> Topics (Multiple Select)</h5>
-							<AppbaseList fieldName="group.group_topics.topic_name_raw" multipleSelect={true} showCount={true} includeGeo={includeGeo} />
+							<AppbaseList fieldName={this.state.topic} 
+							selectedSensor={this.state.selectedSensor} 
+							cityField={this.state.city}  
+							multipleSelect={true} 
+							showCount={true} includeGeo={includeGeo} />
 						</div>
 					</div>
 					<div className="col s12">
