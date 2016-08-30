@@ -38,6 +38,13 @@ export class AppbaseList extends Component {
   // Handler function when a value is selected
   handleSelect(value) {
     // queryObject.updateGeoFilter(null, null, false);
+    if(this.props.onSelect) {
+      var obj = {
+        key: this.props.fieldName,
+        value: value
+      };
+      this.props.onSelect(obj);
+    }
     queryObject.addShouldClause(this.props.fieldName, value, "Term", this.props.includeGeo);
   }
   // Handler function when a value is deselected or removed

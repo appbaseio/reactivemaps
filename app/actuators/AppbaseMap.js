@@ -50,7 +50,7 @@ export class AppbaseMap extends Component {
         });
         newMarkersArray = newMarkersArray.map((hit, index) => {
           let field = hit._source[self.props.fieldName];
-          console.log(field.lat, field.lon);
+          // console.log(field.lat, field.lon);
           let position = {
             position: {
               lat: field.lat,
@@ -68,7 +68,7 @@ export class AppbaseMap extends Component {
             lat: Number((totalPosition.lat/newMarkersArray.length).toFixed(4)),
             lng: Number((totalPosition.lng/newMarkersArray.length).toFixed(4))
           };
-          console.log(defaultCenter.lat, defaultCenter.lng);
+          // console.log(defaultCenter.lat, defaultCenter.lng);
           self.setState({
             markers: newMarkersArray,
             center: defaultCenter

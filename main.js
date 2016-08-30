@@ -11,16 +11,31 @@ import {AppbaseMap} from './app/actuators/AppbaseMap';
 import {ReactiveMap} from './app/middleware/ReactiveMap';
 
 class Main extends Component {
+	constructor(props) {
+		super(props);
+		this.onSelect = this.onSelect.bind(this);
+	    this.state = {
+	    	selectedSensor: {}
+	    };
+	}
 	onIndex(data) {
 
 	}
 	onDelete(data) {
 
 	}
+	onSelect(data) {
+		var selectedSensor = this.state.selectedSensor;
+		selectedSensor[data.key] = data.value;
+		this.setState({
+			'selectedSensor': selectedSensor
+		});
+	}
 	render() {
 		var divStyle = {
-			height: "100%",
+			height: "100%"
 		};
+		var includeGeo = this.state.selectedSensor["group.group_city.raw"] ? false : true;
 		return (
 			<div className="row m-0" style={divStyle}>
 				<ReactiveMap config={config} />
@@ -28,11 +43,11 @@ class Main extends Component {
 					<div className="row" style={divStyle}>
 						<div className="col s6">
 							<h5> Cities (Single Select) </h5>
-							<AppbaseList fieldName="group.group_city_new.group_city_simple" showCount={true} size={100} multipleSelect={false} includeGeo={false} />
+							<AppbaseList onSelect={this.onSelect} fieldName="group.group_city.raw" showCount={true} size={100} multipleSelect={false} includeGeo={false} />
 						</div>
 						<div className="col s6">
 							<h5> Topics (Multiple Select)</h5>
-							<AppbaseList fieldName="group.group_topics.topic_name_raw" multipleSelect={true} showCount={true} includeGeo={true} />
+							<AppbaseList fieldName="group.group_topics.topic_name_raw" multipleSelect={true} showCount={true} includeGeo={includeGeo} />
 						</div>
 					</div>
 					<div className="col s12">

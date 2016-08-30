@@ -88,6 +88,7 @@ class ImmutableQuery {
         emitter.emit('change', this.query);
       }
     }
+    console.log(JSON.stringify(this.query, null, 4));
     return this.query;
   }
   getTermObject(key, value) {
