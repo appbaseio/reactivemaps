@@ -42,6 +42,7 @@ export class AppbaseMap extends Component {
       // Delete aggs part of the request as it will be irrelevant for Map query
       delete reqObject.body.aggs;
       helper.appbaseRef.search(reqObject).on('data', function (data) {
+        console.log('Length', data.hits.hits.length);
         self.searchQueryProgress = true;
         let newMarkersArray = [];
         var totalPosition = {lat: 0, lng: 0};
@@ -68,7 +69,6 @@ export class AppbaseMap extends Component {
             lat: Number((totalPosition.lat/newMarkersArray.length).toFixed(4)),
             lng: Number((totalPosition.lng/newMarkersArray.length).toFixed(4))
           };
-          // console.log(defaultCenter.lat, defaultCenter.lng);
           self.setState({
             markers: newMarkersArray,
             center: defaultCenter
@@ -200,7 +200,8 @@ export class AppbaseMap extends Component {
         latField="location.lat"
         lonField="location.lon"
         placeholder="Search location.."
-        isGeoSearch={true} />
+        isGeoSearch={true}
+        extraQuery={this.props.extraQuery} />
       searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
     } else if (this.props.searchComponent === "google") {
       searchComponent = <SearchBox
