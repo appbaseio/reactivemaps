@@ -17,7 +17,7 @@ class ImmutableQuery {
     }
     var obj = eval(`this.get${type}Object(key, value)`);
     this.shouldArray.push(obj);
-    return this.buildQuery(includeGeo, true);
+    return this.buildQuery(includeGeo, true); 
   }
 
   removeShouldClause(key, value, type, isExecuteQuery=false, includeGeo=false) {
@@ -36,7 +36,7 @@ class ImmutableQuery {
       var geoObject = JSON.parse(`{"${key}":` + JSON.stringify(boundingBoxCoordinates) + '}');
       this.filterArray[0] = { geo_bounding_box: geoObject };
     }
-    var geoFlag = typeof geoFlag !== 'undefined' ? geoFlag : true; 
+    var geoFlag = typeof geoFlag !== 'undefined' ? geoFlag : true;
     return this.buildQuery(geoFlag);
   }
   addAggregation(key, size, sort) {
@@ -65,9 +65,14 @@ class ImmutableQuery {
         }
       }
     }`);
-    return this.buildQuery();
+    var shouldArray = JSON.parse(JSON.stringify(this.shouldArray));
+    shouldArray = shouldArray.filter((query) => {
+      return !query.hasOwnProperty('terms');
+    });
+    return this.buildQuery(false, true, shouldArray);
   }
-  buildQuery(includeGeo, isExecuteQuery) {
+  buildQuery(includeGeo, isExecuteQuery, shouldArray) {
+    var shouldArray = shouldArray ? shouldArray : this.shouldArray;
     this.query = {
       type: this.config.type,
       body: {
@@ -75,7 +80,7 @@ class ImmutableQuery {
         "aggs": this.aggs,
         "query": {
           "bool": {
-            "must": this.shouldArray
+            "must": shouldArray
           }
         }
       }

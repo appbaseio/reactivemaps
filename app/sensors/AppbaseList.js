@@ -21,8 +21,8 @@ export class AppbaseList extends Component {
   componentDidMount() {
     this.getItems();
   }
+  // update topics on selecting city
   componentDidUpdate() {
-    console.log(this.state.selectedSensor, this.props.selectedSensor);
     if(this.props.selectedSensor && this.props.selectedSensor.hasOwnProperty(this.props.cityField) && this.props.selectedSensor[this.props.cityField] !== this.state.selectedSensor[this.props.cityField]) {
       try {
         this.setState({
@@ -62,7 +62,6 @@ export class AppbaseList extends Component {
   }
   // Handler function when a value is deselected or removed
   handleRemove(value, isExecuteQuery=false) {
-    // let isExecuteQuery = this.props.multipleSelect ? true : false;
     queryObject.removeShouldClause(this.props.fieldName, value, this.type, isExecuteQuery, this.props.includeGeo);
   }
   render() {

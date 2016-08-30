@@ -11,6 +11,29 @@ export class ItemCheckboxList extends Component {
     this.handleListClick = this.handleListClick.bind(this);
     this.handleTagClick = this.handleTagClick.bind(this);
   }
+  // remove selected types if not in the list
+  componentDidUpdate() {
+    var updated = JSON.parse(JSON.stringify(this.state.selectedItems));
+    if(updated.length && this.props.items) {
+      console.log(updated, this.props.items);
+      updated = updated.filter((item)=> {
+        let updatedFound = this.props.items.filter((propItem) => {
+          return propItem.key === item;
+        });
+        return updatedFound.length ? true : false;
+      });
+      if(updated.length !== this.state.selectedItems.length) {
+        var isExecutable = updated.length ? true:false;
+        this.props.onRemove(this.state.selectedItems, isExecutable);
+        this.setState({
+          'selectedItems': updated
+        });
+        if(updated.length) {
+          this.props.onSelect(updated);
+        }
+      }
+    }
+  }
   // Handler function when a checkbox is clicked
   handleListClick(value, selectedStatus) {
     // If the checkbox selectedStatus is true, then update selectedItems array
@@ -22,7 +45,9 @@ export class ItemCheckboxList extends Component {
         selectedItems: updated
       });
       // Pass the props to parent components to add to the Query
-      this.props.onSelect(this.state.selectedItems);
+      if(this.state.selectedItems.length) {
+        this.props.onSelect(this.state.selectedItems);
+      }
     }
     // If the checkbox selectedStatus is false
     // Call handleTagClick to remove it from the selected Items
