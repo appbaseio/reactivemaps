@@ -15,23 +15,34 @@ export class AppbaseSearch extends Component {
     this.handleSearch = this.handleSearch.bind(this);
 
   }
+  componentDidUpdate() {
+    console.log(123);
+  }
   // Builds the query for the search by taking search input as query input
   // For autocomplete to work, field should be mapped to Ngram 
   getQuery(input) {
-    return JSON.parse(`{
+    var query = JSON.parse(`{
       "type": "${helper.appbaseConfig.type}",
       "body": {
         "from": 0,
         "size": ${this.props.size},
         "query": {
-          "multi_match": {
-            "query": "${input}",
-            "fields": "${this.props.fieldName}",
-            "operator": "and"
+          "bool": {
+            "must": [{
+              "multi_match": {
+                "query": "${input}",
+                "fields": "${this.props.fieldName}",
+                "operator": "and"
+              }
+            }]
           }
         }
       }
     }`);
+    if(this.props.extraQuery) {
+      query.body.query.bool.must = query.body.query.bool.must.concat(this.props.extraQuery);
+    }
+    return query;
   }
   // Fetch the items from Appbase
   getItems(input, callback) {

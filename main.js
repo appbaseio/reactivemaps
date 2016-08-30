@@ -30,8 +30,12 @@ class Main extends Component {
 	onSelect(data) {
 		var selectedSensor = this.state.selectedSensor;
 		selectedSensor[data.key] = data.value;
+		var extraQuery = {
+			'term': selectedSensor
+		};
 		this.setState({
-			'selectedSensor': selectedSensor
+			'selectedSensor': selectedSensor,
+			'extraQuery': extraQuery
 		});
 	}
 	render() {
@@ -39,7 +43,7 @@ class Main extends Component {
 			height: "100%"
 		};
 		var includeGeo = this.state.selectedSensor[this.state.city] ? false : true;
-                
+          
 		return (
 			<div className="row m-0" style={divStyle}>
 				<ReactiveMap config={config} />
@@ -64,7 +68,8 @@ class Main extends Component {
 					</div><br/><br/><br/>
 					<div className="col s12">
 						<h5> Select Venue </h5>					
-						<AppbaseSearch fieldName="venue_name_ngrams" />
+						<AppbaseSearch fieldName="venue_name_ngrams"
+						 	extraQuery={this.state.extraQuery}  />
 					</div>
 				</div>
 				<div className="col s6" style={divStyle}>
