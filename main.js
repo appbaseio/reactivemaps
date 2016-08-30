@@ -51,7 +51,7 @@ class Main extends Component {
 					<div className="row" style={divStyle}>
 						<div className="col s6">
 							<h5> Cities (Single Select) </h5>
-							<AppbaseList onSelect={this.onSelect} fieldName={this.state.city} showCount={true} size={100} multipleSelect={false} includeGeo={false} />
+							<AppbaseList onSelect={this.onSelect} fieldName={this.state.city} showCount={true} size={1000} multipleSelect={false} includeGeo={false} />
 						</div>
 						<div className="col s6">
 							<h5> Topics (Multiple Select)</h5>
@@ -82,7 +82,8 @@ class Main extends Component {
 						onDelete={this.onDelete}
 						searchComponent="appbase"
 						searchField="venue_name_ngrams"
-						onIndex={this.onIndex} />
+						onIndex={this.onIndex} 
+						extraQuery={this.state.extraQuery} />
 				</div>
 			</div>
 		);

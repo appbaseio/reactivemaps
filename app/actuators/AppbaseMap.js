@@ -200,7 +200,8 @@ export class AppbaseMap extends Component {
         latField="location.lat"
         lonField="location.lon"
         placeholder="Search location.."
-        isGeoSearch={true} />
+        isGeoSearch={true}
+        extraQuery={this.props.extraQuery} />
       searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
     } else if (this.props.searchComponent === "google") {
       searchComponent = <SearchBox
