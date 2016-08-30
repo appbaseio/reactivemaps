@@ -16,6 +16,7 @@ class Main extends Component {
 		this.onSelect = this.onSelect.bind(this);
 	    this.state = {
 	    	city: 'group.group_city.raw',
+	    	zoom: 13,
 	    	topic: 'group.group_topics.topic_name_raw',
 	    	selectedSensor: {}
 	    };
