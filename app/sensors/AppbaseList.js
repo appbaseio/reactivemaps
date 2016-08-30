@@ -10,7 +10,8 @@ export class AppbaseList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: []
+      items: [],
+      selectedSensor: {}
     };
     this.handleSelect = this.handleSelect.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
@@ -18,6 +19,17 @@ export class AppbaseList extends Component {
   // Get the items from Appbase when component is mounted
   componentDidMount() {
     this.getItems();
+  }
+  componentDidUpdate() {
+    console.log(this.state.selectedSensor, this.props.selectedSensor);
+    if(this.props.selectedSensor && this.props.selectedSensor.hasOwnProperty(this.props.cityField) && this.props.selectedSensor[this.props.cityField] !== this.state.selectedSensor[this.props.cityField]) {
+      try {
+        this.setState({
+          'selectedSensor': JSON.parse(JSON.stringify(this.props.selectedSensor))
+        });
+        this.getItems();
+      } catch(e) {}
+    }
   }
   getItems() {
     var requestObject = queryObject.addAggregation(this.props.fieldName,
@@ -38,11 +50,19 @@ export class AppbaseList extends Component {
   // Handler function when a value is selected
   handleSelect(value) {
     // queryObject.updateGeoFilter(null, null, false);
-    queryObject.addShouldClause(this.props.fieldName, value, "Term");
+    if(this.props.onSelect) {
+      var obj = {
+        key: this.props.fieldName,
+        value: value
+      };
+      this.props.onSelect(obj);
+    }
+    queryObject.addShouldClause(this.props.fieldName, value, "Term", this.props.includeGeo);
   }
   // Handler function when a value is deselected or removed
   handleRemove(value) {
-    queryObject.removeShouldClause(this.props.fieldName, value, "Term");
+    let isExecuteQuery = this.props.multipleSelect ? true : false;
+    queryObject.removeShouldClause(this.props.fieldName, value, "Term", isExecuteQuery, this.props.includeGeo);
   }
   render() {
     // Checking if component is single select or multiple select

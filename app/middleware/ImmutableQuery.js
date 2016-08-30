@@ -11,16 +11,16 @@ class ImmutableQuery {
   setConfig(config) {
     this.config = config;
   }
-  addShouldClause(key, value, type) {
+  addShouldClause(key, value, type, includeGeo=false) {
     if(value===undefined || value===null){
       return;
     }
     var obj = eval(`this.get${type}Object(key, value)`);
     this.shouldArray.push(obj);
-    return this.buildQuery();
+    return this.buildQuery(includeGeo, true);
   }
 
-  removeShouldClause(key, value, type, isExecuteQuery=false) {
+  removeShouldClause(key, value, type, isExecuteQuery=false, includeGeo=false) {
     if(value===undefined || value===null){
       return;
     }
@@ -28,7 +28,7 @@ class ImmutableQuery {
     if(index >= 0) {
       this.shouldArray.splice(index, 1);
     }
-    return this.buildQuery(isExecuteQuery);
+    return this.buildQuery(includeGeo, isExecuteQuery);
   }
   updateGeoFilter(key, boundingBoxCoordinates, geoFlag) {
     if(typeof geoFlag !== 'undefined' && !geoFlag) {}
@@ -67,7 +67,7 @@ class ImmutableQuery {
     }`);
     return this.buildQuery();
   }
-  buildQuery(geo) {
+  buildQuery(includeGeo, isExecuteQuery) {
     this.query = {
       type: this.config.type,
       body: {
@@ -80,11 +80,15 @@ class ImmutableQuery {
         }
       }
     };
-    if (!geo) 
+    if (!includeGeo) 
       emitter.emit('change', this.query);
     else {
       this.query.body.query.bool.filter = this.filterArray;
+      if(isExecuteQuery) {
+        emitter.emit('change', this.query);
+      }
     }
+    console.log(JSON.stringify(this.query, null, 4));
     return this.query;
   }
   getTermObject(key, value) {

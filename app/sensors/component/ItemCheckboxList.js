@@ -31,7 +31,8 @@ export class ItemCheckboxList extends Component {
   }
   // Handler function when a cancel button on tag is clicked to remove it
   handleTagClick(value) {
-    var checkboxElement = eval(`this.refs.ref${value}`);
+    var keyRef = value.replace(/ /g,'_');
+    var checkboxElement = eval(`this.refs.ref${keyRef}`);
     checkboxElement.state.status = false;
     var updated = this.state.selectedItems;
     let index = updated.indexOf(value);
@@ -49,14 +50,15 @@ export class ItemCheckboxList extends Component {
     var TagItemsArray = [];
     // Build the array for the checkboxList items
     items.forEach(function (item) {
+      item.keyRef = item.key.replace(/ /g,'_');
       ListItemsArray.push(<ListItem
-        key={item.key}
+        key={item.keyRef}
         value={item.key}
         doc_count={item.doc_count}
         countField={this.props.showCount}
         handleClick={this.handleListClick}
         status={false}
-        ref={"ref" + item.key} />);
+        ref={"ref" + item.keyRef} />);
     }.bind(this));
     // Build the array of Tags for selected items
     selectedItems.forEach(function (item) {
