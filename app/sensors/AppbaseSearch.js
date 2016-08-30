@@ -16,7 +16,7 @@ export class AppbaseSearch extends Component {
 
   }
   componentDidUpdate() {
-    console.log(123);
+    
   }
   // Builds the query for the search by taking search input as query input
   // For autocomplete to work, field should be mapped to Ngram 

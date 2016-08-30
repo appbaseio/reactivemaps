@@ -80,13 +80,11 @@ class ImmutableQuery {
         }
       }
     };
-    if (!includeGeo) 
-      emitter.emit('change', this.query);
-    else {
+    if(includeGeo) {
       this.query.body.query.bool.filter = this.filterArray;
-      if(isExecuteQuery) {
-        emitter.emit('change', this.query);
-      }
+    }
+    if(isExecuteQuery) {
+      emitter.emit('change', this.query);
     }
     console.log(JSON.stringify(this.query, null, 4));
     return this.query;
