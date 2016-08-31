@@ -56,6 +56,7 @@ class Main extends Component {
 						<div className="col s6">
 							<h5> Cities (Single Select) </h5>
 							<AppbaseList 
+								defaultSelected="London"
 								onSelect={this.onSelect} 
 								fieldName={this.state.city} 
 								showCount={true} 

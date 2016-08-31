@@ -79,7 +79,8 @@ export class AppbaseList extends Component {
         items={this.state.items}
         onSelect={this.handleSelect}
         onRemove={this.handleRemove}
-        showCount={this.props.showCount} />
+        showCount={this.props.showCount} 
+        defaultSelected={this.props.defaultSelected}/>
     }
 
     return (

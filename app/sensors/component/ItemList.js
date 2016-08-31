@@ -8,7 +8,19 @@ export class ItemList extends Component {
     this.state = {
       selectedItem: []
     };
+    this.defaultAllowed = true;
     this.handleClick = this.handleClick.bind(this);
+  }
+  componentDidUpdate() {
+    if(this.props.items.length && this.defaultAllowed) {
+      this.defaultAllowed = false;
+      this.defaultSelection();
+    }
+  }
+  defaultSelection() {
+    if(this.props.defaultSelected) {
+      this.handleClick(this.props.defaultSelected);
+    }
   }
   // Handler function is called when the list item is clicked
   handleClick(value) {

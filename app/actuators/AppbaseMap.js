@@ -17,7 +17,8 @@ export class AppbaseMap extends Component {
       streamingStatus: 'Intializing..',
       center: this.props.defaultCenter,
       query: {}
-    }
+    };
+    this.idelAllowed = false;
     var streamingInstance;
     this.handleSearch = this.handleSearch.bind(this);
   }
@@ -132,26 +133,30 @@ export class AppbaseMap extends Component {
   }
   // Handle function which is fired when map is moved and reaches to idle position
   handleOnIdle() {
-    var mapBounds = this.refs.map.getBounds();
-    var north = mapBounds.getNorthEast().lat();
-    var south = mapBounds.getSouthWest().lat();
-    var east = mapBounds.getNorthEast().lng();
-    var west = mapBounds.getSouthWest().lng();
-    var boundingBoxCoordinates = {
-      "top_left": [west, north],
-      "bottom_right": [east, south]
-    };
-    if(!this.searchQueryProgress) {
-      var query = queryObject.updateGeoFilter(this.props.fieldName, boundingBoxCoordinates)
-      this.setState({
-        streamingStatus: 'Fetching...'
-      });
-      // Get the new bounds of the map
-      this.setState({
-        query: query
-      }, function () {
-        this.getNewMarkers();
-      });
+    if(this.idelAllowed) {
+      var mapBounds = this.refs.map.getBounds();
+      var north = mapBounds.getNorthEast().lat();
+      var south = mapBounds.getSouthWest().lat();
+      var east = mapBounds.getNorthEast().lng();
+      var west = mapBounds.getSouthWest().lng();
+      var boundingBoxCoordinates = {
+        "top_left": [west, north],
+        "bottom_right": [east, south]
+      };
+      if(!this.searchQueryProgress) {
+        var query = queryObject.updateGeoFilter(this.props.fieldName, boundingBoxCoordinates)
+        this.setState({
+          streamingStatus: 'Fetching...'
+        });
+        // Get the new bounds of the map
+        this.setState({
+          query: query
+        }, function () {
+          this.getNewMarkers();
+        });
+      }
+    } else {
+      this.idelAllowed = true;
     }
   }
   // Handler function for bounds changed which udpates the map center
