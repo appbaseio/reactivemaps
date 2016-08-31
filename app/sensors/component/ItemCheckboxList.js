@@ -23,7 +23,7 @@ export class ItemCheckboxList extends Component {
         return updatedFound.length ? true : false;
       });
       if(updated.length !== this.state.selectedItems.length) {
-        var isExecutable = updated.length ? true:false;
+        var isExecutable = updated.length ? false : true;
         this.props.onRemove(this.state.selectedItems, isExecutable);
         this.setState({
           'selectedItems': updated

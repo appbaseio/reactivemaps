@@ -9,12 +9,12 @@ import {AppbaseSearch} from './app/sensors/AppbaseSearch';
 import {AppbaseMap} from './app/actuators/AppbaseMap';
 // middleware
 import {ReactiveMap} from './app/middleware/ReactiveMap';
-
+import {queryObject} from './app/middleware/ImmutableQuery.js';
 class Main extends Component {
 	constructor(props) {
 		super(props);
 		this.onSelect = this.onSelect.bind(this);
-	    this.state = {
+		this.state = {
 	    	city: 'group.group_city.raw',
 	    	zoom: 13,
 	    	topic: 'group.group_topics.topic_name_raw',
@@ -27,16 +27,20 @@ class Main extends Component {
 	onDelete(data) {
 
 	}
+	// Store selected values in selectedSensor state
+	// according to that create extraquery which we can use in venue to filter by that query
+	// venue should be filter by cityname
 	onSelect(data) {
 		var selectedSensor = this.state.selectedSensor;
 		selectedSensor[data.key] = data.value;
-		var extraQuery = {
-			'term': selectedSensor
+		var stateObj = {
+			'selectedSensor': selectedSensor
 		};
-		this.setState({
-			'selectedSensor': selectedSensor,
-			'extraQuery': extraQuery
-		});
+		if(data.key === this.state.city) {
+			var extraQuery = queryObject.getTermObject(data.key, data.value);
+			stateObj.extraQuery = extraQuery;
+		}
+		this.setState(stateObj);
 	}
 	render() {
 		var divStyle = {
@@ -51,15 +55,25 @@ class Main extends Component {
 					<div className="row" style={divStyle}>
 						<div className="col s6">
 							<h5> Cities (Single Select) </h5>
-							<AppbaseList onSelect={this.onSelect} fieldName={this.state.city} showCount={true} size={1000} multipleSelect={false} includeGeo={false} />
+							<AppbaseList 
+								onSelect={this.onSelect} 
+								fieldName={this.state.city} 
+								showCount={true} 
+								size={1000} 
+								multipleSelect={false} 
+								topicField={this.state.topic}
+								selectedSensor={this.state.selectedSensor} 
+								includeGeo={false} />
 						</div>
 						<div className="col s6">
 							<h5> Topics (Multiple Select)</h5>
-							<AppbaseList fieldName={this.state.topic} 
-							selectedSensor={this.state.selectedSensor} 
-							cityField={this.state.city}  
-							multipleSelect={true} 
-							showCount={true} includeGeo={includeGeo} />
+							<AppbaseList
+								onSelect={this.onSelect} 
+								fieldName={this.state.topic} 
+								selectedSensor={this.state.selectedSensor} 
+								cityField={this.state.city}  
+								multipleSelect={true} 
+								showCount={true} includeGeo={includeGeo} />
 						</div>
 					</div>
 					<div className="col s12">

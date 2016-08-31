@@ -11,13 +11,13 @@ class ImmutableQuery {
   setConfig(config) {
     this.config = config;
   }
-  addShouldClause(key, value, type, includeGeo=false) {
+  addShouldClause(key, value, type, includeGeo=false, isExecuteQuery=true) {
     if(value===undefined || value===null){
       return;
     }
     var obj = eval(`this.get${type}Object(key, value)`);
     this.shouldArray.push(obj);
-    return this.buildQuery(includeGeo, true); 
+    return this.buildQuery(includeGeo, isExecuteQuery); 
   }
 
   removeShouldClause(key, value, type, isExecuteQuery=false, includeGeo=false) {
@@ -69,7 +69,19 @@ class ImmutableQuery {
     shouldArray = shouldArray.filter((query) => {
       return !query.hasOwnProperty('terms');
     });
-    return this.buildQuery(false, true, shouldArray);
+    var query = {
+      type: this.config.type,
+      body: {
+        "size": 100,
+        "aggs": this.aggs,
+        "query": {
+          "bool": {
+            "must": shouldArray
+          }
+        }
+      }
+    };
+    return query;
   }
   buildQuery(includeGeo, isExecuteQuery, shouldArray) {
     var shouldArray = shouldArray ? shouldArray : this.shouldArray;
@@ -91,7 +103,6 @@ class ImmutableQuery {
     if(isExecuteQuery) {
       emitter.emit('change', this.query);
     }
-    console.log(JSON.stringify(this.query, null, 4));
     return this.query;
   }
   getTermObject(key, value) {
