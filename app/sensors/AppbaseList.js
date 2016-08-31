@@ -10,26 +10,27 @@ export class AppbaseList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [],
-      selectedSensor: {}
+      items: []
     };
+    this.selectedSensor = {};
     this.handleSelect = this.handleSelect.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.topicUpdate = this.topicUpdate.bind(this);
     this.type = this.props.multipleSelect ? 'Terms' : 'Term';
   }
   // Get the items from Appbase when component is mounted
   componentDidMount() {
     this.getItems();
   }
-  // update topics on selecting city
   componentDidUpdate() {
-    if(this.props.selectedSensor && this.props.selectedSensor.hasOwnProperty(this.props.cityField) && this.props.selectedSensor[this.props.cityField] !== this.state.selectedSensor[this.props.cityField]) {
-      try {
-        this.setState({
-          'selectedSensor': JSON.parse(JSON.stringify(this.props.selectedSensor))
-        });
-        this.getItems();
-      } catch(e) {}
+    this.topicUpdate();
+  }
+  // update topics on selecting city
+  topicUpdate() {
+    if(this.props.selectedSensor && this.props.cityField && this.props.selectedSensor.hasOwnProperty(this.props.cityField) && this.props.selectedSensor[this.props.cityField] !== this.selectedSensor[this.props.cityField]) {
+      this.selectedSensor = JSON.parse(JSON.stringify(this.props.selectedSensor));
+      console.log(this.props.fieldName, this.props.selectedSensor);
+      this.getItems();
     }
   }
   getItems() {
@@ -50,7 +51,6 @@ export class AppbaseList extends Component {
   }
   // Handler function when a value is selected
   handleSelect(value) {
-    // queryObject.updateGeoFilter(null, null, false);
     if(this.props.onSelect) {
       var obj = {
         key: this.props.fieldName,
