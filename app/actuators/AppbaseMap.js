@@ -16,7 +16,8 @@ export class AppbaseMap extends Component {
       selectedMarker: null,
       streamingStatus: 'Intializing..',
       center: this.props.defaultCenter,
-      query: {}
+      query: {},
+      rawData: {}
     };
     this.idelAllowed = false;
     var streamingInstance;
@@ -25,70 +26,69 @@ export class AppbaseMap extends Component {
   componentDidMount() {
     var self = this;
     // Listen to change in the query
-    emitter.addListener('change', function (query) {
+    emitter.addListener('queryResult', function (data) {
       self.setState({
-        query: query
-      }, function () {
-        // Get the new markers when the query has changed
-        self.getNewMarkers();
-      });
+        rawData: data
+      }, self.getNewMarkers);
     });
   };
 
   getNewMarkers() {
     var self = this;
-    // Check if user has requested Historical data, then fetch from Appbase
-    if (this.props.historicalData == true) {
-      var reqObject = this.state.query
-      // Delete aggs part of the request as it will be irrelevant for Map query
-      delete reqObject.body.aggs;
-      helper.appbaseRef.search(reqObject).on('data', function (data) {
-        console.log('Length', data.hits.hits.length);
-        self.searchQueryProgress = true;
-        let newMarkersArray = [];
-        var totalPosition = {lat: 0, lng: 0};
-        newMarkersArray = data.hits.hits.filter((hit, index) => {
-          return hit._source.hasOwnProperty(self.props.fieldName) && !(hit._source[self.props.fieldName].lat == 0 && hit._source[self.props.fieldName].lon == 0);
-        });
-        newMarkersArray = newMarkersArray.map((hit, index) => {
-          let field = hit._source[self.props.fieldName];
-          // console.log(field.lat, field.lon);
-          let position = {
-            position: {
-              lat: field.lat,
-              lng: field.lon
-            }
-          }
-          totalPosition.lat += field.lat;
-          totalPosition.lng += field.lon;
-          return (
-            <Marker {...position} key={index} zIndex={1} />
-          )
-        });
-        if(newMarkersArray.length) {
-          var defaultCenter = {
-            lat: Number((totalPosition.lat/newMarkersArray.length).toFixed(4)),
-            lng: Number((totalPosition.lng/newMarkersArray.length).toFixed(4))
-          };
-          self.setState({
-            markers: newMarkersArray,
-            center: defaultCenter
-          }, function () {
-            self.startStreaming();
-          });
-        } else {
-          self.setState({
-            markers: newMarkersArray
-          });
+    var data = this.state.rawData;
+    self.searchQueryProgress = true;
+    let newMarkersArray = [];
+    var totalPosition = {lat: 0, lng: 0};
+    newMarkersArray = data.hits.hits.filter((hit, index) => {
+      return hit._source.hasOwnProperty(self.props.fieldName) && !(hit._source[self.props.fieldName].lat == 0 && hit._source[self.props.fieldName].lon == 0);
+    });
+    newMarkersArray = newMarkersArray.map((hit, index) => {
+      let field = hit._source[self.props.fieldName];
+      // console.log(field.lat, field.lon);
+      let position = {
+        position: {
+          lat: field.lat,
+          lng: field.lon
         }
-      }).on('error', function (error) {
-        console.log(error)
+      }
+      totalPosition.lat += field.lat;
+      totalPosition.lng += field.lon;
+      return (
+        <Marker {...position} key={index} zIndex={1} />
+      )
+    });
+    if(newMarkersArray.length) {
+      var defaultCenter = {
+        lat: Number((totalPosition.lat/newMarkersArray.length).toFixed(4)),
+        lng: Number((totalPosition.lng/newMarkersArray.length).toFixed(4))
+      };
+      self.setState({
+        markers: newMarkersArray,
+        center: defaultCenter
+      }, function () {
+        self.startStreaming();
+      });
+    } else {
+      self.setState({
+        markers: newMarkersArray
       });
     }
-    // else start the realtime streaming
-    else {
-      this.startStreaming()
-    }
+    // Check if user has requested Historical data, then fetch from Appbase
+    // if (this.props.historicalData == true) {
+    //   var reqObject = this.state.query
+    //   // Delete aggs part of the request as it will be irrelevant for Map query
+    //   delete reqObject.body.aggs;
+    //   helper.appbaseRef.search(reqObject).on('data', function (data) {
+    //     console.log('Length', data.hits.hits.length);
+        
+    //   }).on('error', function (error) {
+    //     console.log(error)
+    //   });
+    // }
+    // // else start the realtime streaming
+    // else {
+    //   this.startStreaming()
+    // }
   }
   startStreaming() {
     var self = this;
@@ -149,11 +149,11 @@ export class AppbaseMap extends Component {
           streamingStatus: 'Fetching...'
         });
         // Get the new bounds of the map
-        this.setState({
-          query: query
-        }, function () {
-          this.getNewMarkers();
-        });
+        // this.setState({
+        //   query: query
+        // }, function () {
+        //   this.getNewMarkers();
+        // });
       }
     } else {
       this.idelAllowed = true;

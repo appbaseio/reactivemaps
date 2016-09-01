@@ -10,6 +10,8 @@ import {AppbaseMap} from './app/actuators/AppbaseMap';
 // middleware
 import {ReactiveMap} from './app/middleware/ReactiveMap';
 import {queryObject} from './app/middleware/ImmutableQuery.js';
+
+
 class Main extends Component {
 	constructor(props) {
 		super(props);

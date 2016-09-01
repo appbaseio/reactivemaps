@@ -1,5 +1,6 @@
 var {EventEmitter} = require('fbemitter');
 export var emitter = new EventEmitter();
+var helper = require('./helper.js');
 
 class ImmutableQuery {
   constructor() {
@@ -7,6 +8,7 @@ class ImmutableQuery {
     this.filterArray = [];
     this.config = [];
     this.aggs = {};
+    this.queryListener();
   }
   setConfig(config) {
     this.config = config;
@@ -136,6 +138,25 @@ class ImmutableQuery {
       }
     }
     return -1;
+  }
+  // Listener for query change
+  queryListener() {
+    emitter.addListener('change', function(query) {
+      this.executeQuery(query)
+    }.bind(this));
+  }
+  // Execute query on query change
+  executeQuery(reqObject) {
+    // delete aggrefation query if exists
+    if(reqObject.body && reqObject.body.hasOwnProperty('aggs')) {
+      delete reqObject.body.aggs;
+    }
+    // apply search query and emit queryResult
+    helper.appbaseRef.search(reqObject).on('data', function(data) {
+      emitter.emit('queryResult', data);
+    }).on('error', function(error) {
+      console.log(error);
+    });
   }
 }
 
