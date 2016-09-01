@@ -102,12 +102,12 @@ class ImmutableQuery {
           filter: this.filterArray
         }
       };
-      shouldArray.push(geoFilter)
+      shouldArray.unshift(geoFilter)
     }
     this.query = {
       type: this.config.type,
       body: {
-        "size": 1000,
+        "size": 100,
         "aggs": this.aggs,
         "query": {
           "bool": {
