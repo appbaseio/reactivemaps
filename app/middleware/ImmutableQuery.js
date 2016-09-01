@@ -5,6 +5,7 @@ var helper = require('./helper.js');
 class ImmutableQuery {
   constructor() {
     this.shouldArray = [];
+    this.mustArray = [];
     this.filterArray = [];
     this.config = [];
     this.aggs = {};
@@ -13,22 +14,24 @@ class ImmutableQuery {
   setConfig(config) {
     this.config = config;
   }
-  addShouldClause(key, value, type, includeGeo=false, isExecuteQuery=true) {
+  addShouldClause(key, value, type, includeGeo=false, isExecuteQuery=true, queryLevel="must") {
     if(value===undefined || value===null){
       return;
     }
     var obj = eval(`this.get${type}Object(key, value)`);
-    this.shouldArray.push(obj);
+    var arr = queryLevel === 'must' ? this.mustArray : this.shouldArray;
+    arr.push(obj);
     return this.buildQuery(includeGeo, isExecuteQuery); 
   }
 
-  removeShouldClause(key, value, type, isExecuteQuery=false, includeGeo=false) {
+  removeShouldClause(key, value, type, isExecuteQuery=false, includeGeo=false, queryLevel="must") {
     if(value===undefined || value===null){
       return;
     }
-    var index = this.getShouldArrayIndex(key, value, type); 
+    var arr = queryLevel === 'must' ? this.mustArray : this.shouldArray;
+    var index = this.getArrayIndex(arr, key, value, type); 
     if(index >= 0) {
-      this.shouldArray.splice(index, 1);
+      arr.splice(index, 1);
     }
     return this.buildQuery(includeGeo, isExecuteQuery);
   }
@@ -67,8 +70,8 @@ class ImmutableQuery {
         }
       }
     }`);
-    var shouldArray = JSON.parse(JSON.stringify(this.shouldArray));
-    shouldArray = shouldArray.filter((query) => {
+    var mustArray = JSON.parse(JSON.stringify(this.mustArray));
+    mustArray = mustArray.filter((query) => {
       return !query.hasOwnProperty('terms');
     });
     var query = {
@@ -78,15 +81,21 @@ class ImmutableQuery {
         "aggs": this.aggs,
         "query": {
           "bool": {
-            "must": shouldArray
+            "must": mustArray
           }
         }
       }
     };
     return query;
   }
-  buildQuery(includeGeo, isExecuteQuery, shouldArray) {
-    var shouldArray = shouldArray ? shouldArray : this.shouldArray;
+  buildQuery(includeGeo, isExecuteQuery) {
+    var shouldArray = JSON.parse(JSON.stringify(this.shouldArray));
+    var mustObject = {
+      bool: {
+        must: this.mustArray
+      }
+    };
+    shouldArray.push(mustObject);
     this.query = {
       type: this.config.type,
       body: {
@@ -94,7 +103,8 @@ class ImmutableQuery {
         "aggs": this.aggs,
         "query": {
           "bool": {
-            "must": shouldArray
+            "should": shouldArray,
+            "minimum_should_match": 1
           }
         }
       }
@@ -128,8 +138,7 @@ class ImmutableQuery {
     var range = JSON.parse(`{"${key}":` + JSON.stringify(rangeObj) + '}');
     return { range };
   }
-  getShouldArrayIndex(key, value, type) {
-    var array = this.shouldArray;
+  getArrayIndex(array, key, value, type) {
     var obj = eval(`this.get${type}Object(key, value)`);
     var encode64 = btoa(JSON.stringify(obj));
     for (var i = 0; i < array.length; i++) {
