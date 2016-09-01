@@ -96,10 +96,18 @@ class ImmutableQuery {
       }
     };
     shouldArray.push(mustObject);
+    if(includeGeo) {
+      var geoFilter = {
+        bool: {
+          filter: this.filterArray
+        }
+      };
+      shouldArray.push(geoFilter)
+    }
     this.query = {
       type: this.config.type,
       body: {
-        "size": 100,
+        "size": 1000,
         "aggs": this.aggs,
         "query": {
           "bool": {
@@ -109,9 +117,6 @@ class ImmutableQuery {
         }
       }
     };
-    if(includeGeo) {
-      this.query.body.query.bool.filter = this.filterArray;
-    }
     if(isExecuteQuery) {
       emitter.emit('change', this.query);
     }

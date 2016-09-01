@@ -5,6 +5,7 @@ var config = require('./config.js');
 import {AppbaseList} from './app/sensors/AppbaseList';
 import {AppbaseSlider} from './app/sensors/AppbaseSlider';
 import {AppbaseSearch} from './app/sensors/AppbaseSearch';
+import {SearchAsMove} from './app/sensors/SearchAsMove';
 // actuators
 import {AppbaseMap} from './app/actuators/AppbaseMap';
 // middleware
@@ -94,6 +95,10 @@ class Main extends Component {
 							fieldName={this.state.mapping.venue}
 						 	extraQuery={this.state.extraQuery}  />
 					</div>
+					<div className="col s12">
+						<SearchAsMove  
+							sensorOnSelect={this.sensorOnSelect}/>
+					</div>
 				</div>
 				<div className="col s6" style={divStyle}>
 					<AppbaseMap
@@ -106,7 +111,9 @@ class Main extends Component {
 						onIndexMarker={this.onIndexMarker}
 						searchComponent="appbase"
 						searchField={this.state.mapping.venue}
-						extraQuery={this.state.extraQuery} />
+						selectedSensor={this.state.selectedSensor}
+						depends={{'city': this.state.mapping.city, 'SearchAsMove': 'SearchAsMove'}}
+						/>
 				</div>
 			</div>
 		);

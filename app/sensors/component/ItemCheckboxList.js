@@ -92,12 +92,14 @@ export class ItemCheckboxList extends Component {
         ref={"ref" + item.keyRef} />);
     }.bind(this));
     // Build the array of Tags for selected items
-    selectedItems.forEach(function (item) {
-      TagItemsArray.push(<Tag
-        key={item}
-        value={item}
-        onClick={this.handleTagClick} />);
-    }.bind(this));
+    if(this.props.showTags) {
+      selectedItems.forEach(function (item) {
+        TagItemsArray.push(<Tag
+          key={item}
+          value={item}
+          onClick={this.handleTagClick} />);
+      }.bind(this));
+    }
     return (
       <div>
         {TagItemsArray}
@@ -108,6 +110,10 @@ export class ItemCheckboxList extends Component {
     );
   }
 }
+
+ItemCheckboxList.defaultProps = {
+  showTags: true
+};
 
 class ListItem extends Component {
   constructor(props) {

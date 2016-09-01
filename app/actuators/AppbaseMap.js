@@ -21,6 +21,9 @@ export class AppbaseMap extends Component {
     };
     this.idelAllowed = false;
     var streamingInstance;
+    this.previousSelectedSensor = {};
+    this.allowReposition = false;
+    this.includeGeo = false;
     this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
@@ -32,6 +35,27 @@ export class AppbaseMap extends Component {
       }, self.getNewMarkers);
     });
   };
+  componentDidUpdate() {
+    var depends = this.props.depends;
+    for(let depend in depends) {
+      if(this.props.selectedSensor[depends[depend]] != this.previousSelectedSensor[depend]) {
+        this.previousSelectedSensor[depend] = this.props.selectedSensor[depends[depend]];
+        this.customDependChange(depend);
+      }
+    }
+  }
+
+  customDependChange(depend) {
+    switch(depend) {
+      case 'city' :
+        this.allowReposition = true;
+      break;
+      case 'SearchAsMove' :
+        this.includeGeo = this.previousSelectedSensor[depend];
+      break;
+    }
+    console.log(this.previousSelectedSensor);
+  }
 
   getNewMarkers() {
     var self = this;
@@ -149,11 +173,9 @@ export class AppbaseMap extends Component {
           streamingStatus: 'Fetching...'
         });
         // Get the new bounds of the map
-        // this.setState({
-        //   query: query
-        // }, function () {
-        //   this.getNewMarkers();
-        // });
+        if(this.includeGeo) {
+          queryObject.buildQuery(true, true);
+        }
       }
     } else {
       this.idelAllowed = true;
@@ -196,7 +218,14 @@ export class AppbaseMap extends Component {
     else {
       markerComponent = this.state.markers;
     }
-    searchComponentProps.center = this.state.center;
+    if(this.allowReposition) {
+      searchComponentProps.center = this.state.center;
+      setTimeout(()=> {
+        this.allowReposition = false;  
+      }, 1000)
+    } else {
+      delete searchComponentProps.center;
+    }
     if (this.props.searchComponent === "appbase") {
       appbaseSearch = <AppbaseSearch
         fieldName={this.props.searchField}
