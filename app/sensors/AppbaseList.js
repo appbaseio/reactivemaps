@@ -58,11 +58,12 @@ export class AppbaseList extends Component {
       };
       this.props.sensorOnSelect(obj);
     }
-    queryObject.addShouldClause(this.props.fieldName, value, this.type, this.props.includeGeo);
+    var isExecuteQuery = true;
+    queryObject.addShouldClause(this.props.fieldName, value, this.type, isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
   }
   // Handler function when a value is deselected or removed
   handleRemove(value, isExecuteQuery=false) {
-    queryObject.removeShouldClause(this.props.fieldName, value, this.type, isExecuteQuery, this.props.includeGeo);
+    queryObject.removeShouldClause(this.props.fieldName, value, this.type, isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
   }
   render() {
     // Checking if component is single select or multiple select

@@ -90,11 +90,11 @@ export class AppbaseSearch extends Component {
     else {
       // Remove the previous attached search value from ImmutableQuery
       if (this.state.currentValue) {
-        queryObject.removeShouldClause(this.props.fieldName, this.state.currentValue.value, "Match");
+        queryObject.removeShouldClause(this.props.fieldName, this.state.currentValue.value, "Match", this.props.isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
       }
       // Add the new search value to the ImmutableQuery
       if (currentValue)
-        queryObject.addShouldClause(this.props.fieldName, currentValue.value, "Match");
+        queryObject.addShouldClause(this.props.fieldName, currentValue.value, "Match", this.props.isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
     }
     this.setState({
       currentValue: currentValue

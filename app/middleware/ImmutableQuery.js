@@ -14,12 +14,12 @@ class ImmutableQuery {
   setConfig(config) {
     this.config = config;
   }
-  addShouldClause(key, value, type, includeGeo=false, isExecuteQuery=true, queryLevel="must") {
+  addShouldClause(key, value, type, isExecuteQuery=true, includeGeo=false, queryLevel="must") {
     if(value===undefined || value===null){
       return;
     }
     var obj = eval(`this.get${type}Object(key, value)`);
-    var arr = queryLevel === 'must' ? this.mustArray : this.shouldArray;
+    var arr = queryLevel === 'should' ? this.shouldArray : this.mustArray;
     arr.push(obj);
     return this.buildQuery(includeGeo, isExecuteQuery); 
   }
