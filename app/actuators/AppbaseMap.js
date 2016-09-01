@@ -62,10 +62,11 @@ export class AppbaseMap extends Component {
     self.searchQueryProgress = true;
     let newMarkersArray = [];
     var totalPosition = {lat: 0, lng: 0};
-    newMarkersArray = data.hits.hits.filter((hit, index) => {
-      return hit._source.hasOwnProperty(self.props.fieldName) && !(hit._source[self.props.fieldName].lat == 0 && hit._source[self.props.fieldName].lon == 0);
+    var markersData = data.hits.hits.filter((hit, index) => {
+      return hit._source.hasOwnProperty(self.props.fieldName) && !(hit._source[self.props.fieldName].lat === 0 && hit._source[self.props.fieldName].lon === 0);
     });
-    newMarkersArray = newMarkersArray.map((hit, index) => {
+    markersData = _.orderBy(markersData, [self.props.fieldName.lat], ['desc']);
+    newMarkersArray = markersData.map((hit, index) => {
       let field = hit._source[self.props.fieldName];
       // console.log(field.lat, field.lon);
       let position = {
@@ -77,19 +78,29 @@ export class AppbaseMap extends Component {
       totalPosition.lat += field.lat;
       totalPosition.lng += field.lon;
       return (
-        <Marker {...position} key={index} zIndex={1} />
+        <Marker {...position} key={index} zIndex={1}
+          onClick={() => self.props.markerOnClick(hit._source)} 
+          onDblclick={() => self.props.markerOnDblclick(hit._source)} 
+          onMouseover={() => self.props.markerOnMouseover(hit._source)}
+          onMouseout={() => self.props.markerOnMouseout(hit._source)} />
       )
     });
-    if(newMarkersArray.length) {
+    if(markersData.length) {
+      var median = parseInt(markersData.length/2, 10);
+      var selectedMarker = markersData[median];
       var defaultCenter = {
-        lat: Number((totalPosition.lat/newMarkersArray.length).toFixed(4)),
-        lng: Number((totalPosition.lng/newMarkersArray.length).toFixed(4))
+        lat: selectedMarker._source[self.props.fieldName].lat,
+        lng: selectedMarker._source[self.props.fieldName].lon
       };
+      console.log(defaultCenter.lat, defaultCenter.lng, newMarkersArray.length);
       self.setState({
         markers: newMarkersArray,
         center: defaultCenter
       }, function () {
-        self.startStreaming();
+        setTimeout(()=> {
+          self.allowReposition = false;  
+        }, 2000);
+        // self.startStreaming();
       });
     } else {
       self.setState({
@@ -183,9 +194,9 @@ export class AppbaseMap extends Component {
   // Handler function for bounds changed which udpates the map center
   handleBoundsChanged() {
     if(!this.searchQueryProgress) {
-      this.setState({
-        center: this.refs.map.getCenter()
-      });
+      // this.setState({
+      //   center: this.refs.map.getCenter()
+      // });
     } else {
       setTimeout(()=> {
         this.searchQueryProgress = false;
@@ -195,15 +206,15 @@ export class AppbaseMap extends Component {
   // Handler function which is fired when an input is selected from autocomplete google places 
   handlePlacesChanged() {
     const places = this.refs.searchBox.getPlaces();
-    this.setState({
-      center: places[0].geometry.location
-    });
+    // this.setState({
+    //   center: places[0].geometry.location
+    // });
   }
   // Handler function which is fired when an input is selected from Appbase geo search field
   handleSearch(location) {
-    this.setState({
-      center: new google.maps.LatLng(location.value.lat, location.value.lon)
-    });
+    // this.setState({
+    //   center: new google.maps.LatLng(location.value.lat, location.value.lon)
+    // });
   }
   render() {
     var markerComponent, searchComponent;
@@ -219,9 +230,7 @@ export class AppbaseMap extends Component {
     }
     if(this.allowReposition) {
       searchComponentProps.center = this.state.center;
-      setTimeout(()=> {
-        this.allowReposition = false;  
-      }, 1000)
+      console.log(searchComponentProps.center);
     } else {
       delete searchComponentProps.center;
     }
@@ -275,7 +284,7 @@ AppbaseMap.propTypes = {
   onDeleteMarker: React.PropTypes.func,
   onIndexMarker: React.PropTypes.func,
   markerCluster: React.PropTypes.bool,
-  historicalData: React.PropTypes.bool,
+  historicalData: React.PropTypes.bool
 };
 AppbaseMap.defaultProps = {
   historicalData: true,

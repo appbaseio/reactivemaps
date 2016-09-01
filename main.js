@@ -21,7 +21,8 @@ class Main extends Component {
 			mapping: {
 				city: 'group.group_city.raw',
 	    		topic: 'group.group_topics.topic_name_raw',
-	    		venue: 'venue_name_ngrams'
+	    		venue: 'venue_name_ngrams',
+	    		location: 'location'
 	    	},
 	    	zoom: 13,
 	    	selectedSensor: {}
@@ -33,7 +34,27 @@ class Main extends Component {
 	onIndexMarker(data) {}
 	// 2. Event after marker is deleted on map
 	onDeleteMarker(data) {}
-	
+	// 3. Event on click of marker
+	markerOnClick(data) {
+		alert('Click');
+		console.log(data);
+	}
+	// 4. Event on double click of marker
+	markerOnDblclick(data) {
+		alert('double clicked');
+		console.log(data);
+	}
+	// 5. Event on mouse enter of marker
+	markerOnMouseover(data) {
+		console.log('Mouse enter');
+		console.log(data);
+	}
+	// 6. Event on mouse leave of marker
+	markerOnMouseout(data) {
+		console.log('Mouse leave');
+		console.log(data);
+	}
+
 	// Events - related to sensors
 	// 1. Event on selection of sensor value
 	// Store selected values in selectedSensor state
@@ -99,13 +120,17 @@ class Main extends Component {
 				</div>
 				<div className="col s6" style={divStyle}>
 					<AppbaseMap
-						fieldName="location"
+						fieldName={this.state.mapping.location}
 						defaultZoom={13}
 						defaultCenter={{ lat: 37.74, lng: -122.45 }}
 						historicalData={true}
 						markerCluster={false}
 						onDeleteMarker={this.onDeleteMarker}
 						onIndexMarker={this.onIndexMarker}
+						markerOnClick={this.markerOnClick}
+						markerOnDblclick={this.markerOnDblclick}
+						markerOnMouseover={this.markerOnMouseover}
+						markerOnMouseout={this.markerOnMouseout}
 						searchComponent="appbase"
 						searchField={this.state.mapping.venue}
 						selectedSensor={this.state.selectedSensor}
