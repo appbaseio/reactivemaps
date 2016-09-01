@@ -13,30 +13,36 @@ import {queryObject} from './app/middleware/ImmutableQuery.js';
 class Main extends Component {
 	constructor(props) {
 		super(props);
-		this.onSelect = this.onSelect.bind(this);
+		this.sensorOnSelect = this.sensorOnSelect.bind(this);
 		this.state = {
-	    	city: 'group.group_city.raw',
+			mapping: {
+				city: 'group.group_city.raw',
+	    		topic: 'group.group_topics.topic_name_raw',
+	    		venue: 'venue_name_ngrams'
+	    	},
 	    	zoom: 13,
-	    	topic: 'group.group_topics.topic_name_raw',
 	    	selectedSensor: {}
 	    };
 	}
-	onIndex(data) {
 
-	}
-	onDelete(data) {
-
-	}
+	// Events - related to actuators
+	// 1. Event after marker is created on map
+	onIndexMarker(data) {}
+	// 2. Event after marker is deleted on map
+	onDeleteMarker(data) {}
+	
+	// Events - related to sensors
+	// 1. Event on selection of sensor value
 	// Store selected values in selectedSensor state
 	// according to that create extraquery which we can use in venue to filter by that query
 	// venue should be filter by cityname
-	onSelect(data) {
+	sensorOnSelect(data) {
 		var selectedSensor = this.state.selectedSensor;
 		selectedSensor[data.key] = data.value;
 		var stateObj = {
 			'selectedSensor': selectedSensor
 		};
-		if(data.key === this.state.city) {
+		if(data.key === this.state.mapping.city) {
 			var extraQuery = queryObject.getTermObject(data.key, data.value);
 			stateObj.extraQuery = extraQuery;
 		}
@@ -46,8 +52,7 @@ class Main extends Component {
 		var divStyle = {
 			height: "100%"
 		};
-		var includeGeo = this.state.selectedSensor[this.state.city] ? false : true;
-          
+		var includeGeo = this.state.selectedSensor[this.state.mapping.city] ? false : true;
 		return (
 			<div className="row m-0" style={divStyle}>
 				<ReactiveMap config={config} />
@@ -55,26 +60,26 @@ class Main extends Component {
 					<div className="row" style={divStyle}>
 						<div className="col s6">
 							<h5> Cities (Single Select) </h5>
-							<AppbaseList 
+							<AppbaseList
 								defaultSelected="London"
-								onSelect={this.onSelect} 
-								fieldName={this.state.city} 
+								fieldName={this.state.mapping.city} 
 								showCount={true} 
 								size={1000} 
 								multipleSelect={false} 
-								topicField={this.state.topic}
-								selectedSensor={this.state.selectedSensor} 
-								includeGeo={false} />
+								topicField={this.state.mapping.topic}
+								includeGeo={false} 
+								sensorOnSelect={this.sensorOnSelect} 
+								selectedSensor={this.state.selectedSensor} />
 						</div>
 						<div className="col s6">
 							<h5> Topics (Multiple Select)</h5>
 							<AppbaseList
-								onSelect={this.onSelect} 
-								fieldName={this.state.topic} 
-								selectedSensor={this.state.selectedSensor} 
-								cityField={this.state.city}  
+								fieldName={this.state.mapping.topic} 
+								cityField={this.state.mapping.city}  
 								multipleSelect={true} 
-								showCount={true} includeGeo={includeGeo} />
+								showCount={true} includeGeo={includeGeo} 
+								sensorOnSelect={this.sensorOnSelect} 
+								selectedSensor={this.state.selectedSensor} />
 						</div>
 					</div>
 					<div className="col s12">
@@ -83,7 +88,8 @@ class Main extends Component {
 					</div><br/><br/><br/>
 					<div className="col s12">
 						<h5> Select Venue </h5>					
-						<AppbaseSearch fieldName="venue_name_ngrams"
+						<AppbaseSearch
+							fieldName={this.state.mapping.venue}
 						 	extraQuery={this.state.extraQuery}  />
 					</div>
 				</div>
@@ -94,10 +100,10 @@ class Main extends Component {
 						defaultCenter={{ lat: 37.74, lng: -122.45 }}
 						historicalData={true}
 						markerCluster={false}
-						onDelete={this.onDelete}
+						onDeleteMarker={this.onDeleteMarker}
+						onIndexMarker={this.onIndexMarker}
 						searchComponent="appbase"
-						searchField="venue_name_ngrams"
-						onIndex={this.onIndex} 
+						searchField={this.state.mapping.venue}
 						extraQuery={this.state.extraQuery} />
 				</div>
 			</div>

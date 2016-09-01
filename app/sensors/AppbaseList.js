@@ -51,12 +51,12 @@ export class AppbaseList extends Component {
   }
   // Handler function when a value is selected
   handleSelect(value) {
-    if(this.props.onSelect) {
+    if(this.props.sensorOnSelect) {
       var obj = {
         key: this.props.fieldName,
         value: value
       };
-      this.props.onSelect(obj);
+      this.props.sensorOnSelect(obj);
     }
     queryObject.addShouldClause(this.props.fieldName, value, this.type, this.props.includeGeo);
   }
