@@ -45,10 +45,6 @@ class Main extends Component {
 		var stateObj = {
 			'selectedSensor': selectedSensor
 		};
-		if(data.key === this.state.mapping.city) {
-			var extraQuery = queryObject.getTermObject(data.key, data.value);
-			stateObj.extraQuery = extraQuery;
-		}
 		this.setState(stateObj);
 	}
 	render() {
@@ -93,7 +89,8 @@ class Main extends Component {
 						<h5> Select Venue </h5>					
 						<AppbaseSearch
 							fieldName={this.state.mapping.venue}
-						 	extraQuery={this.state.extraQuery}  />
+							selectedSensor={this.state.selectedSensor}
+							depends={{'city': this.state.mapping.city}}  />
 					</div>
 					<div className="col s12">
 						<SearchAsMove  

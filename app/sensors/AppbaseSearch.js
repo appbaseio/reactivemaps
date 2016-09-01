@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import {queryObject} from '../middleware/ImmutableQuery.js';
 import Select from 'react-select';
 var helper = require('../middleware/helper.js');
+var watchForDependencyChange = require('../middleware/WatchForDependencyChange.js');
 
 export class AppbaseSearch extends Component {
   constructor(props) {
@@ -13,11 +14,26 @@ export class AppbaseSearch extends Component {
     };
     this.getItems = this.getItems.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-
+    this.customDependChange = this.customDependChange.bind(this);
+    this.previousSelectedSensor = {};
   }
   componentDidUpdate() {
-    
+    var depends = this.props.depends;
+    var selectedSensor = this.props.selectedSensor;
+    if(depends && selectedSensor) {
+      watchForDependencyChange.init(depends, selectedSensor, this.previousSelectedSensor, this.customDependChange);
+    }
   }
+  
+  // Custom event after dependency changes
+  customDependChange(depend) {
+    switch(depend) {
+      case 'city' :
+        this.extraQuery = queryObject.getTermObject(this.previousSelectedSensor[depend].key, this.previousSelectedSensor[depend].value);
+      break;
+    }
+  }
+
   // Builds the query for the search by taking search input as query input
   // For autocomplete to work, field should be mapped to Ngram 
   getQuery(input) {
@@ -39,8 +55,8 @@ export class AppbaseSearch extends Component {
         }
       }
     }`);
-    if(this.props.extraQuery) {
-      query.body.query.bool.must = query.body.query.bool.must.concat(this.props.extraQuery);
+    if(this.extraQuery) {
+      query.body.query.bool.must = query.body.query.bool.must.concat(this.extraQuery);
     }
     return query;
   }

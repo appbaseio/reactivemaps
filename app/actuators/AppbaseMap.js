@@ -6,6 +6,7 @@ import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerC
 import {queryObject, emitter} from '../middleware/ImmutableQuery.js';
 import {AppbaseSearch} from '../sensors/AppbaseSearch';
 var helper = require('../middleware/helper.js');
+var watchForDependencyChange = require('../middleware/WatchForDependencyChange.js');
 var Style = require('../helper/Style.js');
 
 export class AppbaseMap extends Component {
@@ -25,6 +26,7 @@ export class AppbaseMap extends Component {
     this.allowReposition = false;
     this.includeGeo = false;
     this.handleSearch = this.handleSearch.bind(this);
+    this.customDependChange = this.customDependChange.bind(this);
   }
   componentDidMount() {
     var self = this;
@@ -37,11 +39,9 @@ export class AppbaseMap extends Component {
   };
   componentDidUpdate() {
     var depends = this.props.depends;
-    for(let depend in depends) {
-      if(this.props.selectedSensor[depends[depend]] != this.previousSelectedSensor[depend]) {
-        this.previousSelectedSensor[depend] = this.props.selectedSensor[depends[depend]];
-        this.customDependChange(depend);
-      }
+    var selectedSensor = this.props.selectedSensor;
+    if(depends && selectedSensor) {
+      watchForDependencyChange.init(depends, selectedSensor, this.previousSelectedSensor, this.customDependChange);
     }
   }
 
@@ -51,7 +51,7 @@ export class AppbaseMap extends Component {
         this.allowReposition = true;
       break;
       case 'SearchAsMove' :
-        this.includeGeo = this.previousSelectedSensor[depend];
+        this.includeGeo = this.previousSelectedSensor[depend].value;
       break;
     }
     console.log(this.previousSelectedSensor);
