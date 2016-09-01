@@ -1,32 +1,37 @@
 var {EventEmitter} = require('fbemitter');
 export var emitter = new EventEmitter();
+var helper = require('./helper.js');
 
 class ImmutableQuery {
   constructor() {
     this.shouldArray = [];
+    this.mustArray = [];
     this.filterArray = [];
     this.config = [];
     this.aggs = {};
+    this.queryListener();
   }
   setConfig(config) {
     this.config = config;
   }
-  addShouldClause(key, value, type, includeGeo=false, isExecuteQuery=true) {
+  addShouldClause(key, value, type, isExecuteQuery=true, includeGeo=false, queryLevel="must") {
     if(value===undefined || value===null){
       return;
     }
     var obj = eval(`this.get${type}Object(key, value)`);
-    this.shouldArray.push(obj);
+    var arr = queryLevel === 'should' ? this.shouldArray : this.mustArray;
+    arr.push(obj);
     return this.buildQuery(includeGeo, isExecuteQuery); 
   }
 
-  removeShouldClause(key, value, type, isExecuteQuery=false, includeGeo=false) {
+  removeShouldClause(key, value, type, isExecuteQuery=false, includeGeo=false, queryLevel="must") {
     if(value===undefined || value===null){
       return;
     }
-    var index = this.getShouldArrayIndex(key, value, type); 
+    var arr = queryLevel === 'must' ? this.mustArray : this.shouldArray;
+    var index = this.getArrayIndex(arr, key, value, type); 
     if(index >= 0) {
-      this.shouldArray.splice(index, 1);
+      arr.splice(index, 1);
     }
     return this.buildQuery(includeGeo, isExecuteQuery);
   }
@@ -65,8 +70,8 @@ class ImmutableQuery {
         }
       }
     }`);
-    var shouldArray = JSON.parse(JSON.stringify(this.shouldArray));
-    shouldArray = shouldArray.filter((query) => {
+    var mustArray = JSON.parse(JSON.stringify(this.mustArray));
+    mustArray = mustArray.filter((query) => {
       return !query.hasOwnProperty('terms');
     });
     var query = {
@@ -76,30 +81,42 @@ class ImmutableQuery {
         "aggs": this.aggs,
         "query": {
           "bool": {
-            "must": shouldArray
+            "must": mustArray
           }
         }
       }
     };
     return query;
   }
-  buildQuery(includeGeo, isExecuteQuery, shouldArray) {
-    var shouldArray = shouldArray ? shouldArray : this.shouldArray;
+  buildQuery(includeGeo, isExecuteQuery) {
+    var shouldArray = JSON.parse(JSON.stringify(this.shouldArray));
+    var mustObject = {
+      bool: {
+        must: this.mustArray
+      }
+    };
+    shouldArray.push(mustObject);
+    if(includeGeo) {
+      var geoFilter = {
+        bool: {
+          filter: this.filterArray
+        }
+      };
+      shouldArray.push(geoFilter)
+    }
     this.query = {
       type: this.config.type,
       body: {
-        "size": 100,
+        "size": 1000,
         "aggs": this.aggs,
         "query": {
           "bool": {
-            "must": shouldArray
+            "should": shouldArray,
+            "minimum_should_match": 1
           }
         }
       }
     };
-    if(includeGeo) {
-      this.query.body.query.bool.filter = this.filterArray;
-    }
     if(isExecuteQuery) {
       emitter.emit('change', this.query);
     }
@@ -126,8 +143,7 @@ class ImmutableQuery {
     var range = JSON.parse(`{"${key}":` + JSON.stringify(rangeObj) + '}');
     return { range };
   }
-  getShouldArrayIndex(key, value, type) {
-    var array = this.shouldArray;
+  getArrayIndex(array, key, value, type) {
     var obj = eval(`this.get${type}Object(key, value)`);
     var encode64 = btoa(JSON.stringify(obj));
     for (var i = 0; i < array.length; i++) {
@@ -136,6 +152,25 @@ class ImmutableQuery {
       }
     }
     return -1;
+  }
+  // Listener for query change
+  queryListener() {
+    emitter.addListener('change', function(query) {
+      this.executeQuery(query)
+    }.bind(this));
+  }
+  // Execute query on query change
+  executeQuery(reqObject) {
+    // delete aggrefation query if exists
+    if(reqObject.body && reqObject.body.hasOwnProperty('aggs')) {
+      delete reqObject.body.aggs;
+    }
+    // apply search query and emit queryResult
+    helper.appbaseRef.search(reqObject).on('data', function(data) {
+      emitter.emit('queryResult', data);
+    }).on('error', function(error) {
+      console.log(error);
+    });
   }
 }
 

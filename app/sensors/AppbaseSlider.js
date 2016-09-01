@@ -26,9 +26,9 @@ export class AppbaseSlider extends Component {
   // Handle function when slider option change is completed
   handleResults(component, values) {
     // Remove the last Range query
-    queryObject.removeShouldClause(this.props.fieldName, this.state.currentValues, "Range", false, false);
+    queryObject.removeShouldClause(this.props.fieldName, this.state.currentValues, "Range", this.props.isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
     // Add new should query    
-    queryObject.addShouldClause(this.props.fieldName, values, "Range");
+    queryObject.addShouldClause(this.props.fieldName, values, "Range", this.props.isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
     this.setState({
       currentValues: values
     });

@@ -13,11 +13,26 @@ export class AppbaseSearch extends Component {
     };
     this.getItems = this.getItems.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-
+    this.customDependChange = this.customDependChange.bind(this);
+    this.previousSelectedSensor = {};
   }
   componentDidUpdate() {
-    
+    var depends = this.props.depends;
+    var selectedSensor = this.props.selectedSensor;
+    if(depends && selectedSensor) {
+      helper.watchForDependencyChange(depends, selectedSensor, this.previousSelectedSensor, this.customDependChange);
+    }
   }
+
+  // Custom event after dependency changes
+  customDependChange(depend) {
+    switch(depend) {
+      case 'city' :
+        this.extraQuery = queryObject.getTermObject(this.previousSelectedSensor[depend].key, this.previousSelectedSensor[depend].value);
+      break;
+    }
+  }
+
   // Builds the query for the search by taking search input as query input
   // For autocomplete to work, field should be mapped to Ngram 
   getQuery(input) {
@@ -39,8 +54,8 @@ export class AppbaseSearch extends Component {
         }
       }
     }`);
-    if(this.props.extraQuery) {
-      query.body.query.bool.must = query.body.query.bool.must.concat(this.props.extraQuery);
+    if(this.extraQuery) {
+      query.body.query.bool.must = query.body.query.bool.must.concat(this.extraQuery);
     }
     return query;
   }
@@ -90,11 +105,11 @@ export class AppbaseSearch extends Component {
     else {
       // Remove the previous attached search value from ImmutableQuery
       if (this.state.currentValue) {
-        queryObject.removeShouldClause(this.props.fieldName, this.state.currentValue.value, "Match");
+        queryObject.removeShouldClause(this.props.fieldName, this.state.currentValue.value, "Match", this.props.isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
       }
       // Add the new search value to the ImmutableQuery
       if (currentValue)
-        queryObject.addShouldClause(this.props.fieldName, currentValue.value, "Match");
+        queryObject.addShouldClause(this.props.fieldName, currentValue.value, "Match", this.props.isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
     }
     this.setState({
       currentValue: currentValue

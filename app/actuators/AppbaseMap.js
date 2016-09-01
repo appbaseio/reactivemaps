@@ -16,79 +16,102 @@ export class AppbaseMap extends Component {
       selectedMarker: null,
       streamingStatus: 'Intializing..',
       center: this.props.defaultCenter,
-      query: {}
+      query: {},
+      rawData: {}
     };
     this.idelAllowed = false;
     var streamingInstance;
+    this.previousSelectedSensor = {};
+    this.allowReposition = false;
+    this.includeGeo = false;
     this.handleSearch = this.handleSearch.bind(this);
+    this.customDependChange = this.customDependChange.bind(this);
   }
   componentDidMount() {
     var self = this;
     // Listen to change in the query
-    emitter.addListener('change', function (query) {
+    emitter.addListener('queryResult', function (data) {
       self.setState({
-        query: query
-      }, function () {
-        // Get the new markers when the query has changed
-        self.getNewMarkers();
-      });
+        rawData: data
+      }, self.getNewMarkers);
     });
   };
+  componentDidUpdate() {
+    var depends = this.props.depends;
+    var selectedSensor = this.props.selectedSensor;
+    if(depends && selectedSensor) {
+      helper.watchForDependencyChange(depends, selectedSensor, this.previousSelectedSensor, this.customDependChange);
+    }
+  }
+
+  customDependChange(depend) {
+    switch(depend) {
+      case 'city' :
+        this.allowReposition = true;
+      break;
+      case 'SearchAsMove' :
+        this.includeGeo = this.previousSelectedSensor[depend].value;
+      break;
+    }
+    console.log(this.previousSelectedSensor);
+  }
 
   getNewMarkers() {
     var self = this;
-    // Check if user has requested Historical data, then fetch from Appbase
-    if (this.props.historicalData == true) {
-      var reqObject = this.state.query
-      // Delete aggs part of the request as it will be irrelevant for Map query
-      delete reqObject.body.aggs;
-      helper.appbaseRef.search(reqObject).on('data', function (data) {
-        console.log('Length', data.hits.hits.length);
-        self.searchQueryProgress = true;
-        let newMarkersArray = [];
-        var totalPosition = {lat: 0, lng: 0};
-        newMarkersArray = data.hits.hits.filter((hit, index) => {
-          return hit._source.hasOwnProperty(self.props.fieldName) && !(hit._source[self.props.fieldName].lat == 0 && hit._source[self.props.fieldName].lon == 0);
-        });
-        newMarkersArray = newMarkersArray.map((hit, index) => {
-          let field = hit._source[self.props.fieldName];
-          // console.log(field.lat, field.lon);
-          let position = {
-            position: {
-              lat: field.lat,
-              lng: field.lon
-            }
-          }
-          totalPosition.lat += field.lat;
-          totalPosition.lng += field.lon;
-          return (
-            <Marker {...position} key={index} zIndex={1} />
-          )
-        });
-        if(newMarkersArray.length) {
-          var defaultCenter = {
-            lat: Number((totalPosition.lat/newMarkersArray.length).toFixed(4)),
-            lng: Number((totalPosition.lng/newMarkersArray.length).toFixed(4))
-          };
-          self.setState({
-            markers: newMarkersArray,
-            center: defaultCenter
-          }, function () {
-            self.startStreaming();
-          });
-        } else {
-          self.setState({
-            markers: newMarkersArray
-          });
+    var data = this.state.rawData;
+    self.searchQueryProgress = true;
+    let newMarkersArray = [];
+    var totalPosition = {lat: 0, lng: 0};
+    newMarkersArray = data.hits.hits.filter((hit, index) => {
+      return hit._source.hasOwnProperty(self.props.fieldName) && !(hit._source[self.props.fieldName].lat == 0 && hit._source[self.props.fieldName].lon == 0);
+    });
+    newMarkersArray = newMarkersArray.map((hit, index) => {
+      let field = hit._source[self.props.fieldName];
+      // console.log(field.lat, field.lon);
+      let position = {
+        position: {
+          lat: field.lat,
+          lng: field.lon
         }
-      }).on('error', function (error) {
-        console.log(error)
+      }
+      totalPosition.lat += field.lat;
+      totalPosition.lng += field.lon;
+      return (
+        <Marker {...position} key={index} zIndex={1} />
+      )
+    });
+    if(newMarkersArray.length) {
+      var defaultCenter = {
+        lat: Number((totalPosition.lat/newMarkersArray.length).toFixed(4)),
+        lng: Number((totalPosition.lng/newMarkersArray.length).toFixed(4))
+      };
+      self.setState({
+        markers: newMarkersArray,
+        center: defaultCenter
+      }, function () {
+        self.startStreaming();
+      });
+    } else {
+      self.setState({
+        markers: newMarkersArray
       });
     }
-    // else start the realtime streaming
-    else {
-      this.startStreaming()
-    }
+    // Check if user has requested Historical data, then fetch from Appbase
+    // if (this.props.historicalData == true) {
+    //   var reqObject = this.state.query
+    //   // Delete aggs part of the request as it will be irrelevant for Map query
+    //   delete reqObject.body.aggs;
+    //   helper.appbaseRef.search(reqObject).on('data', function (data) {
+    //     console.log('Length', data.hits.hits.length);
+        
+    //   }).on('error', function (error) {
+    //     console.log(error)
+    //   });
+    // }
+    // // else start the realtime streaming
+    // else {
+    //   this.startStreaming()
+    // }
   }
   startStreaming() {
     var self = this;
@@ -117,11 +140,11 @@ export class AppbaseMap extends Component {
       if (stream._deleted == true) {
         var deleteIndex = newMarkersArray.indexOf(newMarker);
         newMarkersArray.splice(deleteIndex, 1);
-        self.props.onDelete(positionMarker);
+        self.props.onDeleteMarker(positionMarker);
       }
       else {
         newMarkersArray.push(newMarker)
-        self.props.onIndex(positionMarker);
+        self.props.onIndexMarker(positionMarker);
       }
       self.setState({
         markers: newMarkersArray,
@@ -149,11 +172,9 @@ export class AppbaseMap extends Component {
           streamingStatus: 'Fetching...'
         });
         // Get the new bounds of the map
-        this.setState({
-          query: query
-        }, function () {
-          this.getNewMarkers();
-        });
+        if(this.includeGeo) {
+          queryObject.buildQuery(true, true);
+        }
       }
     } else {
       this.idelAllowed = true;
@@ -196,7 +217,14 @@ export class AppbaseMap extends Component {
     else {
       markerComponent = this.state.markers;
     }
-    searchComponentProps.center = this.state.center;
+    if(this.allowReposition) {
+      searchComponentProps.center = this.state.center;
+      setTimeout(()=> {
+        this.allowReposition = false;  
+      }, 1000)
+    } else {
+      delete searchComponentProps.center;
+    }
     if (this.props.searchComponent === "appbase") {
       appbaseSearch = <AppbaseSearch
         fieldName={this.props.searchField}
@@ -244,8 +272,8 @@ AppbaseMap.propTypes = {
   fieldName: React.PropTypes.string.isRequired,
   searchField: React.PropTypes.string,
   searchComponent: React.PropTypes.string,
-  onDelete: React.PropTypes.func,
-  onIndex: React.PropTypes.func,
+  onDeleteMarker: React.PropTypes.func,
+  onIndexMarker: React.PropTypes.func,
   markerCluster: React.PropTypes.bool,
   historicalData: React.PropTypes.bool,
 };

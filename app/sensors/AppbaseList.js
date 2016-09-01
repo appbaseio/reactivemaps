@@ -12,10 +12,10 @@ export class AppbaseList extends Component {
     this.state = {
       items: []
     };
-    this.selectedSensor = {};
+    this.previousSelectedSensor = {};
     this.handleSelect = this.handleSelect.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.topicUpdate = this.topicUpdate.bind(this);
+    this.customDependChange = this.customDependChange.bind(this);
     this.type = this.props.multipleSelect ? 'Terms' : 'Term';
   }
   // Get the items from Appbase when component is mounted
@@ -23,14 +23,18 @@ export class AppbaseList extends Component {
     this.getItems();
   }
   componentDidUpdate() {
-    this.topicUpdate();
+    var depends = this.props.depends;
+    var selectedSensor = this.props.selectedSensor;
+    if(depends && selectedSensor) {
+      helper.watchForDependencyChange(depends, selectedSensor, this.previousSelectedSensor, this.customDependChange);
+    }
   }
-  // update topics on selecting city
-  topicUpdate() {
-    if(this.props.selectedSensor && this.props.cityField && this.props.selectedSensor.hasOwnProperty(this.props.cityField) && this.props.selectedSensor[this.props.cityField] !== this.selectedSensor[this.props.cityField]) {
-      this.selectedSensor = JSON.parse(JSON.stringify(this.props.selectedSensor));
-      console.log(this.props.fieldName, this.props.selectedSensor);
-      this.getItems();
+  // Custom event after dependency changes
+  customDependChange(depend) {
+    switch(depend) {
+      case 'city' :
+        this.getItems();
+      break;
     }
   }
   getItems() {
@@ -51,18 +55,19 @@ export class AppbaseList extends Component {
   }
   // Handler function when a value is selected
   handleSelect(value) {
-    if(this.props.onSelect) {
+    if(this.props.sensorOnSelect) {
       var obj = {
         key: this.props.fieldName,
         value: value
       };
-      this.props.onSelect(obj);
+      this.props.sensorOnSelect(obj);
     }
-    queryObject.addShouldClause(this.props.fieldName, value, this.type, this.props.includeGeo);
+    var isExecuteQuery = true;
+    queryObject.addShouldClause(this.props.fieldName, value, this.type, isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
   }
   // Handler function when a value is deselected or removed
   handleRemove(value, isExecuteQuery=false) {
-    queryObject.removeShouldClause(this.props.fieldName, value, this.type, isExecuteQuery, this.props.includeGeo);
+    queryObject.removeShouldClause(this.props.fieldName, value, this.type, isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
   }
   render() {
     // Checking if component is single select or multiple select
