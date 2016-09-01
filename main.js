@@ -65,20 +65,20 @@ class Main extends Component {
 								showCount={true} 
 								size={1000} 
 								multipleSelect={false} 
-								topicField={this.state.mapping.topic}
 								includeGeo={false} 
 								sensorOnSelect={this.sensorOnSelect} 
-								selectedSensor={this.state.selectedSensor} />
+								selectedSensor={this.state.selectedSensor}
+								depends={{'topic': this.state.mapping.topic}}  />
 						</div>
 						<div className="col s6">
 							<h5> Topics (Multiple Select)</h5>
 							<AppbaseList
 								fieldName={this.state.mapping.topic} 
-								cityField={this.state.mapping.city}  
 								multipleSelect={true} 
 								showCount={true} includeGeo={includeGeo} 
 								sensorOnSelect={this.sensorOnSelect} 
-								selectedSensor={this.state.selectedSensor} />
+								selectedSensor={this.state.selectedSensor}
+								depends={{'city': this.state.mapping.city}} />
 						</div>
 					</div>
 					<div className="col s12">

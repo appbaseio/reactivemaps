@@ -12,10 +12,10 @@ export class AppbaseList extends Component {
     this.state = {
       items: []
     };
-    this.selectedSensor = {};
+    this.previousSelectedSensor = {};
     this.handleSelect = this.handleSelect.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.topicUpdate = this.topicUpdate.bind(this);
+    this.customDependChange = this.customDependChange.bind(this);
     this.type = this.props.multipleSelect ? 'Terms' : 'Term';
   }
   // Get the items from Appbase when component is mounted
@@ -23,14 +23,18 @@ export class AppbaseList extends Component {
     this.getItems();
   }
   componentDidUpdate() {
-    this.topicUpdate();
+    var depends = this.props.depends;
+    var selectedSensor = this.props.selectedSensor;
+    if(depends && selectedSensor) {
+      helper.watchForDependencyChange(depends, selectedSensor, this.previousSelectedSensor, this.customDependChange);
+    }
   }
-  // update topics on selecting city
-  topicUpdate() {
-    if(this.props.selectedSensor && this.props.cityField && this.props.selectedSensor.hasOwnProperty(this.props.cityField) && this.props.selectedSensor[this.props.cityField] !== this.selectedSensor[this.props.cityField]) {
-      this.selectedSensor = JSON.parse(JSON.stringify(this.props.selectedSensor));
-      console.log(this.props.fieldName, this.props.selectedSensor);
-      this.getItems();
+  // Custom event after dependency changes
+  customDependChange(depend) {
+    switch(depend) {
+      case 'city' :
+        this.getItems();
+      break;
     }
   }
   getItems() {
