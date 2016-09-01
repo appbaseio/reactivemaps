@@ -78,7 +78,11 @@ export class AppbaseMap extends Component {
       totalPosition.lat += field.lat;
       totalPosition.lng += field.lon;
       return (
-        <Marker {...position} key={index} zIndex={1} />
+        <Marker {...position} key={index} zIndex={1}
+          onClick={() => self.props.markerOnClick(hit._source)} 
+          onDblclick={() => self.props.markerOnDblclick(hit._source)} 
+          onMouseover={() => self.props.markerOnMouseover(hit._source)}
+          onMouseout={() => self.props.markerOnMouseout(hit._source)} />
       )
     });
     if(markersData.length) {
