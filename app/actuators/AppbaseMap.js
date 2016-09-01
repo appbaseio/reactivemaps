@@ -6,7 +6,6 @@ import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerC
 import {queryObject, emitter} from '../middleware/ImmutableQuery.js';
 import {AppbaseSearch} from '../sensors/AppbaseSearch';
 var helper = require('../middleware/helper.js');
-var watchForDependencyChange = require('../middleware/WatchForDependencyChange.js');
 var Style = require('../helper/Style.js');
 
 export class AppbaseMap extends Component {
@@ -41,7 +40,7 @@ export class AppbaseMap extends Component {
     var depends = this.props.depends;
     var selectedSensor = this.props.selectedSensor;
     if(depends && selectedSensor) {
-      watchForDependencyChange.init(depends, selectedSensor, this.previousSelectedSensor, this.customDependChange);
+      helper.watchForDependencyChange(depends, selectedSensor, this.previousSelectedSensor, this.customDependChange);
     }
   }
 

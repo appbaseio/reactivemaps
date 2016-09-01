@@ -3,7 +3,6 @@ import { render } from 'react-dom';
 import {queryObject} from '../middleware/ImmutableQuery.js';
 import Select from 'react-select';
 var helper = require('../middleware/helper.js');
-var watchForDependencyChange = require('../middleware/WatchForDependencyChange.js');
 
 export class AppbaseSearch extends Component {
   constructor(props) {
@@ -21,10 +20,10 @@ export class AppbaseSearch extends Component {
     var depends = this.props.depends;
     var selectedSensor = this.props.selectedSensor;
     if(depends && selectedSensor) {
-      watchForDependencyChange.init(depends, selectedSensor, this.previousSelectedSensor, this.customDependChange);
+      helper.watchForDependencyChange(depends, selectedSensor, this.previousSelectedSensor, this.customDependChange);
     }
   }
-  
+
   // Custom event after dependency changes
   customDependChange(depend) {
     switch(depend) {
