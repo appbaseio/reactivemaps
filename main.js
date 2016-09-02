@@ -6,12 +6,12 @@ import {AppbaseList} from './app/sensors/AppbaseList';
 import {AppbaseSlider} from './app/sensors/AppbaseSlider';
 import {AppbaseSearch} from './app/sensors/AppbaseSearch';
 import {SearchAsMove} from './app/sensors/SearchAsMove';
+import {MapStyles} from './app/sensors/MapStyles';
 // actuators
 import {AppbaseMap} from './app/actuators/AppbaseMap';
 // middleware
 import {ReactiveMap} from './app/middleware/ReactiveMap';
 import {queryObject} from './app/middleware/ImmutableQuery.js';
-var fancyMap = require('./app/helper/fancyMapStyles.js');
 
 class Main extends Component {
 	constructor(props) {
@@ -114,6 +114,11 @@ class Main extends Component {
 							depends={{'city': this.state.mapping.city}}  />
 					</div>
 					<div className="col s12">
+						<h5> Map styles </h5>
+						<MapStyles sensorOnSelect={this.sensorOnSelect} />
+					</div>
+					<div className="col s12">
+						<h5> Search with move </h5>					
 						<SearchAsMove  
 							sensorOnSelect={this.sensorOnSelect}/>
 					</div>
@@ -134,10 +139,11 @@ class Main extends Component {
 						searchComponent="appbase"
 						searchField={this.state.mapping.venue}
 						selectedSensor={this.state.selectedSensor}
-						depends={{'city': this.state.mapping.city, 'SearchAsMove': 'SearchAsMove'}}
-						defaultOptions={{
-				          styles: fancyMap
-				        }}
+						depends={{
+							'city': this.state.mapping.city, 
+							'SearchAsMove': 'SearchAsMove',
+							'MapStyles': 'MapStyles'
+						}}
 						/>
 				</div>
 			</div>

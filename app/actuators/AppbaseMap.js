@@ -24,6 +24,7 @@ export class AppbaseMap extends Component {
     this.previousSelectedSensor = {};
     this.allowReposition = false;
     this.includeGeo = false;
+    this.styleOptions = null;
     this.handleSearch = this.handleSearch.bind(this);
     this.customDependChange = this.customDependChange.bind(this);
   }
@@ -51,6 +52,12 @@ export class AppbaseMap extends Component {
       break;
       case 'SearchAsMove' :
         this.includeGeo = this.previousSelectedSensor[depend].value;
+      break;
+      case 'MapStyles' :
+        this.styleOptions = this.previousSelectedSensor[depend].value;
+        this.setState({
+          styleOptions: this.styleOptions
+        });
       break;
     }
     console.log(this.previousSelectedSensor);
@@ -220,6 +227,7 @@ export class AppbaseMap extends Component {
     var markerComponent, searchComponent;
     let appbaseSearch;
     var searchComponentProps = {};
+    var otherOptions;
     if (this.props.markerCluster) {
       markerComponent = <MarkerClusterer averageCenter enableRetinaIcons gridSize={ 60 } >
         {this.state.markers}
@@ -255,6 +263,12 @@ export class AppbaseMap extends Component {
       />;
       searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
   }
+
+  if(this.styleOptions) {
+    otherOptions = {
+      styles: this.styleOptions
+    };
+  }
   return(
     <div className="map-container" style={Style.fullHeightDiv}>
       {appbaseSearch}
@@ -263,11 +277,13 @@ export class AppbaseMap extends Component {
           <div {...this.props} style={Style.fullHeightDiv} />
         }
         googleMapElement={<GoogleMap ref = "map"
+          options={otherOptions}
           {...searchComponentProps}
           {...this.props}
           onIdle = {:: this.handleOnIdle}>
           {searchComponent}
           {markerComponent}
+
       </GoogleMap>}/>
       <div style= { Style.divStatusStyle } ref= "status" > { this.state.streamingStatus } </div >
       <div style={Style.divAppbaseStyle} >
