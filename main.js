@@ -111,7 +111,7 @@ class Main extends Component {
 					</div>
 					<div className="col s12">
 						<h5> Range of guests </h5>
-						<AppbaseSlider fieldName="guests" />
+						<AppbaseSlider fieldName="guests" max="10" />
 					</div><br/><br/><br/>
 					<div className="col s12">
 						<h5> Select Venue </h5>					
@@ -140,7 +140,7 @@ class Main extends Component {
 						defaultZoom={13}
 						defaultCenter={{ lat: 37.74, lng: -122.45 }}
 						historicalData={true}
-						markerCluster={false}
+						markerCluster={true}
 						markerOnDelete={this.markerOnDelete}
 						markerOnIndex={this.markerOnIndex}
 						markerOnClick={this.markerOnClick}
