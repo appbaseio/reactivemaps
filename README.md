@@ -26,7 +26,8 @@ and then use the AppbaseMap component
     markerOnClick={this.markerOnClick}
     markerOnDblclick={this.markerOnDblclick}
     markerOnMouseover={this.markerOnMouseover}
-    markerOnMouseout={this.markerOnMouseout} />
+    markerOnMouseout={this.markerOnMouseout} 
+    mapStyle="Blue Water"/>
 ```    
 
 - **config** is the object which contains username, password, type of Appbase
@@ -47,6 +48,7 @@ and then use the AppbaseMap component
 - `markerOnDelete`: is the event which is fired when any element is deleted from the map. It has argument which contains the object which was deleted.    
 - `markerOnIndex`is the event which is fired when any element is added into the map. It has argument which contains the object which was indexed.    
 - `markerOnClick`, `markerOnDblclick`, `markerOnMouseover`, `markerOnMouseout` are the events which will be fired on click, doubleclick, mouse over, mouse out actions on markers.
+- `mapStyle`: is the property which set the default map style. Available options for mapStyle is: `"MapBox"`, `"Blue Essence"`, `"Blue Water"`,  `"Flat Map"`,  `"Light Monochrome"`,  `"Midnight Commander"`,  `"Unsaturated Browns"`.  
 
 ## AppbaseSearch
 
