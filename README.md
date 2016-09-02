@@ -66,18 +66,24 @@ and then use the AppbaseMap component
 -  `sort`: `count` or `asc` or `desc`: is the property which decides on how the list should be sorted. `count` sorts the list based on the count  in the desc order. `asc` sorts the list in the ascending order of the term (Alphabetical). `desc` sorts the list in the descending order of the term. Defaulted to `count`.    
 
 ## AppbaseSlider
-
 - `fieldName` : `string`: is the name of the field which contains the latitude and longitude of the markers for which you want to plot on the map    
-- `minThreshold`: `number`: is the number field which decides the minimum threshold value for the slider. Defaulted to 0.    
-- `maxThreshold`: `number`: is the number field which decides the maximum threshold value for the slider. Defaulted to 20.    
+- `minThreshold`: `number`: is the number field which decides the minimum threshold value for the slider. Defaulted to 0.  
+- `maxThreshold`: `number`: is the number field which decides the maximum threshold value for the slider. Defaulted to 20. 
 - `values`: `Object`: is the object which has property min and max which tells the default selected value.     
-
 ```   
 values: {
   min: 0,
   max: 20,
 }
-```     
+```
+
+## MapStyles
+- `fieldName` : `string`: is the name of the field which con be used to store value.    
+- `defaultSelected`: `string`: is the name of default theme.     
+
+## SearchAsMove
+- `fieldName` : `string`: is the name of the field which con be used to store value.    
+
 ## Elasticsearch Mapping
 
 1. Close the Index:      
