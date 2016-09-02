@@ -10,6 +10,28 @@ export function setConfigObject(config){
 		password: config.appbase.password
 	});
 };
+export var mapStyles = [{
+    key: 'MapBox',
+    value: require('../helper/map-styles/MapBox.js')
+}, {
+    key: 'Blue Essence',
+    value: require('../helper/map-styles/BlueEssence.js')
+}, {
+    key: 'Blue Water',
+    value: require('../helper/map-styles/BlueWater.js')
+}, {
+    key: 'Flat Map',
+    value: require('../helper/map-styles/FlatMap.js')
+}, {
+    key: 'Light Monochrome',
+    value: require('../helper/map-styles/LightMonochrome.js')
+}, {
+    key: 'Midnight Commander',
+    value: require('../helper/map-styles/MidnightCommander.js')
+}, {
+    key: 'Unsaturated Browns',
+    value: require('../helper/map-styles/UnsaturatedBrowns.js')
+}];
 export function watchForDependencyChange(depends, selectedSensor, previousSelectedSensor, cb) {
   var self = this;
   // check if depend object already exists
