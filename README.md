@@ -15,13 +15,18 @@ import {AppbaseMap} from './AppbaseMap'
 and then use the AppbaseMap component    
 ``` javascript    
 <AppbaseMap
-  config={config}
-  fieldName="venue"
-  defaultZoom={13}
-  defaultCenter={{ lat: 37.74, lng: -122.45 }}
-  historicalData={true}
-  onDelete={this.onDelete}
-  onIndex={this.onIndex} />
+    config={config}
+    fieldName="venue"
+    defaultZoom={13}
+    defaultCenter={{ lat: 37.74, lng: -122.45 }}
+    historicalData={true}
+    markerCluster={false}
+    markerOnDelete={this.markerOnDelete}
+    markerOnIndex={this.markerOnIndex}
+    markerOnClick={this.markerOnClick}
+    markerOnDblclick={this.markerOnDblclick}
+    markerOnMouseover={this.markerOnMouseover}
+    markerOnMouseout={this.markerOnMouseout} />
 ```    
 
 - **config** is the object which contains username, password, type of Appbase
@@ -39,8 +44,9 @@ and then use the AppbaseMap component
 - `searchComponent`: `"appbase"` or `"google"`: is the option for displaying the searchComponent in the Google maps. If `appbase` is selected, then searchField needs to be specified. Defaulted to `google`.    
 - `searchField`: `String`: is the name of the field on which Appbase location search will be enables.    
 -  `markerCluster`: `Boolean`: is the property which decides on clustering the markers. Defaulted to `true`     
-- `onDelete`: is the event which is fired when any element is deleted from the map. It has argument which contains the object which was deleted.    
-- `onIndex`is the event which is fired when any element is added into the map. It has argument which contains the object which was indexed.        
+- `markerOnDelete`: is the event which is fired when any element is deleted from the map. It has argument which contains the object which was deleted.    
+- `markerOnIndex`is the event which is fired when any element is added into the map. It has argument which contains the object which was indexed.    
+- `markerOnClick`, `markerOnDblclick`, `markerOnMouseover`, `markerOnMouseout` are the events which will be fired on click, doubleclick, mouse over, mouse out actions on markers.
 
 ## AppbaseSearch
 
