@@ -18,7 +18,7 @@ export class SearchAsMove extends Component {
   componentDidMount() {
     this.setState({
       items: [{
-        key: "Search As Map Move",
+        key: "Search as I move the map",
         value: true
       }]
     });
