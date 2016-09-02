@@ -266,7 +266,9 @@ export class AppbaseMap extends Component {
 
   if(this.styleOptions) {
     otherOptions = {
-      styles: this.styleOptions
+      options: {
+        styles: this.styleOptions
+      }
     };
   }
   return(
@@ -277,7 +279,7 @@ export class AppbaseMap extends Component {
           <div {...this.props} style={Style.fullHeightDiv} />
         }
         googleMapElement={<GoogleMap ref = "map"
-          options={otherOptions}
+          {...otherOptions}
           {...searchComponentProps}
           {...this.props}
           onIdle = {:: this.handleOnIdle}>

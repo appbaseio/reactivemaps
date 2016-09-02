@@ -32,6 +32,16 @@ export var mapStyles = [{
     key: 'Unsaturated Browns',
     value: require('../helper/map-styles/UnsaturatedBrowns.js')
 }];
+export function getMapStyle(styleName) {
+  let selectedStyle = mapStyles.filter(function(style) {
+    return style.key === styleName;
+  })
+  if(selectedStyle.length) {
+    return selectedStyle[0].value;
+  } else {
+    return null;
+  }
+}
 export function watchForDependencyChange(depends, selectedSensor, previousSelectedSensor, cb) {
   var self = this;
   // check if depend object already exists

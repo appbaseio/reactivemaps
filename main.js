@@ -1,6 +1,8 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 var config = require('./config.js');
+var helper = require('./app/middleware/helper.js');
+
 // sensors
 import {AppbaseList} from './app/sensors/AppbaseList';
 import {AppbaseSlider} from './app/sensors/AppbaseSlider';
@@ -25,7 +27,8 @@ class Main extends Component {
 	    		location: 'location'
 	    	},
 	    	zoom: 13,
-	    	selectedSensor: {}
+	    	selectedSensor: {},
+	    	mapStyle: 'Blue Water'
 	    };
 	}
 
@@ -115,7 +118,9 @@ class Main extends Component {
 					</div>
 					<div className="col s12">
 						<h5> Map styles </h5>
-						<MapStyles sensorOnSelect={this.sensorOnSelect} />
+						<MapStyles 
+							sensorOnSelect={this.sensorOnSelect} 
+							defaultSelected={this.state.mapStyle}/>
 					</div>
 					<div className="col s12">
 						<h5> Search with move </h5>					
@@ -143,6 +148,9 @@ class Main extends Component {
 							'city': this.state.mapping.city, 
 							'SearchAsMove': 'SearchAsMove',
 							'MapStyles': 'MapStyles'
+						}}
+						defaultOptions={{
+							styles: helper.getMapStyle(this.state.mapStyle)
 						}}
 						/>
 				</div>
