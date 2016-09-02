@@ -28,3 +28,10 @@ body {
   right: 3px;
   top: 9px;
 }
+.Select-input input {
+  -webkit-transition: none;
+     -moz-transition: none;
+      -ms-transition: none;
+       -o-transition: none;
+          transition: none;
+}
