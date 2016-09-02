@@ -11,7 +11,7 @@ import {AppbaseMap} from './app/actuators/AppbaseMap';
 // middleware
 import {ReactiveMap} from './app/middleware/ReactiveMap';
 import {queryObject} from './app/middleware/ImmutableQuery.js';
-
+var fancyMap = require('./app/helper/fancyMapStyles.js');
 
 class Main extends Component {
 	constructor(props) {
@@ -135,6 +135,9 @@ class Main extends Component {
 						searchField={this.state.mapping.venue}
 						selectedSensor={this.state.selectedSensor}
 						depends={{'city': this.state.mapping.city, 'SearchAsMove': 'SearchAsMove'}}
+						defaultOptions={{
+				          styles: fancyMap
+				        }}
 						/>
 				</div>
 			</div>
