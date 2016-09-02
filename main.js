@@ -26,6 +26,10 @@ class Main extends Component {
 	    		venue: 'venue_name_ngrams',
 	    		location: 'location'
 	    	},
+	    	sensorName: {
+	    		SearchAsMove: 'SearchAsMove',
+	    		MapStyles: 'MapStyles'
+	    	},
 	    	zoom: 13,
 	    	selectedSensor: {},
 	    	mapStyle: 'Blue Water'
@@ -119,12 +123,14 @@ class Main extends Component {
 					<div className="col s12">
 						<h5> Map styles </h5>
 						<MapStyles 
+							fieldName={this.state.sensorName.MapStyles}
 							sensorOnSelect={this.sensorOnSelect} 
 							defaultSelected={this.state.mapStyle}/>
 					</div>
 					<div className="col s12">
 						<h5> Search with move </h5>					
 						<SearchAsMove  
+							fieldName={this.state.sensorName.SearchAsMove}
 							sensorOnSelect={this.sensorOnSelect}/>
 					</div>
 				</div>
@@ -146,12 +152,10 @@ class Main extends Component {
 						selectedSensor={this.state.selectedSensor}
 						depends={{
 							'city': this.state.mapping.city, 
-							'SearchAsMove': 'SearchAsMove',
-							'MapStyles': 'MapStyles'
+							'SearchAsMove': this.state.sensorName.SearchAsMove,
+							'MapStyles': this.state.sensorName.MapStyles
 						}}
-						defaultOptions={{
-							styles: helper.getMapStyle(this.state.mapStyle)
-						}}
+						mapStyle={this.state.mapStyle}
 						/>
 				</div>
 			</div>

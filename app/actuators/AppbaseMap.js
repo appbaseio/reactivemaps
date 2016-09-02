@@ -223,6 +223,26 @@ export class AppbaseMap extends Component {
     //   center: new google.maps.LatLng(location.value.lat, location.value.lon)
     // });
   }
+  // mapStyle implementation 
+  // - first preference is sensor: if sensor for mapstyle is applied then choose mapstyle from sensor
+  // - second preference is default selected: if default selected mapstyle is applied then choose that
+  getOtherOptions() {
+    let otherOptions;
+    if(this.styleOptions) {
+      otherOptions = {
+        options: {
+          styles: this.styleOptions
+        }
+      };
+    } else if (this.props.mapStyle) {
+      otherOptions = {
+        options: {
+          styles: helper.getMapStyle(this.props.mapStyle)
+        }
+      };
+    }
+    return otherOptions;
+  }
   render() {
     var markerComponent, searchComponent;
     let appbaseSearch;
@@ -263,14 +283,7 @@ export class AppbaseMap extends Component {
       />;
       searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
   }
-
-  if(this.styleOptions) {
-    otherOptions = {
-      options: {
-        styles: this.styleOptions
-      }
-    };
-  }
+  otherOptions = this.getOtherOptions();
   return(
     <div className="map-container" style={Style.fullHeightDiv}>
       {appbaseSearch}
