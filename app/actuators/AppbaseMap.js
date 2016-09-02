@@ -158,11 +158,11 @@ export class AppbaseMap extends Component {
       if (stream._deleted == true) {
         var deleteIndex = newMarkersArray.indexOf(newMarker);
         newMarkersArray.splice(deleteIndex, 1);
-        self.props.onDeleteMarker(positionMarker);
+        self.props.markerOnDelete(positionMarker);
       }
       else {
         newMarkersArray.push(newMarker)
-        self.props.onIndexMarker(positionMarker);
+        self.props.markerOnIndex(positionMarker);
       }
       self.setState({
         markers: newMarkersArray,
@@ -312,8 +312,8 @@ AppbaseMap.propTypes = {
   fieldName: React.PropTypes.string.isRequired,
   searchField: React.PropTypes.string,
   searchComponent: React.PropTypes.string,
-  onDeleteMarker: React.PropTypes.func,
-  onIndexMarker: React.PropTypes.func,
+  markerOnDelete: React.PropTypes.func,
+  markerOnIndex: React.PropTypes.func,
   markerCluster: React.PropTypes.bool,
   historicalData: React.PropTypes.bool
 };

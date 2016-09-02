@@ -38,9 +38,9 @@ class Main extends Component {
 
 	// Events - related to actuators
 	// 1. Event after marker is created on map
-	onIndexMarker(data) {}
+	markerOnIndex(data) {}
 	// 2. Event after marker is deleted on map
-	onDeleteMarker(data) {}
+	markerOnDelete(data) {}
 	// 3. Event on click of marker
 	markerOnClick(data) {
 		alert('Click');
@@ -141,8 +141,8 @@ class Main extends Component {
 						defaultCenter={{ lat: 37.74, lng: -122.45 }}
 						historicalData={true}
 						markerCluster={false}
-						onDeleteMarker={this.onDeleteMarker}
-						onIndexMarker={this.onIndexMarker}
+						markerOnDelete={this.markerOnDelete}
+						markerOnIndex={this.markerOnIndex}
 						markerOnClick={this.markerOnClick}
 						markerOnDblclick={this.markerOnDblclick}
 						markerOnMouseover={this.markerOnMouseover}
