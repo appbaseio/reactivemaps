@@ -15,13 +15,19 @@ import {AppbaseMap} from './AppbaseMap'
 and then use the AppbaseMap component    
 ``` javascript    
 <AppbaseMap
-  config={config}
-  fieldName="venue"
-  defaultZoom={13}
-  defaultCenter={{ lat: 37.74, lng: -122.45 }}
-  historicalData={true}
-  onDelete={this.onDelete}
-  onIndex={this.onIndex} />
+    config={config}
+    fieldName="venue"
+    defaultZoom={13}
+    defaultCenter={{ lat: 37.74, lng: -122.45 }}
+    historicalData={true}
+    markerCluster={false}
+    markerOnDelete={this.markerOnDelete}
+    markerOnIndex={this.markerOnIndex}
+    markerOnClick={this.markerOnClick}
+    markerOnDblclick={this.markerOnDblclick}
+    markerOnMouseover={this.markerOnMouseover}
+    markerOnMouseout={this.markerOnMouseout} 
+    mapStyle="Blue Water"/>
 ```    
 
 - **config** is the object which contains username, password, type of Appbase
@@ -39,8 +45,10 @@ and then use the AppbaseMap component
 - `searchComponent`: `"appbase"` or `"google"`: is the option for displaying the searchComponent in the Google maps. If `appbase` is selected, then searchField needs to be specified. Defaulted to `google`.    
 - `searchField`: `String`: is the name of the field on which Appbase location search will be enables.    
 -  `markerCluster`: `Boolean`: is the property which decides on clustering the markers. Defaulted to `true`     
-- `onDelete`: is the event which is fired when any element is deleted from the map. It has argument which contains the object which was deleted.    
-- `onIndex`is the event which is fired when any element is added into the map. It has argument which contains the object which was indexed.        
+- `markerOnDelete`: is the event which is fired when any element is deleted from the map. It has argument which contains the object which was deleted.    
+- `markerOnIndex`is the event which is fired when any element is added into the map. It has argument which contains the object which was indexed.    
+- `markerOnClick`, `markerOnDblclick`, `markerOnMouseover`, `markerOnMouseout` are the events which will be fired on click, doubleclick, mouse over, mouse out actions on markers.
+- `mapStyle`: is the property which set the default map style. Available options for mapStyle is: `"MapBox"`, `"Blue Essence"`, `"Blue Water"`,  `"Flat Map"`,  `"Light Monochrome"`,  `"Midnight Commander"`,  `"Unsaturated Browns"`.  
 
 ## AppbaseSearch
 
@@ -58,18 +66,39 @@ and then use the AppbaseMap component
 -  `sort`: `count` or `asc` or `desc`: is the property which decides on how the list should be sorted. `count` sorts the list based on the count  in the desc order. `asc` sorts the list in the ascending order of the term (Alphabetical). `desc` sorts the list in the descending order of the term. Defaulted to `count`.    
 
 ## AppbaseSlider
-
 - `fieldName` : `string`: is the name of the field which contains the latitude and longitude of the markers for which you want to plot on the map    
-- `minThreshold`: `number`: is the number field which decides the minimum threshold value for the slider. Defaulted to 0.    
-- `maxThreshold`: `number`: is the number field which decides the maximum threshold value for the slider. Defaulted to 20.    
+- `minThreshold`: `number`: is the number field which decides the minimum threshold value for the slider. Defaulted to 0.  
+- `maxThreshold`: `number`: is the number field which decides the maximum threshold value for the slider. Defaulted to 20. 
 - `values`: `Object`: is the object which has property min and max which tells the default selected value.     
-
 ```   
 values: {
   min: 0,
   max: 20,
 }
-```     
+```
+
+## MapStyles
+- `fieldName` : `string`: is the name of the field which con be used to store value.    
+- `defaultSelected`: `string`: is the name of default theme.     
+
+## SearchAsMove
+- `fieldName` : `string`: is the name of the field which con be used to store value.    
+
+## Define dependency on other sensors
+Let's take an example if topics lists is depenedent on city selection (topic sensor is dependent on city sensor) then we should pass selected city value in topic sensor and get the topic list according to selected city.
+
+To achieve this we should pass following things to topic sensor:
+- `selectedSensor`: which contains all the selected sensor values.
+- `sensorOnSelect`: an event which is filred on select/change of sensor value. - which is responsible to store selected values of sensors (this should be passed in both sensors - city and topic).
+- `depends`: an object which contains dependent sensors
+```
+depends= {
+    {'city': this.state.mapping.city}
+}
+```
+
+
+
 ## Elasticsearch Mapping
 
 1. Close the Index:      

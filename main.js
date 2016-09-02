@@ -1,6 +1,8 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 var config = require('./config.js');
+var helper = require('./app/middleware/helper.js');
+
 // sensors
 import {AppbaseList} from './app/sensors/AppbaseList';
 import {AppbaseSlider} from './app/sensors/AppbaseSlider';
@@ -24,16 +26,21 @@ class Main extends Component {
 	    		venue: 'venue_name_ngrams',
 	    		location: 'location'
 	    	},
+	    	sensorName: {
+	    		SearchAsMove: 'SearchAsMove',
+	    		MapStyles: 'MapStyles'
+	    	},
 	    	zoom: 13,
-	    	selectedSensor: {}
+	    	selectedSensor: {},
+	    	mapStyle: 'Blue Water'
 	    };
 	}
 
 	// Events - related to actuators
 	// 1. Event after marker is created on map
-	onIndexMarker(data) {}
+	markerOnIndex(data) {}
 	// 2. Event after marker is deleted on map
-	onDeleteMarker(data) {}
+	markerOnDelete(data) {}
 	// 3. Event on click of marker
 	markerOnClick(data) {
 		alert('Click');
@@ -115,11 +122,15 @@ class Main extends Component {
 					</div>
 					<div className="col s12">
 						<h5> Map styles </h5>
-						<MapStyles sensorOnSelect={this.sensorOnSelect} />
+						<MapStyles 
+							fieldName={this.state.sensorName.MapStyles}
+							sensorOnSelect={this.sensorOnSelect} 
+							defaultSelected={this.state.mapStyle}/>
 					</div>
 					<div className="col s12">
 						<h5> Search with move </h5>					
 						<SearchAsMove  
+							fieldName={this.state.sensorName.SearchAsMove}
 							sensorOnSelect={this.sensorOnSelect}/>
 					</div>
 				</div>
@@ -130,8 +141,8 @@ class Main extends Component {
 						defaultCenter={{ lat: 37.74, lng: -122.45 }}
 						historicalData={true}
 						markerCluster={false}
-						onDeleteMarker={this.onDeleteMarker}
-						onIndexMarker={this.onIndexMarker}
+						markerOnDelete={this.markerOnDelete}
+						markerOnIndex={this.markerOnIndex}
 						markerOnClick={this.markerOnClick}
 						markerOnDblclick={this.markerOnDblclick}
 						markerOnMouseover={this.markerOnMouseover}
@@ -141,9 +152,10 @@ class Main extends Component {
 						selectedSensor={this.state.selectedSensor}
 						depends={{
 							'city': this.state.mapping.city, 
-							'SearchAsMove': 'SearchAsMove',
-							'MapStyles': 'MapStyles'
+							'SearchAsMove': this.state.sensorName.SearchAsMove,
+							'MapStyles': this.state.sensorName.MapStyles
 						}}
+						mapStyle={this.state.mapStyle}
 						/>
 				</div>
 			</div>

@@ -11,9 +11,17 @@ export class MapStyles extends Component {
     this.handleSelect = this.handleSelect.bind(this);
   }
   componentDidMount() {
+    let selectedValue = 0
+    if(this.props.defaultSelected) {
+      helper.mapStyles.forEach((style, index) => {
+        if(style.key === this.props.defaultSelected) {
+          selectedValue = index
+        }
+      })
+    }
     this.setState({
       items: helper.mapStyles,
-      selectedValue: 0
+      selectedValue: selectedValue
     }, this.themeChanged);
   }
   // Handler function when a value is selected

@@ -158,11 +158,11 @@ export class AppbaseMap extends Component {
       if (stream._deleted == true) {
         var deleteIndex = newMarkersArray.indexOf(newMarker);
         newMarkersArray.splice(deleteIndex, 1);
-        self.props.onDeleteMarker(positionMarker);
+        self.props.markerOnDelete(positionMarker);
       }
       else {
         newMarkersArray.push(newMarker)
-        self.props.onIndexMarker(positionMarker);
+        self.props.markerOnIndex(positionMarker);
       }
       self.setState({
         markers: newMarkersArray,
@@ -223,6 +223,26 @@ export class AppbaseMap extends Component {
     //   center: new google.maps.LatLng(location.value.lat, location.value.lon)
     // });
   }
+  // mapStyle implementation 
+  // - first preference is sensor: if sensor for mapstyle is applied then choose mapstyle from sensor
+  // - second preference is default selected: if default selected mapstyle is applied then choose that
+  getOtherOptions() {
+    let otherOptions;
+    if(this.styleOptions) {
+      otherOptions = {
+        options: {
+          styles: this.styleOptions
+        }
+      };
+    } else if (this.props.mapStyle) {
+      otherOptions = {
+        options: {
+          styles: helper.getMapStyle(this.props.mapStyle)
+        }
+      };
+    }
+    return otherOptions;
+  }
   render() {
     var markerComponent, searchComponent;
     let appbaseSearch;
@@ -263,12 +283,7 @@ export class AppbaseMap extends Component {
       />;
       searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
   }
-
-  if(this.styleOptions) {
-    otherOptions = {
-      styles: this.styleOptions
-    };
-  }
+  otherOptions = this.getOtherOptions();
   return(
     <div className="map-container" style={Style.fullHeightDiv}>
       {appbaseSearch}
@@ -277,7 +292,7 @@ export class AppbaseMap extends Component {
           <div {...this.props} style={Style.fullHeightDiv} />
         }
         googleMapElement={<GoogleMap ref = "map"
-          options={otherOptions}
+          {...otherOptions}
           {...searchComponentProps}
           {...this.props}
           onIdle = {:: this.handleOnIdle}>
@@ -297,8 +312,8 @@ AppbaseMap.propTypes = {
   fieldName: React.PropTypes.string.isRequired,
   searchField: React.PropTypes.string,
   searchComponent: React.PropTypes.string,
-  onDeleteMarker: React.PropTypes.func,
-  onIndexMarker: React.PropTypes.func,
+  markerOnDelete: React.PropTypes.func,
+  markerOnIndex: React.PropTypes.func,
   markerCluster: React.PropTypes.bool,
   historicalData: React.PropTypes.bool
 };
