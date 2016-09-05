@@ -16,97 +16,37 @@ import {ReactiveMap} from './app/middleware/ReactiveMap';
 import {queryObject} from './app/middleware/ImmutableQuery.js';
 
 class Main extends Component {
-	constructor(props) {
-		super(props);
-		this.sensorOnSelect = this.sensorOnSelect.bind(this);
-		this.state = {
-			mapping: {
-				city: 'group.group_city.raw',
-	    		topic: 'group.group_topics.topic_name_raw',
-	    		venue: 'venue_name_ngrams',
-	    		location: 'location'
-	    	},
-	    	sensorName: {
-	    		SearchAsMove: 'SearchAsMove',
-	    		MapStyles: 'MapStyles'
-	    	},
-	    	zoom: 13,
-	    	selectedSensor: {},
-	    	mapStyle: 'Blue Water'
-	    };
-	}
-
-	// Events - related to actuators
-	// 1. Event after marker is created on map
-	markerOnIndex(data) {}
-	// 2. Event after marker is deleted on map
-	markerOnDelete(data) {}
-	// 3. Event on click of marker
-	markerOnClick(data) {
-		alert('Click');
-		console.log(data);
-	}
-	// 4. Event on double click of marker
-	markerOnDblclick(data) {
-		alert('double clicked');
-		console.log(data);
-	}
-	// 5. Event on mouse enter of marker
-	markerOnMouseover(data) {
-		console.log('Mouse enter');
-		console.log(data);
-	}
-	// 6. Event on mouse leave of marker
-	markerOnMouseout(data) {
-		console.log('Mouse leave');
-		console.log(data);
-	}
-
-	// Events - related to sensors
-	// 1. Event on selection of sensor value
-	// Store selected values in selectedSensor state
-	// according to that create extraquery which we can use in venue to filter by that query
-	// venue should be filter by cityname
-	sensorOnSelect(data) {
-		var selectedSensor = this.state.selectedSensor;
-		selectedSensor[data.key] = data.value;
-		var stateObj = {
-			'selectedSensor': selectedSensor
-		};
-		this.setState(stateObj);
-	}
 	render() {
-		var divStyle = {
-			height: "100%"
-		};
-		var includeGeo = this.state.selectedSensor[this.state.mapping.city] ? false : true;
 		return (
-			<div className="row m-0" style={divStyle}>
+			<div className="row m-0 h-100">
 				<ReactiveMap config={config} />
 				<div className="col s6">
-					<div className="row" style={divStyle}>
+					<div className="row h-100">
 						<div className="col s6">
 							<h5> Cities (Single Select) </h5>
 							<AppbaseList
 								defaultSelected="London"
-								fieldName={this.state.mapping.city} 
+								fieldName={this.props.mapping.city} 
 								showCount={true} 
 								size={1000} 
 								multipleSelect={false} 
 								includeGeo={false} 
-								sensorOnSelect={this.sensorOnSelect} 
-								selectedSensor={this.state.selectedSensor}
-								depends={{'topic': this.state.mapping.topic}}  />
+								sensorName="CitySensor"
+							/>
 						</div>
 						<div className="col s6">
-							<h5> Topics (Multiple Select)</h5>
+							<h5> Topics (Multiple Select) </h5>
 							<AppbaseList
-								fieldName={this.state.mapping.topic} 
+								fieldName={this.props.mapping.topic} 
+								showCount={true} 
+								size={100} 
 								multipleSelect={true} 
-								showCount={true} includeGeo={includeGeo} 
-								sensorOnSelect={this.sensorOnSelect} 
-								selectedSensor={this.state.selectedSensor}
-								depends={{'city': this.state.mapping.city}} />
+								includeGeo={true} 
+								sensorName="TopicSensor"
+								depends={{
+									CitySensor: ["topicFilterByCity"]
+								}}
+							/>
 						</div>
 					</div>
 					<div className="col s12">
@@ -116,51 +56,54 @@ class Main extends Component {
 					<div className="col s12">
 						<h5> Select Venue </h5>					
 						<AppbaseSearch
-							fieldName={this.state.mapping.venue}
-							selectedSensor={this.state.selectedSensor}
-							depends={{'city': this.state.mapping.city}}  />
+							fieldName={this.props.mapping.venue}
+							sensorName="VenueSensor"
+							depends={{
+								'CitySensor': ['searchFilterByCity']
+							}}  />
 					</div>
 					<div className="col s12">
 						<h5> Map styles </h5>
 						<MapStyles 
-							fieldName={this.state.sensorName.MapStyles}
-							sensorOnSelect={this.sensorOnSelect} 
-							defaultSelected={this.state.mapStyle}/>
+							defaultSelected={this.props.mapStyle}
+							sensorName="MapStyleSensor"
+							/>
 					</div>
 					<div className="col s12">
 						<h5> Search with move </h5>					
 						<SearchAsMove  
-							fieldName={this.state.sensorName.SearchAsMove}
-							sensorOnSelect={this.sensorOnSelect}/>
+							sensorName="SearchAsMoveSensor" />
 					</div>
 				</div>
-				<div className="col s6" style={divStyle}>
+				<div className="col s6 h-100">
 					<AppbaseMap
-						fieldName={this.state.mapping.location}
+						fieldName={this.props.mapping.location}
 						defaultZoom={13}
 						defaultCenter={{ lat: 37.74, lng: -122.45 }}
 						historicalData={true}
-						markerCluster={true}
-						markerOnDelete={this.markerOnDelete}
-						markerOnIndex={this.markerOnIndex}
-						markerOnClick={this.markerOnClick}
-						markerOnDblclick={this.markerOnDblclick}
-						markerOnMouseover={this.markerOnMouseover}
-						markerOnMouseout={this.markerOnMouseout}
+						markerCluster={false}
 						searchComponent="appbase"
-						searchField={this.state.mapping.venue}
-						selectedSensor={this.state.selectedSensor}
+						mapStyle={this.props.mapStyle}
 						depends={{
-							'city': this.state.mapping.city, 
-							'SearchAsMove': this.state.sensorName.SearchAsMove,
-							'MapStyles': this.state.sensorName.MapStyles
+							CitySensor: ["reposition"],
+							SearchAsMoveSensor: ["SearchAsMove"],
+							MapStyleSensor: ["MapStyles"]
 						}}
-						mapStyle={this.state.mapStyle}
 						/>
 				</div>
 			</div>
 		);
 	}
 }
+
+Main.defaultProps = {
+ 	mapStyle: "Blue Water",
+ 	mapping: {
+		city: 'group.group_city.raw',
+		topic: 'group.group_topics.topic_name_raw',
+		venue: 'venue_name_ngrams',
+		location: 'location'
+	}
+};
 
 ReactDOM.render(<Main />, document.getElementById('map'));

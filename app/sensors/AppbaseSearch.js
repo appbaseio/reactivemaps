@@ -16,19 +16,19 @@ export class AppbaseSearch extends Component {
     this.customDependChange = this.customDependChange.bind(this);
     this.previousSelectedSensor = {};
   }
-  componentDidUpdate() {
-    var depends = this.props.depends;
-    var selectedSensor = this.props.selectedSensor;
-    if(depends && selectedSensor) {
-      helper.watchForDependencyChange(depends, selectedSensor, this.previousSelectedSensor, this.customDependChange);
+  componentDidMount() {
+    if(this.props.depends && this.customDependChange) {
+      helper.watchForDependencyChange(this.props.depends, this.previousSelectedSensor, this.customDependChange);
     }
   }
-
   // Custom event after dependency changes
-  customDependChange(depend) {
-    switch(depend) {
-      case 'city' :
-        this.extraQuery = queryObject.getTermObject(this.previousSelectedSensor[depend].key, this.previousSelectedSensor[depend].value);
+  customDependChange(method, depend) {
+    switch(method) {
+      case 'searchFilterByCity' :
+        var fieldName = helper.selectedSensor.get(depend, 'sensorFiledName');
+        if(fieldName) {
+          this.extraQuery = queryObject.getTermObject(fieldName, this.previousSelectedSensor[depend]);
+        }
       break;
     }
   }

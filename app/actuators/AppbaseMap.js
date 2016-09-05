@@ -36,33 +36,26 @@ export class AppbaseMap extends Component {
         rawData: data
       }, self.getNewMarkers);
     });
-  };
-  componentDidUpdate() {
     var depends = this.props.depends;
-    var selectedSensor = this.props.selectedSensor;
-    if(depends && selectedSensor) {
-      helper.watchForDependencyChange(depends, selectedSensor, this.previousSelectedSensor, this.customDependChange);
-    }
-  }
+    helper.watchForDependencyChange(depends, self.previousSelectedSensor, self.customDependChange);
+  };
 
-  customDependChange(depend) {
-    switch(depend) {
-      case 'city' :
+  customDependChange(method, depend) {
+    switch(method) {
+      case 'reposition':
         this.allowReposition = true;
       break;
       case 'SearchAsMove' :
-        this.includeGeo = this.previousSelectedSensor[depend].value;
+        this.includeGeo = this.previousSelectedSensor[depend] ? this.previousSelectedSensor[depend] : false;
       break;
       case 'MapStyles' :
-        this.styleOptions = this.previousSelectedSensor[depend].value;
+        this.styleOptions = this.previousSelectedSensor[depend];
         this.setState({
           styleOptions: this.styleOptions
         });
       break;
     }
-    console.log(this.previousSelectedSensor);
   }
-
   getNewMarkers() {
     var self = this;
     var data = this.state.rawData;
@@ -75,7 +68,6 @@ export class AppbaseMap extends Component {
     markersData = _.orderBy(markersData, [self.props.fieldName.lat], ['desc']);
     newMarkersArray = markersData.map((hit, index) => {
       let field = hit._source[self.props.fieldName];
-      // console.log(field.lat, field.lon);
       let position = {
         position: {
           lat: field.lat,
@@ -104,9 +96,11 @@ export class AppbaseMap extends Component {
         markers: newMarkersArray,
         center: defaultCenter
       }, function () {
-        setTimeout(()=> {
-          self.allowReposition = false;  
-        }, 2000);
+        if(self.allowReposition) {
+          setTimeout(()=> {
+            self.allowReposition = false;  
+          }, 2000);
+        }
         // self.startStreaming();
       });
     } else {

@@ -107,7 +107,7 @@ class ImmutableQuery {
     this.query = {
       type: this.config.type,
       body: {
-        "size": 500,
+        "size": 100,
         "aggs": this.aggs,
         "query": {
           "bool": {
