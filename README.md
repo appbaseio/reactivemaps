@@ -27,7 +27,12 @@ and then use the AppbaseMap component
     markerOnDblclick={this.markerOnDblclick}
     markerOnMouseover={this.markerOnMouseover}
     markerOnMouseout={this.markerOnMouseout} 
-    mapStyle="Blue Water"/>
+    mapStyle="Blue Water" 
+    depends={{
+      CitySensor: ["reposition"],
+      SearchAsMoveSensor: ["SearchAsMove"],
+      MapStyleSensor: ["MapStyles"]
+    }} />
 ```    
 
 - **config** is the object which contains username, password, type of Appbase
@@ -49,13 +54,15 @@ and then use the AppbaseMap component
 - `markerOnIndex`is the event which is fired when any element is added into the map. It has argument which contains the object which was indexed.    
 - `markerOnClick`, `markerOnDblclick`, `markerOnMouseover`, `markerOnMouseout` are the events which will be fired on click, doubleclick, mouse over, mouse out actions on markers.
 - `mapStyle`: is the property which set the default map style. Available options for mapStyle is: `"MapBox"`, `"Blue Essence"`, `"Blue Water"`,  `"Flat Map"`,  `"Light Monochrome"`,  `"Midnight Commander"`,  `"Unsaturated Browns"`.  
+- `depends`: is the property which contains the object of sensor and method, In above example on change of "CitySensor" value then it will trigger `reposition` internal method of AppbaseMap. We exposed few methods to use on changing of dependency: `reposition`, `SearchAsMove`, `MapStyles`.  
 
 ## AppbaseSearch
 
 - `fieldName` : `string`: is the name of the field which contains the latitude and longitude of the markers for which you want to plot on the map    
 - `placeholder`: `string`: is the string field which decides placeholder for the search input. Default to `Search...`    
 - `isGeoSearch`: `"Boolean"`: is the boolean option for whether displaying the search field as input term search or is it geoSearch. Defaulted to `false`     
-- `size`: `number`: is the number field which decides how many items needs to be displayed in the search items. Defaulted to 10.    
+- `size`: `number`: is the number field which decides how many items needs to be displayed in the search items. Defaulted to 10.  
+- `depends`: Same way as AppbaseMap we provides internal method for AppbaseSearch as well. We exposed a method to use on changing of dependency: `searchFilterByCity`.    
 
 ## AppbaseList
 
@@ -63,7 +70,8 @@ and then use the AppbaseMap component
 - `size`: `number`: is the number field which decides how many items needs to be displayed in the List. Defaulted to 60.    
 - `showCount`: `"Boolean"`: is the boolean option for whether displaying the count along with the items. Defaulted to `true`.    
 - `multipleSelect`: `Boolean`: is the boolean option to select whether the only single item could be selected in the List or if it is multiple selectable. Defaulted to `true`.   
--  `sort`: `count` or `asc` or `desc`: is the property which decides on how the list should be sorted. `count` sorts the list based on the count  in the desc order. `asc` sorts the list in the ascending order of the term (Alphabetical). `desc` sorts the list in the descending order of the term. Defaulted to `count`.    
+-  `sort`: `count` or `asc` or `desc`: is the property which decides on how the list should be sorted. `count` sorts the list based on the count  in the desc order. `asc` sorts the list in the ascending order of the term (Alphabetical). `desc` sorts the list in the descending order of the term. Defaulted to `count`.  
+- `depends`: Same way as AppbaseMap we provides internal method for AppbaseList as well. We exposed a method to use on changing of dependency: `topicFilterByCity`.
 
 ## AppbaseSlider
 - `fieldName` : `string`: is the name of the field which contains the latitude and longitude of the markers for which you want to plot on the map    

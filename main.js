@@ -83,6 +83,7 @@ class Main extends Component {
 						historicalData={true}
 						markerCluster={false}
 						searchComponent="appbase"
+						searchField={this.props.mapping.venue}
 						mapStyle={this.props.mapStyle}
 						depends={{
 							CitySensor: ["reposition"],
