@@ -1,4 +1,6 @@
 var Appbase = require('appbase-js');
+var {EventEmitter} = require('fbemitter');
+export var sensorEmitter = new EventEmitter();
 export let appbaseRef;
 export let appbaseConfig;
 export function setConfigObject(config){
@@ -42,34 +44,78 @@ export function getMapStyle(styleName) {
     return null;
   }
 }
-export function watchForDependencyChange(depends, selectedSensor, previousSelectedSensor, cb) {
+export function watchForDependencyChange(depends, previousSelectedSensor, cb) {
   var self = this;
+  let selectedSensor = {};
   // check if depend object already exists
   let checkDependExists = function(depend) {
     if(!previousSelectedSensor.hasOwnProperty(depend)) {
-      previousSelectedSensor[depend] = {
-        key:'',
-        value: ''
-      };
+      previousSelectedSensor[depend] = '';
     }
   }
   // apply depend changes when new value received
   let applyDependChange = function(depends, depend) {
-    previousSelectedSensor[depend] = {
-      key: depends[depend],
-      value: selectedSensor[depends[depend]]
-    };
-    cb(depend);
+    previousSelectedSensor[depend] = selectedSensor[depend];
+    var methods = depends[depend];
+    if(methods && methods.length) {
+      methods.forEach((method) => {
+        cb(method, depend);
+      });
+    }
   }
 
   // initialize the process
   let init = function() {
     for(let depend in depends) {
       checkDependExists(depend);
-      if(selectedSensor[depends[depend]] != previousSelectedSensor[depend].value) {
+      if(JSON.stringify(selectedSensor[depend]) !== JSON.stringify(previousSelectedSensor[depend])) {
         applyDependChange(depends, depend);
       }
     }
   }
-  init();
+  sensorEmitter.addListener('sensorChange', function(data) {
+    selectedSensor = data;
+    init();  
+  });
 };
+
+function selectedSensorFn() {
+  var self = this;
+  this.selectedSensor = {};
+  this.sensorFiledName = {};
+
+  // Get
+  let get = function(prop, obj) {
+    if(obj) {
+      return self[obj][prop];
+    }
+    else {
+      if(prop) {
+        return self.selectedSensor[prop];
+      } else {
+        return self.selectedSensor;
+      }
+    }
+  }
+
+  // Set
+  let set = function(obj, isExecuteUpdate=false) {
+    self.selectedSensor[obj.key] = obj.value;
+    if(isExecuteUpdate) {
+      sensorEmitter.emit('sensorChange', self.selectedSensor);
+    }
+  }
+
+  // Set fieldname
+  let setFieldName = function(obj) {
+    self.sensorFiledName[obj.key] = obj.value;
+  }
+
+  return {
+    get: get,
+    set: set,
+    setFieldName: setFieldName
+  };
+
+};
+export var selectedSensor = new selectedSensorFn();

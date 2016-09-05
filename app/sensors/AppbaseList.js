@@ -21,18 +21,19 @@ export class AppbaseList extends Component {
   // Get the items from Appbase when component is mounted
   componentDidMount() {
     this.getItems();
-  }
-  componentDidUpdate() {
-    var depends = this.props.depends;
-    var selectedSensor = this.props.selectedSensor;
-    if(depends && selectedSensor) {
-      helper.watchForDependencyChange(depends, selectedSensor, this.previousSelectedSensor, this.customDependChange);
+    if(this.props.depends && this.customDependChange) {
+      helper.watchForDependencyChange(this.props.depends, this.previousSelectedSensor, this.customDependChange);
     }
+    var obj = {
+        key: this.props.sensorName,
+        value: this.props.fieldName
+    };
+    helper.selectedSensor.setFieldName(obj);
   }
   // Custom event after dependency changes
-  customDependChange(depend) {
-    switch(depend) {
-      case 'city' :
+  customDependChange(method, depend) {
+    switch(method) {
+      case 'topicFilterByCity' :
         this.getItems();
       break;
     }
@@ -55,15 +56,13 @@ export class AppbaseList extends Component {
   }
   // Handler function when a value is selected
   handleSelect(value) {
-    if(this.props.sensorOnSelect) {
-      var obj = {
-        key: this.props.fieldName,
+    var obj = {
+        key: this.props.sensorName,
         value: value
-      };
-      this.props.sensorOnSelect(obj);
-    }
+    };
     var isExecuteQuery = true;
     queryObject.addShouldClause(this.props.fieldName, value, this.type, isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
+    helper.selectedSensor.set(obj, true);
   }
   // Handler function when a value is deselected or removed
   handleRemove(value, isExecuteQuery=false) {

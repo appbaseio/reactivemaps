@@ -28,16 +28,16 @@ export class MapStyles extends Component {
   handleSelect(event) {
     this.setState({
       selectedValue: event.target.value
-    }, this.themeChanged);
+    }, function() { 
+      this.themeChanged(true)
+    }.bind(this));
   }
-  themeChanged() {
-    if(this.props.sensorOnSelect) {
-      var obj = {
-        key: this.props.fieldName,
-        value: helper.mapStyles[this.state.selectedValue].value
-      };
-      this.props.sensorOnSelect(obj);
-    }
+  themeChanged(isExecute=false) {
+    var obj = {
+      key: this.props.sensorName,
+      value: helper.mapStyles[this.state.selectedValue].value
+    };
+    helper.selectedSensor.set(obj, isExecute);
   }
   render() {
     let options = this.state.items.map(function(item, index) {

@@ -25,23 +25,19 @@ export class SearchAsMove extends Component {
   }
   // Handler function when a value is selected
   handleSelect(value) {
-    if(this.props.sensorOnSelect) {
-      var obj = {
-        key: this.props.fieldName,
+    var obj = {
+        key: this.props.sensorName,
         value: true
-      };
-      this.props.sensorOnSelect(obj);
-    }
+    };
+    helper.selectedSensor.set(obj, true);
   }
   // Handler function when a value is deselected or removed
   handleRemove(value, isExecuteQuery=false) {
-    if(this.props.sensorOnSelect) {
-      var obj = {
-        key: this.props.fieldName,
+    var obj = {
+        key: this.props.sensorName,
         value: false
-      };
-      this.props.sensorOnSelect(obj);
-    }
+    };
+    helper.selectedSensor.set(obj, true);
   }
   render() {
     let listComponent;
