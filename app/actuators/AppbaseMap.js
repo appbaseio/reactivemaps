@@ -314,5 +314,9 @@ AppbaseMap.propTypes = {
 AppbaseMap.defaultProps = {
   historicalData: true,
   markerCluster: true,
-  searchComponent: "google"
+  searchComponent: "google",
+  markerOnClick: function() {},
+  markerOnDblclick: function() {},
+  markerOnMouseover: function() {},
+  markerOnMouseout: function() {}
 };
