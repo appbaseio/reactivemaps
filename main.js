@@ -25,59 +25,34 @@ class Main extends Component {
 						<div className="col s6">
 							<h5> Cities (Single Select) </h5>
 							<AppbaseList
+								sensorId="CitySensor"
+								inputData={this.props.mapping.city} 
 								defaultSelected="London"
-								fieldName={this.props.mapping.city} 
 								showCount={true} 
 								size={1000} 
 								multipleSelect={false} 
-								includeGeo={false} 
-								sensorName="CitySensor"
+								includeGeo={false}
 							/>
 						</div>
 						<div className="col s6">
 							<h5> Topics (Multiple Select) </h5>
 							<AppbaseList
-								fieldName={this.props.mapping.topic} 
-								showCount={true} 
+								inputData={this.props.mapping.topic} 
+								sensorId="TopicSensor"
+								showCount={true}
 								size={100} 
 								multipleSelect={true} 
 								includeGeo={true} 
-								sensorName="TopicSensor"
 								depends={{
-									CitySensor: ["topicFilterByCity"]
+									CitySensor: "must"
 								}}
 							/>
 						</div>
 					</div>
-					<div className="col s12">
-						<h5> Range of guests </h5>
-						<AppbaseSlider fieldName="guests" max="10" />
-					</div><br/><br/><br/>
-					<div className="col s12">
-						<h5> Select Venue </h5>					
-						<AppbaseSearch
-							fieldName={this.props.mapping.venue}
-							sensorName="VenueSensor"
-							depends={{
-								'CitySensor': ['searchFilterByCity']
-							}}  />
-					</div>
-					<div className="col s12">
-						<h5> Map styles </h5>
-						<MapStyles 
-							defaultSelected={this.props.mapStyle}
-							sensorName="MapStyleSensor"
-							/>
-					</div>
-					<div className="col s12">
-						<h5> Search with move </h5>					
-						<SearchAsMove  
-							sensorName="SearchAsMoveSensor" />
-					</div>
 				</div>
 				<div className="col s6 h-100">
 					<AppbaseMap
-						fieldName={this.props.mapping.location}
+						inputData={this.props.mapping.location}
 						defaultZoom={13}
 						defaultCenter={{ lat: 37.74, lng: -122.45 }}
 						historicalData={true}
@@ -85,10 +60,10 @@ class Main extends Component {
 						searchComponent="appbase"
 						searchField={this.props.mapping.venue}
 						mapStyle={this.props.mapStyle}
+						autoCenter={true}
 						depends={{
-							CitySensor: ["reposition"],
-							SearchAsMoveSensor: ["SearchAsMove"],
-							MapStyleSensor: ["MapStyles"]
+							CitySensor: "must",
+							TopicSensor: "must"
 						}}
 						/>
 				</div>

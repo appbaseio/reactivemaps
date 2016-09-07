@@ -4,6 +4,7 @@ import { GoogleMapLoader, GoogleMap, Marker, SearchBox } from "react-google-maps
 import InfoBox from 'react-google-maps/lib/addons/InfoBox';
 import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerClusterer";
 import {queryObject, emitter} from '../middleware/ImmutableQuery.js';
+import {manager} from '../middleware/ChannelManager.js';
 import {AppbaseSearch} from '../sensors/AppbaseSearch';
 var helper = require('../middleware/helper.js');
 var Style = require('../helper/Style.js');
@@ -22,29 +23,28 @@ export class AppbaseMap extends Component {
     this.idelAllowed = false;
     var streamingInstance;
     this.previousSelectedSensor = {};
-    this.allowReposition = false;
     this.includeGeo = false;
     this.styleOptions = null;
     this.handleSearch = this.handleSearch.bind(this);
     this.customDependChange = this.customDependChange.bind(this);
   }
   componentDidMount() {
-    var self = this;
-    // Listen to change in the query
-    emitter.addListener('queryResult', function (data) {
-      self.setState({
+    this.createChannel();
+  }
+  // Create a channel which passes the depends and receive results whenever depends changes
+  createChannel() {
+    // Set the depends - add self aggs query as well with depends
+    let depends = this.props.depends ? this.props.depends : {};
+    // create a channel and listen the changes
+    var channelObj = manager.create(depends);
+    channelObj.emitter.addListener(channelObj.channelId, function(data) {
+      this.setState({
         rawData: data
-      }, self.getNewMarkers);
-    });
-    var depends = this.props.depends;
-    helper.watchForDependencyChange(depends, self.previousSelectedSensor, self.customDependChange);
-  };
-
+      }, this.getNewMarkers);
+    }.bind(this));
+  }
   customDependChange(method, depend) {
     switch(method) {
-      case 'reposition':
-        this.allowReposition = true;
-      break;
       case 'SearchAsMove' :
         this.includeGeo = this.previousSelectedSensor[depend] ? this.previousSelectedSensor[depend] : false;
       break;
@@ -63,11 +63,11 @@ export class AppbaseMap extends Component {
     let newMarkersArray = [];
     var totalPosition = {lat: 0, lng: 0};
     var markersData = data.hits.hits.filter((hit, index) => {
-      return hit._source.hasOwnProperty(self.props.fieldName) && !(hit._source[self.props.fieldName].lat === 0 && hit._source[self.props.fieldName].lon === 0);
+      return hit._source.hasOwnProperty(self.props.inputData) && !(hit._source[self.props.inputData].lat === 0 && hit._source[self.props.inputData].lon === 0);
     });
-    markersData = _.orderBy(markersData, [self.props.fieldName.lat], ['desc']);
+    markersData = _.orderBy(markersData, [self.props.inputData.lat], ['desc']);
     newMarkersArray = markersData.map((hit, index) => {
-      let field = hit._source[self.props.fieldName];
+      let field = hit._source[self.props.inputData];
       let position = {
         position: {
           lat: field.lat,
@@ -88,19 +88,14 @@ export class AppbaseMap extends Component {
       var median = parseInt(markersData.length/2, 10);
       var selectedMarker = markersData[median];
       var defaultCenter = {
-        lat: selectedMarker._source[self.props.fieldName].lat,
-        lng: selectedMarker._source[self.props.fieldName].lon
+        lat: selectedMarker._source[self.props.inputData].lat,
+        lng: selectedMarker._source[self.props.inputData].lon
       };
       console.log(defaultCenter.lat, defaultCenter.lng, newMarkersArray.length);
       self.setState({
         markers: newMarkersArray,
         center: defaultCenter
       }, function () {
-        if(self.allowReposition) {
-          setTimeout(()=> {
-            self.allowReposition = false;  
-          }, 2000);
-        }
         // self.startStreaming();
       });
     } else {
@@ -138,8 +133,8 @@ export class AppbaseMap extends Component {
     this.streamingInstance = helper.appbaseRef.searchStream(query).on('data', function (stream) {
       let positionMarker = {
         position: {
-          lat: stream._source[self.props.fieldName].lat,
-          lng: stream._source[self.props.fieldName].lon
+          lat: stream._source[self.props.inputData].lat,
+          lng: stream._source[self.props.inputData].lon
         }
       }
       // Using a different color marker for realtime markers
@@ -179,7 +174,7 @@ export class AppbaseMap extends Component {
         "bottom_right": [east, south]
       };
       if(!this.searchQueryProgress) {
-        var query = queryObject.updateGeoFilter(this.props.fieldName, boundingBoxCoordinates)
+        var query = queryObject.updateGeoFilter(this.props.inputData, boundingBoxCoordinates)
         this.setState({
           streamingStatus: 'Fetching...'
         });
@@ -250,15 +245,13 @@ export class AppbaseMap extends Component {
     else {
       markerComponent = this.state.markers;
     }
-    if(this.allowReposition) {
+    if(this.props.autoCenter) {
       searchComponentProps.center = this.state.center;
       console.log(searchComponentProps.center);
-    } else {
-      delete searchComponentProps.center;
     }
     if (this.props.searchComponent === "appbase") {
       appbaseSearch = <AppbaseSearch
-        fieldName={this.props.searchField}
+        inputData={this.props.searchField}
         config={this.props.config}
         handleSearch={this.handleSearch}
         latField="location.lat"
@@ -303,7 +296,7 @@ export class AppbaseMap extends Component {
   }
 }
 AppbaseMap.propTypes = {
-  fieldName: React.PropTypes.string.isRequired,
+  inputData: React.PropTypes.string.isRequired,
   searchField: React.PropTypes.string,
   searchComponent: React.PropTypes.string,
   markerOnDelete: React.PropTypes.func,
@@ -315,6 +308,7 @@ AppbaseMap.defaultProps = {
   historicalData: true,
   markerCluster: true,
   searchComponent: "google",
+  autoCenter: false,
   markerOnClick: function() {},
   markerOnDblclick: function() {},
   markerOnMouseover: function() {},
