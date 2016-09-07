@@ -59,8 +59,6 @@ class Main extends Component {
 						markerCluster={false}
 						searchComponent="appbase"
 						searchField={this.props.mapping.venue}
-						mapStyle={this.props.mapStyle}
-						autoCenter={true}
 						depends={{
 							CitySensor: "must",
 							TopicSensor: "must"
