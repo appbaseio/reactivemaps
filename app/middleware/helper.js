@@ -55,7 +55,11 @@ export var watchForDependencyChange = function(depends, previousSelectedSensor, 
   }
   // apply depend changes when new value received
   let applyDependChange = function(depends, depend) {
-    previousSelectedSensor[depend] = JSON.stringify(selectedSensor[depend]);
+    if(selectedSensor[depend] && typeof selectedSensor[depend] === 'object') {
+      previousSelectedSensor[depend] = JSON.stringify(selectedSensor[depend]);
+    } else {
+      previousSelectedSensor[depend] = selectedSensor[depend];
+    }
     cb(depend, channelId); 
   }
 
@@ -63,8 +67,14 @@ export var watchForDependencyChange = function(depends, previousSelectedSensor, 
   let init = function() {
     for(let depend in depends) {
       checkDependExists(depend);
-      if(JSON.stringify(selectedSensor[depend]) !== previousSelectedSensor[depend]) {
-        applyDependChange(depends, depend);
+      if(typeof selectedSensor[depend] === 'object') { 
+        if(JSON.stringify(selectedSensor[depend]) !== previousSelectedSensor[depend]) {
+          applyDependChange(depends, depend);  
+        }
+      } else {
+        if(selectedSensor[depend] !== previousSelectedSensor[depend]) {
+          applyDependChange(depends, depend);
+        }  
       }
     }
   }

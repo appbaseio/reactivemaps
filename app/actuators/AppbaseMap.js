@@ -21,9 +21,7 @@ export class AppbaseMap extends Component {
       rawData: {}
     };
     this.previousSelectedSensor = {};
-    this.styleOptions = null;
     this.handleSearch = this.handleSearch.bind(this);
-    this.customDependChange = this.customDependChange.bind(this);
   }
   componentDidMount() {
     this.createChannel();
@@ -52,16 +50,6 @@ export class AppbaseMap extends Component {
         }
     };
     helper.selectedSensor.setSensorInfo(obj);
-  }
-  customDependChange(method, depend) {
-    switch(method) {
-      case 'MapStyles' :
-        this.styleOptions = this.previousSelectedSensor[depend];
-        this.setState({
-          styleOptions: this.styleOptions
-        });
-      break;
-    }
   }
   getNewMarkers() {
     var self = this;

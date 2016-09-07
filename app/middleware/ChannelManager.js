@@ -52,7 +52,18 @@ class channelManager {
       let sensorInfo = helper.selectedSensor.get(depend, 'sensorInfo');
       let s_query = null
       if(previousSelectedSensor[depend]) {
-        s_query = JSON.parse(`{ "${sensorInfo.queryType}": { "${sensorInfo.inputData}":` + previousSelectedSensor[depend] + "} }");
+        s_query = {}
+        s_query[sensorInfo.queryType] = {};
+        s_query[sensorInfo.queryType][sensorInfo.inputData] = previousSelectedSensor[depend];
+      } 
+      if(depend == 'searchLetter') {
+        s_query = {
+          "multi_match": {
+            "query": previousSelectedSensor[depend],
+            "fields": sensorInfo.inputData,
+            "operator": "and"
+          }
+        }; 
       }
       return s_query;
     }

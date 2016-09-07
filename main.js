@@ -49,6 +49,23 @@ class Main extends Component {
 							/>
 						</div>
 					</div>
+					<div className="col s12">
+						<h5> Range of guests </h5>
+						<AppbaseSlider 
+							sensorId="RangeSensor"
+							inputData="guests"
+							max="10" />
+					</div>
+					<div className="col s12">
+						<h5> Select Venue </h5>					
+						<AppbaseSearch
+							inputData={this.props.mapping.venue}
+							sensorId="VenueSensor"
+							depends={{
+								'CitySensor': "must"
+							}}
+						/>
+					</div>
 				</div>
 				<div className="col s6 h-100">
 					<AppbaseMap
@@ -59,9 +76,14 @@ class Main extends Component {
 						markerCluster={false}
 						searchComponent="appbase"
 						searchField={this.props.mapping.venue}
+						mapStyle={this.props.mapStyle}
+						autoCenter={true}
+						searchAsMove={false}
 						depends={{
 							CitySensor: "must",
-							TopicSensor: "must"
+							TopicSensor: "must",
+							RangeSensor: "must",
+							VenueSensor: "must"
 						}}
 						/>
 				</div>
