@@ -31,7 +31,7 @@ export class AppbaseMap extends Component {
   createChannel() {
     // Set the depends - add self aggs query as well with depends
     let depends = this.props.depends ? this.props.depends : {};
-    depends['geoQuery'] = "should";
+    depends['geoQuery'] = { operation: "should" };
     // create a channel and listen the changes
     var channelObj = manager.create(depends);
     channelObj.emitter.addListener(channelObj.channelId, function(data) {

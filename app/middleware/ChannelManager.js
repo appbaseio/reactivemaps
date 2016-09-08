@@ -31,15 +31,19 @@ class channelManager {
     let aggs = null;
     let mustArray = [];
     let shouldArray = [];
-
     for(let depend in depends) {
       if(depend !== 'aggs') {
-        let queryObj = singleQuery(depend);
+        let queryObj = null;
+        if(depends[depend].defaultQuery) {
+          queryObj = depends[depend].defaultQuery(previousSelectedSensor[depend]);
+        } else {
+          queryObj = singleQuery(depend);
+        }
         if(queryObj) {
-          if(depends[depend] === 'must') {
+          if(depends[depend].operation === 'must') {
             mustArray.push(queryObj);
           }
-          else if(depends[depend] === 'should') {
+          else if(depends[depend].operation === 'should') {
             shouldArray.push(queryObj);
           }
         }
@@ -55,15 +59,6 @@ class channelManager {
         s_query = {}
         s_query[sensorInfo.queryType] = {};
         s_query[sensorInfo.queryType][sensorInfo.inputData] = previousSelectedSensor[depend];
-      } 
-      if(depend == 'searchLetter') {
-        s_query = {
-          "multi_match": {
-            "query": previousSelectedSensor[depend],
-            "fields": sensorInfo.inputData,
-            "operator": "and"
-          }
-        }; 
       }
       return s_query;
     }

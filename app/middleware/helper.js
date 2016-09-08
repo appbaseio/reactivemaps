@@ -60,7 +60,9 @@ export var watchForDependencyChange = function(depends, previousSelectedSensor, 
     } else {
       previousSelectedSensor[depend] = selectedSensor[depend];
     }
-    cb(depend, channelId); 
+    if(!depends[depend].doNotExecute) {
+      cb(depend, channelId); 
+    }
   }
 
   // initialize the process

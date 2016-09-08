@@ -44,7 +44,9 @@ class Main extends Component {
 								multipleSelect={true} 
 								includeGeo={true} 
 								depends={{
-									CitySensor: "must"
+									CitySensor: {
+										"operation": "must"
+									}
 								}}
 							/>
 						</div>
@@ -61,8 +63,12 @@ class Main extends Component {
 						<AppbaseSearch
 							inputData={this.props.mapping.venue}
 							sensorId="VenueSensor"
+							searchRef="CityVenue"
 							depends={{
-								'CitySensor': "must"
+								'CitySensor': {
+									"operation": "must",
+									"doNotExecute": {true}
+								}
 							}}
 						/>
 					</div>
@@ -80,10 +86,10 @@ class Main extends Component {
 						autoCenter={true}
 						searchAsMove={false}
 						depends={{
-							CitySensor: "must",
-							TopicSensor: "must",
-							RangeSensor: "must",
-							VenueSensor: "must"
+							CitySensor: {"operation": "must"},
+							TopicSensor: {"operation": "must"},
+							RangeSensor: {"operation": "must"},
+							VenueSensor: {"operation": "must"}
 						}}
 						/>
 				</div>

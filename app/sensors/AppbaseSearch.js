@@ -15,6 +15,7 @@ export class AppbaseSearch extends Component {
     this.type = 'Match';
     this.handleSearch = this.handleSearch.bind(this);
     this.setValue = this.setValue.bind(this);
+    this.defaultSearchQuery = this.defaultSearchQuery.bind(this);
     this.previousSelectedSensor = {};
   }
   // Get the items from Appbase when component is mounted
@@ -33,7 +34,7 @@ export class AppbaseSearch extends Component {
     };
     helper.selectedSensor.setSensorInfo(obj);
     let searchObj = {
-        key: 'searchLetter',
+        key: this.props.searchRef,
         value: {
           queryType: 'multi_match',
           inputData: this.props.inputData
@@ -44,16 +45,30 @@ export class AppbaseSearch extends Component {
   // Create a channel which passes the depends and receive results whenever depends changes
   createChannel() {
     let depends = this.props.depends ? this.props.depends : {};
-    depends['searchLetter'] = "must";
+    depends[this.props.searchRef] = {
+      operation: "must",
+      defaultQuery: this.defaultSearchQuery
+    };
     var channelObj = manager.create(depends);
     channelObj.emitter.addListener(channelObj.channelId, function(data) {
       this.setData(data);
     }.bind(this));
   }
-   // set value to search
+  //default query
+  defaultSearchQuery(value) {
+    return {
+      "multi_match": {
+        "query": value,
+        "fields": this.props.inputData,
+        "operator": "and"
+      }
+    }; 
+  }
+
+  // set value to search
   setValue(value, callback) {
     var obj = {
-        key: 'searchLetter',
+        key: this.props.searchRef,
         value: value
     };
     helper.selectedSensor.set(obj, true);
@@ -131,4 +146,6 @@ AppbaseSearch.defaultProps = {
   placeholder: "Search...",
   isGeoSearch: false,
   size: 10,
+  executeDepends: true,
+  searchRef: "searchLetter"
 };
