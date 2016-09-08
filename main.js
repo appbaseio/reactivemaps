@@ -16,6 +16,16 @@ import {ReactiveMap} from './app/middleware/ReactiveMap';
 import {queryObject} from './app/middleware/ImmutableQuery.js';
 
 class Main extends Component {
+	constructor(props) {
+	    super(props);
+	    this.topicDepends = this.topicDepends.bind(this);
+	}
+	topicDepends(value) {
+		if(this.props.mapping.city && value) {
+			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
+	    	return { Match: match };
+    	} else return null;
+	}
 	render() {
 		return (
 			<div className="row m-0 h-100">
@@ -45,7 +55,8 @@ class Main extends Component {
 								includeGeo={true} 
 								depends={{
 									CitySensor: {
-										"operation": "must"
+										"operation": "must",
+										"defaultQuery": this.topicDepends
 									}
 								}}
 							/>
