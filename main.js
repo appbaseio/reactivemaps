@@ -7,8 +7,6 @@ var helper = require('./app/middleware/helper.js');
 import {AppbaseList} from './app/sensors/AppbaseList';
 import {AppbaseSlider} from './app/sensors/AppbaseSlider';
 import {AppbaseSearch} from './app/sensors/AppbaseSearch';
-import {SearchAsMove} from './app/sensors/SearchAsMove';
-import {MapStyles} from './app/sensors/MapStyles';
 // actuators
 import {AppbaseMap} from './app/actuators/AppbaseMap';
 // middleware
@@ -16,6 +14,16 @@ import {ReactiveMap} from './app/middleware/ReactiveMap';
 import {queryObject} from './app/middleware/ImmutableQuery.js';
 
 class Main extends Component {
+	constructor(props) {
+	    super(props);
+	    this.topicDepends = this.topicDepends.bind(this);
+	}
+	topicDepends(value) {
+		if(this.props.mapping.city && value) {
+			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
+	    	return { Match: match };
+    	} else return null;
+	}
 	render() {
 		return (
 			<div className="row m-0 h-100">
@@ -25,59 +33,58 @@ class Main extends Component {
 						<div className="col s6">
 							<h5> Cities (Single Select) </h5>
 							<AppbaseList
+								sensorId="CitySensor"
+								inputData={this.props.mapping.city} 
 								defaultSelected="London"
-								fieldName={this.props.mapping.city} 
 								showCount={true} 
 								size={1000} 
 								multipleSelect={false} 
-								includeGeo={false} 
-								sensorName="CitySensor"
+								includeGeo={false}
 							/>
 						</div>
 						<div className="col s6">
 							<h5> Topics (Multiple Select) </h5>
 							<AppbaseList
-								fieldName={this.props.mapping.topic} 
-								showCount={true} 
+								inputData={this.props.mapping.topic} 
+								sensorId="TopicSensor"
+								showCount={true}
 								size={100} 
 								multipleSelect={true} 
 								includeGeo={true} 
-								sensorName="TopicSensor"
 								depends={{
-									CitySensor: ["topicFilterByCity"]
+									CitySensor: {
+										"operation": "must",
+										"defaultQuery": this.topicDepends
+									}
 								}}
 							/>
 						</div>
 					</div>
 					<div className="col s12">
 						<h5> Range of guests </h5>
-						<AppbaseSlider fieldName="guests" max="10" />
-					</div><br/><br/><br/>
+						<AppbaseSlider 
+							sensorId="RangeSensor"
+							inputData="guests"
+							max="10" />
+					</div>
 					<div className="col s12">
 						<h5> Select Venue </h5>					
 						<AppbaseSearch
-							fieldName={this.props.mapping.venue}
-							sensorName="VenueSensor"
+							inputData={this.props.mapping.venue}
+							sensorId="VenueSensor"
+							searchRef="CityVenue"
 							depends={{
-								'CitySensor': ['searchFilterByCity']
-							}}  />
-					</div>
-					<div className="col s12">
-						<h5> Map styles </h5>
-						<MapStyles 
-							defaultSelected={this.props.mapStyle}
-							sensorName="MapStyleSensor"
-							/>
-					</div>
-					<div className="col s12">
-						<h5> Search with move </h5>					
-						<SearchAsMove  
-							sensorName="SearchAsMoveSensor" />
+								'CitySensor': {
+									"operation": "must",
+									"doNotExecute": {true}
+								}
+							}}
+						/>
 					</div>
 				</div>
 				<div className="col s6 h-100">
 					<AppbaseMap
-						fieldName={this.props.mapping.location}
+						inputData={this.props.mapping.location}
 						defaultZoom={13}
 						defaultCenter={{ lat: 37.74, lng: -122.45 }}
 						historicalData={true}
@@ -85,10 +92,14 @@ class Main extends Component {
 						searchComponent="appbase"
 						searchField={this.props.mapping.venue}
 						mapStyle={this.props.mapStyle}
+						autoCenter={true}
+						searchAsMoveComponent={true}
+						MapStylesComponent={true}
 						depends={{
-							CitySensor: ["reposition"],
-							SearchAsMoveSensor: ["SearchAsMove"],
-							MapStyleSensor: ["MapStyles"]
+							CitySensor: {"operation": "must"},
+							TopicSensor: {"operation": "must"},
+							RangeSensor: {"operation": "must"},
+							VenueSensor: {"operation": "must"}
 						}}
 						/>
 				</div>

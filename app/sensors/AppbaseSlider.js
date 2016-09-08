@@ -2,6 +2,7 @@ import { default as React, Component } from 'react';
 import { render } from 'react-dom';
 import {queryObject} from '../middleware/ImmutableQuery.js';
 import InputRange from 'react-input-range';
+var helper = require('../middleware/helper.js');
 var Style = require('../helper/Style.js');
 
 export class AppbaseSlider extends Component {
@@ -14,8 +15,12 @@ export class AppbaseSlider extends Component {
       maxThreshold: this.props.maxThreshold,
       currentValues: [],
     };
+    this.type = 'range';
     this.handleValuesChange = this.handleValuesChange.bind(this);
     this.handleResults = this.handleResults.bind(this);
+  }
+  componentDidMount() {
+    this.setQueryInfo();
   }
   // Handle function when value slider option is changing
   handleValuesChange(component, values) {
@@ -23,12 +28,29 @@ export class AppbaseSlider extends Component {
       values: values,
     });
   }
+  // set the query type and input data
+  setQueryInfo() {
+    var obj = {
+        key: this.props.sensorId,
+        value: {
+          queryType: this.type,
+          inputData: this.props.inputData
+        }
+    };
+    helper.selectedSensor.setSensorInfo(obj);
+  }
   // Handle function when slider option change is completed
   handleResults(component, values) {
-    // Remove the last Range query
-    queryObject.removeShouldClause(this.props.fieldName, this.state.currentValues, "Range", this.props.isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
-    // Add new should query    
-    queryObject.addShouldClause(this.props.fieldName, values, "Range", this.props.isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
+    var real_values = {
+      from: values.min,
+      to: values.max
+    }
+    var obj = {
+      key: this.props.sensorId,
+      value: real_values
+    };
+    helper.selectedSensor.set(obj, true);
+  
     this.setState({
       currentValues: values
     });
@@ -51,7 +73,7 @@ export class AppbaseSlider extends Component {
 }
 
 AppbaseSlider.propTypes = {
-  fieldName: React.PropTypes.string.isRequired,
+  inputData: React.PropTypes.string.isRequired,
   minThreshold: React.PropTypes.number,
   maxThreshold: React.PropTypes.number,
   values: React.PropTypes.object,  

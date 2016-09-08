@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import {ItemCheckboxList} from './component/ItemCheckboxList.js';
 import {ItemList} from './component/ItemList.js';
 import {queryObject} from '../middleware/ImmutableQuery.js';
+import {manager} from '../middleware/ChannelManager.js';
 var helper = require('../middleware/helper.js');
 
 export class AppbaseList extends Component {
@@ -15,39 +16,41 @@ export class AppbaseList extends Component {
     this.previousSelectedSensor = {};
     this.handleSelect = this.handleSelect.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.customDependChange = this.customDependChange.bind(this);
     this.type = this.props.multipleSelect ? 'Terms' : 'Term';
   }
   // Get the items from Appbase when component is mounted
   componentDidMount() {
-    this.getItems();
-    if(this.props.depends && this.customDependChange) {
-      helper.watchForDependencyChange(this.props.depends, this.previousSelectedSensor, this.customDependChange);
-    }
+    this.setQueryInfo();
+    this.createChannel();
+  }
+  // set the query type and input data
+  setQueryInfo() {
     var obj = {
-        key: this.props.sensorName,
-        value: this.props.fieldName
+        key: this.props.sensorId,
+        value: {
+          queryType: this.type,
+          inputData: this.props.inputData
+        }
     };
-    helper.selectedSensor.setFieldName(obj);
+    helper.selectedSensor.setSensorInfo(obj);
   }
-  // Custom event after dependency changes
-  customDependChange(method, depend) {
-    switch(method) {
-      case 'topicFilterByCity' :
-        this.getItems();
-      break;
-    }
+  // Create a channel which passes the depends and receive results whenever depends changes
+  createChannel() {
+    // Set the depends - add self aggs query as well with depends
+    let depends = this.props.depends ? this.props.depends : {};
+    depends['aggs'] = {
+      key: this.props.inputData,
+      sort: this.props.sort,
+      size: this.props.size
+    };
+    // create a channel and listen the changes
+    var channelObj = manager.create(depends);
+    channelObj.emitter.addListener(channelObj.channelId, function(data) {
+      this.setData(data);
+    }.bind(this));
   }
-  getItems() {
-    var requestObject = queryObject.addAggregation(this.props.fieldName,
-      this.props.size,
-      this.props.sort);
-    var self = this;
-    helper.appbaseRef.search(requestObject).on('data', function (data) {
-      self.addItemsToList(eval(`data.aggregations["${self.props.fieldName}"].buckets`));
-    }).on('error', function (error) {
-      console.log(error);
-    });
+  setData(data) {
+    this.addItemsToList(eval(`data.aggregations["${this.props.inputData}"].buckets`));
   }
   addItemsToList(newItems) {
     this.setState({
@@ -56,18 +59,21 @@ export class AppbaseList extends Component {
   }
   // Handler function when a value is selected
   handleSelect(value) {
-    var obj = {
-        key: this.props.sensorName,
-        value: value
-    };
-    var isExecuteQuery = true;
-    queryObject.addShouldClause(this.props.fieldName, value, this.type, isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
-    helper.selectedSensor.set(obj, true);
+    this.setValue(value, true)
   }
   // Handler function when a value is deselected or removed
   handleRemove(value, isExecuteQuery=false) {
-    queryObject.removeShouldClause(this.props.fieldName, value, this.type, isExecuteQuery, this.props.includeGeo, this.props.queryLevel);
+    this.setValue(value, isExecuteQuery)
   }
+  // set value
+  setValue(value, isExecuteQuery=false) {
+    var obj = {
+        key: this.props.sensorId,
+        value: value
+    };
+    helper.selectedSensor.set(obj, isExecuteQuery);
+  }
+
   render() {
     // Checking if component is single select or multiple select
     let listComponent;
@@ -96,7 +102,7 @@ export class AppbaseList extends Component {
 
 }
 AppbaseList.propTypes = {
-  fieldName: React.PropTypes.string.isRequired,
+  inputData: React.PropTypes.string.isRequired,
   size: React.PropTypes.number,
   showCount: React.PropTypes.bool,
   multipleSelect: React.PropTypes.bool,

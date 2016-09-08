@@ -5,13 +5,11 @@ import {queryObject} from '../middleware/ImmutableQuery.js';
 var helper = require('../middleware/helper.js');
 
 export class SearchAsMove extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       items: []
     };
-    this.selectedSensor = {};
     this.handleSelect = this.handleSelect.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
   }
@@ -25,19 +23,11 @@ export class SearchAsMove extends Component {
   }
   // Handler function when a value is selected
   handleSelect(value) {
-    var obj = {
-        key: this.props.sensorName,
-        value: true
-    };
-    helper.selectedSensor.set(obj, true);
+    this.props.searchAsMoveChange(true);
   }
   // Handler function when a value is deselected or removed
-  handleRemove(value, isExecuteQuery=false) {
-    var obj = {
-        key: this.props.sensorName,
-        value: false
-    };
-    helper.selectedSensor.set(obj, true);
+  handleRemove(value) {
+    this.props.searchAsMoveChange(false);
   }
   render() {
     let listComponent;
@@ -48,7 +38,7 @@ export class SearchAsMove extends Component {
       onRemove={this.handleRemove}
       showCount={this.props.showCount} />
     return (
-      <div>
+      <div className="searchAsMove">
         {listComponent}
       </div>
     );

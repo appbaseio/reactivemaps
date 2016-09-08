@@ -44,7 +44,7 @@ export function getMapStyle(styleName) {
     return null;
   }
 }
-export function watchForDependencyChange(depends, previousSelectedSensor, cb) {
+export var watchForDependencyChange = function(depends, previousSelectedSensor, cb, channelId) {
   var self = this;
   let selectedSensor = {};
   // check if depend object already exists
@@ -55,12 +55,13 @@ export function watchForDependencyChange(depends, previousSelectedSensor, cb) {
   }
   // apply depend changes when new value received
   let applyDependChange = function(depends, depend) {
-    previousSelectedSensor[depend] = selectedSensor[depend];
-    var methods = depends[depend];
-    if(methods && methods.length) {
-      methods.forEach((method) => {
-        cb(method, depend);
-      });
+    if(selectedSensor[depend] && typeof selectedSensor[depend] === 'object') {
+      previousSelectedSensor[depend] = JSON.parse(JSON.stringify(selectedSensor[depend]));
+    } else {
+      previousSelectedSensor[depend] = selectedSensor[depend];
+    }
+    if(!depends[depend].doNotExecute) {
+      cb(depend, channelId); 
     }
   }
 
@@ -68,21 +69,28 @@ export function watchForDependencyChange(depends, previousSelectedSensor, cb) {
   let init = function() {
     for(let depend in depends) {
       checkDependExists(depend);
-      if(JSON.stringify(selectedSensor[depend]) !== JSON.stringify(previousSelectedSensor[depend])) {
-        applyDependChange(depends, depend);
+      if(typeof selectedSensor[depend] === 'object') { 
+        if(JSON.stringify(selectedSensor[depend]) !== JSON.stringify(previousSelectedSensor[depend])) {
+          applyDependChange(depends, depend);  
+        }
+      } else {
+        if(selectedSensor[depend] !== previousSelectedSensor[depend]) {
+          applyDependChange(depends, depend);
+        }  
       }
     }
   }
+
   sensorEmitter.addListener('sensorChange', function(data) {
     selectedSensor = data;
-    init();  
+    init();
   });
 };
 
 function selectedSensorFn() {
   var self = this;
   this.selectedSensor = {};
-  this.sensorFiledName = {};
+  this.sensorInfo = {};
 
   // Get
   let get = function(prop, obj) {
@@ -107,14 +115,14 @@ function selectedSensorFn() {
   }
 
   // Set fieldname
-  let setFieldName = function(obj) {
-    self.sensorFiledName[obj.key] = obj.value;
+  let setSensorInfo = function(obj) {
+    self.sensorInfo[obj.key] = obj.value;
   }
 
   return {
     get: get,
     set: set,
-    setFieldName: setFieldName
+    setSensorInfo: setSensorInfo
   };
 
 };
