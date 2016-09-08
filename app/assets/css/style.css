@@ -49,6 +49,11 @@ body {
   left: 0;
   bottom: 0;
 }
+.mapStyles {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
 .searchAsMove .listComponent {
   height: auto;
 }

@@ -56,7 +56,7 @@ export var watchForDependencyChange = function(depends, previousSelectedSensor, 
   // apply depend changes when new value received
   let applyDependChange = function(depends, depend) {
     if(selectedSensor[depend] && typeof selectedSensor[depend] === 'object') {
-      previousSelectedSensor[depend] = JSON.stringify(selectedSensor[depend]);
+      previousSelectedSensor[depend] = JSON.parse(JSON.stringify(selectedSensor[depend]));
     } else {
       previousSelectedSensor[depend] = selectedSensor[depend];
     }
@@ -70,7 +70,7 @@ export var watchForDependencyChange = function(depends, previousSelectedSensor, 
     for(let depend in depends) {
       checkDependExists(depend);
       if(typeof selectedSensor[depend] === 'object') { 
-        if(JSON.stringify(selectedSensor[depend]) !== previousSelectedSensor[depend]) {
+        if(JSON.stringify(selectedSensor[depend]) !== JSON.stringify(previousSelectedSensor[depend])) {
           applyDependChange(depends, depend);  
         }
       } else {

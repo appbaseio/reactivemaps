@@ -33,18 +33,15 @@ export class MapStyles extends Component {
     }.bind(this));
   }
   themeChanged(isExecute=false) {
-    var obj = {
-      key: this.props.sensorName,
-      value: helper.mapStyles[this.state.selectedValue].value
-    };
-    helper.selectedSensor.set(obj, isExecute);
+    let style = helper.mapStyles[this.state.selectedValue].value;
+    this.props.mapStyleChange(style)
   }
   render() {
     let options = this.state.items.map(function(item, index) {
       return <option value={index} key={index}>{item.key}</option>;
     });
     return (
-      <div className="input-field">
+      <div className="input-field mapStyles">
         <select className="browser-default" onChange={this.handleSelect} value={this.state.selectedValue} name="mapStyles" id="mapStyles">
           {options}
         </select>

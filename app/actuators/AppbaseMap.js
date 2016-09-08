@@ -7,6 +7,8 @@ import {queryObject, emitter} from '../middleware/ImmutableQuery.js';
 import {manager} from '../middleware/ChannelManager.js';
 import {AppbaseSearch} from '../sensors/AppbaseSearch';
 import {SearchAsMove} from '../sensors/SearchAsMove';
+import {MapStyles} from '../sensors/MapStyles';
+
 var helper = require('../middleware/helper.js');
 var Style = require('../helper/Style.js');
 
@@ -24,10 +26,15 @@ export class AppbaseMap extends Component {
     this.previousSelectedSensor = {};
     this.handleSearch = this.handleSearch.bind(this);
     this.searchAsMoveChange = this.searchAsMoveChange.bind(this);
+    this.mapStyleChange = this.mapStyleChange.bind(this);
   }
   componentDidMount() {
     this.createChannel();
     this.setGeoQueryInfo();
+    let currentMapStyle = helper.getMapStyle(this.props.mapStyle);
+    this.setState({
+      currentMapStyle: currentMapStyle
+    });
   }
   // Create a channel which passes the depends and receive results whenever depends changes
   createChannel() {
@@ -176,6 +183,12 @@ export class AppbaseMap extends Component {
   searchAsMoveChange(value) {
     this.searchAsMove = value;
   }
+  // mapStyle changes
+  mapStyleChange(style) {
+    this.setState({
+      currentMapStyle: style
+    });
+  }
   // Handler function for bounds changed which udpates the map center
   handleBoundsChanged() {
     if(!this.searchQueryProgress) {
@@ -202,7 +215,7 @@ export class AppbaseMap extends Component {
     // });
   }
   render() {
-    var markerComponent, searchComponent, searchAsMoveComponent;
+    var markerComponent, searchComponent, searchAsMoveComponent, MapStylesComponent;
     let appbaseSearch;
     var searchComponentProps = {};
     var otherOptions;
@@ -214,23 +227,31 @@ export class AppbaseMap extends Component {
     else {
       markerComponent = this.state.markers;
     }
-    if(this.props.autoCenter) {
+    // Auto center using markers data
+    if(!this.searchAsMove && this.props.autoCenter) {
       searchComponentProps.center = this.state.center;
-      console.log(searchComponentProps.center);
+    } else {
+      delete searchComponentProps.center;
     }
-    if(this.props.searchAsMove) {
+    // include searchasMove component 
+    if(this.props.searchAsMoveComponent) {
       searchAsMoveComponent = <SearchAsMove searchAsMoveChange={this.searchAsMoveChange} />;
+    }
+    // include mapStyle choose component 
+    if(this.props.MapStylesComponent) {
+      MapStylesComponent = <MapStyles defaultSelected={this.props.mapStyle} mapStyleChange={this.mapStyleChange} />;
     }
     if (this.props.searchComponent === "appbase") {
       appbaseSearch = <AppbaseSearch
         inputData={this.props.searchField}
-        config={this.props.config}
-        handleSearch={this.handleSearch}
-        latField="location.lat"
-        lonField="location.lon"
-        placeholder="Search location.."
-        isGeoSearch={true}
-        extraQuery={this.props.extraQuery} />
+        sensorId="VenueSensor"
+        searchRef="GeoVenue"
+        depends={{
+          'geoQuery': {
+            "operation": "must",
+            "doNotExecute": {true}
+          }
+        }} />
       searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
     } else if (this.props.searchComponent === "google") {
       searchComponent = <SearchBox
@@ -251,7 +272,7 @@ export class AppbaseMap extends Component {
         }
         googleMapElement={<GoogleMap ref = "map"
           options = {{
-            styles: helper.getMapStyle(this.props.mapStyle)
+            styles: this.state.currentMapStyle
           }}
           {...searchComponentProps}
           {...this.props}
@@ -265,6 +286,7 @@ export class AppbaseMap extends Component {
         Powered by <img width='200px' height='auto' src="http://slashon.appbase.io/img/Appbase.png" /> 
       </div>                
       {searchAsMoveComponent}
+      {MapStylesComponent}
     </div >
     )
   }
@@ -283,7 +305,8 @@ AppbaseMap.defaultProps = {
   markerCluster: true,
   searchComponent: "google",
   autoCenter: false,
-  searchAsMove: false,
+  searchAsMoveComponent: false,
+  MapStylesComponent: false,
   mapStyle: 'MapBox',
   markerOnClick: function() {},
   markerOnDblclick: function() {},

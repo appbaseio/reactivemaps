@@ -7,7 +7,6 @@ var helper = require('./app/middleware/helper.js');
 import {AppbaseList} from './app/sensors/AppbaseList';
 import {AppbaseSlider} from './app/sensors/AppbaseSlider';
 import {AppbaseSearch} from './app/sensors/AppbaseSearch';
-import {MapStyles} from './app/sensors/MapStyles';
 // actuators
 import {AppbaseMap} from './app/actuators/AppbaseMap';
 // middleware
@@ -94,7 +93,8 @@ class Main extends Component {
 						searchField={this.props.mapping.venue}
 						mapStyle={this.props.mapStyle}
 						autoCenter={true}
-						searchAsMove={true}
+						searchAsMoveComponent={true}
+						MapStylesComponent={true}
 						depends={{
 							CitySensor: {"operation": "must"},
 							TopicSensor: {"operation": "must"},
