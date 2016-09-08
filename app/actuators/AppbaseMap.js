@@ -6,6 +6,7 @@ import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerC
 import {queryObject, emitter} from '../middleware/ImmutableQuery.js';
 import {manager} from '../middleware/ChannelManager.js';
 import {AppbaseSearch} from '../sensors/AppbaseSearch';
+import {SearchAsMove} from '../sensors/SearchAsMove';
 var helper = require('../middleware/helper.js');
 var Style = require('../helper/Style.js');
 
@@ -22,6 +23,7 @@ export class AppbaseMap extends Component {
     };
     this.previousSelectedSensor = {};
     this.handleSearch = this.handleSearch.bind(this);
+    this.searchAsMoveChange = this.searchAsMoveChange.bind(this);
   }
   componentDidMount() {
     this.createChannel();
@@ -149,7 +151,7 @@ export class AppbaseMap extends Component {
   }
   // Handle function which is fired when map is moved and reaches to idle position
   handleOnIdle() {
-    if(this.props.searchAsMove && !this.searchQueryProgress) {
+    if(this.searchAsMove && !this.searchQueryProgress) {
       var mapBounds = this.refs.map.getBounds();
       var north = mapBounds.getNorthEast().lat();
       var south = mapBounds.getSouthWest().lat();
@@ -159,7 +161,7 @@ export class AppbaseMap extends Component {
         "top_left": [west, north],
         "bottom_right": [east, south]
       };
-      this.setValue(boundingBoxCoordinates, this.props.searchAsMove);
+      this.setValue(boundingBoxCoordinates, this.searchAsMove);
     }
   }
   // set value
@@ -169,6 +171,10 @@ export class AppbaseMap extends Component {
         value: value
     };
     helper.selectedSensor.set(obj, isExecuteQuery);
+  }
+  // on change of selectiong 
+  searchAsMoveChange(value) {
+    this.searchAsMove = value;
   }
   // Handler function for bounds changed which udpates the map center
   handleBoundsChanged() {
@@ -196,7 +202,7 @@ export class AppbaseMap extends Component {
     // });
   }
   render() {
-    var markerComponent, searchComponent;
+    var markerComponent, searchComponent, searchAsMoveComponent;
     let appbaseSearch;
     var searchComponentProps = {};
     var otherOptions;
@@ -211,6 +217,9 @@ export class AppbaseMap extends Component {
     if(this.props.autoCenter) {
       searchComponentProps.center = this.state.center;
       console.log(searchComponentProps.center);
+    }
+    if(this.props.searchAsMove) {
+      searchAsMoveComponent = <SearchAsMove searchAsMoveChange={this.searchAsMoveChange} />;
     }
     if (this.props.searchComponent === "appbase") {
       appbaseSearch = <AppbaseSearch
@@ -255,6 +264,7 @@ export class AppbaseMap extends Component {
       <div style={Style.divAppbaseStyle} >
         Powered by <img width='200px' height='auto' src="http://slashon.appbase.io/img/Appbase.png" /> 
       </div>                
+      {searchAsMoveComponent}
     </div >
     )
   }

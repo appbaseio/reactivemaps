@@ -103,7 +103,7 @@ export class ItemCheckboxList extends Component {
     return (
       <div>
         {TagItemsArray}
-        <div style={Style.divScroll}>
+        <div className="listComponent">
           {ListItemsArray}
         </div>
       </div>
