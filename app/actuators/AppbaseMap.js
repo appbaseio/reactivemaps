@@ -241,31 +241,8 @@ export class AppbaseMap extends Component {
     if(this.props.MapStylesComponent) {
       MapStylesComponent = <MapStyles defaultSelected={this.props.mapStyle} mapStyleChange={this.mapStyleChange} />;
     }
-    if (this.props.searchComponent === "appbase") {
-      appbaseSearch = <AppbaseSearch
-        inputData={this.props.searchField}
-        sensorId="VenueSensor"
-        searchRef="GeoVenue"
-        depends={{
-          'geoQuery': {
-            "operation": "must",
-            "doNotExecute": {true}
-          }
-        }} />
-      searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
-    } else if (this.props.searchComponent === "google") {
-      searchComponent = <SearchBox
-        controlPosition={google.maps.ControlPosition.TOP_LEFT}
-        onPlacesChanged={:: this.handlePlacesChanged}
-        ref = "searchBox"
-        placeholder = "Search location"
-        style = { Style.inputStyle }
-      />;
-      searchComponentProps.onBoundsChanged = ::this.handleBoundsChanged;
-  }
   return(
     <div className="map-container" style={Style.fullHeightDiv}>
-      {appbaseSearch}
       <GoogleMapLoader
         containerElement={
           <div {...this.props} style={Style.fullHeightDiv} />

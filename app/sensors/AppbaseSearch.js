@@ -10,7 +10,7 @@ export class AppbaseSearch extends Component {
     super(props);
     this.state = {
       items: [],
-      currentValue: {}
+      currentValue: null
     };
     this.type = 'Match';
     this.handleSearch = this.handleSearch.bind(this);
@@ -73,6 +73,11 @@ export class AppbaseSearch extends Component {
     };
     helper.selectedSensor.set(obj, true);
     this.callback = callback;
+    if(!value) {
+      this.callback(null, {
+        options: []
+      });
+    }
   }
 
   // set data after get the result
