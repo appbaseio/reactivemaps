@@ -51,9 +51,17 @@ body {
 }
 .mapStyles {
   position: absolute;
-  right: 0;
-  bottom: 0;
+  top: 10px;
+  right: 10px;
+  margin: 0;
+}
+.mapStyles select {
+  padding: 0;
+  height: 34px;
 }
 .searchAsMove .listComponent {
   height: auto;
+}
+.searchAsMove .listComponent > div{
+  background: rgba(255, 255, 255, 0.70);
 }
