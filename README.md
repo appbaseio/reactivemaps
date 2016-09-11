@@ -203,14 +203,12 @@ curl 'http://scalr.api.appbase.io/map_demo/_mapping/meetupdata1?ignore_conflicts
               }
             }
           },
-          {
-            "group_city": {
-              "type": "string",
-              "fields": {
-                "raw": { 
-                  "type":  "string",
-                  "index": "not_analyzed"
-                }
+          "group_city": {
+            "type": "string",
+            "fields": {
+              "raw": { 
+                "type":  "string",
+                "index": "not_analyzed"
               }
             }
           },
