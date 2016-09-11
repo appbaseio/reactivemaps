@@ -4,17 +4,26 @@ import {ReactiveMap,
 		AppbaseMap, 
 		AppbaseSearch, 
 		AppbaseSlider, 
-		AppbaseList} from './app/app.js';
+		AppbaseList} from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {
 	    super(props);
-	    this.topicDepends = this.topicDepends.bind(this);
+	    this.cityQuery = this.cityQuery.bind(this);
+	    this.topicQuery = this.topicQuery.bind(this);
 	}
-	topicDepends(value) {
-		if(this.props.mapping.city && value) {
-			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
-	    	return { Match: match };
+	cityQuery(value) {
+		if(value) {
+			let field = 'group.group_city.group_city_simple';
+			let match = JSON.parse(`{"${field}":` + JSON.stringify(value) + '}');
+	    	return { match: match };
+    	} else return null;
+	}
+	topicQuery(value) {
+		if(value) {
+			let field = 'group.group_topics.topic_name.topic_name_simple';
+			let query = JSON.parse(`{"${field}":` + JSON.stringify(value) + '}');
+	    	return { terms: query };
     	} else return null;
 	}
 	render() {
@@ -47,32 +56,11 @@ class Main extends Component {
 								depends={{
 									CitySensor: {
 										"operation": "must",
-										"defaultQuery": this.topicDepends
+										"defaultQuery": this.cityQuery
 									}
 								}}
 							/>
 						</div>
-					</div>
-					<div className="col s12">
-						<h5> Range of guests </h5>
-						<AppbaseSlider 
-							sensorId="RangeSensor"
-							inputData="guests"
-							max="10" />
-					</div>
-					<div className="col s12">
-						<h5> Select Venue </h5>					
-						<AppbaseSearch
-							inputData={this.props.mapping.venue}
-							sensorId="VenueSensor"
-							searchRef="CityVenue"
-							depends={{
-								'CitySensor': {
-									"operation": "must",
-									"doNotExecute": {true}
-								}
-							}}
-						/>
 					</div>
 				</div>
 				<div className="col s6 h-100">
@@ -89,10 +77,8 @@ class Main extends Component {
 						searchAsMoveComponent={true}
 						MapStylesComponent={true}
 						depends={{
-							CitySensor: {"operation": "must"},
-							TopicSensor: {"operation": "must"},
-							RangeSensor: {"operation": "must"},
-							VenueSensor: {"operation": "must"}
+							CitySensor: {"operation": "must", defaultQuery: this.cityQuery},
+							TopicSensor: {"operation": "must", defaultQuery: this.topicQuery}
 						}}
 						/>
 				</div>
@@ -104,17 +90,17 @@ class Main extends Component {
 Main.defaultProps = {
  	mapStyle: "Blue Water",
  	mapping: {
-		city: 'group.group_city.raw',
-		topic: 'group.group_topics.topic_name_raw',
+		city: 'group.group_city.group_city_simple',
+		topic: 'group.group_topics.topic_name.topic_name_simple',
 		venue: 'venue_name_ngrams',
-		location: 'location'
+		location: 'venue'
 	},
 	config: {
 		"appbase": {
-			"appname": "map_demo",
-			"username": "aT29UsiAp",
-			"password": "e0d26007-d818-4559-8244-c3c2fbad45ad",
-			"type": "meetupdata1"
+			"appname": "meetup2",
+		    "username": "qz4ZD8xq1",
+		    "password": "a0edfc7f-5611-46f6-8fe1-d4db234631f3",
+		    "type": "meetup"
 		}
 	}
 };
