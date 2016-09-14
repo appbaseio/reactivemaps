@@ -56,16 +56,27 @@ export class AppbaseSlider extends Component {
     });
   }
   render() {
+     let title =null, 
+      titleExists = false;
+
+    if(this.props.title) {
+      titleExists = true;
+      title = (<h2 className="componentTitle">{this.props.title}</h2>);
+    }
+
     return (
-      <div style={Style.divContainer}>
-        <InputRange
-          maxValue={this.state.maxThreshold}
-          minValue={this.state.minThreshold}
-          value={this.state.values}
-          onChange={this.handleValuesChange}
-          onChangeComplete={this.handleResults}
-          {...this.props}
-          />
+      <div className="reactiveComponent sliderComponent">
+        {title}
+        <div className="inputRangeContainer">
+          <InputRange
+            maxValue={this.state.maxThreshold}
+            minValue={this.state.minThreshold}
+            value={this.state.values}
+            onChange={this.handleValuesChange}
+            onChangeComplete={this.handleResults}
+            {...this.props}
+            />
+        </div>
       </div>
     );
   }
@@ -86,4 +97,5 @@ AppbaseSlider.defaultProps = {
     min: 0,
     max: 10,
   },
+  title: null
 };

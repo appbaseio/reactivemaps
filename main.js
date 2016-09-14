@@ -33,6 +33,7 @@ class Main extends Component {
 								multipleSelect={false} 
 								includeGeo={false}
 								staticSearch={true}
+								title="Cities"
 								searchPlaceholder="Search City"
 							/>
 						</div>
@@ -44,6 +45,7 @@ class Main extends Component {
 								size={100} 
 								multipleSelect={true} 
 								includeGeo={true} 
+								title="Topics"
 								depends={{
 									CitySensor: {
 										"operation": "must",
@@ -53,27 +55,31 @@ class Main extends Component {
 							/>
 						</div>
 					</div>
-					<div className="col s12">
-						<h5> Range of guests </h5>
-						<AppbaseSlider 
-							sensorId="RangeSensor"
-							inputData="guests"
-							max="10" />
+					<div className="row">
+						<div className="col s12">
+							<AppbaseSlider 
+								sensorId="RangeSensor"
+								inputData="guests"
+								title="guests"
+								max="10" />
+						</div>
 					</div>
-					<div className="col s12">
-						<h5> Select Venue </h5>					
-						<AppbaseSearch
-							inputData={this.props.mapping.venue}
-							sensorId="VenueSensor"
-							searchRef="CityVenue"
-							depends={{
-								'CitySensor': {
-									"operation": "must",
-									"doNotExecute": {true}
-								}
-							}}
-						/>
-					</div>
+					<div className="row">
+						<div className="col s12">
+							<AppbaseSearch
+								inputData={this.props.mapping.venue}
+								sensorId="VenueSensor"
+								searchRef="CityVenue"
+								placeholder="Search Venue"
+								depends={{
+									'CitySensor': {
+										"operation": "must",
+										"doNotExecute": {true}
+									}
+								}}
+							/>
+						</div>
+					</div>	
 				</div>
 				<div className="col s12 m6 h-100">
 					<AppbaseMap

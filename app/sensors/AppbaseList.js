@@ -127,12 +127,10 @@ export class AppbaseList extends Component {
 
     if(this.props.title) {
       titleExists = true;
-      title = (<div className="col s12"> 
-          <h2 className="componentTitle">{this.props.title}</h2>
-        </div>);
+      title = (<h2 className="componentTitle col s12">{this.props.title}</h2>);
     }
 
-    let listClass = 'listComponent staticSearch-'+this.props.staticSearch+' title-'+titleExists;
+    let listClass = 'reactiveComponent listComponent staticSearch-'+this.props.staticSearch+' title-'+titleExists;
 
     return (
       <div className={listClass}>

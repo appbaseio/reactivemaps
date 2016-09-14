@@ -272,65 +272,35 @@ body {
 .l-s-5 {
   letter-spacing: 5px; }
 
-.btn {
-  padding: 0.5em 1em; }
-
-.btn-lg {
-  font-size: 2rem; }
-
-.btn-md {
-  font-size: 1.25rem; }
-
-.btn-sm {
-  font-size: 1rem; }
-
-.btn-xs {
-  font-size: 0.8rem; }
-
-a.theme-btn,
-a.md-button.theme-btn {
-  background: #1893e7;
-  border-radius: 0.3em;
-  min-height: 0;
-  color: #fff;
-  padding: 0.2em 0.8em;
-  min-width: 10px;
-  letter-spacing: 1.2px;
-  font-family: "Lato Semibold";
-  text-transform: uppercase;
-  font-size: 1.125rem;
-  line-height: 1.5rem; }
-  a.theme-btn:hover,
-  a.md-button.theme-btn:hover {
-    background-color: #1376b9; }
-  a.theme-btn.btn-transparent,
-  a.md-button.theme-btn.btn-transparent {
-    color: #1893e7;
-    background: transparent;
-    border: 2px solid #1893e7; }
-    a.theme-btn.btn-transparent:hover,
-    a.md-button.theme-btn.btn-transparent:hover {
-      border-color: #1376b9;
-      color: #1376b9; }
-
-.toast-top-right {
-  margin-top: 50px; }
-
 .i-b {
   display: inline-block; }
 
-.md-button {
-  text-transform: none; }
-
-.img-responsive {
-  max-width: 100%;
-  width: 100%;
-  height: auto; }
-
-.img-responsive.dashboard {
-  height-max: 50%;
-  height: 180px;
-  width: auto; }
-
-body > .popover .popover-content {
-  font-size: 0.9rem !important; }
+.reactiveComponent {
+  margin: 5px;
+  background: #fff;
+  padding: 15px; }
+  .reactiveComponent .componentTitle {
+    font-size: 20px;
+    padding: 10px;
+    line-height: 30px;
+    font-weight: bold;
+    font-family: "Lato Bold";
+    color: #777;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 0; }
+  .reactiveComponent .inputBox {
+    position: relative;
+    padding-right: 50px;
+    background: whitesmoke; }
+    .reactiveComponent .inputBox input {
+      border: 0;
+      margin: 0;
+      font-weight: bold;
+      font-family: "Lato Bold Italic";
+      width: 100%; }
+    .reactiveComponent .inputBox .add-on {
+      position: absolute;
+      right: 15px;
+      top: 12px;
+      color: #1893e7; }

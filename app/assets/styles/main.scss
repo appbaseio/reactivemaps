@@ -258,80 +258,41 @@ body {
 	letter-spacing: 5px;
 }
 
-// Buttons
-.btn {
-	padding: 0.5em 1em;
-}
-
-.btn-lg {
-	font-size: $font-size-2;
-}
-
-.btn-md {
-	font-size: $font-size-4;
-}
-
-.btn-sm {
-	font-size: $font-size-6;
-}
-
-.btn-xs {
-	font-size: $font-size-8;
-}
-
-a.theme-btn,
-a.md-button.theme-btn {
-	background: $blue;
-	border-radius: 0.3em;
-	min-height: 0;
-	color: #fff;
-	padding: 0.2em 0.8em;
-	min-width: 10px;
-	letter-spacing: 1.2px;
-	font-family: $font-semi-bold;
-	text-transform: uppercase;
-	font-size: $font-size-5;
-	line-height: $line-height-5;
-	&:hover {
-		background-color: darken($blue, 10%);
-	}
-	&.btn-transparent {
-		color: $blue;
-		background: transparent;
-		border: 2px solid $blue;
-		&:hover {
-			border-color: darken($blue, 10%);
-			color: darken($blue, 10%);
-		}
-	}
-}
-
 // Others
-.toast-top-right {
-	margin-top: 50px;
-}
-
 .i-b {
 	display: inline-block;
 }
-
-// Override
-.md-button {
-	text-transform: none;
-}
-
-.img-responsive {
-	max-width: 100%;
-	width: 100%;
-	height: auto;
-}
-
-.img-responsive.dashboard {
-	height-max: 50%;
-	height: 180px;
-	width: auto;
-}
-
-body>.popover .popover-content {
-	font-size: $font-size-7 !important;
+.reactiveComponent {
+    margin: 5px;
+    background: #fff;
+    padding: 15px;
+	.componentTitle {
+		font-size: 20px;
+	    padding: 10px;
+	    line-height: 30px;
+	   	font-weight: bold;
+		font-family: $font-bold;
+		color: $dark-grey;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+		margin: 0;
+	}
+	.inputBox {
+		position: relative;
+		padding-right: 50px;
+		background: darken($bg-grey, 2%);
+		input {
+			border: 0;
+			margin: 0;
+			font-weight: bold;
+			font-family: $font-bold-i;
+			width: 100%;
+		}
+		.add-on {
+			position: absolute;
+			right: 15px;
+    		top: 12px;
+    		color: $blue;
+		}
+	}
 }

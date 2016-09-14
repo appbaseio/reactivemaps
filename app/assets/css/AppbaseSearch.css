@@ -70,61 +70,37 @@
   font-weight: normal;
   font-style: normal; }
 
-.listComponent.reactiveComponent {
-  overflow: hidden;
-  height: 400px;
-  margin: 5px;
-  padding: 0;
-  position: relative;
-  background: #fff; }
-  .listComponent.reactiveComponent .listContainer {
-    height: 100%;
-    overflow: auto; }
-    .listComponent.reactiveComponent .listContainer .listItem a {
-      padding: 5px 10px;
-      display: block;
-      color: #777; }
-      .listComponent.reactiveComponent .listContainer .listItem a.active {
-        color: #1893e7;
-        font-weight: bold; }
-    .listComponent.reactiveComponent .listContainer .listItem:first-child {
-      margin-top: 10px; }
-    .listComponent.reactiveComponent .listContainer .listItem.checkboxItem {
-      padding: 5px 10px; }
-      .listComponent.reactiveComponent .listContainer .listItem.checkboxItem label {
-        font-weight: normal; }
-  .listComponent.reactiveComponent .tagItem {
-    background: #1893e7;
-    color: #fff;
-    font-size: 12px;
-    line-height: 16px;
-    padding: 4px 8px;
-    border-radius: 6px;
-    display: inline-block;
-    margin: 5px; }
-    .listComponent.reactiveComponent .tagItem span {
-      float: left; }
-    .listComponent.reactiveComponent .tagItem .close {
-      padding-left: 10px;
-      line-height: 10px;
-      cursor: pointer;
-      font-weight: 700; }
-  .listComponent.reactiveComponent .componentTitle {
+.appbaseSearchComponent.reactiveComponent .Select-control {
+  border: 0;
+  font-weight: bold;
+  font-family: "Lato Bold Italic";
+  background: whitesmoke; }
+  .appbaseSearchComponent.reactiveComponent .Select-control .Select-arrow-zone {
     position: absolute;
-    top: 0;
-    left: 0;
-    margin: 0; }
-  .listComponent.reactiveComponent .staticSearchContainer.inputBox {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 0; }
-  .listComponent.reactiveComponent.staticSearch-true {
-    padding-top: 50px; }
-    .listComponent.reactiveComponent.staticSearch-true.title-true {
-      padding-top: 100px; }
-      .listComponent.reactiveComponent.staticSearch-true.title-true .staticSearchContainer {
-        top: 50px; }
-  .listComponent.reactiveComponent.title-true {
-    padding-top: 50px; }
+    right: 5px;
+    top: 5px; }
+    .appbaseSearchComponent.reactiveComponent .Select-control .Select-arrow-zone .Select-arrow {
+      border: 0;
+      width: 30px;
+      height: 30px;
+      color: #1893e7;
+      display: inline-block;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased; }
+      .appbaseSearchComponent.reactiveComponent .Select-control .Select-arrow-zone .Select-arrow:before {
+        content: "\f002"; }
+
+.appbaseSearchComponent.reactiveComponent .Select-placeholder,
+.appbaseSearchComponent.reactiveComponent .Select-control,
+.appbaseSearchComponent.reactiveComponent .appbase-select.Select--single > .Select-control .Select-value {
+  padding-right: 30px; }
+
+.appbaseSearchComponent.reactiveComponent .Select-input input {
+  height: 20px;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none; }

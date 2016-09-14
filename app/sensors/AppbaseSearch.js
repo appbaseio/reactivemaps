@@ -129,14 +129,16 @@ export class AppbaseSearch extends Component {
   }
   render() {
     return (
-      <Select.Async
-        className="appbase-select"
-        name="appbase-search"
-        value={this.state.currentValue}
-        loadOptions={this.setValue}
-        onChange={this.handleSearch}
-        {...this.props}
-        />
+      <div className="appbaseSearchComponent reactiveComponent">
+        <Select.Async
+          className="appbase-select"
+          name="appbase-search"
+          value={this.state.currentValue}
+          loadOptions={this.setValue}
+          onChange={this.handleSearch}
+          {...this.props}
+          />
+      </div>
     );
   }
 }
