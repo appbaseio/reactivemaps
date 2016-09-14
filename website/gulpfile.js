@@ -4,25 +4,20 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var minifyCSS = require('gulp-minify-css');
 var rename = require("gulp-rename");
-var dir_path = './app/';
+var dir_path = 'website/';
 
 var files = {
     css: {
         vendor: [
-            'bower_components/bootstrap/dist/css/bootstrap.min.css',
-            'bower_components/materialize/dist/css/materialize.min.css',
-            'node_modules/react-select/dist/react-select.min.css',
-            'node_modules/react-input-range/dist/react-input-range.min.css',
-            'bower_components/font-awesome/css/font-awesome.min.css'
+            dir_path+'bower_components/bootstrap/dist/css/bootstrap.min.css'
         ],
         custom: [dir_path+'assets/css/*.css'],
         sassFile: [dir_path+'assets/styles/*.scss']
     },
     js: {
         vendor: [
-            'bower_components/jquery/dist/jquery.min.js',
-            'bower_components/bootstrap/dist/js/bootstrap.min.js',
-            'bower_components/lodash/dist/lodash.min.js'
+            dir_path+'bower_components/jquery/dist/jquery.min.js',
+            dir_path+'bower_components/bootstrap/dist/js/bootstrap.min.js',
         ],
         custom: [
         ]
@@ -32,20 +27,20 @@ var files = {
 gulp.task('vendorcss', function() {
     return gulp.src(files.css.vendor)
         .pipe(concat('vendor.min.css'))
-        .pipe(gulp.dest('dist/css'));
+        .pipe(gulp.dest(dir_path+'dist/css'));
 });
 
 gulp.task('customcss', function() {
     return gulp.src(files.css.custom)
         .pipe(minifyCSS())
         .pipe(concat('style.min.css'))
-        .pipe(gulp.dest('dist/css'));
+        .pipe(gulp.dest(dir_path+'dist/css'));
 });
 
 gulp.task('vendorjs', function() {
     return gulp.src(files.js.vendor)
         .pipe(concat('vendor.min.js'))
-        .pipe(gulp.dest('dist/js'));
+        .pipe(gulp.dest(dir_path+'dist/js'));
 });
 
 // gulp.task('customjs', function() {
@@ -67,16 +62,16 @@ gulp.task('sass', function() {
 });
 
 gulp.task('moveCss', function() {
-    return gulp.src(['bower_components/bootstrap/dist/css/bootstrap.min.css.map'])
-        .pipe(gulp.dest('dist/css'));
+    return gulp.src([dir_path+'bower_components/bootstrap/dist/css/bootstrap.min.css.map'])
+        .pipe(gulp.dest(dir_path+'dist/css'));
 });
 
 gulp.task('moveFonts', function() {
-    return gulp.src(['bower_components/bootstrap/dist/fonts/*', 'bower_components/font-awesome/fonts/*'])
-        .pipe(gulp.dest('dist/fonts'));
+    return gulp.src([dir_path+'bower_components/bootstrap/dist/fonts/*'])
+        .pipe(gulp.dest(dir_path+'dist/fonts'));
 });
 
-gulp.task('compact', [
+gulp.task('compact', ['sass',
     'customcss', 
     'vendorcss', 
     'vendorjs', 
@@ -85,8 +80,9 @@ gulp.task('compact', [
 ]);
 
 gulp.task('watchfiles', function() {
+    gulp.watch(files.js.admin_custom, ['admin_customjs']);
     gulp.watch(files.css.custom, ['customcss']);
-    // gulp.watch(files.css.sassFile, ['sass']);
+    gulp.watch(files.css.sassFile, ['sass']);
 });
 
 gulp.task('default', ['compact']);

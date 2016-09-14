@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack-server": "webpack-dev-server --hot --progress --colors --port 8012",
     "web-server": "http-server -p 3000 .",
-    "start": "npm run webpack-server",
-    "build": "set NODE_ENV=production&& webpack -p"
+    "start": "concurrently \"npm run webpack-server\" \"gulp watch\" ",
+    "build": "set NODE_ENV=production&& webpack -p && gulp"
   },
   "author": "",
   "license": "MIT",
@@ -36,6 +36,7 @@
     "gulp-minify-css": "^1.2.4",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.5.3",
-    "gulp-sass": "^2.3.1"
+    "gulp-sass": "^2.3.1",
+    "concurrently": "^2.0.0"
   }
 }

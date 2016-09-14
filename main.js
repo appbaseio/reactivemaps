@@ -21,9 +21,9 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveMap config={this.props.config} />
-				<div className="col s6">
+				<div className="col s12 m6">
 					<div className="row h-100">
-						<div className="col s6">
+						<div className="col s12 m6">
 							<h5> Cities (Single Select) </h5>
 							<AppbaseList
 								sensorId="CitySensor"
@@ -35,7 +35,7 @@ class Main extends Component {
 								includeGeo={false}
 							/>
 						</div>
-						<div className="col s6">
+						<div className="col s12 m6">
 							<h5> Topics (Multiple Select) </h5>
 							<AppbaseList
 								inputData={this.props.mapping.topic} 
@@ -75,7 +75,7 @@ class Main extends Component {
 						/>
 					</div>
 				</div>
-				<div className="col s6 h-100">
+				<div className="col s12 m6 h-100">
 					<AppbaseMap
 						inputData={this.props.mapping.location}
 						defaultZoom={13}

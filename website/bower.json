@@ -11,7 +11,6 @@
   "dependencies": {
     "bootstrap": "~3.3.1",
     "font-awesome": "~4.2.0",
-    "lodash": "^4.15.0",
-    "materialize": "^0.97.7"
+    "lodash": "^4.15.0"
   }
 }
