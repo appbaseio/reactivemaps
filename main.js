@@ -33,6 +33,8 @@ class Main extends Component {
 								size={1000} 
 								multipleSelect={false} 
 								includeGeo={false}
+								staticSearch={true}
+								searchPlaceholder="Search City"
 							/>
 						</div>
 						<div className="col s12 m6">

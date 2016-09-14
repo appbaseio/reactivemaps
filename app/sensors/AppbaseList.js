@@ -4,6 +4,7 @@ import {ItemCheckboxList} from './component/ItemCheckboxList.js';
 import {ItemList} from './component/ItemList.js';
 import {queryObject} from '../middleware/ImmutableQuery.js';
 import {manager} from '../middleware/ChannelManager.js';
+import {StaticSearch} from './component/StaticSearch.js';
 var helper = require('../middleware/helper.js');
 
 export class AppbaseList extends Component {
@@ -11,11 +12,13 @@ export class AppbaseList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: []
+      items: [],
+      storedItems: []
     };
     this.previousSelectedSensor = {};
     this.handleSelect = this.handleSelect.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.filterBySearch = this.filterBySearch.bind(this);
     this.type = this.props.multipleSelect ? 'Terms' : 'Term';
   }
   // Get the items from Appbase when component is mounted
@@ -54,7 +57,8 @@ export class AppbaseList extends Component {
   }
   addItemsToList(newItems) {
     this.setState({
-      items: newItems
+      items: newItems,
+      storedItems: newItems
     });
   }
   // Handler function when a value is selected
@@ -74,9 +78,27 @@ export class AppbaseList extends Component {
     helper.selectedSensor.set(obj, isExecuteQuery);
   }
 
+  // filter
+  filterBySearch(value) {
+    if(value) {
+      let items = this.state.storedItems.filter(function(item) {
+        return item.key && item.key.toLowerCase().indexOf(value.toLowerCase()) > -1;
+      });
+      this.setState({
+        items: items
+      });
+    } else {
+      this.setState({
+        items: this.state.storedItems
+      });
+    }
+  }
+
   render() {
     // Checking if component is single select or multiple select
     let listComponent;
+    let searchComponent = null;
+    
     if (this.props.multipleSelect) {
       listComponent = <ItemCheckboxList
         items={this.state.items}
@@ -92,9 +114,16 @@ export class AppbaseList extends Component {
         showCount={this.props.showCount} 
         defaultSelected={this.props.defaultSelected}/>
     }
+    if(this.props.staticSearch) {
+      searchComponent = <StaticSearch 
+        placeholder={this.props.placeholder}
+        changeCallback={this.filterBySearch}
+      />
+    } 
 
     return (
       <div>
+        {searchComponent}
         {listComponent}
       </div>
     );
@@ -114,4 +143,6 @@ AppbaseList.defaultProps = {
   multipleSelect: true,
   sort: 'count',
   size: 60,
+  staticSearch: false,
+  placeholder: 'Search'
 };
