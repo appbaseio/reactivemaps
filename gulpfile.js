@@ -35,7 +35,7 @@ gulp.task('vendorcss', function() {
         .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('customcss', function() {
+gulp.task('customcss', ['sass'], function() {
     return gulp.src(files.css.custom)
         .pipe(minifyCSS())
         .pipe(concat('style.min.css'))
@@ -71,9 +71,17 @@ gulp.task('moveCss', function() {
         .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('moveFonts', function() {
-    return gulp.src(['bower_components/bootstrap/dist/fonts/*', 'bower_components/font-awesome/fonts/*'])
+gulp.task('moveFonts',['materialzeFonts'], function() {
+    return gulp.src(['bower_components/bootstrap/dist/fonts/*', 
+        'bower_components/font-awesome/fonts/*'
+        ])
         .pipe(gulp.dest('dist/fonts'));
+});
+
+gulp.task('materialzeFonts', function() {
+    return gulp.src(['bower_components/materialize/dist/fonts/roboto/*'
+        ])
+        .pipe(gulp.dest('dist/fonts/roboto'));
 });
 
 gulp.task('compact', [
@@ -85,8 +93,8 @@ gulp.task('compact', [
 ]);
 
 gulp.task('watchfiles', function() {
-    gulp.watch(files.css.custom, ['customcss']);
-    // gulp.watch(files.css.sassFile, ['sass']);
+    // gulp.watch(files.css.custom, ['customcss']);
+    gulp.watch(files.css.sassFile, ['customcss']);
 });
 
 gulp.task('default', ['compact']);

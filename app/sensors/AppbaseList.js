@@ -96,8 +96,10 @@ export class AppbaseList extends Component {
 
   render() {
     // Checking if component is single select or multiple select
-    let listComponent;
-    let searchComponent = null;
+    let listComponent, 
+      searchComponent = null, 
+      title =null, 
+      titleExists = false;
     
     if (this.props.multipleSelect) {
       listComponent = <ItemCheckboxList
@@ -114,15 +116,27 @@ export class AppbaseList extends Component {
         showCount={this.props.showCount} 
         defaultSelected={this.props.defaultSelected}/>
     }
+
+    // set static search
     if(this.props.staticSearch) {
       searchComponent = <StaticSearch 
-        placeholder={this.props.placeholder}
+        placeholder={this.props.searchPlaceholder}
         changeCallback={this.filterBySearch}
       />
     } 
 
+    if(this.props.title) {
+      titleExists = true;
+      title = (<div className="col s12"> 
+          <h2 className="componentTitle">{this.props.title}</h2>
+        </div>);
+    }
+
+    let listClass = 'listComponent staticSearch-'+this.props.staticSearch+' title-'+titleExists;
+
     return (
-      <div>
+      <div className={listClass}>
+        {title}
         {searchComponent}
         {listComponent}
       </div>
@@ -144,5 +158,6 @@ AppbaseList.defaultProps = {
   sort: 'count',
   size: 60,
   staticSearch: false,
-  placeholder: 'Search'
+  title: null,
+  searchPlaceholder: 'Search'
 };

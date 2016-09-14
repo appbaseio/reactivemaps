@@ -1,0 +1,71 @@
+@font-face {
+  font-family: 'Lato Regular';
+  src: url("./app/assets/styles/fonts/Lato/Lato-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Lato Italic';
+  src: url("./app/assets/styles/fonts/Lato/Lato-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Lato Black';
+  src: url("./app/assets/styles/fonts/Lato/Lato-Black.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Lato Black Italic';
+  src: url("./app/assets/styles/fonts/Lato/Lato-BlackItalic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Lato Bold';
+  src: url("./app/assets/styles/fonts/Lato/Lato-Bold.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Lato Bold Italic';
+  src: url("./app/assets/styles/fonts/Lato/Lato-BoldItalic.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Lato Semibold';
+  src: url("./app/assets/styles/fonts/Lato/Lato-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Lato Semibold Italic';
+  src: url("./app/assets/styles/fonts/Lato/Lato-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Lato Light';
+  src: url("./app/assets/styles/fonts/Lato/Lato-Light.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Lato Light Italic';
+  src: url("./app/assets/styles/fonts/Lato/Lato-LightItalic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Lato Hairline';
+  src: url("./app/assets/styles/fonts/Lato/Lato-Hairline.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Lato Hairline Italic';
+  src: url("./app/assets/styles/fonts/Lato/Lato-HairlineItalic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }

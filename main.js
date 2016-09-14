@@ -24,7 +24,6 @@ class Main extends Component {
 				<div className="col s12 m6">
 					<div className="row h-100">
 						<div className="col s12 m6">
-							<h5> Cities (Single Select) </h5>
 							<AppbaseList
 								sensorId="CitySensor"
 								inputData={this.props.mapping.city} 
@@ -38,7 +37,6 @@ class Main extends Component {
 							/>
 						</div>
 						<div className="col s12 m6">
-							<h5> Topics (Multiple Select) </h5>
 							<AppbaseList
 								inputData={this.props.mapping.topic} 
 								sensorId="TopicSensor"

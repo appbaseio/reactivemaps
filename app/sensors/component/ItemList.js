@@ -46,7 +46,7 @@ export class ItemList extends Component {
         selectedItem={this.state.selectedItem}/>)
     }.bind(this));
     return (
-      <div style={Style.divScroll}>
+      <div className="listContainer">
         {itemsComponent}
       </div>
     );
@@ -62,10 +62,10 @@ class ItemRow extends Component {
     if (this.props.countField) {
       count = <span> ({this.props.doc_count}) </span>;
     }
+    let activeClass = this.props.value === this.props.selectedItem ? 'active' : '';
     return (
-      <div onClick={this.props.handleClick.bind(null, this.props.value) }
-        style={this.props.value === this.props.selectedItem ? Style.selectedListItem : Style.listItem}>
-        <a href="#">
+      <div onClick={this.props.handleClick.bind(null, this.props.value) } className="listItem">
+        <a href="#" className={activeClass}>
           <span> {this.props.value} </span>
           {count}
         </a>
