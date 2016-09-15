@@ -82,7 +82,9 @@ export class AppbaseMap extends Component {
   handleMarkerClick(marker) {
     marker.showInfo = true;
     console.log(marker);
-    this.setState(this.state, this.getNewMarkers);
+    this.setState({
+      rerender: true
+    }, this.getNewMarkers);
   }
   
   handleMarkerClose(marker) {
