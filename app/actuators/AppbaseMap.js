@@ -90,13 +90,13 @@ export class AppbaseMap extends Component {
     this.setState(this.state);
   }
   renderInfoWindow(ref, marker) {
-    
+    var popoverContent = this.props.popoverContent ? this.props.popoverContent(marker) : 'Popver';
     return (
       <InfoWindow 
         key={`${ref}_info_window`}
         onCloseclick={this.handleMarkerClose.bind(this, marker)} >
         <div>
-          {marker._source.event.event_name}
+          {popoverContent}
         </div>  
       </InfoWindow>
     );
@@ -211,7 +211,7 @@ export class AppbaseMap extends Component {
       defaultCenter: null
     };
     if(markersData) {
-      var totalPosition = {lat: 0, lng: 0};
+      let totalPosition = {lat: 0, lng: 0};
       response.markerComponent = markersData.map((hit, index) => {
         let field = hit._source[self.props.inputData];
         let position = {
@@ -223,15 +223,24 @@ export class AppbaseMap extends Component {
         totalPosition.lat += field.lat;
         totalPosition.lng += field.lon;
         let ref = `marker_ref_${index}`;
+        let popoverEvent;
+        if(this.props.showPopoverOn) {
+          popoverEvent = {};
+          popoverEvent[this.props.showPopoverOn] = this.handleMarkerClick.bind(this, hit);
+        } else {
+          popoverEvent = {};
+          popoverEvent['onClick'] = this.handleMarkerClick.bind(this, hit);
+        }
         return (
           <Marker {...position} 
             key={index} 
             zIndex={1}
             ref={ref}
-            onClick={this.handleMarkerClick.bind(this, hit)} 
+            onClick={() => self.props.markerOnClick(hit._source)}
             onDblclick={() => self.props.markerOnDblclick(hit._source)} 
             onMouseover={() => self.props.markerOnMouseover(hit._source)}
-            onMouseout={() => self.props.markerOnMouseout(hit._source)} >
+            onMouseout={() => self.props.markerOnMouseout(hit._source)} 
+            {...popoverEvent}>
             {hit.showInfo ? self.renderInfoWindow(ref, hit) : null}
           </Marker>
         )
