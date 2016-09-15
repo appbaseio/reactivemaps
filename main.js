@@ -10,12 +10,33 @@ class Main extends Component {
 	constructor(props) {
 	    super(props);
 	    this.topicDepends = this.topicDepends.bind(this);
+	    this.popoverContent = this.popoverContent.bind(this);
 	}
 	topicDepends(value) {
 		if(this.props.mapping.city && value) {
 			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
 	    	return { Match: match };
     	} else return null;
+	}
+	popoverContent(marker) {
+		console.log(marker);
+		return (<div className="popoverComponent row">
+			<span className="imgContainer col s2">
+				<img className="responsive-img" src={marker._source.member.photo} alt={marker._source.member.member_name}/>
+			</span>
+			<div className="infoContainer col s10">
+				<div className="nameContainer">
+					<strong>{marker._source.member.member_name}</strong>
+				</div>
+				<div className="description">
+					<p>is going to&nbsp;
+						<a href={marker._source.event.event_url} target="_blank">
+							{marker._source.event.event_name}
+						</a>
+					</p>
+				</div>
+			</div>
+		</div>);
 	}
 	render() {
 		return (
@@ -95,6 +116,8 @@ class Main extends Component {
 						searchAsMoveComponent={true}
 						MapStylesComponent={true}
 						title="Reactive Maps"
+						showPopoverOn = "onClick"
+						popoverContent = {this.popoverContent}
 						depends={{
 							CitySensor: {"operation": "must"},
 							TopicSensor: {"operation": "must"},

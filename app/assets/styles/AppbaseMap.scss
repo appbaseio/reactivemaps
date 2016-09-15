@@ -4,18 +4,22 @@ $componentBg: rgba(255,255,255,0.9);
     height: 100%;
     position: relative;
     padding: 0;
+    margin: 0;
     .containerElement {
         height: 100%;
     }
     .componentTitle {
         position: absolute;
-	    top: 0;
-	    left: 0;
+	    top: 10px;
+	    left: 110px;
 	    margin: 0;
 	    z-index: 4;
 	    background: #fff;
 	    display: inline-block;
 	    width: auto;
+        border-radius: 2px;
+        font-size: 16px;
+        line-height: 18px;
 	    background: $componentBg;
     }
     .searchAsMove {

@@ -29,3 +29,4 @@ node_modules
 npm-debug.log.*
 bower_components
 website/bower_components
+app/assets/css
