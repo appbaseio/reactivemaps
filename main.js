@@ -88,7 +88,7 @@ class Main extends Component {
 									}
 								}}
 								title="guests"
-								max="10" />
+								maxThreshold={5} />
 						</div>
 					</div>
 					<div className="row">
