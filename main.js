@@ -80,7 +80,13 @@ class Main extends Component {
 						<div className="col s12">
 							<AppbaseSlider 
 								sensorId="RangeSensor"
-								inputData="guests"
+								inputData={this.props.mapping.guests} 
+								depends={{
+									CitySensor: {
+										"operation": "must",
+										"defaultQuery": this.topicDepends
+									}
+								}}
 								title="guests"
 								max="10" />
 						</div>
@@ -137,6 +143,7 @@ Main.defaultProps = {
 		city: 'group.group_city.raw',
 		topic: 'group.group_topics.topic_name_raw',
 		venue: 'venue_name_ngrams',
+		guests: 'guests',
 		location: 'location'
 	},
 	config: {
