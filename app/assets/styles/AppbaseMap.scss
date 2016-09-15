@@ -1,0 +1,48 @@
+@import "variable.scss";
+$componentBg: rgba(255,255,255,0.9);
+.appbaseMapComponent.reactiveComponent {
+    height: 100%;
+    position: relative;
+    padding: 0;
+    .containerElement {
+        height: 100%;
+    }
+    .componentTitle {
+        position: absolute;
+	    top: 0;
+	    left: 0;
+	    margin: 0;
+	    z-index: 4;
+	    background: #fff;
+	    display: inline-block;
+	    width: auto;
+	    background: $componentBg;
+    }
+    .searchAsMove {
+    	position: absolute;
+	    left: 10px;
+	    bottom: 15px;
+	    padding: 5px;
+	    border-radius: 2px;
+        background: $componentBg;
+    	.checkboxItem {
+			padding: 5px 10px;
+			max-height: 34px;
+			label {
+				color: $dark-grey;
+				font-weight: normal;
+			}
+		}
+    }
+    .mapStyles {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        margin: 0;
+        select {
+            padding: 0;
+            height: 34px;
+        	background: $componentBg;
+        }
+    }
+}

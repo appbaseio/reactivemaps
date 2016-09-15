@@ -94,6 +94,7 @@ class Main extends Component {
 						autoCenter={true}
 						searchAsMoveComponent={true}
 						MapStylesComponent={true}
+						title="Reactive Maps"
 						depends={{
 							CitySensor: {"operation": "must"},
 							TopicSensor: {"operation": "must"},
@@ -108,7 +109,7 @@ class Main extends Component {
 }
 
 Main.defaultProps = {
- 	mapStyle: "Blue Water",
+ 	mapStyle: "Midnight Commander",
  	mapping: {
 		city: 'group.group_city.raw',
 		topic: 'group.group_topics.topic_name_raw',
