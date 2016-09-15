@@ -216,7 +216,7 @@ export class AppbaseMap extends Component {
   }
   render() {
     var markerComponent, searchComponent, searchAsMoveComponent, MapStylesComponent;
-    let appbaseSearch;
+    let appbaseSearch, titleExists, title = null;
     var searchComponentProps = {};
     var otherOptions;
     if (this.props.markerCluster) {
@@ -241,11 +241,17 @@ export class AppbaseMap extends Component {
     if(this.props.MapStylesComponent) {
       MapStylesComponent = <MapStyles defaultSelected={this.props.mapStyle} mapStyleChange={this.mapStyleChange} />;
     }
+    // include title if exists
+    if(this.props.title) {
+      titleExists = true;
+      title = (<h2 className="componentTitle col s12">{this.props.title}</h2>);
+    }
   return(
-    <div className="map-container" style={Style.fullHeightDiv}>
+    <div className="map-container reactiveComponent appbaseMapComponent">
+      {title}
       <GoogleMapLoader
         containerElement={
-          <div {...this.props} style={Style.fullHeightDiv} />
+          <div {...this.props} className="containerElement" />
         }
         googleMapElement={<GoogleMap ref = "map"
           options = {{
@@ -285,6 +291,7 @@ AppbaseMap.defaultProps = {
   searchAsMoveComponent: false,
   MapStylesComponent: false,
   mapStyle: 'MapBox',
+  title: null,
   markerOnClick: function() {},
   markerOnDblclick: function() {},
   markerOnMouseover: function() {},
