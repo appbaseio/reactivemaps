@@ -1,0 +1,11 @@
+@import "variable.scss";
+.popoverComponent {
+	max-width: 250px;
+	margin: 0;
+	.nameContainer {
+		font-size: 16px;
+	}
+	.imgContainer {
+		padding: 0; 
+	}
+}

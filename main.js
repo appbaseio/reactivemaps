@@ -20,9 +20,23 @@ class Main extends Component {
 	}
 	popoverContent(marker) {
 		console.log(marker);
-		return (<h3>
-			{marker._source.event.event_name}
-		</h3>);
+		return (<div className="popoverComponent row">
+			<span className="imgContainer col s2">
+				<img className="responsive-img" src={marker._source.member.photo} alt={marker._source.member.member_name}/>
+			</span>
+			<div className="infoContainer col s10">
+				<div className="nameContainer">
+					<strong>{marker._source.member.member_name}</strong>
+				</div>
+				<div className="description">
+					<p>is going to&nbsp;
+						<a href={marker._source.event.event_url} target="_blank">
+							{marker._source.event.event_name}
+						</a>
+					</p>
+				</div>
+			</div>
+		</div>);
 	}
 	render() {
 		return (
