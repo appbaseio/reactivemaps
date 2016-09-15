@@ -1,6 +1,6 @@
 import { default as React, Component } from 'react';
 import { render } from 'react-dom';
-import { GoogleMapLoader, GoogleMap, Marker, SearchBox } from "react-google-maps";
+import { GoogleMapLoader, GoogleMap, Marker, SearchBox, InfoWindow } from "react-google-maps";
 import InfoBox from 'react-google-maps/lib/addons/InfoBox';
 import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerClusterer";
 import {queryObject, emitter} from '../middleware/ImmutableQuery.js';
@@ -44,10 +44,28 @@ export class AppbaseMap extends Component {
     // create a channel and listen the changes
     var channelObj = manager.create(depends);
     channelObj.emitter.addListener(channelObj.channelId, function(data) {
+      let markersData = this.setMarkersData(data);
       this.setState({
-        rawData: data
+        rawData: data,
+        markersData: markersData
       }, this.getNewMarkers);
     }.bind(this));
+  }
+  setMarkersData(data) {
+    var self = this;
+    if(data && data.hits && data.hits.hits) {
+      let markersData = data.hits.hits.filter((hit, index) => {
+        return hit._source.hasOwnProperty(self.props.inputData) && !(hit._source[self.props.inputData].lat === 0 && hit._source[self.props.inputData].lon === 0);
+      });
+      markersData = _.orderBy(markersData, [self.props.inputData.lat], ['desc']);
+      markersData = markersData.map((marker) => {
+        marker.showInfo = false;
+        return marker;
+      })
+      return markersData;
+    } else {
+      return [];
+    }
   }
   // set the query type and input data
   setGeoQueryInfo() {
@@ -60,60 +78,31 @@ export class AppbaseMap extends Component {
     };
     helper.selectedSensor.setSensorInfo(obj);
   }
+  //Toggle to 'true' to show InfoWindow and re-renders component
+  handleMarkerClick(marker) {
+    marker.showInfo = true;
+    console.log(marker);
+    this.setState(this.state, this.getNewMarkers);
+  }
+  
+  handleMarkerClose(marker) {
+    marker.showInfo = false;
+    this.setState(this.state);
+  }
+  renderInfoWindow(ref, marker) {
+    
+    return (
+      <InfoWindow 
+        key={`${ref}_info_window`}
+        onCloseclick={this.handleMarkerClose.bind(this, marker)} >
+        <div>
+          {marker._source.event.event_name}
+        </div>  
+      </InfoWindow>
+    );
+    
+  }
   getNewMarkers() {
-    var self = this;
-    this.searchQueryProgress = true;
-    var data = this.state.rawData;
-    self.searchQueryProgress = true;
-    let newMarkersArray = [];
-    var totalPosition = {lat: 0, lng: 0};
-    var markersData = data.hits.hits.filter((hit, index) => {
-      return hit._source.hasOwnProperty(self.props.inputData) && !(hit._source[self.props.inputData].lat === 0 && hit._source[self.props.inputData].lon === 0);
-    });
-    markersData = _.orderBy(markersData, [self.props.inputData.lat], ['desc']);
-    newMarkersArray = markersData.map((hit, index) => {
-      let field = hit._source[self.props.inputData];
-      let position = {
-        position: {
-          lat: field.lat,
-          lng: field.lon
-        }
-      }
-      totalPosition.lat += field.lat;
-      totalPosition.lng += field.lon;
-      return (
-        <Marker {...position} key={index} zIndex={1}
-          onClick={() => self.props.markerOnClick(hit._source)} 
-          onDblclick={() => self.props.markerOnDblclick(hit._source)} 
-          onMouseover={() => self.props.markerOnMouseover(hit._source)}
-          onMouseout={() => self.props.markerOnMouseout(hit._source)} />
-      )
-    });
-    if(markersData.length) {
-      var median = parseInt(markersData.length/2, 10);
-      var selectedMarker = markersData[median];
-      var defaultCenter = {
-        lat: selectedMarker._source[self.props.inputData].lat,
-        lng: selectedMarker._source[self.props.inputData].lon
-      };
-      console.log(defaultCenter.lat, defaultCenter.lng, newMarkersArray.length);
-      self.setState({
-        markers: newMarkersArray,
-        center: defaultCenter
-      }, function () {
-        setTimeout(() => {
-          this.searchQueryProgress = false;
-        }, 500);
-      });
-    } else {
-      self.setState({
-        markers: newMarkersArray
-      }, function () {
-        setTimeout(() => {
-          this.searchQueryProgress = false;
-        }, 500);
-      });
-    }
   }
   startStreaming() {
     var self = this;
@@ -214,22 +203,67 @@ export class AppbaseMap extends Component {
     //   center: new google.maps.LatLng(location.value.lat, location.value.lon)
     // });
   }
+  generateMarkers() {
+    var self = this;
+    let markersData = this.state.markersData;
+    let response = {
+      markerComponent: [],
+      defaultCenter: null
+    };
+    if(markersData) {
+      var totalPosition = {lat: 0, lng: 0};
+      response.markerComponent = markersData.map((hit, index) => {
+        let field = hit._source[self.props.inputData];
+        let position = {
+          position: {
+            lat: field.lat,
+            lng: field.lon
+          }
+        }
+        totalPosition.lat += field.lat;
+        totalPosition.lng += field.lon;
+        let ref = `marker_ref_${index}`;
+        return (
+          <Marker {...position} 
+            key={index} 
+            zIndex={1}
+            ref={ref}
+            onClick={this.handleMarkerClick.bind(this, hit)} 
+            onDblclick={() => self.props.markerOnDblclick(hit._source)} 
+            onMouseover={() => self.props.markerOnMouseover(hit._source)}
+            onMouseout={() => self.props.markerOnMouseout(hit._source)} >
+            {hit.showInfo ? self.renderInfoWindow(ref, hit) : null}
+          </Marker>
+        )
+      });
+      var median = parseInt(markersData.length/2, 10);
+      var selectedMarker = markersData[median];
+      response.defaultCenter = {
+        lat: selectedMarker._source[self.props.inputData].lat,
+        lng: selectedMarker._source[self.props.inputData].lon
+      };
+      
+    }
+    return response;
+  }
   render() {
+    var self = this;
     var markerComponent, searchComponent, searchAsMoveComponent, MapStylesComponent;
     let appbaseSearch, titleExists, title = null;
     var searchComponentProps = {};
     var otherOptions;
+    var generatedMarkers = this.generateMarkers();
     if (this.props.markerCluster) {
       markerComponent = <MarkerClusterer averageCenter enableRetinaIcons gridSize={ 60 } >
-        {this.state.markers}
+        {generatedMarkers.markerComponent}
       </MarkerClusterer>;
     }
     else {
-      markerComponent = this.state.markers;
+      markerComponent = generatedMarkers.markerComponent;
     }
     // Auto center using markers data
     if(!this.searchAsMove && this.props.autoCenter) {
-      searchComponentProps.center = this.state.center;
+      searchComponentProps.center =  generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : this.state.center;
     } else {
       delete searchComponentProps.center;
     }
