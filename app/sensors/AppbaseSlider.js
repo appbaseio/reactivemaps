@@ -11,10 +11,15 @@ export class AppbaseSlider extends Component {
 
   constructor(props) {
     super(props);
+    let minThreshold = this.props.minThreshold ? this.props.minThreshold : 0;
+    let maxThreshold = this.props.maxThreshold ? this.props.maxThreshold : 5;
+    let values = {};
+    values.min = this.props.values.min < this.props.minThreshold ? this.props.minThreshold :  this.props.values.min;
+    values.max = this.props.values.max < this.props.maxThreshold ? this.props.maxThreshold :  this.props.values.max;
     this.state = {
-      values: this.props.values,
-      minThreshold: this.props.minThreshold,
-      maxThreshold: this.props.maxThreshold,
+      values: values,
+      minThreshold: minThreshold,
+      maxThreshold: maxThreshold,
       currentValues: [],
       counts: []
     };
@@ -65,8 +70,8 @@ export class AppbaseSlider extends Component {
   addItemsToList(newItems) {
     newItems = _.orderBy(newItems, ['key'], ['asc']);
     let itemLength = newItems.length;
-    let min = newItems[0].key;
-    let max = newItems[itemLength-1].key;
+    let min = this.props.minThreshold ? this.props.minThreshold : newItems[0].key;
+    let max = this.props.maxThreshold ? this.props.maxThreshold : newItems[itemLength-1].key;
     if(itemLength > 1) {
       let rangeValue = {
         counts: this.countCalc(min, max, newItems),
@@ -131,7 +136,6 @@ export class AppbaseSlider extends Component {
             value={this.state.values}
             onChange={this.handleValuesChange}
             onChangeComplete={this.handleResults}
-            {...this.props}
             />
         </div>
       </div>
@@ -148,8 +152,6 @@ AppbaseSlider.propTypes = {
 };
 
 AppbaseSlider.defaultProps = {
-  minThreshold: 0,
-  maxThreshold: 10,
   values: {
     min: 0,
     max: 10,
