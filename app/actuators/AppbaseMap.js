@@ -205,53 +205,69 @@ export class AppbaseMap extends Component {
     //   center: new google.maps.LatLng(location.value.lat, location.value.lon)
     // });
   }
+  identifyGeoData(input) {
+    let type = Object.prototype.toString.call(input);
+    let convertedGeo = null;
+    if(type === '[object Object]' && input.hasOwnProperty('lat') && input.hasOwnProperty('lon')) {
+      convertedGeo = {
+        lat: input.lat,
+        lng: input.lon
+      };
+    }
+    else if(type === '[object Array]' && input.length === 2) {
+      convertedGeo = {
+        lat: input[0],
+        lng: input[1]
+      };
+      console.log(input[0], input[1]);
+    }
+    return convertedGeo;
+  }
   generateMarkers() {
     var self = this;
     let markersData = this.state.markersData;
     let response = {
       markerComponent: [],
-      defaultCenter: null
+      defaultCenter: null,
+      convertedGeo: []
     };
     if(markersData) {
-      let totalPosition = {lat: 0, lng: 0};
       response.markerComponent = markersData.map((hit, index) => {
-        let field = hit._source[self.props.inputData];
-        let position = {
-          position: {
-            lat: field.lat,
-            lng: field.lon
+        let field = self.identifyGeoData(hit._source[self.props.inputData]);
+        if(field) {
+          response.convertedGeo.push(field);
+          let position = {
+            position: field
+          };
+          let ref = `marker_ref_${index}`;
+          let popoverEvent;
+          if(this.props.showPopoverOn) {
+            popoverEvent = {};
+            popoverEvent[this.props.showPopoverOn] = this.handleMarkerClick.bind(this, hit);
+          } else {
+            popoverEvent = {};
+            popoverEvent['onClick'] = this.handleMarkerClick.bind(this, hit);
           }
+          return (
+            <Marker {...position} 
+              key={index} 
+              zIndex={1}
+              ref={ref}
+              onClick={() => self.props.markerOnClick(hit._source)}
+              onDblclick={() => self.props.markerOnDblclick(hit._source)} 
+              onMouseover={() => self.props.markerOnMouseover(hit._source)}
+              onMouseout={() => self.props.markerOnMouseout(hit._source)} 
+              {...popoverEvent}>
+              {hit.showInfo ? self.renderInfoWindow(ref, hit) : null}
+            </Marker>
+          )
         }
-        totalPosition.lat += field.lat;
-        totalPosition.lng += field.lon;
-        let ref = `marker_ref_${index}`;
-        let popoverEvent;
-        if(this.props.showPopoverOn) {
-          popoverEvent = {};
-          popoverEvent[this.props.showPopoverOn] = this.handleMarkerClick.bind(this, hit);
-        } else {
-          popoverEvent = {};
-          popoverEvent['onClick'] = this.handleMarkerClick.bind(this, hit);
-        }
-        return (
-          <Marker {...position} 
-            key={index} 
-            zIndex={1}
-            ref={ref}
-            onClick={() => self.props.markerOnClick(hit._source)}
-            onDblclick={() => self.props.markerOnDblclick(hit._source)} 
-            onMouseover={() => self.props.markerOnMouseover(hit._source)}
-            onMouseout={() => self.props.markerOnMouseout(hit._source)} 
-            {...popoverEvent}>
-            {hit.showInfo ? self.renderInfoWindow(ref, hit) : null}
-          </Marker>
-        )
       });
-      var median = parseInt(markersData.length/2, 10);
-      var selectedMarker = markersData[median];
+      var median = parseInt(response.convertedGeo.length/2, 10);
+      var selectedMarker = response.convertedGeo[median];
       response.defaultCenter = {
-        lat: selectedMarker._source[self.props.inputData].lat,
-        lng: selectedMarker._source[self.props.inputData].lon
+        lat: selectedMarker.lat,
+        lng: selectedMarker.lng
       };
       
     }

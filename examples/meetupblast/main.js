@@ -33,7 +33,6 @@ class Main extends Component {
 				<div className="col s6">
 					<div className="row h-100">
 						<div className="col s6">
-							<h5> Cities (Single Select) </h5>
 							<AppbaseList
 								sensorId="CitySensor"
 								inputData={this.props.mapping.city} 
@@ -42,10 +41,12 @@ class Main extends Component {
 								size={1000} 
 								multipleSelect={false} 
 								includeGeo={false}
+								staticSearch={true}
+								title="Cities"
+								searchPlaceholder="Search City"
 							/>
 						</div>
 						<div className="col s6">
-							<h5> Topics (Multiple Select) </h5>
 							<AppbaseList
 								inputData={this.props.mapping.topic} 
 								sensorId="TopicSensor"
@@ -53,6 +54,7 @@ class Main extends Component {
 								size={100} 
 								multipleSelect={true} 
 								includeGeo={true} 
+								title="Topics"
 								depends={{
 									CitySensor: {
 										"operation": "must",
@@ -76,6 +78,7 @@ class Main extends Component {
 						autoCenter={true}
 						searchAsMoveComponent={true}
 						MapStylesComponent={true}
+						title="Meetupblast"
 						depends={{
 							CitySensor: {"operation": "must", defaultQuery: this.cityQuery},
 							TopicSensor: {"operation": "must", defaultQuery: this.topicQuery}

@@ -10,6 +10,7 @@ class Main extends Component {
 	constructor(props) {
 	    super(props);
 	    this.cityQuery = this.cityQuery.bind(this);
+		this.categoryQuery = this.categoryQuery.bind(this);
 	}
 	cityQuery(value) {
 		if(value) {
@@ -18,27 +19,56 @@ class Main extends Component {
 	    	return { match: match };
     	} else return null;
 	}
+	categoryQuery(value) {
+		let query = {
+			bool: {
+				should: []
+			}
+		};
+		if(value && value.length) {
+			let field = 'category';
+			let queryBunch = value.map((val) => { return createMatchQuery(field, val); });
+			query = {
+				bool: {
+					should: queryBunch,
+					minimum_should_match: 1
+				}
+			};
+			return query;
+    	} else {
+    		return query;
+    	}
+
+    	function createMatchQuery(field, val) {
+    		let match = JSON.parse(`{"${field}":` + JSON.stringify(val) + '}');
+	    	return { match: match };
+    	}
+	}
+	popoverContent(marker) {
+		console.log(marker);
+		return (<div className="popoverComponent row">
+			<span className="imgContainer col s2">
+				<img className="responsive-img" src={marker._source.photourl} alt={marker._source.shout}/>
+			</span>
+			<div className="infoContainer col s10">
+				<div className="nameContainer">
+					<strong>{marker._source.username}</strong>
+				</div>
+				<div className="description">
+					<p>is going to&nbsp;
+						<a href={marker._source.url} target="_blank">
+							{marker._source.venue}
+						</a>
+					</p>
+				</div>
+			</div>
+		</div>);
+	}
 	render() {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveMap config={this.props.config} />
-				<div className="col s6">
-					<div className="row h-100">
-						<div className="col s6">
-							<h5> Cities (Single Select) </h5>
-							<AppbaseList
-								sensorId="CitySensor"
-								inputData={this.props.mapping.city} 
-								defaultSelected="london"
-								showCount={true} 
-								size={1000} 
-								multipleSelect={false} 
-								includeGeo={false}
-							/>
-						</div>
-					</div>
-				</div>
-				<div className="col s6 h-100">
+				<div className="col s12 m9 h-100">
 					<AppbaseMap
 						inputData={this.props.mapping.location}
 						defaultZoom={13}
@@ -50,11 +80,46 @@ class Main extends Component {
 						mapStyle={this.props.mapStyle}
 						autoCenter={true}
 						searchAsMoveComponent={true}
-						MapStylesComponent={true}
+						title="Foursquare checkins"
+						showPopoverOn = "onClick"
+						popoverContent = {this.popoverContent}
 						depends={{
-							CitySensor: {"operation": "must", defaultQuery: this.cityQuery}
+							CitySensor: {"operation": "must", defaultQuery: this.cityQuery},
+							CategorySensor: {"operation": "must", defaultQuery: this.categoryQuery}
 						}}
 						/>
+				</div>
+				<div className="col s12 m3">
+					<div className="row h-100">
+						<div className="col s12">
+							<AppbaseList
+								sensorId="CitySensor"
+								inputData={this.props.mapping.city} 
+								defaultSelected="london"
+								showCount={true} 
+								size={1000} 
+								multipleSelect={false} 
+								includeGeo={false}
+								staticSearch={true}
+								title="Cities"
+								searchPlaceholder="Search City"
+							/>
+						</div>
+						<div className="col s12">
+							<AppbaseList
+								inputData={this.props.mapping.topic} 
+								sensorId="CategorySensor"
+								showCount={true}
+								size={100} 
+								multipleSelect={true} 
+								includeGeo={true} 
+								title="Categories"
+								depends={{
+									CitySensor: {"operation": "must", defaultQuery: this.cityQuery}
+								}}
+							/>
+						</div>
+					</div>
 				</div>
 			</div>
 		);
@@ -65,7 +130,7 @@ Main.defaultProps = {
  	mapStyle: "Blue Water",
  	mapping: {
 		city: 'city',
-		topic: 'group.group_topics.topic_name.topic_name_simple',
+		topic: 'category.raw',
 		venue: 'venue_name_ngrams',
 		location: 'location'
 	},
