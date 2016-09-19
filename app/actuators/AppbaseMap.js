@@ -97,6 +97,7 @@ export class AppbaseMap extends Component {
     var popoverContent = this.props.popoverContent ? this.props.popoverContent(marker) : 'Popver';
     return (
       <InfoWindow 
+        zIndex = {500}
         key={`${ref}_info_window`}
         onCloseclick={this.handleMarkerClose.bind(this, marker)} >
         <div>
