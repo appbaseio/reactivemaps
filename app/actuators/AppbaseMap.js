@@ -27,6 +27,7 @@ export class AppbaseMap extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.searchAsMoveChange = this.searchAsMoveChange.bind(this);
     this.mapStyleChange = this.mapStyleChange.bind(this);
+    this.reposition = true;
   }
   componentDidMount() {
     this.createChannel();
@@ -89,6 +90,7 @@ export class AppbaseMap extends Component {
   
   handleMarkerClose(marker) {
     marker.showInfo = false;
+    this.reposition = false;
     this.setState(this.state);
   }
   renderInfoWindow(ref, marker) {
@@ -289,10 +291,11 @@ export class AppbaseMap extends Component {
       markerComponent = generatedMarkers.markerComponent;
     }
     // Auto center using markers data
-    if(!this.searchAsMove && this.props.autoCenter) {
+    if(!this.searchAsMove && this.props.autoCenter && this.reposition) {
       searchComponentProps.center =  generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : this.state.center;
     } else {
       delete searchComponentProps.center;
+      this.reposition = true;
     }
     // include searchasMove component 
     if(this.props.searchAsMoveComponent) {
