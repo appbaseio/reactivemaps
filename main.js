@@ -60,17 +60,52 @@ class Main extends Component {
 							/>
 						</div>
 						<div className="col s12 m6">
-							
+							<AppbaseList
+								inputData={this.props.mapping.topic} 
+								sensorId="TopicSensor"
+								showCount={true}
+								size={100} 
+								multipleSelect={true} 
+								includeGeo={true} 
+								title="Topics"
+								depends={{
+									CitySensor: {
+										"operation": "must",
+										"defaultQuery": this.topicDepends
+									}
+								}}
+							/>
 						</div>
 					</div>
 					<div className="row">
 						<div className="col s12">
-							
+							<AppbaseSlider 
+								sensorId="RangeSensor"
+								inputData={this.props.mapping.guests} 
+								depends={{
+									CitySensor: {
+										"operation": "must",
+										"defaultQuery": this.topicDepends
+									}
+								}}
+								title="guests"
+								maxThreshold={5} />
 						</div>
 					</div>
 					<div className="row">
 						<div className="col s12">
-							
+							<AppbaseSearch
+								inputData={this.props.mapping.venue}
+								sensorId="VenueSensor"
+								searchRef="CityVenue"
+								placeholder="Search Venue"
+								depends={{
+									'CitySensor': {
+										"operation": "must",
+										"doNotExecute": {true}
+									}
+								}}
+							/>
 						</div>
 					</div>	
 				</div>
@@ -91,7 +126,10 @@ class Main extends Component {
 						showPopoverOn = "onClick"
 						popoverContent = {this.popoverContent}
 						depends={{
-							CitySensor: {"operation": "must"}
+							CitySensor: {"operation": "must"},
+							TopicSensor: {"operation": "must"},
+							RangeSensor: {"operation": "must"},
+							VenueSensor: {"operation": "must"}
 						}}
 						/>
 				</div>
