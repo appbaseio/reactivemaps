@@ -1,5 +1,6 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
+import {Img} from './app/sensors/component/Img.js';
 import {ReactiveMap, 
 		AppbaseMap, 
 		AppbaseSearch, 
@@ -22,7 +23,7 @@ class Main extends Component {
 		console.log(marker);
 		return (<div className="popoverComponent row">
 			<span className="imgContainer col s2">
-				<img className="responsive-img" src={marker._source.member.photo} alt={marker._source.member.member_name}/>
+				<Img src={marker._source.member.photo}  />
 			</span>
 			<div className="infoContainer col s10">
 				<div className="nameContainer">
@@ -59,52 +60,17 @@ class Main extends Component {
 							/>
 						</div>
 						<div className="col s12 m6">
-							<AppbaseList
-								inputData={this.props.mapping.topic} 
-								sensorId="TopicSensor"
-								showCount={true}
-								size={100} 
-								multipleSelect={true} 
-								includeGeo={true} 
-								title="Topics"
-								depends={{
-									CitySensor: {
-										"operation": "must",
-										"defaultQuery": this.topicDepends
-									}
-								}}
-							/>
+							
 						</div>
 					</div>
 					<div className="row">
 						<div className="col s12">
-							<AppbaseSlider 
-								sensorId="RangeSensor"
-								inputData={this.props.mapping.guests} 
-								depends={{
-									CitySensor: {
-										"operation": "must",
-										"defaultQuery": this.topicDepends
-									}
-								}}
-								title="guests"
-								maxThreshold={5} />
+							
 						</div>
 					</div>
 					<div className="row">
 						<div className="col s12">
-							<AppbaseSearch
-								inputData={this.props.mapping.venue}
-								sensorId="VenueSensor"
-								searchRef="CityVenue"
-								placeholder="Search Venue"
-								depends={{
-									'CitySensor': {
-										"operation": "must",
-										"doNotExecute": {true}
-									}
-								}}
-							/>
+							
 						</div>
 					</div>	
 				</div>
@@ -125,10 +91,7 @@ class Main extends Component {
 						showPopoverOn = "onClick"
 						popoverContent = {this.popoverContent}
 						depends={{
-							CitySensor: {"operation": "must"},
-							TopicSensor: {"operation": "must"},
-							RangeSensor: {"operation": "must"},
-							VenueSensor: {"operation": "must"}
+							CitySensor: {"operation": "must"}
 						}}
 						/>
 				</div>
