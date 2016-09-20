@@ -1,4 +1,5 @@
 import { default as React, Component } from 'react';
+import {Img} from '../../app/sensors/component/Img.js';
 var ReactDOM = require('react-dom');
 import {ReactiveMap, 
 		AppbaseMap, 
@@ -48,7 +49,7 @@ class Main extends Component {
 		console.log(marker);
 		return (<div className="popoverComponent row">
 			<span className="imgContainer col s2">
-				<img className="responsive-img" src={marker._source.photourl} alt={marker._source.shout}/>
+				<Img src={marker._source.photourl} />
 			</span>
 			<div className="infoContainer col s10">
 				<div className="nameContainer">
