@@ -20,7 +20,7 @@ and then use the AppbaseMap component
 ``` javascript    
 <AppbaseMap
     config={config}
-    fieldName="venue"
+    inputData="venue"
     defaultZoom={13}
     defaultCenter={{ lat: 37.74, lng: -122.45 }}
     historicalData={true}
@@ -32,11 +32,16 @@ and then use the AppbaseMap component
     markerOnMouseover={this.markerOnMouseover}
     markerOnMouseout={this.markerOnMouseout} 
     mapStyle="Blue Water" 
+    autoCenter={true}
+	searchAsMoveComponent={true}
+	MapStylesComponent={true}
+	title="Reactive Maps"
     depends={{
-      CitySensor: ["reposition"],
-      SearchAsMoveSensor: ["SearchAsMove"],
-      MapStyleSensor: ["MapStyles"]
-    }} />
+		CitySensor: {"operation": "must"},
+		TopicSensor: {"operation": "must", "defaultQuery": this.topicDepends},
+		RangeSensor: {"operation": "must"},
+		VenueSensor: {"operation": "must"}
+	}} />
 ```    
 
 - **config** is the object which contains username, password, type of Appbase
@@ -49,7 +54,7 @@ and then use the AppbaseMap component
 }
 ```     
 
-- `fieldName` : `string`: is the name of the field which contains the latitude and longitude of the markers for which you want to plot on the map    
+- `inputData` : `string`: is the name of the field which contains the latitude and longitude of the markers for which you want to plot on the map    
 - `historicalData`: `Boolean`: is the boolean field which on true, shows the old results and on false, will only run searchstream(). Defaulted to `true`    
 - `searchComponent`: `"appbase"` or `"google"`: is the option for displaying the searchComponent in the Google maps. If `appbase` is selected, then searchField needs to be specified. Defaulted to `google`.    
 - `searchField`: `String`: is the name of the field on which Appbase location search will be enables.    
@@ -58,30 +63,42 @@ and then use the AppbaseMap component
 - `markerOnIndex`is the event which is fired when any element is added into the map. It has argument which contains the object which was indexed.    
 - `markerOnClick`, `markerOnDblclick`, `markerOnMouseover`, `markerOnMouseout` are the events which will be fired on click, doubleclick, mouse over, mouse out actions on markers.
 - `mapStyle`: is the property which set the default map style. Available options for mapStyle is: `"MapBox"`, `"Blue Essence"`, `"Blue Water"`,  `"Flat Map"`,  `"Light Monochrome"`,  `"Midnight Commander"`,  `"Unsaturated Browns"`.  
-- `depends`: is the property which contains the object of sensor and method, In above example on change of "CitySensor" value then it will trigger `reposition` internal method of AppbaseMap. We exposed few methods to use on changing of dependency: `reposition`, `SearchAsMove`, `MapStyles`.  
+- `autoCenter`: `Boolean`: is the property which decides whether to change center of map according to result or not.
+- `searchAsMoveComponent`: `Boolean`: is the property which decides whether to include search as move (internal component) component or not.
+- `MapStylesComponent`: `Boolean`: is the property which decides whether to include map style chooser component or not.  
+- `title`: `string`: is the property which sets the title.
+- `depends`: `object`: is the property where user can specify the dependency on sensors.
 
 ## AppbaseSearch
-
-- `fieldName` : `string`: is the name of the field which contains the latitude and longitude of the markers for which you want to plot on the map    
+- `sensorId`: `string`: is the property where user can set unique sensorId, which can be used in the dependency of other sensors or actuator.
+- `inputData` : `string`: is the name of the field on which you want to apply filter.    
 - `placeholder`: `string`: is the string field which decides placeholder for the search input. Default to `Search...`    
 - `isGeoSearch`: `"Boolean"`: is the boolean option for whether displaying the search field as input term search or is it geoSearch. Defaulted to `false`     
 - `size`: `number`: is the number field which decides how many items needs to be displayed in the search items. Defaulted to 10.  
-- `depends`: Same way as AppbaseMap we provides internal method for AppbaseSearch as well. We exposed a method to use on changing of dependency: `searchFilterByCity`.    
+- `depends`: `object`: is the property where user can specify the dependency on sensors.
 
 ## AppbaseList
 
-- `fieldName` : `string`: is the name of the field which contains the latitude and longitude of the markers for which you want to plot on the map    
+- `sensorId`: `string`: is the property where user can set unique sensorId, which can be used in the dependency of other sensors or actuator.
+- `title`: `string`: is the property where user can set title of component.
+- `inputData` : `string`: is the name of the field on which user wants to do aggregation    
 - `size`: `number`: is the number field which decides how many items needs to be displayed in the List. Defaulted to 60.    
 - `showCount`: `"Boolean"`: is the boolean option for whether displaying the count along with the items. Defaulted to `true`.    
 - `multipleSelect`: `Boolean`: is the boolean option to select whether the only single item could be selected in the List or if it is multiple selectable. Defaulted to `true`.   
 -  `sort`: `count` or `asc` or `desc`: is the property which decides on how the list should be sorted. `count` sorts the list based on the count  in the desc order. `asc` sorts the list in the ascending order of the term (Alphabetical). `desc` sorts the list in the descending order of the term. Defaulted to `count`.  
-- `depends`: Same way as AppbaseMap we provides internal method for AppbaseList as well. We exposed a method to use on changing of dependency: `topicFilterByCity`.
+- `staticSearch`: `boolean`: is the property  which decides whether to enable static search box to do filter from list or not (Only available for singleSelect).
+- `searchPlaceholder`: `string`: is the property where user can specify placeholder text for searchbox.
+- `depends`: `object`: is the property where user can specify the dependency on sensors.
 
 ## AppbaseSlider
-- `fieldName` : `string`: is the name of the field which contains the latitude and longitude of the markers for which you want to plot on the map    
+- `sensorId`: `string`: is the property where user can set unique sensorId, which can be used in the dependency of other sensors or actuator.
+- `title`: `string`: is the property where user can set title of component.
+- `inputData` : `string`: is the name of the field on which user wants to do aggregation
 - `minThreshold`: `number`: is the number field which decides the minimum threshold value for the slider. Defaulted to 0.  
 - `maxThreshold`: `number`: is the number field which decides the maximum threshold value for the slider. Defaulted to 20. 
 - `values`: `Object`: is the object which has property min and max which tells the default selected value.     
+- `depends`: `object`: is the property where user can specify the dependency on sensors.
+
 ```   
 values: {
   min: 0,
@@ -89,25 +106,25 @@ values: {
 }
 ```
 
-## MapStyles
-- `fieldName` : `string`: is the name of the field which con be used to store value.    
-- `defaultSelected`: `string`: is the name of default theme.     
-
-## SearchAsMove
-- `fieldName` : `string`: is the name of the field which con be used to store value.    
-
 ## Define dependency on other sensors
 Let's take an example if topics lists is depenedent on city selection (topic sensor is dependent on city sensor) then we should pass selected city value in topic sensor and get the topic list according to selected city.
 
 To achieve this we should pass following things to topic sensor:
-- `selectedSensor`: which contains all the selected sensor values.
-- `sensorOnSelect`: an event which is filred on select/change of sensor value. - which is responsible to store selected values of sensors (this should be passed in both sensors - city and topic).
-- `depends`: an object which contains dependent sensors
+
 ```
 depends= {
-    {'city': this.state.mapping.city}
+    CitySensor: {
+		"operation": "must",
+		"defaultQuery": this.topicDepends
+	}
 }
 ```
+
+
+- `CitySensor`: which is the sensorId of city component.
+- `operation`: It could be `should` or `must`.
+- `defaultQuery`: (optional) is the function if user wants to write custom query.
+
 
 
 
