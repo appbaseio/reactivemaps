@@ -34,6 +34,11 @@ export class ItemCheckboxList extends Component {
       }
     }
   }
+  updateAction() {
+    if(!this.state.selectedItems.length) {
+      this.props.onSelect(null);
+    }
+  }
   // Handler function when a checkbox is clicked
   handleListClick(value, selectedStatus) {
     // If the checkbox selectedStatus is true, then update selectedItems array
@@ -43,7 +48,7 @@ export class ItemCheckboxList extends Component {
       updated.push(value);
       this.setState({
         selectedItems: updated
-      });
+      }, this.updateAction.bind(this));
       // Pass the props to parent components to add to the Query
       if(this.state.selectedItems.length) {
         this.props.onSelect(this.state.selectedItems);
@@ -68,7 +73,7 @@ export class ItemCheckboxList extends Component {
     updated.splice(index, 1);
     this.setState({
       selectedItems: updated
-    });
+    }, this.updateAction.bind(this));
     // Pass the removed value props to parent components to add updated list in terms query
     if(this.state.selectedItems.length) {
       this.props.onSelect(this.state.selectedItems);
