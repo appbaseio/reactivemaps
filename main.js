@@ -125,6 +125,8 @@ class Main extends Component {
 						title="Reactive Maps"
 						showPopoverOn = "onClick"
 						popoverContent = {this.popoverContent}
+						historicPin = './app/assets/images/historic-pin.png'
+						streamPin = './app/assets/images/stream-pin.png'
 						depends={{
 							CitySensor: {"operation": "must"},
 							TopicSensor: {"operation": "must"},

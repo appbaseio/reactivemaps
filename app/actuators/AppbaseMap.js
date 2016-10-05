@@ -21,7 +21,11 @@ export class AppbaseMap extends Component {
       streamingStatus: 'Intializing..',
       center: this.props.defaultCenter,
       query: {},
-      rawData: {}
+      rawData: {
+        hits: {
+          hits: []
+        }
+      }
     };
     this.previousSelectedSensor = {};
     this.handleSearch = this.handleSearch.bind(this);
@@ -44,11 +48,23 @@ export class AppbaseMap extends Component {
     depends['geoQuery'] = { operation: "should" };
     // create a channel and listen the changes
     var channelObj = manager.create(depends);
-    channelObj.emitter.addListener(channelObj.channelId, function(data) {
-      let markersData = this.setMarkersData(data);
+    channelObj.emitter.addListener(channelObj.channelId, function(res) {
+      let data = res.data;
+      let rawData, markersData;
+      if(res.method === 'stream') {
+        rawData = this.state.rawData;
+        if(res.data) {
+          res.data.stream = true;
+        }
+        rawData.hits.hits.push(res.data);
+        markersData = this.setMarkersData(rawData);
+      } else if(res.method === 'historic') {
+        rawData = data;
+        markersData = this.setMarkersData(data);
+      }
       this.reposition = true;
       this.setState({
-        rawData: data,
+        rawData: rawData,
         markersData: markersData
       }, this.getNewMarkers);
     }.bind(this));
@@ -237,6 +253,7 @@ export class AppbaseMap extends Component {
     if(markersData) {
       response.markerComponent = markersData.map((hit, index) => {
         let field = self.identifyGeoData(hit._source[self.props.inputData]);
+        let icon = hit.stream ? self.props.streamPin : self.props.historicPin;
         if(field) {
           response.convertedGeo.push(field);
           let position = {
@@ -256,6 +273,7 @@ export class AppbaseMap extends Component {
               key={index} 
               zIndex={1}
               ref={ref}
+              icon={icon}
               onClick={() => self.props.markerOnClick(hit._source)}
               onDblclick={() => self.props.markerOnDblclick(hit._source)} 
               onMouseover={() => self.props.markerOnMouseover(hit._source)}
@@ -357,6 +375,8 @@ AppbaseMap.defaultProps = {
   MapStylesComponent: false,
   mapStyle: 'MapBox',
   title: null,
+  historicPin: './app//assets/images/historic-pin.png',
+  streamPin: './app/assets/images/stream-pin.png',
   markerOnClick: function() {},
   markerOnDblclick: function() {},
   markerOnMouseover: function() {},

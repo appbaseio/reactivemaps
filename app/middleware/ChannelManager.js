@@ -5,6 +5,7 @@ class channelManager {
   constructor() {
     this.emitter = new EventEmitter();
     this.channels = {};
+    this.streamRef = {};
     this.receive = this.receive.bind(this);
   }
   setConfig(config) {
@@ -17,9 +18,27 @@ class channelManager {
     let self = this;
     let channelObj = this.channels[channelId];
     let queryObj = this.queryBuild(channelObj.depends, channelObj.previousSelectedSensor);
-    // apply search query and emit queryResult
+    // apply search query and emit historic queryResult
     helper.appbaseRef.search(queryObj).on('data', function(data) {
-      self.emitter.emit(channelId, data);
+      let obj = {
+        method: 'historic',
+        data: data
+      };
+      self.emitter.emit(channelId, obj);
+    }).on('error', function(error) {
+      console.log(error);
+    });
+    // apply searchStream query and emit streaming data
+    if(this.streamRef[channelId]) {
+      this.streamRef[channelId].stop();
+    }
+    
+    this.streamRef[channelId] = helper.appbaseRef.searchStream(queryObj).on('data', function(data) {
+      let obj = {
+        method: 'stream',
+        data: data
+      };
+      self.emitter.emit(channelId, obj);
     }).on('error', function(error) {
       console.log(error);
     });

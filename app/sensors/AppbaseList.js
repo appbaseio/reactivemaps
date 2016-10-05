@@ -13,7 +13,12 @@ export class AppbaseList extends Component {
     super(props);
     this.state = {
       items: [],
-      storedItems: []
+      storedItems: [],
+      rawData: {
+        hits: {
+          hits: []
+        }
+      }
     };
     this.previousSelectedSensor = {};
     this.handleSelect = this.handleSelect.bind(this);
@@ -48,8 +53,19 @@ export class AppbaseList extends Component {
     };
     // create a channel and listen the changes
     var channelObj = manager.create(depends);
-    channelObj.emitter.addListener(channelObj.channelId, function(data) {
-      this.setData(data);
+    channelObj.emitter.addListener(channelObj.channelId, function(res) {
+      let data = res.data;
+      let rawData;
+      if(res.method === 'stream') {
+        rawData = this.state.rawData;
+        rawData.hits.hits.push(res.data);
+      } else if(res.method === 'historic') {
+        rawData = data;
+      }
+      this.setState({
+        rawData: rawData
+      });
+      this.setData(rawData);
     }.bind(this));
   }
   setData(data) {
