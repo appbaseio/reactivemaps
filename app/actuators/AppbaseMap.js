@@ -66,7 +66,10 @@ export class AppbaseMap extends Component {
       this.setState({
         rawData: rawData,
         markersData: markersData
-      }, this.getNewMarkers);
+      }, function() {
+        // Pass the historic or streaming data in index method
+        this.props.markerOnIndex(res);
+      }.bind(this));
     }.bind(this));
   }
   setMarkersData(data) {
@@ -124,47 +127,6 @@ export class AppbaseMap extends Component {
       </InfoWindow>
     );
     
-  }
-  startStreaming() {
-    var self = this;
-    let query = this.state.query;
-    self.setState({
-      streamingStatus: 'Listening...'
-    });
-    // Stop the previous instance of the streaming
-    if (this.streamingInstance) {
-      this.streamingInstance.stop()
-    };
-    this.streamingInstance = helper.appbaseRef.searchStream(query).on('data', function (stream) {
-      let positionMarker = {
-        position: {
-          lat: stream._source[self.props.inputData].lat,
-          lng: stream._source[self.props.inputData].lon
-        }
-      }
-      // Using a different color marker for realtime markers
-      let newMarker = <Marker {...positionMarker}
-        key={Date.now() }
-        icon="images/map.png"
-        zIndex={100} />
-      let newMarkersArray = self.state.markers;
-      // If the marker is deleted, remove it from the map
-      if (stream._deleted == true) {
-        var deleteIndex = newMarkersArray.indexOf(newMarker);
-        newMarkersArray.splice(deleteIndex, 1);
-        self.props.markerOnDelete(positionMarker);
-      }
-      else {
-        newMarkersArray.push(newMarker)
-        self.props.markerOnIndex(positionMarker);
-      }
-      self.setState({
-        markers: newMarkersArray,
-        streamingStatus: 'Listening...'
-      });
-    }).on('error', function (error) {
-      console.log(error)
-    });
   }
   // Handle function which is fired when map is moved and reaches to idle position
   handleOnIdle() {
@@ -380,5 +342,6 @@ AppbaseMap.defaultProps = {
   markerOnClick: function() {},
   markerOnDblclick: function() {},
   markerOnMouseover: function() {},
-  markerOnMouseout: function() {}
+  markerOnMouseout: function() {},
+  markerOnIndex: function() {}
 };

@@ -39,6 +39,9 @@ class Main extends Component {
 			</div>
 		</div>);
 	}
+	markerOnIndex(res) {
+		console.log(res);
+	}
 	render() {
 		return (
 			<div className="row m-0 h-100">
@@ -127,6 +130,7 @@ class Main extends Component {
 						popoverContent = {this.popoverContent}
 						historicPin = './app/assets/images/historic-pin.png'
 						streamPin = './app/assets/images/stream-pin.png'
+						markerOnIndex = {this.markerOnIndex}
 						depends={{
 							CitySensor: {"operation": "must"},
 							TopicSensor: {"operation": "must"},
