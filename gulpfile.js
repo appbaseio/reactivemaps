@@ -78,6 +78,11 @@ gulp.task('moveFonts',['materialzeFonts'], function() {
         .pipe(gulp.dest('dist/fonts'));
 });
 
+gulp.task('moveImages', function() {
+    return gulp.src([dir_path+'assets/images/*'])
+        .pipe(gulp.dest('dist/images'));
+});
+
 gulp.task('materialzeFonts', function() {
     return gulp.src(['bower_components/materialize/dist/fonts/roboto/*'
         ])
@@ -89,7 +94,8 @@ gulp.task('compact', [
     'vendorcss', 
     'vendorjs', 
     'moveCss', 
-    'moveFonts'
+    'moveFonts',
+    'moveImages'
 ]);
 
 gulp.task('watchfiles', function() {
