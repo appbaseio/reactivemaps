@@ -21,7 +21,12 @@ export class AppbaseSlider extends Component {
       minThreshold: minThreshold,
       maxThreshold: maxThreshold,
       currentValues: [],
-      counts: []
+      counts: [],
+      rawData: {
+        hits: {
+          hits: []
+        }
+      }
     };
     this.type = 'range';
     this.handleValuesChange = this.handleValuesChange.bind(this);
@@ -60,7 +65,18 @@ export class AppbaseSlider extends Component {
     };
     // create a channel and listen the changes
     var channelObj = manager.create(depends);
-    channelObj.emitter.addListener(channelObj.channelId, function(data) {
+    channelObj.emitter.addListener(channelObj.channelId, function(res) {
+      let data = res.data;
+      let rawData;
+      if(res.method === 'stream') {
+        rawData = this.state.rawData;
+        rawData.hits.hits.push(res.data);
+      } else if(res.method === 'historic') {
+        rawData = data;
+      }
+      this.setState({
+        rawData: rawData
+      });
       this.setData(data);
     }.bind(this));
   }

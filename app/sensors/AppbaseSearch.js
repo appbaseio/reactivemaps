@@ -10,7 +10,12 @@ export class AppbaseSearch extends Component {
     super(props);
     this.state = {
       items: [],
-      currentValue: null
+      currentValue: null,
+      rawData: {
+        hits: {
+          hits: []
+        }
+      }
     };
     this.type = 'Match';
     this.handleSearch = this.handleSearch.bind(this);
@@ -50,8 +55,19 @@ export class AppbaseSearch extends Component {
       defaultQuery: this.defaultSearchQuery
     };
     var channelObj = manager.create(depends);
-    channelObj.emitter.addListener(channelObj.channelId, function(data) {
-      this.setData(data);
+    channelObj.emitter.addListener(channelObj.channelId, function(res) {
+      let data = res.data;
+      let rawData;
+      if(res.method === 'stream') {
+        rawData = this.state.rawData;
+        rawData.hits.hits.push(res.data);
+      } else if(res.method === 'historic') {
+        rawData = data;
+      }
+      this.setState({
+        rawData: rawData
+      });
+      this.setData(rawData);
     }.bind(this));
   }
   //default query

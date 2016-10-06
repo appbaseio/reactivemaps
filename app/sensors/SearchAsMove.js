@@ -17,9 +17,13 @@ export class SearchAsMove extends Component {
     this.setState({
       items: [{
         key: "Search as I move the map",
-        value: true
+        value: true,
+        status: this.props.searchAsMoveDefault
       }]
     });
+    if(this.props.searchAsMoveDefault && this.props.searchAsMoveDefault === true) {
+      this.handleSelect(this.props.searchAsMoveDefault);
+    }
   }
   // Handler function when a value is selected
   handleSelect(value) {
@@ -50,5 +54,6 @@ SearchAsMove.propTypes = {
 };
 // Default props value
 SearchAsMove.defaultProps = {
-  fieldName: 'SearchAsMove'
+  fieldName: 'SearchAsMove',
+  searchAsMoveDefault: false
 };

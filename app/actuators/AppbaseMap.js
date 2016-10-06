@@ -1,6 +1,6 @@
 import { default as React, Component } from 'react';
 import { render } from 'react-dom';
-import { GoogleMapLoader, GoogleMap, Marker, SearchBox, InfoWindow } from "react-google-maps";
+import { GoogleMapLoader, GoogleMap, Marker, SearchBox, InfoWindow, Polygon } from "react-google-maps";
 import InfoBox from 'react-google-maps/lib/addons/InfoBox';
 import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerClusterer";
 import {queryObject, emitter} from '../middleware/ImmutableQuery.js';
@@ -21,7 +21,11 @@ export class AppbaseMap extends Component {
       streamingStatus: 'Intializing..',
       center: this.props.defaultCenter,
       query: {},
-      rawData: {}
+      rawData: {
+        hits: {
+          hits: []
+        }
+      }
     };
     this.previousSelectedSensor = {};
     this.handleSearch = this.handleSearch.bind(this);
@@ -44,13 +48,29 @@ export class AppbaseMap extends Component {
     depends['geoQuery'] = { operation: "should" };
     // create a channel and listen the changes
     var channelObj = manager.create(depends);
-    channelObj.emitter.addListener(channelObj.channelId, function(data) {
-      let markersData = this.setMarkersData(data);
+    channelObj.emitter.addListener(channelObj.channelId, function(res) {
+      let data = res.data;
+      let rawData, markersData;
+      if(res.method === 'stream') {
+        rawData = this.state.rawData;
+        if(res.data) {
+          res.data.stream = true;
+        }
+        rawData.hits.hits.push(res.data);
+        markersData = this.setMarkersData(rawData);
+      } else if(res.method === 'historic') {
+        rawData = data;
+        markersData = this.setMarkersData(data);
+      }
       this.reposition = true;
       this.setState({
-        rawData: data,
+        rawData: rawData,
         markersData: markersData
-      }, this.getNewMarkers);
+      }, function() {
+        // Pass the historic or streaming data in index method
+        res.allMarkers = rawData;
+        this.props.markerOnIndex(res);
+      }.bind(this));
     }.bind(this));
   }
   setMarkersData(data) {
@@ -109,59 +129,22 @@ export class AppbaseMap extends Component {
     );
     
   }
-  startStreaming() {
-    var self = this;
-    let query = this.state.query;
-    self.setState({
-      streamingStatus: 'Listening...'
-    });
-    // Stop the previous instance of the streaming
-    if (this.streamingInstance) {
-      this.streamingInstance.stop()
-    };
-    this.streamingInstance = helper.appbaseRef.searchStream(query).on('data', function (stream) {
-      let positionMarker = {
-        position: {
-          lat: stream._source[self.props.inputData].lat,
-          lng: stream._source[self.props.inputData].lon
-        }
-      }
-      // Using a different color marker for realtime markers
-      let newMarker = <Marker {...positionMarker}
-        key={Date.now() }
-        icon="images/map.png"
-        zIndex={100} />
-      let newMarkersArray = self.state.markers;
-      // If the marker is deleted, remove it from the map
-      if (stream._deleted == true) {
-        var deleteIndex = newMarkersArray.indexOf(newMarker);
-        newMarkersArray.splice(deleteIndex, 1);
-        self.props.markerOnDelete(positionMarker);
-      }
-      else {
-        newMarkersArray.push(newMarker)
-        self.props.markerOnIndex(positionMarker);
-      }
-      self.setState({
-        markers: newMarkersArray,
-        streamingStatus: 'Listening...'
-      });
-    }).on('error', function (error) {
-      console.log(error)
-    });
-  }
   // Handle function which is fired when map is moved and reaches to idle position
   handleOnIdle() {
+    var mapBounds = this.refs.map.getBounds();
+    var north = mapBounds.getNorthEast().lat();
+    var south = mapBounds.getSouthWest().lat();
+    var east = mapBounds.getNorthEast().lng();
+    var west = mapBounds.getSouthWest().lng();
+    var boundingBoxCoordinates = {
+      "top_left": [west, north],
+      "bottom_right": [east, south]
+    };
+    this.props.mapOnIdle({
+      boundingBoxCoordinates: boundingBoxCoordinates,
+      mapBounds: mapBounds
+    });
     if(this.searchAsMove && !this.searchQueryProgress) {
-      var mapBounds = this.refs.map.getBounds();
-      var north = mapBounds.getNorthEast().lat();
-      var south = mapBounds.getSouthWest().lat();
-      var east = mapBounds.getNorthEast().lng();
-      var west = mapBounds.getSouthWest().lng();
-      var boundingBoxCoordinates = {
-        "top_left": [west, north],
-        "bottom_right": [east, south]
-      };
       this.setValue(boundingBoxCoordinates, this.searchAsMove);
     }
   }
@@ -237,6 +220,7 @@ export class AppbaseMap extends Component {
     if(markersData) {
       response.markerComponent = markersData.map((hit, index) => {
         let field = self.identifyGeoData(hit._source[self.props.inputData]);
+        let icon = hit.stream ? self.props.streamPin : self.props.historicPin;
         if(field) {
           response.convertedGeo.push(field);
           let position = {
@@ -256,6 +240,7 @@ export class AppbaseMap extends Component {
               key={index} 
               zIndex={1}
               ref={ref}
+              icon={icon}
               onClick={() => self.props.markerOnClick(hit._source)}
               onDblclick={() => self.props.markerOnDblclick(hit._source)} 
               onMouseover={() => self.props.markerOnMouseover(hit._source)}
@@ -293,6 +278,7 @@ export class AppbaseMap extends Component {
     }
     // Auto center using markers data
     if(!this.searchAsMove && this.props.autoCenter && this.reposition) {
+
       searchComponentProps.center =  generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : this.state.center;
       this.reposition = false;
     } else {
@@ -300,7 +286,7 @@ export class AppbaseMap extends Component {
     }
     // include searchasMove component 
     if(this.props.searchAsMoveComponent) {
-      searchAsMoveComponent = <SearchAsMove searchAsMoveChange={this.searchAsMoveChange} />;
+      searchAsMoveComponent = <SearchAsMove searchAsMoveDefault={this.props.searchAsMoveDefault} searchAsMoveChange={this.searchAsMoveChange} />;
     }
     // include mapStyle choose component 
     if(this.props.MapStylesComponent) {
@@ -311,6 +297,14 @@ export class AppbaseMap extends Component {
       titleExists = true;
       title = (<h2 className="componentTitle col s12">{this.props.title}</h2>);
     }
+    //polygon
+    let polygonData = this.props.polygonData ? this.props.polygonData : [];
+    let polygons = polygonData.map((polyProp, index) => {
+      let options = {
+        options: polyProp
+      };
+      return (<Polygon key={index} {...options}  />);
+    });
   return(
     <div className="map-container reactiveComponent appbaseMapComponent">
       {title}
@@ -327,7 +321,7 @@ export class AppbaseMap extends Component {
           onIdle = {:: this.handleOnIdle}>
           {searchComponent}
           {markerComponent}
-
+          {polygons}
       </GoogleMap>}/>
       <div style= { Style.divStatusStyle } ref= "status" > { this.state.streamingStatus } </div >
       <div style={Style.divAppbaseStyle} >
@@ -354,11 +348,16 @@ AppbaseMap.defaultProps = {
   searchComponent: "google",
   autoCenter: false,
   searchAsMoveComponent: false,
+  searchAsMoveDefault: false,
   MapStylesComponent: false,
   mapStyle: 'MapBox',
   title: null,
+  historicPin: 'dist/images/historic-pin.png',
+  streamPin: 'dist/images/stream-pin.png',
   markerOnClick: function() {},
   markerOnDblclick: function() {},
   markerOnMouseover: function() {},
-  markerOnMouseout: function() {}
+  markerOnMouseout: function() {},
+  markerOnIndex: function() {},
+  mapOnIdle: function() {}
 };

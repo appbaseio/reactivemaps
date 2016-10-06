@@ -87,13 +87,14 @@ export class ItemCheckboxList extends Component {
     // Build the array for the checkboxList items
     items.forEach(function (item) {
       item.keyRef = item.key.replace(/ /g,'_');
+      let status = item.status ? item.status : false;
       ListItemsArray.push(<ListItem
         key={item.keyRef}
         value={item.key}
         doc_count={item.doc_count}
         countField={this.props.showCount}
         handleClick={this.handleListClick}
-        status={false}
+        status={status}
         ref={"ref" + item.keyRef} />);
     }.bind(this));
     // Build the array of Tags for selected items
