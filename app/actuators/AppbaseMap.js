@@ -1,6 +1,6 @@
 import { default as React, Component } from 'react';
 import { render } from 'react-dom';
-import { GoogleMapLoader, GoogleMap, Marker, SearchBox, InfoWindow, Polygon } from "react-google-maps";
+import { GoogleMapLoader, GoogleMap, Marker, SearchBox, InfoWindow } from "react-google-maps";
 import InfoBox from 'react-google-maps/lib/addons/InfoBox';
 import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerClusterer";
 import {queryObject, emitter} from '../middleware/ImmutableQuery.js';
@@ -25,7 +25,8 @@ export class AppbaseMap extends Component {
         hits: {
           hits: []
         }
-      }
+      },
+      externalData: []
     };
     this.previousSelectedSensor = {};
     this.handleSearch = this.handleSearch.bind(this);
@@ -55,8 +56,15 @@ export class AppbaseMap extends Component {
         rawData = this.state.rawData;
         if(res.data) {
           res.data.stream = true;
+          if(res.data._deleted) {
+            let hits = rawData.hits.hits.filter((hit) => {
+              return hit._id !== res.data._id;
+            });    
+            rawData.hits.hits = hits;
+          } else {
+            rawData.hits.hits.push(res.data);
+          }
         }
-        rawData.hits.hits.push(res.data);
         markersData = this.setMarkersData(rawData);
       } else if(res.method === 'historic') {
         rawData = data;
@@ -69,7 +77,10 @@ export class AppbaseMap extends Component {
       }, function() {
         // Pass the historic or streaming data in index method
         res.allMarkers = rawData;
-        this.props.markerOnIndex(res);
+        let generatedData = this.props.markerOnIndex(res);
+        this.setState({
+          externalData: generatedData
+        });
       }.bind(this));
     }.bind(this));
   }
@@ -140,9 +151,12 @@ export class AppbaseMap extends Component {
       "top_left": [west, north],
       "bottom_right": [east, south]
     };
-    this.props.mapOnIdle({
+    let generatedData = this.props.mapOnIdle({
       boundingBoxCoordinates: boundingBoxCoordinates,
       mapBounds: mapBounds
+    });
+    this.setState({
+      externalData: generatedData
     });
     if(this.searchAsMove && !this.searchQueryProgress) {
       this.setValue(boundingBoxCoordinates, this.searchAsMove);
@@ -297,14 +311,7 @@ export class AppbaseMap extends Component {
       titleExists = true;
       title = (<h2 className="componentTitle col s12">{this.props.title}</h2>);
     }
-    //polygon
-    let polygonData = this.props.polygonData ? this.props.polygonData : [];
-    let polygons = polygonData.map((polyProp, index) => {
-      let options = {
-        options: polyProp
-      };
-      return (<Polygon key={index} {...options}  />);
-    });
+  
   return(
     <div className="map-container reactiveComponent appbaseMapComponent">
       {title}
@@ -321,7 +328,7 @@ export class AppbaseMap extends Component {
           onIdle = {:: this.handleOnIdle}>
           {searchComponent}
           {markerComponent}
-          {polygons}
+          {this.state.externalData}
       </GoogleMap>}/>
       <div style= { Style.divStatusStyle } ref= "status" > { this.state.streamingStatus } </div >
       <div style={Style.divAppbaseStyle} >

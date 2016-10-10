@@ -1,7 +1,9 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import {Img} from '../../app/sensors/component/Img.js';
+import { Polygon } from "react-google-maps";
 var HeatmapCreator = require('./HeatmapCreator.js');
+var HeatmapWorker = require('./worker.js');
 import {ReactiveMap, 
 		AppbaseMap, 
 		AppbaseSearch, 
@@ -11,27 +13,17 @@ import {ReactiveMap,
 class Main extends Component {
 	constructor(props) {
 	    super(props);
-	    this.state = {
-	    	polygonData: [],
-	    	markers: {
-	    		hits: {
-	    			hits: []
-	    		}
-	    	}
-	    };
+	    this.polygonData = [];
+	    this.markers = {
+    		hits: {
+    			hits: []
+    		}
+    	};
 	    this.mapOnIdle = this.mapOnIdle.bind(this);
 	    this.markerOnIndex = this.markerOnIndex.bind(this);
-	    this.topicDepends = this.topicDepends.bind(this);
 	    this.popoverContent = this.popoverContent.bind(this);
 	}
-	topicDepends(value) {
-		if(this.props.mapping.city && value) {
-			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
-	    	return { Match: match };
-    	} else return null;
-	}
 	popoverContent(marker) {
-		console.log(marker);
 		return (<div className="popoverComponent row">
 			<span className="imgContainer col s2">
 				<Img src={marker._source.member.photo}  />
@@ -50,30 +42,45 @@ class Main extends Component {
 			</div>
 		</div>);
 	}
+	// get the markers create polygon accordingly
 	markerOnIndex(res) {
-		this.setState({markers: res.allMarkers}, this.generatePolyColor.bind(this));
+		this.markers = res.allMarkers;
+		HeatmapWorker.heatmapExistingData(this.markers);
+		return this.generatePolyColor();
 	}
+	// get the mapBounds Create polygon
 	mapOnIdle(res) {
-		let gridCenterPointsArray = HeatmapCreator.createGridLines(res.mapBounds, 0);
-		let polygonData = gridCenterPointsArray.map((grid) => {
+		this.boundingBoxCoordinates = res.boundingBoxCoordinates;
+		this.polygonGrid = HeatmapCreator.createGridLines(res.mapBounds, 0);
+		this.polygonData = this.polygonGrid.map((grid) => {
 			return grid.cell;
 		})
-		this.setState({polygonData: polygonData, polygonGrid: gridCenterPointsArray}, this.generatePolyColor.bind(this));
+		setTimeout(() => {
+			HeatmapWorker.init(this.props.config, this.props.mapping.location, res.boundingBoxCoordinates);
+		}, 2000);
+		return this.generatePolyColor();
 	}
 	generatePolyColor() {
-		if(this.state.polygonGrid.length && this.state.markers && this.state.markers.hits && this.state.markers.hits.hits.length) {
-			let polygonGrid = this.state.polygonGrid.map((polygon) => {
-				polygon.markers = this.state.markers.hits.hits.filter((hit) => {
+		if(this.polygonGrid.length && this.markers && this.markers.hits && this.markers.hits.hits.length) {
+			let polygonGrid = this.polygonGrid.map((polygon) => {
+				polygon.markers = this.markers.hits.hits.filter((hit) => {
 					let markerPosition = [hit._source[this.props.mapping.location].lat, hit._source[this.props.mapping.location].lon];
 					return HeatmapCreator.isInside(markerPosition, polygon.boundaries);
 				});
 				return polygon;
 			});
 			let polygonData = HeatmapCreator.fillColor(polygonGrid);
-			this.setState({
-				polygonData: polygonData
-			});
+			return this.applyPoloygon(polygonData);
 		}
+	}
+	applyPoloygon(polygonData) {
+		let polygons = polygonData.map((polyProp, index) => {
+	      let options = {
+	        options: polyProp
+	      };
+	      return (<Polygon key={index} {...options}  />);
+	    });
+	    return polygons;
 	}
 	render() {
 		return (
@@ -98,7 +105,6 @@ class Main extends Component {
 						popoverContent = {this.popoverContent}
 						markerOnIndex = {this.markerOnIndex}
 						mapOnIdle = {this.mapOnIdle}
-						polygonData = {this.state.polygonData}
 						/>
 				</div>
 			</div>
@@ -113,10 +119,10 @@ Main.defaultProps = {
 	},
 	config: {
 		"appbase": {
-			"appname": "map_demo",
-			"username": "aT29UsiAp",
-			"password": "e0d26007-d818-4559-8244-c3c2fbad45ad",
-			"type": "meetupdata1"
+			"appname": "heatmap-app",
+		    "username": "SIhtMbkv4",
+		    "password": "ad153ba9-4475-40e7-be53-69389c4f7f68",
+		    "type": "meetupdata1"
 		}
 	}
 };
