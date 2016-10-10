@@ -31,8 +31,7 @@ class channelManager {
     // apply searchStream query and emit streaming data
     if(this.streamRef[channelId]) {
       this.streamRef[channelId].stop();
-    }
-    
+    } 
     this.streamRef[channelId] = helper.appbaseRef.searchStream(queryObj).on('data', function(data) {
       let obj = {
         method: 'stream',

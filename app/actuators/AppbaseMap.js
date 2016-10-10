@@ -56,8 +56,15 @@ export class AppbaseMap extends Component {
         rawData = this.state.rawData;
         if(res.data) {
           res.data.stream = true;
+          if(res.data._deleted) {
+            let hits = rawData.hits.hits.filter((hit) => {
+              return hit._id !== res.data._id;
+            });    
+            rawData.hits.hits = hits;
+          } else {
+            rawData.hits.hits.push(res.data);
+          }
         }
-        rawData.hits.hits.push(res.data);
         markersData = this.setMarkersData(rawData);
       } else if(res.method === 'historic') {
         rawData = data;

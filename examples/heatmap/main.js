@@ -3,6 +3,7 @@ var ReactDOM = require('react-dom');
 import {Img} from '../../app/sensors/component/Img.js';
 import { Polygon } from "react-google-maps";
 var HeatmapCreator = require('./HeatmapCreator.js');
+var HeatmapWorker = require('./worker.js');
 import {ReactiveMap, 
 		AppbaseMap, 
 		AppbaseSearch, 
@@ -44,14 +45,19 @@ class Main extends Component {
 	// get the markers create polygon accordingly
 	markerOnIndex(res) {
 		this.markers = res.allMarkers;
+		HeatmapWorker.heatmapExistingData(this.markers);
 		return this.generatePolyColor();
 	}
 	// get the mapBounds Create polygon
 	mapOnIdle(res) {
+		this.boundingBoxCoordinates = res.boundingBoxCoordinates;
 		this.polygonGrid = HeatmapCreator.createGridLines(res.mapBounds, 0);
 		this.polygonData = this.polygonGrid.map((grid) => {
 			return grid.cell;
 		})
+		setTimeout(() => {
+			HeatmapWorker.init(this.props.config, this.props.mapping.location, res.boundingBoxCoordinates);
+		}, 2000);
 		return this.generatePolyColor();
 	}
 	generatePolyColor() {
@@ -113,10 +119,10 @@ Main.defaultProps = {
 	},
 	config: {
 		"appbase": {
-			"appname": "map_demo",
-			"username": "aT29UsiAp",
-			"password": "e0d26007-d818-4559-8244-c3c2fbad45ad",
-			"type": "meetupdata1"
+			"appname": "heatmap-app",
+		    "username": "SIhtMbkv4",
+		    "password": "ad153ba9-4475-40e7-be53-69389c4f7f68",
+		    "type": "meetupdata1"
 		}
 	}
 };
