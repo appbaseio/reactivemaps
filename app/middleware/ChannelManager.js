@@ -17,7 +17,7 @@ class channelManager {
   receive(depend, channelId) {
     let self = this;
     let channelObj = this.channels[channelId];
-    let queryObj = this.queryBuild(channelObj.depends, channelObj.previousSelectedSensor);
+    let queryObj = this.queryBuild(channelObj.depends, channelObj.previousSelectedSensor, channelObj.size);
     // apply search query and emit historic queryResult
     helper.appbaseRef.search(queryObj).on('data', function(data) {
       let obj = {
@@ -45,7 +45,7 @@ class channelManager {
 
   // queryBuild
   // Builds the query by using depends object and values of sensor
-  queryBuild(depends, previousSelectedSensor) {
+  queryBuild(depends, previousSelectedSensor, size) {
     let aggs = null;
     let mustArray = [];
     let shouldArray = [];
@@ -120,7 +120,7 @@ class channelManager {
     let query = {
       type: this.config.type,
       body: {
-        "size": 100,
+        "size": size,
         "query": {
           "bool": {
             "should": shouldArray,
@@ -137,11 +137,12 @@ class channelManager {
 
   // Create the channel by passing depends
   // if depends are same it will create single channel for them
-  create(depends) {
+  create(depends, size = 100) {
     let channelId = btoa(JSON.stringify(depends));
     if(!this.channels.hasOwnProperty(channelId)) {
       this.channels[channelId] = {
         depends: depends,
+        size: size,
         previousSelectedSensor: {}
       };
       helper.watchForDependencyChange(depends, this.channels[channelId].previousSelectedSensor, this.receive, channelId)
