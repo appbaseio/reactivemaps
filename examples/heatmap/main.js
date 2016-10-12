@@ -19,6 +19,7 @@ class Main extends Component {
     			hits: []
     		}
     	};
+    	this.simulationFlag = true;
 	    this.mapOnIdle = this.mapOnIdle.bind(this);
 	    this.markerOnIndex = this.markerOnIndex.bind(this);
 	    this.popoverContent = this.popoverContent.bind(this);
@@ -45,19 +46,29 @@ class Main extends Component {
 	// get the markers create polygon accordingly
 	markerOnIndex(res) {
 		this.markers = res.allMarkers;
-		HeatmapWorker.heatmapExistingData(this.markers);
+		this.passExistingData(res);
+		console.log('Applying polgon', res.method);
 		return this.generatePolyColor();
+	}
+	passExistingData(res) {
+		if(res.method === 'stream') {
+			this.simulationFlag = false;
+		}
+		HeatmapWorker.heatmapExistingData(this.markers);
 	}
 	// get the mapBounds Create polygon
 	mapOnIdle(res) {
+		this.simulationFlag = true;
 		this.boundingBoxCoordinates = res.boundingBoxCoordinates;
 		this.polygonGrid = HeatmapCreator.createGridLines(res.mapBounds, 0);
 		this.polygonData = this.polygonGrid.map((grid) => {
 			return grid.cell;
 		})
 		setTimeout(() => {
-			HeatmapWorker.init(this.props.config, this.props.mapping.location, res.boundingBoxCoordinates);
-		}, 2000);
+			if(this.simulationFlag) {
+				HeatmapWorker.init(this.props.config, this.props.mapping.location, res.boundingBoxCoordinates);
+			}
+		}, 10*1000);
 		return this.generatePolyColor();
 	}
 	generatePolyColor() {
@@ -89,6 +100,7 @@ class Main extends Component {
 				<div className="col s12 h-100">
 					<AppbaseMap
 						inputData={this.props.mapping.location}
+						requestSize={5}
 						defaultZoom={13}
 						defaultCenter={{ lat: 37.74, lng: -122.45 }}
 						historicalData={true}
