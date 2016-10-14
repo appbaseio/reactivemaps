@@ -76,7 +76,6 @@ module.exports = {
         id: this.heatmapData[index]._id.toString()
       };
       this.heatmapApp.delete(requestObject).on('data', function(response) {
-        console.log(" Deleted ", index);
       }).on('error', function(error) {
         console.log(error);
       });
@@ -110,12 +109,10 @@ module.exports = {
             }
           }, timer);
           // delete node while index is even number
-          if((this.insertIndexCount/2) === 0) {
-            setTimeout(() => {
-              if(this.heatmapData && this.heatmapData.length) {
-                deleteNode.call(this, this.pickRandom(0, this.heatmapData.length));
-              }
-            }, timer);
+          if((this.insertIndexCount%2) === 0) {
+            if(this.heatmapData && this.heatmapData.length) {
+              deleteNode.call(this, this.pickRandom(0, this.heatmapData.length));
+            }
           }
         }.bind(this)).on('error', function(error) {
           this.insertionProcess = false;
