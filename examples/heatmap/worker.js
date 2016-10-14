@@ -47,7 +47,7 @@ module.exports = {
     }.bind(this));
   },
   // get more data
-  nextPage: function(from, size) {
+  nextPage: function() {
     this.searchObj.body.from += 100;
     this.searchQuery(this.searchObj.body.from, this.searchObj.body.size);
   },
@@ -65,6 +65,7 @@ module.exports = {
 
     // if insertNode process is already stopped then start it again
     if(!this.insertionProcess) {
+      this.insertIndexCount = 0;
       insertNode.apply(this);
     }
 
@@ -84,6 +85,7 @@ module.exports = {
     // insert new record in heatmap app and delete that record from importedData props
     function insertNode(index=0) {
       if(this.importedData && this.importedData[index] && this.importedData[index]._source) {
+        this.insertIndexCount++;
         this.insertionProcess = true;
         let requestObject = {
           type: this.type
@@ -101,14 +103,20 @@ module.exports = {
               this.insertionProcess = false;
               if(this.hitLength > 98) {
                 this.nextPage();
+              } else {
+                this.searchObj.body.from = -100;
+                this.nextPage();
               }
             }
           }, timer);
-          setTimeout(() => {
-            if(this.heatmapData && this.heatmapData.length > 30) {
-              deleteNode.call(this, this.pickRandom(0, this.heatmapData.length));
-            }
-          }, timer*3);
+          // delete node while index is even number
+          if((this.insertIndexCount/2) === 0) {
+            setTimeout(() => {
+              if(this.heatmapData && this.heatmapData.length) {
+                deleteNode.call(this, this.pickRandom(0, this.heatmapData.length));
+              }
+            }, timer);
+          }
         }.bind(this)).on('error', function(error) {
           this.insertionProcess = false;
           console.log(error);

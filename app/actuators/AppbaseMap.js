@@ -48,7 +48,7 @@ export class AppbaseMap extends Component {
     let depends = this.props.depends ? this.props.depends : {};
     depends['geoQuery'] = { operation: "should" };
     // create a channel and listen the changes
-    var channelObj = manager.create(depends);
+    var channelObj = manager.create(depends, this.props.requestSize);
     channelObj.emitter.addListener(channelObj.channelId, function(res) {
       let data = res.data;
       let rawData, markersData;
@@ -359,6 +359,7 @@ AppbaseMap.defaultProps = {
   MapStylesComponent: false,
   mapStyle: 'MapBox',
   title: null,
+  requestSize: 100,
   historicPin: 'dist/images/historic-pin.png',
   streamPin: 'dist/images/stream-pin.png',
   markerOnClick: function() {},
