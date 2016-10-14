@@ -173,6 +173,9 @@ export class AppbaseMap extends Component {
   // on change of selectiong 
   searchAsMoveChange(value) {
     this.searchAsMove = value;
+    if(value) {
+      this.handleOnIdle();
+    }
   }
   // mapStyle changes
   mapStyleChange(style) {

@@ -110,13 +110,14 @@ class Main extends Component {
 						mapStyle={this.props.mapStyle}
 						autoCenter={true}
 						searchAsMoveComponent={true}
-						searchAsMoveDefault={true}
+						searchAsMoveDefault={false}
 						MapStylesComponent={true}
 						title="Heatmap"
 						showPopoverOn = "onClick"
 						popoverContent = {this.popoverContent}
 						markerOnIndex = {this.markerOnIndex}
 						mapOnIdle = {this.mapOnIdle}
+						streamingMarkerTime={10}
 						/>
 				</div>
 			</div>

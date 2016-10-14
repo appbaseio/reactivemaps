@@ -27,11 +27,11 @@ export class SearchAsMove extends Component {
   }
   // Handler function when a value is selected
   handleSelect(value) {
-    this.props.searchAsMoveChange(true);
+    let flag = value && value.length ? true : false;
+    this.props.searchAsMoveChange(flag);
   }
   // Handler function when a value is deselected or removed
   handleRemove(value) {
-    this.props.searchAsMoveChange(false);
   }
   render() {
     let listComponent;
