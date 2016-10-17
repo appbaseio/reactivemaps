@@ -10,7 +10,6 @@ export class HistoGramComponent extends Component {
     var max = _.max(this.props.data);
     let dataLength = this.props.data.length;
     let bars = null;
-    console.log(this.props.data);
     let data = this.props.data.map((val) => {
       let res = {
         height: 0,
