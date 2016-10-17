@@ -52,19 +52,12 @@ export class AppbaseMap extends Component {
     channelObj.emitter.addListener(channelObj.channelId, function(res) {
       let data = res.data;
       let rawData, markersData;
+      this.streamFlag = false;
       if(res.method === 'stream') {
-        rawData = this.state.rawData;
-        if(res.data) {
-          res.data.stream = true;
-          if(res.data._deleted) {
-            let hits = rawData.hits.hits.filter((hit) => {
-              return hit._id !== res.data._id;
-            });    
-            rawData.hits.hits = hits;
-          } else {
-            rawData.hits.hits.push(res.data);
-          }
-        }
+        let modData = this.streamDataModify(this.state.rawData, res);
+        rawData = modData.rawData;
+        res = modData.res;
+        this.streamFlag = true;
         markersData = this.setMarkersData(rawData);
       } else if(res.method === 'historic') {
         rawData = data;
@@ -81,9 +74,33 @@ export class AppbaseMap extends Component {
         this.setState({
           externalData: generatedData
         });
+        if(this.streamFlag) {
+          this.streamMarkerInterval();
+        }
       }.bind(this));
     }.bind(this));
   }
+  // append stream boolean flag and also start time of stream
+  streamDataModify(rawData, res) {
+    if(res.data) {
+      res.data.stream = true;
+      res.data.streamStart = new Date();
+      if(res.data._deleted) {
+        let hits = rawData.hits.hits.filter((hit) => {
+          return hit._id !== res.data._id;
+        });    
+        rawData.hits.hits = hits;
+      } else {
+        rawData.hits.hits.push(res.data);
+      }
+    }
+    return {
+      rawData: rawData,
+      res: res,
+      streamFlag: true
+    };
+  }
+  // tranform the raw data to marker data
   setMarkersData(data) {
     var self = this;
     if(data && data.hits && data.hits.hits) {
@@ -111,21 +128,21 @@ export class AppbaseMap extends Component {
     };
     helper.selectedSensor.setSensorInfo(obj);
   }
-  //Toggle to 'true' to show InfoWindow and re-renders component
+  // Show InfoWindow and re-renders component
   handleMarkerClick(marker) {
     marker.showInfo = true;
     this.reposition = false;
-    console.log(marker);
     this.setState({
       rerender: true
     });
   }
-  
+  // Close infowindow
   handleMarkerClose(marker) {
     marker.showInfo = false;
     this.reposition = false;
     this.setState(this.state);
   }
+  // render infowindow 
   renderInfoWindow(ref, marker) {
     var popoverContent = this.props.popoverContent ? this.props.popoverContent(marker) : 'Popver';
     return (
@@ -137,8 +154,7 @@ export class AppbaseMap extends Component {
           {popoverContent}
         </div>  
       </InfoWindow>
-    );
-    
+    );  
   }
   // Handle function which is fired when map is moved and reaches to idle position
   handleOnIdle() {
@@ -226,6 +242,43 @@ export class AppbaseMap extends Component {
     }
     return convertedGeo;
   }
+  // Check if stream data exists in markersData 
+  // and if exists the call streamToNormal.
+  streamMarkerInterval() {
+    let markersData = this.state.markersData;
+    let isStreamData = markersData.filter((hit) => hit.stream && hit.streamStart);
+    if(isStreamData.length) {
+      this.isStreamDataExists = true;
+      setTimeout(() => this.streamToNormal(), this.props.streamActiveTime*1000);
+    } else {
+      this.isStreamDataExists = false;
+    }
+  }
+  // Check the difference between current time and attached stream time
+  // if difference is equal to streamActiveTime then delete stream and starStream property of marker
+  streamToNormal() {
+    let markersData = this.state.markersData;
+    let isStreamData = markersData.filter((hit) => hit.stream && hit.streamStart);
+    if(isStreamData.length) {
+      console.log('Converting icon', isStreamData.length)
+      markersData = markersData.map((hit, index) => {
+        if(hit.stream && hit.streamStart) {
+          let currentTime = new Date();
+          let timeDiff = (currentTime.getTime() - hit.streamStart.getTime())/1000;
+          if(timeDiff >= this.props.streamActiveTime) {
+            delete hit.stream;
+            delete hit.streamStart;
+          }
+        }
+        return hit;
+      });
+      this.setState({
+        markersData: markersData
+      });
+    } else {
+      this.isStreamDataExists = false;
+    }
+  }
   generateMarkers() {
     var self = this;
     let markersData = this.state.markersData;
@@ -274,7 +327,6 @@ export class AppbaseMap extends Component {
         lat: selectedMarker.lat,
         lng: selectedMarker.lng
       };
-      
     }
     return response;
   }
@@ -295,7 +347,6 @@ export class AppbaseMap extends Component {
     }
     // Auto center using markers data
     if(!this.searchAsMove && this.props.autoCenter && this.reposition) {
-
       searchComponentProps.center =  generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : this.state.center;
       this.reposition = false;
     } else {
@@ -347,10 +398,13 @@ AppbaseMap.propTypes = {
   inputData: React.PropTypes.string.isRequired,
   searchField: React.PropTypes.string,
   searchComponent: React.PropTypes.string,
+  mapOnIdle: React.PropTypes.func,
   markerOnDelete: React.PropTypes.func,
   markerOnIndex: React.PropTypes.func,
   markerCluster: React.PropTypes.bool,
-  historicalData: React.PropTypes.bool
+  historicalData: React.PropTypes.bool,
+  streamActiveTime: React.PropTypes.number,
+  requestSize: React.PropTypes.number
 };
 AppbaseMap.defaultProps = {
   historicalData: true,
@@ -363,6 +417,7 @@ AppbaseMap.defaultProps = {
   mapStyle: 'MapBox',
   title: null,
   requestSize: 100,
+  streamActiveTime: 5,
   historicPin: 'dist/images/historic-pin.png',
   streamPin: 'dist/images/stream-pin.png',
   markerOnClick: function() {},
