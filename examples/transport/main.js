@@ -1,11 +1,10 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
-import {Img} from './app/sensors/component/Img.js';
 import {ReactiveMap, 
 		AppbaseMap, 
 		AppbaseSearch, 
 		AppbaseSlider, 
-		AppbaseList} from './app/app.js';
+		AppbaseList} from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {

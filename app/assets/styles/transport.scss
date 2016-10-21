@@ -1,0 +1,10 @@
+@import "variable.scss";
+.popoverComponent {
+	.infoContainer {
+		.description {
+			table tr td, table tr th {
+				padding: 2px;
+			}
+		}
+	}
+}
