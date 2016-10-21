@@ -22,45 +22,19 @@ class Main extends Component {
 	popoverContent(marker) {
 		console.log(marker);
 		return (<div className="popoverComponent row">
-			<div className="infoContainer col s12">
+			<span className="imgContainer col s2">
+				<Img src={marker._source.member.photo}  />
+			</span>
+			<div className="infoContainer col s10">
 				<div className="nameContainer">
-					<strong>Bus: {marker._source.vid}</strong>
+					<strong>{marker._source.member.member_name}</strong>
 				</div>
 				<div className="description">
-					<table>
-						<tr>
-							<th>
-								Destination
-							</th>
-							<td>
-								{marker._source.des}
-							</td>
-						</tr>
-						<tr>
-							<th>
-								Route
-							</th>
-							<td>
-								{marker._source.routes}
-							</td>
-						</tr>
-						<tr>
-							<th>
-								Delayed
-							</th>
-							<td>
-								{marker._source.dly+' '}
-							</td>
-						</tr>
-						<tr>
-							<th>
-								Zone
-							</th>
-							<td>
-								{marker._source.zone}
-							</td>
-						</tr>
-					</table>
+					<p>is going to&nbsp;
+						<a href={marker._source.event.event_url} target="_blank">
+							{marker._source.event.event_name}
+						</a>
+					</p>
 				</div>
 			</div>
 		</div>);
@@ -76,19 +50,67 @@ class Main extends Component {
 					<div className="row h-100">
 						<div className="col s12 m6">
 							<AppbaseList
-								sensorId="RoutesSensor"
-								inputData={this.props.mapping.routes} 
-								defaultSelected="King Drive"
+								sensorId="CitySensor"
+								inputData={this.props.mapping.city} 
+								defaultSelected="London"
 								showCount={true} 
 								size={1000} 
 								multipleSelect={false} 
 								includeGeo={false}
 								staticSearch={true}
-								title="Routes"
-								searchPlaceholder="Search Routes"
+								title="Cities"
+								searchPlaceholder="Search City"
+							/>
+						</div>
+						<div className="col s12 m6">
+							<AppbaseList
+								inputData={this.props.mapping.topic} 
+								sensorId="TopicSensor"
+								showCount={true}
+								size={100} 
+								multipleSelect={true} 
+								includeGeo={true} 
+								title="Topics"
+								depends={{
+									CitySensor: {
+										"operation": "must",
+										"defaultQuery": this.topicDepends
+									}
+								}}
 							/>
 						</div>
 					</div>
+					<div className="row">
+						<div className="col s12">
+							<AppbaseSlider 
+								sensorId="RangeSensor"
+								inputData={this.props.mapping.guests} 
+								depends={{
+									CitySensor: {
+										"operation": "must",
+										"defaultQuery": this.topicDepends
+									}
+								}}
+								title="guests"
+								maxThreshold={5} />
+						</div>
+					</div>
+					<div className="row">
+						<div className="col s12">
+							<AppbaseSearch
+								inputData={this.props.mapping.venue}
+								sensorId="VenueSensor"
+								searchRef="CityVenue"
+								placeholder="Search Venue"
+								depends={{
+									'CitySensor': {
+										"operation": "must",
+										"doNotExecute": {true}
+									}
+								}}
+							/>
+						</div>
+					</div>	
 				</div>
 				<div className="col s12 m6 h-100">
 					<AppbaseMap
@@ -107,9 +129,11 @@ class Main extends Component {
 						showPopoverOn = "onClick"
 						popoverContent = {this.popoverContent}
 						markerOnIndex = {this.markerOnIndex}
-						streamAutoCenter={false}
 						depends={{
-							RoutesSensor: {"operation": "must"}
+							CitySensor: {"operation": "must"},
+							TopicSensor: {"operation": "must"},
+							RangeSensor: {"operation": "must"},
+							VenueSensor: {"operation": "must"}
 						}}
 						/>
 				</div>
@@ -119,17 +143,20 @@ class Main extends Component {
 }
 
 Main.defaultProps = {
- 	mapStyle: "MapBox",
+ 	mapStyle: "Midnight Commander",
  	mapping: {
-		routes: 'routes.raw',
+		city: 'group.group_city.raw',
+		topic: 'group.group_topics.topic_name_raw',
+		venue: 'venue_name_ngrams',
+		guests: 'guests',
 		location: 'location'
 	},
 	config: {
 		"appbase": {
-			"appname": "bus",
-			"username": "UzOKXiRYK",
-			"password": "000fb7ce-c92e-4f78-b3b7-0d4e33964134",
-			"type": "vehicle"
+			"appname": "map_demo",
+			"username": "aT29UsiAp",
+			"password": "e0d26007-d818-4559-8244-c3c2fbad45ad",
+			"type": "meetupdata1"
 		}
 	}
 };
