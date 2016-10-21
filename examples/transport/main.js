@@ -102,7 +102,7 @@ class Main extends Component {
 						autoCenter={true}
 						searchAsMoveComponent={true}
 						MapStylesComponent={true}
-						title="Reactive Maps"
+						title="Chicago Transport"
 						showPopoverOn = "onClick"
 						popoverContent = {this.popoverContent}
 						markerOnIndex = {this.markerOnIndex}
