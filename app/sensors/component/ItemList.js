@@ -65,7 +65,7 @@ class ItemRow extends Component {
     let activeClass = this.props.value === this.props.selectedItem ? 'active' : '';
     return (
       <div onClick={this.props.handleClick.bind(null, this.props.value) } className="listItem">
-        <a href="#" className={activeClass}>
+        <a href="javascript:void(0)" className={activeClass}>
           <span> {this.props.value} </span>
           {count}
         </a>

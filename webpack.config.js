@@ -27,7 +27,8 @@ module.exports = {
     main: './main.js',
     meetupblast: './examples/meetupblast/main.js',
     now: './examples/now/main.js',
-    heatmap: './examples/heatmap/main.js'
+    heatmap: './examples/heatmap/main.js',
+    transport: './examples/transport/main.js'
   },
   output: { 
     path: path.join(__dirname, "dist"),

@@ -54,12 +54,14 @@ export class AppbaseMap extends Component {
       let rawData, markersData;
       this.streamFlag = false;
       if(res.method === 'stream') {
+        this.channelMethod = 'stream';
         let modData = this.streamDataModify(this.state.rawData, res);
         rawData = modData.rawData;
         res = modData.res;
         this.streamFlag = true;
         markersData = this.setMarkersData(rawData);
       } else if(res.method === 'historic') {
+        this.channelMethod = 'historic';
         rawData = data;
         markersData = this.setMarkersData(data);
       }
@@ -90,6 +92,13 @@ export class AppbaseMap extends Component {
           return hit._id !== res.data._id;
         });    
         rawData.hits.hits = hits;
+      }
+      else if(res.data._updated) {
+        let hits = rawData.hits.hits.filter((hit) => {
+          return hit._id !== res.data._id;
+        });    
+        rawData.hits.hits = hits;
+        rawData.hits.hits.push(res.data);
       } else {
         rawData.hits.hits.push(res.data);
       }
@@ -229,16 +238,15 @@ export class AppbaseMap extends Component {
     let convertedGeo = null;
     if(type === '[object Object]' && input.hasOwnProperty('lat') && input.hasOwnProperty('lon')) {
       convertedGeo = {
-        lat: input.lat,
-        lng: input.lon
+        lat: Number(input.lat),
+        lng: Number(input.lon)
       };
     }
     else if(type === '[object Array]' && input.length === 2) {
       convertedGeo = {
-        lat: input[0],
-        lng: input[1]
+        lat: Number(input[0]),
+        lng: Number(input[1])
       };
-      console.log(input[0], input[1]);
     }
     return convertedGeo;
   }
@@ -305,9 +313,10 @@ export class AppbaseMap extends Component {
             popoverEvent = {};
             popoverEvent['onClick'] = this.handleMarkerClick.bind(this, hit);
           }
+          let timenow = new Date();
           return (
             <Marker {...position} 
-              key={index} 
+              key={index+hit._id+timenow.getTime()}
               zIndex={1}
               ref={ref}
               icon={icon}
@@ -346,7 +355,11 @@ export class AppbaseMap extends Component {
       markerComponent = generatedMarkers.markerComponent;
     }
     // Auto center using markers data
-    if(!this.searchAsMove && this.props.autoCenter && this.reposition) {
+    var streamCenterFlag = true;
+    if(this.channelMethod === 'stream' && !this.props.streamAutoCenter) {
+      streamCenterFlag = false;
+    }
+    if(!this.searchAsMove && this.props.autoCenter && this.reposition && streamCenterFlag) {
       searchComponentProps.center =  generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : this.state.center;
       this.reposition = false;
     } else {
@@ -418,6 +431,7 @@ AppbaseMap.defaultProps = {
   title: null,
   requestSize: 100,
   streamActiveTime: 5,
+  streamAutoCenter: true,
   historicPin: 'dist/images/historic-pin.png',
   streamPin: 'dist/images/stream-pin.png',
   markerOnClick: function() {},
