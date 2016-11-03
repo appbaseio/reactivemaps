@@ -71,6 +71,7 @@ class Main extends Component {
 						popoverContent = {this.popoverContent}
 						markerOnIndex = {this.markerOnIndex}
 						streamAutoCenter={false}
+						rotateOnUpdate={true}
 						historicPin= 'dist/images/bus.png'
 						streamPin= 'dist/images/bus.png'
 						depends={{
