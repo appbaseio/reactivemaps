@@ -8,6 +8,7 @@ import {manager} from '../middleware/ChannelManager.js';
 import {AppbaseSearch} from '../sensors/AppbaseSearch';
 import {SearchAsMove} from '../sensors/SearchAsMove';
 import {MapStyles} from '../sensors/MapStyles';
+import {RotateIcon} from '../helper/RotateIcon';
 
 var helper = require('../middleware/helper.js');
 var Style = require('../helper/Style.js');
@@ -93,6 +94,14 @@ export class AppbaseMap extends Component {
         });    
         rawData.hits.hits = hits;
       } else {
+        let prevData = rawData.hits.hits.filter((hit) => {
+          return hit._id === res.data._id;
+        }); 
+        if(prevData && prevData.length) {
+          let preCord = prevData[0]._source[this.props.inputData];
+          let newCord = res.data._source[this.props.inputData];
+          res.data.angleDeg = Math.atan2(newCord.lon - preCord.lon, newCord.lat - preCord.lat) * 180 / Math.PI;
+        }   
         let hits = rawData.hits.hits.filter((hit) => {
           return hit._id !== res.data._id;
         });    
@@ -296,7 +305,9 @@ export class AppbaseMap extends Component {
     if(markersData) {
       response.markerComponent = markersData.map((hit, index) => {
         let field = self.identifyGeoData(hit._source[self.props.inputData]);
-        let icon = hit.stream ? self.props.streamPin : self.props.historicPin;
+        let iconPath = hit.stream ? self.props.streamPin : self.props.historicPin;
+        let deg = hit.angleDeg ? -hit.angleDeg : 0;
+        let icon = !this.props.rotateOnUpdate ? iconPath : RotateIcon.makeIcon(iconPath).setRotation({deg: deg}).getUrl();
         if(field) {
           response.convertedGeo.push(field);
           let position = {
@@ -414,6 +425,7 @@ AppbaseMap.propTypes = {
   markerOnIndex: React.PropTypes.func,
   markerCluster: React.PropTypes.bool,
   historicalData: React.PropTypes.bool,
+  rotateOnUpdate: React.PropTypes.bool,
   streamActiveTime: React.PropTypes.number,
   requestSize: React.PropTypes.number
 };
@@ -430,6 +442,7 @@ AppbaseMap.defaultProps = {
   requestSize: 100,
   streamActiveTime: 5,
   streamAutoCenter: true,
+  rotateOnUpdate: false,
   historicPin: 'dist/images/historic-pin.png',
   streamPin: 'dist/images/stream-pin.png',
   markerOnClick: function() {},
