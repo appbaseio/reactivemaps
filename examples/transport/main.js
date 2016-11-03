@@ -1,10 +1,10 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
-import {ReactiveMap, 
-		AppbaseMap, 
-		AppbaseSearch, 
-		AppbaseSlider, 
-		AppbaseList} from '../../app/app.js';
+import {ReactiveMap,
+        AppbaseMap,
+        AppbaseSearch,
+        AppbaseSlider,
+        AppbaseList} from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {
@@ -40,11 +40,11 @@ class Main extends Component {
 						<div className="col s12">
 							<AppbaseList
 								sensorId="RoutesSensor"
-								inputData={this.props.mapping.routes} 
+								inputData={this.props.mapping.routes}
 								defaultSelected={1040}
-								showCount={true} 
-								size={1000} 
-								multipleSelect={false} 
+								showCount={true}
+								size={1000}
+								multipleSelect={false}
 								includeGeo={false}
 								staticSearch={true}
 								title="Bus"
