@@ -92,15 +92,13 @@ export class AppbaseMap extends Component {
           return hit._id !== res.data._id;
         });    
         rawData.hits.hits = hits;
-      }
-      else if(res.data._updated) {
+      } else {
         let hits = rawData.hits.hits.filter((hit) => {
           return hit._id !== res.data._id;
         });    
         rawData.hits.hits = hits;
         rawData.hits.hits.push(res.data);
-      } else {
-        rawData.hits.hits.push(res.data);
+        console.log(res);
       }
     }
     return {
