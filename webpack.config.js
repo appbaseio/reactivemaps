@@ -1,6 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
- 
+
 // module.exports = {
 //   entry: './main.js',
 //   output: { path: __dirname, filename: 'bundle.js' },
@@ -16,6 +16,10 @@ var webpack = require('webpack');
 //         query: {
 //           presets: ['es2015','stage-0', 'react']
 //         }
+//       },
+//       {
+//         test: /node_modules\/JSONStream\/index\.js$/,
+//         loaders: ['shebang', 'babel']
 //       }
 //     ]
 //   },
@@ -28,11 +32,12 @@ module.exports = {
     meetupblast: './examples/meetupblast/main.js',
     now: './examples/now/main.js',
     heatmap: './examples/heatmap/main.js',
-    transport: './examples/transport/main.js'
+    transport: './examples/transport/main.js',
+    earthquake: './examples/earthquake/main.js'
   },
-  output: { 
+  output: {
     path: path.join(__dirname, "dist"),
-    filename: '[name].bundle.js' 
+    filename: '[name].bundle.js'
   },
   module: {
     preLoaders: [
@@ -46,6 +51,10 @@ module.exports = {
         query: {
           presets: ['es2015','stage-0', 'react']
         }
+      },
+      {
+        test: /node_modules\/JSONStream\/index\.js$/,
+        loaders: ['shebang', 'babel']
       }
     ]
   },
