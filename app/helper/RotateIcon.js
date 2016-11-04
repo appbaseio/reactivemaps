@@ -5,8 +5,9 @@ export var RotateIcon = function(options){
     this.options.width = this.options.width || this.rImg.width || 52;
     this.options.height = this.options.height || this.rImg.height || 60;
     var canvas = document.createElement("canvas");
-    canvas.width = this.options.width*1.25;
-    canvas.height = this.options.height*1.65;
+    let size = this.options.width > this.options.height ? this.options.width : this.options.height;
+    canvas.width = size;
+    canvas.height = size;
     this.context = canvas.getContext("2d");
     this.canvas = canvas;
 };
