@@ -41,10 +41,9 @@ class Main extends Component {
 							<AppbaseList
 								sensorId="RoutesSensor"
 								inputData={this.props.mapping.routes}
-								defaultSelected={1040}
 								showCount={true}
 								size={1000}
-								multipleSelect={false}
+								multipleSelect={true}
 								includeGeo={false}
 								staticSearch={true}
 								title="Bus"
