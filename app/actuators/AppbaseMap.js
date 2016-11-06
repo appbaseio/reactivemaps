@@ -325,7 +325,7 @@ export class AppbaseMap extends Component {
           let timenow = new Date();
           return (
             <Marker {...position} 
-              key={index+hit._id+timenow.getTime()}
+              key={hit._id}
               zIndex={1}
               ref={ref}
               icon={icon}
