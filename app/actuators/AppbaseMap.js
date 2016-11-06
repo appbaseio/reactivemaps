@@ -302,7 +302,7 @@ export class AppbaseMap extends Component {
       defaultCenter: null,
       convertedGeo: []
     };
-    if(markersData) {
+    if(markersData && markersData.length) {
       response.markerComponent = markersData.map((hit, index) => {
         let field = self.identifyGeoData(hit._source[self.props.inputData]);
         let iconPath = hit.stream ? self.props.streamPin : self.props.historicPin;
