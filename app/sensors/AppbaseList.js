@@ -72,6 +72,7 @@ export class AppbaseList extends Component {
     this.addItemsToList(eval(`data.aggregations["${this.props.inputData}"].buckets`));
   }
   addItemsToList(newItems) {
+    newItems = newItems.map((item) => {item.key = item.key.toString(); return item});
     this.setState({
       items: newItems,
       storedItems: newItems
@@ -122,7 +123,8 @@ export class AppbaseList extends Component {
         items={this.state.items}
         onSelect={this.handleSelect}
         onRemove={this.handleRemove}
-        showCount={this.props.showCount} />
+        showCount={this.props.showCount} 
+        defaultSelected={this.props.defaultSelected} />
     }
     else {
       listComponent = <ItemList
@@ -163,7 +165,7 @@ AppbaseList.propTypes = {
   size: React.PropTypes.number,
   showCount: React.PropTypes.bool,
   multipleSelect: React.PropTypes.bool,
-  sort: React.PropTypes.string,   
+  sort: React.PropTypes.string   
 };
 // Default props value
 AppbaseList.defaultProps = {
