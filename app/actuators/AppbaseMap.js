@@ -47,7 +47,7 @@ export class AppbaseMap extends Component {
   createChannel() {
     // Set the depends - add self aggs query as well with depends
     let depends = this.props.depends ? this.props.depends : {};
-    depends['geoQuery'] = { operation: "should" };
+    depends['geoQuery'] = { operation: "must" };
     // create a channel and listen the changes
     var channelObj = manager.create(depends, this.props.requestSize);
     channelObj.emitter.addListener(channelObj.channelId, function(res) {
@@ -302,7 +302,7 @@ export class AppbaseMap extends Component {
       defaultCenter: null,
       convertedGeo: []
     };
-    if(markersData) {
+    if(markersData && markersData.length) {
       response.markerComponent = markersData.map((hit, index) => {
         let field = self.identifyGeoData(hit._source[self.props.inputData]);
         let iconPath = hit.stream ? self.props.streamPin : self.props.historicPin;
@@ -325,7 +325,7 @@ export class AppbaseMap extends Component {
           let timenow = new Date();
           return (
             <Marker {...position} 
-              key={index+hit._id+timenow.getTime()}
+              key={hit._id}
               zIndex={1}
               ref={ref}
               icon={icon}
@@ -349,6 +349,7 @@ export class AppbaseMap extends Component {
     return response;
   }
   render() {
+    // debugger
     var self = this;
     var markerComponent, searchComponent, searchAsMoveComponent, MapStylesComponent;
     let appbaseSearch, titleExists, title = null;

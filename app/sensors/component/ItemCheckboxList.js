@@ -65,7 +65,7 @@ export class ItemCheckboxList extends Component {
     // Pass the older value props to parent components to remove older list in terms query
     var isExecutable = this.state.selectedItems.length === 1 ? true:false;
     this.props.onRemove(this.state.selectedItems, isExecutable);
-    var keyRef = value.replace(/ /g,'_');
+    var keyRef = value.toString().replace(/ /g,'_');
     var checkboxElement = eval(`this.refs.ref${keyRef}`);
     checkboxElement.state.status = false;
     var updated = this.state.selectedItems;
@@ -85,8 +85,13 @@ export class ItemCheckboxList extends Component {
     var ListItemsArray = [];
     var TagItemsArray = [];
     // Build the array for the checkboxList items
-    items.forEach(function (item) {
-      item.keyRef = item.key.replace(/ /g,'_');
+    items.forEach(function (item, index) {
+      try {
+        item.keyRef = item.key.replace(/ /g,'_');
+      } catch(e) {
+        item.keyRef = index;
+        console.log(item, e);
+      }
       let status = item.status ? item.status : false;
       ListItemsArray.push(<ListItem
         key={item.keyRef}

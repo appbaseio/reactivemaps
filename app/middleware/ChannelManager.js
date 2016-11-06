@@ -18,29 +18,47 @@ class channelManager {
     let self = this;
     let channelObj = this.channels[channelId];
     let queryObj = this.queryBuild(channelObj.depends, channelObj.previousSelectedSensor, channelObj.size);
-    // apply search query and emit historic queryResult
-    helper.appbaseRef.search(queryObj).on('data', function(data) {
+    let validQuery = true;
+    try {
+      validQuery = !queryObj.body.aggs && queryObj.body.query.bool.should.length === 0 ? false : true;
+    } catch(e) { }
+    
+    if(validQuery) {
+      // apply search query and emit historic queryResult
+      helper.appbaseRef.search(queryObj).on('data', function(data) {
+        let obj = {
+          method: 'historic',
+          data: data
+        };
+        self.emitter.emit(channelId, obj);
+      }).on('error', function(error) {
+        console.log(error);
+      });
+      // apply searchStream query and emit streaming data
+      if(this.streamRef[channelId]) {
+        this.streamRef[channelId].stop();
+      } 
+      this.streamRef[channelId] = helper.appbaseRef.searchStream(queryObj).on('data', function(data) {
+        let obj = {
+          method: 'stream',
+          data: data
+        };
+        self.emitter.emit(channelId, obj);
+      }).on('error', function(error) {
+        console.log(error);
+      });
+    } else {
       let obj = {
         method: 'historic',
-        data: data
+        data: {
+          _shards: {},
+          hits: {
+            hits: []
+          }
+        }
       };
       self.emitter.emit(channelId, obj);
-    }).on('error', function(error) {
-      console.log(error);
-    });
-    // apply searchStream query and emit streaming data
-    if(this.streamRef[channelId]) {
-      this.streamRef[channelId].stop();
-    } 
-    this.streamRef[channelId] = helper.appbaseRef.searchStream(queryObj).on('data', function(data) {
-      let obj = {
-        method: 'stream',
-        data: data
-      };
-      self.emitter.emit(channelId, obj);
-    }).on('error', function(error) {
-      console.log(error);
-    });
+    }
   }
 
   // queryBuild
