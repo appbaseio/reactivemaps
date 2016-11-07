@@ -42,7 +42,7 @@ class Main extends Component {
 								sensorId="RoutesSensor"
 								inputData={this.props.mapping.routes}
 								showCount={false}
-								defaultSelected={['18', '19', '20']}
+								defaultSelected={['16', '17', '18', '19', '20']}
 								size={1000}
 								multipleSelect={true}
 								includeSelectAll={true}
@@ -86,7 +86,7 @@ class Main extends Component {
 }
 
 Main.defaultProps = {
- 	mapStyle: "Flat Map",
+ 	mapStyle: "MapBox",
  	mapping: {
  		routes: 'tag.raw',
 		location: 'location'
