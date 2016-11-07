@@ -10,12 +10,25 @@ export class ItemCheckboxList extends Component {
     };
     this.handleListClick = this.handleListClick.bind(this);
     this.handleTagClick = this.handleTagClick.bind(this);
+    this.handleListClickAll = this.handleListClickAll.bind(this);
+  }
+  componentDidMount() {
+    if(this.props.defaultSelected) {
+      this.setState({
+        selectedItems: this.props.defaultSelected
+      }, function() {
+        this.updateAction.bind(this);
+        this.props.onSelect(this.state.selectedItems);
+      }.bind(this));
+    }
   }
   // remove selected types if not in the list
   componentDidUpdate() {
-    var updated = JSON.parse(JSON.stringify(this.state.selectedItems));
-    if(updated.length && this.props.items) {
-      console.log(updated, this.props.items);
+    var updated = null;
+    if(this.state.selectedItems) {
+      updated = JSON.parse(JSON.stringify(this.state.selectedItems));
+    }
+    if(updated && updated.length && this.props.items && this.props.items.length) {
       updated = updated.filter((item)=> {
         let updatedFound = this.props.items.filter((propItem) => {
           return propItem.key === item;
@@ -38,6 +51,18 @@ export class ItemCheckboxList extends Component {
     if(!this.state.selectedItems.length) {
       this.props.onSelect(null);
     }
+  }
+  // handler function for select all
+  handleListClickAll(value, selectedStatus) {
+    this.props.selectAll(selectedStatus); 
+    let selectedItems = this.props.items.map((item) => item.key );
+    selectedItems = selectedStatus ? selectedItems : [];
+    this.setState({
+      selectedItems: selectedItems
+    }, function() {
+      this.updateAction.bind(this);
+      this.props.onSelect(this.state.selectedItems);
+    }.bind(this));
   }
   // Handler function when a checkbox is clicked
   handleListClick(value, selectedStatus) {
@@ -92,18 +117,30 @@ export class ItemCheckboxList extends Component {
         item.keyRef = index;
         console.log(item, e);
       }
-      let status = item.status ? item.status : false;
+      console.log(item.status);
       ListItemsArray.push(<ListItem
         key={item.keyRef}
         value={item.key}
         doc_count={item.doc_count}
         countField={this.props.showCount}
         handleClick={this.handleListClick}
-        status={status}
+        status={item.status || false}
         ref={"ref" + item.keyRef} />);
     }.bind(this));
+    // include select all if set from parent
+    if(this.props.includeSelectAll && items && items.length) {
+      ListItemsArray.unshift(
+        <ListItem
+          key='selectall'
+          value='Select All'
+          countField={false}
+          handleClick={this.handleListClickAll}
+          status={this.props.defaultSelectall || false}
+          ref={"refselectall"} />
+      );
+    }
     // Build the array of Tags for selected items
-    if(this.props.showTags) {
+    if(this.props.showTags && selectedItems) {
       selectedItems.forEach(function (item) {
         TagItemsArray.push(<Tag
           key={item}
@@ -130,8 +167,17 @@ class ListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      initialStatus: this.props.status,
       status: this.props.status || false,
     };
+  }
+  componentDidUpdate() {
+    if(this.props.status !== this.state.initialStatus) {
+      this.setState({
+        status: this.props.status,
+        initialStatus: this.props.status
+      });
+    }
   }
   handleClick() {
     this.setState({

@@ -18,13 +18,18 @@ export class AppbaseList extends Component {
         hits: {
           hits: []
         }
-      }
+      },
+      defaultSelectAll: false
     };
     this.previousSelectedSensor = {};
     this.handleSelect = this.handleSelect.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.filterBySearch = this.filterBySearch.bind(this);
+    this.selectAll = this.selectAll.bind(this);
     this.type = this.props.multipleSelect ? 'Terms' : 'Term';
+  }
+  componentWillMount() {
+    this.defaultSelected = this.props.defaultSelected;
   }
   // Get the items from Appbase when component is mounted
   componentDidMount() {
@@ -72,7 +77,11 @@ export class AppbaseList extends Component {
     this.addItemsToList(eval(`data.aggregations["${this.props.inputData}"].buckets`));
   }
   addItemsToList(newItems) {
-    newItems = newItems.map((item) => {item.key = item.key.toString(); return item});
+    newItems = newItems.map((item) => {
+      item.key = item.key.toString(); 
+      item.status = this.defaultSelected && this.defaultSelected.indexOf(item.key) > -1 ? true : false;
+      return item
+    });
     this.setState({
       items: newItems,
       storedItems: newItems
@@ -94,7 +103,18 @@ export class AppbaseList extends Component {
     };
     helper.selectedSensor.set(obj, isExecuteQuery);
   }
-
+  // selectAll
+  selectAll(value, defaultSelected, cb) {
+    let items = this.state.items.filter((item) => {item.status = value; return item; });
+    if(value) {
+      this.defaultSelected = defaultSelected;
+    }
+    this.setState({
+      items: items,
+      storedItems: items,
+      defaultSelectAll: value
+    }, cb);
+  }
   // filter
   filterBySearch(value) {
     if(value) {
@@ -117,14 +137,15 @@ export class AppbaseList extends Component {
       searchComponent = null, 
       title =null, 
       titleExists = false;
-    
     if (this.props.multipleSelect) {
       listComponent = <ItemCheckboxList
         items={this.state.items}
         onSelect={this.handleSelect}
         onRemove={this.handleRemove}
         showCount={this.props.showCount} 
-        defaultSelected={this.props.defaultSelected} />
+        selectAll={this.selectAll}
+        defaultSelected={this.props.defaultSelected} 
+        includeSelectAll={this.props.includeSelectAll}/>
     }
     else {
       listComponent = <ItemList
@@ -165,7 +186,8 @@ AppbaseList.propTypes = {
   size: React.PropTypes.number,
   showCount: React.PropTypes.bool,
   multipleSelect: React.PropTypes.bool,
-  sort: React.PropTypes.string   
+  sort: React.PropTypes.string,
+  includeSelectAll: React.PropTypes.bool
 };
 // Default props value
 AppbaseList.defaultProps = {
@@ -175,5 +197,6 @@ AppbaseList.defaultProps = {
   size: 60,
   staticSearch: false,
   title: null,
-  searchPlaceholder: 'Search'
+  searchPlaceholder: 'Search',
+  includeSelectAll: false
 };
