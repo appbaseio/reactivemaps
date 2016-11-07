@@ -100,7 +100,10 @@ export class AppbaseMap extends Component {
         if(prevData && prevData.length) {
           let preCord = prevData[0]._source[this.props.inputData];
           let newCord = res.data._source[this.props.inputData];
-          res.data.angleDeg = Math.atan2(newCord.lon - preCord.lon, newCord.lat - preCord.lat) * 180 / Math.PI;
+          let dy = newCord.lat - preCord.lat;
+          let dx = Math.cos(Math.PI/180*preCord.lat)*(newCord.lon - preCord.lon);
+          res.data.angleDeg = Math.atan2(dy, dx) * (180 / Math.PI);
+          console.log(res.data.angleDeg);
         }   
         let hits = rawData.hits.hits.filter((hit) => {
           return hit._id !== res.data._id;
@@ -306,7 +309,7 @@ export class AppbaseMap extends Component {
       response.markerComponent = markersData.map((hit, index) => {
         let field = self.identifyGeoData(hit._source[self.props.inputData]);
         let iconPath = hit.stream ? self.props.streamPin : self.props.historicPin;
-        let deg = hit.angleDeg ? -hit.angleDeg : 0;
+        let deg = hit.angleDeg ? hit.angleDeg : 0;
         let icon = !this.props.rotateOnUpdate ? iconPath : RotateIcon.makeIcon(iconPath).setRotation({deg: deg}).getUrl();
         if(field) {
           response.convertedGeo.push(field);
