@@ -23,7 +23,7 @@ class Main extends Component {
 		return (<div className="popoverComponent row">
 			<div className="infoContainer col s12">
 				<div className="nameContainer">
-					<strong>Bus: {marker._source.VEHICLE_TAG}</strong>
+					<strong>Bus: {marker._id}</strong>
 				</div>
 			</div>
 		</div>);
@@ -41,9 +41,11 @@ class Main extends Component {
 							<AppbaseList
 								sensorId="RoutesSensor"
 								inputData={this.props.mapping.routes}
-								showCount={true}
+								showCount={false}
+								defaultSelected={['18', '19', '20']}
 								size={1000}
 								multipleSelect={true}
+								includeSelectAll={true}
 								includeGeo={false}
 								staticSearch={true}
 								title="Bus"
@@ -84,17 +86,17 @@ class Main extends Component {
 }
 
 Main.defaultProps = {
- 	mapStyle: "MapBox",
+ 	mapStyle: "Flat Map",
  	mapping: {
- 		routes: 'VEHICLE_TAG',
-		location: 'location1'
+ 		routes: 'tag.raw',
+		location: 'location'
 	},
 	config: {
 		"appbase": {
 			"appname": "bus",
 			"username": "UzOKXiRYK",
 			"password": "000fb7ce-c92e-4f78-b3b7-0d4e33964134",
-			"type": "sfbus"
+			"type": "transport"
 		}
 	}
 };
