@@ -103,14 +103,13 @@ export class AppbaseMap extends Component {
           let dy = newCord.lat - preCord.lat;
           let dx = Math.cos(Math.PI/180*preCord.lat)*(newCord.lon - preCord.lon);
           res.data.angleDeg = Math.atan2(dy, dx) * (180 / Math.PI);
-          console.log(res.data.angleDeg);
+          console.log(preCord, newCord, res.data.angleDeg);
         }   
         let hits = rawData.hits.hits.filter((hit) => {
           return hit._id !== res.data._id;
         });    
         rawData.hits.hits = hits;
         rawData.hits.hits.push(res.data);
-        console.log(res);
       }
     }
     return {
@@ -278,7 +277,6 @@ export class AppbaseMap extends Component {
     let markersData = this.state.markersData;
     let isStreamData = markersData.filter((hit) => hit.stream && hit.streamStart);
     if(isStreamData.length) {
-      console.log('Converting icon', isStreamData.length)
       markersData = markersData.map((hit, index) => {
         if(hit.stream && hit.streamStart) {
           let currentTime = new Date();
@@ -297,6 +295,17 @@ export class AppbaseMap extends Component {
       this.isStreamDataExists = false;
     }
   }
+  chooseIcon(hit) {
+    let icon = hit.stream ? this.props.streamPin : this.props.historicPin;
+    if(this.props.svgIcon) {
+      icon = JSON.parse(JSON.stringify(this.props.svgIcon));
+      if(this.props.rotateOnUpdate) {
+        let deg = hit.angleDeg ? hit.angleDeg : 0;
+        icon.rotation = deg;
+      }
+    }
+    return icon;
+  }
   generateMarkers() {
     var self = this;
     let markersData = this.state.markersData;
@@ -308,9 +317,8 @@ export class AppbaseMap extends Component {
     if(markersData && markersData.length) {
       response.markerComponent = markersData.map((hit, index) => {
         let field = self.identifyGeoData(hit._source[self.props.inputData]);
-        let iconPath = hit.stream ? self.props.streamPin : self.props.historicPin;
-        let deg = hit.angleDeg ? hit.angleDeg : 0;
-        let icon = !this.props.rotateOnUpdate ? iconPath : RotateIcon.makeIcon(iconPath).setRotation({deg: deg}).getUrl();
+        // let icon = !this.props.rotateOnUpdate ? iconPath : RotateIcon.makeIcon(iconPath).setRotation({deg: deg}).getUrl();
+        let icon = self.chooseIcon(hit);
         if(field) {
           response.convertedGeo.push(field);
           let position = {

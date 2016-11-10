@@ -117,7 +117,6 @@ export class ItemCheckboxList extends Component {
         item.keyRef = index;
         console.log(item, e);
       }
-      console.log(item.status);
       ListItemsArray.push(<ListItem
         key={item.keyRef}
         value={item.key}
