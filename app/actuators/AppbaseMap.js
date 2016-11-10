@@ -100,9 +100,7 @@ export class AppbaseMap extends Component {
         if(prevData && prevData.length) {
           let preCord = prevData[0]._source[this.props.inputData];
           let newCord = res.data._source[this.props.inputData];
-          let dy = newCord.lat - preCord.lat;
-          let dx = Math.cos(Math.PI/180*preCord.lat)*(newCord.lon - preCord.lon);
-          res.data.angleDeg = Math.atan2(dy, dx) * (180 / Math.PI);
+          res.data.angleDeg = this.bearing(preCord.lat, preCord.lon, newCord.lat, newCord.lon);
           console.log(preCord, newCord, res.data.angleDeg);
         }   
         let hits = rawData.hits.hits.filter((hit) => {
@@ -117,6 +115,19 @@ export class AppbaseMap extends Component {
       res: res,
       streamFlag: true
     };
+  }
+  bearing (lat1,lng1,lat2,lng2) {
+    var dLon = this._toRad(lng2-lng1);
+    var y = Math.sin(dLon) * Math.cos(this._toRad(lat2));
+    var x = Math.cos(this._toRad(lat1))*Math.sin(this._toRad(lat2)) - Math.sin(this._toRad(lat1))*Math.cos(this._toRad(lat2))*Math.cos(dLon);
+    var brng = this._toDeg(Math.atan2(y, x));
+    return ((brng + 360) % 360);
+  }
+  _toRad(deg) {
+     return deg * Math.PI / 180;
+  }
+  _toDeg(rad) {
+    return rad * 180 / Math.PI;
   }
   // tranform the raw data to marker data
   setMarkersData(data) {
