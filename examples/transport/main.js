@@ -23,7 +23,10 @@ class Main extends Component {
 		return (<div className="popoverComponent row">
 			<div className="infoContainer col s12">
 				<div className="nameContainer">
-					<strong>Bus: {marker._id}</strong>
+					<strong>{marker._id}</strong>
+				</div>
+				<div>
+					<p>{marker._source.detail}</p>
 				</div>
 			</div>
 		</div>);
@@ -42,7 +45,7 @@ class Main extends Component {
 								sensorId="RoutesSensor"
 								inputData={this.props.mapping.routes}
 								showCount={false}
-								defaultSelected={['16', '17', '18', '19', '20']}
+								defaultSelected={['Bus-12', 'Bus-14', 'Bus-22', 'Bus-43']}
 								size={1000}
 								multipleSelect={true}
 								includeSelectAll={true}
@@ -52,6 +55,7 @@ class Main extends Component {
 								searchPlaceholder="Search Bus"
 							/>
 						</div>
+						
 					</div>
 				</div>
 				<div className="col s12 m9 h-100">
@@ -107,6 +111,7 @@ Main.defaultProps = {
  	mapStyle: "MapBox",
  	mapping: {
  		routes: 'tag.raw',
+ 		vehicle: 'vehicle.raw',
 		location: 'location'
 	},
 	config: {
@@ -114,7 +119,7 @@ Main.defaultProps = {
 			"appname": "bus",
 			"username": "UzOKXiRYK",
 			"password": "000fb7ce-c92e-4f78-b3b7-0d4e33964134",
-			"type": "transport"
+			"type": "sftransport"
 		}
 	}
 };
