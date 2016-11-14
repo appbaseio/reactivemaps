@@ -27,7 +27,7 @@ export class AppbaseMap extends Component {
           hits: []
         }
       },
-      externalData: []
+      externalData: {}
     };
     this.previousSelectedSensor = {};
     this.handleSearch = this.handleSearch.bind(this);
@@ -101,7 +101,6 @@ export class AppbaseMap extends Component {
           let preCord = prevData[0]._source[this.props.inputData];
           let newCord = res.data._source[this.props.inputData];
           res.data.angleDeg = this.bearing(preCord.lat, preCord.lon, newCord.lat, newCord.lon);
-          console.log(preCord, newCord, res.data.angleDeg);
         }   
         let hits = rawData.hits.hits.filter((hit) => {
           return hit._id !== res.data._id;
@@ -307,15 +306,29 @@ export class AppbaseMap extends Component {
     }
   }
   chooseIcon(hit) {
-    let icon = hit.stream ? this.props.streamPin : this.props.historicPin;
-    if(this.props.svgIcon) {
-      icon = JSON.parse(JSON.stringify(this.props.svgIcon));
+    let icon = hit.external_icon ? hit.external_icon : (hit.stream ? this.props.streamPin : this.props.historicPin);
+    let isSvg = typeof icon === 'object' && icon.hasOwnProperty('path') ? true : false; 
+    if(isSvg) {
+      icon = JSON.parse(JSON.stringify(icon));
       if(this.props.rotateOnUpdate) {
         let deg = hit.angleDeg ? hit.angleDeg : 0;
         icon.rotation = deg;
       }
     }
     return icon;
+  }
+  // here we accepts marker props which we received from markerOnIndex and apply those external props in Marker component
+  combineProps(hit) {
+    let externalProps, markerProp = {};
+    if(this.state.externalData && this.state.externalData.markers && this.state.externalData.markers[hit._id]) {
+      externalProps = this.state.externalData.markers[hit._id]
+      for(let external_p in externalProps) {
+        hit["external_"+external_p] = externalProps[external_p];
+        markerProp[external_p] = externalProps[external_p];
+      }
+    }
+    markerProp.icon = this.chooseIcon(hit);
+    return markerProp;
   }
   generateMarkers() {
     var self = this;
@@ -329,7 +342,7 @@ export class AppbaseMap extends Component {
       response.markerComponent = markersData.map((hit, index) => {
         let field = self.identifyGeoData(hit._source[self.props.inputData]);
         // let icon = !this.props.rotateOnUpdate ? iconPath : RotateIcon.makeIcon(iconPath).setRotation({deg: deg}).getUrl();
-        let icon = self.chooseIcon(hit);
+        // let icon = self.chooseIcon(hit);
         if(field) {
           response.convertedGeo.push(field);
           let position = {
@@ -350,7 +363,7 @@ export class AppbaseMap extends Component {
               key={hit._id}
               zIndex={1}
               ref={ref}
-              icon={icon}
+              {...self.combineProps(hit)}
               onClick={() => self.props.markerOnClick(hit._source)}
               onDblclick={() => self.props.markerOnDblclick(hit._source)} 
               onMouseover={() => self.props.markerOnMouseover(hit._source)}
@@ -370,8 +383,18 @@ export class AppbaseMap extends Component {
     }
     return response;
   }
+  externalData() {
+    let recordList = [];
+    if(this.state.externalData) {
+      for(let record in this.state.externalData) {
+        if(record !== 'markers') {
+          recordList = recordList.concat(this.state.externalData[record]);
+        }
+      }
+    }
+    return recordList;
+  }
   render() {
-    // debugger
     var self = this;
     var markerComponent, searchComponent, searchAsMoveComponent, MapStylesComponent;
     let appbaseSearch, titleExists, title = null;
@@ -427,7 +450,7 @@ export class AppbaseMap extends Component {
           onIdle = {:: this.handleOnIdle}>
           {searchComponent}
           {markerComponent}
-          {this.state.externalData}
+          {this.externalData()}
       </GoogleMap>}/>
       <div style= { Style.divStatusStyle } ref= "status" > { this.state.streamingStatus } </div >
       <div style={Style.divAppbaseStyle} >
