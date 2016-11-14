@@ -27,7 +27,7 @@ export class AppbaseMap extends Component {
           hits: []
         }
       },
-      externalData: []
+      externalData: {}
     };
     this.previousSelectedSensor = {};
     this.handleSearch = this.handleSearch.bind(this);
@@ -370,8 +370,18 @@ export class AppbaseMap extends Component {
     }
     return response;
   }
+  externalData() {
+    let recordList = [];
+    if(this.state.externalData) {
+      for(let record in this.state.externalData) {
+        if(record !== 'markers') {
+          recordList = recordList.concat(this.state.externalData[record]);
+        }
+      }
+    }
+    return recordList;
+  }
   render() {
-    // debugger
     var self = this;
     var markerComponent, searchComponent, searchAsMoveComponent, MapStylesComponent;
     let appbaseSearch, titleExists, title = null;
@@ -427,7 +437,7 @@ export class AppbaseMap extends Component {
           onIdle = {:: this.handleOnIdle}>
           {searchComponent}
           {markerComponent}
-          {this.state.externalData}
+          {this.externalData()}
       </GoogleMap>}/>
       <div style= { Style.divStatusStyle } ref= "status" > { this.state.streamingStatus } </div >
       <div style={Style.divAppbaseStyle} >
