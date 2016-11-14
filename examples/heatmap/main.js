@@ -91,7 +91,9 @@ class Main extends Component {
           };
           return (<Polygon key={index} {...options}  />);
         });
-        return polygons;
+        return {
+            polygons: polygons
+        };
     }
     render() {
         return (
