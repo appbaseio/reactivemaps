@@ -12,6 +12,7 @@ class Main extends Component {
         super(props);
         this.cityQuery = this.cityQuery.bind(this);
         this.categoryQuery = this.categoryQuery.bind(this);
+        this.markerOnIndex = this.markerOnIndex.bind(this);
     }
     cityQuery(value) {
         if(value) {
@@ -54,6 +55,7 @@ class Main extends Component {
             <div className="infoContainer col s10">
                 <div className="nameContainer">
                     <strong>{marker._source.username}</strong>
+                    <span className="category">{marker._source.category}</span>
                 </div>
                 <div className="description">
                     <p>is going to&nbsp;
@@ -64,6 +66,17 @@ class Main extends Component {
                 </div>
             </div>
         </div>);
+    }
+    markerOnIndex(res) {
+        let markers = {};
+        res.allMarkers.hits.hits.forEach((hit, index) => {
+            markers[hit._id] = {};
+            let icon = this.props.markerIcons[hit._source.category] ? this.props.markerIcons[hit._source.category] : 'dist/images/historic-pin.png';
+            markers[hit._id].icon = icon;
+        });
+        return {
+            markers: markers
+        };
     }
     render() {
         return (
@@ -84,6 +97,7 @@ class Main extends Component {
                         title="Foursquare checkins"
                         showPopoverOn = "onClick"
                         popoverContent = {this.popoverContent}
+                        markerOnIndex = {this.markerOnIndex}
                         depends={{
                             CitySensor: {"operation": "must", defaultQuery: this.cityQuery},
                             CategorySensor: {"operation": "must", defaultQuery: this.categoryQuery}
@@ -142,6 +156,42 @@ Main.defaultProps = {
             "password": "b614d8fa-03d8-4005-b6f1-f2ff31cd0f91",
             "type": "city"
         }
+    },
+    markerIcons: {
+        'Train Station': 'dist/images/railway_station-32.png',
+        'Pub': 'dist/images/bar-32.png',
+        'Hotel': 'dist/images/hotel-32.png',
+        'Coffee Shop': 'dist/images/cafe-32.png',
+        'Theater': 'dist/images/theater-32.png',
+        'Office': 'dist/images/theater-32.png',
+        'Neighborhood': 'dist/images/theater-32.png',
+        'Park': 'dist/images/Bicycle_parking-32.png',
+        'Metro': 'dist/images/Metro_station-32.png',
+        'Art Gallery': 'dist/images/museum-32.png',
+        'Cafe': 'dist/images/cafe-32.png',
+        'Bar': 'dist/images/cafe-32.png',
+        'Café': 'dist/images/cafe-32.png',
+        'Sandwiches': 'dist/images/cafe-32.png',
+        'Bookstore': 'dist/images/library-32.png',
+        'Music Venue': 'dist/images/music-32.png',
+        'Cheese Shop': 'dist/images/grocery-32.png',
+        'TV Station': 'dist/images/cinema-32.png',
+        'Fried Chicken': 'dist/images/cafe-32.png',
+        'Burgers': 'dist/images/cafe-32.png',
+        'Concert Hall': 'dist/images/cinema-32.png',
+        'Advertising Agency': 'dist/images/theater-32.png',
+        'Grocery Store':  'dist/images/grocery-32.png',
+        'High School':   'dist/images/school-32.png',
+        'School':   'dist/images/school-32.png',
+        'Church': 'dist/images/church-32.png',
+        'Pie Shop':  'dist/images/grocery-32.png',
+        'Dance Studio': 'dist/images/music-32.png',
+        'Sports Bar': 'dist/images/sport-32.png',
+        'Diner': 'dist/images/cafe-32.png',
+        'Dinner': 'dist/images/cafe-32.png',
+        'Lunch': 'dist/images/cafe-32.png',
+        'Department Store': 'dist/images/grocery-32.png',
+        'Market': 'dist/images/grocery-32.png'
     }
 };
 
