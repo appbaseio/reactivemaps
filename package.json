@@ -2,7 +2,7 @@
   "name": "react-realtime-maps",
   "version": "0.0.1",
   "description": "React component for realtime maps",
-  "main": "main.js",
+  "main": "app/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack-server": "webpack-dev-server --hot --inline --progress --colors --port 8012",
@@ -10,7 +10,11 @@
     "start": "concurrently \"npm run webpack-server\" \"gulp watch\" ",
     "build": "set NODE_ENV=production&& webpack -p && gulp"
   },
-  "author": "",
+  "author": {
+    "name": "Farhan Chauhan",
+    "email": "farhan687@gmail.com",
+    "url": "https://github.com/farhan687"
+  },
   "license": "MIT",
   "dependencies": {
     "appbase-js": "^0.10.7",
