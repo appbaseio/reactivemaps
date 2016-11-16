@@ -9,7 +9,7 @@
     "web-server": "http-server -p 3000 .",
     "start": "concurrently \"npm run webpack-server\" \"gulp watch\" ",
     "build": "set NODE_ENV=production&& webpack -p && gulp",
-    "build:lib": "cross-env NODE_ENV=production babel app --out-dir lib",
+    "build:lib": "npm run build && cross-env NODE_ENV=production babel app --out-dir lib",
     "clean": "rimraf lib"
   },
   "author": {
