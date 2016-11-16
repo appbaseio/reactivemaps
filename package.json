@@ -1,7 +1,7 @@
 {
-  "name": "react-realtime-maps",
-  "version": "0.0.1",
-  "description": "React component for realtime maps",
+  "name": "reactive-maps",
+  "version": "0.0.4",
+  "description": "Data Components for building Reactive Maps Interfaces",
   "main": "lib/app.js",
   "scripts": {
     "test": "react-scripts test --env=jsdom",
@@ -14,12 +14,12 @@
   },
   "author": {
     "name": "Farhan Chauhan",
-    "email": "farhan687@gmail.com",
+    "email": "farhan@appbase.io",
     "url": "https://github.com/farhan687"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
-    "appbase-js": "^0.10.7",
+    "appbase-js": "^0.10.8",
     "babel-preset-stage-0": "^6.5.0",
     "fbemitter": "^2.0.2",
     "google-map-react": "^0.14.5",
