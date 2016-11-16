@@ -10,7 +10,7 @@
     "start": "concurrently \"npm run webpack-server\" \"gulp watch\" ",
     "build": "set NODE_ENV=production&& webpack -p && gulp",
     "build:lib": "npm run build && cross-env NODE_ENV=production babel app --out-dir lib",
-    "build-umd": "cross-env NODE_ENV=production webpack app/app.js umd/ReactiveMaps.js",
+    "build-umd": "cross-env NODE_ENV=development webpack app/app.js umd/ReactiveMaps.js",
     "clean": "rimraf lib"
   },
   "author": {
