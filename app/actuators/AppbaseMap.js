@@ -447,7 +447,7 @@ export class AppbaseMap extends Component {
           }}
           {...searchComponentProps}
           {...this.props}
-          onIdle = {:: this.handleOnIdle}>
+          onIdle = {() => this.handleOnIdle()}>
           {searchComponent}
           {markerComponent}
           {this.externalData()}
