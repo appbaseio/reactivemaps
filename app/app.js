@@ -1,5 +1,5 @@
 // sensors
-import {AppbaseList} from './sensors/AppbaseList';
+import AppbaseList from './sensors/AppbaseList';
 import {AppbaseSlider} from './sensors/AppbaseSlider';
 import {AppbaseSearch} from './sensors/AppbaseSearch';
 // actuators
@@ -14,3 +14,10 @@ module.exports = {
   AppbaseMap: AppbaseMap,
   ReactiveMap: ReactiveMap
 };
+
+// sensors
+// export AppbaseList from './sensors/AppbaseList';
+// export AppbaseMap from './actuators/AppbaseMap';
+// export AppbaseSearch from './sensors/AppbaseSearch';
+// export AppbaseSlider from './sensors/AppbaseSlider';
+// export ReactiveMap from './middleware/ReactiveMap';
