@@ -82,14 +82,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  AppbaseMap: _AppbaseMap.AppbaseMap,
 	  ReactiveMap: _ReactiveMap.ReactiveMap
 	};
-
-	// sensors
-	// export AppbaseList from './sensors/AppbaseList';
-	// export AppbaseMap from './actuators/AppbaseMap';
-	// export AppbaseSearch from './sensors/AppbaseSearch';
-	// export AppbaseSlider from './sensors/AppbaseSlider';
-	// export ReactiveMap from './middleware/ReactiveMap';
-
 	// middleware
 	// sensors
 
@@ -218,7 +210,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'setData',
 	    value: function setData(data) {
-	      this.addItemsToList(eval('data.aggregations["' + this.props.inputData + '"].buckets'));
+	      if (data.aggregations && data.aggregations[this.props.inputData] && data.aggregations[this.props.inputData].buckets) {
+	        this.addItemsToList(data.aggregations[this.props.inputData].buckets);
+	      }
 	    }
 	  }, {
 	    key: 'addItemsToList',
