@@ -66,8 +66,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _AppbaseList = __webpack_require__(2);
 
-	var _AppbaseList2 = _interopRequireDefault(_AppbaseList);
-
 	var _AppbaseSlider = __webpack_require__(106);
 
 	var _AppbaseSearch = __webpack_require__(128);
@@ -76,11 +74,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _ReactiveMap = __webpack_require__(199);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 	// actuators
 	module.exports = {
-	  AppbaseList: _AppbaseList2.default,
+	  AppbaseList: _AppbaseList.AppbaseList,
 	  AppbaseSlider: _AppbaseSlider.AppbaseSlider,
 	  AppbaseSearch: _AppbaseSearch.AppbaseSearch,
 	  AppbaseMap: _AppbaseMap.AppbaseMap,
@@ -222,9 +218,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'setData',
 	    value: function setData(data) {
-	      if (data.aggregations && data.aggregations[this.props.inputData] && data.aggregations[this.props.inputData].buckets) {
-	        this.addItemsToList(data.aggregations[this.props.inputData].buckets);
-	      }
+	      this.addItemsToList(eval('data.aggregations["' + this.props.inputData + '"].buckets'));
 	    }
 	  }, {
 	    key: 'addItemsToList',

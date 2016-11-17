@@ -74,9 +74,7 @@ export class AppbaseList extends Component {
     }.bind(this));
   }
   setData(data) {
-    if(data.aggregations && data.aggregations[this.props.inputData] && data.aggregations[this.props.inputData].buckets) {
-      this.addItemsToList(data.aggregations[this.props.inputData].buckets);
-    }
+    this.addItemsToList(eval(`data.aggregations["${this.props.inputData}"].buckets`));
   }
   addItemsToList(newItems) {
     newItems = newItems.map((item) => {

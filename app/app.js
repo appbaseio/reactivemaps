@@ -1,5 +1,5 @@
 // sensors
-import AppbaseList from './sensors/AppbaseList';
+import {AppbaseList} from './sensors/AppbaseList';
 import {AppbaseSlider} from './sensors/AppbaseSlider';
 import {AppbaseSearch} from './sensors/AppbaseSearch';
 // actuators
