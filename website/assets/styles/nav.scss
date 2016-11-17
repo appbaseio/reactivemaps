@@ -1,0 +1,37 @@
+@import "variables.scss";
+#home {
+	.navbar {
+		background: $primary-color;
+		border: 0;
+		border-radius: 0;
+		border-bottom: 1px solid $primary-color;
+		margin-bottom: 0;
+		.navbar-collapse {
+			text-align: center;
+			.navbar-center {
+				float: none;
+				display: inline-block;
+				margin-bottom: -5px;
+				clear: both;
+			}
+		}
+		.navbar-brand {
+			img {
+				width: 15px;
+			}
+		}
+		.navbar-nav {
+			li.active {
+				a {
+					background: transparent;
+				}
+			}
+			li a {
+				color: #fff;
+				font-weight: bold;
+				&:hover {
+				}
+			}
+		}
+	}
+}
