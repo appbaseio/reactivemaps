@@ -1,102 +1,160 @@
-$primary-color: #E6E6E6;
-$font-color: #0035EB;
-$light-color: #F8F8F8;
+@import "variables.scss";
 
 html, body {
-	font-size: 14px;
+	font-size: 18px;
 	color: $font-color;
-}
-#home {
-	.navbar {
-		background: #fff;
-		border: 0;
-		border-radius: 0;
-		border-bottom: 1px solid $primary-color;
-		.navbar-collapse {
-			text-align: center;
-			.navbar-center {
-				float: none;
-				display: inline-block;
-				margin-bottom: -5px;
-				clear: both;
-			}
-		}
-		.navbar-brand {
-			img {
-				width: 15px;
-			}
-		}
-		.navbar-nav {
-			li.active {
-				a {
-					background: transparent;
-					border-bottom: 3px solid $primary-color;
-				}
-			}
-			li a {
-				color: $font-color;
-				font-weight: bold;
-				&:hover {
-					border-bottom: 2px solid $primary-color;
-				}
-			}
-		}
-	}
+	font-family: $font-light;
 }
 section {
 	padding: 60px 0;
+	.section-head {
+		.title {
+			color: $primary-color;
+			font-family: $font-semi-bold;
+			margin: 0;
+			padding-bottom: 5px;
+			font-size: 2em;
+		}
+	}
 }
 #top {
+	background: $primary-color;
+	color: #fff;
 	.website-title {
 		font-size: 4em;
 		margin: 0 0 30px 0;
+		font-family: $font-bold;
 	}
-	p {
-		margin-bottom: 30px;
+	.star-frame {
+		padding-left: 60px;
 	}
 }
 #features {
-	background: $light-color;
+	background: #fff;
 	.feature {
-		img {
-			max-width: 100px;
-			margin: auto;
+		.img-container {
+			height: 200px;
+			display: flex;
+			img {
+				margin: auto;
+			}
 		}
 		.description {
 			margin-top: 20px;
 		}
 	}
 }
+#choose-map {
+	background: $light-color;
+	.owl-container {
+		position: relative;
+		padding: 0 65px;
+		margin: 30px 0;
+		.img-container {
+			display: flex;
+			height: 400px;
+		}
+		.owl-item.active.center {
+			border: 5px solid $yellow-color;
+			padding: 5px;
+		}
+		.owl-custom-nav {
+			background: $yellow-color;
+			color: #fff;
+			position: absolute;
+			height: 100%;
+			width: 50px;
+			top: 0;
+			z-index: 50;
+			display: flex;
+			border: 0;
+			&.left-nav {
+				left: 0;
+			}
+			&.right-nav {
+				right: 0;
+			}
+			i {
+				margin: auto;
+				font-size: 2em;
+			}
+		}
+	}
+}
+#use-cases {
+	.tab-container {
+		margin: 30px 0;
+		.tab-text {
+			.title {
+				font-family: $font-semi-bold;
+			}
+		}
+		.tab-img {
+		}
+		.nav-tabs {
+			border: 0;
+			li {
+				position: relative;
+				&:before {
+					content: '';
+					position: absolute;
+					top: 0;
+					left: 5px;
+					width: calc(100% - 10px);
+					height: 3px;
+					background: $yellow-color;
+					border-radius: 6px;
+				}
+				&.active, &:hover {
+					&:before {
+						height: 6px;
+						top: -2px;
+					}
+					a {
+						border: 0;
+						background: transparent;
+						&:hover {
+							border: 0;
+							background: transparent;
+						}
+					}
+				}
+			}
+		}
+	}
+}
 #footer, footer {
 	background: $primary-color;
+	color: #fff;
 	h2 {
-		margin-bottom: 40px;
+		font-family: $font-semi-bold;
 	}
 }
 footer {
 	padding-bottom: 15px;
+	color: #fff;
 	.footer-link {
-		color: $font-color;
+		color: #fff;
 	}
 }
 .theme-btn {
-	background: $primary-color;
-	color: $font-color;
+	background: $yellow-color;
+	color: #fff;
 	text-transform: uppercase;
-	font-size: 1.5em;
+	font-size: 1.2em;
 	padding: 0.6em 2.5em;
-	font-weight: bold;
+	font-family: $font-semi-bold;
 	&.theme-btn-inverse {
 		background: $font-color;
-		color: $primary-color;
+		color: $yellow-color;
 		&:hover {
-			color: $primary-color;
-			background: darken($font-color, 5%);
+			color: #fff;
+			background: darken($yellow-color, 5%);
 		}
 	}
 	&:hover {
-		color: $font-color;
-		background: darken($primary-color, 5%);
+		color: #fff;
+		background: darken($yellow-color, 5%);
 	}
 }
 @media screen and (max-width: 768px) {
@@ -114,4 +172,16 @@ footer {
 			padding: 10px 0;
 		}
 	}
+}
+.m-b-1 {
+	margin-bottom: 15px;
+}
+.m-b-2 {
+	margin-bottom: 30px;
+}
+.m-b-3 {
+	margin-bottom: 45px;
+}
+.m-b-4 {
+	margin-bottom: 60px;
 }

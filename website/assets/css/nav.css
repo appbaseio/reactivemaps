@@ -82,145 +82,23 @@
   font-weight: normal;
   font-style: normal; }
 
-html, body {
-  font-size: 18px;
-  color: #808080;
-  font-family: "Source Sans Pro Light"; }
-
-section {
-  padding: 60px 0; }
-  section .section-head .title {
-    color: #5677FC;
-    font-family: "Source Sans Pro Semi Bold";
-    margin: 0;
-    padding-bottom: 5px;
-    font-size: 2em; }
-
-#top {
+#home .navbar {
   background: #5677FC;
-  color: #fff; }
-  #top .website-title {
-    font-size: 4em;
-    margin: 0 0 30px 0;
-    font-family: "Source Sans Pro Bold"; }
-  #top .star-frame {
-    padding-left: 60px; }
-
-#features {
-  background: #fff; }
-  #features .feature .img-container {
-    height: 200px;
-    display: flex; }
-    #features .feature .img-container img {
-      margin: auto; }
-  #features .feature .description {
-    margin-top: 20px; }
-
-#choose-map {
-  background: #F8F8F8; }
-  #choose-map .owl-container {
-    position: relative;
-    padding: 0 65px;
-    margin: 30px 0; }
-    #choose-map .owl-container .img-container {
-      display: flex;
-      height: 400px; }
-    #choose-map .owl-container .owl-item.active.center {
-      border: 5px solid #CDDC39;
-      padding: 5px; }
-    #choose-map .owl-container .owl-custom-nav {
-      background: #CDDC39;
-      color: #fff;
-      position: absolute;
-      height: 100%;
-      width: 50px;
-      top: 0;
-      z-index: 50;
-      display: flex;
-      border: 0; }
-      #choose-map .owl-container .owl-custom-nav.left-nav {
-        left: 0; }
-      #choose-map .owl-container .owl-custom-nav.right-nav {
-        right: 0; }
-      #choose-map .owl-container .owl-custom-nav i {
-        margin: auto;
-        font-size: 2em; }
-
-#use-cases .tab-container {
-  margin: 30px 0; }
-  #use-cases .tab-container .tab-text .title {
-    font-family: "Source Sans Pro Semi Bold"; }
-  #use-cases .tab-container .nav-tabs {
-    border: 0; }
-    #use-cases .tab-container .nav-tabs li {
-      position: relative; }
-      #use-cases .tab-container .nav-tabs li:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 5px;
-        width: calc(100% - 10px);
-        height: 3px;
-        background: #CDDC39;
-        border-radius: 6px; }
-      #use-cases .tab-container .nav-tabs li.active:before, #use-cases .tab-container .nav-tabs li:hover:before {
-        height: 6px;
-        top: -2px; }
-      #use-cases .tab-container .nav-tabs li.active a, #use-cases .tab-container .nav-tabs li:hover a {
-        border: 0;
-        background: transparent; }
-        #use-cases .tab-container .nav-tabs li.active a:hover, #use-cases .tab-container .nav-tabs li:hover a:hover {
-          border: 0;
-          background: transparent; }
-
-#footer, footer {
-  background: #5677FC;
-  color: #fff; }
-  #footer h2, footer h2 {
-    font-family: "Source Sans Pro Semi Bold"; }
-
-footer {
-  padding-bottom: 15px;
-  color: #fff; }
-  footer .footer-link {
-    color: #fff; }
-
-.theme-btn {
-  background: #CDDC39;
-  color: #fff;
-  text-transform: uppercase;
-  font-size: 1.2em;
-  padding: 0.6em 2.5em;
-  font-family: "Source Sans Pro Semi Bold"; }
-  .theme-btn.theme-btn-inverse {
-    background: #808080;
-    color: #CDDC39; }
-    .theme-btn.theme-btn-inverse:hover {
-      color: #fff;
-      background: #c6d626; }
-  .theme-btn:hover {
-    color: #fff;
-    background: #c6d626; }
-
-@media screen and (max-width: 768px) {
-  #features .feature {
-    padding-bottom: 30px; }
-  footer {
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #5677FC;
+  margin-bottom: 0; }
+  #home .navbar .navbar-collapse {
     text-align: center; }
-    footer .footer-link {
+    #home .navbar .navbar-collapse .navbar-center {
       float: none;
-      width: 100%;
-      display: block;
-      padding: 10px 0; } }
-
-.m-b-1 {
-  margin-bottom: 15px; }
-
-.m-b-2 {
-  margin-bottom: 30px; }
-
-.m-b-3 {
-  margin-bottom: 45px; }
-
-.m-b-4 {
-  margin-bottom: 60px; }
+      display: inline-block;
+      margin-bottom: -5px;
+      clear: both; }
+  #home .navbar .navbar-brand img {
+    width: 15px; }
+  #home .navbar .navbar-nav li.active a {
+    background: transparent; }
+  #home .navbar .navbar-nav li a {
+    color: #fff;
+    font-weight: bold; }
