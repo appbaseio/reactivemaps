@@ -28,7 +28,12 @@ var webpack = require('webpack');
  // for multiple build
 module.exports = {
   entry: {
-    app: './app/app.js'
+    main: './main.js',
+    meetupblast: './examples/meetupblast/main.js',
+    now: './examples/now/main.js',
+    heatmap: './examples/heatmap/main.js',
+    transport: './examples/transport/main.js',
+    earthquake: './examples/earthquake/main.js'
   },
   output: {
     path: path.join(__dirname, "dist"),
