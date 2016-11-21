@@ -38,7 +38,7 @@ class Main extends Component {
                                 inputData={this.props.mapping.city}
                                 defaultSelected="London"
                                 showCount={true}
-                                size={1000}
+                                size={100}
                                 multipleSelect={false}
                                 includeGeo={false}
                                 staticSearch={true}
@@ -76,6 +76,7 @@ class Main extends Component {
                         searchField={this.props.mapping.venue}
                         mapStyle={this.props.mapStyle}
                         autoCenter={true}
+                        size={100}
                         searchAsMoveComponent={true}
                         MapStylesComponent={true}
                         title="Meetupblast"
