@@ -112,7 +112,7 @@ class Main extends Component {
                                 inputData={this.props.mapping.city}
                                 defaultSelected="london"
                                 showCount={true}
-                                size={1000}
+                                size={100}
                                 multipleSelect={false}
                                 includeGeo={false}
                                 staticSearch={true}
