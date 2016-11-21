@@ -2,8 +2,9 @@ var path = require('path');
 var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var webpack = require('webpack');
 var env = process.env.NODE_ENV;
+var CHOOSE_CONFIG = process.env.CHOOSE_CONFIG;
 
-var config = {
+var umd_config = {
   entry: './app/app.js',
 
   output: {
@@ -79,7 +80,7 @@ var config = {
 };
 
 if (env === 'production') {
-  config.plugins.push(
+  umd_config.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         pure_getters: true,
@@ -95,62 +96,84 @@ if (env === 'production') {
   );
 }
 
-module.exports = config;
+// for lib build
+var lib_config = {
+  entry: {
+    app: './app/app.js'
+  },
+  output: {
+    path: path.join(__dirname, "dist"),
+    publicPath: "/dist/",
+    filename: '[name].bundle.js'
+  },
+  module: {
+    preLoaders: [
+        { test: /\.json$/, exclude: /node_modules/, loader: 'json'},
+    ],
+    loaders: [
+      {
+        test: /.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: ['es2015','stage-0', 'react']
+        }
+      },
+      {
+        test: /node_modules\/JSONStream\/index\.js$/,
+        loaders: ['shebang', 'babel']
+      }
+    ]
+  },
+};
 
-// var path = require('path');
-// var webpack = require('webpack');
+// for examples build
+var examples_config = {
+  entry: {
+    main: './main.js',
+    meetupblast: './examples/meetupblast/main.js',
+    now: './examples/now/main.js',
+    heatmap: './examples/heatmap/main.js',
+    transport: './examples/transport/main.js',
+    earthquake: './examples/earthquake/main.js'
+  },
+  output: {
+    path: path.join(__dirname, "dist"),
+    publicPath: "/dist/",
+    filename: '[name].bundle.js'
+  },
+  module: {
+    preLoaders: [
+        { test: /\.json$/, exclude: /node_modules/, loader: 'json'},
+    ],
+    loaders: [
+      {
+        test: /.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: ['es2015','stage-0', 'react']
+        }
+      },
+      {
+        test: /node_modules\/JSONStream\/index\.js$/,
+        loaders: ['shebang', 'babel']
+      }
+    ]
+  },
+};
 
-// module.exports = {
-//   entry: './app/app.js',
-//   output: { path: path.join(__dirname, "umd"), filename: 'ReactiveMaps.js' },
-//   module: {
-//     preLoaders: [
-//         { test: /\.json$/, exclude: /node_modules/, loader: 'json'},
-//     ],
-//     loaders: [
-//       {
-//         test: /.jsx?$/,
-//         loader: 'babel-loader',
-//         exclude: /node_modules/,
-//         query: {
-//           presets: ['es2015','stage-0', 'react']
-//         }
-//       },
-//       {
-//         test: /node_modules\/JSONStream\/index\.js$/,
-//         loaders: ['shebang', 'babel']
-//       }
-//     ]
-//   },
-// };
-
- // for multiple build
-// module.exports = {
-//   entry: {
-//     app: './app/app.js'
-//   },
-//   output: {
-//     path: path.join(__dirname, "dist"),
-//     publicPath: "/dist/",
-//     filename: '[name].bundle.js'
-//   },
-//   module: {
-//     preLoaders: [
-//         { test: /\.json$/, exclude: /node_modules/, loader: 'json'},
-//     ],
-//     loaders: [
-//       {
-//         test: /.jsx?$/,
-//         loader: 'babel-loader',
-//         exclude: /node_modules/,
-//         query: {
-//           presets: ['es2015','stage-0', 'react']
-//         }
-//       },
-//       {
-//         test: /node_modules\/JSONStream\/index\.js$/,
-//         loaders: ['shebang', 'babel']
-//       }
-//     ]
-//   },
-// };
+var final_config;
+switch(CHOOSE_CONFIG) {
+  case 'UMD':
+    final_config = umd_config;
+  break;
+  case 'LIB':
+    final_config = lib_config;
+  break;
+  case 'EXAMPLES':
+  default:
+    final_config = examples_config;
+  break;
+}
+module.exports = final_config;
