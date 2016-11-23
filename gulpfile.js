@@ -71,9 +71,11 @@ gulp.task('moveCss', function() {
         .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('moveFonts',['materialzeFonts'], function() {
+gulp.task('moveFonts', function() {
     return gulp.src(['bower_components/bootstrap/dist/fonts/*', 
-        'bower_components/font-awesome/fonts/*'
+        'bower_components/font-awesome/fonts/*',
+        'bower_components/materialize/dist/fonts/**/*',
+        'app/assets/styles/fonts/**/*'
         ])
         .pipe(gulp.dest('dist/fonts'));
 });
@@ -81,12 +83,6 @@ gulp.task('moveFonts',['materialzeFonts'], function() {
 gulp.task('moveImages', function() {
     return gulp.src([dir_path+'assets/images/*'])
         .pipe(gulp.dest('dist/images'));
-});
-
-gulp.task('materialzeFonts', function() {
-    return gulp.src(['bower_components/materialize/dist/fonts/roboto/*'
-        ])
-        .pipe(gulp.dest('dist/fonts/roboto'));
 });
 
 gulp.task('compact', [
