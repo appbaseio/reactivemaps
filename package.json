@@ -1,15 +1,16 @@
 {
   "name": "reactive-maps",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Data Components for building Reactive Maps Interfaces",
   "main": "lib/app.js",
   "scripts": {
     "test": "react-scripts test --env=jsdom",
     "webpack-server": "webpack-dev-server --hot --inline --progress --colors --port 8012",
     "web-server": "http-server -p 3000 .",
-    "start": "concurrently \"npm run webpack-server\" \"gulp watch\" ",
-    "build": "set NODE_ENV=production&& webpack -p && gulp",
-    "build:lib": "npm run build && cross-env NODE_ENV=production babel app --out-dir lib",
+    "start": "cross-env CHOOSE_CONFIG=EXAMPLES && concurrently \"npm run webpack-server\" \"gulp watch\" ",
+    "build": "cross-env NODE_ENV=production && cross-env CHOOSE_CONFIG=EXAMPLES && webpack -p && gulp",
+    "build:lib": "npm run build && cross-env NODE_ENV=production && cross-env CHOOSE_CONFIG=LIB babel app --out-dir lib",
+    "build-umd": "cross-env NODE_ENV=development && cross-env CHOOSE_CONFIG=UMD && webpack app/app.js umd/ReactiveMaps.js",
     "clean": "rimraf lib"
   },
   "author": {
@@ -17,6 +18,9 @@
     "email": "farhan@appbase.io",
     "url": "https://github.com/farhan687"
   },
+  "files": [
+    "umd"
+  ],
   "license": "Apache-2.0",
   "dependencies": {
     "appbase-js": "^0.10.8",

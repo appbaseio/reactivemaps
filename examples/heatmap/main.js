@@ -128,7 +128,7 @@ class Main extends Component {
 }
 
 Main.defaultProps = {
-    mapStyle: "MapBox",
+    mapStyle: "Light Monochrome",
     mapping: {
         location: 'location'
     },

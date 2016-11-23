@@ -415,10 +415,15 @@ export class AppbaseMap extends Component {
       streamCenterFlag = false;
     }
     if(!this.searchAsMove && this.props.autoCenter && this.reposition && streamCenterFlag) {
-      searchComponentProps.center =  generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : this.state.center;
+      searchComponentProps.center =  generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : (this.storeCenter ? this.storeCenter : this.state.center);
+      this.storeCenter = searchComponentProps.center;
       this.reposition = false;
     } else {
-      delete searchComponentProps.center;
+      if(this.storeCenter) {
+        searchComponentProps.center = this.storeCenter;  
+      } else {
+        delete searchComponentProps.center;
+      }
     }
     // include searchasMove component 
     if(this.props.searchAsMoveComponent) {
@@ -452,7 +457,6 @@ export class AppbaseMap extends Component {
           {markerComponent}
           {this.externalData()}
       </GoogleMap>}/>
-      <div style= { Style.divStatusStyle } ref= "status" > { this.state.streamingStatus } </div >
       <div style={Style.divAppbaseStyle} >
         Powered by <img width='200px' height='auto' src="http://slashon.appbase.io/img/Appbase.png" /> 
       </div>                

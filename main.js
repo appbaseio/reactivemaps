@@ -143,7 +143,7 @@ class Main extends Component {
 }
 
 Main.defaultProps = {
-    mapStyle: "Midnight Commander",
+    mapStyle: "Light Monochrome",
     mapping: {
         city: 'group.group_city.raw',
         topic: 'group.group_topics.topic_name_raw',
