@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["react", "react-dom"], factory);
 	else if(typeof exports === 'object')
-		exports["reactive-maps"] = factory(require("react"), require("react-dom"));
+		exports["ReactiveMaps"] = factory(require("react"), require("react-dom"));
 	else
-		root["reactive-maps"] = factory(root["React"], root["ReactDOM"]);
+		root["ReactiveMaps"] = factory(root["React"], root["ReactDOM"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
