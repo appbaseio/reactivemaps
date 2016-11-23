@@ -98,6 +98,7 @@ class Main extends Component {
                         showPopoverOn = "onClick"
                         popoverContent = {this.popoverContent}
                         markerOnIndex = {this.markerOnIndex}
+                        MapStylesComponent={true}
                         depends={{
                             CitySensor: {"operation": "must", defaultQuery: this.cityQuery},
                             CategorySensor: {"operation": "must", defaultQuery: this.categoryQuery}
@@ -142,7 +143,7 @@ class Main extends Component {
 }
 
 Main.defaultProps = {
-    mapStyle: "Blue Water",
+    mapStyle: "Light Monochrome",
     mapping: {
         city: 'city',
         topic: 'category.raw',

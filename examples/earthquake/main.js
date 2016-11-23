@@ -135,7 +135,7 @@ class Main extends Component {
 }
 
 Main.defaultProps = {
-    mapStyle: "Blue Water",
+    mapStyle: "Light Monochrome",
     mapping: {
         mag: 'mag',
         place: 'place',
