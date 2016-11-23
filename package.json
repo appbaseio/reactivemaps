@@ -10,7 +10,7 @@
     "start": "cross-env CHOOSE_CONFIG=EXAMPLES && concurrently \"npm run webpack-server\" \"gulp watch\" ",
     "build": "cross-env NODE_ENV=production && cross-env CHOOSE_CONFIG=EXAMPLES && webpack -p && gulp",
     "build:lib": "npm run build && cross-env NODE_ENV=production && cross-env CHOOSE_CONFIG=LIB babel app --out-dir lib",
-    "build-umd": "cross-env NODE_ENV=development && cross-env CHOOSE_CONFIG=UMD && webpack app/app.js umd/ReactiveMaps.js",
+    "build:umd": "cross-env NODE_ENV=development && webpack --config webpack.config.umd.js app/app.js umd/ReactiveMaps.js",
     "clean": "rimraf lib"
   },
   "author": {
