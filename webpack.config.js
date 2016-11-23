@@ -8,7 +8,7 @@ var umd_config = {
   entry: './app/app.js',
 
   output: {
-    library: 'ReactiveMapsUmd',
+    library: 'reactive-maps',
     libraryTarget: 'umd',
   },
 
