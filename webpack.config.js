@@ -135,7 +135,8 @@ var examples_config = {
     now: './examples/now/main.js',
     heatmap: './examples/heatmap/main.js',
     transport: './examples/transport/main.js',
-    earthquake: './examples/earthquake/main.js'
+    earthquake: './examples/earthquake/main.js',
+    weather: './examples/weather/main.js'
   },
   output: {
     path: path.join(__dirname, "dist"),
