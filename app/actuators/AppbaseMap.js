@@ -217,7 +217,7 @@ export class AppbaseMap extends Component {
   // on change of selectiong 
   searchAsMoveChange(value) {
     this.searchAsMove = value;
-    if(value) {
+    if(value && this.refs.map) {
       this.handleOnIdle();
     }
   }
