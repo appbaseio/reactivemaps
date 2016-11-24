@@ -146,16 +146,16 @@ Main.defaultProps = {
     mapStyle: "Light Monochrome",
     mapping: {
         city: 'group.group_city.raw',
-        topic: 'group.group_topics.topic_name_raw',
+        topic: 'group.group_topics.topic_name_raw.raw',
         venue: 'venue_name_ngrams',
         guests: 'guests',
         location: 'location'
     },
     config: {
         "appbase": {
-            "appname": "map_demo",
-            "username": "aT29UsiAp",
-            "password": "e0d26007-d818-4559-8244-c3c2fbad45ad",
+            "appname": "meetup_demo",
+            "username": "LPpISlEBe",
+            "password": "2a8935f5-0f63-4084-bc3e-2b2b4d1a8e02",
             "type": "meetupdata1"
         }
     }
