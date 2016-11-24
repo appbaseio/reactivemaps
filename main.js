@@ -6,6 +6,7 @@ import {ReactiveMap,
         AppbaseSearch,
         AppbaseSlider,
         AppbaseList} from './app/app.js';
+import {TestMap} from './app/actuators/TestMap'
 
 class Main extends Component {
     constructor(props) {
@@ -146,7 +147,7 @@ Main.defaultProps = {
     mapStyle: "Light Monochrome",
     mapping: {
         city: 'group.group_city.raw',
-        topic: 'group.group_topics.topic_name_raw',
+        topic: 'group.group_topics.topic_name_raw.raw',
         venue: 'venue_name_ngrams',
         guests: 'guests',
         location: 'location'
