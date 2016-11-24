@@ -6,7 +6,6 @@ import {ReactiveMap,
         AppbaseSearch,
         AppbaseSlider,
         AppbaseList} from './app/app.js';
-import {TestMap} from './app/actuators/TestMap'
 
 class Main extends Component {
     constructor(props) {
