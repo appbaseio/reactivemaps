@@ -103,7 +103,9 @@ class Main extends Component {
                     <AppbaseMap
                         inputData={this.props.mapping.location}
                         requestSize={5}
-                        defaultZoom={13}
+                        reactMapProps={{
+                            defaultZoom: 13    
+                        }}
                         defaultCenter={{ lat: 37.74, lng: -122.45 }}
                         historicalData={true}
                         markerCluster={false}
