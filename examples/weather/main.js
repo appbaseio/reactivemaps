@@ -17,9 +17,7 @@ class Main extends Component {
                 <div className="col s12 h-100">
                     <AppbaseMap
                         inputData={this.props.mapping.location}
-                        reactMapProps={{
-                            defaultZoom: 5  
-                        }}
+                        defaultZoom={11}
                         defaultCenter={{ lat: 40.673940, lng: -101.314026 }}
                         historicalData={true}
                         markerCluster={false}

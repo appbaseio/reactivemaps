@@ -444,7 +444,7 @@ export class AppbaseMap extends Component {
       {title}
       <GoogleMapLoader
         containerElement={
-          <div {...this.props.reactMapProps} className="containerElement" />
+          <div className="containerElement" />
         }
         googleMapElement={<GoogleMap ref = "map"
           options = {{
@@ -477,8 +477,7 @@ AppbaseMap.propTypes = {
   historicalData: React.PropTypes.bool,
   rotateOnUpdate: React.PropTypes.bool,
   streamActiveTime: React.PropTypes.number,
-  requestSize: React.PropTypes.number,
-  reactMapProps: React.PropTypes.any
+  requestSize: React.PropTypes.number
 };
 AppbaseMap.defaultProps = {
   historicalData: true,
@@ -488,7 +487,7 @@ AppbaseMap.defaultProps = {
   searchAsMoveComponent: false,
   searchAsMoveDefault: false,
   MapStylesComponent: false,
-  mapStyle: 'MapBox',
+  mapStyle: 'Standard',
   title: null,
   requestSize: 100,
   streamActiveTime: 5,

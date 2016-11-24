@@ -115,8 +115,6 @@ class Main extends Component {
                 <div className="col s12 m6 h-100">
                     <AppbaseMap
                         inputData={this.props.mapping.location}
-                        defaultZoom={13}
-                        defaultCenter={{ lat: 37.74, lng: -122.45 }}
                         historicalData={true}
                         markerCluster={false}
                         searchComponent="appbase"
@@ -129,6 +127,8 @@ class Main extends Component {
                         showPopoverOn = "onClick"
                         popoverContent = {this.popoverContent}
                         markerOnIndex = {this.markerOnIndex}
+                        defaultZoom = {13}
+                        defaultCenter={{ lat: 37.74, lng: -122.45 }}
                         depends={{
                             CitySensor: {"operation": "must"},
                             TopicSensor: {"operation": "must"},
