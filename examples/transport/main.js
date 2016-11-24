@@ -107,7 +107,7 @@ class Main extends Component {
 }
 
 Main.defaultProps = {
- 	mapStyle: "MapBox",
+ 	mapStyle: "Standard",
  	mapping: {
  		routes: 'tag.raw',
  		vehicle: 'vehicle.raw',

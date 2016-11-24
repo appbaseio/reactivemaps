@@ -444,7 +444,7 @@ export class AppbaseMap extends Component {
       {title}
       <GoogleMapLoader
         containerElement={
-          <div {...this.props} className="containerElement" />
+          <div className="containerElement" />
         }
         googleMapElement={<GoogleMap ref = "map"
           options = {{
@@ -487,7 +487,7 @@ AppbaseMap.defaultProps = {
   searchAsMoveComponent: false,
   searchAsMoveDefault: false,
   MapStylesComponent: false,
-  mapStyle: 'MapBox',
+  mapStyle: 'Standard',
   title: null,
   requestSize: 100,
   streamActiveTime: 5,

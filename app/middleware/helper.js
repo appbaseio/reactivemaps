@@ -13,8 +13,8 @@ export function setConfigObject(config){
 	});
 };
 export var mapStyles = [{
-    key: 'MapBox',
-    value: require('../helper/map-styles/MapBox.js')
+    key: 'Standard',
+    value: require('../helper/map-styles/Standard.js')
 }, {
     key: 'Blue Essence',
     value: require('../helper/map-styles/BlueEssence.js')
