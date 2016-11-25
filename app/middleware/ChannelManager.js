@@ -88,10 +88,14 @@ class channelManager {
       }
     }  
     
+    // build single query or if default query present in sensor itself use that
     function singleQuery(depend) {
       let sensorInfo = helper.selectedSensor.get(depend, 'sensorInfo');
       let s_query = null
-      if(previousSelectedSensor[depend]) {
+      if(sensorInfo.defaultQuery) {
+        s_query = sensorInfo.defaultQuery(previousSelectedSensor[depend]);
+      }
+      else if(previousSelectedSensor[depend]) {
         s_query = {}
         s_query[sensorInfo.queryType] = {};
         s_query[sensorInfo.queryType][sensorInfo.inputData] = previousSelectedSensor[depend];
