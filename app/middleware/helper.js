@@ -71,7 +71,7 @@ export var watchForDependencyChange = function(depends, previousSelectedSensor, 
       checkDependExists(depend);
       if(typeof selectedSensor[depend] === 'object') { 
         if(JSON.stringify(selectedSensor[depend]) !== JSON.stringify(previousSelectedSensor[depend])) {
-          applyDependChange(depends, depend);  
+          applyDependChange(depends, depend);
         }
       } else {
         if(selectedSensor[depend] !== previousSelectedSensor[depend]) {

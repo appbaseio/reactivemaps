@@ -4,6 +4,7 @@ import {AppbaseSlider} from './sensors/AppbaseSlider';
 import {AppbaseSearch} from './sensors/AppbaseSearch';
 // actuators
 import {AppbaseMap} from './actuators/AppbaseMap';
+import {ListResult} from './actuators/ListResult';
 // middleware
 import {ReactiveMap} from './middleware/ReactiveMap';
 
@@ -12,5 +13,6 @@ module.exports = {
   AppbaseSlider: AppbaseSlider,
   AppbaseSearch: AppbaseSearch,
   AppbaseMap: AppbaseMap,
-  ReactiveMap: ReactiveMap
+  ReactiveMap: ReactiveMap,
+  ListResult: ListResult
 };
