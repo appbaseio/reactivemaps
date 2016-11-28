@@ -1,23 +1,23 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import {ReactiveMap,
-        AppbaseMap,
-        AppbaseSearch,
-        AppbaseSlider,
-        AppbaseList} from '../../app/app.js';
+		AppbaseMap,
+		AppbaseSearch,
+		AppbaseSlider,
+		AppbaseList} from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {
-	    super(props);
-	    this.topicDepends = this.topicDepends.bind(this);
-	    this.popoverContent = this.popoverContent.bind(this);
-	    this.markerOnIndex =  this.markerOnIndex.bind(this);
+		super(props);
+		this.topicDepends = this.topicDepends.bind(this);
+		this.popoverContent = this.popoverContent.bind(this);
+		this.markerOnIndex =  this.markerOnIndex.bind(this);
 	}
 	topicDepends(value) {
 		if(this.props.mapping.city && value) {
 			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
-	    	return { Match: match };
-    	} else return null;
+			return { Match: match };
+		} else return null;
 	}
 	popoverContent(marker) {
 		console.log(marker);
@@ -33,23 +33,23 @@ class Main extends Component {
 		</div>);
 	}
 	markerOnIndex(res) {
-        let markers = {};
-        res.allMarkers.hits.hits.forEach((hit, index) => {
-        	markers[hit._id] = {};
-        	let icon;
-        	switch(hit._source.vehicle) {
-        		case 'Bus':
-        			icon = this.props.markerIcons.Bus;
-        		break;
-        		case 'Train':
-        			icon = this.props.markerIcons.Train;
-        		break;
-        	}
-        	markers[hit._id].icon = icon;
-        });
-        return {
-        	markers: markers
-        };
+		let markers = {};
+		res.allMarkers.hits.hits.forEach((hit, index) => {
+			markers[hit._id] = {};
+			let icon;
+			switch(hit._source.vehicle) {
+				case 'Bus':
+					icon = this.props.markerIcons.Bus;
+				break;
+				case 'Train':
+					icon = this.props.markerIcons.Train;
+				break;
+			}
+			markers[hit._id].icon = icon;
+		});
+		return {
+			markers: markers
+		};
 	}
 	render() {
 		return (
@@ -72,7 +72,7 @@ class Main extends Component {
 								searchPlaceholder="Search Bus"
 							/>
 						</div>
-						
+
 					</div>
 				</div>
 				<div className="col s12 m9 h-100">
@@ -107,10 +107,10 @@ class Main extends Component {
 }
 
 Main.defaultProps = {
- 	mapStyle: "Standard",
- 	mapping: {
- 		routes: 'tag.raw',
- 		vehicle: 'vehicle.raw',
+	mapStyle: "Standard",
+	mapping: {
+		routes: 'tag.raw',
+		vehicle: 'vehicle.raw',
 		location: 'location'
 	},
 	config: {
@@ -123,7 +123,7 @@ Main.defaultProps = {
 	},
 	markerIcons: {
 		Bus: {
-            path: `M122 1923 c-34 -3 -55 -9 -59 -19 -3 -7 -11 -14 -18 -14 -7 0 -15 -8
+			path: `M122 1923 c-34 -3 -55 -9 -59 -19 -3 -7 -11 -14 -18 -14 -7 0 -15 -8
 					-17 -17 -3 -10 -4 -405 -4 -878 1 -807 2 -863 19 -888 9 -15 26 -27 37 -27 19
 					0 96 -27 154 -54 29 -14 40 -13 81 4 38 17 120 47 149 56 20 6 33 19 39 39 8
 					25 12 1620 4 1720 -1 17 -6 31 -12 33 -5 2 -13 11 -17 21 -10 27 -164 37 -356
@@ -135,13 +135,13 @@ Main.defaultProps = {
 					26 -13 98 0 54 3 102 7 106 4 4 16 6 28 4 18 -3 20 -11 23 -98z m-343 -770 l0
 					-205 -27 -3 -27 -3 0 211 0 211 27 -3 27 -3 0 -205z m342 -2 l3 -208 -30 0
 					-29 0 0 211 0 210 27 -3 27 -3 2 -207z`,
-            fillColor: '#000000',
-            fillOpacity: 0.8,
-            scale: 0.010,
-            strokeWeight: 1
-        },
-        Train: {
-            path: `M122 1923 c-34 -3 -55 -9 -59 -19 -3 -7 -11 -14 -18 -14 -7 0 -15 -8
+			fillColor: '#000000',
+			fillOpacity: 0.8,
+			scale: 0.010,
+			strokeWeight: 1
+		},
+		Train: {
+			path: `M122 1923 c-34 -3 -55 -9 -59 -19 -3 -7 -11 -14 -18 -14 -7 0 -15 -8
 					-17 -17 -3 -10 -4 -405 -4 -878 1 -807 2 -863 19 -888 9 -15 26 -27 37 -27 19
 					0 96 -27 154 -54 29 -14 40 -13 81 4 38 17 120 47 149 56 20 6 33 19 39 39 8
 					25 12 1620 4 1720 -1 17 -6 31 -12 33 -5 2 -13 11 -17 21 -10 27 -164 37 -356
@@ -153,11 +153,11 @@ Main.defaultProps = {
 					26 -13 98 0 54 3 102 7 106 4 4 16 6 28 4 18 -3 20 -11 23 -98z m-343 -770 l0
 					-205 -27 -3 -27 -3 0 211 0 211 27 -3 27 -3 0 -205z m342 -2 l3 -208 -30 0
 					-29 0 0 211 0 210 27 -3 27 -3 2 -207z`,
-            fillColor: 'red',
-            fillOpacity: 0.8,
-            scale: 0.010,
-            strokeWeight: 1
-        }
+			fillColor: 'red',
+			fillOpacity: 0.8,
+			scale: 0.010,
+			strokeWeight: 1
+		}
 	}
 };
 
