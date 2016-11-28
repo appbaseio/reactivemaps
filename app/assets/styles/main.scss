@@ -263,14 +263,14 @@ body {
 	display: inline-block;
 }
 .reactiveComponent {
-    margin: 5px;
-    background: #fff;
-    padding: 15px;
+	margin: 5px;
+	background: #fff;
+	padding: 15px;
 	.componentTitle {
 		font-size: 20px;
-	    padding: 10px;
-	    line-height: 30px;
-	   	font-weight: bold;
+		padding: 10px;
+		line-height: 30px;
+		font-weight: bold;
 		font-family: $font-bold;
 		color: $dark-grey;
 		letter-spacing: 1px;
@@ -291,8 +291,8 @@ body {
 		.add-on {
 			position: absolute;
 			right: 15px;
-    		top: 12px;
-    		color: $blue;
+			top: 12px;
+			color: $blue;
 		}
 	}
 }

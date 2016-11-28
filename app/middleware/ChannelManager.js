@@ -225,7 +225,7 @@ class channelManager {
 		return {
 			channelId: channelId,
 			emitter: this.emitter
-		}; 
+		};
 	}
 
 };
