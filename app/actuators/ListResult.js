@@ -1,5 +1,4 @@
-import {
-	default as React, Component } from 'react';
+import { default as React, Component } from 'react';
 import { render } from 'react-dom';
 import { queryObject, emitter } from '../middleware/ImmutableQuery.js';
 import { manager } from '../middleware/ChannelManager.js';
@@ -140,7 +139,6 @@ export class ListResult extends Component {
 			}
 		};
 		manager.nextPage(this.channelId);
-		// helper.selectedSensor.set(obj, true);
 	}
 	listComponent() {
 		let node = this.refs.ListContainer;
