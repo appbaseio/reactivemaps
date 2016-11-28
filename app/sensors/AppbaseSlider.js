@@ -123,13 +123,13 @@ export class AppbaseSlider extends Component {
       value: real_values
     };
     helper.selectedSensor.set(obj, true);
-  
+
     this.setState({
       currentValues: values
     });
   }
   render() {
-     let title =null, 
+     let title =null,
       histogram = null,
       titleExists = false;
 
@@ -164,7 +164,7 @@ AppbaseSlider.propTypes = {
   inputData: React.PropTypes.string.isRequired,
   minThreshold: React.PropTypes.number,
   maxThreshold: React.PropTypes.number,
-  values: React.PropTypes.object,  
+  values: React.PropTypes.object,
 };
 
 AppbaseSlider.defaultProps = {
