@@ -100,19 +100,6 @@ class Main extends Component {
 					</div>
 					<div className="row">
 						<div className="col s12">
-							<DistanceSensor
-								sensorId="DistanceSensor"
-								APIkey={mapsAPIKey}
-								inputData={this.props.mapping.location}
-								minThreshold={1}
-								maxThreshold={60}
-								unit="mi"
-								title="Geo Distance Search"
-								placeholder="Search Location" />
-						</div>
-					</div>
-					<div className="row">
-						<div className="col s12">
 							<AppbaseSearch
 								inputData={this.props.mapping.venue}
 								sensorId="VenueSensor"
@@ -149,8 +136,7 @@ class Main extends Component {
 							CitySensor: {"operation": "must"},
 							TopicSensor: {"operation": "must"},
 							RangeSensor: {"operation": "must"},
-							VenueSensor: {"operation": "must"},
-							DistanceSensor: {"operation": "must"}
+							VenueSensor: {"operation": "must"}
 						}}
 						/>
 				</div>
