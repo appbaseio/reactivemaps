@@ -1,12 +1,12 @@
 # Realtime React Map library
 
 Examples
-- https:/opensource.appbase.io/reactive-maps/examples/now
-- https:/opensource.appbase.io/reactive-maps/examples/meetupblast/
-- https:/opensource.appbase.io/reactive-maps/examples/heatmap/
-- https:/opensource.appbase.io/reactive-maps/examples/earthquake/
-- https:/opensource.appbase.io/reactive-maps/examples/transport/
-- https:/opensource.appbase.io/reactive-maps/examples/list/
+- https://opensource.appbase.io/reactive-maps/examples/now
+- https://opensource.appbase.io/reactive-maps/examples/meetupblast/
+- https://opensource.appbase.io/reactive-maps/examples/heatmap/
+- https://opensource.appbase.io/reactive-maps/examples/earthquake/
+- https://opensource.appbase.io/reactive-maps/examples/transport/
+- https://opensource.appbase.io/reactive-maps/examples/list/
 
 ## Using it
 
