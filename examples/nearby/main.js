@@ -49,9 +49,9 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveMap config={this.props.config} />
-				<div className="col s12 m6">
+				<div className="col s12 m6 col-xs-12 col-sm-6">
 					<div className="row h-100">
-						<div className="col s12 m6">
+						<div className="col s12 m6 col-xs-12 col-sm-6">
 							<AppbaseList
 								inputData={this.props.mapping.topic}
 								sensorId="TopicSensor"
@@ -70,7 +70,7 @@ class Main extends Component {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col s12">
+						<div className="col s12 col-xs-12">
 							<DistanceSensor
 								sensorId="DistanceSensor"
 								APIkey={mapsAPIKey}
@@ -84,7 +84,7 @@ class Main extends Component {
 						</div>
 					</div>
 				</div>
-				<div className="col s12 m6 h-100">
+				<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
 					<AppbaseMap
 						inputData={this.props.mapping.location}
 						historicalData={true}

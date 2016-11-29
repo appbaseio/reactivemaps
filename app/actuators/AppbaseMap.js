@@ -440,7 +440,7 @@ export class AppbaseMap extends Component {
 		}
 
 	return(
-		<div className="map-container reactiveComponent appbaseMapComponent row card">
+		<div className="map-container reactiveComponent appbaseMapComponent col s12 col-xs-12 card thumbnail">
 			{title}
 			<span className="col s12 m4 col-xs-12 col-sm-4">
 				{MapStylesComponent}

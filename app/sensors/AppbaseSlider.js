@@ -135,17 +135,17 @@ export class AppbaseSlider extends Component {
 
 		if(this.props.title) {
 			titleExists = true;
-			title = (<h4 className="componentTitle">{this.props.title}</h4>);
+			title = (<h4 className="componentTitle col s12 col-xs-12">{this.props.title}</h4>);
 		}
 		if(this.state.counts && this.state.counts.length) {
 			histogram = (<HistoGramComponent data={this.state.counts} />);
 		}
 
 		return (
-			<div className="reactiveComponent sliderComponent card thumbnail">
+			<div className="reactiveComponent sliderComponent card thumbnail col s12 col-xs-12">
 				{title}
 				{histogram}
-				<div className="inputRangeContainer">
+				<div className="inputRangeContainer col s12 col-xs-12" style={{'margin-bottom': '25px'}}>
 					<InputRange
 						maxValue={this.state.maxThreshold}
 						minValue={this.state.minThreshold}

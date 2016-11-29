@@ -42,7 +42,7 @@ export class HistoGramComponent extends Component {
 	render() {
 		let bars = this.createBars();
 		return (
-			<div className="barContainer" style={this.style.barContainer}>
+			<div className="barContainer col s12 col-xs-12" style={this.style.barContainer}>
 				{bars}
 			 </div>
 		);

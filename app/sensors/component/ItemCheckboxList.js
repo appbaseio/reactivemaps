@@ -198,12 +198,11 @@ class ListItem extends Component {
 			count = <label> ({this.props.doc_count}) </label>;
 		}
 		return (
-			<div onClick={this.handleClick.bind(this) } className="listItem checkboxItem checkbox">
-				<label>
-					<input type="checkbox"
+			<div onClick={this.handleClick.bind(this) } className="listItem checkboxItem col s12 col-xs-12">
+				<input type="checkbox"
 					checked={this.state.status}
-					onChange={this.handleCheckboxChange.bind(this) } /> {this.props.value} {count}
-				</label>
+					onChange={this.handleCheckboxChange.bind(this) } />
+				<label > {this.props.value} {count}</label>
 			</div>
 		);
 	}
@@ -217,7 +216,7 @@ class Tag extends Component {
 		return (
 			<span onClick={this.props.onClick.bind(null, this.props.value) } className="tagItem col">
 				<span>{this.props.value}</span>
-				<a href="javascript:void(0)" className="close"> x </a>
+				<a href="javascript:void(0)" className="close-tag"> x </a>
 			</span>
 		);
 	}
