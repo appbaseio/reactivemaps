@@ -4,6 +4,7 @@ import { manager } from '../middleware/ChannelManager.js';
 import { AppbaseSlider } from './AppbaseSlider';
 import InputRange from 'react-input-range';
 import axios from 'axios';
+import Select from 'react-select';
 var helper = require('../middleware/helper.js');
 
 export class DistanceSensor extends Component {
@@ -17,21 +18,37 @@ export class DistanceSensor extends Component {
 		};
 		this.type = 'geo_distance';
 		this.locString = '';
+		this.result = {
+			options: []
+		};
 		this.handleChange = this.handleChange.bind(this);
+		this.loadOptions = this.loadOptions.bind(this);
 		this.defaultQuery = this.defaultQuery.bind(this);
 		this.handleValuesChange = this.handleValuesChange.bind(this);
 		this.handleResults = this.handleResults.bind(this);
 	}
 
+	componentWillMount() {
+		this.googleMaps = window.google.maps;
+	}
+
 	// Set query information
 	componentDidMount() {
 		this.setQueryInfo();
+		this.getUserLocation();
+	}
+
+	getUserLocation() {
 		navigator.geolocation.getCurrentPosition((location) => {
 			this.locString = location.coords.latitude + ', ' + location.coords.longitude;
 
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}&key=${this.props.APIkey}`)
 				.then(res => {
 					let currentValue = res.data.results[0].formatted_address;
+					this.result.options.push({
+						'value': currentValue,
+						'label': currentValue
+					});
 					this.setState({
 						currentValue: currentValue
 					});
@@ -105,12 +122,19 @@ export class DistanceSensor extends Component {
 	}
 
 	// handle the input change and pass the value inside sensor info
-	handleChange(event) {
-		let inputVal = event.target.value;
-		this.setState({
-			'currentValue': inputVal
-		});
-		this.getCoordinates(inputVal);
+	handleChange(input) {
+		if (input) {
+			let inputVal = input.value;
+			this.setState({
+				'currentValue': inputVal
+			});
+			this.getCoordinates(inputVal);
+		}
+		else {
+			this.setState({
+				'currentValue': ''
+			});
+		}
 	}
 
 	// Handle function when value slider option is changing
@@ -140,9 +164,34 @@ export class DistanceSensor extends Component {
 		}
 	}
 
+	loadOptions(input, callback) {
+		this.callback = callback;
+		if (input) {
+			let googleMaps = this.googleMaps || window.google.maps;
+			this.autocompleteService = new googleMaps.places.AutocompleteService();
+			let options = {
+				input: input
+			}
+			this.result = {
+				options: []
+			};
+			this.autocompleteService.getPlacePredictions(options, res => {
+				res.map(place => {
+					this.result.options.push({
+						'value': place.description,
+						'label': place.description
+					});
+				})
+				this.callback(null, this.result);
+			});
+		} else {
+			this.callback(null, this.result);
+		}
+	}
+
 	// render
 	render() {
-		let title =null;
+		let title = null;
 		if(this.props.title) {
 			title = (<h2 className="componentTitle">{this.props.title}</h2>);
 		}
@@ -150,15 +199,17 @@ export class DistanceSensor extends Component {
 		return (
 			<div className="appbaseSearchComponent sliderComponent reactiveComponent clearfix">
 				{title}
-				<input type="text"
-					className="Select-control col-xs-6"
-					style={{'padding': '0 10px', 'width': 'calc(50% - 40px)', 'margin-right': '20px'}}
-					onChange={this.handleChange}
+				<Select.Async
+					className="appbase-select col-xs-6 p-0"
+					name="appbase-search"
+					value={this.state.currentValue}
+					loadOptions={this.loadOptions}
 					placeholder={this.props.placeholder}
-					value={this.state.currentValue} />
+					onChange={this.handleChange}
+					/>
 
 				<div className="sliderComponent">
-					<div className="inputRangeContainer col-xs-6">
+					<div className="inputRangeContainer col-xs-6" style={{'padding': '12px 4px 16px 16px'}}>
 						<InputRange
 							minValue={this.props.minThreshold}
 							maxValue={this.props.maxThreshold}
