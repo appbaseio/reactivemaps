@@ -105,15 +105,7 @@ export class ListResult extends Component {
 	setMarkersData(data) {
 		var self = this;
 		if (data && data.hits && data.hits.hits) {
-			let markersData = data.hits.hits.filter((hit, index) => {
-				return hit._source.hasOwnProperty(self.props.inputData) && !(hit._source[self.props.inputData].lat === 0 && hit._source[self.props.inputData].lon === 0);
-			});
-			markersData = _.orderBy(markersData, [self.props.inputData.lat], ['desc']);
-			markersData = markersData.map((marker) => {
-				marker.showInfo = false;
-				return marker;
-			})
-			return markersData;
+			return data.hits.hits;
 		} else {
 			return [];
 		}
@@ -152,21 +144,22 @@ export class ListResult extends Component {
 	}
 	render() {
 		return (
-			<div ref="ListContainer" className="map-container reactiveComponent appbaseMapComponent listResult">
+			<div ref="ListContainer" className="map-container reactiveComponent appbaseMapComponent listResult" style={this.props.containerStyle}>
 				{this.state.resultMarkup}
 			</div >
 		)
 	}
 }
 ListResult.propTypes = {
-	inputData: React.PropTypes.string.isRequired,
 	markerOnIndex: React.PropTypes.func,
-	streamActiveTime: React.PropTypes.number,
 	requestSize: React.PropTypes.number,
 	requestOnScroll: React.PropTypes.bool
 };
 ListResult.defaultProps = {
 	requestSize: 20,
-	streamActiveTime: 5,
-	requestOnScroll: true
+	requestOnScroll: true,
+	containerStyle: {
+		height: '700px',
+		overflow: 'auto'
+	}
 };
