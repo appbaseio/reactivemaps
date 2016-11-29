@@ -1,8 +1,12 @@
 # Realtime React Map library
 
 Examples
-- https://appbaseio.github.io/reactive-maps/examples/now
-- https://appbaseio.github.io/reactive-maps/examples/meetupblast/
+- https:/opensource.appbase.io/reactive-maps/examples/now
+- https:/opensource.appbase.io/reactive-maps/examples/meetupblast/
+- https:/opensource.appbase.io/reactive-maps/examples/heatmap/
+- https:/opensource.appbase.io/reactive-maps/examples/earthquake/
+- https:/opensource.appbase.io/reactive-maps/examples/transport/
+- https:/opensource.appbase.io/reactive-maps/examples/list/
 
 ## Using it
 
@@ -11,15 +15,49 @@ Include the map library in your html file with your key
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=Your_key_here"></script>
 ```    
 
-Then to use it include the Appbase Map library    
+### Installation
+
+``` javascript
+npm install --save reactive-maps@0.0.10
+```
+
+Import sensors and actuators from the library    
 ``` javascript    
-import {AppbaseMap} from './AppbaseMap'
+import {
+  ReactiveMap,
+  AppbaseSearch,
+  AppbaseSlider,
+  AppbaseList,
+  AppbaseMap,
+  ListResult
+} from 'reactive-maps';
 ```     
 
-and then use the AppbaseMap component    
+library provides 
+- **Sensors** `AppbaseSearch, AppbaseSlider, AppbaseList`
+- **Actuators** `AppbaseMap, ListResult`
+and `ReactiveMap` to set appbase configuration 
+
+## Description
+
+### ReactiveMap
+``` javascript
+  <ReactiveMap config={this.props.config} />
+```
+
+- **config** is the object which contains appname, username, password, type of Appbase
+``` javascript    
+{
+  "appname": "map-demo",
+  "username": "mgVijsReD",
+  "password": "d67f1d62-26c5-49cb-b8b3-c6e2a6f04e74",
+  "type": "demo"
+}
+```
+
+### AppbaseMap
 ``` javascript    
 <AppbaseMap
-    config={config}
     inputData="venue"
     defaultZoom={13}
     defaultCenter={{ lat: 37.74, lng: -122.45 }}
@@ -31,28 +69,18 @@ and then use the AppbaseMap component
     markerOnDblclick={this.markerOnDblclick}
     markerOnMouseover={this.markerOnMouseover}
     markerOnMouseout={this.markerOnMouseout} 
-    mapStyle="Blue Water" 
+    mapStyle="Blue Water"
     autoCenter={true}
-	searchAsMoveComponent={true}
-	MapStylesComponent={true}
-	title="Reactive Maps"
+    searchAsMoveComponent={true}
+    MapStylesComponent={true}
+    title="Reactive Maps"
     depends={{
-		CitySensor: {"operation": "must"},
-		TopicSensor: {"operation": "must", "defaultQuery": this.topicDepends},
-		RangeSensor: {"operation": "must"},
-		VenueSensor: {"operation": "must"}
-	}} />
+      CitySensor: {"operation": "must"},
+      TopicSensor: {"operation": "must", "defaultQuery": this.topicDepends},
+      RangeSensor: {"operation": "must"},
+      VenueSensor: {"operation": "must"}
+    }} />
 ```    
-
-- **config** is the object which contains username, password, type of Appbase
-``` javascript    
-{
-  "appname": "map-demo",
-  "username": "mgVijsReD",
-  "password": "d67f1d62-26c5-49cb-b8b3-c6e2a6f04e74",
-  "type": "demo"
-}
-```     
 
 - `inputData` : `string`: is the name of the field which contains the latitude and longitude of the markers for which you want to plot on the map    
 - `historicalData`: `Boolean`: is the boolean field which on true, shows the old results and on false, will only run searchstream(). Defaulted to `true`    
@@ -69,6 +97,34 @@ and then use the AppbaseMap component
 - `title`: `string`: is the property which sets the title.
 - `depends`: `object`: is the property where user can specify the dependency on sensors.
 
+
+### ListResult
+``` javascript    
+<ListResult
+  markerOnIndex={this.markerOnIndex}
+  requestSize={50}
+  depends={{
+    CitySensor: {"operation": "must"},
+    TopicSensor: {"operation": "must"},
+    RangeSensor: {"operation": "must"},
+    VenueSensor: {"operation": "must"}
+  }}
+/>
+```    
+
+- `markerOnIndex`is the event which is fired whenever query result is received. The event contains the result and this can be used to set the markup for result.
+- `requestSize`: `number`: is the property which sets the size parameter while building the query. `ListResult` provides the infinite scrolling which means whenever scroll reach at the bottom it will build the next query for the further data with same request size. 
+- `depends`: `object`: is the property where user can specify the dependency on sensors.
+
+
+## AppbaseSearch
+- `sensorId`: `string`: is the property where user can set unique sensorId, which can be used in the dependency of other sensors or actuator.
+- `inputData` : `string`: is the name of the field on which you want to apply filter.    
+- `placeholder`: `string`: is the string field which decides placeholder for the search input. Default to `Search...`    
+- `isGeoSearch`: `"Boolean"`: is the boolean option for whether displaying the search field as input term search or is it geoSearch. Defaulted to `false`     
+- `size`: `number`: is the number field which decides how many items needs to be displayed in the search items. Defaulted to 10.  
+- `depends`: `object`: is the property where user can specify the dependency on sensors.
+
 ## AppbaseSearch
 - `sensorId`: `string`: is the property where user can set unique sensorId, which can be used in the dependency of other sensors or actuator.
 - `inputData` : `string`: is the name of the field on which you want to apply filter.    
@@ -78,7 +134,6 @@ and then use the AppbaseMap component
 - `depends`: `object`: is the property where user can specify the dependency on sensors.
 
 ## AppbaseList
-
 - `sensorId`: `string`: is the property where user can set unique sensorId, which can be used in the dependency of other sensors or actuator.
 - `title`: `string`: is the property where user can set title of component.
 - `inputData` : `string`: is the name of the field on which user wants to do aggregation    
@@ -114,17 +169,15 @@ To achieve this we should pass following things to topic sensor:
 ```
 depends= {
     CitySensor: {
-		"operation": "must",
-		"defaultQuery": this.topicDepends
-	}
+    "operation": "must",
+    "defaultQuery": this.topicDepends
+  }
 }
 ```
-
 
 - `CitySensor`: which is the sensorId of city component.
 - `operation`: It could be `should` or `must`.
 - `defaultQuery`: (optional) is the function if user wants to write custom query.
-
 
 
 
