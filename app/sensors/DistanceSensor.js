@@ -193,7 +193,7 @@ export class DistanceSensor extends Component {
 	render() {
 		let title = null;
 		if(this.props.title) {
-			title = (<h2 className="componentTitle">{this.props.title}</h2>);
+			title = (<h4 className="componentTitle">{this.props.title}</h4>);
 		}
 
 		return (
