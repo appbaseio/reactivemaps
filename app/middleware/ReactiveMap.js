@@ -5,8 +5,8 @@ import {manager} from './ChannelManager.js';
 var helper = require('./helper.js');
 
 export const ReactiveMap  = ({config}) => {
-  helper.setConfigObject(config);
-  queryObject.setConfig(config.appbase);
-  manager.setConfig(config.appbase);
-  return false;
+	helper.setConfigObject(config);
+	queryObject.setConfig(config.appbase);
+	manager.setConfig(config.appbase);
+	return false;
 };

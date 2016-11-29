@@ -7,45 +7,45 @@ var rename = require("gulp-rename");
 var dir_path = './app/';
 
 var files = {
-    css: {
-        vendor: [
-            'bower_components/bootstrap/dist/css/bootstrap.min.css',
-            'bower_components/materialize/dist/css/materialize.min.css',
-            'node_modules/react-select/dist/react-select.min.css',
-            'node_modules/react-input-range/dist/react-input-range.min.css',
-            'bower_components/font-awesome/css/font-awesome.min.css'
-        ],
-        custom: [dir_path+'assets/css/*.css'],
-        sassFile: [dir_path+'assets/styles/*.scss']
-    },
-    js: {
-        vendor: [
-            'bower_components/jquery/dist/jquery.min.js',
-            'bower_components/bootstrap/dist/js/bootstrap.min.js',
-            'bower_components/lodash/dist/lodash.min.js'
-        ],
-        custom: [
-        ]
-    }
+	css: {
+		vendor: [
+			'bower_components/bootstrap/dist/css/bootstrap.min.css',
+			'bower_components/materialize/dist/css/materialize.min.css',
+			'node_modules/react-select/dist/react-select.min.css',
+			'node_modules/react-input-range/dist/react-input-range.min.css',
+			'bower_components/font-awesome/css/font-awesome.min.css'
+		],
+		custom: [dir_path+'assets/css/*.css'],
+		sassFile: [dir_path+'assets/styles/*.scss']
+	},
+	js: {
+		vendor: [
+			'bower_components/jquery/dist/jquery.min.js',
+			'bower_components/bootstrap/dist/js/bootstrap.min.js',
+			'bower_components/lodash/dist/lodash.min.js'
+		],
+		custom: [
+		]
+	}
 };
 
 gulp.task('vendorcss', function() {
-    return gulp.src(files.css.vendor)
-        .pipe(concat('vendor.min.css'))
-        .pipe(gulp.dest('dist/css'));
+	return gulp.src(files.css.vendor)
+		.pipe(concat('vendor.min.css'))
+		.pipe(gulp.dest('dist/css'));
 });
 
 gulp.task('customcss', ['sass'], function() {
-    return gulp.src(files.css.custom)
-        .pipe(minifyCSS())
-        .pipe(concat('style.min.css'))
-        .pipe(gulp.dest('dist/css'));
+	return gulp.src(files.css.custom)
+		.pipe(minifyCSS())
+		.pipe(concat('style.min.css'))
+		.pipe(gulp.dest('dist/css'));
 });
 
 gulp.task('vendorjs', function() {
-    return gulp.src(files.js.vendor)
-        .pipe(concat('vendor.min.js'))
-        .pipe(gulp.dest('dist/js'));
+	return gulp.src(files.js.vendor)
+		.pipe(concat('vendor.min.js'))
+		.pipe(gulp.dest('dist/js'));
 });
 
 // gulp.task('customjs', function() {
@@ -61,42 +61,42 @@ gulp.task('vendorjs', function() {
 
 
 gulp.task('sass', function() {
-    return gulp.src(files.css.sassFile)
-        .pipe(sass.sync().on('error', sass.logError))
-        .pipe(gulp.dest(dir_path+'assets/css'));
+	return gulp.src(files.css.sassFile)
+		.pipe(sass.sync().on('error', sass.logError))
+		.pipe(gulp.dest(dir_path+'assets/css'));
 });
 
 gulp.task('moveCss', function() {
-    return gulp.src(['bower_components/bootstrap/dist/css/bootstrap.min.css.map'])
-        .pipe(gulp.dest('dist/css'));
+	return gulp.src(['bower_components/bootstrap/dist/css/bootstrap.min.css.map'])
+		.pipe(gulp.dest('dist/css'));
 });
 
 gulp.task('moveFonts', function() {
-    return gulp.src(['bower_components/bootstrap/dist/fonts/*', 
-        'bower_components/font-awesome/fonts/*',
-        'bower_components/materialize/dist/fonts/**/*',
-        'app/assets/styles/fonts/**/*'
-        ])
-        .pipe(gulp.dest('dist/fonts'));
+	return gulp.src(['bower_components/bootstrap/dist/fonts/*',
+		'bower_components/font-awesome/fonts/*',
+		'bower_components/materialize/dist/fonts/**/*',
+		'app/assets/styles/fonts/**/*'
+		])
+		.pipe(gulp.dest('dist/fonts'));
 });
 
 gulp.task('moveImages', function() {
-    return gulp.src([dir_path+'assets/images/*'])
-        .pipe(gulp.dest('dist/images'));
+	return gulp.src([dir_path+'assets/images/*'])
+		.pipe(gulp.dest('dist/images'));
 });
 
 gulp.task('compact', [
-    'customcss', 
-    'vendorcss', 
-    'vendorjs', 
-    'moveCss', 
-    'moveFonts',
-    'moveImages'
+	'customcss',
+	'vendorcss',
+	'vendorjs',
+	'moveCss',
+	'moveFonts',
+	'moveImages'
 ]);
 
 gulp.task('watchfiles', function() {
-    // gulp.watch(files.css.custom, ['customcss']);
-    gulp.watch(files.css.sassFile, ['customcss']);
+	// gulp.watch(files.css.custom, ['customcss']);
+	gulp.watch(files.css.sassFile, ['customcss']);
 });
 
 gulp.task('default', ['compact']);
