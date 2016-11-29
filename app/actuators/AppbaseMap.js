@@ -436,18 +436,18 @@ export class AppbaseMap extends Component {
 		// include title if exists
 		if(this.props.title) {
 			titleExists = true;
-			title = (<h4 className="componentTitle col s12 m8">{this.props.title}</h4>);
+			title = (<h4 className="componentTitle col s12 m8 col-xs-12 col-sm-8">{this.props.title}</h4>);
 		}
 
 	return(
 		<div className="map-container reactiveComponent appbaseMapComponent row card">
 			{title}
-			<span className="col s12 m4">
+			<span className="col s12 m4 col-xs-12 col-sm-4">
 				{MapStylesComponent}
 			</span>
 			<GoogleMapLoader
 				containerElement={
-					<div className="containerElement col s12"  style={this.props.containerStyle} />
+					<div className="containerElement col s12 col-xs-12"  style={this.props.containerStyle} />
 				}
 				googleMapElement={<GoogleMap ref = "map"
 					options = {{

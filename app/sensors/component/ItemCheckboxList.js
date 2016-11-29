@@ -148,7 +148,7 @@ export class ItemCheckboxList extends Component {
 			}.bind(this));
 		}
 		return (
-			<div className="listContainer col s12">
+			<div className="listContainer col s12 col-xs-12">
 				<div className="row">
 					{TagItemsArray}
 				</div>
@@ -198,12 +198,12 @@ class ListItem extends Component {
 			count = <label> ({this.props.doc_count}) </label>;
 		}
 		return (
-			<div onClick={this.handleClick.bind(this) } className="listItem checkboxItem">
-				<input type="checkbox"
+			<div onClick={this.handleClick.bind(this) } className="listItem checkboxItem checkbox">
+				<label>
+					<input type="checkbox"
 					checked={this.state.status}
-					onChange={this.handleCheckboxChange.bind(this) } />
-				<label >{this.props.value}</label>
-				{count}
+					onChange={this.handleCheckboxChange.bind(this) } /> {this.props.value} {count}
+				</label>
 			</div>
 		);
 	}

@@ -42,7 +42,7 @@ export class MapStyles extends Component {
 		});
 		return (
 			<div className="input-field mapStyles">
-				<select className="browser-default" onChange={this.handleSelect} value={this.state.selectedValue} name="mapStyles" id="mapStyles">
+				<select className="browser-default form-control" onChange={this.handleSelect} value={this.state.selectedValue} name="mapStyles" id="mapStyles">
 					{options}
 				</select>
 			</div>

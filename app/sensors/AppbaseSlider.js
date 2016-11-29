@@ -142,7 +142,7 @@ export class AppbaseSlider extends Component {
 		}
 
 		return (
-			<div className="reactiveComponent sliderComponent">
+			<div className="reactiveComponent sliderComponent card thumbnail">
 				{title}
 				{histogram}
 				<div className="inputRangeContainer">

@@ -46,7 +46,7 @@ export class ItemList extends Component {
 				selectedItem={this.state.selectedItem}/>)
 		}.bind(this));
 		return (
-			<div className="listContainer col s12">
+			<div className="listContainer col s12 col-xs-12">
 				{itemsComponent}
 			</div>
 		);
@@ -63,14 +63,14 @@ class ItemRow extends Component {
 			count = <span> ({this.props.doc_count}) </span>;
 		}
 		let item = (
-			<a href="javascript:void(0)" className={"col s12"}>
+			<a href="javascript:void(0)" className={"col s12 col-xs-12"}>
 				<span> {this.props.value} </span>
 				{count}
 			</a>
 		);
 		if(this.props.value === this.props.selectedItem) {
 			item = (
-				<a href="javascript:void(0)" className={"col s12"}>
+				<a href="javascript:void(0)" className={"col s12 col-xs-12"}>
 					<strong>
 						<span> {this.props.value} </span>
 						{count}
@@ -83,7 +83,7 @@ class ItemRow extends Component {
 	render() {
 		// let activeClass = this.props.value === this.props.selectedItem ? 'active' : '';
 		return (
-			<div onClick={this.props.handleClick.bind(null, this.props.value) } className="listItem">
+			<div onClick={this.props.handleClick.bind(null, this.props.value) } className="listItem row">
 				{this.renderItem()}
 			</div>
 		);

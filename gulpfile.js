@@ -9,7 +9,8 @@ var dir_path = './app/';
 var files = {
 	css: {
 		vendor: [
-			'bower_components/materialize/dist/css/materialize.min.css',
+			'bower_components/bootstrap/dist/css/bootstrap.min.css',
+			// 'bower_components/bootstrap/dist/css/materialize.min.css',
 			'node_modules/react-select/dist/react-select.min.css',
 			'node_modules/react-input-range/dist/react-input-range.min.css',
 			'bower_components/font-awesome/css/font-awesome.min.css'

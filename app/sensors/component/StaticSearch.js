@@ -21,8 +21,8 @@ export class StaticSearch extends Component {
 	}
 	render() {
 		return (
-			<div className="col s12 staticSearchContainer inputBox">
-				<input type="text" className="col s12"
+			<div className="col s12 col-xs-12 staticSearchContainer inputBox">
+				<input type="text" className="col s12 col-xs-12 form-control"
 					value={this.state.searchValue}
 					placeholder={this.props.placeholder}
 					onChange={this.handleChange} />

@@ -197,10 +197,10 @@ export class DistanceSensor extends Component {
 		}
 
 		return (
-			<div className="appbaseSearchComponent sliderComponent reactiveComponent clearfix">
+			<div className="appbaseSearchComponent sliderComponent reactiveComponent clearfix card thumbnail">
 				{title}
 				<Select.Async
-					className="appbase-select col-xs-6 p-0"
+					className="appbase-select col s12 col-xs-6 p-0"
 					name="appbase-search"
 					value={this.state.currentValue}
 					loadOptions={this.loadOptions}
@@ -209,7 +209,7 @@ export class DistanceSensor extends Component {
 					/>
 
 				<div className="sliderComponent">
-					<div className="inputRangeContainer col-xs-6" style={{'padding': '12px 4px 16px 16px'}}>
+					<div className="inputRangeContainer col s12 col-xs-6" style={{'padding': '12px 4px 16px 16px'}}>
 						<InputRange
 							minValue={this.props.minThreshold}
 							maxValue={this.props.maxThreshold}
