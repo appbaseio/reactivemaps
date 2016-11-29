@@ -23,38 +23,41 @@ class Main extends Component {
 			return { Match: match };
 		} else return null;
 	}
+	itemMarkup(marker, markerData) {
+		return (
+			<a className="full_row single-record single_record_for_clone"
+				href={marker.event ? marker.event.event_url : ''}
+				target="_blank"
+				key={markerData._id}>
+				<div className="img-container">
+					<Img key={markerData._id} src={marker.member ? marker.member.photo : this.DEFAULT_IMAGE} />
+				</div>
+				<div className="text-container full_row">
+					<div className="text-head text-overflow full_row">
+						<span className="text-head-info text-overflow">
+							{marker.member ? marker.member.member_name : ''} is going to {marker.event ? marker.event.event_name : ''}
+						</span>
+						<span className="text-head-city">{marker.group ? marker.group.group_city : ''}</span>
+					</div>
+					<div className="text-description text-overflow full_row">
+						<ul className="highlight_tags">
+							{
+								marker.group.group_topics.map(function(tag,i){
+									return (<li key={i}>{tag.topic_name}</li>)
+								})
+							}
+						</ul>
+					</div>
+				</div>
+			</a>
+		);
+	}
 	markerOnIndex(res) {
 		let result;
 		if (res.allMarkers && res.allMarkers.hits && res.allMarkers.hits.hits) {
 			result = res.allMarkers.hits.hits.map((markerData, index) => {
 				let marker = markerData._source;
-				return (
-					<a className="full_row single-record single_record_for_clone"
-						href={marker.event ? marker.event.event_url : ''}
-						target="_blank"
-						key={markerData._id}>
-						<div className="img-container">
-							<Img key={markerData._id} src={marker.member ? marker.member.photo : this.DEFAULT_IMAGE} />
-						</div>
-						<div className="text-container full_row">
-							<div className="text-head text-overflow full_row">
-								<span className="text-head-info text-overflow">
-									{marker.member ? marker.member.member_name : ''} is going to {marker.event ? marker.event.event_name : ''}
-								</span>
-								<span className="text-head-city">{marker.group ? marker.group.group_city : ''}</span>
-							</div>
-							<div className="text-description text-overflow full_row">
-								<ul className="highlight_tags">
-									{
-										marker.group.group_topics.map(function(tag,i){
-											return (<li key={i}>{tag.topic_name}</li>)
-										})
-									}
-								</ul>
-							</div>
-						</div>
-					</a>
-				);
+				return this.itemMarkup(marker, markerData);
 			});
 		}
 		return result;
@@ -131,8 +134,7 @@ class Main extends Component {
 				</div>
 				<div className="col s12 m6 h-100">
 					<ListResult
-						inputData={this.props.mapping.location}
-						title="Reactive Maps"
+						containerStyle={{height: '100%'}}
 						markerOnIndex={this.markerOnIndex}
 						requestSize={50}
 						depends={{

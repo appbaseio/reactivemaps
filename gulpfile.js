@@ -10,7 +10,7 @@ var files = {
 	css: {
 		vendor: [
 			// 'bower_components/bootstrap/dist/css/bootstrap.min.css',
-			'bower_components/materialize/dist/css/materialize.min.css',
+			// 'bower_components/materialize/dist/css/materialize.min.css',
 			'node_modules/react-select/dist/react-select.min.css',
 			'node_modules/react-input-range/dist/react-input-range.min.css',
 			'bower_components/font-awesome/css/font-awesome.min.css'
@@ -71,6 +71,12 @@ gulp.task('moveCss', function() {
 		.pipe(gulp.dest('dist/css'));
 });
 
+
+gulp.task('moveListCss', function() {
+	return gulp.src(['examples/list/*.css'])
+		.pipe(gulp.dest('dist/examplesCss'));
+});
+
 gulp.task('moveFonts', function() {
 	return gulp.src(['bower_components/bootstrap/dist/fonts/*',
 		'bower_components/font-awesome/fonts/*',
@@ -91,7 +97,8 @@ gulp.task('compact', [
 	'vendorjs',
 	'moveCss',
 	'moveFonts',
-	'moveImages'
+	'moveImages',
+	'moveListCss'
 ]);
 
 gulp.task('watchfiles', function() {
