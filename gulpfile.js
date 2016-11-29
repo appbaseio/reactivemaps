@@ -67,7 +67,11 @@ gulp.task('sass', function() {
 });
 
 gulp.task('moveCss', function() {
-	return gulp.src(['bower_components/bootstrap/dist/css/bootstrap.min.css.map'])
+	return gulp.src([
+			'bower_components/bootstrap/dist/css/bootstrap.min.css.map',
+			'bower_components/bootstrap/dist/css/bootstrap.min.css',
+			'bower_components/materialize/dist/css/materialize.min.css'
+		])
 		.pipe(gulp.dest('dist/css'));
 });
 
