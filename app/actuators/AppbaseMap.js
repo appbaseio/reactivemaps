@@ -436,15 +436,18 @@ export class AppbaseMap extends Component {
 		// include title if exists
 		if(this.props.title) {
 			titleExists = true;
-			title = (<h2 className="componentTitle col s12">{this.props.title}</h2>);
+			title = (<h4 className="componentTitle col s12 m8 col-xs-12 col-sm-8">{this.props.title}</h4>);
 		}
 
 	return(
-		<div className="map-container reactiveComponent appbaseMapComponent">
+		<div className="map-container reactiveComponent appbaseMapComponent col s12 col-xs-12 card thumbnail">
 			{title}
+			<span className="col s12 m4 col-xs-12 col-sm-4">
+				{MapStylesComponent}
+			</span>
 			<GoogleMapLoader
 				containerElement={
-					<div className="containerElement" />
+					<div className="containerElement col s12 col-xs-12"  style={this.props.containerStyle} />
 				}
 				googleMapElement={<GoogleMap ref = "map"
 					options = {{
@@ -457,11 +460,10 @@ export class AppbaseMap extends Component {
 					{markerComponent}
 					{this.externalData()}
 			</GoogleMap>}/>
-			<div style={Style.divAppbaseStyle} >
+			{searchAsMoveComponent}
+			<div className="col s12 text-right right-align" >
 				Powered by <img width='200px' height='auto' src="http://slashon.appbase.io/img/Appbase.png" />
 			</div>
-			{searchAsMoveComponent}
-			{MapStylesComponent}
 		</div >
 		)
 	}
@@ -500,5 +502,8 @@ AppbaseMap.defaultProps = {
 	markerOnMouseover: function() {},
 	markerOnMouseout: function() {},
 	markerOnIndex: function() {},
-	mapOnIdle: function() {}
+	mapOnIdle: function() {},
+	containerStyle: {
+		height: '700px'
+	}
 };

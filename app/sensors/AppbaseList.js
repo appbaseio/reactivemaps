@@ -168,13 +168,13 @@ export class AppbaseList extends Component {
 
 		if(this.props.title) {
 			titleExists = true;
-			title = (<h2 className="componentTitle col s12">{this.props.title}</h2>);
+			title = (<h4 className="componentTitle col s12 col-xs-12">{this.props.title}</h4>);
 		}
 
 		let listClass = 'reactiveComponent listComponent staticSearch-'+this.props.staticSearch+' title-'+titleExists;
 
 		return (
-			<div className={listClass}>
+			<div className={"col s12 col-xs-12 card thumbnail "+listClass} style={this.props.defaultStyle}>
 				{title}
 				{searchComponent}
 				{listComponent}
@@ -200,5 +200,9 @@ AppbaseList.defaultProps = {
 	staticSearch: false,
 	title: null,
 	searchPlaceholder: 'Search',
-	includeSelectAll: false
+	includeSelectAll: false,
+	defaultStyle: {
+		height: '500px',
+		overflow: 'auto'
+	}
 };

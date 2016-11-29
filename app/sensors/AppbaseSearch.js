@@ -84,8 +84,8 @@ export class AppbaseSearch extends Component {
 	// set value to search
 	setValue(value, callback) {
 		var obj = {
-				key: this.props.searchRef,
-				value: value
+			key: this.props.searchRef,
+			value: value
 		};
 		helper.selectedSensor.set(obj, true);
 		this.callback = callback;

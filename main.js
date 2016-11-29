@@ -49,9 +49,9 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveMap config={this.props.config} />
-				<div className="col s12 m6">
+				<div className="col s12 m6 col-xs-12 col-sm-6">
 					<div className="row h-100">
-						<div className="col s12 m6">
+						<div className="col s12 m6 col-xs-12 col-sm-6">
 							<AppbaseList
 								sensorId="CitySensor"
 								inputData={this.props.mapping.city}
@@ -65,7 +65,7 @@ class Main extends Component {
 								searchPlaceholder="Search City"
 							/>
 						</div>
-						<div className="col s12 m6">
+						<div className="col s12 m6 col-xs-12 col-sm-6">
 							<AppbaseList
 								inputData={this.props.mapping.topic}
 								sensorId="TopicSensor"
@@ -84,7 +84,7 @@ class Main extends Component {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col s12">
+						<div className="col s12 col-xs-12">
 							<AppbaseSlider
 								sensorId="RangeSensor"
 								inputData={this.props.mapping.guests}
@@ -99,20 +99,7 @@ class Main extends Component {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col s12">
-							<DistanceSensor
-								sensorId="DistanceSensor"
-								APIkey={mapsAPIKey}
-								inputData={this.props.mapping.location}
-								minThreshold={1}
-								maxThreshold={60}
-								unit="mi"
-								title="Geo Distance Search"
-								placeholder="Search Location" />
-						</div>
-					</div>
-					<div className="row">
-						<div className="col s12">
+						<div className="col s12 col-xs-12">
 							<AppbaseSearch
 								inputData={this.props.mapping.venue}
 								sensorId="VenueSensor"
@@ -128,7 +115,7 @@ class Main extends Component {
 						</div>
 					</div>
 				</div>
-				<div className="col s12 m6 h-100">
+				<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
 					<AppbaseMap
 						inputData={this.props.mapping.location}
 						historicalData={true}
@@ -149,8 +136,7 @@ class Main extends Component {
 							CitySensor: {"operation": "must"},
 							TopicSensor: {"operation": "must"},
 							RangeSensor: {"operation": "must"},
-							VenueSensor: {"operation": "must"},
-							DistanceSensor: {"operation": "must"}
+							VenueSensor: {"operation": "must"}
 						}}
 						/>
 				</div>

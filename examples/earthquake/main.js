@@ -40,7 +40,7 @@ class Main extends Component {
 
 	popoverContent(marker) {
 		return (<div className="popoverComponent row">
-			<div className="infoContainer col s12">
+			<div className="infoContainer col s12 col-xs-12">
 				<div className="description">
 					<p>
 						Earthquake (at)&nbsp;
@@ -57,7 +57,7 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveMap config={this.props.config} />
-				<div className="col s12 m8 h-100">
+				<div className="col s12 m8 h-100 col-xs-12 col-sm-8">
 					<AppbaseMap
 						inputData={this.props.mapping.location}
 						defaultZoom={8}
@@ -79,9 +79,9 @@ class Main extends Component {
 						}}
 						/>
 				</div>
-				<div className="col s12 m4">
+				<div className="col s12 m4 col-xs-12 col-sm-4">
 					<div className="row h-100">
-						<div className="col s12">
+						<div className="col s12 col-xs-12">
 							<AppbaseList
 								sensorId="PlaceSensor"
 								inputData={this.props.mapping.venue}
@@ -97,7 +97,7 @@ class Main extends Component {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col s12">
+						<div className="col s12 col-xs-12">
 							<AppbaseSlider
 								sensorId="RangeSensor"
 								inputData={this.props.mapping.mag}
@@ -113,7 +113,7 @@ class Main extends Component {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col s12">
+						<div className="col s12 col-xs-12">
 							<AppbaseSlider
 								sensorId="YearSensor"
 								inputData={this.props.mapping.time}
