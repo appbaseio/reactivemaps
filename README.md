@@ -208,6 +208,9 @@ curl 'http://scalr.api.appbase.io/map_demo/_open' -X POST -d '{}' -u aT29UsiAp:e
 curl 'http://scalr.api.appbase.io/map_demo/_mapping/meetupdata1?ignore_conflicts=true&update_all_types=true' -X PUT -d '{
   "meetupdata1": {
     "properties": {
+      "location": {
+        "type": "geo_point"
+      },
       "group": {
         "properties": {
           "group_city_new": {
@@ -248,6 +251,16 @@ curl 'http://scalr.api.appbase.io/map_demo/_mapping/meetupdata1?ignore_conflicts
                     "search_analyzer": "whitespace_analyzer"
                   }
                 }
+              },
+              "topic_name_raw": {
+                "type": "string",
+                "index": "not_analyzed",
+                "fields": {
+                  "raw": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                  }
+                }
               }
             }
           }
@@ -266,13 +279,12 @@ curl 'http://scalr.api.appbase.io/map_demo/_mapping/meetupdata1?ignore_conflicts
             "search_analyzer": "whitespace_analyzer"
           }
         }
-        
+
       }
     }
-    
+
   }
 }
-
 ' -u aT29UsiAp:e0d26007-d818-4559-8244-c3c2fbad45ad -H 'Content-Type: application/json'
 ```
 ## Contributing
