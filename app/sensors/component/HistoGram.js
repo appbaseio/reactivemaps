@@ -5,6 +5,13 @@ import ReactTooltip from 'react-tooltip'
 export class HistoGramComponent extends Component {
 	constructor(props) {
 		super(props);
+		this.style = {
+			barContainer: {
+				position: 'relative',
+				height: '50px',
+				width: '100%'
+			}
+		}
 	}
 	createBars() {
 		var max = _.max(this.props.data);
@@ -35,7 +42,7 @@ export class HistoGramComponent extends Component {
 	render() {
 		let bars = this.createBars();
 		return (
-			<div className="barContainer">
+			<div className="barContainer" style={this.style.barContainer}>
 				{bars}
 			 </div>
 		);
@@ -45,20 +52,30 @@ export class HistoGramComponent extends Component {
 export class Bar extends Component {
 	constructor(props) {
 		super(props);
+		this.style = {
+			bar: {
+				display: 'block',
+				width: '100%',
+				height: '100%'
+			}
+		};
 	}
 	render() {
 		let element = this.props.element;
 		let barStyle = {
 			height: element.height+'%',
-			width: element.width+'%'
+			width: element.width+'%',
+			display: 'inline-block',
+			background: '#efefef',
+			position: 'relative'
 		};
 		return (
-					<span className="barChild" style={barStyle} >
-						<span className="bar"
-							data-tip={element.count}
-							title={element.count} />
-						<ReactTooltip />
-					</span>
+			<span className="barChild" style={barStyle} >
+				<span className="bar" style={this.style.bar}
+					data-tip={element.count}
+					title={element.count} />
+				<ReactTooltip />
+			</span>
 		);
 	}
 }

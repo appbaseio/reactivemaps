@@ -46,7 +46,7 @@ export class ItemList extends Component {
 				selectedItem={this.state.selectedItem}/>)
 		}.bind(this));
 		return (
-			<div className="listContainer">
+			<div className="listContainer col s12">
 				{itemsComponent}
 			</div>
 		);
@@ -56,19 +56,35 @@ class ItemRow extends Component {
 	constructor(props) {
 		super(props);
 	}
-	render() {
+	renderItem() {
 		let count;
 		// Check if user wants to show count field
 		if (this.props.countField) {
 			count = <span> ({this.props.doc_count}) </span>;
 		}
-		let activeClass = this.props.value === this.props.selectedItem ? 'active' : '';
+		let item = (
+			<a href="javascript:void(0)" className={"col s12"}>
+				<span> {this.props.value} </span>
+				{count}
+			</a>
+		);
+		if(this.props.value === this.props.selectedItem) {
+			item = (
+				<a href="javascript:void(0)" className={"col s12"}>
+					<strong>
+						<span> {this.props.value} </span>
+						{count}
+					</strong>
+				</a>		
+			);
+		}
+		return item;
+	}
+	render() {
+		// let activeClass = this.props.value === this.props.selectedItem ? 'active' : '';
 		return (
 			<div onClick={this.props.handleClick.bind(null, this.props.value) } className="listItem">
-				<a href="javascript:void(0)" className={activeClass}>
-					<span> {this.props.value} </span>
-					{count}
-				</a>
+				{this.renderItem()}
 			</div>
 		);
 	}

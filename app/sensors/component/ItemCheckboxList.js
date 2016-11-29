@@ -148,9 +148,11 @@ export class ItemCheckboxList extends Component {
 			}.bind(this));
 		}
 		return (
-			<div className="listContainer">
-				{TagItemsArray}
-				<div>
+			<div className="listContainer col s12">
+				<div className="row">
+					{TagItemsArray}
+				</div>
+				<div className="row">
 					{ListItemsArray}
 				</div>
 			</div>
@@ -213,9 +215,9 @@ class Tag extends Component {
 	}
 	render() {
 		return (
-			<span onClick={this.props.onClick.bind(null, this.props.value) } className="tagItem">
+			<span onClick={this.props.onClick.bind(null, this.props.value) } className="tagItem col">
 				<span>{this.props.value}</span>
-				<span className="close">x</span>
+				<a href="javascript:void(0)" className="close"> x </a>
 			</span>
 		);
 	}

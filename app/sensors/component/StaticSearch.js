@@ -22,9 +22,6 @@ export class StaticSearch extends Component {
 	render() {
 		return (
 			<div className="col s12 staticSearchContainer inputBox">
-				<span className="add-on">
-					<i className="fa fa-search"></i>
-				</span>
 				<input type="text" className="col s12"
 					value={this.state.searchValue}
 					placeholder={this.props.placeholder}

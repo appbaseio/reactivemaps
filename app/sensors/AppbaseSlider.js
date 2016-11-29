@@ -135,7 +135,7 @@ export class AppbaseSlider extends Component {
 
 		if(this.props.title) {
 			titleExists = true;
-			title = (<h2 className="componentTitle">{this.props.title}</h2>);
+			title = (<h4 className="componentTitle">{this.props.title}</h4>);
 		}
 		if(this.state.counts && this.state.counts.length) {
 			histogram = (<HistoGramComponent data={this.state.counts} />);

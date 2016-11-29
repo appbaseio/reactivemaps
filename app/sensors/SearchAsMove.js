@@ -42,7 +42,7 @@ export class SearchAsMove extends Component {
 			onRemove={this.handleRemove}
 			showCount={this.props.showCount} />
 		return (
-			<div className="searchAsMove">
+			<div className="searchAsMove row clearfix">
 				{listComponent}
 			</div>
 		);
