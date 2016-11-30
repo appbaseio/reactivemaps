@@ -21,6 +21,7 @@ class Main extends Component {
 		this.topicDepends = this.topicDepends.bind(this);
 		this.markerOnIndex = this.markerOnIndex.bind(this);
 		this.popoverContent = this.popoverContent.bind(this);
+		this.DEFAULT_IMAGE = 'http://www.avidog.com/wp-content/uploads/2015/01/BellaHead082712_11-50x65.jpg';
 	}
 	topicDepends(value) {
 		if(this.props.mapping.city && value) {
@@ -49,9 +50,34 @@ class Main extends Component {
 	}
 	itemMarkup(marker, markerData) {
 		return (
-			<div key={markerData._id} style={{'margin-bottom': '50px'}}>
-				{JSON.stringify(markerData)}
-			</div>
+			<a className="full_row single-record single_record_for_clone"
+				href={marker.event ? marker.event.event_url : ''}
+				target="_blank"
+				key={markerData._id}>
+				<div className="img-container">
+					<Img key={markerData._id} src={marker.member ? marker.member.photo : this.DEFAULT_IMAGE} />
+				</div>
+				<div className="text-container full_row">
+					<div className="text-head text-overflow full_row">
+						<span className="text-head-info text-overflow">
+							{marker.member ? marker.member.member_name : ''} is going to {marker.event ? marker.event.event_name : ''}
+						</span>
+						<span className="text-head-city">{marker.group ? marker.group.group_city : ''}</span>
+					</div>
+					<div className="text-description text-overflow full_row">
+						<ul className="highlight_tags">
+							{
+								marker.group.group_topics.map(function(tag,i){
+									return (<li key={i}>{tag.topic_name}</li>)
+								})
+							}
+						</ul>
+						<span className="sort-info">
+							{markerData.sort[0]}
+						</span>
+					</div>
+				</div>
+			</a>
 		);
 	}
 	markerOnIndex(res) {
@@ -137,7 +163,7 @@ class Main extends Component {
 							}}
 						/>
 					</div>
-					<div className={this.state.view !== 'list' ? 'invible' : ''}>
+					<div className={this.state.view !== 'list' ? 'invible' : 'h-100'}>
 						<ListResult
 							containerStyle={{height: '100%'}}
 							requestSize={50}
