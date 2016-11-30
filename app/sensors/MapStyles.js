@@ -41,7 +41,7 @@ export class MapStyles extends Component {
 			return <option value={index} key={index}>{item.key}</option>;
 		});
 		return (
-			<div className="input-field mapStyles">
+			<div className="input-field col mapStyles">
 				<select className="browser-default form-control" onChange={this.handleSelect} value={this.state.selectedValue} name="mapStyles" id="mapStyles">
 					{options}
 				</select>

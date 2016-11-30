@@ -195,7 +195,7 @@ class ListItem extends Component {
 		let count;
 		// Check if the user has set to display countField
 		if (this.props.countField) {
-			count = <label> ({this.props.doc_count}) </label>;
+			count = <span> ({this.props.doc_count}) </span>;
 		}
 		return (
 			<div onClick={this.handleClick.bind(this) } className="listItem checkboxItem col s12 col-xs-12">
