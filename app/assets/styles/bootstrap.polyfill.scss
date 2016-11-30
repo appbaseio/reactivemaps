@@ -12,16 +12,16 @@
 			margin-top: 15px;
 			.listItem {
 				margin-bottom: 15px;
-				&.checkboxItem {
-					label {
-						padding-left: 10px;
-						font-weight: normal;
-					}
-				}
 			}
 		}
 	}
 	.InputRange-label {
 		font-size: 12px;
+	}
+	.checkboxItem {
+		label {
+			padding-left: 10px;
+			font-weight: normal;
+		}
 	}
 }
