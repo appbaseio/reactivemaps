@@ -145,7 +145,7 @@ export class AppbaseSlider extends Component {
 			<div className="reactiveComponent sliderComponent card thumbnail col s12 col-xs-12">
 				{title}
 				{histogram}
-				<div className="inputRangeContainer col s12 col-xs-12" style={{'margin-bottom': '25px'}}>
+				<div className="inputRangeContainer col s12 col-xs-12" style={{'marginBottom': '25px'}}>
 					<InputRange
 						maxValue={this.state.maxThreshold}
 						minValue={this.state.minThreshold}

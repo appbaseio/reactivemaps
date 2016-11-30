@@ -21,6 +21,11 @@ export class DistanceSensor extends Component {
 		this.result = {
 			options: []
 		};
+		this.sortInfo = {
+			type: '_geo_distance',
+			order: 'asc',
+			unit: 'mi'
+		};
 		this.handleChange = this.handleChange.bind(this);
 		this.loadOptions = this.loadOptions.bind(this);
 		this.defaultQuery = this.defaultQuery.bind(this);
@@ -51,16 +56,7 @@ export class DistanceSensor extends Component {
 					});
 					this.setState({
 						currentValue: currentValue
-					});
-					var obj = {
-						key: this.props.sensorId,
-						value: {
-							currentValue: currentValue,
-							currentDistance: this.state.currentDistance,
-							location: this.locString
-						}
-					};
-					helper.selectedSensor.set(obj, true);
+					}, this.executeQuery.bind(this));
 				});
 		});
 	}
@@ -99,18 +95,36 @@ export class DistanceSensor extends Component {
 				.then(res => {
 					let location = res.data.results[0].geometry.location;
 					this.locString = location.lat + ', ' + location.lng;
-					var obj = {
-						key: this.props.sensorId,
-						value: {
-							currentValue: this.state.currentValue,
-							currentDistance: this.state.currentDistance,
-							location: this.locString
-						}
-					};
-					helper.selectedSensor.set(obj, true);
+					this.executeQuery();
 				});
 		} else {
 			helper.selectedSensor.set(null, true);
+		}
+	}
+
+	// execute query after changing location or distanc
+	executeQuery() {
+		if (this.state.currentValue != '' && this.state.currentDistance && this.locString) {
+			var obj = {
+				key: this.props.sensorId,
+				value: {
+					currentValue: this.state.currentValue,
+					currentDistance: this.state.currentDistance,
+					location: this.locString
+				}
+			};
+			let sortObj = {
+				key: this.props.sensorId,
+				value: {
+					[this.sortInfo.type]: {
+						[this.props.inputData]: this.locString,
+						'order': this.sortInfo.order,
+						'unit': this.sortInfo.unit
+					}
+				}
+			};
+			helper.selectedSensor.setSortInfo(sortObj);
+			helper.selectedSensor.set(obj, true);
 		}
 	}
 
@@ -149,19 +163,7 @@ export class DistanceSensor extends Component {
 		value = value + this.props.unit;
 		this.setState({
 			currentDistance: value
-		});
-
-		if (this.state.currentValue != '') {
-			var obj = {
-				key: this.props.sensorId,
-				value: {
-					currentValue: this.state.currentValue,
-					currentDistance: value,
-					location: this.locString
-				}
-			};
-			helper.selectedSensor.set(obj, true);
-		}
+		}, this.executeQuery.bind(this));
 	}
 
 	loadOptions(input, callback) {
@@ -197,7 +199,7 @@ export class DistanceSensor extends Component {
 		}
 
 		return (
-			<div className="appbaseSearchComponent sliderComponent reactiveComponent clearfix card thumbnail">
+			<div className="appbaseSearchComponent sliderComponent reactiveComponent clearfix card thumbnail col s12 col-xs-12">
 				{title}
 				<Select.Async
 					className="appbase-select col s12 col-xs-6 p-0"
@@ -209,7 +211,9 @@ export class DistanceSensor extends Component {
 					/>
 
 				<div className="sliderComponent">
-					<div className="inputRangeContainer col s12 col-xs-6" style={{'padding': '12px 4px 16px 16px'}}>
+					<div className="inputRangeContainer col s12 col-xs-6" 
+						style={{'padding': '12px 4px 16px 16px', 'marginBottom': '25px'}}
+						>
 						<InputRange
 							minValue={this.props.minThreshold}
 							maxValue={this.props.maxThreshold}
