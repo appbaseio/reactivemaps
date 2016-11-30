@@ -504,8 +504,8 @@ export class AppbaseMap extends Component {
 					{this.externalData()}
 			</GoogleMap>}/>
 			{searchAsMoveComponent}
-			<div className="col s12 text-right right-align" >
-				Powered by <img width='200px' height='auto' src="http://slashon.appbase.io/img/Appbase.png" />
+			<div className="col s12 text-center center-align" >
+				<img width='200px' height='auto' src="http://opensource.appbase.io/reactive-maps/dist/images/logo.png" />
 			</div>
 		</div >
 		)
