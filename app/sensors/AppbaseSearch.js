@@ -17,7 +17,7 @@ export class AppbaseSearch extends Component {
 				}
 			}
 		};
-		this.type = 'Match';
+		this.type = 'match_phrase';
 		this.handleSearch = this.handleSearch.bind(this);
 		this.setValue = this.setValue.bind(this);
 		this.defaultSearchQuery = this.defaultSearchQuery.bind(this);
