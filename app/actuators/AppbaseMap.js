@@ -132,10 +132,14 @@ export class AppbaseMap extends Component {
 	setMarkersData(data) {
 		var self = this;
 		if(data && data.hits && data.hits.hits) {
-			let markersData = data.hits.hits.filter((hit, index) => {
-				return hit._source.hasOwnProperty(self.props.inputData) && !(hit._source[self.props.inputData].lat === 0 && hit._source[self.props.inputData].lon === 0);
+			let markersData = data.hits.hits.map((hit, index) => {
+				hit._source.mapPoint = self.identifyGeoData(hit._source[self.props.inputData]);
+				return hit;
 			});
-			markersData = _.orderBy(markersData, [self.props.inputData.lat], ['desc']);
+			markersData = markersData.filter((hit, index) => {
+				return hit._source.mapPoint && !(hit._source.mapPoint.lat === 0 && hit._source.mapPoint.lng === 0);
+			});
+			markersData = this.sortByDistance(markersData);
 			markersData = markersData.map((marker) => {
 				marker.showInfo = false;
 				return marker;
@@ -144,6 +148,38 @@ export class AppbaseMap extends Component {
 		} else {
 			return [];
 		}
+	}
+	// centrialize the map
+	// calculate the distance from each marker to other marker, 
+	// summation of all the distance and sort by distance in ascending order
+	sortByDistance(data) {
+		let modifiedData = data.map((record) => {
+			record.distance = this.findDistance(data, record);
+			return record;
+		});
+		modifiedData = _.orderBy(modifiedData, 'distance');
+		return modifiedData;
+	}
+	findDistance(data, record) {
+		record.distance = 0;
+		let modifiednData = data.map((to) => {
+			record.distance += getDistance(record._source.mapPoint.lat, record._source.mapPoint.lng, to._source.mapPoint.lat, to._source.mapPoint.lng);
+		});
+		function getDistance(lat1,lon1,lat2,lon2) {
+			var R = 6371; // Radius of the earth in km
+			var dLat = deg2rad(lat2-lat1);  // deg2rad below
+			var dLon = deg2rad(lon2-lon1); 
+			var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+					Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+					Math.sin(dLon/2) * Math.sin(dLon/2); 
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+			var d = R * c; // Distance in km
+			return d;
+		}
+		function deg2rad(deg) {
+			return deg * (Math.PI/180)
+		}
+		return record.distance;
 	}
 	// set the query type and input data
 	setGeoQueryInfo() {
@@ -205,6 +241,10 @@ export class AppbaseMap extends Component {
 		if(this.searchAsMove && !this.searchQueryProgress) {
 			this.setValue(boundingBoxCoordinates, this.searchAsMove);
 		}
+	}
+	// Handle function which is fired when map is dragged
+	handleOnDrage() {
+		this.storeCenter = null;
 	}
 	// set value
 	setValue(value, isExecuteQuery=false) {
@@ -374,12 +414,12 @@ export class AppbaseMap extends Component {
 					)
 				}
 			});
-			var median = parseInt(response.convertedGeo.length/2, 10);
-			var selectedMarker = response.convertedGeo[median];
-			response.defaultCenter = {
-				lat: selectedMarker.lat,
-				lng: selectedMarker.lng
-			};
+			if(response.convertedGeo[0]) {
+				response.defaultCenter = {
+					lat: response.convertedGeo[0].lat,
+					lng: response.convertedGeo[0].lng
+				};
+			}
 		}
 		return response;
 	}
@@ -455,14 +495,17 @@ export class AppbaseMap extends Component {
 					}}
 					{...searchComponentProps}
 					{...this.props}
+					onDragstart = {() => {
+						this.handleOnDrage()}
+					}
 					onIdle = {() => this.handleOnIdle()}>
 					{searchComponent}
 					{markerComponent}
 					{this.externalData()}
 			</GoogleMap>}/>
 			{searchAsMoveComponent}
-			<div className="col s12 text-right right-align" >
-				Powered by <img width='200px' height='auto' src="http://slashon.appbase.io/img/Appbase.png" />
+			<div className="col s12 text-center center-align" >
+				<img width='200px' height='auto' src="http://opensource.appbase.io/reactive-maps/dist/images/logo.png" />
 			</div>
 		</div >
 		)

@@ -6,15 +6,22 @@ import {ReactiveMap,
 		AppbaseSearch,
 		AppbaseSlider,
 		AppbaseList,
-		DistanceSensor
+		DistanceSensor,
+		ListResult
 	} from '../../app/app.js';
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 
 class Main extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			view: 'map'
+		};
+		this.handleSelect = this.handleSelect.bind(this);
 		this.topicDepends = this.topicDepends.bind(this);
+		this.markerOnIndex = this.markerOnIndex.bind(this);
 		this.popoverContent = this.popoverContent.bind(this);
+		this.DEFAULT_IMAGE = 'http://www.avidog.com/wp-content/uploads/2015/01/BellaHead082712_11-50x65.jpg';
 	}
 	topicDepends(value) {
 		if(this.props.mapping.city && value) {
@@ -23,7 +30,6 @@ class Main extends Component {
 		} else return null;
 	}
 	popoverContent(marker) {
-		console.log(marker);
 		return (<div className="popoverComponent row">
 			<span className="imgContainer col s2">
 				<Img src={marker._source.member.photo}  />
@@ -42,8 +48,53 @@ class Main extends Component {
 			</div>
 		</div>);
 	}
+	itemMarkup(marker, markerData) {
+		return (
+			<a className="full_row single-record single_record_for_clone"
+				href={marker.event ? marker.event.event_url : ''}
+				target="_blank"
+				key={markerData._id}>
+				<div className="img-container">
+					<Img key={markerData._id} src={marker.member ? marker.member.photo : this.DEFAULT_IMAGE} />
+				</div>
+				<div className="text-container full_row">
+					<div className="text-head text-overflow full_row">
+						<span className="text-head-info text-overflow">
+							{marker.member ? marker.member.member_name : ''} is going to {marker.event ? marker.event.event_name : ''}
+						</span>
+						<span className="text-head-city">{marker.group ? marker.group.group_city : ''}</span>
+					</div>
+					<div className="text-description text-overflow full_row">
+						<ul className="highlight_tags">
+							{
+								marker.group.group_topics.map(function(tag,i){
+									return (<li key={i}>{tag.topic_name}</li>)
+								})
+							}
+						</ul>
+						<span className="sort-info">
+							{markerData.sort[0]}
+						</span>
+					</div>
+				</div>
+			</a>
+		);
+	}
 	markerOnIndex(res) {
-		console.log(res);
+		let result;
+		if (res.allMarkers && res.allMarkers.hits && res.allMarkers.hits.hits) {
+			result = res.allMarkers.hits.hits.map((markerData, index) => {
+				let marker = markerData._source;
+				return this.itemMarkup(marker, markerData);
+			});
+		}
+		return result;
+	}
+	// Handler function when a value is selected
+	handleSelect(event) {
+		this.setState({
+			view: event.target.value
+		});
 	}
 	render() {
 		return (
@@ -85,27 +136,44 @@ class Main extends Component {
 					</div>
 				</div>
 				<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
-					<AppbaseMap
-						inputData={this.props.mapping.location}
-						historicalData={true}
-						markerCluster={false}
-						searchComponent="appbase"
-						searchField={this.props.mapping.venue}
-						mapStyle={this.props.mapStyle}
-						autoCenter={true}
-						searchAsMoveComponent={true}
-						MapStylesComponent={true}
-						title="Reactive Maps"
-						showPopoverOn = "onClick"
-						popoverContent = {this.popoverContent}
-						markerOnIndex = {this.markerOnIndex}
-						defaultZoom = {13}
-						defaultCenter={{ lat: 37.74, lng: -122.45 }}
-						depends={{
-							TopicSensor: {"operation": "must"},
-							DistanceSensor: {"operation": "must"}
-						}}
+					<select className="browser-default form-control" onChange={this.handleSelect} value={this.state.view} name="chooseView" id="chooseView">
+						<option value='map' key='map'>Map</option>
+						<option value='list' key='list'>List</option>
+					</select>
+					<div className={this.state.view !== 'map' ? 'invible' : ''}>
+						<AppbaseMap
+							inputData={this.props.mapping.location}
+							historicalData={true}
+							markerCluster={false}
+							searchComponent="appbase"
+							searchField={this.props.mapping.venue}
+							mapStyle={this.props.mapStyle}
+							autoCenter={true}
+							searchAsMoveComponent={true}
+							MapStylesComponent={true}
+							title="Reactive Maps"
+							showPopoverOn = "onClick"
+							popoverContent = {this.popoverContent}
+							markerOnIndex = {this.markerOnIndex}
+							defaultZoom = {13}
+							defaultCenter={{ lat: 37.74, lng: -122.45 }}
+							depends={{
+								TopicSensor: {"operation": "must"},
+								DistanceSensor: {"operation": "must"}
+							}}
 						/>
+					</div>
+					<div className={this.state.view !== 'list' ? 'invible' : 'h-100'}>
+						<ListResult
+							containerStyle={{height: '100%'}}
+							requestSize={50}
+							markerOnIndex={this.markerOnIndex}
+							depends={{
+								TopicSensor: {"operation": "must"},
+								DistanceSensor: {"operation": "must"}
+							}}
+						/>
+					</div>
 				</div>
 			</div>
 		);

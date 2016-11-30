@@ -79,6 +79,7 @@ class channelManager {
 		let mustArray = [];
 		let shouldArray = [];
 		let requestOptions = {};
+		let sortObj = [];
 		for(let depend in depends) {
 			if(depend === 'aggs') {
 				aggs = aggsQuery(depend);
@@ -100,8 +101,18 @@ class channelManager {
 					}
 				}
 			}
+			let sortField = sortAvailbale(depend);
+			if(sortField) {
+				sortObj.push(sortField);
+			}
 		}  
 		
+		// check if sortinfo is availbale
+		function sortAvailbale(depend) {
+			let sortInfo = helper.selectedSensor.get(depend, 'sortInfo');
+			return sortInfo;
+		}
+
 		// build single query or if default query present in sensor itself use that
 		function singleQuery(depend) {
 			let sensorInfo = helper.selectedSensor.get(depend, 'sensorInfo');
@@ -153,6 +164,7 @@ class channelManager {
 				};
 				shouldArray.push(mustObject);
 		}
+
 		let query = {
 			type: this.config.type,
 			body: {
@@ -166,6 +178,9 @@ class channelManager {
 		};
 		if(aggs) {
 			query.body.aggs = aggs;
+		}
+		if(sortObj && sortObj.length) {
+			query.body.sort = sortObj;
 		}
 		// apply request options
 		if(requestOptions && Object.keys(requestOptions).length) {

@@ -91,6 +91,7 @@ function selectedSensorFn() {
 	var self = this;
 	this.selectedSensor = {};
 	this.sensorInfo = {};
+	this.sortInfo = {};
 
 	// Get
 	let get = function(prop, obj) {
@@ -119,10 +120,16 @@ function selectedSensorFn() {
 		self.sensorInfo[obj.key] = obj.value;
 	}
 
+	// Set sort info
+	let setSortInfo = function(obj) {
+		self.sortInfo[obj.key] = obj.value;
+	}
+
 	return {
 		get: get,
 		set: set,
-		setSensorInfo: setSensorInfo
+		setSensorInfo: setSensorInfo,
+		setSortInfo: setSortInfo
 	};
 
 };
