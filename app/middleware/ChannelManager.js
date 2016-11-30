@@ -117,7 +117,7 @@ class channelManager {
 		function singleQuery(depend) {
 			let sensorInfo = helper.selectedSensor.get(depend, 'sensorInfo');
 			let s_query = null
-			if(sensorInfo.defaultQuery) {
+			if(sensorInfo && sensorInfo.defaultQuery) {
 				s_query = sensorInfo.defaultQuery(previousSelectedSensor[depend]);
 			}
 			else if(previousSelectedSensor[depend]) {
