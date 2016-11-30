@@ -66,11 +66,12 @@ gulp.task('sass', function() {
 		.pipe(gulp.dest(dir_path+'assets/css'));
 });
 
-gulp.task('moveCss', function() {
+gulp.task('moveCss', ['customcss'], function() {
 	return gulp.src([
 			'bower_components/bootstrap/dist/css/bootstrap.min.css.map',
 			'bower_components/bootstrap/dist/css/bootstrap.min.css',
-			'bower_components/materialize/dist/css/materialize.min.css'
+			'bower_components/materialize/dist/css/materialize.min.css',
+			'app/assets/css/bootstrap.polyfill.css'
 		])
 		.pipe(gulp.dest('dist/css'));
 });
@@ -96,7 +97,6 @@ gulp.task('moveImages', function() {
 });
 
 gulp.task('compact', [
-	'customcss',
 	'vendorcss',
 	'vendorjs',
 	'moveCss',

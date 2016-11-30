@@ -1,0 +1,27 @@
+.reactiveComponent {
+	&.thumbnail {
+		margin: 0.5rem 0 1rem 0;
+	}
+	.componentTitle {
+		font-size: 1.8em;
+		line-height: 110%;
+		margin: 0.5em 0;
+	}
+	&.listComponent {
+		.listContainer {
+			margin-top: 15px;
+			.listItem {
+				margin-bottom: 15px;
+			}
+		}
+	}
+	.InputRange-label {
+		font-size: 12px;
+	}
+	.checkboxItem {
+		label {
+			padding-left: 10px;
+			font-weight: normal;
+		}
+	}
+}

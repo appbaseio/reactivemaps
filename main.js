@@ -98,22 +98,6 @@ class Main extends Component {
 								maxThreshold={5} />
 						</div>
 					</div>
-					<div className="row">
-						<div className="col s12 col-xs-12">
-							<AppbaseSearch
-								inputData={this.props.mapping.venue}
-								sensorId="VenueSensor"
-								searchRef="CityVenue"
-								placeholder="Search Venue"
-								depends={{
-									'CitySensor': {
-										"operation": "must",
-										"doNotExecute": {true}
-									}
-								}}
-							/>
-						</div>
-					</div>
 				</div>
 				<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
 					<AppbaseMap
@@ -138,7 +122,21 @@ class Main extends Component {
 							RangeSensor: {"operation": "must"},
 							VenueSensor: {"operation": "must"}
 						}}
+					/>
+					<div id="searchVenue">
+						<AppbaseSearch
+							inputData={this.props.mapping.venue}
+							sensorId="VenueSensor"
+							searchRef="CityVenue"
+							placeholder="Search Venue"
+							depends={{
+								'CitySensor': {
+									"operation": "must",
+									"doNotExecute": {true}
+								}
+							}}
 						/>
+					</div>
 				</div>
 			</div>
 		);
