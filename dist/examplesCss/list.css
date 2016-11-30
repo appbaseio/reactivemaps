@@ -93,3 +93,13 @@ html {
 	padding-right: 100px;
 	position: relative;
 }
+
+.single-record .text-description {
+	position: relative;
+	padding-right: 100px;
+}
+.single-record .sort-info {
+	position: absolute;
+	right: 5px;
+	font-size: 10px;
+}
