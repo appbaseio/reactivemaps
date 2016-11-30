@@ -206,6 +206,10 @@ export class AppbaseMap extends Component {
 			this.setValue(boundingBoxCoordinates, this.searchAsMove);
 		}
 	}
+	// Handle function which is fired when map is dragged
+	handleOnDrage() {
+		this.storeCenter = null;
+	}
 	// set value
 	setValue(value, isExecuteQuery=false) {
 		var obj = {
@@ -455,6 +459,9 @@ export class AppbaseMap extends Component {
 					}}
 					{...searchComponentProps}
 					{...this.props}
+					onDragstart = {() => {
+						this.handleOnDrage()}
+					}
 					onIdle = {() => this.handleOnIdle()}>
 					{searchComponent}
 					{markerComponent}
