@@ -99,7 +99,7 @@ class Main extends Component {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col s12 col-xs-12">
+						<div className="col s12 col-xs-12" id="searchVenue">
 							<AppbaseSearch
 								inputData={this.props.mapping.venue}
 								sensorId="VenueSensor"
