@@ -14,6 +14,11 @@
 .reactiveComponent .InputRange-label {
   font-size: 12px; }
 
-.reactiveComponent .checkboxItem label {
-  padding-left: 10px;
-  font-weight: normal; }
+.reactiveComponent .checkboxItem, .reactiveComponent .radioItem {
+  cursor: pointer; }
+  .reactiveComponent .checkboxItem label, .reactiveComponent .radioItem label {
+    padding-left: 10px;
+    font-weight: normal;
+    cursor: pointer; }
+  .reactiveComponent .checkboxItem input, .reactiveComponent .radioItem input {
+    cursor: pointer; }
