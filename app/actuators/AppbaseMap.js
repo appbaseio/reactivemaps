@@ -33,6 +33,7 @@ export class AppbaseMap extends Component {
 		this.handleSearch = this.handleSearch.bind(this);
 		this.searchAsMoveChange = this.searchAsMoveChange.bind(this);
 		this.mapStyleChange = this.mapStyleChange.bind(this);
+		this.queryStartTime = 0;
 		this.reposition = false;
 	}
 	componentDidMount() {
@@ -52,35 +53,46 @@ export class AppbaseMap extends Component {
 		var channelObj = manager.create(depends, this.props.requestSize);
 		channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
-			let rawData, markersData;
-			this.streamFlag = false;
-			if(res.method === 'stream') {
-				this.channelMethod = 'stream';
-				let modData = this.streamDataModify(this.state.rawData, res);
-				rawData = modData.rawData;
-				res = modData.res;
-				this.streamFlag = true;
-				markersData = this.setMarkersData(rawData);
-			} else if(res.method === 'historic') {
-				this.channelMethod = 'historic';
-				rawData = data;
-				markersData = this.setMarkersData(data);
+			console.log(res.data.hits.total, res.startTime);
+			// implementation to prevent initialize query issue if old query response is late then the newer query 
+			// then we will consider the response of new query and prevent to apply changes for old query response.
+			// if queryStartTime of channel response is greater than the previous one only then apply changes
+			if(res.method === 'historic' && res.startTime > this.queryStartTime) {
+				this.afterChannelResponse(res);
 			}
-			this.reposition = true;
+		}.bind(this));
+	}
+	afterChannelResponse(res) {
+		let data = res.data;
+		let rawData, markersData;
+		this.streamFlag = false;
+		if(res.method === 'stream') {
+			this.channelMethod = 'stream';
+			let modData = this.streamDataModify(this.state.rawData, res);
+			rawData = modData.rawData;
+			res = modData.res;
+			this.streamFlag = true;
+			markersData = this.setMarkersData(rawData);
+		} else if(res.method === 'historic') {
+			this.channelMethod = 'historic';
+			this.queryStartTime = res.startTime;
+			rawData = data;
+			markersData = this.setMarkersData(data);
+		}
+		this.reposition = true;
+		this.setState({
+			rawData: rawData,
+			markersData: markersData
+		}, function() {
+			// Pass the historic or streaming data in index method
+			res.allMarkers = rawData;
+			let generatedData = this.props.markerOnIndex(res);
 			this.setState({
-				rawData: rawData,
-				markersData: markersData
-			}, function() {
-				// Pass the historic or streaming data in index method
-				res.allMarkers = rawData;
-				let generatedData = this.props.markerOnIndex(res);
-				this.setState({
-					externalData: generatedData
-				});
-				if(this.streamFlag) {
-					this.streamMarkerInterval();
-				}
-			}.bind(this));
+				externalData: generatedData
+			});
+			if(this.streamFlag) {
+				this.streamMarkerInterval();
+			}
 		}.bind(this));
 	}
 	// append stream boolean flag and also start time of stream

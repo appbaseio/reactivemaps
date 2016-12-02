@@ -43,7 +43,6 @@ class Main extends Component {
 		</div>);
 	}
 	markerOnIndex(res) {
-		console.log(res);
 	}
 	render() {
 		return (
