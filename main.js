@@ -25,10 +25,10 @@ class Main extends Component {
 	popoverContent(marker) {
 		console.log(marker);
 		return (<div className="popoverComponent row">
-			<span className="imgContainer col s2">
-				<Img src={marker._source.member.photo}  />
+			<span className="imgContainer col s2 col-xs-2">
+				<Img src={marker._source.member.photo} />
 			</span>
-			<div className="infoContainer col s10">
+			<div className="infoContainer col s10 col-xs-10">
 				<div className="nameContainer">
 					<strong>{marker._source.member.member_name}</strong>
 				</div>

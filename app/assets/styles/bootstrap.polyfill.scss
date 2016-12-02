@@ -18,10 +18,15 @@
 	.InputRange-label {
 		font-size: 12px;
 	}
-	.checkboxItem {
+	.checkboxItem , .radioItem{
+		cursor: pointer;
 		label {
 			padding-left: 10px;
 			font-weight: normal;
+			cursor: pointer;
+		}
+		input {
+			cursor: pointer;
 		}
 	}
 }

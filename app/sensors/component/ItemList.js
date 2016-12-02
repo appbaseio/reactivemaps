@@ -92,11 +92,13 @@ class ItemRow extends Component {
 		// let activeClass = this.props.value === this.props.selectedItem ? 'active' : '';
 		return (
 			<div className="listItem row" onClick={() => this.props.handleClick(this.props.value)}>
-				<input type="radio"
-					checked={this.props.value === this.props.selectedItem}
-					name="radioItem" id="radioItem"
-					value={this.props.value} />
-				<label > {this.props.value} {this.renderCount()}</label>
+				<div className="col s12 col-xs-12 radioItem">
+					<input type="radio"
+						checked={this.props.value === this.props.selectedItem}
+						name="radioItem" id="radioItem"
+						value={this.props.value} />
+					<label > {this.props.value} {this.renderCount()}</label>
+				</div>
 			</div>
 		);
 	}
