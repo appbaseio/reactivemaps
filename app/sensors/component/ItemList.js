@@ -80,11 +80,25 @@ class ItemRow extends Component {
 		}
 		return item;
 	}
+	renderCount() {
+		let count;
+		// Check if user wants to show count field
+		if (this.props.countField) {
+			count = <span> ({this.props.doc_count}) </span>;
+		}
+		return count;
+	}
 	render() {
 		// let activeClass = this.props.value === this.props.selectedItem ? 'active' : '';
 		return (
-			<div onClick={this.props.handleClick.bind(null, this.props.value) } className="listItem row">
-				{this.renderItem()}
+			<div className="listItem row" onClick={() => this.props.handleClick(this.props.value)}>
+				<div className="col s12 col-xs-12 radioItem">
+					<input type="radio"
+						checked={this.props.value === this.props.selectedItem}
+						name="radioItem" id="radioItem"
+						value={this.props.value} />
+					<label > {this.props.value} {this.renderCount()}</label>
+				</div>
 			</div>
 		);
 	}

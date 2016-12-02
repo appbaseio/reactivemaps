@@ -107,7 +107,7 @@ gulp.task('compact', [
 
 gulp.task('watchfiles', function() {
 	// gulp.watch(files.css.custom, ['customcss']);
-	gulp.watch(files.css.sassFile, ['customcss']);
+	gulp.watch(files.css.sassFile, ['moveCss']);
 });
 
 gulp.task('default', ['compact']);

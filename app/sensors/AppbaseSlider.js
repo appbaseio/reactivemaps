@@ -81,7 +81,11 @@ export class AppbaseSlider extends Component {
 		}.bind(this));
 	}
 	setData(data) {
-		this.addItemsToList(eval(`data.aggregations["${this.props.inputData}"].buckets`));
+		try {
+			this.addItemsToList(eval(`data.aggregations["${this.props.inputData}"].buckets`));
+		} catch(e) {
+			console.log(e);
+		}
 	}
 	addItemsToList(newItems) {
 		newItems = _.orderBy(newItems, ['key'], ['asc']);
@@ -145,7 +149,7 @@ export class AppbaseSlider extends Component {
 			<div className="reactiveComponent sliderComponent card thumbnail col s12 col-xs-12">
 				{title}
 				{histogram}
-				<div className="inputRangeContainer col s12 col-xs-12" style={{'marginBottom': '25px'}}>
+				<div className="inputRangeContainer col s12 col-xs-12" style={{'margin': '25px 0'}}>
 					<InputRange
 						maxValue={this.state.maxThreshold}
 						minValue={this.state.minThreshold}

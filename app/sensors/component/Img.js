@@ -26,6 +26,6 @@ export class Img extends Component {
 		this.stopImg = true;
 	}
 	render() {
-		return <img className="responsive-img" src={this.state.src} />;
+		return <img className="responsive-img img-responsive" src={this.state.src} />;
 	}
 };

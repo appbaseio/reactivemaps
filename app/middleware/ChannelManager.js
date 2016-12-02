@@ -32,14 +32,15 @@ class channelManager {
 		} catch(e) { }
 		
 		if(validQuery) {
+			let channelResponse = {
+				startTime: (new Date()).getTime(),
+				appliedQuery: queryObj
+			};
 			// apply search query and emit historic queryResult
 			helper.appbaseRef.search(queryObj).on('data', function(data) {
-				let obj = {
-					method: 'historic',
-					data: data,
-					appliedQuery: queryObj
-				};
-				self.emitter.emit(channelId, obj);
+				channelResponse.method = 'historic';
+				channelResponse.data = data;
+				self.emitter.emit(channelId, channelResponse);
 			}).on('error', function(error) {
 				console.log(error);
 			});
