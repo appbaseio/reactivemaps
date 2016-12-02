@@ -62,7 +62,7 @@ class Main extends Component {
 								includeGeo={false}
 								staticSearch={true}
 								title="Cities"
-								searchPlaceholder="Search City"
+								searchPlaceholder="Filter City"
 							/>
 						</div>
 						<div className="col s12 m6 col-xs-12 col-sm-6">
