@@ -58,6 +58,8 @@ export class AppbaseMap extends Component {
 			// if queryStartTime of channel response is greater than the previous one only then apply changes
 			if(res.method === 'historic' && res.startTime > this.queryStartTime) {
 				this.afterChannelResponse(res);
+			} else if(res.method === 'stream') {
+				this.afterChannelResponse(res);
 			}
 		}.bind(this));
 	}
