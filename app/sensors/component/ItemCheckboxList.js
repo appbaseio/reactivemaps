@@ -91,7 +91,8 @@ export class ItemCheckboxList extends Component {
 		var isExecutable = this.state.selectedItems.length === 1 ? true:false;
 		this.props.onRemove(this.state.selectedItems, isExecutable);
 		var keyRef = value.toString().replace(/ /g,'_');
-		var checkboxElement = eval(`this.refs.ref${keyRef}`);
+		let ref = 'ref'+keyRef;
+		var checkboxElement =this.refs[ref];
 		checkboxElement.state.status = false;
 		var updated = this.state.selectedItems;
 		let index = updated.indexOf(value);
