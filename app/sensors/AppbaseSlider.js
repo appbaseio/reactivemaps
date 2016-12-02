@@ -81,7 +81,9 @@ export class AppbaseSlider extends Component {
 		}.bind(this));
 	}
 	setData(data) {
-		this.addItemsToList(eval(`data.aggregations["${this.props.inputData}"].buckets`));
+		if(this.props.inputData) {
+			this.addItemsToList(eval(`data.aggregations["${this.props.inputData}"].buckets`));
+		}
 	}
 	addItemsToList(newItems) {
 		newItems = _.orderBy(newItems, ['key'], ['asc']);

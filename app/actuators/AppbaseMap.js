@@ -53,7 +53,6 @@ export class AppbaseMap extends Component {
 		var channelObj = manager.create(depends, this.props.requestSize);
 		channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
-			console.log(res.data.hits.total, res.startTime);
 			// implementation to prevent initialize query issue if old query response is late then the newer query 
 			// then we will consider the response of new query and prevent to apply changes for old query response.
 			// if queryStartTime of channel response is greater than the previous one only then apply changes
