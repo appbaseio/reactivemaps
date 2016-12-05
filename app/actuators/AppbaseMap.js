@@ -244,7 +244,7 @@ export class AppbaseMap extends Component {
 			"top_left": [west, north],
 			"bottom_right": [east, south]
 		};
-		let generatedData = this.props.mapOnIdle({
+		let generatedData = this.props.OnIdle(this.refs.map, {
 			boundingBoxCoordinates: boundingBoxCoordinates,
 			mapBounds: mapBounds
 		});
@@ -447,6 +447,17 @@ export class AppbaseMap extends Component {
 		}
 		return recordList;
 	}
+	// Allow mapEvents and pass map refs as argument
+	mapEvents(eventName) {
+		if(this.props[eventName]) {
+			let externalData = this.props[eventName](this.refs.map);
+			if(externalData) {
+				this.setState({
+					externalData: externalData
+				});
+			}
+		}
+	}
 	render() {
 		var self = this;
 		var markerComponent, searchComponent, searchAsMoveComponent, MapStylesComponent;
@@ -502,21 +513,39 @@ export class AppbaseMap extends Component {
 				containerElement={
 					<div className="containerElement col s12 col-xs-12"  style={this.props.containerStyle} />
 				}
-				googleMapElement={<GoogleMap ref = "map"
-					options = {{
-						styles: this.state.currentMapStyle
-					}}
-					{...searchComponentProps}
-					{...this.props}
-					onDragstart = {() => {
-						this.handleOnDrage()}
-					}
-					onIdle = {() => this.handleOnIdle()}>
-					{searchComponent}
-					{markerComponent}
-					{this.externalData()}
-			</GoogleMap>}/>
-			{searchAsMoveComponent}
+				googleMapElement={
+					<GoogleMap ref = "map"
+						options = {{
+							styles: this.state.currentMapStyle
+						}}
+						{...searchComponentProps}
+						{...this.props}
+						onDragstart = {() => {
+								this.handleOnDrage();
+								this.mapEvents('onDragstart');
+							}
+						}
+						onClick = {() => this.mapEvents('onClick')}
+						onDblclick = {() => this.mapEvents('onDblclick')}
+						onDrag = {() => this.mapEvents('onDrag')}
+						onDragend = {() => this.mapEvents('onDragend')}
+						onMousemove = {() => this.mapEvents('onMousemove')}
+						onMouseout = {() => this.mapEvents('onMouseout')}
+						onMouseover = {() => this.mapEvents('onMouseover')}
+						onResize = {() => this.mapEvents('onResize')}
+						onRightclick = {() => this.mapEvents('onRightclick')}
+						onTilesloaded = {() => this.mapEvents('onTilesloaded')}
+						onBoundsChanged = {() => this.mapEvents('onBoundsChanged')}
+						onCenterChanged = {() => this.mapEvents('onCenterChanged')}
+						onProjectionChanged = {() => this.mapEvents('onProjectionChanged')}
+						onTiltChanged = {() => this.mapEvents('onTiltChanged')}
+						onZoomChanged = {() => this.mapEvents('onZoomChanged')}
+					>
+						{searchComponent}
+						{markerComponent}
+						{this.externalData()}
+				</GoogleMap>}/>
+				{searchAsMoveComponent}
 			<div className="col s12 text-center center-align" >
 				<img width='200px' height='auto' src="http://opensource.appbase.io/reactive-maps/dist/images/logo.png" />
 			</div>
@@ -528,7 +557,7 @@ AppbaseMap.propTypes = {
 	inputData: React.PropTypes.string.isRequired,
 	searchField: React.PropTypes.string,
 	searchComponent: React.PropTypes.string,
-	mapOnIdle: React.PropTypes.func,
+	OnIdle: React.PropTypes.func,
 	markerOnDelete: React.PropTypes.func,
 	markerOnIndex: React.PropTypes.func,
 	markerCluster: React.PropTypes.bool,
@@ -558,7 +587,7 @@ AppbaseMap.defaultProps = {
 	markerOnMouseover: function() {},
 	markerOnMouseout: function() {},
 	markerOnIndex: function() {},
-	mapOnIdle: function() {},
+	OnIdle: function() {},
 	containerStyle: {
 		height: '700px'
 	}

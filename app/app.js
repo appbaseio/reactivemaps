@@ -3,6 +3,7 @@ import {AppbaseList} from './sensors/AppbaseList';
 import {AppbaseSlider} from './sensors/AppbaseSlider';
 import {AppbaseSearch} from './sensors/AppbaseSearch';
 import {DistanceSensor} from './sensors/DistanceSensor';
+import {InputField} from './sensors/InputField';
 // actuators
 import {AppbaseMap} from './actuators/AppbaseMap';
 import {ListResult} from './actuators/ListResult';
@@ -16,5 +17,6 @@ module.exports = {
 	DistanceSensor: DistanceSensor,
 	AppbaseMap: AppbaseMap,
 	ReactiveMap: ReactiveMap,
-	ListResult: ListResult
+	ListResult: ListResult,
+	InputField: InputField
 };
