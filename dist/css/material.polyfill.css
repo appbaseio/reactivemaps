@@ -1,0 +1,7 @@
+.Select-input input {
+  height: 20px;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none; }
