@@ -71,7 +71,8 @@ gulp.task('moveCss', ['customcss'], function() {
 			'bower_components/bootstrap/dist/css/bootstrap.min.css.map',
 			'bower_components/bootstrap/dist/css/bootstrap.min.css',
 			'bower_components/materialize/dist/css/materialize.min.css',
-			'app/assets/css/bootstrap.polyfill.css'
+			'app/assets/css/bootstrap.polyfill.css',
+			'app/assets/css/material.polyfill.css'
 		])
 		.pipe(gulp.dest('dist/css'));
 });

@@ -27,6 +27,14 @@ export class AppbaseSearch extends Component {
 	componentDidMount() {
 		this.setQueryInfo();
 		this.createChannel();
+		$(".Select-input input").css({
+			'height': '20px',
+			'-webkit-transition': 'none',
+			'-moz-transition': 'none',
+			'-ms-transition': 'none',
+			'-o-transition': 'none',
+			'transition': 'none'
+		})
 	}
 	// set the query type and input data
 	setQueryInfo() {
