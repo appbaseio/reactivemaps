@@ -81,10 +81,8 @@ export class AppbaseSearch extends Component {
 	//default query
 	defaultSearchQuery(value) {
 		return {
-			"multi_match": {
-				"query": value,
-				"fields": this.props.inputData,
-				"operator": "and"
+			"match_phrase_prefix": {
+				[this.props.inputData]: value
 			}
 		};
 	}
