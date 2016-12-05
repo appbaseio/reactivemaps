@@ -138,7 +138,8 @@ var examples_config = {
 		earthquake: './examples/earthquake/main.js',
 		weather: './examples/weather/main.js',
 		list: './examples/list/main.js',
-		nearby: './examples/nearby/main.js'
+		nearby: './examples/nearby/main.js',
+		events: './examples/events/main.js'
 	},
 	output: {
 		path: path.join(__dirname, "dist"),
