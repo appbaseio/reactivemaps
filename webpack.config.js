@@ -139,7 +139,8 @@ var examples_config = {
 		weather: './examples/weather/main.js',
 		list: './examples/list/main.js',
 		nearby: './examples/nearby/main.js',
-		events: './examples/events/main.js'
+		events: './examples/events/main.js',
+		CustomQuery: './examples/CustomQuery/main.js'
 	},
 	output: {
 		path: path.join(__dirname, "dist"),

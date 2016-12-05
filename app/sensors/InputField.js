@@ -1,12 +1,9 @@
-import {
-	default as React,
-	Component
-} from 'react';
+import {default as React, Component} from 'react';
 import { render } from 'react-dom';
 import { manager } from '../middleware/ChannelManager.js';
 var helper = require('../middleware/helper.js');
 
-export class SampleSensor extends Component {
+export class InputField extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -78,12 +75,12 @@ export class SampleSensor extends Component {
 	}
 }
 
-SampleSensor.propTypes = {
-	inputData: React.PropTypes.string.isRequired,
+InputField.propTypes = {
+	inputData: React.PropTypes.string,
 	placeholder: React.PropTypes.string
 };
 // Default props value
-SampleSensor.defaultProps = {
+InputField.defaultProps = {
 	placeholder: "Search...",
 	size: 10
 };
