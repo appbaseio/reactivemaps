@@ -27,6 +27,14 @@ export class AppbaseSearch extends Component {
 	componentDidMount() {
 		this.setQueryInfo();
 		this.createChannel();
+		$(".Select-input input").css({
+			'height': '20px',
+			'-webkit-transition': 'none',
+			'-moz-transition': 'none',
+			'-ms-transition': 'none',
+			'-o-transition': 'none',
+			'transition': 'none'
+		})
 	}
 	// set the query type and input data
 	setQueryInfo() {
@@ -73,10 +81,8 @@ export class AppbaseSearch extends Component {
 	//default query
 	defaultSearchQuery(value) {
 		return {
-			"multi_match": {
-				"query": value,
-				"fields": this.props.inputData,
-				"operator": "and"
+			"match_phrase_prefix": {
+				[this.props.inputData]: value
 			}
 		};
 	}
