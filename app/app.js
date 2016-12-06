@@ -5,6 +5,7 @@ import {AppbaseSearch} from './sensors/AppbaseSearch';
 import {DistanceSensor} from './sensors/DistanceSensor';
 import {InputField} from './sensors/InputField';
 import {AppbaseButtonGroup} from './sensors/AppbaseButtonGroup';
+import {GoogleSearch} from './sensors/GoogleSearch';
 // actuators
 import {AppbaseMap} from './actuators/AppbaseMap';
 import {ListResult} from './actuators/ListResult';
@@ -20,5 +21,6 @@ module.exports = {
 	ReactiveMap: ReactiveMap,
 	ListResult: ListResult,
 	InputField: InputField,
-	AppbaseButtonGroup: AppbaseButtonGroup
+	AppbaseButtonGroup: AppbaseButtonGroup,
+	GoogleSearch: GoogleSearch
 };
