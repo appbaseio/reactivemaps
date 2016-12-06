@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["react", "react-dom"], factory);
 	else if(typeof exports === 'object')
-		exports["ReactiveMapsUmd"] = factory(require("react"), require("react-dom"));
+		exports["ReactiveMaps"] = factory(require("react"), require("react-dom"));
 	else
-		root["ReactiveMapsUmd"] = factory(root["React"], root["ReactDOM"]);
+		root["ReactiveMaps"] = factory(root["React"], root["ReactDOM"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -70,20 +70,30 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _AppbaseSearch = __webpack_require__(128);
 
-	var _AppbaseMap = __webpack_require__(140);
+	var _DistanceSensor = __webpack_require__(140);
 
-	var _ReactiveMap = __webpack_require__(199);
+	var _InputField = __webpack_require__(166);
 
-	// actuators
+	var _AppbaseMap = __webpack_require__(167);
+
+	var _ListResult = __webpack_require__(226);
+
+	var _ReactiveMap = __webpack_require__(227);
+
+	// sensors
 	module.exports = {
-	  AppbaseList: _AppbaseList.AppbaseList,
-	  AppbaseSlider: _AppbaseSlider.AppbaseSlider,
-	  AppbaseSearch: _AppbaseSearch.AppbaseSearch,
-	  AppbaseMap: _AppbaseMap.AppbaseMap,
-	  ReactiveMap: _ReactiveMap.ReactiveMap
+		AppbaseList: _AppbaseList.AppbaseList,
+		AppbaseSlider: _AppbaseSlider.AppbaseSlider,
+		AppbaseSearch: _AppbaseSearch.AppbaseSearch,
+		DistanceSensor: _DistanceSensor.DistanceSensor,
+		AppbaseMap: _AppbaseMap.AppbaseMap,
+		ReactiveMap: _ReactiveMap.ReactiveMap,
+		ListResult: _ListResult.ListResult,
+		InputField: _InputField.InputField
 	};
 	// middleware
-	// sensors
+
+	// actuators
 
 /***/ },
 /* 2 */
@@ -92,7 +102,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	exports.AppbaseList = undefined;
 
@@ -125,250 +135,254 @@ return /******/ (function(modules) { // webpackBootstrap
 	var helper = __webpack_require__(16);
 
 	var AppbaseList = exports.AppbaseList = function (_Component) {
-	  _inherits(AppbaseList, _Component);
+		_inherits(AppbaseList, _Component);
 
-	  function AppbaseList(props) {
-	    _classCallCheck(this, AppbaseList);
+		function AppbaseList(props) {
+			_classCallCheck(this, AppbaseList);
 
-	    var _this = _possibleConstructorReturn(this, (AppbaseList.__proto__ || Object.getPrototypeOf(AppbaseList)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (AppbaseList.__proto__ || Object.getPrototypeOf(AppbaseList)).call(this, props));
 
-	    _this.state = {
-	      items: [],
-	      storedItems: [],
-	      rawData: {
-	        hits: {
-	          hits: []
-	        }
-	      },
-	      defaultSelectAll: false
-	    };
-	    _this.previousSelectedSensor = {};
-	    _this.handleSelect = _this.handleSelect.bind(_this);
-	    _this.handleRemove = _this.handleRemove.bind(_this);
-	    _this.filterBySearch = _this.filterBySearch.bind(_this);
-	    _this.selectAll = _this.selectAll.bind(_this);
-	    _this.type = _this.props.multipleSelect ? 'Terms' : 'Term';
-	    return _this;
-	  }
+			_this.state = {
+				items: [],
+				storedItems: [],
+				rawData: {
+					hits: {
+						hits: []
+					}
+				},
+				defaultSelectAll: false
+			};
+			_this.previousSelectedSensor = {};
+			_this.handleSelect = _this.handleSelect.bind(_this);
+			_this.handleRemove = _this.handleRemove.bind(_this);
+			_this.filterBySearch = _this.filterBySearch.bind(_this);
+			_this.selectAll = _this.selectAll.bind(_this);
+			_this.type = _this.props.multipleSelect ? 'Terms' : 'Term';
+			return _this;
+		}
 
-	  _createClass(AppbaseList, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      this.defaultSelected = this.props.defaultSelected;
-	    }
-	    // Get the items from Appbase when component is mounted
+		_createClass(AppbaseList, [{
+			key: 'componentWillMount',
+			value: function componentWillMount() {
+				this.defaultSelected = this.props.defaultSelected;
+			}
+			// Get the items from Appbase when component is mounted
 
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.setQueryInfo();
-	      this.createChannel();
-	    }
-	    // set the query type and input data
+		}, {
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setQueryInfo();
+				this.createChannel();
+			}
+			// set the query type and input data
 
-	  }, {
-	    key: 'setQueryInfo',
-	    value: function setQueryInfo() {
-	      var obj = {
-	        key: this.props.sensorId,
-	        value: {
-	          queryType: this.type,
-	          inputData: this.props.inputData
-	        }
-	      };
-	      helper.selectedSensor.setSensorInfo(obj);
-	    }
-	    // Create a channel which passes the depends and receive results whenever depends changes
+		}, {
+			key: 'setQueryInfo',
+			value: function setQueryInfo() {
+				var obj = {
+					key: this.props.sensorId,
+					value: {
+						queryType: this.type,
+						inputData: this.props.inputData
+					}
+				};
+				helper.selectedSensor.setSensorInfo(obj);
+			}
+			// Create a channel which passes the depends and receive results whenever depends changes
 
-	  }, {
-	    key: 'createChannel',
-	    value: function createChannel() {
-	      // Set the depends - add self aggs query as well with depends
-	      var depends = this.props.depends ? this.props.depends : {};
-	      depends['aggs'] = {
-	        key: this.props.inputData,
-	        sort: this.props.sort,
-	        size: this.props.size
-	      };
-	      // create a channel and listen the changes
-	      var channelObj = _ChannelManager.manager.create(depends);
-	      channelObj.emitter.addListener(channelObj.channelId, function (res) {
-	        var data = res.data;
-	        var rawData = void 0;
-	        if (res.method === 'stream') {
-	          rawData = this.state.rawData;
-	          rawData.hits.hits.push(res.data);
-	        } else if (res.method === 'historic') {
-	          rawData = data;
-	        }
-	        this.setState({
-	          rawData: rawData
-	        });
-	        this.setData(rawData);
-	      }.bind(this));
-	    }
-	  }, {
-	    key: 'setData',
-	    value: function setData(data) {
-	      if (data.aggregations && data.aggregations[this.props.inputData] && data.aggregations[this.props.inputData].buckets) {
-	        this.addItemsToList(data.aggregations[this.props.inputData].buckets);
-	      }
-	    }
-	  }, {
-	    key: 'addItemsToList',
-	    value: function addItemsToList(newItems) {
-	      var _this2 = this;
+		}, {
+			key: 'createChannel',
+			value: function createChannel() {
+				// Set the depends - add self aggs query as well with depends
+				var depends = this.props.depends ? this.props.depends : {};
+				depends['aggs'] = {
+					key: this.props.inputData,
+					sort: this.props.sort,
+					size: this.props.size
+				};
+				// create a channel and listen the changes
+				var channelObj = _ChannelManager.manager.create(depends);
+				channelObj.emitter.addListener(channelObj.channelId, function (res) {
+					var data = res.data;
+					var rawData = void 0;
+					if (res.method === 'stream') {
+						rawData = this.state.rawData;
+						rawData.hits.hits.push(res.data);
+					} else if (res.method === 'historic') {
+						rawData = data;
+					}
+					this.setState({
+						rawData: rawData
+					});
+					this.setData(rawData);
+				}.bind(this));
+			}
+		}, {
+			key: 'setData',
+			value: function setData(data) {
+				if (data.aggregations && data.aggregations[this.props.inputData] && data.aggregations[this.props.inputData].buckets) {
+					this.addItemsToList(data.aggregations[this.props.inputData].buckets);
+				}
+			}
+		}, {
+			key: 'addItemsToList',
+			value: function addItemsToList(newItems) {
+				var _this2 = this;
 
-	      newItems = newItems.map(function (item) {
-	        item.key = item.key.toString();
-	        item.status = _this2.defaultSelected && _this2.defaultSelected.indexOf(item.key) > -1 ? true : false;
-	        return item;
-	      });
-	      this.setState({
-	        items: newItems,
-	        storedItems: newItems
-	      });
-	    }
-	    // Handler function when a value is selected
+				newItems = newItems.map(function (item) {
+					item.key = item.key.toString();
+					item.status = _this2.defaultSelected && _this2.defaultSelected.indexOf(item.key) > -1 ? true : false;
+					return item;
+				});
+				this.setState({
+					items: newItems,
+					storedItems: newItems
+				});
+			}
+			// Handler function when a value is selected
 
-	  }, {
-	    key: 'handleSelect',
-	    value: function handleSelect(value) {
-	      this.setValue(value, true);
-	    }
-	    // Handler function when a value is deselected or removed
+		}, {
+			key: 'handleSelect',
+			value: function handleSelect(value) {
+				this.setValue(value, true);
+			}
+			// Handler function when a value is deselected or removed
 
-	  }, {
-	    key: 'handleRemove',
-	    value: function handleRemove(value) {
-	      var isExecuteQuery = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+		}, {
+			key: 'handleRemove',
+			value: function handleRemove(value) {
+				var isExecuteQuery = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-	      this.setValue(value, isExecuteQuery);
-	    }
-	    // set value
+				this.setValue(value, isExecuteQuery);
+			}
+			// set value
 
-	  }, {
-	    key: 'setValue',
-	    value: function setValue(value) {
-	      var isExecuteQuery = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+		}, {
+			key: 'setValue',
+			value: function setValue(value) {
+				var isExecuteQuery = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-	      var obj = {
-	        key: this.props.sensorId,
-	        value: value
-	      };
-	      helper.selectedSensor.set(obj, isExecuteQuery);
-	    }
-	    // selectAll
+				var obj = {
+					key: this.props.sensorId,
+					value: value
+				};
+				helper.selectedSensor.set(obj, isExecuteQuery);
+			}
+			// selectAll
 
-	  }, {
-	    key: 'selectAll',
-	    value: function selectAll(value, defaultSelected, cb) {
-	      var items = this.state.items.filter(function (item) {
-	        item.status = value;return item;
-	      });
-	      if (value) {
-	        this.defaultSelected = defaultSelected;
-	      }
-	      this.setState({
-	        items: items,
-	        storedItems: items,
-	        defaultSelectAll: value
-	      }, cb);
-	    }
-	    // filter
+		}, {
+			key: 'selectAll',
+			value: function selectAll(value, defaultSelected, cb) {
+				var items = this.state.items.filter(function (item) {
+					item.status = value;return item;
+				});
+				if (value) {
+					this.defaultSelected = defaultSelected;
+				}
+				this.setState({
+					items: items,
+					storedItems: items,
+					defaultSelectAll: value
+				}, cb);
+			}
+			// filter
 
-	  }, {
-	    key: 'filterBySearch',
-	    value: function filterBySearch(value) {
-	      if (value) {
-	        var items = this.state.storedItems.filter(function (item) {
-	          return item.key && item.key.toLowerCase().indexOf(value.toLowerCase()) > -1;
-	        });
-	        this.setState({
-	          items: items
-	        });
-	      } else {
-	        this.setState({
-	          items: this.state.storedItems
-	        });
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      // Checking if component is single select or multiple select
-	      var listComponent = void 0,
-	          searchComponent = null,
-	          title = null,
-	          titleExists = false;
-	      if (this.props.multipleSelect) {
-	        listComponent = _react2.default.createElement(_ItemCheckboxList.ItemCheckboxList, {
-	          items: this.state.items,
-	          onSelect: this.handleSelect,
-	          onRemove: this.handleRemove,
-	          showCount: this.props.showCount,
-	          selectAll: this.selectAll,
-	          defaultSelected: this.props.defaultSelected,
-	          includeSelectAll: this.props.includeSelectAll });
-	      } else {
-	        listComponent = _react2.default.createElement(_ItemList.ItemList, {
-	          items: this.state.items,
-	          onSelect: this.handleSelect,
-	          onRemove: this.handleRemove,
-	          showCount: this.props.showCount,
-	          defaultSelected: this.props.defaultSelected });
-	      }
+		}, {
+			key: 'filterBySearch',
+			value: function filterBySearch(value) {
+				if (value) {
+					var items = this.state.storedItems.filter(function (item) {
+						return item.key && item.key.toLowerCase().indexOf(value.toLowerCase()) > -1;
+					});
+					this.setState({
+						items: items
+					});
+				} else {
+					this.setState({
+						items: this.state.storedItems
+					});
+				}
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				// Checking if component is single select or multiple select
+				var listComponent = void 0,
+				    searchComponent = null,
+				    title = null,
+				    titleExists = false;
+				if (this.props.multipleSelect) {
+					listComponent = _react2.default.createElement(_ItemCheckboxList.ItemCheckboxList, {
+						items: this.state.items,
+						onSelect: this.handleSelect,
+						onRemove: this.handleRemove,
+						showCount: this.props.showCount,
+						selectAll: this.selectAll,
+						defaultSelected: this.props.defaultSelected,
+						includeSelectAll: this.props.includeSelectAll });
+				} else {
+					listComponent = _react2.default.createElement(_ItemList.ItemList, {
+						items: this.state.items,
+						onSelect: this.handleSelect,
+						onRemove: this.handleRemove,
+						showCount: this.props.showCount,
+						defaultSelected: this.props.defaultSelected });
+				}
 
-	      // set static search
-	      if (this.props.staticSearch) {
-	        searchComponent = _react2.default.createElement(_StaticSearch.StaticSearch, {
-	          placeholder: this.props.searchPlaceholder,
-	          changeCallback: this.filterBySearch
-	        });
-	      }
+				// set static search
+				if (this.props.staticSearch) {
+					searchComponent = _react2.default.createElement(_StaticSearch.StaticSearch, {
+						placeholder: this.props.searchPlaceholder,
+						changeCallback: this.filterBySearch
+					});
+				}
 
-	      if (this.props.title) {
-	        titleExists = true;
-	        title = _react2.default.createElement(
-	          'h2',
-	          { className: 'componentTitle col s12' },
-	          this.props.title
-	        );
-	      }
+				if (this.props.title) {
+					titleExists = true;
+					title = _react2.default.createElement(
+						'h4',
+						{ className: 'componentTitle col s12 col-xs-12' },
+						this.props.title
+					);
+				}
 
-	      var listClass = 'reactiveComponent listComponent staticSearch-' + this.props.staticSearch + ' title-' + titleExists;
+				var listClass = 'reactiveComponent listComponent staticSearch-' + this.props.staticSearch + ' title-' + titleExists;
 
-	      return _react2.default.createElement(
-	        'div',
-	        { className: listClass },
-	        title,
-	        searchComponent,
-	        listComponent
-	      );
-	    }
-	  }]);
+				return _react2.default.createElement(
+					'div',
+					{ className: "col s12 col-xs-12 card thumbnail " + listClass, style: this.props.defaultStyle },
+					title,
+					searchComponent,
+					listComponent
+				);
+			}
+		}]);
 
-	  return AppbaseList;
+		return AppbaseList;
 	}(_react.Component);
 
 	AppbaseList.propTypes = {
-	  inputData: _react2.default.PropTypes.string.isRequired,
-	  size: _react2.default.PropTypes.number,
-	  showCount: _react2.default.PropTypes.bool,
-	  multipleSelect: _react2.default.PropTypes.bool,
-	  sort: _react2.default.PropTypes.string,
-	  includeSelectAll: _react2.default.PropTypes.bool
+		inputData: _react2.default.PropTypes.string.isRequired,
+		size: _react2.default.PropTypes.number,
+		showCount: _react2.default.PropTypes.bool,
+		multipleSelect: _react2.default.PropTypes.bool,
+		sort: _react2.default.PropTypes.string,
+		includeSelectAll: _react2.default.PropTypes.bool
 	};
 	// Default props value
 	AppbaseList.defaultProps = {
-	  showCount: true,
-	  multipleSelect: true,
-	  sort: 'count',
-	  size: 60,
-	  staticSearch: false,
-	  title: null,
-	  searchPlaceholder: 'Search',
-	  includeSelectAll: false
+		showCount: true,
+		multipleSelect: true,
+		sort: 'count',
+		size: 60,
+		staticSearch: false,
+		title: null,
+		searchPlaceholder: 'Search',
+		includeSelectAll: false,
+		defaultStyle: {
+			height: '500px',
+			overflow: 'auto'
+		}
 	};
 
 /***/ },
@@ -390,7 +404,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	exports.ItemCheckboxList = undefined;
 
@@ -413,300 +427,307 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Style = __webpack_require__(6);
 
 	var ItemCheckboxList = exports.ItemCheckboxList = function (_Component) {
-	  _inherits(ItemCheckboxList, _Component);
+		_inherits(ItemCheckboxList, _Component);
 
-	  function ItemCheckboxList(props) {
-	    _classCallCheck(this, ItemCheckboxList);
+		function ItemCheckboxList(props) {
+			_classCallCheck(this, ItemCheckboxList);
 
-	    var _this = _possibleConstructorReturn(this, (ItemCheckboxList.__proto__ || Object.getPrototypeOf(ItemCheckboxList)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (ItemCheckboxList.__proto__ || Object.getPrototypeOf(ItemCheckboxList)).call(this, props));
 
-	    _this.state = {
-	      selectedItems: []
-	    };
-	    _this.handleListClick = _this.handleListClick.bind(_this);
-	    _this.handleTagClick = _this.handleTagClick.bind(_this);
-	    _this.handleListClickAll = _this.handleListClickAll.bind(_this);
-	    return _this;
-	  }
+			_this.state = {
+				selectedItems: []
+			};
+			_this.handleListClick = _this.handleListClick.bind(_this);
+			_this.handleTagClick = _this.handleTagClick.bind(_this);
+			_this.handleListClickAll = _this.handleListClickAll.bind(_this);
+			return _this;
+		}
 
-	  _createClass(ItemCheckboxList, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      if (this.props.defaultSelected) {
-	        this.setState({
-	          selectedItems: this.props.defaultSelected
-	        }, function () {
-	          this.updateAction.bind(this);
-	          this.props.onSelect(this.state.selectedItems);
-	        }.bind(this));
-	      }
-	    }
-	    // remove selected types if not in the list
+		_createClass(ItemCheckboxList, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				if (this.props.defaultSelected) {
+					this.setState({
+						selectedItems: this.props.defaultSelected
+					}, function () {
+						this.updateAction.bind(this);
+						this.props.onSelect(this.state.selectedItems);
+					}.bind(this));
+				}
+			}
+			// remove selected types if not in the list
 
-	  }, {
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate() {
-	      var _this2 = this;
+		}, {
+			key: 'componentDidUpdate',
+			value: function componentDidUpdate() {
+				var _this2 = this;
 
-	      var updated = null;
-	      if (this.state.selectedItems) {
-	        updated = JSON.parse(JSON.stringify(this.state.selectedItems));
-	      }
-	      if (updated && updated.length && this.props.items && this.props.items.length) {
-	        updated = updated.filter(function (item) {
-	          var updatedFound = _this2.props.items.filter(function (propItem) {
-	            return propItem.key === item;
-	          });
-	          return updatedFound.length ? true : false;
-	        });
-	        if (updated.length !== this.state.selectedItems.length) {
-	          var isExecutable = updated.length ? false : true;
-	          this.props.onRemove(this.state.selectedItems, isExecutable);
-	          this.setState({
-	            'selectedItems': updated
-	          });
-	          if (updated.length) {
-	            this.props.onSelect(updated);
-	          }
-	        }
-	      }
-	    }
-	  }, {
-	    key: 'updateAction',
-	    value: function updateAction() {
-	      if (!this.state.selectedItems.length) {
-	        this.props.onSelect(null);
-	      }
-	    }
-	    // handler function for select all
+				var updated = null;
+				if (this.state.selectedItems) {
+					updated = JSON.parse(JSON.stringify(this.state.selectedItems));
+				}
+				if (updated && updated.length && this.props.items && this.props.items.length) {
+					updated = updated.filter(function (item) {
+						var updatedFound = _this2.props.items.filter(function (propItem) {
+							return propItem.key === item;
+						});
+						return updatedFound.length ? true : false;
+					});
+					if (updated.length !== this.state.selectedItems.length) {
+						var isExecutable = updated.length ? false : true;
+						this.props.onRemove(this.state.selectedItems, isExecutable);
+						this.setState({
+							'selectedItems': updated
+						});
+						if (updated.length) {
+							this.props.onSelect(updated);
+						}
+					}
+				}
+			}
+		}, {
+			key: 'updateAction',
+			value: function updateAction() {
+				if (!this.state.selectedItems.length) {
+					this.props.onSelect(null);
+				}
+			}
+			// handler function for select all
 
-	  }, {
-	    key: 'handleListClickAll',
-	    value: function handleListClickAll(value, selectedStatus) {
-	      this.props.selectAll(selectedStatus);
-	      var selectedItems = this.props.items.map(function (item) {
-	        return item.key;
-	      });
-	      selectedItems = selectedStatus ? selectedItems : [];
-	      this.setState({
-	        selectedItems: selectedItems
-	      }, function () {
-	        this.updateAction.bind(this);
-	        this.props.onSelect(this.state.selectedItems);
-	      }.bind(this));
-	    }
-	    // Handler function when a checkbox is clicked
+		}, {
+			key: 'handleListClickAll',
+			value: function handleListClickAll(value, selectedStatus) {
+				this.props.selectAll(selectedStatus);
+				var selectedItems = this.props.items.map(function (item) {
+					return item.key;
+				});
+				selectedItems = selectedStatus ? selectedItems : [];
+				this.setState({
+					selectedItems: selectedItems
+				}, function () {
+					this.updateAction.bind(this);
+					this.props.onSelect(this.state.selectedItems);
+				}.bind(this));
+			}
+			// Handler function when a checkbox is clicked
 
-	  }, {
-	    key: 'handleListClick',
-	    value: function handleListClick(value, selectedStatus) {
-	      // If the checkbox selectedStatus is true, then update selectedItems array
-	      if (selectedStatus) {
-	        this.props.onRemove(this.state.selectedItems, false);
-	        var updated = this.state.selectedItems;
-	        updated.push(value);
-	        this.setState({
-	          selectedItems: updated
-	        }, this.updateAction.bind(this));
-	        // Pass the props to parent components to add to the Query
-	        if (this.state.selectedItems.length) {
-	          this.props.onSelect(this.state.selectedItems);
-	        }
-	      }
-	      // If the checkbox selectedStatus is false
-	      // Call handleTagClick to remove it from the selected Items
-	      else {
-	          this.handleTagClick(value);
-	        }
-	    }
-	    // Handler function when a cancel button on tag is clicked to remove it
+		}, {
+			key: 'handleListClick',
+			value: function handleListClick(value, selectedStatus) {
+				// If the checkbox selectedStatus is true, then update selectedItems array
+				if (selectedStatus) {
+					this.props.onRemove(this.state.selectedItems, false);
+					var updated = this.state.selectedItems;
+					updated.push(value);
+					this.setState({
+						selectedItems: updated
+					}, this.updateAction.bind(this));
+					// Pass the props to parent components to add to the Query
+					if (this.state.selectedItems.length) {
+						this.props.onSelect(this.state.selectedItems);
+					}
+				}
+				// If the checkbox selectedStatus is false
+				// Call handleTagClick to remove it from the selected Items
+				else {
+						this.handleTagClick(value);
+					}
+			}
+			// Handler function when a cancel button on tag is clicked to remove it
 
-	  }, {
-	    key: 'handleTagClick',
-	    value: function handleTagClick(value) {
-	      // Pass the older value props to parent components to remove older list in terms query
-	      var isExecutable = this.state.selectedItems.length === 1 ? true : false;
-	      this.props.onRemove(this.state.selectedItems, isExecutable);
-	      var keyRef = value.toString().replace(/ /g, '_');
-	      var checkboxElement = eval('this.refs.ref' + keyRef);
-	      checkboxElement.state.status = false;
-	      var updated = this.state.selectedItems;
-	      var index = updated.indexOf(value);
-	      updated.splice(index, 1);
-	      this.setState({
-	        selectedItems: updated
-	      }, this.updateAction.bind(this));
-	      // Pass the removed value props to parent components to add updated list in terms query
-	      if (this.state.selectedItems.length) {
-	        this.props.onSelect(this.state.selectedItems);
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var items = this.props.items;
-	      var selectedItems = this.state.selectedItems;
-	      var ListItemsArray = [];
-	      var TagItemsArray = [];
-	      // Build the array for the checkboxList items
-	      items.forEach(function (item, index) {
-	        try {
-	          item.keyRef = item.key.replace(/ /g, '_');
-	        } catch (e) {
-	          item.keyRef = index;
-	          console.log(item, e);
-	        }
-	        ListItemsArray.push(_react2.default.createElement(ListItem, {
-	          key: item.keyRef,
-	          value: item.key,
-	          doc_count: item.doc_count,
-	          countField: this.props.showCount,
-	          handleClick: this.handleListClick,
-	          status: item.status || false,
-	          ref: "ref" + item.keyRef }));
-	      }.bind(this));
-	      // include select all if set from parent
-	      if (this.props.includeSelectAll && items && items.length) {
-	        ListItemsArray.unshift(_react2.default.createElement(ListItem, {
-	          key: 'selectall',
-	          value: 'Select All',
-	          countField: false,
-	          handleClick: this.handleListClickAll,
-	          status: this.props.defaultSelectall || false,
-	          ref: "refselectall" }));
-	      }
-	      // Build the array of Tags for selected items
-	      if (this.props.showTags && selectedItems) {
-	        selectedItems.forEach(function (item) {
-	          TagItemsArray.push(_react2.default.createElement(Tag, {
-	            key: item,
-	            value: item,
-	            onClick: this.handleTagClick }));
-	        }.bind(this));
-	      }
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'listContainer' },
-	        TagItemsArray,
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          ListItemsArray
-	        )
-	      );
-	    }
-	  }]);
+		}, {
+			key: 'handleTagClick',
+			value: function handleTagClick(value) {
+				// Pass the older value props to parent components to remove older list in terms query
+				var isExecutable = this.state.selectedItems.length === 1 ? true : false;
+				this.props.onRemove(this.state.selectedItems, isExecutable);
+				var keyRef = value.toString().replace(/ /g, '_');
+				var ref = 'ref' + keyRef;
+				var checkboxElement = this.refs[ref];
+				checkboxElement.state.status = false;
+				var updated = this.state.selectedItems;
+				var index = updated.indexOf(value);
+				updated.splice(index, 1);
+				this.setState({
+					selectedItems: updated
+				}, this.updateAction.bind(this));
+				// Pass the removed value props to parent components to add updated list in terms query
+				if (this.state.selectedItems.length) {
+					this.props.onSelect(this.state.selectedItems);
+				}
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var items = this.props.items;
+				var selectedItems = this.state.selectedItems;
+				var ListItemsArray = [];
+				var TagItemsArray = [];
+				// Build the array for the checkboxList items
+				items.forEach(function (item, index) {
+					try {
+						item.keyRef = item.key.replace(/ /g, '_');
+					} catch (e) {
+						item.keyRef = index;
+						console.log(item, e);
+					}
+					ListItemsArray.push(_react2.default.createElement(ListItem, {
+						key: item.keyRef,
+						value: item.key,
+						doc_count: item.doc_count,
+						countField: this.props.showCount,
+						handleClick: this.handleListClick,
+						status: item.status || false,
+						ref: "ref" + item.keyRef }));
+				}.bind(this));
+				// include select all if set from parent
+				if (this.props.includeSelectAll && items && items.length) {
+					ListItemsArray.unshift(_react2.default.createElement(ListItem, {
+						key: 'selectall',
+						value: 'Select All',
+						countField: false,
+						handleClick: this.handleListClickAll,
+						status: this.props.defaultSelectall || false,
+						ref: "refselectall" }));
+				}
+				// Build the array of Tags for selected items
+				if (this.props.showTags && selectedItems) {
+					selectedItems.forEach(function (item) {
+						TagItemsArray.push(_react2.default.createElement(Tag, {
+							key: item,
+							value: item,
+							onClick: this.handleTagClick }));
+					}.bind(this));
+				}
+				return _react2.default.createElement(
+					'div',
+					{ className: 'listContainer col s12 col-xs-12' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						TagItemsArray
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						ListItemsArray
+					)
+				);
+			}
+		}]);
 
-	  return ItemCheckboxList;
+		return ItemCheckboxList;
 	}(_react.Component);
 
 	ItemCheckboxList.defaultProps = {
-	  showTags: true
+		showTags: true
 	};
 
 	var ListItem = function (_Component2) {
-	  _inherits(ListItem, _Component2);
+		_inherits(ListItem, _Component2);
 
-	  function ListItem(props) {
-	    _classCallCheck(this, ListItem);
+		function ListItem(props) {
+			_classCallCheck(this, ListItem);
 
-	    var _this3 = _possibleConstructorReturn(this, (ListItem.__proto__ || Object.getPrototypeOf(ListItem)).call(this, props));
+			var _this3 = _possibleConstructorReturn(this, (ListItem.__proto__ || Object.getPrototypeOf(ListItem)).call(this, props));
 
-	    _this3.state = {
-	      initialStatus: _this3.props.status,
-	      status: _this3.props.status || false
-	    };
-	    return _this3;
-	  }
+			_this3.state = {
+				initialStatus: _this3.props.status,
+				status: _this3.props.status || false
+			};
+			return _this3;
+		}
 
-	  _createClass(ListItem, [{
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate() {
-	      if (this.props.status !== this.state.initialStatus) {
-	        this.setState({
-	          status: this.props.status,
-	          initialStatus: this.props.status
-	        });
-	      }
-	    }
-	  }, {
-	    key: 'handleClick',
-	    value: function handleClick() {
-	      this.setState({
-	        status: !this.state.status
-	      });
-	      this.props.handleClick(this.props.value, !this.state.status);
-	    }
-	  }, {
-	    key: 'handleCheckboxChange',
-	    value: function handleCheckboxChange(event) {
-	      this.setState({
-	        status: event.target.checked
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var count = void 0;
-	      // Check if the user has set to display countField 
-	      if (this.props.countField) {
-	        count = _react2.default.createElement(
-	          'label',
-	          null,
-	          ' (',
-	          this.props.doc_count,
-	          ') '
-	        );
-	      }
-	      return _react2.default.createElement(
-	        'div',
-	        { onClick: this.handleClick.bind(this), className: 'listItem checkboxItem' },
-	        _react2.default.createElement('input', { type: 'checkbox',
-	          checked: this.state.status,
-	          onChange: this.handleCheckboxChange.bind(this) }),
-	        _react2.default.createElement(
-	          'label',
-	          null,
-	          this.props.value
-	        ),
-	        count
-	      );
-	    }
-	  }]);
+		_createClass(ListItem, [{
+			key: 'componentDidUpdate',
+			value: function componentDidUpdate() {
+				if (this.props.status !== this.state.initialStatus) {
+					this.setState({
+						status: this.props.status,
+						initialStatus: this.props.status
+					});
+				}
+			}
+		}, {
+			key: 'handleClick',
+			value: function handleClick() {
+				this.setState({
+					status: !this.state.status
+				});
+				this.props.handleClick(this.props.value, !this.state.status);
+			}
+		}, {
+			key: 'handleCheckboxChange',
+			value: function handleCheckboxChange(event) {
+				this.setState({
+					status: event.target.checked
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var count = void 0;
+				// Check if the user has set to display countField
+				if (this.props.countField) {
+					count = _react2.default.createElement(
+						'span',
+						null,
+						' (',
+						this.props.doc_count,
+						') '
+					);
+				}
+				return _react2.default.createElement(
+					'div',
+					{ onClick: this.handleClick.bind(this), className: 'listItem checkboxItem col s12 col-xs-12' },
+					_react2.default.createElement('input', { type: 'checkbox',
+						checked: this.state.status,
+						onChange: this.handleCheckboxChange.bind(this) }),
+					_react2.default.createElement(
+						'label',
+						null,
+						' ',
+						this.props.value,
+						' ',
+						count
+					)
+				);
+			}
+		}]);
 
-	  return ListItem;
+		return ListItem;
 	}(_react.Component);
 
 	var Tag = function (_Component3) {
-	  _inherits(Tag, _Component3);
+		_inherits(Tag, _Component3);
 
-	  function Tag(props) {
-	    _classCallCheck(this, Tag);
+		function Tag(props) {
+			_classCallCheck(this, Tag);
 
-	    return _possibleConstructorReturn(this, (Tag.__proto__ || Object.getPrototypeOf(Tag)).call(this, props));
-	  }
+			return _possibleConstructorReturn(this, (Tag.__proto__ || Object.getPrototypeOf(Tag)).call(this, props));
+		}
 
-	  _createClass(Tag, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'span',
-	        { onClick: this.props.onClick.bind(null, this.props.value), className: 'tagItem' },
-	        _react2.default.createElement(
-	          'span',
-	          null,
-	          this.props.value
-	        ),
-	        _react2.default.createElement(
-	          'span',
-	          { className: 'close' },
-	          'x'
-	        )
-	      );
-	    }
-	  }]);
+		_createClass(Tag, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'span',
+					{ onClick: this.props.onClick.bind(null, this.props.value), className: 'tagItem col' },
+					_react2.default.createElement(
+						'span',
+						null,
+						this.props.value
+					),
+					_react2.default.createElement(
+						'a',
+						{ href: 'javascript:void(0)', className: 'close-tag' },
+						' x '
+					)
+				);
+			}
+		}]);
 
-	  return Tag;
+		return Tag;
 	}(_react.Component);
 
 /***/ },
@@ -716,80 +737,80 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 
 	module.exports = {
-	    inputStyle: {
-	        "backgroundColor": "white",
-	        "border": "1px solid transparent",
-	        "borderRadius": "1px",
-	        "boxShadow": "0 2px 6px rgba(0, 0, 0, 0.3)",
-	        "boxSizing": "border-box",
-	        "MozBoxSizing": "border-box",
-	        "fontSize": "14px",
-	        "height": "32px",
-	        "marginTop": "27px",
-	        "outline": "none",
-	        "padding": "0 12px",
-	        "textOverflow": "ellipses",
-	        "width": "400px"
-	    },
-	    divStatusStyle: {
-	        position: 'absolute',
-	        top: '15px',
-	        right: '15px'
-	    },
-	    divAppbaseStyle: {
-	        position: 'absolute',
-	        width: '200px',
-	        bottom: '15px',
-	        left: '0px',
-	        right: '0px',
-	        marginLeft: 'auto',
-	        marginRight: 'auto',
-	        textAlign: 'center'
-	    },
-	    divContainer: {
-	        padding: "1em"
-	    },
-	    divListTag: {
-	        backgroundColor: "#ddd",
-	        margin: "5px",
-	        padding: "5px",
-	        lineHeight: "20px",
-	        display: "inline-block"
-	    },
-	    divListItem: {
-	        margin: "5px",
-	        padding: "3px"
-	    },
-	    divScroll: {
-	        overflow: "auto",
-	        height: "400px",
-	        width: "100%",
-	        margin: "5px"
-	    },
-	    searchBox: {
-	        border: "1px solid transparent",
-	        height: "32px",
-	        marginTop: "27px",
-	        outline: "none",
-	        padding: "0px 12px",
-	        width: "400px",
-	        position: "absolute",
-	        left: "114px",
-	        top: "0px",
-	        backgroundColor: "white"
-	    },
-	    listItem: {
-	        margin: "5px",
-	        padding: "3px"
-	    },
-	    selectedListItem: {
-	        margin: "5px",
-	        padding: "3px",
-	        fontWeight: "bold"
-	    },
-	    fullHeightDiv: {
-	        height: "100%"
-	    }
+		inputStyle: {
+			"backgroundColor": "white",
+			"border": "1px solid transparent",
+			"borderRadius": "1px",
+			"boxShadow": "0 2px 6px rgba(0, 0, 0, 0.3)",
+			"boxSizing": "border-box",
+			"MozBoxSizing": "border-box",
+			"fontSize": "14px",
+			"height": "32px",
+			"marginTop": "27px",
+			"outline": "none",
+			"padding": "0 12px",
+			"textOverflow": "ellipses",
+			"width": "400px"
+		},
+		divStatusStyle: {
+			position: 'absolute',
+			top: '15px',
+			right: '15px'
+		},
+		divAppbaseStyle: {
+			position: 'absolute',
+			width: '200px',
+			bottom: '15px',
+			left: '0px',
+			right: '0px',
+			marginLeft: 'auto',
+			marginRight: 'auto',
+			textAlign: 'center'
+		},
+		divContainer: {
+			padding: "1em"
+		},
+		divListTag: {
+			backgroundColor: "#ddd",
+			margin: "5px",
+			padding: "5px",
+			lineHeight: "20px",
+			display: "inline-block"
+		},
+		divListItem: {
+			margin: "5px",
+			padding: "3px"
+		},
+		divScroll: {
+			overflow: "auto",
+			height: "400px",
+			width: "100%",
+			margin: "5px"
+		},
+		searchBox: {
+			border: "1px solid transparent",
+			height: "32px",
+			marginTop: "27px",
+			outline: "none",
+			padding: "0px 12px",
+			width: "400px",
+			position: "absolute",
+			left: "114px",
+			top: "0px",
+			backgroundColor: "white"
+		},
+		listItem: {
+			margin: "5px",
+			padding: "3px"
+		},
+		selectedListItem: {
+			margin: "5px",
+			padding: "3px",
+			fontWeight: "bold"
+		},
+		fullHeightDiv: {
+			height: "100%"
+		}
 	};
 
 /***/ },
@@ -799,7 +820,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	exports.ItemList = undefined;
 
@@ -822,119 +843,178 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Style = __webpack_require__(6);
 
 	var ItemList = exports.ItemList = function (_Component) {
-	  _inherits(ItemList, _Component);
+		_inherits(ItemList, _Component);
 
-	  function ItemList(props) {
-	    _classCallCheck(this, ItemList);
+		function ItemList(props) {
+			_classCallCheck(this, ItemList);
 
-	    var _this = _possibleConstructorReturn(this, (ItemList.__proto__ || Object.getPrototypeOf(ItemList)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (ItemList.__proto__ || Object.getPrototypeOf(ItemList)).call(this, props));
 
-	    _this.state = {
-	      selectedItem: []
-	    };
-	    _this.defaultAllowed = true;
-	    _this.handleClick = _this.handleClick.bind(_this);
-	    return _this;
-	  }
+			_this.state = {
+				selectedItem: []
+			};
+			_this.defaultAllowed = true;
+			_this.handleClick = _this.handleClick.bind(_this);
+			return _this;
+		}
 
-	  _createClass(ItemList, [{
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate() {
-	      if (this.props.items.length && this.defaultAllowed) {
-	        this.defaultAllowed = false;
-	        this.defaultSelection();
-	      }
-	    }
-	  }, {
-	    key: 'defaultSelection',
-	    value: function defaultSelection() {
-	      if (this.props.defaultSelected) {
-	        this.handleClick(this.props.defaultSelected);
-	      }
-	    }
-	    // Handler function is called when the list item is clicked
+		_createClass(ItemList, [{
+			key: 'componentDidUpdate',
+			value: function componentDidUpdate() {
+				if (this.props.items.length && this.defaultAllowed) {
+					this.defaultAllowed = false;
+					this.defaultSelection();
+				}
+			}
+		}, {
+			key: 'defaultSelection',
+			value: function defaultSelection() {
+				if (this.props.defaultSelected) {
+					this.handleClick(this.props.defaultSelected);
+				}
+			}
+			// Handler function is called when the list item is clicked
 
-	  }, {
-	    key: 'handleClick',
-	    value: function handleClick(value) {
-	      // Pass the previously selected value to be removed from the query
-	      this.props.onRemove(this.state.selectedItem);
-	      // Pass the new selected value to be added to the query    
-	      this.props.onSelect(value);
-	      this.setState({
-	        selectedItem: value
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var items = this.props.items;
-	      var itemsComponent = [];
-	      // Build the array of components for each item
-	      items.forEach(function (item) {
-	        itemsComponent.push(_react2.default.createElement(ItemRow, {
-	          key: item.key,
-	          value: item.key,
-	          doc_count: item.doc_count,
-	          countField: this.props.showCount,
-	          handleClick: this.handleClick,
-	          selectedItem: this.state.selectedItem }));
-	      }.bind(this));
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'listContainer' },
-	        itemsComponent
-	      );
-	    }
-	  }]);
+		}, {
+			key: 'handleClick',
+			value: function handleClick(value) {
+				// Pass the previously selected value to be removed from the query
+				this.props.onRemove(this.state.selectedItem);
+				// Pass the new selected value to be added to the query
+				this.props.onSelect(value);
+				this.setState({
+					selectedItem: value
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var items = this.props.items;
+				var itemsComponent = [];
+				// Build the array of components for each item
+				items.forEach(function (item) {
+					itemsComponent.push(_react2.default.createElement(ItemRow, {
+						key: item.key,
+						value: item.key,
+						doc_count: item.doc_count,
+						countField: this.props.showCount,
+						handleClick: this.handleClick,
+						selectedItem: this.state.selectedItem }));
+				}.bind(this));
+				return _react2.default.createElement(
+					'div',
+					{ className: 'listContainer col s12 col-xs-12' },
+					itemsComponent
+				);
+			}
+		}]);
 
-	  return ItemList;
+		return ItemList;
 	}(_react.Component);
 
 	var ItemRow = function (_Component2) {
-	  _inherits(ItemRow, _Component2);
+		_inherits(ItemRow, _Component2);
 
-	  function ItemRow(props) {
-	    _classCallCheck(this, ItemRow);
+		function ItemRow(props) {
+			_classCallCheck(this, ItemRow);
 
-	    return _possibleConstructorReturn(this, (ItemRow.__proto__ || Object.getPrototypeOf(ItemRow)).call(this, props));
-	  }
+			return _possibleConstructorReturn(this, (ItemRow.__proto__ || Object.getPrototypeOf(ItemRow)).call(this, props));
+		}
 
-	  _createClass(ItemRow, [{
-	    key: 'render',
-	    value: function render() {
-	      var count = void 0;
-	      // Check if user wants to show count field
-	      if (this.props.countField) {
-	        count = _react2.default.createElement(
-	          'span',
-	          null,
-	          ' (',
-	          this.props.doc_count,
-	          ') '
-	        );
-	      }
-	      var activeClass = this.props.value === this.props.selectedItem ? 'active' : '';
-	      return _react2.default.createElement(
-	        'div',
-	        { onClick: this.props.handleClick.bind(null, this.props.value), className: 'listItem' },
-	        _react2.default.createElement(
-	          'a',
-	          { href: 'javascript:void(0)', className: activeClass },
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            ' ',
-	            this.props.value,
-	            ' '
-	          ),
-	          count
-	        )
-	      );
-	    }
-	  }]);
+		_createClass(ItemRow, [{
+			key: 'renderItem',
+			value: function renderItem() {
+				var count = void 0;
+				// Check if user wants to show count field
+				if (this.props.countField) {
+					count = _react2.default.createElement(
+						'span',
+						null,
+						' (',
+						this.props.doc_count,
+						') '
+					);
+				}
+				var item = _react2.default.createElement(
+					'a',
+					{ href: 'javascript:void(0)', className: "col s12 col-xs-12" },
+					_react2.default.createElement(
+						'span',
+						null,
+						' ',
+						this.props.value,
+						' '
+					),
+					count
+				);
+				if (this.props.value === this.props.selectedItem) {
+					item = _react2.default.createElement(
+						'a',
+						{ href: 'javascript:void(0)', className: "col s12 col-xs-12" },
+						_react2.default.createElement(
+							'strong',
+							null,
+							_react2.default.createElement(
+								'span',
+								null,
+								' ',
+								this.props.value,
+								' '
+							),
+							count
+						)
+					);
+				}
+				return item;
+			}
+		}, {
+			key: 'renderCount',
+			value: function renderCount() {
+				var count = void 0;
+				// Check if user wants to show count field
+				if (this.props.countField) {
+					count = _react2.default.createElement(
+						'span',
+						null,
+						' (',
+						this.props.doc_count,
+						') '
+					);
+				}
+				return count;
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _this3 = this;
 
-	  return ItemRow;
+				// let activeClass = this.props.value === this.props.selectedItem ? 'active' : '';
+				return _react2.default.createElement(
+					'div',
+					{ className: 'listItem row', onClick: function onClick() {
+							return _this3.props.handleClick(_this3.props.value);
+						} },
+					_react2.default.createElement(
+						'div',
+						{ className: 'col s12 col-xs-12 radioItem' },
+						_react2.default.createElement('input', { type: 'radio',
+							checked: this.props.value === this.props.selectedItem,
+							name: 'radioItem', id: 'radioItem',
+							value: this.props.value }),
+						_react2.default.createElement(
+							'label',
+							null,
+							' ',
+							this.props.value,
+							' ',
+							this.renderCount()
+						)
+					)
+				);
+			}
+		}]);
+
+		return ItemRow;
 	}(_react.Component);
 
 /***/ },
@@ -944,7 +1024,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -958,204 +1038,204 @@ return /******/ (function(modules) { // webpackBootstrap
 	var helper = __webpack_require__(16);
 
 	var ImmutableQuery = function () {
-	  function ImmutableQuery() {
-	    _classCallCheck(this, ImmutableQuery);
+		function ImmutableQuery() {
+			_classCallCheck(this, ImmutableQuery);
 
-	    this.shouldArray = [];
-	    this.mustArray = [];
-	    this.filterArray = [];
-	    this.config = [];
-	    this.aggs = {};
-	    this.queryListener();
-	  }
+			this.shouldArray = [];
+			this.mustArray = [];
+			this.filterArray = [];
+			this.config = [];
+			this.aggs = {};
+			this.queryListener();
+		}
 
-	  _createClass(ImmutableQuery, [{
-	    key: 'setConfig',
-	    value: function setConfig(config) {
-	      this.config = config;
-	    }
-	  }, {
-	    key: 'addShouldClause',
-	    value: function addShouldClause(key, value, type) {
-	      var isExecuteQuery = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-	      var includeGeo = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-	      var queryLevel = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "must";
+		_createClass(ImmutableQuery, [{
+			key: 'setConfig',
+			value: function setConfig(config) {
+				this.config = config;
+			}
+		}, {
+			key: 'addShouldClause',
+			value: function addShouldClause(key, value, type) {
+				var isExecuteQuery = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+				var includeGeo = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
+				var queryLevel = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "must";
 
-	      if (value === undefined || value === null) {
-	        return;
-	      }
-	      var obj = eval('this.get' + type + 'Object(key, value)');
-	      var arr = queryLevel === 'should' ? this.shouldArray : this.mustArray;
-	      arr.push(obj);
-	      return this.buildQuery(includeGeo, isExecuteQuery);
-	    }
-	  }, {
-	    key: 'removeShouldClause',
-	    value: function removeShouldClause(key, value, type) {
-	      var isExecuteQuery = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-	      var includeGeo = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-	      var queryLevel = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "must";
+				if (value === undefined || value === null) {
+					return;
+				}
+				var obj = eval('this.get' + type + 'Object(key, value)');
+				var arr = queryLevel === 'should' ? this.shouldArray : this.mustArray;
+				arr.push(obj);
+				return this.buildQuery(includeGeo, isExecuteQuery);
+			}
+		}, {
+			key: 'removeShouldClause',
+			value: function removeShouldClause(key, value, type) {
+				var isExecuteQuery = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+				var includeGeo = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
+				var queryLevel = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "must";
 
-	      if (value === undefined || value === null) {
-	        return;
-	      }
-	      var arr = queryLevel === 'must' ? this.mustArray : this.shouldArray;
-	      var index = this.getArrayIndex(arr, key, value, type);
-	      if (index >= 0) {
-	        arr.splice(index, 1);
-	      }
-	      return this.buildQuery(includeGeo, isExecuteQuery);
-	    }
-	  }, {
-	    key: 'updateGeoFilter',
-	    value: function updateGeoFilter(key, boundingBoxCoordinates, geoFlag) {
-	      if (typeof geoFlag !== 'undefined' && !geoFlag) {} else {
-	        var geoObject = JSON.parse('{"' + key + '":' + JSON.stringify(boundingBoxCoordinates) + '}');
-	        this.filterArray[0] = { geo_bounding_box: geoObject };
-	      }
-	      var geoFlag = typeof geoFlag !== 'undefined' ? geoFlag : true;
-	      return this.buildQuery(geoFlag);
-	    }
-	  }, {
-	    key: 'addAggregation',
-	    value: function addAggregation(key, size, sort) {
-	      var order = void 0,
-	          type = void 0;
-	      if (sort == "count") {
-	        order = "desc";
-	        type = "_count";
-	      } else if (sort == "asc") {
-	        order = "asc";
-	        type = "_term";
-	      } else {
-	        order = "desc";
-	        type = "_term";
-	      }
-	      var orderQuery = '{ \n      "' + type + '" : "' + order + '" \n    }';
-	      this.aggs = JSON.parse('{\n      "' + key + '": {\n        "terms": {\n          "field": "' + key + '",\n          "size": ' + size + ',\n          "order": ' + orderQuery + '\n        }\n      }\n    }');
-	      var mustArray = JSON.parse(JSON.stringify(this.mustArray));
-	      mustArray = mustArray.filter(function (query) {
-	        return !query.hasOwnProperty('terms');
-	      });
-	      var query = {
-	        type: this.config.type,
-	        body: {
-	          "size": 100,
-	          "aggs": this.aggs,
-	          "query": {
-	            "bool": {
-	              "must": mustArray
-	            }
-	          }
-	        }
-	      };
-	      return query;
-	    }
-	  }, {
-	    key: 'buildQuery',
-	    value: function buildQuery(includeGeo, isExecuteQuery) {
-	      var shouldArray = JSON.parse(JSON.stringify(this.shouldArray));
-	      var mustObject = {
-	        bool: {
-	          must: this.mustArray
-	        }
-	      };
-	      shouldArray.push(mustObject);
-	      if (includeGeo) {
-	        var geoFilter = {
-	          bool: {
-	            filter: this.filterArray
-	          }
-	        };
-	        shouldArray.unshift(geoFilter);
-	      }
-	      this.query = {
-	        type: this.config.type,
-	        body: {
-	          "size": 100,
-	          "aggs": this.aggs,
-	          "query": {
-	            "bool": {
-	              "should": shouldArray,
-	              "minimum_should_match": 1
-	            }
-	          }
-	        }
-	      };
-	      if (isExecuteQuery) {
-	        emitter.emit('change', this.query);
-	      }
-	      return this.query;
-	    }
-	  }, {
-	    key: 'getTermObject',
-	    value: function getTermObject(key, value) {
-	      var term = JSON.parse('{"' + key + '":' + JSON.stringify(value) + '}');
-	      return { term: term };
-	    }
-	  }, {
-	    key: 'getTermsObject',
-	    value: function getTermsObject(key, value) {
-	      var terms = JSON.parse('{"' + key + '":' + JSON.stringify(value) + '}');
-	      return { terms: terms };
-	    }
-	  }, {
-	    key: 'getMatchObject',
-	    value: function getMatchObject(key, value) {
-	      value = value.toLowerCase();
-	      var match = JSON.parse('{"' + key + '":' + JSON.stringify(value) + '}');
-	      return { match: match };
-	    }
-	  }, {
-	    key: 'getRangeObject',
-	    value: function getRangeObject(key, value) {
-	      var rangeObj = {
-	        "gte": value.min,
-	        "lte": value.max
-	      };
-	      var range = JSON.parse('{"' + key + '":' + JSON.stringify(rangeObj) + '}');
-	      return { range: range };
-	    }
-	  }, {
-	    key: 'getArrayIndex',
-	    value: function getArrayIndex(array, key, value, type) {
-	      var obj = eval('this.get' + type + 'Object(key, value)');
-	      var encode64 = btoa(JSON.stringify(obj));
-	      for (var i = 0; i < array.length; i++) {
-	        if (btoa(JSON.stringify(array[i])) === encode64) {
-	          return i;
-	        }
-	      }
-	      return -1;
-	    }
-	    // Listener for query change
+				if (value === undefined || value === null) {
+					return;
+				}
+				var arr = queryLevel === 'must' ? this.mustArray : this.shouldArray;
+				var index = this.getArrayIndex(arr, key, value, type);
+				if (index >= 0) {
+					arr.splice(index, 1);
+				}
+				return this.buildQuery(includeGeo, isExecuteQuery);
+			}
+		}, {
+			key: 'updateGeoFilter',
+			value: function updateGeoFilter(key, boundingBoxCoordinates, geoFlag) {
+				if (typeof geoFlag !== 'undefined' && !geoFlag) {} else {
+					var geoObject = JSON.parse('{"' + key + '":' + JSON.stringify(boundingBoxCoordinates) + '}');
+					this.filterArray[0] = { geo_bounding_box: geoObject };
+				}
+				var geoFlag = typeof geoFlag !== 'undefined' ? geoFlag : true;
+				return this.buildQuery(geoFlag);
+			}
+		}, {
+			key: 'addAggregation',
+			value: function addAggregation(key, size, sort) {
+				var order = void 0,
+				    type = void 0;
+				if (sort == "count") {
+					order = "desc";
+					type = "_count";
+				} else if (sort == "asc") {
+					order = "asc";
+					type = "_term";
+				} else {
+					order = "desc";
+					type = "_term";
+				}
+				var orderQuery = '{\n\t\t\t"' + type + '" : "' + order + '"\n\t\t}';
+				this.aggs = JSON.parse('{\n\t\t\t"' + key + '": {\n\t\t\t\t"terms": {\n\t\t\t\t\t"field": "' + key + '",\n\t\t\t\t\t"size": ' + size + ',\n\t\t\t\t\t"order": ' + orderQuery + '\n\t\t\t\t}\n\t\t\t}\n\t\t}');
+				var mustArray = JSON.parse(JSON.stringify(this.mustArray));
+				mustArray = mustArray.filter(function (query) {
+					return !query.hasOwnProperty('terms');
+				});
+				var query = {
+					type: this.config.type,
+					body: {
+						"size": 100,
+						"aggs": this.aggs,
+						"query": {
+							"bool": {
+								"must": mustArray
+							}
+						}
+					}
+				};
+				return query;
+			}
+		}, {
+			key: 'buildQuery',
+			value: function buildQuery(includeGeo, isExecuteQuery) {
+				var shouldArray = JSON.parse(JSON.stringify(this.shouldArray));
+				var mustObject = {
+					bool: {
+						must: this.mustArray
+					}
+				};
+				shouldArray.push(mustObject);
+				if (includeGeo) {
+					var geoFilter = {
+						bool: {
+							filter: this.filterArray
+						}
+					};
+					shouldArray.unshift(geoFilter);
+				}
+				this.query = {
+					type: this.config.type,
+					body: {
+						"size": 100,
+						"aggs": this.aggs,
+						"query": {
+							"bool": {
+								"should": shouldArray,
+								"minimum_should_match": 1
+							}
+						}
+					}
+				};
+				if (isExecuteQuery) {
+					emitter.emit('change', this.query);
+				}
+				return this.query;
+			}
+		}, {
+			key: 'getTermObject',
+			value: function getTermObject(key, value) {
+				var term = JSON.parse('{"' + key + '":' + JSON.stringify(value) + '}');
+				return { term: term };
+			}
+		}, {
+			key: 'getTermsObject',
+			value: function getTermsObject(key, value) {
+				var terms = JSON.parse('{"' + key + '":' + JSON.stringify(value) + '}');
+				return { terms: terms };
+			}
+		}, {
+			key: 'getMatchObject',
+			value: function getMatchObject(key, value) {
+				value = value.toLowerCase();
+				var match = JSON.parse('{"' + key + '":' + JSON.stringify(value) + '}');
+				return { match: match };
+			}
+		}, {
+			key: 'getRangeObject',
+			value: function getRangeObject(key, value) {
+				var rangeObj = {
+					"gte": value.min,
+					"lte": value.max
+				};
+				var range = JSON.parse('{"' + key + '":' + JSON.stringify(rangeObj) + '}');
+				return { range: range };
+			}
+		}, {
+			key: 'getArrayIndex',
+			value: function getArrayIndex(array, key, value, type) {
+				var obj = eval('this.get' + type + 'Object(key, value)');
+				var encode64 = btoa(JSON.stringify(obj));
+				for (var i = 0; i < array.length; i++) {
+					if (btoa(JSON.stringify(array[i])) === encode64) {
+						return i;
+					}
+				}
+				return -1;
+			}
+			// Listener for query change
 
-	  }, {
-	    key: 'queryListener',
-	    value: function queryListener() {
-	      emitter.addListener('change', function (query) {
-	        this.executeQuery(query);
-	      }.bind(this));
-	    }
-	    // Execute query on query change
+		}, {
+			key: 'queryListener',
+			value: function queryListener() {
+				emitter.addListener('change', function (query) {
+					this.executeQuery(query);
+				}.bind(this));
+			}
+			// Execute query on query change
 
-	  }, {
-	    key: 'executeQuery',
-	    value: function executeQuery(reqObject) {
-	      // delete aggrefation query if exists
-	      if (reqObject.body && reqObject.body.hasOwnProperty('aggs')) {
-	        delete reqObject.body.aggs;
-	      }
-	      // apply search query and emit queryResult
-	      helper.appbaseRef.search(reqObject).on('data', function (data) {
-	        emitter.emit('queryResult', data);
-	      }).on('error', function (error) {
-	        console.log(error);
-	      });
-	    }
-	  }]);
+		}, {
+			key: 'executeQuery',
+			value: function executeQuery(reqObject) {
+				// delete aggrefation query if exists
+				if (reqObject.body && reqObject.body.hasOwnProperty('aggs')) {
+					delete reqObject.body.aggs;
+				}
+				// apply search query and emit queryResult
+				helper.appbaseRef.search(reqObject).on('data', function (data) {
+					emitter.emit('queryResult', data);
+				}).on('error', function (error) {
+					console.log(error);
+				});
+			}
+		}]);
 
-	  return ImmutableQuery;
+		return ImmutableQuery;
 	}();
 
 	var queryObject = exports.queryObject = new ImmutableQuery();
@@ -1306,7 +1386,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 	  BaseEventEmitter.prototype.removeCurrentListener = function removeCurrentListener() {
-	    !!!this._currentSubscription ?  true ? invariant(false, 'Not in an emitting cycle; there is no current subscription') : invariant(false) : undefined;
+	    !!!this._currentSubscription ? (undefined) !== 'production' ? invariant(false, 'Not in an emitting cycle; there is no current subscription') : invariant(false) : undefined;
 	    this._subscriber.removeSubscription(this._currentSubscription);
 	  };
 
@@ -1527,7 +1607,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 	  EventSubscriptionVendor.prototype.addSubscription = function addSubscription(eventType, subscription) {
-	    !(subscription.subscriber === this) ?  true ? invariant(false, 'The subscriber of the subscription is incorrectly set.') : invariant(false) : undefined;
+	    !(subscription.subscriber === this) ? (undefined) !== 'production' ? invariant(false, 'The subscriber of the subscription is incorrectly set.') : invariant(false) : undefined;
 	    if (!this._subscriptionsForType[eventType]) {
 	      this._subscriptionsForType[eventType] = [];
 	    }
@@ -1620,7 +1700,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	function invariant(condition, format, a, b, c, d, e, f) {
-	  if (true) {
+	  if ((undefined) !== 'production') {
 	    if (format === undefined) {
 	      throw new Error('invariant requires an error message argument');
 	    }
@@ -1696,7 +1776,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -1712,127 +1792,134 @@ return /******/ (function(modules) { // webpackBootstrap
 	var appbaseRef = exports.appbaseRef = void 0;
 	var appbaseConfig = exports.appbaseConfig = void 0;
 	function setConfigObject(config) {
-	  exports.appbaseConfig = appbaseConfig = config.appbase;
-	  exports.appbaseRef = appbaseRef = new Appbase({
-	    url: 'https://scalr.api.appbase.io',
-	    appname: config.appbase.appname,
-	    username: config.appbase.username,
-	    password: config.appbase.password
-	  });
+		exports.appbaseConfig = appbaseConfig = config.appbase;
+		exports.appbaseRef = appbaseRef = new Appbase({
+			url: 'https://scalr.api.appbase.io',
+			appname: config.appbase.appname,
+			username: config.appbase.username,
+			password: config.appbase.password
+		});
 	};
 	var mapStyles = exports.mapStyles = [{
-	  key: 'MapBox',
-	  value: __webpack_require__(97)
+		key: 'Standard',
+		value: __webpack_require__(97)
 	}, {
-	  key: 'Blue Essence',
-	  value: __webpack_require__(98)
+		key: 'Blue Essence',
+		value: __webpack_require__(98)
 	}, {
-	  key: 'Blue Water',
-	  value: __webpack_require__(99)
+		key: 'Blue Water',
+		value: __webpack_require__(99)
 	}, {
-	  key: 'Flat Map',
-	  value: __webpack_require__(100)
+		key: 'Flat Map',
+		value: __webpack_require__(100)
 	}, {
-	  key: 'Light Monochrome',
-	  value: __webpack_require__(101)
+		key: 'Light Monochrome',
+		value: __webpack_require__(101)
 	}, {
-	  key: 'Midnight Commander',
-	  value: __webpack_require__(102)
+		key: 'Midnight Commander',
+		value: __webpack_require__(102)
 	}, {
-	  key: 'Unsaturated Browns',
-	  value: __webpack_require__(103)
+		key: 'Unsaturated Browns',
+		value: __webpack_require__(103)
 	}];
 	function getMapStyle(styleName) {
-	  var selectedStyle = mapStyles.filter(function (style) {
-	    return style.key === styleName;
-	  });
-	  if (selectedStyle.length) {
-	    return selectedStyle[0].value;
-	  } else {
-	    return null;
-	  }
+		var selectedStyle = mapStyles.filter(function (style) {
+			return style.key === styleName;
+		});
+		if (selectedStyle.length) {
+			return selectedStyle[0].value;
+		} else {
+			return null;
+		}
 	}
 	var watchForDependencyChange = exports.watchForDependencyChange = function watchForDependencyChange(depends, previousSelectedSensor, cb, channelId) {
-	  var self = this;
-	  var selectedSensor = {};
-	  // check if depend object already exists
-	  var checkDependExists = function checkDependExists(depend) {
-	    if (!previousSelectedSensor.hasOwnProperty(depend)) {
-	      previousSelectedSensor[depend] = '';
-	    }
-	  };
-	  // apply depend changes when new value received
-	  var applyDependChange = function applyDependChange(depends, depend) {
-	    if (selectedSensor[depend] && _typeof(selectedSensor[depend]) === 'object') {
-	      previousSelectedSensor[depend] = JSON.parse(JSON.stringify(selectedSensor[depend]));
-	    } else {
-	      previousSelectedSensor[depend] = selectedSensor[depend];
-	    }
-	    if (!depends[depend].doNotExecute) {
-	      cb(depend, channelId);
-	    }
-	  };
+		var self = this;
+		var selectedSensor = {};
+		// check if depend object already exists
+		var checkDependExists = function checkDependExists(depend) {
+			if (!previousSelectedSensor.hasOwnProperty(depend)) {
+				previousSelectedSensor[depend] = '';
+			}
+		};
+		// apply depend changes when new value received
+		var applyDependChange = function applyDependChange(depends, depend) {
+			if (selectedSensor[depend] && _typeof(selectedSensor[depend]) === 'object') {
+				previousSelectedSensor[depend] = JSON.parse(JSON.stringify(selectedSensor[depend]));
+			} else {
+				previousSelectedSensor[depend] = selectedSensor[depend];
+			}
+			if (!depends[depend].doNotExecute) {
+				cb(depend, channelId);
+			}
+		};
 
-	  // initialize the process
-	  var init = function init() {
-	    for (var depend in depends) {
-	      checkDependExists(depend);
-	      if (_typeof(selectedSensor[depend]) === 'object') {
-	        if (JSON.stringify(selectedSensor[depend]) !== JSON.stringify(previousSelectedSensor[depend])) {
-	          applyDependChange(depends, depend);
-	        }
-	      } else {
-	        if (selectedSensor[depend] !== previousSelectedSensor[depend]) {
-	          applyDependChange(depends, depend);
-	        }
-	      }
-	    }
-	  };
+		// initialize the process
+		var init = function init() {
+			for (var depend in depends) {
+				checkDependExists(depend);
+				if (_typeof(selectedSensor[depend]) === 'object') {
+					if (JSON.stringify(selectedSensor[depend]) !== JSON.stringify(previousSelectedSensor[depend])) {
+						applyDependChange(depends, depend);
+					}
+				} else {
+					if (selectedSensor[depend] !== previousSelectedSensor[depend]) {
+						applyDependChange(depends, depend);
+					}
+				}
+			}
+		};
 
-	  sensorEmitter.addListener('sensorChange', function (data) {
-	    selectedSensor = data;
-	    init();
-	  });
+		sensorEmitter.addListener('sensorChange', function (data) {
+			selectedSensor = data;
+			init();
+		});
 	};
 
 	function selectedSensorFn() {
-	  var self = this;
-	  this.selectedSensor = {};
-	  this.sensorInfo = {};
+		var self = this;
+		this.selectedSensor = {};
+		this.sensorInfo = {};
+		this.sortInfo = {};
 
-	  // Get
-	  var get = function get(prop, obj) {
-	    if (obj) {
-	      return self[obj][prop];
-	    } else {
-	      if (prop) {
-	        return self.selectedSensor[prop];
-	      } else {
-	        return self.selectedSensor;
-	      }
-	    }
-	  };
+		// Get
+		var get = function get(prop, obj) {
+			if (obj) {
+				return self[obj][prop];
+			} else {
+				if (prop) {
+					return self.selectedSensor[prop];
+				} else {
+					return self.selectedSensor;
+				}
+			}
+		};
 
-	  // Set
-	  var set = function set(obj) {
-	    var isExecuteUpdate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+		// Set
+		var set = function set(obj) {
+			var isExecuteUpdate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-	    self.selectedSensor[obj.key] = obj.value;
-	    if (isExecuteUpdate) {
-	      sensorEmitter.emit('sensorChange', self.selectedSensor);
-	    }
-	  };
+			self.selectedSensor[obj.key] = obj.value;
+			if (isExecuteUpdate) {
+				sensorEmitter.emit('sensorChange', self.selectedSensor);
+			}
+		};
 
-	  // Set fieldname
-	  var setSensorInfo = function setSensorInfo(obj) {
-	    self.sensorInfo[obj.key] = obj.value;
-	  };
+		// Set fieldname
+		var setSensorInfo = function setSensorInfo(obj) {
+			self.sensorInfo[obj.key] = obj.value;
+		};
 
-	  return {
-	    get: get,
-	    set: set,
-	    setSensorInfo: setSensorInfo
-	  };
+		// Set sort info
+		var setSortInfo = function setSortInfo(obj) {
+			self.sortInfo[obj.key] = obj.value;
+		};
+
+		return {
+			get: get,
+			set: set,
+			setSensorInfo: setSensorInfo,
+			setSortInfo: setSortInfo
+		};
 	};
 	var selectedSensor = exports.selectedSensor = new selectedSensorFn();
 
@@ -15771,7 +15858,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	// https://snazzymaps.com/style/44/mapbox
 	module.exports = [{ "featureType": "water", "stylers": [{ "saturation": 43 }, { "lightness": -11 }, { "hue": "#0088ff" }] }, { "featureType": "road", "elementType": "geometry.fill", "stylers": [{ "hue": "#ff0000" }, { "saturation": -100 }, { "lightness": 99 }] }, { "featureType": "road", "elementType": "geometry.stroke", "stylers": [{ "color": "#808080" }, { "lightness": 54 }] }, { "featureType": "landscape.man_made", "elementType": "geometry.fill", "stylers": [{ "color": "#ece2d9" }] }, { "featureType": "poi.park", "elementType": "geometry.fill", "stylers": [{ "color": "#ccdca1" }] }, { "featureType": "road", "elementType": "labels.text.fill", "stylers": [{ "color": "#767676" }] }, { "featureType": "road", "elementType": "labels.text.stroke", "stylers": [{ "color": "#ffffff" }] }, { "featureType": "poi", "stylers": [{ "visibility": "off" }] }, { "featureType": "landscape.natural", "elementType": "geometry.fill", "stylers": [{ "visibility": "on" }, { "color": "#b8cb93" }] }, { "featureType": "poi.park", "stylers": [{ "visibility": "on" }] }, { "featureType": "poi.sports_complex", "stylers": [{ "visibility": "on" }] }, { "featureType": "poi.medical", "stylers": [{ "visibility": "on" }] }, { "featureType": "poi.business", "stylers": [{ "visibility": "simplified" }] }];
 
 /***/ },
@@ -15835,10 +15921,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -15849,188 +15937,263 @@ return /******/ (function(modules) { // webpackBootstrap
 	var helper = __webpack_require__(16);
 
 	var channelManager = function () {
-	  function channelManager() {
-	    _classCallCheck(this, channelManager);
+		function channelManager() {
+			_classCallCheck(this, channelManager);
 
-	    this.emitter = new EventEmitter();
-	    this.channels = {};
-	    this.streamRef = {};
-	    this.receive = this.receive.bind(this);
-	  }
+			this.emitter = new EventEmitter();
+			this.channels = {};
+			this.streamRef = {};
+			this.queryOptions = {};
+			this.receive = this.receive.bind(this);
+			this.nextPage = this.nextPage.bind(this);
+		}
 
-	  _createClass(channelManager, [{
-	    key: 'setConfig',
-	    value: function setConfig(config) {
-	      this.config = config;
-	    }
+		_createClass(channelManager, [{
+			key: 'setConfig',
+			value: function setConfig(config) {
+				this.config = config;
+			}
 
-	    // Receive: This method will be executed whenever dependency value changes
-	    // It receives which dependency changes and which channeldId should be affected.
+			// Receive: This method will be executed whenever dependency value changes
+			// It receives which dependency changes and which channeldId should be affected.
 
-	  }, {
-	    key: 'receive',
-	    value: function receive(depend, channelId) {
-	      var self = this;
-	      var channelObj = this.channels[channelId];
-	      var queryObj = this.queryBuild(channelObj.depends, channelObj.previousSelectedSensor, channelObj.size);
-	      var validQuery = true;
-	      try {
-	        validQuery = !queryObj.body.aggs && queryObj.body.query.bool.should.length === 0 ? false : true;
-	      } catch (e) {}
+		}, {
+			key: 'receive',
+			value: function receive(depend, channelId) {
+				var _this = this;
 
-	      if (validQuery) {
-	        // apply search query and emit historic queryResult
-	        helper.appbaseRef.search(queryObj).on('data', function (data) {
-	          var obj = {
-	            method: 'historic',
-	            data: data
-	          };
-	          self.emitter.emit(channelId, obj);
-	        }).on('error', function (error) {
-	          console.log(error);
-	        });
-	        // apply searchStream query and emit streaming data
-	        if (this.streamRef[channelId]) {
-	          this.streamRef[channelId].stop();
-	        }
-	        this.streamRef[channelId] = helper.appbaseRef.searchStream(queryObj).on('data', function (data) {
-	          var obj = {
-	            method: 'stream',
-	            data: data
-	          };
-	          self.emitter.emit(channelId, obj);
-	        }).on('error', function (error) {
-	          console.log(error);
-	        });
-	      } else {
-	        var obj = {
-	          method: 'historic',
-	          data: {
-	            _shards: {},
-	            hits: {
-	              hits: []
-	            }
-	          }
-	        };
-	        self.emitter.emit(channelId, obj);
-	      }
-	    }
+				var queryOptions = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-	    // queryBuild
-	    // Builds the query by using depends object and values of sensor
+				var self = this;
+				var channelObj = this.channels[channelId];
+				var queryObj = void 0;
+				if (!queryOptions) {
+					queryObj = this.queryBuild(channelObj.depends, channelObj.previousSelectedSensor, channelObj.size, channelObj.from);
+					this.queryOptions[channelId] = channelObj.previousSelectedSensor['channel-options-' + channelId];
+				} else {
+					queryObj = this.queryBuild(channelObj.depends, queryOptions, channelObj.size, channelObj.from);
+				}
+				var validQuery = true;
+				try {
+					validQuery = !queryObj.body.aggs && queryObj.body.query.bool.should.length === 0 ? false : true;
+				} catch (e) {}
 
-	  }, {
-	    key: 'queryBuild',
-	    value: function queryBuild(depends, previousSelectedSensor, size) {
-	      var aggs = null;
-	      var mustArray = [];
-	      var shouldArray = [];
-	      for (var depend in depends) {
-	        if (depend !== 'aggs') {
-	          var queryObj = null;
-	          if (depends[depend].defaultQuery) {
-	            queryObj = depends[depend].defaultQuery(previousSelectedSensor[depend]);
-	          } else {
-	            queryObj = singleQuery(depend);
-	          }
-	          if (queryObj) {
-	            if (depends[depend].operation === 'must') {
-	              mustArray.push(queryObj);
-	            } else if (depends[depend].operation === 'should') {
-	              shouldArray.push(queryObj);
-	            }
-	          }
-	        } else {
-	          aggs = aggsQuery(depend);
-	        }
-	      }
+				if (validQuery) {
+					(function () {
+						var channelResponse = {
+							startTime: new Date().getTime(),
+							appliedQuery: queryObj
+						};
+						// apply search query and emit historic queryResult
+						helper.appbaseRef.search(queryObj).on('data', function (data) {
+							channelResponse.method = 'historic';
+							channelResponse.data = data;
+							self.emitter.emit(channelId, channelResponse);
+						}).on('error', function (error) {
+							console.log(error);
+						});
+						// apply searchStream query and emit streaming data
+						if (_this.streamRef[channelId]) {
+							_this.streamRef[channelId].stop();
+						}
+						_this.streamRef[channelId] = helper.appbaseRef.searchStream(queryObj).on('data', function (data) {
+							var obj = {
+								method: 'stream',
+								data: data,
+								appliedQuery: queryObj
+							};
+							self.emitter.emit(channelId, obj);
+						}).on('error', function (error) {
+							console.log(error);
+						});
+					})();
+				} else {
+					var obj = {
+						method: 'historic',
+						data: {
+							_shards: {},
+							hits: {
+								hits: []
+							}
+						},
+						appliedQuery: queryObj
+					};
+					self.emitter.emit(channelId, obj);
+				}
+			}
 
-	      function singleQuery(depend) {
-	        var sensorInfo = helper.selectedSensor.get(depend, 'sensorInfo');
-	        var s_query = null;
-	        if (previousSelectedSensor[depend]) {
-	          s_query = {};
-	          s_query[sensorInfo.queryType] = {};
-	          s_query[sensorInfo.queryType][sensorInfo.inputData] = previousSelectedSensor[depend];
-	        }
-	        return s_query;
-	      }
+			// queryBuild
+			// Builds the query by using depends object and values of sensor
 
-	      function aggsQuery(depend) {
-	        var aggsObj = depends[depend];
-	        var order = void 0,
-	            type = void 0;
-	        if (aggsObj.sort == "count") {
-	          order = "desc";
-	          type = "_count";
-	        } else if (aggsObj.sort == "asc") {
-	          order = "asc";
-	          type = "_term";
-	        } else {
-	          order = "desc";
-	          type = "_term";
-	        }
-	        var orderQuery = '{ \n        "' + type + '" : "' + order + '" \n      }';
-	        return JSON.parse('{\n        "' + aggsObj.key + '": {\n          "terms": {\n            "field": "' + aggsObj.key + '",\n            "size": ' + aggsObj.size + ',\n            "order": ' + orderQuery + '\n          }\n        }\n      }');
-	      }
-	      if (mustArray.length) {
-	        var mustObject = {
-	          bool: {
-	            must: mustArray
-	          }
-	        };
-	        shouldArray.push(mustObject);
-	      }
-	      var query = {
-	        type: this.config.type,
-	        body: {
-	          "size": size,
-	          "query": {
-	            "bool": {
-	              "should": shouldArray,
-	              "minimum_should_match": 1
-	            }
-	          }
-	        }
-	      };
-	      if (aggs) {
-	        query.body.aggs = aggs;
-	      }
-	      return query;
-	    }
+		}, {
+			key: 'queryBuild',
+			value: function queryBuild(depends, previousSelectedSensor, size) {
+				var from = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
 
-	    // Create the channel by passing depends
-	    // if depends are same it will create single channel for them
+				var aggs = null;
+				var mustArray = [];
+				var shouldArray = [];
+				var requestOptions = {};
+				var sortObj = [];
+				for (var depend in depends) {
+					if (depend === 'aggs') {
+						aggs = aggsQuery(depend);
+					} else if (depend.indexOf('channel-options-') > -1) {
+						requestOptions = previousSelectedSensor[depend];
+					} else {
+						var queryObj = null;
+						if (depends[depend].defaultQuery) {
+							queryObj = depends[depend].defaultQuery(previousSelectedSensor[depend]);
+						} else {
+							queryObj = singleQuery(depend);
+						}
+						if (queryObj) {
+							if (depends[depend].operation === 'must') {
+								mustArray.push(queryObj);
+							} else if (depends[depend].operation === 'should') {
+								shouldArray.push(queryObj);
+							}
+						}
+					}
+					var sortField = sortAvailbale(depend);
+					if (sortField) {
+						sortObj.push(sortField);
+					}
+				}
 
-	  }, {
-	    key: 'create',
-	    value: function create(depends) {
-	      var _this = this;
+				// check if sortinfo is availbale
+				function sortAvailbale(depend) {
+					var sortInfo = helper.selectedSensor.get(depend, 'sortInfo');
+					return sortInfo;
+				}
 
-	      var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
+				// build single query or if default query present in sensor itself use that
+				function singleQuery(depend) {
+					var sensorInfo = helper.selectedSensor.get(depend, 'sensorInfo');
+					var s_query = null;
+					if (sensorInfo && sensorInfo.defaultQuery) {
+						s_query = sensorInfo.defaultQuery(previousSelectedSensor[depend]);
+					} else if (previousSelectedSensor[depend]) {
+						s_query = {};
+						s_query[sensorInfo.queryType] = {};
+						s_query[sensorInfo.queryType][sensorInfo.inputData] = previousSelectedSensor[depend];
+					}
+					return s_query;
+				}
 
-	      var channelId = btoa(JSON.stringify(depends));
-	      if (!this.channels.hasOwnProperty(channelId)) {
-	        this.channels[channelId] = {
-	          depends: depends,
-	          size: size,
-	          previousSelectedSensor: {}
-	        };
-	        helper.watchForDependencyChange(depends, this.channels[channelId].previousSelectedSensor, this.receive, channelId);
-	      }
-	      setTimeout(function () {
-	        if (depends.hasOwnProperty('aggs')) {
-	          _this.receive('aggs', channelId);
-	        }
-	      }, 100);
-	      return {
-	        channelId: channelId,
-	        emitter: this.emitter
-	      };
-	    }
-	  }]);
+				function aggsQuery(depend) {
+					var aggsObj = depends[depend];
+					var order = void 0,
+					    type = void 0;
+					if (aggsObj.sort == "count") {
+						order = "desc";
+						type = "_count";
+					} else if (aggsObj.sort == "asc") {
+						order = "asc";
+						type = "_term";
+					} else {
+						order = "desc";
+						type = "_term";
+					}
+					var orderQuery = '{ \n\t\t\t\t"' + type + '" : "' + order + '" \n\t\t\t}';
+					return JSON.parse('{\n\t\t\t\t"' + aggsObj.key + '": {\n\t\t\t\t\t"terms": {\n\t\t\t\t\t\t"field": "' + aggsObj.key + '",\n\t\t\t\t\t\t"size": ' + aggsObj.size + ',\n\t\t\t\t\t\t"order": ' + orderQuery + '\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}');
+				}
+				if (mustArray.length) {
+					var mustObject = {
+						bool: {
+							must: mustArray
+						}
+					};
+					shouldArray.push(mustObject);
+				}
 
-	  return channelManager;
+				var query = {
+					type: this.config.type,
+					body: {
+						"query": {
+							"bool": {
+								"should": shouldArray,
+								"minimum_should_match": 1
+							}
+						}
+					}
+				};
+				if (aggs) {
+					query.body.aggs = aggs;
+				}
+				if (sortObj && sortObj.length) {
+					query.body.sort = sortObj;
+				}
+				// apply request options
+				if (requestOptions && Object.keys(requestOptions).length) {
+					for (var reqOption in requestOptions) {
+						query.body[reqOption] = requestOptions[reqOption];
+					}
+				}
+				return query;
+			}
+		}, {
+			key: 'nextPage',
+			value: function nextPage(channelId) {
+				var channelObj = this.channels[channelId];
+				var queryOptions = JSON.parse(JSON.stringify(this.channels[channelId].previousSelectedSensor));
+				var channelOptionsObj = channelObj.previousSelectedSensor['channel-options-' + channelId];
+				var options = {
+					size: this.queryOptions[channelId].size,
+					from: this.queryOptions[channelId].from + this.queryOptions[channelId].size
+				};
+				queryOptions['channel-options-' + channelId] = JSON.parse(JSON.stringify(options));
+				// queryOptions['channel-options-'+channelId].from += 1;
+				this.queryOptions[channelId] = options;
+				this.receive('channel-options-' + channelId, channelId, queryOptions);
+			}
+
+			// Create the channel by passing depends
+			// if depends are same it will create single channel for them
+
+		}, {
+			key: 'create',
+			value: function create(depends) {
+				var _this2 = this;
+
+				var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
+				var from = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+				var channelId = btoa(JSON.stringify(depends));
+				var optionValues = {
+					size: size,
+					from: from
+				};
+				this.queryOptions[channelId] = optionValues;
+				depends['channel-options-' + channelId] = optionValues;
+				var previousSelectedSensor = _defineProperty({}, 'channel-options-' + channelId, optionValues);
+				var obj = {
+					key: 'channel-options-' + channelId,
+					value: optionValues
+				};
+				helper.selectedSensor.set(obj);
+				if (!this.channels.hasOwnProperty(channelId)) {
+					this.channels[channelId] = {
+						depends: depends,
+						size: size,
+						from: from,
+						previousSelectedSensor: previousSelectedSensor
+					};
+					helper.watchForDependencyChange(depends, this.channels[channelId].previousSelectedSensor, this.receive, channelId);
+				}
+				setTimeout(function () {
+					if (depends.hasOwnProperty('aggs')) {
+						_this2.receive('aggs', channelId);
+					}
+				}, 100);
+				return {
+					channelId: channelId,
+					emitter: this.emitter
+				};
+			}
+		}]);
+
+		return channelManager;
 	}();
 
 	;
@@ -16043,7 +16206,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	exports.StaticSearch = undefined;
 
@@ -16064,53 +16227,48 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var StaticSearch = exports.StaticSearch = function (_Component) {
-	  _inherits(StaticSearch, _Component);
+		_inherits(StaticSearch, _Component);
 
-	  function StaticSearch(props) {
-	    _classCallCheck(this, StaticSearch);
+		function StaticSearch(props) {
+			_classCallCheck(this, StaticSearch);
 
-	    var _this = _possibleConstructorReturn(this, (StaticSearch.__proto__ || Object.getPrototypeOf(StaticSearch)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (StaticSearch.__proto__ || Object.getPrototypeOf(StaticSearch)).call(this, props));
 
-	    _this.state = {
-	      searchValue: ''
-	    };
-	    _this.handleChange = _this.handleChange.bind(_this);
-	    return _this;
-	  }
+			_this.state = {
+				searchValue: ''
+			};
+			_this.handleChange = _this.handleChange.bind(_this);
+			return _this;
+		}
 
-	  _createClass(StaticSearch, [{
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate() {}
-	  }, {
-	    key: 'handleChange',
-	    value: function handleChange(event) {
-	      var value = event.target.value;
-	      this.setState({
-	        searchValue: value
-	      }, function () {
-	        this.props.changeCallback(this.state.searchValue);
-	      }.bind(this));
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'col s12 staticSearchContainer inputBox' },
-	        _react2.default.createElement(
-	          'span',
-	          { className: 'add-on' },
-	          _react2.default.createElement('i', { className: 'fa fa-search' })
-	        ),
-	        _react2.default.createElement('input', { type: 'text', className: 'col s12',
-	          value: this.state.searchValue,
-	          placeholder: this.props.placeholder,
-	          onChange: this.handleChange })
-	      );
-	    }
-	  }]);
+		_createClass(StaticSearch, [{
+			key: 'componentDidUpdate',
+			value: function componentDidUpdate() {}
+		}, {
+			key: 'handleChange',
+			value: function handleChange(event) {
+				var value = event.target.value;
+				this.setState({
+					searchValue: value
+				}, function () {
+					this.props.changeCallback(this.state.searchValue);
+				}.bind(this));
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'col s12 col-xs-12 staticSearchContainer inputBox' },
+					_react2.default.createElement('input', { type: 'text', className: 'col s12 col-xs-12 form-control',
+						value: this.state.searchValue,
+						placeholder: this.props.placeholder,
+						onChange: this.handleChange })
+				);
+			}
+		}]);
 
-	  return StaticSearch;
+		return StaticSearch;
 	}(_react.Component);
 
 /***/ },
@@ -16120,7 +16278,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	exports.AppbaseSlider = undefined;
 
@@ -16154,214 +16312,218 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Style = __webpack_require__(6);
 
 	var AppbaseSlider = exports.AppbaseSlider = function (_Component) {
-	  _inherits(AppbaseSlider, _Component);
+		_inherits(AppbaseSlider, _Component);
 
-	  function AppbaseSlider(props) {
-	    _classCallCheck(this, AppbaseSlider);
+		function AppbaseSlider(props) {
+			_classCallCheck(this, AppbaseSlider);
 
-	    var _this = _possibleConstructorReturn(this, (AppbaseSlider.__proto__ || Object.getPrototypeOf(AppbaseSlider)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (AppbaseSlider.__proto__ || Object.getPrototypeOf(AppbaseSlider)).call(this, props));
 
-	    var minThreshold = _this.props.minThreshold ? _this.props.minThreshold : 0;
-	    var maxThreshold = _this.props.maxThreshold ? _this.props.maxThreshold : 5;
-	    var values = {};
-	    values.min = _this.props.values.min < _this.props.minThreshold ? _this.props.minThreshold : _this.props.values.min;
-	    values.max = _this.props.values.max < _this.props.maxThreshold ? _this.props.maxThreshold : _this.props.values.max;
-	    _this.state = {
-	      values: values,
-	      minThreshold: minThreshold,
-	      maxThreshold: maxThreshold,
-	      currentValues: [],
-	      counts: [],
-	      rawData: {
-	        hits: {
-	          hits: []
-	        }
-	      }
-	    };
-	    _this.type = 'range';
-	    _this.handleValuesChange = _this.handleValuesChange.bind(_this);
-	    _this.handleResults = _this.handleResults.bind(_this);
-	    return _this;
-	  }
-	  // Get the items from Appbase when component is mounted
+			var minThreshold = _this.props.minThreshold ? _this.props.minThreshold : 0;
+			var maxThreshold = _this.props.maxThreshold ? _this.props.maxThreshold : 5;
+			var values = {};
+			values.min = _this.props.values.min < _this.props.minThreshold ? _this.props.minThreshold : _this.props.values.min;
+			values.max = _this.props.values.max < _this.props.maxThreshold ? _this.props.maxThreshold : _this.props.values.max;
+			_this.state = {
+				values: values,
+				minThreshold: minThreshold,
+				maxThreshold: maxThreshold,
+				currentValues: [],
+				counts: [],
+				rawData: {
+					hits: {
+						hits: []
+					}
+				}
+			};
+			_this.type = 'range';
+			_this.handleValuesChange = _this.handleValuesChange.bind(_this);
+			_this.handleResults = _this.handleResults.bind(_this);
+			return _this;
+		}
+		// Get the items from Appbase when component is mounted
 
 
-	  _createClass(AppbaseSlider, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.setQueryInfo();
-	      this.createChannel();
-	    }
-	    // Handle function when value slider option is changing
+		_createClass(AppbaseSlider, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setQueryInfo();
+				this.createChannel();
+			}
+			// Handle function when value slider option is changing
 
-	  }, {
-	    key: 'handleValuesChange',
-	    value: function handleValuesChange(component, values) {
-	      this.setState({
-	        values: values
-	      });
-	    }
-	    // set the query type and input data
+		}, {
+			key: 'handleValuesChange',
+			value: function handleValuesChange(component, values) {
+				this.setState({
+					values: values
+				});
+			}
+			// set the query type and input data
 
-	  }, {
-	    key: 'setQueryInfo',
-	    value: function setQueryInfo() {
-	      var obj = {
-	        key: this.props.sensorId,
-	        value: {
-	          queryType: this.type,
-	          inputData: this.props.inputData
-	        }
-	      };
-	      helper.selectedSensor.setSensorInfo(obj);
-	    }
-	    // Create a channel which passes the depends and receive results whenever depends changes
+		}, {
+			key: 'setQueryInfo',
+			value: function setQueryInfo() {
+				var obj = {
+					key: this.props.sensorId,
+					value: {
+						queryType: this.type,
+						inputData: this.props.inputData
+					}
+				};
+				helper.selectedSensor.setSensorInfo(obj);
+			}
+			// Create a channel which passes the depends and receive results whenever depends changes
 
-	  }, {
-	    key: 'createChannel',
-	    value: function createChannel() {
-	      // Set the depends - add self aggs query as well with depends
-	      var depends = this.props.depends ? this.props.depends : {};
-	      depends['aggs'] = {
-	        key: this.props.inputData,
-	        sort: this.props.sort,
-	        size: this.props.size
-	      };
-	      // create a channel and listen the changes
-	      var channelObj = _ChannelManager.manager.create(depends);
-	      channelObj.emitter.addListener(channelObj.channelId, function (res) {
-	        var data = res.data;
-	        var rawData = void 0;
-	        if (res.method === 'stream') {
-	          rawData = this.state.rawData;
-	          rawData.hits.hits.push(res.data);
-	        } else if (res.method === 'historic') {
-	          rawData = data;
-	        }
-	        this.setState({
-	          rawData: rawData
-	        });
-	        this.setData(data);
-	      }.bind(this));
-	    }
-	  }, {
-	    key: 'setData',
-	    value: function setData(data) {
-	      this.addItemsToList(eval('data.aggregations["' + this.props.inputData + '"].buckets'));
-	    }
-	  }, {
-	    key: 'addItemsToList',
-	    value: function addItemsToList(newItems) {
-	      var _this2 = this;
+		}, {
+			key: 'createChannel',
+			value: function createChannel() {
+				// Set the depends - add self aggs query as well with depends
+				var depends = this.props.depends ? this.props.depends : {};
+				depends['aggs'] = {
+					key: this.props.inputData,
+					sort: this.props.sort,
+					size: this.props.size
+				};
+				// create a channel and listen the changes
+				var channelObj = _ChannelManager.manager.create(depends);
+				channelObj.emitter.addListener(channelObj.channelId, function (res) {
+					var data = res.data;
+					var rawData = void 0;
+					if (res.method === 'stream') {
+						rawData = this.state.rawData;
+						rawData.hits.hits.push(res.data);
+					} else if (res.method === 'historic') {
+						rawData = data;
+					}
+					this.setState({
+						rawData: rawData
+					});
+					this.setData(data);
+				}.bind(this));
+			}
+		}, {
+			key: 'setData',
+			value: function setData(data) {
+				try {
+					this.addItemsToList(eval('data.aggregations["' + this.props.inputData + '"].buckets'));
+				} catch (e) {
+					console.log(e);
+				}
+			}
+		}, {
+			key: 'addItemsToList',
+			value: function addItemsToList(newItems) {
+				var _this2 = this;
 
-	      newItems = _.orderBy(newItems, ['key'], ['asc']);
-	      var itemLength = newItems.length;
-	      var min = this.props.minThreshold ? this.props.minThreshold : newItems[0].key;
-	      var max = this.props.maxThreshold ? this.props.maxThreshold : newItems[itemLength - 1].key;
-	      if (itemLength > 1) {
-	        (function () {
-	          var rangeValue = {
-	            counts: _this2.countCalc(min, max, newItems),
-	            minThreshold: min,
-	            maxThreshold: max,
-	            values: {
-	              min: min,
-	              max: max
-	            }
-	          };
-	          _this2.setState(rangeValue, function () {
-	            this.handleResults(null, rangeValue.values);
-	          }.bind(_this2));
-	        })();
-	      }
-	    }
-	  }, {
-	    key: 'countCalc',
-	    value: function countCalc(min, max, newItems) {
-	      var counts = [];
-	      for (var i = min; i <= max; i++) {
-	        var item = _.find(newItems, { 'key': i });
-	        var val = item ? item.doc_count : 0;
-	        counts.push(val);
-	      }
-	      return counts;
-	    }
-	    // Handle function when slider option change is completed
+				newItems = _.orderBy(newItems, ['key'], ['asc']);
+				var itemLength = newItems.length;
+				var min = this.props.minThreshold ? this.props.minThreshold : newItems[0].key;
+				var max = this.props.maxThreshold ? this.props.maxThreshold : newItems[itemLength - 1].key;
+				if (itemLength > 1) {
+					(function () {
+						var rangeValue = {
+							counts: _this2.countCalc(min, max, newItems),
+							minThreshold: min,
+							maxThreshold: max,
+							values: {
+								min: min,
+								max: max
+							}
+						};
+						_this2.setState(rangeValue, function () {
+							this.handleResults(null, rangeValue.values);
+						}.bind(_this2));
+					})();
+				}
+			}
+		}, {
+			key: 'countCalc',
+			value: function countCalc(min, max, newItems) {
+				var counts = [];
+				for (var i = min; i <= max; i++) {
+					var item = _.find(newItems, { 'key': i });
+					var val = item ? item.doc_count : 0;
+					counts.push(val);
+				}
+				return counts;
+			}
+			// Handle function when slider option change is completed
 
-	  }, {
-	    key: 'handleResults',
-	    value: function handleResults(component, values) {
-	      var real_values = {
-	        from: values.min,
-	        to: values.max
-	      };
-	      var obj = {
-	        key: this.props.sensorId,
-	        value: real_values
-	      };
-	      helper.selectedSensor.set(obj, true);
+		}, {
+			key: 'handleResults',
+			value: function handleResults(component, values) {
+				var real_values = {
+					from: values.min,
+					to: values.max
+				};
+				var obj = {
+					key: this.props.sensorId,
+					value: real_values
+				};
+				helper.selectedSensor.set(obj, true);
 
-	      this.setState({
-	        currentValues: values
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var title = null,
-	          histogram = null,
-	          titleExists = false;
+				this.setState({
+					currentValues: values
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var title = null,
+				    histogram = null,
+				    titleExists = false;
 
-	      if (this.props.title) {
-	        titleExists = true;
-	        title = _react2.default.createElement(
-	          'h2',
-	          { className: 'componentTitle' },
-	          this.props.title
-	        );
-	      }
-	      if (this.state.counts && this.state.counts.length) {
-	        histogram = _react2.default.createElement(_HistoGram.HistoGramComponent, { data: this.state.counts });
-	      }
+				if (this.props.title) {
+					titleExists = true;
+					title = _react2.default.createElement(
+						'h4',
+						{ className: 'componentTitle col s12 col-xs-12' },
+						this.props.title
+					);
+				}
+				if (this.state.counts && this.state.counts.length) {
+					histogram = _react2.default.createElement(_HistoGram.HistoGramComponent, { data: this.state.counts });
+				}
 
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'reactiveComponent sliderComponent' },
-	        title,
-	        histogram,
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'inputRangeContainer' },
-	          _react2.default.createElement(_reactInputRange2.default, {
-	            maxValue: this.state.maxThreshold,
-	            minValue: this.state.minThreshold,
-	            value: this.state.values,
-	            onChange: this.handleValuesChange,
-	            onChangeComplete: this.handleResults
-	          })
-	        )
-	      );
-	    }
-	  }]);
+				return _react2.default.createElement(
+					'div',
+					{ className: 'reactiveComponent sliderComponent card thumbnail col s12 col-xs-12' },
+					title,
+					histogram,
+					_react2.default.createElement(
+						'div',
+						{ className: 'inputRangeContainer col s12 col-xs-12', style: { 'margin': '25px 0' } },
+						_react2.default.createElement(_reactInputRange2.default, {
+							maxValue: this.state.maxThreshold,
+							minValue: this.state.minThreshold,
+							value: this.state.values,
+							onChange: this.handleValuesChange,
+							onChangeComplete: this.handleResults
+						})
+					)
+				);
+			}
+		}]);
 
-	  return AppbaseSlider;
+		return AppbaseSlider;
 	}(_react.Component);
 
 	AppbaseSlider.propTypes = {
-	  inputData: _react2.default.PropTypes.string.isRequired,
-	  minThreshold: _react2.default.PropTypes.number,
-	  maxThreshold: _react2.default.PropTypes.number,
-	  values: _react2.default.PropTypes.object
+		inputData: _react2.default.PropTypes.string.isRequired,
+		minThreshold: _react2.default.PropTypes.number,
+		maxThreshold: _react2.default.PropTypes.number,
+		values: _react2.default.PropTypes.object
 	};
 
 	AppbaseSlider.defaultProps = {
-	  values: {
-	    min: 0,
-	    max: 10
-	  },
-	  sort: 'count',
-	  size: 60,
-	  title: null
+		values: {
+			min: 0,
+			max: 10
+		},
+		sort: 'count',
+		size: 60,
+		title: null
 	};
 
 /***/ },
@@ -16371,7 +16533,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	exports.Bar = exports.HistoGramComponent = undefined;
 
@@ -16396,86 +16558,107 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var HistoGramComponent = exports.HistoGramComponent = function (_Component) {
-	  _inherits(HistoGramComponent, _Component);
+		_inherits(HistoGramComponent, _Component);
 
-	  function HistoGramComponent(props) {
-	    _classCallCheck(this, HistoGramComponent);
+		function HistoGramComponent(props) {
+			_classCallCheck(this, HistoGramComponent);
 
-	    return _possibleConstructorReturn(this, (HistoGramComponent.__proto__ || Object.getPrototypeOf(HistoGramComponent)).call(this, props));
-	  }
+			var _this = _possibleConstructorReturn(this, (HistoGramComponent.__proto__ || Object.getPrototypeOf(HistoGramComponent)).call(this, props));
 
-	  _createClass(HistoGramComponent, [{
-	    key: 'createBars',
-	    value: function createBars() {
-	      var max = _.max(this.props.data);
-	      var dataLength = this.props.data.length;
-	      var bars = null;
-	      var data = this.props.data.map(function (val) {
-	        var res = {
-	          height: 0,
-	          count: 0,
-	          width: 100 / dataLength
-	        };
-	        try {
-	          res.height = 100 * val / max;
-	          res.count = val;
-	          res.width = 100 / dataLength;
-	        } catch (e) {
-	          console.log(e);
-	        }
-	        return res;
-	      });
-	      if (dataLength) {
-	        bars = data.map(function (val, index) {
-	          return _react2.default.createElement(Bar, { key: index, element: val });
-	        });
-	      }
-	      return bars;
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var bars = this.createBars();
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'barContainer' },
-	        bars
-	      );
-	    }
-	  }]);
+			_this.style = {
+				barContainer: {
+					position: 'relative',
+					height: '50px',
+					width: '100%'
+				}
+			};
+			return _this;
+		}
 
-	  return HistoGramComponent;
+		_createClass(HistoGramComponent, [{
+			key: 'createBars',
+			value: function createBars() {
+				var max = _.max(this.props.data);
+				var dataLength = this.props.data.length;
+				var bars = null;
+				var data = this.props.data.map(function (val) {
+					var res = {
+						height: 0,
+						count: 0,
+						width: 100 / dataLength
+					};
+					try {
+						res.height = 100 * val / max;
+						res.count = val;
+						res.width = 100 / dataLength;
+					} catch (e) {
+						console.log(e);
+					}
+					return res;
+				});
+				if (dataLength) {
+					bars = data.map(function (val, index) {
+						return _react2.default.createElement(Bar, { key: index, element: val });
+					});
+				}
+				return bars;
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var bars = this.createBars();
+				return _react2.default.createElement(
+					'div',
+					{ className: 'barContainer col s12 col-xs-12', style: this.style.barContainer },
+					bars
+				);
+			}
+		}]);
+
+		return HistoGramComponent;
 	}(_react.Component);
 
 	var Bar = exports.Bar = function (_Component2) {
-	  _inherits(Bar, _Component2);
+		_inherits(Bar, _Component2);
 
-	  function Bar(props) {
-	    _classCallCheck(this, Bar);
+		function Bar(props) {
+			_classCallCheck(this, Bar);
 
-	    return _possibleConstructorReturn(this, (Bar.__proto__ || Object.getPrototypeOf(Bar)).call(this, props));
-	  }
+			var _this2 = _possibleConstructorReturn(this, (Bar.__proto__ || Object.getPrototypeOf(Bar)).call(this, props));
 
-	  _createClass(Bar, [{
-	    key: 'render',
-	    value: function render() {
-	      var element = this.props.element;
-	      var barStyle = {
-	        height: element.height + '%',
-	        width: element.width + '%'
-	      };
-	      return _react2.default.createElement(
-	        'span',
-	        { className: 'barChild', style: barStyle },
-	        _react2.default.createElement('span', { className: 'bar',
-	          'data-tip': element.count,
-	          title: element.count }),
-	        _react2.default.createElement(_reactTooltip2.default, null)
-	      );
-	    }
-	  }]);
+			_this2.style = {
+				bar: {
+					display: 'block',
+					width: '100%',
+					height: '100%'
+				}
+			};
+			return _this2;
+		}
 
-	  return Bar;
+		_createClass(Bar, [{
+			key: 'render',
+			value: function render() {
+				var element = this.props.element;
+				var barStyle = {
+					height: element.height + '%',
+					width: element.width + '%',
+					display: 'inline-block',
+					background: '#efefef',
+					position: 'relative'
+				};
+				return _react2.default.createElement(
+					'span',
+					{ className: 'barChild', style: barStyle },
+					_react2.default.createElement('span', { className: 'bar', style: this.style.bar,
+						'data-tip': element.count,
+						title: element.count }),
+					_react2.default.createElement(_reactTooltip2.default, null)
+				);
+			}
+		}]);
+
+		return Bar;
 	}(_react.Component);
 
 /***/ },
@@ -19609,7 +19792,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	exports.AppbaseSearch = undefined;
 
@@ -19633,6 +19816,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -19642,213 +19827,217 @@ return /******/ (function(modules) { // webpackBootstrap
 	var helper = __webpack_require__(16);
 
 	var AppbaseSearch = exports.AppbaseSearch = function (_Component) {
-	  _inherits(AppbaseSearch, _Component);
+		_inherits(AppbaseSearch, _Component);
 
-	  function AppbaseSearch(props) {
-	    _classCallCheck(this, AppbaseSearch);
+		function AppbaseSearch(props) {
+			_classCallCheck(this, AppbaseSearch);
 
-	    var _this = _possibleConstructorReturn(this, (AppbaseSearch.__proto__ || Object.getPrototypeOf(AppbaseSearch)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (AppbaseSearch.__proto__ || Object.getPrototypeOf(AppbaseSearch)).call(this, props));
 
-	    _this.state = {
-	      items: [],
-	      currentValue: null,
-	      rawData: {
-	        hits: {
-	          hits: []
-	        }
-	      }
-	    };
-	    _this.type = 'Match';
-	    _this.handleSearch = _this.handleSearch.bind(_this);
-	    _this.setValue = _this.setValue.bind(_this);
-	    _this.defaultSearchQuery = _this.defaultSearchQuery.bind(_this);
-	    _this.previousSelectedSensor = {};
-	    return _this;
-	  }
-	  // Get the items from Appbase when component is mounted
+			_this.state = {
+				items: [],
+				currentValue: null,
+				rawData: {
+					hits: {
+						hits: []
+					}
+				}
+			};
+			_this.type = 'match_phrase';
+			_this.handleSearch = _this.handleSearch.bind(_this);
+			_this.setValue = _this.setValue.bind(_this);
+			_this.defaultSearchQuery = _this.defaultSearchQuery.bind(_this);
+			_this.previousSelectedSensor = {};
+			return _this;
+		}
+		// Get the items from Appbase when component is mounted
 
 
-	  _createClass(AppbaseSearch, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.setQueryInfo();
-	      this.createChannel();
-	    }
-	    // set the query type and input data
+		_createClass(AppbaseSearch, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setQueryInfo();
+				this.createChannel();
+				$(".Select-input input").css({
+					'height': '20px',
+					'-webkit-transition': 'none',
+					'-moz-transition': 'none',
+					'-ms-transition': 'none',
+					'-o-transition': 'none',
+					'transition': 'none'
+				});
+			}
+			// set the query type and input data
 
-	  }, {
-	    key: 'setQueryInfo',
-	    value: function setQueryInfo() {
-	      var obj = {
-	        key: this.props.sensorId,
-	        value: {
-	          queryType: this.type,
-	          inputData: this.props.inputData
-	        }
-	      };
-	      helper.selectedSensor.setSensorInfo(obj);
-	      var searchObj = {
-	        key: this.props.searchRef,
-	        value: {
-	          queryType: 'multi_match',
-	          inputData: this.props.inputData
-	        }
-	      };
-	      helper.selectedSensor.setSensorInfo(searchObj);
-	    }
-	    // Create a channel which passes the depends and receive results whenever depends changes
+		}, {
+			key: 'setQueryInfo',
+			value: function setQueryInfo() {
+				var obj = {
+					key: this.props.sensorId,
+					value: {
+						queryType: this.type,
+						inputData: this.props.inputData
+					}
+				};
+				helper.selectedSensor.setSensorInfo(obj);
+				var searchObj = {
+					key: this.props.searchRef,
+					value: {
+						queryType: 'multi_match',
+						inputData: this.props.inputData
+					}
+				};
+				helper.selectedSensor.setSensorInfo(searchObj);
+			}
+			// Create a channel which passes the depends and receive results whenever depends changes
 
-	  }, {
-	    key: 'createChannel',
-	    value: function createChannel() {
-	      var depends = this.props.depends ? this.props.depends : {};
-	      depends[this.props.searchRef] = {
-	        operation: "must",
-	        defaultQuery: this.defaultSearchQuery
-	      };
-	      var channelObj = _ChannelManager.manager.create(depends);
-	      channelObj.emitter.addListener(channelObj.channelId, function (res) {
-	        var data = res.data;
-	        var rawData = void 0;
-	        if (res.method === 'stream') {
-	          rawData = this.state.rawData;
-	          rawData.hits.hits.push(res.data);
-	        } else if (res.method === 'historic') {
-	          rawData = data;
-	        }
-	        this.setState({
-	          rawData: rawData
-	        });
-	        this.setData(rawData);
-	      }.bind(this));
-	    }
-	    //default query
+		}, {
+			key: 'createChannel',
+			value: function createChannel() {
+				var depends = this.props.depends ? this.props.depends : {};
+				depends[this.props.searchRef] = {
+					operation: "must",
+					defaultQuery: this.defaultSearchQuery
+				};
+				var channelObj = _ChannelManager.manager.create(depends);
+				channelObj.emitter.addListener(channelObj.channelId, function (res) {
+					var data = res.data;
+					var rawData = void 0;
+					if (res.method === 'stream') {
+						rawData = this.state.rawData;
+						rawData.hits.hits.push(res.data);
+					} else if (res.method === 'historic') {
+						rawData = data;
+					}
+					this.setState({
+						rawData: rawData
+					});
+					this.setData(rawData);
+				}.bind(this));
+			}
+			//default query
 
-	  }, {
-	    key: 'defaultSearchQuery',
-	    value: function defaultSearchQuery(value) {
-	      return {
-	        "multi_match": {
-	          "query": value,
-	          "fields": this.props.inputData,
-	          "operator": "and"
-	        }
-	      };
-	    }
+		}, {
+			key: 'defaultSearchQuery',
+			value: function defaultSearchQuery(value) {
+				return {
+					"match_phrase_prefix": _defineProperty({}, this.props.inputData, value)
+				};
+			}
 
-	    // set value to search
+			// set value to search
 
-	  }, {
-	    key: 'setValue',
-	    value: function setValue(value, callback) {
-	      var obj = {
-	        key: this.props.searchRef,
-	        value: value
-	      };
-	      helper.selectedSensor.set(obj, true);
-	      this.callback = callback;
-	      if (!value) {
-	        this.callback(null, {
-	          options: []
-	        });
-	      }
-	    }
+		}, {
+			key: 'setValue',
+			value: function setValue(value, callback) {
+				var obj = {
+					key: this.props.searchRef,
+					value: value
+				};
+				helper.selectedSensor.set(obj, true);
+				this.callback = callback;
+				if (!value) {
+					this.callback(null, {
+						options: []
+					});
+				}
+			}
 
-	    // set data after get the result
+			// set data after get the result
 
-	  }, {
-	    key: 'setData',
-	    value: function setData(data) {
-	      var _this2 = this;
+		}, {
+			key: 'setData',
+			value: function setData(data) {
+				var _this2 = this;
 
-	      var options = [];
-	      var searchField = 'hit._source.' + this.props.inputData;
-	      // Check if this is Geo search or field tag search
-	      if (this.props.isGeoSearch) {
-	        (function () {
-	          // If it is Geo, we return the location field
-	          var latField = 'hit._source.' + _this2.props.latField;
-	          var lonField = 'hit._source.' + _this2.props.lonField;
-	          data.hits.hits.map(function (hit) {
-	            var location = {
-	              lat: eval(latField),
-	              lon: eval(lonField)
-	            };
-	            options.push({ value: location, label: eval(searchField) });
-	          });
-	        })();
-	      } else {
-	        data.hits.hits.map(function (hit) {
-	          options.push({ value: eval(searchField), label: eval(searchField) });
-	        });
-	      }
-	      options = this.removeDuplicates(options, "label");
-	      if (this.callback) {
-	        this.callback(null, {
-	          options: options
-	        });
-	      }
-	    }
-	    // Search results often contain duplicate results, so display only unique values
+				var options = [];
+				var searchField = 'hit._source.' + this.props.inputData;
+				// Check if this is Geo search or field tag search
+				if (this.props.isGeoSearch) {
+					(function () {
+						// If it is Geo, we return the location field
+						var latField = 'hit._source.' + _this2.props.latField;
+						var lonField = 'hit._source.' + _this2.props.lonField;
+						data.hits.hits.map(function (hit) {
+							var location = {
+								lat: eval(latField),
+								lon: eval(lonField)
+							};
+							options.push({ value: location, label: eval(searchField) });
+						});
+					})();
+				} else {
+					data.hits.hits.map(function (hit) {
+						options.push({ value: eval(searchField), label: eval(searchField) });
+					});
+				}
+				options = this.removeDuplicates(options, "label");
+				if (this.callback) {
+					this.callback(null, {
+						options: options
+					});
+				}
+			}
+			// Search results often contain duplicate results, so display only unique values
 
-	  }, {
-	    key: 'removeDuplicates',
-	    value: function removeDuplicates(myArr, prop) {
-	      return myArr.filter(function (obj, pos, arr) {
-	        return arr.map(function (mapObj) {
-	          return mapObj[prop];
-	        }).indexOf(obj[prop]) === pos;
-	      });
-	    }
-	    // When user has selected a search value
+		}, {
+			key: 'removeDuplicates',
+			value: function removeDuplicates(myArr, prop) {
+				return myArr.filter(function (obj, pos, arr) {
+					return arr.map(function (mapObj) {
+						return mapObj[prop];
+					}).indexOf(obj[prop]) === pos;
+				});
+			}
+			// When user has selected a search value
 
-	  }, {
-	    key: 'handleSearch',
-	    value: function handleSearch(currentValue) {
-	      var value = currentValue ? currentValue.value : null;
-	      value = value === 'null' ? null : value;
-	      var obj = {
-	        key: this.props.sensorId,
-	        value: value
-	      };
-	      helper.selectedSensor.set(obj, true);
-	      this.setState({
-	        currentValue: value
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'appbaseSearchComponent reactiveComponent' },
-	        _react2.default.createElement(_reactSelect2.default.Async, _extends({
-	          className: 'appbase-select',
-	          name: 'appbase-search',
-	          value: this.state.currentValue,
-	          loadOptions: this.setValue,
-	          onChange: this.handleSearch
-	        }, this.props))
-	      );
-	    }
-	  }]);
+		}, {
+			key: 'handleSearch',
+			value: function handleSearch(currentValue) {
+				var value = currentValue ? currentValue.value : null;
+				value = value === 'null' ? null : value;
+				var obj = {
+					key: this.props.sensorId,
+					value: value
+				};
+				helper.selectedSensor.set(obj, true);
+				this.setState({
+					currentValue: value
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'appbaseSearchComponent reactiveComponent' },
+					_react2.default.createElement(_reactSelect2.default.Async, _extends({
+						className: 'appbase-select',
+						name: 'appbase-search',
+						value: this.state.currentValue,
+						loadOptions: this.setValue,
+						onChange: this.handleSearch
+					}, this.props))
+				);
+			}
+		}]);
 
-	  return AppbaseSearch;
+		return AppbaseSearch;
 	}(_react.Component);
 
 	AppbaseSearch.propTypes = {
-	  inputData: _react2.default.PropTypes.string.isRequired,
-	  placeholder: _react2.default.PropTypes.string,
-	  isGeoSearch: _react2.default.PropTypes.bool,
-	  size: _react2.default.PropTypes.number
+		inputData: _react2.default.PropTypes.string.isRequired,
+		placeholder: _react2.default.PropTypes.string,
+		isGeoSearch: _react2.default.PropTypes.bool,
+		size: _react2.default.PropTypes.number
 	};
 	// Default props value
 	AppbaseSearch.defaultProps = {
-	  placeholder: "Search...",
-	  isGeoSearch: false,
-	  size: 10,
-	  executeDepends: true,
-	  searchRef: "searchLetter"
+		placeholder: "Search...",
+		isGeoSearch: false,
+		size: 10,
+		executeDepends: true,
+		searchRef: "searchLetter"
 	};
 
 /***/ },
@@ -22112,7 +22301,1962 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
+	});
+	exports.DistanceSensor = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(4);
+
+	var _ChannelManager = __webpack_require__(104);
+
+	var _AppbaseSlider = __webpack_require__(106);
+
+	var _reactInputRange = __webpack_require__(119);
+
+	var _reactInputRange2 = _interopRequireDefault(_reactInputRange);
+
+	var _axios = __webpack_require__(141);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _reactSelect = __webpack_require__(129);
+
+	var _reactSelect2 = _interopRequireDefault(_reactSelect);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var helper = __webpack_require__(16);
+
+	var DistanceSensor = exports.DistanceSensor = function (_Component) {
+		_inherits(DistanceSensor, _Component);
+
+		function DistanceSensor(props) {
+			_classCallCheck(this, DistanceSensor);
+
+			var _this = _possibleConstructorReturn(this, (DistanceSensor.__proto__ || Object.getPrototypeOf(DistanceSensor)).call(this, props));
+
+			var value = _this.props.value < _this.props.minThreshold ? _this.props.minThreshold : _this.props.value;
+			_this.state = {
+				currentValue: '',
+				currentDistance: _this.props.value + _this.props.unit,
+				value: value
+			};
+			_this.type = 'geo_distance';
+			_this.locString = '';
+			_this.result = {
+				options: []
+			};
+			_this.sortInfo = {
+				type: '_geo_distance',
+				order: 'asc',
+				unit: 'mi'
+			};
+			_this.handleChange = _this.handleChange.bind(_this);
+			_this.loadOptions = _this.loadOptions.bind(_this);
+			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.handleValuesChange = _this.handleValuesChange.bind(_this);
+			_this.handleResults = _this.handleResults.bind(_this);
+			return _this;
+		}
+
+		_createClass(DistanceSensor, [{
+			key: 'componentWillMount',
+			value: function componentWillMount() {
+				this.googleMaps = window.google.maps;
+			}
+
+			// Set query information
+
+		}, {
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setQueryInfo();
+				this.getUserLocation();
+			}
+		}, {
+			key: 'getUserLocation',
+			value: function getUserLocation() {
+				var _this2 = this;
+
+				navigator.geolocation.getCurrentPosition(function (location) {
+					_this2.locString = location.coords.latitude + ', ' + location.coords.longitude;
+
+					_axios2.default.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + _this2.locString + '&key=' + _this2.props.APIkey).then(function (res) {
+						var currentValue = res.data.results[0].formatted_address;
+						_this2.result.options.push({
+							'value': currentValue,
+							'label': currentValue
+						});
+						_this2.setState({
+							currentValue: currentValue
+						}, _this2.executeQuery.bind(_this2));
+					});
+				});
+			}
+
+			// set the query type and input data
+
+		}, {
+			key: 'setQueryInfo',
+			value: function setQueryInfo() {
+				var obj = {
+					key: this.props.sensorId,
+					value: {
+						queryType: this.type,
+						inputData: this.props.inputData,
+						defaultQuery: this.defaultQuery
+					}
+				};
+				helper.selectedSensor.setSensorInfo(obj);
+			}
+
+			// build query for this sensor only
+
+		}, {
+			key: 'defaultQuery',
+			value: function defaultQuery(value) {
+				if (value && value.currentValue != '' && value.location != '') {
+					var _type;
+
+					return _defineProperty({}, this.type, (_type = {}, _defineProperty(_type, this.props.inputData, value.location), _defineProperty(_type, 'distance', value.currentDistance), _type));
+				} else {
+					return;
+				}
+			}
+
+			// get coordinates
+
+		}, {
+			key: 'getCoordinates',
+			value: function getCoordinates(value) {
+				var _this3 = this;
+
+				if (value && value != '') {
+					_axios2.default.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + value + '&key=' + this.props.APIkey).then(function (res) {
+						var location = res.data.results[0].geometry.location;
+						_this3.locString = location.lat + ', ' + location.lng;
+						_this3.executeQuery();
+					});
+				} else {
+					helper.selectedSensor.set(null, true);
+				}
+			}
+
+			// execute query after changing location or distanc
+
+		}, {
+			key: 'executeQuery',
+			value: function executeQuery() {
+				if (this.state.currentValue != '' && this.state.currentDistance && this.locString) {
+					var _sortInfo$type;
+
+					var obj = {
+						key: this.props.sensorId,
+						value: {
+							currentValue: this.state.currentValue,
+							currentDistance: this.state.currentDistance,
+							location: this.locString
+						}
+					};
+					var sortObj = {
+						key: this.props.sensorId,
+						value: _defineProperty({}, this.sortInfo.type, (_sortInfo$type = {}, _defineProperty(_sortInfo$type, this.props.inputData, this.locString), _defineProperty(_sortInfo$type, 'order', this.sortInfo.order), _defineProperty(_sortInfo$type, 'unit', this.sortInfo.unit), _sortInfo$type))
+					};
+					helper.selectedSensor.setSortInfo(sortObj);
+					helper.selectedSensor.set(obj, true);
+				}
+			}
+
+			// use this only if want to create actuators
+			// Create a channel which passes the depends and receive results whenever depends changes
+
+		}, {
+			key: 'createChannel',
+			value: function createChannel() {
+				var depends = this.props.depends ? this.props.depends : {};
+				var channelObj = _ChannelManager.manager.create(depends);
+			}
+
+			// handle the input change and pass the value inside sensor info
+
+		}, {
+			key: 'handleChange',
+			value: function handleChange(input) {
+				if (input) {
+					var inputVal = input.value;
+					this.setState({
+						'currentValue': inputVal
+					});
+					this.getCoordinates(inputVal);
+				} else {
+					this.setState({
+						'currentValue': ''
+					});
+				}
+			}
+
+			// Handle function when value slider option is changing
+
+		}, {
+			key: 'handleValuesChange',
+			value: function handleValuesChange(component, value) {
+				this.setState({
+					value: value
+				});
+			}
+
+			// Handle function when slider option change is completed
+
+		}, {
+			key: 'handleResults',
+			value: function handleResults(component, value) {
+				value = value + this.props.unit;
+				this.setState({
+					currentDistance: value
+				}, this.executeQuery.bind(this));
+			}
+		}, {
+			key: 'loadOptions',
+			value: function loadOptions(input, callback) {
+				var _this4 = this;
+
+				this.callback = callback;
+				if (input) {
+					var googleMaps = this.googleMaps || window.google.maps;
+					this.autocompleteService = new googleMaps.places.AutocompleteService();
+					var options = {
+						input: input
+					};
+					this.result = {
+						options: []
+					};
+					this.autocompleteService.getPlacePredictions(options, function (res) {
+						res.map(function (place) {
+							_this4.result.options.push({
+								'value': place.description,
+								'label': place.description
+							});
+						});
+						_this4.callback(null, _this4.result);
+					});
+				} else {
+					this.callback(null, this.result);
+				}
+			}
+
+			// render
+
+		}, {
+			key: 'render',
+			value: function render() {
+				var title = null;
+				if (this.props.title) {
+					title = _react2.default.createElement(
+						'h4',
+						{ className: 'componentTitle' },
+						this.props.title
+					);
+				}
+
+				return _react2.default.createElement(
+					'div',
+					{ className: 'appbaseSearchComponent sliderComponent reactiveComponent clearfix card thumbnail col s12 col-xs-12' },
+					title,
+					_react2.default.createElement(_reactSelect2.default.Async, {
+						className: 'appbase-select col s12 col-xs-6 p-0',
+						name: 'appbase-search',
+						value: this.state.currentValue,
+						loadOptions: this.loadOptions,
+						placeholder: this.props.placeholder,
+						onChange: this.handleChange
+					}),
+					_react2.default.createElement(
+						'div',
+						{ className: 'sliderComponent' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'inputRangeContainer col s12 col-xs-6',
+								style: { 'padding': '12px 4px 16px 16px', 'marginBottom': '25px' }
+							},
+							_react2.default.createElement(_reactInputRange2.default, {
+								minValue: this.props.minThreshold,
+								maxValue: this.props.maxThreshold,
+								value: this.state.value,
+								labelSuffix: this.props.unit,
+								onChange: this.handleValuesChange,
+								onChangeComplete: this.handleResults
+							})
+						)
+					)
+				);
+			}
+		}]);
+
+		return DistanceSensor;
+	}(_react.Component);
+
+	DistanceSensor.propTypes = {
+		inputData: _react2.default.PropTypes.string.isRequired,
+		placeholder: _react2.default.PropTypes.string
+	};
+	// Default props value
+	DistanceSensor.defaultProps = {
+		value: 1,
+		unit: 'km',
+		placeholder: "Search...",
+		size: 10
+	};
+
+/***/ },
+/* 141 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(142);
+
+/***/ },
+/* 142 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(143);
+	var bind = __webpack_require__(144);
+	var Axios = __webpack_require__(145);
+	var defaults = __webpack_require__(146);
+
+	/**
+	 * Create an instance of Axios
+	 *
+	 * @param {Object} defaultConfig The default config for the instance
+	 * @return {Axios} A new instance of Axios
+	 */
+	function createInstance(defaultConfig) {
+	  var context = new Axios(defaultConfig);
+	  var instance = bind(Axios.prototype.request, context);
+
+	  // Copy axios.prototype to instance
+	  utils.extend(instance, Axios.prototype, context);
+
+	  // Copy context to instance
+	  utils.extend(instance, context);
+
+	  return instance;
+	}
+
+	// Create the default instance to be exported
+	var axios = createInstance(defaults);
+
+	// Expose Axios class to allow class inheritance
+	axios.Axios = Axios;
+
+	// Factory for creating new instances
+	axios.create = function create(instanceConfig) {
+	  return createInstance(utils.merge(defaults, instanceConfig));
+	};
+
+	// Expose Cancel & CancelToken
+	axios.Cancel = __webpack_require__(163);
+	axios.CancelToken = __webpack_require__(164);
+	axios.isCancel = __webpack_require__(160);
+
+	// Expose all/spread
+	axios.all = function all(promises) {
+	  return Promise.all(promises);
+	};
+	axios.spread = __webpack_require__(165);
+
+	module.exports = axios;
+
+	// Allow use of default import syntax in TypeScript
+	module.exports.default = axios;
+
+
+/***/ },
+/* 143 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var bind = __webpack_require__(144);
+
+	/*global toString:true*/
+
+	// utils is a library of generic helper functions non-specific to axios
+
+	var toString = Object.prototype.toString;
+
+	/**
+	 * Determine if a value is an Array
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is an Array, otherwise false
+	 */
+	function isArray(val) {
+	  return toString.call(val) === '[object Array]';
+	}
+
+	/**
+	 * Determine if a value is an ArrayBuffer
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is an ArrayBuffer, otherwise false
+	 */
+	function isArrayBuffer(val) {
+	  return toString.call(val) === '[object ArrayBuffer]';
+	}
+
+	/**
+	 * Determine if a value is a FormData
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is an FormData, otherwise false
+	 */
+	function isFormData(val) {
+	  return (typeof FormData !== 'undefined') && (val instanceof FormData);
+	}
+
+	/**
+	 * Determine if a value is a view on an ArrayBuffer
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
+	 */
+	function isArrayBufferView(val) {
+	  var result;
+	  if ((typeof ArrayBuffer !== 'undefined') && (ArrayBuffer.isView)) {
+	    result = ArrayBuffer.isView(val);
+	  } else {
+	    result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer);
+	  }
+	  return result;
+	}
+
+	/**
+	 * Determine if a value is a String
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a String, otherwise false
+	 */
+	function isString(val) {
+	  return typeof val === 'string';
+	}
+
+	/**
+	 * Determine if a value is a Number
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Number, otherwise false
+	 */
+	function isNumber(val) {
+	  return typeof val === 'number';
+	}
+
+	/**
+	 * Determine if a value is undefined
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if the value is undefined, otherwise false
+	 */
+	function isUndefined(val) {
+	  return typeof val === 'undefined';
+	}
+
+	/**
+	 * Determine if a value is an Object
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is an Object, otherwise false
+	 */
+	function isObject(val) {
+	  return val !== null && typeof val === 'object';
+	}
+
+	/**
+	 * Determine if a value is a Date
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Date, otherwise false
+	 */
+	function isDate(val) {
+	  return toString.call(val) === '[object Date]';
+	}
+
+	/**
+	 * Determine if a value is a File
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a File, otherwise false
+	 */
+	function isFile(val) {
+	  return toString.call(val) === '[object File]';
+	}
+
+	/**
+	 * Determine if a value is a Blob
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Blob, otherwise false
+	 */
+	function isBlob(val) {
+	  return toString.call(val) === '[object Blob]';
+	}
+
+	/**
+	 * Determine if a value is a Function
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Function, otherwise false
+	 */
+	function isFunction(val) {
+	  return toString.call(val) === '[object Function]';
+	}
+
+	/**
+	 * Determine if a value is a Stream
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Stream, otherwise false
+	 */
+	function isStream(val) {
+	  return isObject(val) && isFunction(val.pipe);
+	}
+
+	/**
+	 * Determine if a value is a URLSearchParams object
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a URLSearchParams object, otherwise false
+	 */
+	function isURLSearchParams(val) {
+	  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
+	}
+
+	/**
+	 * Trim excess whitespace off the beginning and end of a string
+	 *
+	 * @param {String} str The String to trim
+	 * @returns {String} The String freed of excess whitespace
+	 */
+	function trim(str) {
+	  return str.replace(/^\s*/, '').replace(/\s*$/, '');
+	}
+
+	/**
+	 * Determine if we're running in a standard browser environment
+	 *
+	 * This allows axios to run in a web worker, and react-native.
+	 * Both environments support XMLHttpRequest, but not fully standard globals.
+	 *
+	 * web workers:
+	 *  typeof window -> undefined
+	 *  typeof document -> undefined
+	 *
+	 * react-native:
+	 *  typeof document.createElement -> undefined
+	 */
+	function isStandardBrowserEnv() {
+	  return (
+	    typeof window !== 'undefined' &&
+	    typeof document !== 'undefined' &&
+	    typeof document.createElement === 'function'
+	  );
+	}
+
+	/**
+	 * Iterate over an Array or an Object invoking a function for each item.
+	 *
+	 * If `obj` is an Array callback will be called passing
+	 * the value, index, and complete array for each item.
+	 *
+	 * If 'obj' is an Object callback will be called passing
+	 * the value, key, and complete object for each property.
+	 *
+	 * @param {Object|Array} obj The object to iterate
+	 * @param {Function} fn The callback to invoke for each item
+	 */
+	function forEach(obj, fn) {
+	  // Don't bother if no value provided
+	  if (obj === null || typeof obj === 'undefined') {
+	    return;
+	  }
+
+	  // Force an array if not already something iterable
+	  if (typeof obj !== 'object' && !isArray(obj)) {
+	    /*eslint no-param-reassign:0*/
+	    obj = [obj];
+	  }
+
+	  if (isArray(obj)) {
+	    // Iterate over array values
+	    for (var i = 0, l = obj.length; i < l; i++) {
+	      fn.call(null, obj[i], i, obj);
+	    }
+	  } else {
+	    // Iterate over object keys
+	    for (var key in obj) {
+	      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+	        fn.call(null, obj[key], key, obj);
+	      }
+	    }
+	  }
+	}
+
+	/**
+	 * Accepts varargs expecting each argument to be an object, then
+	 * immutably merges the properties of each object and returns result.
+	 *
+	 * When multiple objects contain the same key the later object in
+	 * the arguments list will take precedence.
+	 *
+	 * Example:
+	 *
+	 * ```js
+	 * var result = merge({foo: 123}, {foo: 456});
+	 * console.log(result.foo); // outputs 456
+	 * ```
+	 *
+	 * @param {Object} obj1 Object to merge
+	 * @returns {Object} Result of all merge properties
+	 */
+	function merge(/* obj1, obj2, obj3, ... */) {
+	  var result = {};
+	  function assignValue(val, key) {
+	    if (typeof result[key] === 'object' && typeof val === 'object') {
+	      result[key] = merge(result[key], val);
+	    } else {
+	      result[key] = val;
+	    }
+	  }
+
+	  for (var i = 0, l = arguments.length; i < l; i++) {
+	    forEach(arguments[i], assignValue);
+	  }
+	  return result;
+	}
+
+	/**
+	 * Extends object a by mutably adding to it the properties of object b.
+	 *
+	 * @param {Object} a The object to be extended
+	 * @param {Object} b The object to copy properties from
+	 * @param {Object} thisArg The object to bind function to
+	 * @return {Object} The resulting value of object a
+	 */
+	function extend(a, b, thisArg) {
+	  forEach(b, function assignValue(val, key) {
+	    if (thisArg && typeof val === 'function') {
+	      a[key] = bind(val, thisArg);
+	    } else {
+	      a[key] = val;
+	    }
+	  });
+	  return a;
+	}
+
+	module.exports = {
+	  isArray: isArray,
+	  isArrayBuffer: isArrayBuffer,
+	  isFormData: isFormData,
+	  isArrayBufferView: isArrayBufferView,
+	  isString: isString,
+	  isNumber: isNumber,
+	  isObject: isObject,
+	  isUndefined: isUndefined,
+	  isDate: isDate,
+	  isFile: isFile,
+	  isBlob: isBlob,
+	  isFunction: isFunction,
+	  isStream: isStream,
+	  isURLSearchParams: isURLSearchParams,
+	  isStandardBrowserEnv: isStandardBrowserEnv,
+	  forEach: forEach,
+	  merge: merge,
+	  extend: extend,
+	  trim: trim
+	};
+
+
+/***/ },
+/* 144 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function bind(fn, thisArg) {
+	  return function wrap() {
+	    var args = new Array(arguments.length);
+	    for (var i = 0; i < args.length; i++) {
+	      args[i] = arguments[i];
+	    }
+	    return fn.apply(thisArg, args);
+	  };
+	};
+
+
+/***/ },
+/* 145 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var defaults = __webpack_require__(146);
+	var utils = __webpack_require__(143);
+	var InterceptorManager = __webpack_require__(157);
+	var dispatchRequest = __webpack_require__(158);
+	var isAbsoluteURL = __webpack_require__(161);
+	var combineURLs = __webpack_require__(162);
+
+	/**
+	 * Create a new instance of Axios
+	 *
+	 * @param {Object} instanceConfig The default config for the instance
+	 */
+	function Axios(instanceConfig) {
+	  this.defaults = instanceConfig;
+	  this.interceptors = {
+	    request: new InterceptorManager(),
+	    response: new InterceptorManager()
+	  };
+	}
+
+	/**
+	 * Dispatch a request
+	 *
+	 * @param {Object} config The config specific for this request (merged with this.defaults)
+	 */
+	Axios.prototype.request = function request(config) {
+	  /*eslint no-param-reassign:0*/
+	  // Allow for axios('example/url'[, config]) a la fetch API
+	  if (typeof config === 'string') {
+	    config = utils.merge({
+	      url: arguments[0]
+	    }, arguments[1]);
+	  }
+
+	  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
+
+	  // Support baseURL config
+	  if (config.baseURL && !isAbsoluteURL(config.url)) {
+	    config.url = combineURLs(config.baseURL, config.url);
+	  }
+
+	  // Hook up interceptors middleware
+	  var chain = [dispatchRequest, undefined];
+	  var promise = Promise.resolve(config);
+
+	  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+	    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+	  });
+
+	  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+	    chain.push(interceptor.fulfilled, interceptor.rejected);
+	  });
+
+	  while (chain.length) {
+	    promise = promise.then(chain.shift(), chain.shift());
+	  }
+
+	  return promise;
+	};
+
+	// Provide aliases for supported request methods
+	utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+	  /*eslint func-names:0*/
+	  Axios.prototype[method] = function(url, config) {
+	    return this.request(utils.merge(config || {}, {
+	      method: method,
+	      url: url
+	    }));
+	  };
+	});
+
+	utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+	  /*eslint func-names:0*/
+	  Axios.prototype[method] = function(url, data, config) {
+	    return this.request(utils.merge(config || {}, {
+	      method: method,
+	      url: url,
+	      data: data
+	    }));
+	  };
+	});
+
+	module.exports = Axios;
+
+
+/***/ },
+/* 146 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+
+	var utils = __webpack_require__(143);
+	var normalizeHeaderName = __webpack_require__(147);
+
+	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
+	var DEFAULT_CONTENT_TYPE = {
+	  'Content-Type': 'application/x-www-form-urlencoded'
+	};
+
+	function setContentTypeIfUnset(headers, value) {
+	  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+	    headers['Content-Type'] = value;
+	  }
+	}
+
+	function getDefaultAdapter() {
+	  var adapter;
+	  if (typeof XMLHttpRequest !== 'undefined') {
+	    // For browsers use XHR adapter
+	    adapter = __webpack_require__(148);
+	  } else if (typeof process !== 'undefined') {
+	    // For node use HTTP adapter
+	    adapter = __webpack_require__(148);
+	  }
+	  return adapter;
+	}
+
+	var defaults = {
+	  adapter: getDefaultAdapter(),
+
+	  transformRequest: [function transformRequest(data, headers) {
+	    normalizeHeaderName(headers, 'Content-Type');
+	    if (utils.isFormData(data) ||
+	      utils.isArrayBuffer(data) ||
+	      utils.isStream(data) ||
+	      utils.isFile(data) ||
+	      utils.isBlob(data)
+	    ) {
+	      return data;
+	    }
+	    if (utils.isArrayBufferView(data)) {
+	      return data.buffer;
+	    }
+	    if (utils.isURLSearchParams(data)) {
+	      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+	      return data.toString();
+	    }
+	    if (utils.isObject(data)) {
+	      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+	      return JSON.stringify(data);
+	    }
+	    return data;
+	  }],
+
+	  transformResponse: [function transformResponse(data) {
+	    /*eslint no-param-reassign:0*/
+	    if (typeof data === 'string') {
+	      data = data.replace(PROTECTION_PREFIX, '');
+	      try {
+	        data = JSON.parse(data);
+	      } catch (e) { /* Ignore */ }
+	    }
+	    return data;
+	  }],
+
+	  timeout: 0,
+
+	  xsrfCookieName: 'XSRF-TOKEN',
+	  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+	  maxContentLength: -1,
+
+	  validateStatus: function validateStatus(status) {
+	    return status >= 200 && status < 300;
+	  }
+	};
+
+	defaults.headers = {
+	  common: {
+	    'Accept': 'application/json, text/plain, */*'
+	  }
+	};
+
+	utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
+	  defaults.headers[method] = {};
+	});
+
+	utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+	  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+	});
+
+	module.exports = defaults;
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
+
+/***/ },
+/* 147 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(143);
+
+	module.exports = function normalizeHeaderName(headers, normalizedName) {
+	  utils.forEach(headers, function processHeader(value, name) {
+	    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+	      headers[normalizedName] = value;
+	      delete headers[name];
+	    }
+	  });
+	};
+
+
+/***/ },
+/* 148 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(143);
+	var settle = __webpack_require__(149);
+	var buildURL = __webpack_require__(152);
+	var parseHeaders = __webpack_require__(153);
+	var isURLSameOrigin = __webpack_require__(154);
+	var createError = __webpack_require__(150);
+	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(155);
+
+	module.exports = function xhrAdapter(config) {
+	  return new Promise(function dispatchXhrRequest(resolve, reject) {
+	    var requestData = config.data;
+	    var requestHeaders = config.headers;
+
+	    if (utils.isFormData(requestData)) {
+	      delete requestHeaders['Content-Type']; // Let the browser set it
+	    }
+
+	    var request = new XMLHttpRequest();
+	    var loadEvent = 'onreadystatechange';
+	    var xDomain = false;
+
+	    // For IE 8/9 CORS support
+	    // Only supports POST and GET calls and doesn't returns the response headers.
+	    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+	    if ((undefined) !== 'test' &&
+	        typeof window !== 'undefined' &&
+	        window.XDomainRequest && !('withCredentials' in request) &&
+	        !isURLSameOrigin(config.url)) {
+	      request = new window.XDomainRequest();
+	      loadEvent = 'onload';
+	      xDomain = true;
+	      request.onprogress = function handleProgress() {};
+	      request.ontimeout = function handleTimeout() {};
+	    }
+
+	    // HTTP basic authentication
+	    if (config.auth) {
+	      var username = config.auth.username || '';
+	      var password = config.auth.password || '';
+	      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+	    }
+
+	    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+	    // Set the request timeout in MS
+	    request.timeout = config.timeout;
+
+	    // Listen for ready state
+	    request[loadEvent] = function handleLoad() {
+	      if (!request || (request.readyState !== 4 && !xDomain)) {
+	        return;
+	      }
+
+	      // The request errored out and we didn't get a response, this will be
+	      // handled by onerror instead
+	      // With one exception: request that using file: protocol, most browsers
+	      // will return status as 0 even though it's a successful request
+	      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+	        return;
+	      }
+
+	      // Prepare the response
+	      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+	      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+	      var response = {
+	        data: responseData,
+	        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
+	        status: request.status === 1223 ? 204 : request.status,
+	        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+	        headers: responseHeaders,
+	        config: config,
+	        request: request
+	      };
+
+	      settle(resolve, reject, response);
+
+	      // Clean up request
+	      request = null;
+	    };
+
+	    // Handle low level network errors
+	    request.onerror = function handleError() {
+	      // Real errors are hidden from us by the browser
+	      // onerror should only fire if it's a network error
+	      reject(createError('Network Error', config));
+
+	      // Clean up request
+	      request = null;
+	    };
+
+	    // Handle timeout
+	    request.ontimeout = function handleTimeout() {
+	      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
+
+	      // Clean up request
+	      request = null;
+	    };
+
+	    // Add xsrf header
+	    // This is only done if running in a standard browser environment.
+	    // Specifically not if we're in a web worker, or react-native.
+	    if (utils.isStandardBrowserEnv()) {
+	      var cookies = __webpack_require__(156);
+
+	      // Add xsrf header
+	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+	          cookies.read(config.xsrfCookieName) :
+	          undefined;
+
+	      if (xsrfValue) {
+	        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+	      }
+	    }
+
+	    // Add headers to the request
+	    if ('setRequestHeader' in request) {
+	      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+	        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+	          // Remove Content-Type if data is undefined
+	          delete requestHeaders[key];
+	        } else {
+	          // Otherwise add header to the request
+	          request.setRequestHeader(key, val);
+	        }
+	      });
+	    }
+
+	    // Add withCredentials to request if needed
+	    if (config.withCredentials) {
+	      request.withCredentials = true;
+	    }
+
+	    // Add responseType to request if needed
+	    if (config.responseType) {
+	      try {
+	        request.responseType = config.responseType;
+	      } catch (e) {
+	        if (request.responseType !== 'json') {
+	          throw e;
+	        }
+	      }
+	    }
+
+	    // Handle progress if needed
+	    if (typeof config.onDownloadProgress === 'function') {
+	      request.addEventListener('progress', config.onDownloadProgress);
+	    }
+
+	    // Not all browsers support upload events
+	    if (typeof config.onUploadProgress === 'function' && request.upload) {
+	      request.upload.addEventListener('progress', config.onUploadProgress);
+	    }
+
+	    if (config.cancelToken) {
+	      // Handle cancellation
+	      config.cancelToken.promise.then(function onCanceled(cancel) {
+	        if (!request) {
+	          return;
+	        }
+
+	        request.abort();
+	        reject(cancel);
+	        // Clean up request
+	        request = null;
+	      });
+	    }
+
+	    if (requestData === undefined) {
+	      requestData = null;
+	    }
+
+	    // Send the request
+	    request.send(requestData);
+	  });
+	};
+
+
+/***/ },
+/* 149 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var createError = __webpack_require__(150);
+
+	/**
+	 * Resolve or reject a Promise based on response status.
+	 *
+	 * @param {Function} resolve A function that resolves the promise.
+	 * @param {Function} reject A function that rejects the promise.
+	 * @param {object} response The response.
+	 */
+	module.exports = function settle(resolve, reject, response) {
+	  var validateStatus = response.config.validateStatus;
+	  // Note: status is not exposed by XDomainRequest
+	  if (!response.status || !validateStatus || validateStatus(response.status)) {
+	    resolve(response);
+	  } else {
+	    reject(createError(
+	      'Request failed with status code ' + response.status,
+	      response.config,
+	      null,
+	      response
+	    ));
+	  }
+	};
+
+
+/***/ },
+/* 150 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var enhanceError = __webpack_require__(151);
+
+	/**
+	 * Create an Error with the specified message, config, error code, and response.
+	 *
+	 * @param {string} message The error message.
+	 * @param {Object} config The config.
+	 * @param {string} [code] The error code (for example, 'ECONNABORTED').
+	 @ @param {Object} [response] The response.
+	 * @returns {Error} The created error.
+	 */
+	module.exports = function createError(message, config, code, response) {
+	  var error = new Error(message);
+	  return enhanceError(error, config, code, response);
+	};
+
+
+/***/ },
+/* 151 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * Update an Error with the specified config, error code, and response.
+	 *
+	 * @param {Error} error The error to update.
+	 * @param {Object} config The config.
+	 * @param {string} [code] The error code (for example, 'ECONNABORTED').
+	 @ @param {Object} [response] The response.
+	 * @returns {Error} The error.
+	 */
+	module.exports = function enhanceError(error, config, code, response) {
+	  error.config = config;
+	  if (code) {
+	    error.code = code;
+	  }
+	  error.response = response;
+	  return error;
+	};
+
+
+/***/ },
+/* 152 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(143);
+
+	function encode(val) {
+	  return encodeURIComponent(val).
+	    replace(/%40/gi, '@').
+	    replace(/%3A/gi, ':').
+	    replace(/%24/g, '$').
+	    replace(/%2C/gi, ',').
+	    replace(/%20/g, '+').
+	    replace(/%5B/gi, '[').
+	    replace(/%5D/gi, ']');
+	}
+
+	/**
+	 * Build a URL by appending params to the end
+	 *
+	 * @param {string} url The base of the url (e.g., http://www.google.com)
+	 * @param {object} [params] The params to be appended
+	 * @returns {string} The formatted url
+	 */
+	module.exports = function buildURL(url, params, paramsSerializer) {
+	  /*eslint no-param-reassign:0*/
+	  if (!params) {
+	    return url;
+	  }
+
+	  var serializedParams;
+	  if (paramsSerializer) {
+	    serializedParams = paramsSerializer(params);
+	  } else if (utils.isURLSearchParams(params)) {
+	    serializedParams = params.toString();
+	  } else {
+	    var parts = [];
+
+	    utils.forEach(params, function serialize(val, key) {
+	      if (val === null || typeof val === 'undefined') {
+	        return;
+	      }
+
+	      if (utils.isArray(val)) {
+	        key = key + '[]';
+	      }
+
+	      if (!utils.isArray(val)) {
+	        val = [val];
+	      }
+
+	      utils.forEach(val, function parseValue(v) {
+	        if (utils.isDate(v)) {
+	          v = v.toISOString();
+	        } else if (utils.isObject(v)) {
+	          v = JSON.stringify(v);
+	        }
+	        parts.push(encode(key) + '=' + encode(v));
+	      });
+	    });
+
+	    serializedParams = parts.join('&');
+	  }
+
+	  if (serializedParams) {
+	    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+	  }
+
+	  return url;
+	};
+
+
+/***/ },
+/* 153 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(143);
+
+	/**
+	 * Parse headers into an object
+	 *
+	 * ```
+	 * Date: Wed, 27 Aug 2014 08:58:49 GMT
+	 * Content-Type: application/json
+	 * Connection: keep-alive
+	 * Transfer-Encoding: chunked
+	 * ```
+	 *
+	 * @param {String} headers Headers needing to be parsed
+	 * @returns {Object} Headers parsed into an object
+	 */
+	module.exports = function parseHeaders(headers) {
+	  var parsed = {};
+	  var key;
+	  var val;
+	  var i;
+
+	  if (!headers) { return parsed; }
+
+	  utils.forEach(headers.split('\n'), function parser(line) {
+	    i = line.indexOf(':');
+	    key = utils.trim(line.substr(0, i)).toLowerCase();
+	    val = utils.trim(line.substr(i + 1));
+
+	    if (key) {
+	      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+	    }
+	  });
+
+	  return parsed;
+	};
+
+
+/***/ },
+/* 154 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(143);
+
+	module.exports = (
+	  utils.isStandardBrowserEnv() ?
+
+	  // Standard browser envs have full support of the APIs needed to test
+	  // whether the request URL is of the same origin as current location.
+	  (function standardBrowserEnv() {
+	    var msie = /(msie|trident)/i.test(navigator.userAgent);
+	    var urlParsingNode = document.createElement('a');
+	    var originURL;
+
+	    /**
+	    * Parse a URL to discover it's components
+	    *
+	    * @param {String} url The URL to be parsed
+	    * @returns {Object}
+	    */
+	    function resolveURL(url) {
+	      var href = url;
+
+	      if (msie) {
+	        // IE needs attribute set twice to normalize properties
+	        urlParsingNode.setAttribute('href', href);
+	        href = urlParsingNode.href;
+	      }
+
+	      urlParsingNode.setAttribute('href', href);
+
+	      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+	      return {
+	        href: urlParsingNode.href,
+	        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+	        host: urlParsingNode.host,
+	        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+	        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+	        hostname: urlParsingNode.hostname,
+	        port: urlParsingNode.port,
+	        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+	                  urlParsingNode.pathname :
+	                  '/' + urlParsingNode.pathname
+	      };
+	    }
+
+	    originURL = resolveURL(window.location.href);
+
+	    /**
+	    * Determine if a URL shares the same origin as the current location
+	    *
+	    * @param {String} requestURL The URL to test
+	    * @returns {boolean} True if URL shares the same origin, otherwise false
+	    */
+	    return function isURLSameOrigin(requestURL) {
+	      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+	      return (parsed.protocol === originURL.protocol &&
+	            parsed.host === originURL.host);
+	    };
+	  })() :
+
+	  // Non standard browser envs (web workers, react-native) lack needed support.
+	  (function nonStandardBrowserEnv() {
+	    return function isURLSameOrigin() {
+	      return true;
+	    };
+	  })()
+	);
+
+
+/***/ },
+/* 155 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
+
+	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+	function E() {
+	  this.message = 'String contains an invalid character';
+	}
+	E.prototype = new Error;
+	E.prototype.code = 5;
+	E.prototype.name = 'InvalidCharacterError';
+
+	function btoa(input) {
+	  var str = String(input);
+	  var output = '';
+	  for (
+	    // initialize result and counter
+	    var block, charCode, idx = 0, map = chars;
+	    // if the next str index does not exist:
+	    //   change the mapping table to "="
+	    //   check if d has no fractional digits
+	    str.charAt(idx | 0) || (map = '=', idx % 1);
+	    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
+	    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
+	  ) {
+	    charCode = str.charCodeAt(idx += 3 / 4);
+	    if (charCode > 0xFF) {
+	      throw new E();
+	    }
+	    block = block << 8 | charCode;
+	  }
+	  return output;
+	}
+
+	module.exports = btoa;
+
+
+/***/ },
+/* 156 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(143);
+
+	module.exports = (
+	  utils.isStandardBrowserEnv() ?
+
+	  // Standard browser envs support document.cookie
+	  (function standardBrowserEnv() {
+	    return {
+	      write: function write(name, value, expires, path, domain, secure) {
+	        var cookie = [];
+	        cookie.push(name + '=' + encodeURIComponent(value));
+
+	        if (utils.isNumber(expires)) {
+	          cookie.push('expires=' + new Date(expires).toGMTString());
+	        }
+
+	        if (utils.isString(path)) {
+	          cookie.push('path=' + path);
+	        }
+
+	        if (utils.isString(domain)) {
+	          cookie.push('domain=' + domain);
+	        }
+
+	        if (secure === true) {
+	          cookie.push('secure');
+	        }
+
+	        document.cookie = cookie.join('; ');
+	      },
+
+	      read: function read(name) {
+	        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+	        return (match ? decodeURIComponent(match[3]) : null);
+	      },
+
+	      remove: function remove(name) {
+	        this.write(name, '', Date.now() - 86400000);
+	      }
+	    };
+	  })() :
+
+	  // Non standard browser env (web workers, react-native) lack needed support.
+	  (function nonStandardBrowserEnv() {
+	    return {
+	      write: function write() {},
+	      read: function read() { return null; },
+	      remove: function remove() {}
+	    };
+	  })()
+	);
+
+
+/***/ },
+/* 157 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(143);
+
+	function InterceptorManager() {
+	  this.handlers = [];
+	}
+
+	/**
+	 * Add a new interceptor to the stack
+	 *
+	 * @param {Function} fulfilled The function to handle `then` for a `Promise`
+	 * @param {Function} rejected The function to handle `reject` for a `Promise`
+	 *
+	 * @return {Number} An ID used to remove interceptor later
+	 */
+	InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+	  this.handlers.push({
+	    fulfilled: fulfilled,
+	    rejected: rejected
+	  });
+	  return this.handlers.length - 1;
+	};
+
+	/**
+	 * Remove an interceptor from the stack
+	 *
+	 * @param {Number} id The ID that was returned by `use`
+	 */
+	InterceptorManager.prototype.eject = function eject(id) {
+	  if (this.handlers[id]) {
+	    this.handlers[id] = null;
+	  }
+	};
+
+	/**
+	 * Iterate over all the registered interceptors
+	 *
+	 * This method is particularly useful for skipping over any
+	 * interceptors that may have become `null` calling `eject`.
+	 *
+	 * @param {Function} fn The function to call for each interceptor
+	 */
+	InterceptorManager.prototype.forEach = function forEach(fn) {
+	  utils.forEach(this.handlers, function forEachHandler(h) {
+	    if (h !== null) {
+	      fn(h);
+	    }
+	  });
+	};
+
+	module.exports = InterceptorManager;
+
+
+/***/ },
+/* 158 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(143);
+	var transformData = __webpack_require__(159);
+	var isCancel = __webpack_require__(160);
+	var defaults = __webpack_require__(146);
+
+	/**
+	 * Throws a `Cancel` if cancellation has been requested.
+	 */
+	function throwIfCancellationRequested(config) {
+	  if (config.cancelToken) {
+	    config.cancelToken.throwIfRequested();
+	  }
+	}
+
+	/**
+	 * Dispatch a request to the server using the configured adapter.
+	 *
+	 * @param {object} config The config that is to be used for the request
+	 * @returns {Promise} The Promise to be fulfilled
+	 */
+	module.exports = function dispatchRequest(config) {
+	  throwIfCancellationRequested(config);
+
+	  // Ensure headers exist
+	  config.headers = config.headers || {};
+
+	  // Transform request data
+	  config.data = transformData(
+	    config.data,
+	    config.headers,
+	    config.transformRequest
+	  );
+
+	  // Flatten headers
+	  config.headers = utils.merge(
+	    config.headers.common || {},
+	    config.headers[config.method] || {},
+	    config.headers || {}
+	  );
+
+	  utils.forEach(
+	    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
+	    function cleanHeaderConfig(method) {
+	      delete config.headers[method];
+	    }
+	  );
+
+	  var adapter = config.adapter || defaults.adapter;
+
+	  return adapter(config).then(function onAdapterResolution(response) {
+	    throwIfCancellationRequested(config);
+
+	    // Transform response data
+	    response.data = transformData(
+	      response.data,
+	      response.headers,
+	      config.transformResponse
+	    );
+
+	    return response;
+	  }, function onAdapterRejection(reason) {
+	    if (!isCancel(reason)) {
+	      throwIfCancellationRequested(config);
+
+	      // Transform response data
+	      if (reason && reason.response) {
+	        reason.response.data = transformData(
+	          reason.response.data,
+	          reason.response.headers,
+	          config.transformResponse
+	        );
+	      }
+	    }
+
+	    return Promise.reject(reason);
+	  });
+	};
+
+
+/***/ },
+/* 159 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(143);
+
+	/**
+	 * Transform the data for a request or a response
+	 *
+	 * @param {Object|String} data The data to be transformed
+	 * @param {Array} headers The headers for the request or response
+	 * @param {Array|Function} fns A single function or Array of functions
+	 * @returns {*} The resulting transformed data
+	 */
+	module.exports = function transformData(data, headers, fns) {
+	  /*eslint no-param-reassign:0*/
+	  utils.forEach(fns, function transform(fn) {
+	    data = fn(data, headers);
+	  });
+
+	  return data;
+	};
+
+
+/***/ },
+/* 160 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function isCancel(value) {
+	  return !!(value && value.__CANCEL__);
+	};
+
+
+/***/ },
+/* 161 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * Determines whether the specified URL is absolute
+	 *
+	 * @param {string} url The URL to test
+	 * @returns {boolean} True if the specified URL is absolute, otherwise false
+	 */
+	module.exports = function isAbsoluteURL(url) {
+	  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+	  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+	  // by any combination of letters, digits, plus, period, or hyphen.
+	  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+	};
+
+
+/***/ },
+/* 162 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * Creates a new URL by combining the specified URLs
+	 *
+	 * @param {string} baseURL The base URL
+	 * @param {string} relativeURL The relative URL
+	 * @returns {string} The combined URL
+	 */
+	module.exports = function combineURLs(baseURL, relativeURL) {
+	  return baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '');
+	};
+
+
+/***/ },
+/* 163 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * A `Cancel` is an object that is thrown when an operation is canceled.
+	 *
+	 * @class
+	 * @param {string=} message The message.
+	 */
+	function Cancel(message) {
+	  this.message = message;
+	}
+
+	Cancel.prototype.toString = function toString() {
+	  return 'Cancel' + (this.message ? ': ' + this.message : '');
+	};
+
+	Cancel.prototype.__CANCEL__ = true;
+
+	module.exports = Cancel;
+
+
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Cancel = __webpack_require__(163);
+
+	/**
+	 * A `CancelToken` is an object that can be used to request cancellation of an operation.
+	 *
+	 * @class
+	 * @param {Function} executor The executor function.
+	 */
+	function CancelToken(executor) {
+	  if (typeof executor !== 'function') {
+	    throw new TypeError('executor must be a function.');
+	  }
+
+	  var resolvePromise;
+	  this.promise = new Promise(function promiseExecutor(resolve) {
+	    resolvePromise = resolve;
+	  });
+
+	  var token = this;
+	  executor(function cancel(message) {
+	    if (token.reason) {
+	      // Cancellation has already been requested
+	      return;
+	    }
+
+	    token.reason = new Cancel(message);
+	    resolvePromise(token.reason);
+	  });
+	}
+
+	/**
+	 * Throws a `Cancel` if cancellation has been requested.
+	 */
+	CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+	  if (this.reason) {
+	    throw this.reason;
+	  }
+	};
+
+	/**
+	 * Returns an object that contains a new `CancelToken` and a function that, when called,
+	 * cancels the `CancelToken`.
+	 */
+	CancelToken.source = function source() {
+	  var cancel;
+	  var token = new CancelToken(function executor(c) {
+	    cancel = c;
+	  });
+	  return {
+	    token: token,
+	    cancel: cancel
+	  };
+	};
+
+	module.exports = CancelToken;
+
+
+/***/ },
+/* 165 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * Syntactic sugar for invoking a function and expanding an array for arguments.
+	 *
+	 * Common use case would be to use `Function.prototype.apply`.
+	 *
+	 *  ```js
+	 *  function f(x, y, z) {}
+	 *  var args = [1, 2, 3];
+	 *  f.apply(null, args);
+	 *  ```
+	 *
+	 * With `spread` this example can be re-written.
+	 *
+	 *  ```js
+	 *  spread(function(x, y, z) {})([1, 2, 3]);
+	 *  ```
+	 *
+	 * @param {Function} callback
+	 * @returns {Function}
+	 */
+	module.exports = function spread(callback) {
+	  return function wrap(arr) {
+	    return callback.apply(null, arr);
+	  };
+	};
+
+
+/***/ },
+/* 166 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.InputField = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(4);
+
+	var _ChannelManager = __webpack_require__(104);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var helper = __webpack_require__(16);
+
+	var InputField = exports.InputField = function (_Component) {
+		_inherits(InputField, _Component);
+
+		function InputField(props) {
+			_classCallCheck(this, InputField);
+
+			var _this = _possibleConstructorReturn(this, (InputField.__proto__ || Object.getPrototypeOf(InputField)).call(this, props));
+
+			_this.state = {
+				currentValue: ''
+			};
+			_this.type = 'match';
+			_this.handleChange = _this.handleChange.bind(_this);
+			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			return _this;
+		}
+
+		// Set query information
+
+
+		_createClass(InputField, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setQueryInfo();
+			}
+
+			// set the query type and input data
+
+		}, {
+			key: 'setQueryInfo',
+			value: function setQueryInfo() {
+				var obj = {
+					key: this.props.sensorId,
+					value: {
+						queryType: this.type,
+						inputData: this.props.inputData,
+						defaultQuery: this.defaultQuery
+					}
+				};
+				helper.selectedSensor.setSensorInfo(obj);
+			}
+
+			// build query for this sensor only
+
+		}, {
+			key: 'defaultQuery',
+			value: function defaultQuery(value) {
+				return {
+					'term': _defineProperty({}, this.props.inputData, value)
+				};
+			}
+
+			// use this only if want to create actuators
+			// Create a channel which passes the depends and receive results whenever depends changes
+
+		}, {
+			key: 'createChannel',
+			value: function createChannel() {
+				var depends = this.props.depends ? this.props.depends : {};
+				var channelObj = _ChannelManager.manager.create(depends);
+			}
+
+			// handle the input change and pass the value inside sensor info
+
+		}, {
+			key: 'handleChange',
+			value: function handleChange(event) {
+				var inputVal = event.target.value;
+				this.setState({
+					'currentValue': inputVal
+				});
+				var obj = {
+					key: this.props.sensorId,
+					value: inputVal
+				};
+
+				// pass the selected sensor value with sensorId as key,
+				var isExecuteQuery = true;
+				helper.selectedSensor.set(obj, isExecuteQuery);
+			}
+
+			// render
+
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'appbaseSearchComponent reactiveComponent' },
+					_react2.default.createElement('input', { type: 'text', onChange: this.handleChange, placeholder: this.props.placeholder, value: this.state.currentValue })
+				);
+			}
+		}]);
+
+		return InputField;
+	}(_react.Component);
+
+	InputField.propTypes = {
+		inputData: _react2.default.PropTypes.string,
+		placeholder: _react2.default.PropTypes.string
+	};
+	// Default props value
+	InputField.defaultProps = {
+		placeholder: "Search...",
+		size: 10
+	};
+
+/***/ },
+/* 167 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
 	});
 	exports.AppbaseMap = undefined;
 
@@ -22128,13 +24272,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactDom = __webpack_require__(4);
 
-	var _reactGoogleMaps = __webpack_require__(141);
+	var _reactGoogleMaps = __webpack_require__(168);
 
-	var _InfoBox = __webpack_require__(188);
+	var _InfoBox = __webpack_require__(215);
 
 	var _InfoBox2 = _interopRequireDefault(_InfoBox);
 
-	var _MarkerClusterer = __webpack_require__(192);
+	var _MarkerClusterer = __webpack_require__(219);
 
 	var _MarkerClusterer2 = _interopRequireDefault(_MarkerClusterer);
 
@@ -22144,11 +24288,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _AppbaseSearch = __webpack_require__(128);
 
-	var _SearchAsMove = __webpack_require__(196);
+	var _SearchAsMove = __webpack_require__(223);
 
-	var _MapStyles = __webpack_require__(197);
+	var _MapStyles = __webpack_require__(224);
 
-	var _RotateIcon = __webpack_require__(198);
+	var _RotateIcon = __webpack_require__(225);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22162,619 +24306,747 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Style = __webpack_require__(6);
 
 	var AppbaseMap = exports.AppbaseMap = function (_Component) {
-	  _inherits(AppbaseMap, _Component);
+		_inherits(AppbaseMap, _Component);
 
-	  function AppbaseMap(props) {
-	    _classCallCheck(this, AppbaseMap);
+		function AppbaseMap(props) {
+			_classCallCheck(this, AppbaseMap);
 
-	    var _this = _possibleConstructorReturn(this, (AppbaseMap.__proto__ || Object.getPrototypeOf(AppbaseMap)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (AppbaseMap.__proto__ || Object.getPrototypeOf(AppbaseMap)).call(this, props));
 
-	    _this.state = {
-	      markers: [],
-	      selectedMarker: null,
-	      streamingStatus: 'Intializing..',
-	      center: _this.props.defaultCenter,
-	      query: {},
-	      rawData: {
-	        hits: {
-	          hits: []
-	        }
-	      },
-	      externalData: {}
-	    };
-	    _this.previousSelectedSensor = {};
-	    _this.handleSearch = _this.handleSearch.bind(_this);
-	    _this.searchAsMoveChange = _this.searchAsMoveChange.bind(_this);
-	    _this.mapStyleChange = _this.mapStyleChange.bind(_this);
-	    _this.reposition = false;
-	    return _this;
-	  }
+			_this.state = {
+				markers: [],
+				selectedMarker: null,
+				streamingStatus: 'Intializing..',
+				center: _this.props.defaultCenter,
+				query: {},
+				rawData: {
+					hits: {
+						hits: []
+					}
+				},
+				externalData: {}
+			};
+			_this.previousSelectedSensor = {};
+			_this.handleSearch = _this.handleSearch.bind(_this);
+			_this.searchAsMoveChange = _this.searchAsMoveChange.bind(_this);
+			_this.mapStyleChange = _this.mapStyleChange.bind(_this);
+			_this.queryStartTime = 0;
+			_this.reposition = false;
+			return _this;
+		}
 
-	  _createClass(AppbaseMap, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.createChannel();
-	      this.setGeoQueryInfo();
-	      var currentMapStyle = helper.getMapStyle(this.props.mapStyle);
-	      this.setState({
-	        currentMapStyle: currentMapStyle
-	      });
-	    }
-	    // Create a channel which passes the depends and receive results whenever depends changes
+		_createClass(AppbaseMap, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.createChannel();
+				this.setGeoQueryInfo();
+				var currentMapStyle = helper.getMapStyle(this.props.mapStyle);
+				this.setState({
+					currentMapStyle: currentMapStyle
+				});
+			}
+			// Create a channel which passes the depends and receive results whenever depends changes
 
-	  }, {
-	    key: 'createChannel',
-	    value: function createChannel() {
-	      // Set the depends - add self aggs query as well with depends
-	      var depends = this.props.depends ? this.props.depends : {};
-	      depends['geoQuery'] = { operation: "must" };
-	      // create a channel and listen the changes
-	      var channelObj = _ChannelManager.manager.create(depends, this.props.requestSize);
-	      channelObj.emitter.addListener(channelObj.channelId, function (res) {
-	        var data = res.data;
-	        var rawData = void 0,
-	            markersData = void 0;
-	        this.streamFlag = false;
-	        if (res.method === 'stream') {
-	          this.channelMethod = 'stream';
-	          var modData = this.streamDataModify(this.state.rawData, res);
-	          rawData = modData.rawData;
-	          res = modData.res;
-	          this.streamFlag = true;
-	          markersData = this.setMarkersData(rawData);
-	        } else if (res.method === 'historic') {
-	          this.channelMethod = 'historic';
-	          rawData = data;
-	          markersData = this.setMarkersData(data);
-	        }
-	        this.reposition = true;
-	        this.setState({
-	          rawData: rawData,
-	          markersData: markersData
-	        }, function () {
-	          // Pass the historic or streaming data in index method
-	          res.allMarkers = rawData;
-	          var generatedData = this.props.markerOnIndex(res);
-	          this.setState({
-	            externalData: generatedData
-	          });
-	          if (this.streamFlag) {
-	            this.streamMarkerInterval();
-	          }
-	        }.bind(this));
-	      }.bind(this));
-	    }
-	    // append stream boolean flag and also start time of stream
+		}, {
+			key: 'createChannel',
+			value: function createChannel() {
+				// Set the depends - add self aggs query as well with depends
+				var depends = this.props.depends ? this.props.depends : {};
+				depends['geoQuery'] = { operation: "must" };
+				// create a channel and listen the changes
+				var channelObj = _ChannelManager.manager.create(depends, this.props.requestSize);
+				channelObj.emitter.addListener(channelObj.channelId, function (res) {
+					var data = res.data;
+					// implementation to prevent initialize query issue if old query response is late then the newer query 
+					// then we will consider the response of new query and prevent to apply changes for old query response.
+					// if queryStartTime of channel response is greater than the previous one only then apply changes
+					if (res.method === 'historic' && res.startTime > this.queryStartTime) {
+						this.afterChannelResponse(res);
+					} else if (res.method === 'stream') {
+						this.afterChannelResponse(res);
+					}
+				}.bind(this));
+			}
+		}, {
+			key: 'afterChannelResponse',
+			value: function afterChannelResponse(res) {
+				var data = res.data;
+				var rawData = void 0,
+				    markersData = void 0;
+				this.streamFlag = false;
+				if (res.method === 'stream') {
+					this.channelMethod = 'stream';
+					var modData = this.streamDataModify(this.state.rawData, res);
+					rawData = modData.rawData;
+					res = modData.res;
+					this.streamFlag = true;
+					markersData = this.setMarkersData(rawData);
+				} else if (res.method === 'historic') {
+					this.channelMethod = 'historic';
+					this.queryStartTime = res.startTime;
+					rawData = data;
+					markersData = this.setMarkersData(data);
+				}
+				this.reposition = true;
+				this.setState({
+					rawData: rawData,
+					markersData: markersData
+				}, function () {
+					// Pass the historic or streaming data in index method
+					res.allMarkers = rawData;
+					var generatedData = this.props.markerOnIndex(res);
+					this.setState({
+						externalData: generatedData
+					});
+					if (this.streamFlag) {
+						this.streamMarkerInterval();
+					}
+				}.bind(this));
+			}
+			// append stream boolean flag and also start time of stream
 
-	  }, {
-	    key: 'streamDataModify',
-	    value: function streamDataModify(rawData, res) {
-	      if (res.data) {
-	        res.data.stream = true;
-	        res.data.streamStart = new Date();
-	        if (res.data._deleted) {
-	          var hits = rawData.hits.hits.filter(function (hit) {
-	            return hit._id !== res.data._id;
-	          });
-	          rawData.hits.hits = hits;
-	        } else {
-	          var prevData = rawData.hits.hits.filter(function (hit) {
-	            return hit._id === res.data._id;
-	          });
-	          if (prevData && prevData.length) {
-	            var preCord = prevData[0]._source[this.props.inputData];
-	            var newCord = res.data._source[this.props.inputData];
-	            res.data.angleDeg = this.bearing(preCord.lat, preCord.lon, newCord.lat, newCord.lon);
-	          }
-	          var _hits = rawData.hits.hits.filter(function (hit) {
-	            return hit._id !== res.data._id;
-	          });
-	          rawData.hits.hits = _hits;
-	          rawData.hits.hits.push(res.data);
-	        }
-	      }
-	      return {
-	        rawData: rawData,
-	        res: res,
-	        streamFlag: true
-	      };
-	    }
-	  }, {
-	    key: 'bearing',
-	    value: function bearing(lat1, lng1, lat2, lng2) {
-	      var dLon = this._toRad(lng2 - lng1);
-	      var y = Math.sin(dLon) * Math.cos(this._toRad(lat2));
-	      var x = Math.cos(this._toRad(lat1)) * Math.sin(this._toRad(lat2)) - Math.sin(this._toRad(lat1)) * Math.cos(this._toRad(lat2)) * Math.cos(dLon);
-	      var brng = this._toDeg(Math.atan2(y, x));
-	      return (brng + 360) % 360;
-	    }
-	  }, {
-	    key: '_toRad',
-	    value: function _toRad(deg) {
-	      return deg * Math.PI / 180;
-	    }
-	  }, {
-	    key: '_toDeg',
-	    value: function _toDeg(rad) {
-	      return rad * 180 / Math.PI;
-	    }
-	    // tranform the raw data to marker data
+		}, {
+			key: 'streamDataModify',
+			value: function streamDataModify(rawData, res) {
+				if (res.data) {
+					res.data.stream = true;
+					res.data.streamStart = new Date();
+					if (res.data._deleted) {
+						var hits = rawData.hits.hits.filter(function (hit) {
+							return hit._id !== res.data._id;
+						});
+						rawData.hits.hits = hits;
+					} else {
+						var prevData = rawData.hits.hits.filter(function (hit) {
+							return hit._id === res.data._id;
+						});
+						if (prevData && prevData.length) {
+							var preCord = prevData[0]._source[this.props.inputData];
+							var newCord = res.data._source[this.props.inputData];
+							res.data.angleDeg = this.bearing(preCord.lat, preCord.lon, newCord.lat, newCord.lon);
+						}
+						var _hits = rawData.hits.hits.filter(function (hit) {
+							return hit._id !== res.data._id;
+						});
+						rawData.hits.hits = _hits;
+						rawData.hits.hits.push(res.data);
+					}
+				}
+				return {
+					rawData: rawData,
+					res: res,
+					streamFlag: true
+				};
+			}
+		}, {
+			key: 'bearing',
+			value: function bearing(lat1, lng1, lat2, lng2) {
+				var dLon = this._toRad(lng2 - lng1);
+				var y = Math.sin(dLon) * Math.cos(this._toRad(lat2));
+				var x = Math.cos(this._toRad(lat1)) * Math.sin(this._toRad(lat2)) - Math.sin(this._toRad(lat1)) * Math.cos(this._toRad(lat2)) * Math.cos(dLon);
+				var brng = this._toDeg(Math.atan2(y, x));
+				return (brng + 360) % 360;
+			}
+		}, {
+			key: '_toRad',
+			value: function _toRad(deg) {
+				return deg * Math.PI / 180;
+			}
+		}, {
+			key: '_toDeg',
+			value: function _toDeg(rad) {
+				return rad * 180 / Math.PI;
+			}
+			// tranform the raw data to marker data
 
-	  }, {
-	    key: 'setMarkersData',
-	    value: function setMarkersData(data) {
-	      var self = this;
-	      if (data && data.hits && data.hits.hits) {
-	        var markersData = data.hits.hits.filter(function (hit, index) {
-	          return hit._source.hasOwnProperty(self.props.inputData) && !(hit._source[self.props.inputData].lat === 0 && hit._source[self.props.inputData].lon === 0);
-	        });
-	        markersData = _.orderBy(markersData, [self.props.inputData.lat], ['desc']);
-	        markersData = markersData.map(function (marker) {
-	          marker.showInfo = false;
-	          return marker;
-	        });
-	        return markersData;
-	      } else {
-	        return [];
-	      }
-	    }
-	    // set the query type and input data
+		}, {
+			key: 'setMarkersData',
+			value: function setMarkersData(data) {
+				var self = this;
+				if (data && data.hits && data.hits.hits) {
+					var markersData = data.hits.hits.map(function (hit, index) {
+						hit._source.mapPoint = self.identifyGeoData(hit._source[self.props.inputData]);
+						return hit;
+					});
+					markersData = markersData.filter(function (hit, index) {
+						return hit._source.mapPoint && !(hit._source.mapPoint.lat === 0 && hit._source.mapPoint.lng === 0);
+					});
+					markersData = this.sortByDistance(markersData);
+					markersData = markersData.map(function (marker) {
+						marker.showInfo = false;
+						return marker;
+					});
+					return markersData;
+				} else {
+					return [];
+				}
+			}
+			// centrialize the map
+			// calculate the distance from each marker to other marker, 
+			// summation of all the distance and sort by distance in ascending order
 
-	  }, {
-	    key: 'setGeoQueryInfo',
-	    value: function setGeoQueryInfo() {
-	      var obj = {
-	        key: 'geoQuery',
-	        value: {
-	          queryType: 'geo_bounding_box',
-	          inputData: this.props.inputData
-	        }
-	      };
-	      helper.selectedSensor.setSensorInfo(obj);
-	    }
-	    // Show InfoWindow and re-renders component
+		}, {
+			key: 'sortByDistance',
+			value: function sortByDistance(data) {
+				var _this2 = this;
 
-	  }, {
-	    key: 'handleMarkerClick',
-	    value: function handleMarkerClick(marker) {
-	      marker.showInfo = true;
-	      this.reposition = false;
-	      this.setState({
-	        rerender: true
-	      });
-	    }
-	    // Close infowindow
+				var modifiedData = data.map(function (record) {
+					record.distance = _this2.findDistance(data, record);
+					return record;
+				});
+				modifiedData = _.orderBy(modifiedData, 'distance');
+				return modifiedData;
+			}
+		}, {
+			key: 'findDistance',
+			value: function findDistance(data, record) {
+				record.distance = 0;
+				var modifiednData = data.map(function (to) {
+					record.distance += getDistance(record._source.mapPoint.lat, record._source.mapPoint.lng, to._source.mapPoint.lat, to._source.mapPoint.lng);
+				});
+				function getDistance(lat1, lon1, lat2, lon2) {
+					var R = 6371; // Radius of the earth in km
+					var dLat = deg2rad(lat2 - lat1); // deg2rad below
+					var dLon = deg2rad(lon2 - lon1);
+					var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+					var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+					var d = R * c; // Distance in km
+					return d;
+				}
+				function deg2rad(deg) {
+					return deg * (Math.PI / 180);
+				}
+				return record.distance;
+			}
+			// set the query type and input data
 
-	  }, {
-	    key: 'handleMarkerClose',
-	    value: function handleMarkerClose(marker) {
-	      marker.showInfo = false;
-	      this.reposition = false;
-	      this.setState(this.state);
-	    }
-	    // render infowindow 
+		}, {
+			key: 'setGeoQueryInfo',
+			value: function setGeoQueryInfo() {
+				var obj = {
+					key: 'geoQuery',
+					value: {
+						queryType: 'geo_bounding_box',
+						inputData: this.props.inputData
+					}
+				};
+				helper.selectedSensor.setSensorInfo(obj);
+			}
+			// Show InfoWindow and re-renders component
 
-	  }, {
-	    key: 'renderInfoWindow',
-	    value: function renderInfoWindow(ref, marker) {
-	      var popoverContent = this.props.popoverContent ? this.props.popoverContent(marker) : 'Popver';
-	      return _react2.default.createElement(
-	        _reactGoogleMaps.InfoWindow,
-	        {
-	          zIndex: 500,
-	          key: ref + '_info_window',
-	          onCloseclick: this.handleMarkerClose.bind(this, marker) },
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          popoverContent
-	        )
-	      );
-	    }
-	    // Handle function which is fired when map is moved and reaches to idle position
+		}, {
+			key: 'handleMarkerClick',
+			value: function handleMarkerClick(marker) {
+				marker.showInfo = true;
+				this.reposition = false;
+				this.setState({
+					rerender: true
+				});
+			}
+			// Close infowindow
 
-	  }, {
-	    key: 'handleOnIdle',
-	    value: function handleOnIdle() {
-	      var mapBounds = this.refs.map.getBounds();
-	      var north = mapBounds.getNorthEast().lat();
-	      var south = mapBounds.getSouthWest().lat();
-	      var east = mapBounds.getNorthEast().lng();
-	      var west = mapBounds.getSouthWest().lng();
-	      var boundingBoxCoordinates = {
-	        "top_left": [west, north],
-	        "bottom_right": [east, south]
-	      };
-	      var generatedData = this.props.mapOnIdle({
-	        boundingBoxCoordinates: boundingBoxCoordinates,
-	        mapBounds: mapBounds
-	      });
-	      this.setState({
-	        externalData: generatedData
-	      });
-	      if (this.searchAsMove && !this.searchQueryProgress) {
-	        this.setValue(boundingBoxCoordinates, this.searchAsMove);
-	      }
-	    }
-	    // set value
+		}, {
+			key: 'handleMarkerClose',
+			value: function handleMarkerClose(marker) {
+				marker.showInfo = false;
+				this.reposition = false;
+				this.setState(this.state);
+			}
+			// render infowindow
 
-	  }, {
-	    key: 'setValue',
-	    value: function setValue(value) {
-	      var isExecuteQuery = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+		}, {
+			key: 'renderInfoWindow',
+			value: function renderInfoWindow(ref, marker) {
+				var popoverContent = this.props.popoverContent ? this.props.popoverContent(marker) : 'Popver';
+				return _react2.default.createElement(
+					_reactGoogleMaps.InfoWindow,
+					{
+						zIndex: 500,
+						key: ref + '_info_window',
+						onCloseclick: this.handleMarkerClose.bind(this, marker) },
+					_react2.default.createElement(
+						'div',
+						null,
+						popoverContent
+					)
+				);
+			}
+			// Handle function which is fired when map is moved and reaches to idle position
 
-	      var obj = {
-	        key: 'geoQuery',
-	        value: value
-	      };
-	      helper.selectedSensor.set(obj, isExecuteQuery);
-	    }
-	    // on change of selectiong 
+		}, {
+			key: 'handleOnIdle',
+			value: function handleOnIdle() {
+				var mapBounds = this.refs.map.getBounds();
+				var north = mapBounds.getNorthEast().lat();
+				var south = mapBounds.getSouthWest().lat();
+				var east = mapBounds.getNorthEast().lng();
+				var west = mapBounds.getSouthWest().lng();
+				var boundingBoxCoordinates = {
+					"top_left": [west, north],
+					"bottom_right": [east, south]
+				};
+				var generatedData = this.props.OnIdle(this.refs.map, {
+					boundingBoxCoordinates: boundingBoxCoordinates,
+					mapBounds: mapBounds
+				});
+				this.setState({
+					externalData: generatedData
+				});
+				if (this.searchAsMove && !this.searchQueryProgress) {
+					this.setValue(boundingBoxCoordinates, this.searchAsMove);
+				}
+			}
+			// Handle function which is fired when map is dragged
 
-	  }, {
-	    key: 'searchAsMoveChange',
-	    value: function searchAsMoveChange(value) {
-	      this.searchAsMove = value;
-	      if (value) {
-	        this.handleOnIdle();
-	      }
-	    }
-	    // mapStyle changes
+		}, {
+			key: 'handleOnDrage',
+			value: function handleOnDrage() {
+				this.storeCenter = null;
+			}
+			// set value
 
-	  }, {
-	    key: 'mapStyleChange',
-	    value: function mapStyleChange(style) {
-	      this.setState({
-	        currentMapStyle: style
-	      });
-	    }
-	    // Handler function for bounds changed which udpates the map center
+		}, {
+			key: 'setValue',
+			value: function setValue(value) {
+				var isExecuteQuery = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-	  }, {
-	    key: 'handleBoundsChanged',
-	    value: function handleBoundsChanged() {
-	      var _this2 = this;
+				var obj = {
+					key: 'geoQuery',
+					value: value
+				};
+				helper.selectedSensor.set(obj, isExecuteQuery);
+			}
+			// on change of selectiong
 
-	      if (!this.searchQueryProgress) {
-	        // this.setState({
-	        //   center: this.refs.map.getCenter()
-	        // });
-	      } else {
-	        setTimeout(function () {
-	          _this2.searchQueryProgress = false;
-	        }, 1000 * 1);
-	      }
-	    }
-	    // Handler function which is fired when an input is selected from autocomplete google places 
+		}, {
+			key: 'searchAsMoveChange',
+			value: function searchAsMoveChange(value) {
+				this.searchAsMove = value;
+				if (value && this.refs.map) {
+					this.handleOnIdle();
+				}
+			}
+			// mapStyle changes
 
-	  }, {
-	    key: 'handlePlacesChanged',
-	    value: function handlePlacesChanged() {
-	      var places = this.refs.searchBox.getPlaces();
-	      // this.setState({
-	      //   center: places[0].geometry.location
-	      // });
-	    }
-	    // Handler function which is fired when an input is selected from Appbase geo search field
+		}, {
+			key: 'mapStyleChange',
+			value: function mapStyleChange(style) {
+				this.setState({
+					currentMapStyle: style
+				});
+			}
+			// Handler function for bounds changed which udpates the map center
 
-	  }, {
-	    key: 'handleSearch',
-	    value: function handleSearch(location) {
-	      // this.setState({
-	      //   center: new google.maps.LatLng(location.value.lat, location.value.lon)
-	      // });
-	    }
-	  }, {
-	    key: 'identifyGeoData',
-	    value: function identifyGeoData(input) {
-	      var type = Object.prototype.toString.call(input);
-	      var convertedGeo = null;
-	      if (type === '[object Object]' && input.hasOwnProperty('lat') && input.hasOwnProperty('lon')) {
-	        convertedGeo = {
-	          lat: Number(input.lat),
-	          lng: Number(input.lon)
-	        };
-	      } else if (type === '[object Array]' && input.length === 2) {
-	        convertedGeo = {
-	          lat: Number(input[0]),
-	          lng: Number(input[1])
-	        };
-	      }
-	      return convertedGeo;
-	    }
-	    // Check if stream data exists in markersData 
-	    // and if exists the call streamToNormal.
+		}, {
+			key: 'handleBoundsChanged',
+			value: function handleBoundsChanged() {
+				var _this3 = this;
 
-	  }, {
-	    key: 'streamMarkerInterval',
-	    value: function streamMarkerInterval() {
-	      var _this3 = this;
+				if (!this.searchQueryProgress) {
+					// this.setState({
+					//   center: this.refs.map.getCenter()
+					// });
+				} else {
+					setTimeout(function () {
+						_this3.searchQueryProgress = false;
+					}, 1000 * 1);
+				}
+			}
+			// Handler function which is fired when an input is selected from autocomplete google places
 
-	      var markersData = this.state.markersData;
-	      var isStreamData = markersData.filter(function (hit) {
-	        return hit.stream && hit.streamStart;
-	      });
-	      if (isStreamData.length) {
-	        this.isStreamDataExists = true;
-	        setTimeout(function () {
-	          return _this3.streamToNormal();
-	        }, this.props.streamActiveTime * 1000);
-	      } else {
-	        this.isStreamDataExists = false;
-	      }
-	    }
-	    // Check the difference between current time and attached stream time
-	    // if difference is equal to streamActiveTime then delete stream and starStream property of marker
+		}, {
+			key: 'handlePlacesChanged',
+			value: function handlePlacesChanged() {
+				var places = this.refs.searchBox.getPlaces();
+				// this.setState({
+				//   center: places[0].geometry.location
+				// });
+			}
+			// Handler function which is fired when an input is selected from Appbase geo search field
 
-	  }, {
-	    key: 'streamToNormal',
-	    value: function streamToNormal() {
-	      var _this4 = this;
+		}, {
+			key: 'handleSearch',
+			value: function handleSearch(location) {
+				// this.setState({
+				//   center: new google.maps.LatLng(location.value.lat, location.value.lon)
+				// });
+			}
+		}, {
+			key: 'identifyGeoData',
+			value: function identifyGeoData(input) {
+				var type = Object.prototype.toString.call(input);
+				var convertedGeo = null;
+				if (type === '[object Object]' && input.hasOwnProperty('lat') && input.hasOwnProperty('lon')) {
+					convertedGeo = {
+						lat: Number(input.lat),
+						lng: Number(input.lon)
+					};
+				} else if (type === '[object Array]' && input.length === 2) {
+					convertedGeo = {
+						lat: Number(input[0]),
+						lng: Number(input[1])
+					};
+				}
+				return convertedGeo;
+			}
+			// Check if stream data exists in markersData
+			// and if exists the call streamToNormal.
 
-	      var markersData = this.state.markersData;
-	      var isStreamData = markersData.filter(function (hit) {
-	        return hit.stream && hit.streamStart;
-	      });
-	      if (isStreamData.length) {
-	        markersData = markersData.map(function (hit, index) {
-	          if (hit.stream && hit.streamStart) {
-	            var currentTime = new Date();
-	            var timeDiff = (currentTime.getTime() - hit.streamStart.getTime()) / 1000;
-	            if (timeDiff >= _this4.props.streamActiveTime) {
-	              delete hit.stream;
-	              delete hit.streamStart;
-	            }
-	          }
-	          return hit;
-	        });
-	        this.setState({
-	          markersData: markersData
-	        });
-	      } else {
-	        this.isStreamDataExists = false;
-	      }
-	    }
-	  }, {
-	    key: 'chooseIcon',
-	    value: function chooseIcon(hit) {
-	      var icon = hit.external_icon ? hit.external_icon : hit.stream ? this.props.streamPin : this.props.historicPin;
-	      var isSvg = (typeof icon === 'undefined' ? 'undefined' : _typeof(icon)) === 'object' && icon.hasOwnProperty('path') ? true : false;
-	      if (isSvg) {
-	        icon = JSON.parse(JSON.stringify(icon));
-	        if (this.props.rotateOnUpdate) {
-	          var deg = hit.angleDeg ? hit.angleDeg : 0;
-	          icon.rotation = deg;
-	        }
-	      }
-	      return icon;
-	    }
-	    // here we accepts marker props which we received from markerOnIndex and apply those external props in Marker component
+		}, {
+			key: 'streamMarkerInterval',
+			value: function streamMarkerInterval() {
+				var _this4 = this;
 
-	  }, {
-	    key: 'combineProps',
-	    value: function combineProps(hit) {
-	      var externalProps = void 0,
-	          markerProp = {};
-	      if (this.state.externalData && this.state.externalData.markers && this.state.externalData.markers[hit._id]) {
-	        externalProps = this.state.externalData.markers[hit._id];
-	        for (var external_p in externalProps) {
-	          hit["external_" + external_p] = externalProps[external_p];
-	          markerProp[external_p] = externalProps[external_p];
-	        }
-	      }
-	      markerProp.icon = this.chooseIcon(hit);
-	      return markerProp;
-	    }
-	  }, {
-	    key: 'generateMarkers',
-	    value: function generateMarkers() {
-	      var _this5 = this;
+				var markersData = this.state.markersData;
+				var isStreamData = markersData.filter(function (hit) {
+					return hit.stream && hit.streamStart;
+				});
+				if (isStreamData.length) {
+					this.isStreamDataExists = true;
+					setTimeout(function () {
+						return _this4.streamToNormal();
+					}, this.props.streamActiveTime * 1000);
+				} else {
+					this.isStreamDataExists = false;
+				}
+			}
+			// Check the difference between current time and attached stream time
+			// if difference is equal to streamActiveTime then delete stream and starStream property of marker
 
-	      var self = this;
-	      var markersData = this.state.markersData;
-	      var response = {
-	        markerComponent: [],
-	        defaultCenter: null,
-	        convertedGeo: []
-	      };
-	      if (markersData && markersData.length) {
-	        response.markerComponent = markersData.map(function (hit, index) {
-	          var field = self.identifyGeoData(hit._source[self.props.inputData]);
-	          // let icon = !this.props.rotateOnUpdate ? iconPath : RotateIcon.makeIcon(iconPath).setRotation({deg: deg}).getUrl();
-	          // let icon = self.chooseIcon(hit);
-	          if (field) {
-	            response.convertedGeo.push(field);
-	            var position = {
-	              position: field
-	            };
-	            var ref = 'marker_ref_' + index;
-	            var popoverEvent = void 0;
-	            if (_this5.props.showPopoverOn) {
-	              popoverEvent = {};
-	              popoverEvent[_this5.props.showPopoverOn] = _this5.handleMarkerClick.bind(_this5, hit);
-	            } else {
-	              popoverEvent = {};
-	              popoverEvent['onClick'] = _this5.handleMarkerClick.bind(_this5, hit);
-	            }
-	            var timenow = new Date();
-	            return _react2.default.createElement(
-	              _reactGoogleMaps.Marker,
-	              _extends({}, position, {
-	                key: hit._id,
-	                zIndex: 1,
-	                ref: ref
-	              }, self.combineProps(hit), {
-	                onClick: function onClick() {
-	                  return self.props.markerOnClick(hit._source);
-	                },
-	                onDblclick: function onDblclick() {
-	                  return self.props.markerOnDblclick(hit._source);
-	                },
-	                onMouseover: function onMouseover() {
-	                  return self.props.markerOnMouseover(hit._source);
-	                },
-	                onMouseout: function onMouseout() {
-	                  return self.props.markerOnMouseout(hit._source);
-	                }
-	              }, popoverEvent),
-	              hit.showInfo ? self.renderInfoWindow(ref, hit) : null
-	            );
-	          }
-	        });
-	        var median = parseInt(response.convertedGeo.length / 2, 10);
-	        var selectedMarker = response.convertedGeo[median];
-	        response.defaultCenter = {
-	          lat: selectedMarker.lat,
-	          lng: selectedMarker.lng
-	        };
-	      }
-	      return response;
-	    }
-	  }, {
-	    key: 'externalData',
-	    value: function externalData() {
-	      var recordList = [];
-	      if (this.state.externalData) {
-	        for (var record in this.state.externalData) {
-	          if (record !== 'markers') {
-	            recordList = recordList.concat(this.state.externalData[record]);
-	          }
-	        }
-	      }
-	      return recordList;
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this6 = this;
+		}, {
+			key: 'streamToNormal',
+			value: function streamToNormal() {
+				var _this5 = this;
 
-	      var self = this;
-	      var markerComponent, searchComponent, searchAsMoveComponent, MapStylesComponent;
-	      var appbaseSearch = void 0,
-	          titleExists = void 0,
-	          title = null;
-	      var searchComponentProps = {};
-	      var otherOptions;
-	      var generatedMarkers = this.generateMarkers();
-	      if (this.props.markerCluster) {
-	        markerComponent = _react2.default.createElement(
-	          _MarkerClusterer2.default,
-	          { averageCenter: true, enableRetinaIcons: true, gridSize: 60 },
-	          generatedMarkers.markerComponent
-	        );
-	      } else {
-	        markerComponent = generatedMarkers.markerComponent;
-	      }
-	      // Auto center using markers data
-	      var streamCenterFlag = true;
-	      if (this.channelMethod === 'stream' && !this.props.streamAutoCenter) {
-	        streamCenterFlag = false;
-	      }
-	      if (!this.searchAsMove && this.props.autoCenter && this.reposition && streamCenterFlag) {
-	        searchComponentProps.center = generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : this.state.center;
-	        this.reposition = false;
-	      } else {
-	        delete searchComponentProps.center;
-	      }
-	      // include searchasMove component 
-	      if (this.props.searchAsMoveComponent) {
-	        searchAsMoveComponent = _react2.default.createElement(_SearchAsMove.SearchAsMove, { searchAsMoveDefault: this.props.searchAsMoveDefault, searchAsMoveChange: this.searchAsMoveChange });
-	      }
-	      // include mapStyle choose component 
-	      if (this.props.MapStylesComponent) {
-	        MapStylesComponent = _react2.default.createElement(_MapStyles.MapStyles, { defaultSelected: this.props.mapStyle, mapStyleChange: this.mapStyleChange });
-	      }
-	      // include title if exists
-	      if (this.props.title) {
-	        titleExists = true;
-	        title = _react2.default.createElement(
-	          'h2',
-	          { className: 'componentTitle col s12' },
-	          this.props.title
-	        );
-	      }
+				var markersData = this.state.markersData;
+				var isStreamData = markersData.filter(function (hit) {
+					return hit.stream && hit.streamStart;
+				});
+				if (isStreamData.length) {
+					markersData = markersData.map(function (hit, index) {
+						if (hit.stream && hit.streamStart) {
+							var currentTime = new Date();
+							var timeDiff = (currentTime.getTime() - hit.streamStart.getTime()) / 1000;
+							if (timeDiff >= _this5.props.streamActiveTime) {
+								delete hit.stream;
+								delete hit.streamStart;
+							}
+						}
+						return hit;
+					});
+					this.setState({
+						markersData: markersData
+					});
+				} else {
+					this.isStreamDataExists = false;
+				}
+			}
+		}, {
+			key: 'chooseIcon',
+			value: function chooseIcon(hit) {
+				var icon = hit.external_icon ? hit.external_icon : hit.stream ? this.props.streamPin : this.props.historicPin;
+				var isSvg = (typeof icon === 'undefined' ? 'undefined' : _typeof(icon)) === 'object' && icon.hasOwnProperty('path') ? true : false;
+				if (isSvg) {
+					icon = JSON.parse(JSON.stringify(icon));
+					if (this.props.rotateOnUpdate) {
+						var deg = hit.angleDeg ? hit.angleDeg : 0;
+						icon.rotation = deg;
+					}
+				}
+				return icon;
+			}
+			// here we accepts marker props which we received from markerOnIndex and apply those external props in Marker component
 
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'map-container reactiveComponent appbaseMapComponent' },
-	        title,
-	        _react2.default.createElement(_reactGoogleMaps.GoogleMapLoader, {
-	          containerElement: _react2.default.createElement('div', _extends({}, this.props, { className: 'containerElement' })),
-	          googleMapElement: _react2.default.createElement(
-	            _reactGoogleMaps.GoogleMap,
-	            _extends({ ref: 'map',
-	              options: {
-	                styles: this.state.currentMapStyle
-	              }
-	            }, searchComponentProps, this.props, {
-	              onIdle: function onIdle() {
-	                return _this6.handleOnIdle();
-	              } }),
-	            searchComponent,
-	            markerComponent,
-	            this.externalData()
-	          ) }),
-	        _react2.default.createElement(
-	          'div',
-	          { style: Style.divStatusStyle, ref: 'status' },
-	          ' ',
-	          this.state.streamingStatus,
-	          ' '
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { style: Style.divAppbaseStyle },
-	          'Powered by ',
-	          _react2.default.createElement('img', { width: '200px', height: 'auto', src: 'http://slashon.appbase.io/img/Appbase.png' })
-	        ),
-	        searchAsMoveComponent,
-	        MapStylesComponent
-	      );
-	    }
-	  }]);
+		}, {
+			key: 'combineProps',
+			value: function combineProps(hit) {
+				var externalProps = void 0,
+				    markerProp = {};
+				if (this.state.externalData && this.state.externalData.markers && this.state.externalData.markers[hit._id]) {
+					externalProps = this.state.externalData.markers[hit._id];
+					for (var external_p in externalProps) {
+						hit["external_" + external_p] = externalProps[external_p];
+						markerProp[external_p] = externalProps[external_p];
+					}
+				}
+				markerProp.icon = this.chooseIcon(hit);
+				return markerProp;
+			}
+		}, {
+			key: 'generateMarkers',
+			value: function generateMarkers() {
+				var _this6 = this;
 
-	  return AppbaseMap;
+				var self = this;
+				var markersData = this.state.markersData;
+				var response = {
+					markerComponent: [],
+					defaultCenter: null,
+					convertedGeo: []
+				};
+				if (markersData && markersData.length) {
+					response.markerComponent = markersData.map(function (hit, index) {
+						var field = self.identifyGeoData(hit._source[self.props.inputData]);
+						// let icon = !this.props.rotateOnUpdate ? iconPath : RotateIcon.makeIcon(iconPath).setRotation({deg: deg}).getUrl();
+						// let icon = self.chooseIcon(hit);
+						if (field) {
+							response.convertedGeo.push(field);
+							var position = {
+								position: field
+							};
+							var ref = 'marker_ref_' + index;
+							var popoverEvent = void 0;
+							if (_this6.props.showPopoverOn) {
+								popoverEvent = {};
+								popoverEvent[_this6.props.showPopoverOn] = _this6.handleMarkerClick.bind(_this6, hit);
+							} else {
+								popoverEvent = {};
+								popoverEvent['onClick'] = _this6.handleMarkerClick.bind(_this6, hit);
+							}
+							var timenow = new Date();
+							return _react2.default.createElement(
+								_reactGoogleMaps.Marker,
+								_extends({}, position, {
+									key: hit._id,
+									zIndex: 1,
+									ref: ref
+								}, self.combineProps(hit), {
+									onClick: function onClick() {
+										return self.props.markerOnClick(hit._source);
+									},
+									onDblclick: function onDblclick() {
+										return self.props.markerOnDblclick(hit._source);
+									},
+									onMouseover: function onMouseover() {
+										return self.props.markerOnMouseover(hit._source);
+									},
+									onMouseout: function onMouseout() {
+										return self.props.markerOnMouseout(hit._source);
+									}
+								}, popoverEvent),
+								hit.showInfo ? self.renderInfoWindow(ref, hit) : null
+							);
+						}
+					});
+					if (response.convertedGeo[0]) {
+						response.defaultCenter = {
+							lat: response.convertedGeo[0].lat,
+							lng: response.convertedGeo[0].lng
+						};
+					}
+				}
+				return response;
+			}
+		}, {
+			key: 'externalData',
+			value: function externalData() {
+				var recordList = [];
+				if (this.state.externalData) {
+					for (var record in this.state.externalData) {
+						if (record !== 'markers') {
+							recordList = recordList.concat(this.state.externalData[record]);
+						}
+					}
+				}
+				return recordList;
+			}
+			// Allow mapEvents and pass map refs as argument
+
+		}, {
+			key: 'mapEvents',
+			value: function mapEvents(eventName) {
+				if (this.props[eventName]) {
+					var externalData = this.props[eventName](this.refs.map);
+					if (externalData) {
+						this.setState({
+							externalData: externalData
+						});
+					}
+				}
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _this7 = this;
+
+				var self = this;
+				var markerComponent, searchComponent, searchAsMoveComponent, MapStylesComponent;
+				var appbaseSearch = void 0,
+				    titleExists = void 0,
+				    title = null;
+				var searchComponentProps = {};
+				var otherOptions;
+				var generatedMarkers = this.generateMarkers();
+				if (this.props.markerCluster) {
+					markerComponent = _react2.default.createElement(
+						_MarkerClusterer2.default,
+						{ averageCenter: true, enableRetinaIcons: true, gridSize: 60 },
+						generatedMarkers.markerComponent
+					);
+				} else {
+					markerComponent = generatedMarkers.markerComponent;
+				}
+				// Auto center using markers data
+				var streamCenterFlag = true;
+				if (this.channelMethod === 'stream' && !this.props.streamAutoCenter) {
+					streamCenterFlag = false;
+				}
+				if (!this.searchAsMove && this.props.autoCenter && this.reposition && streamCenterFlag) {
+					searchComponentProps.center = generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : this.storeCenter ? this.storeCenter : this.state.center;
+					this.storeCenter = searchComponentProps.center;
+					this.reposition = false;
+				} else {
+					if (this.storeCenter) {
+						searchComponentProps.center = this.storeCenter;
+					} else {
+						delete searchComponentProps.center;
+					}
+				}
+				// include searchasMove component
+				if (this.props.searchAsMoveComponent) {
+					searchAsMoveComponent = _react2.default.createElement(_SearchAsMove.SearchAsMove, { searchAsMoveDefault: this.props.searchAsMoveDefault, searchAsMoveChange: this.searchAsMoveChange });
+				}
+				// include mapStyle choose component
+				if (this.props.MapStylesComponent) {
+					MapStylesComponent = _react2.default.createElement(_MapStyles.MapStyles, { defaultSelected: this.props.mapStyle, mapStyleChange: this.mapStyleChange });
+				}
+				// include title if exists
+				if (this.props.title) {
+					titleExists = true;
+					title = _react2.default.createElement(
+						'h4',
+						{ className: 'componentTitle col s12 m8 col-xs-12 col-sm-8' },
+						this.props.title
+					);
+				}
+
+				return _react2.default.createElement(
+					'div',
+					{ className: 'map-container reactiveComponent appbaseMapComponent col s12 col-xs-12 card thumbnail' },
+					title,
+					_react2.default.createElement(
+						'span',
+						{ className: 'col s12 m4 col-xs-12 col-sm-4' },
+						MapStylesComponent
+					),
+					_react2.default.createElement(_reactGoogleMaps.GoogleMapLoader, {
+						containerElement: _react2.default.createElement('div', { className: 'containerElement col s12 col-xs-12', style: this.props.containerStyle }),
+						googleMapElement: _react2.default.createElement(
+							_reactGoogleMaps.GoogleMap,
+							_extends({ ref: 'map',
+								options: {
+									styles: this.state.currentMapStyle
+								}
+							}, searchComponentProps, this.props, {
+								onDragstart: function onDragstart() {
+									_this7.handleOnDrage();
+									_this7.mapEvents('onDragstart');
+								},
+								onClick: function onClick() {
+									return _this7.mapEvents('onClick');
+								},
+								onDblclick: function onDblclick() {
+									return _this7.mapEvents('onDblclick');
+								},
+								onDrag: function onDrag() {
+									return _this7.mapEvents('onDrag');
+								},
+								onDragend: function onDragend() {
+									return _this7.mapEvents('onDragend');
+								},
+								onMousemove: function onMousemove() {
+									return _this7.mapEvents('onMousemove');
+								},
+								onMouseout: function onMouseout() {
+									return _this7.mapEvents('onMouseout');
+								},
+								onMouseover: function onMouseover() {
+									return _this7.mapEvents('onMouseover');
+								},
+								onResize: function onResize() {
+									return _this7.mapEvents('onResize');
+								},
+								onRightclick: function onRightclick() {
+									return _this7.mapEvents('onRightclick');
+								},
+								onTilesloaded: function onTilesloaded() {
+									return _this7.mapEvents('onTilesloaded');
+								},
+								onBoundsChanged: function onBoundsChanged() {
+									return _this7.mapEvents('onBoundsChanged');
+								},
+								onCenterChanged: function onCenterChanged() {
+									return _this7.mapEvents('onCenterChanged');
+								},
+								onProjectionChanged: function onProjectionChanged() {
+									return _this7.mapEvents('onProjectionChanged');
+								},
+								onTiltChanged: function onTiltChanged() {
+									return _this7.mapEvents('onTiltChanged');
+								},
+								onZoomChanged: function onZoomChanged() {
+									return _this7.mapEvents('onZoomChanged');
+								}
+							}),
+							searchComponent,
+							markerComponent,
+							this.externalData()
+						) }),
+					searchAsMoveComponent,
+					_react2.default.createElement(
+						'div',
+						{ className: 'col s12 text-center center-align' },
+						_react2.default.createElement('img', { width: '200px', height: 'auto', src: 'http://opensource.appbase.io/reactive-maps/dist/images/logo.png' })
+					)
+				);
+			}
+		}]);
+
+		return AppbaseMap;
 	}(_react.Component);
 
 	AppbaseMap.propTypes = {
-	  inputData: _react2.default.PropTypes.string.isRequired,
-	  searchField: _react2.default.PropTypes.string,
-	  searchComponent: _react2.default.PropTypes.string,
-	  mapOnIdle: _react2.default.PropTypes.func,
-	  markerOnDelete: _react2.default.PropTypes.func,
-	  markerOnIndex: _react2.default.PropTypes.func,
-	  markerCluster: _react2.default.PropTypes.bool,
-	  historicalData: _react2.default.PropTypes.bool,
-	  rotateOnUpdate: _react2.default.PropTypes.bool,
-	  streamActiveTime: _react2.default.PropTypes.number,
-	  requestSize: _react2.default.PropTypes.number
+		inputData: _react2.default.PropTypes.string.isRequired,
+		searchField: _react2.default.PropTypes.string,
+		searchComponent: _react2.default.PropTypes.string,
+		OnIdle: _react2.default.PropTypes.func,
+		markerOnDelete: _react2.default.PropTypes.func,
+		markerOnIndex: _react2.default.PropTypes.func,
+		markerCluster: _react2.default.PropTypes.bool,
+		historicalData: _react2.default.PropTypes.bool,
+		rotateOnUpdate: _react2.default.PropTypes.bool,
+		streamActiveTime: _react2.default.PropTypes.number,
+		requestSize: _react2.default.PropTypes.number
 	};
 	AppbaseMap.defaultProps = {
-	  historicalData: true,
-	  markerCluster: true,
-	  searchComponent: "google",
-	  autoCenter: false,
-	  searchAsMoveComponent: false,
-	  searchAsMoveDefault: false,
-	  MapStylesComponent: false,
-	  mapStyle: 'MapBox',
-	  title: null,
-	  requestSize: 100,
-	  streamActiveTime: 5,
-	  streamAutoCenter: true,
-	  rotateOnUpdate: false,
-	  historicPin: 'http://opensource.appbase.io/reactive-maps/dist/images/historic-pin.png',
-	  streamPin: 'http://opensource.appbase.io/reactive-maps/dist/images/stream-pin.png',
-	  markerOnClick: function markerOnClick() {},
-	  markerOnDblclick: function markerOnDblclick() {},
-	  markerOnMouseover: function markerOnMouseover() {},
-	  markerOnMouseout: function markerOnMouseout() {},
-	  markerOnIndex: function markerOnIndex() {},
-	  mapOnIdle: function mapOnIdle() {}
+		historicalData: true,
+		markerCluster: true,
+		searchComponent: "google",
+		autoCenter: false,
+		searchAsMoveComponent: false,
+		searchAsMoveDefault: false,
+		MapStylesComponent: false,
+		mapStyle: 'Standard',
+		title: null,
+		requestSize: 100,
+		streamActiveTime: 5,
+		streamAutoCenter: true,
+		rotateOnUpdate: false,
+		historicPin: 'http://opensource.appbase.io/reactive-maps/dist/images/historic-pin.png',
+		streamPin: 'http://opensource.appbase.io/reactive-maps/dist/images/stream-pin.png',
+		markerOnClick: function markerOnClick() {},
+		markerOnDblclick: function markerOnDblclick() {},
+		markerOnMouseover: function markerOnMouseover() {},
+		markerOnMouseout: function markerOnMouseout() {},
+		markerOnIndex: function markerOnIndex() {},
+		OnIdle: function OnIdle() {},
+		containerStyle: {
+			height: '700px'
+		}
 	};
 
 /***/ },
-/* 141 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22785,60 +25057,60 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequire(obj) { return obj && obj.__esModule ? obj["default"] : obj; }
 
-	var _GoogleMapLoader = __webpack_require__(142);
+	var _GoogleMapLoader = __webpack_require__(169);
 
 	exports.GoogleMapLoader = _interopRequire(_GoogleMapLoader);
 
-	var _GoogleMap = __webpack_require__(152);
+	var _GoogleMap = __webpack_require__(179);
 
 	exports.GoogleMap = _interopRequire(_GoogleMap);
 
-	var _Circle = __webpack_require__(153);
+	var _Circle = __webpack_require__(180);
 
 	exports.Circle = _interopRequire(_Circle);
 
-	var _DirectionsRenderer = __webpack_require__(157);
+	var _DirectionsRenderer = __webpack_require__(184);
 
 	exports.DirectionsRenderer = _interopRequire(_DirectionsRenderer);
 
-	var _DrawingManager = __webpack_require__(160);
+	var _DrawingManager = __webpack_require__(187);
 
 	exports.DrawingManager = _interopRequire(_DrawingManager);
 
-	var _InfoWindow = __webpack_require__(163);
+	var _InfoWindow = __webpack_require__(190);
 
 	exports.InfoWindow = _interopRequire(_InfoWindow);
 
-	var _KmlLayer = __webpack_require__(167);
+	var _KmlLayer = __webpack_require__(194);
 
 	exports.KmlLayer = _interopRequire(_KmlLayer);
 
-	var _Marker = __webpack_require__(170);
+	var _Marker = __webpack_require__(197);
 
 	exports.Marker = _interopRequire(_Marker);
 
-	var _OverlayView = __webpack_require__(173);
+	var _OverlayView = __webpack_require__(200);
 
 	exports.OverlayView = _interopRequire(_OverlayView);
 
-	var _Polygon = __webpack_require__(176);
+	var _Polygon = __webpack_require__(203);
 
 	exports.Polygon = _interopRequire(_Polygon);
 
-	var _Polyline = __webpack_require__(179);
+	var _Polyline = __webpack_require__(206);
 
 	exports.Polyline = _interopRequire(_Polyline);
 
-	var _Rectangle = __webpack_require__(182);
+	var _Rectangle = __webpack_require__(209);
 
 	exports.Rectangle = _interopRequire(_Rectangle);
 
-	var _SearchBox = __webpack_require__(185);
+	var _SearchBox = __webpack_require__(212);
 
 	exports.SearchBox = _interopRequire(_SearchBox);
 
 /***/ },
-/* 142 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22863,7 +25135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _creatorsGoogleMapHolder = __webpack_require__(143);
+	var _creatorsGoogleMapHolder = __webpack_require__(170);
 
 	var _creatorsGoogleMapHolder2 = _interopRequireDefault(_creatorsGoogleMapHolder);
 
@@ -22950,7 +25222,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 143 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22973,27 +25245,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _warning = __webpack_require__(144);
+	var _warning = __webpack_require__(171);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _eventListsGoogleMapEventList = __webpack_require__(145);
+	var _eventListsGoogleMapEventList = __webpack_require__(172);
 
 	var _eventListsGoogleMapEventList2 = _interopRequireDefault(_eventListsGoogleMapEventList);
 
-	var _utilsEventHandlerCreator = __webpack_require__(146);
+	var _utilsEventHandlerCreator = __webpack_require__(173);
 
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 
-	var _utilsDefaultPropsCreator = __webpack_require__(147);
+	var _utilsDefaultPropsCreator = __webpack_require__(174);
 
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 
-	var _utilsComposeOptions = __webpack_require__(149);
+	var _utilsComposeOptions = __webpack_require__(176);
 
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 
-	var _utilsComponentLifecycleDecorator = __webpack_require__(151);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(178);
 
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 
@@ -23110,7 +25382,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = GoogleMapHolder;
 
 /***/ },
-/* 144 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -23133,7 +25405,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var warning = function() {};
 
-	if (true) {
+	if ((undefined) !== 'production') {
 	  warning = function(condition, format, args) {
 	    var len = arguments.length;
 	    args = new Array(len > 2 ? len - 2 : 0);
@@ -23176,7 +25448,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 145 */
+/* 172 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Map
@@ -23190,7 +25462,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 146 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -23242,7 +25514,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 147 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -23254,7 +25526,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-	var _addDefaultPrefix = __webpack_require__(148);
+	var _addDefaultPrefix = __webpack_require__(175);
 
 	var _addDefaultPrefix2 = _interopRequireDefault(_addDefaultPrefix);
 
@@ -23268,7 +25540,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 148 */
+/* 175 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -23285,7 +25557,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 149 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -23300,7 +25572,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-	var _controlledOrDefault = __webpack_require__(150);
+	var _controlledOrDefault = __webpack_require__(177);
 
 	var _controlledOrDefault2 = _interopRequireDefault(_controlledOrDefault);
 
@@ -23324,7 +25596,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 150 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -23336,7 +25608,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-	var _addDefaultPrefix = __webpack_require__(148);
+	var _addDefaultPrefix = __webpack_require__(175);
 
 	var _addDefaultPrefix2 = _interopRequireDefault(_addDefaultPrefix);
 
@@ -23353,7 +25625,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 151 */
+/* 178 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -23443,7 +25715,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 152 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -23470,15 +25742,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _warning = __webpack_require__(144);
+	var _warning = __webpack_require__(171);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _creatorsGoogleMapHolder = __webpack_require__(143);
+	var _creatorsGoogleMapHolder = __webpack_require__(170);
 
 	var _creatorsGoogleMapHolder2 = _interopRequireDefault(_creatorsGoogleMapHolder);
 
-	var _GoogleMapLoader = __webpack_require__(142);
+	var _GoogleMapLoader = __webpack_require__(169);
 
 	var _GoogleMapLoader2 = _interopRequireDefault(_GoogleMapLoader);
 
@@ -23645,7 +25917,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Event [onEventName]
 
 /***/ },
-/* 153 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -23670,11 +25942,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _canUseDom = __webpack_require__(154);
+	var _canUseDom = __webpack_require__(181);
 
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 
-	var _creatorsCircleCreator = __webpack_require__(155);
+	var _creatorsCircleCreator = __webpack_require__(182);
 
 	var _creatorsCircleCreator2 = _interopRequireDefault(_creatorsCircleCreator);
 
@@ -23777,7 +26049,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Event [onEventName]
 
 /***/ },
-/* 154 */
+/* 181 */
 /***/ function(module, exports) {
 
 	var canUseDOM = !!(
@@ -23789,7 +26061,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = canUseDOM;
 
 /***/ },
-/* 155 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -23812,27 +26084,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _eventListsCircleEventList = __webpack_require__(156);
+	var _eventListsCircleEventList = __webpack_require__(183);
 
 	var _eventListsCircleEventList2 = _interopRequireDefault(_eventListsCircleEventList);
 
-	var _utilsEventHandlerCreator = __webpack_require__(146);
+	var _utilsEventHandlerCreator = __webpack_require__(173);
 
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 
-	var _utilsDefaultPropsCreator = __webpack_require__(147);
+	var _utilsDefaultPropsCreator = __webpack_require__(174);
 
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 
-	var _utilsComposeOptions = __webpack_require__(149);
+	var _utilsComposeOptions = __webpack_require__(176);
 
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 
-	var _utilsComponentLifecycleDecorator = __webpack_require__(151);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(178);
 
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 
-	var _GoogleMapHolder = __webpack_require__(143);
+	var _GoogleMapHolder = __webpack_require__(170);
 
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 
@@ -23937,7 +26209,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = CircleCreator;
 
 /***/ },
-/* 156 */
+/* 183 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Circle
@@ -23951,7 +26223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 157 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -23976,11 +26248,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _canUseDom = __webpack_require__(154);
+	var _canUseDom = __webpack_require__(181);
 
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 
-	var _creatorsDirectionsRendererCreator = __webpack_require__(158);
+	var _creatorsDirectionsRendererCreator = __webpack_require__(185);
 
 	var _creatorsDirectionsRendererCreator2 = _interopRequireDefault(_creatorsDirectionsRendererCreator);
 
@@ -24068,7 +26340,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Event [onEventName]
 
 /***/ },
-/* 158 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -24091,27 +26363,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _eventListsDirectionsRendererEventList = __webpack_require__(159);
+	var _eventListsDirectionsRendererEventList = __webpack_require__(186);
 
 	var _eventListsDirectionsRendererEventList2 = _interopRequireDefault(_eventListsDirectionsRendererEventList);
 
-	var _utilsEventHandlerCreator = __webpack_require__(146);
+	var _utilsEventHandlerCreator = __webpack_require__(173);
 
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 
-	var _utilsDefaultPropsCreator = __webpack_require__(147);
+	var _utilsDefaultPropsCreator = __webpack_require__(174);
 
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 
-	var _utilsComposeOptions = __webpack_require__(149);
+	var _utilsComposeOptions = __webpack_require__(176);
 
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 
-	var _utilsComponentLifecycleDecorator = __webpack_require__(151);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(178);
 
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 
-	var _GoogleMapHolder = __webpack_require__(143);
+	var _GoogleMapHolder = __webpack_require__(170);
 
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 
@@ -24219,7 +26491,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = DirectionsRendererCreator;
 
 /***/ },
-/* 159 */
+/* 186 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#DirectionsRenderer
@@ -24233,7 +26505,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 160 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -24258,11 +26530,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _canUseDom = __webpack_require__(154);
+	var _canUseDom = __webpack_require__(181);
 
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 
-	var _creatorsDrawingManagerCreator = __webpack_require__(161);
+	var _creatorsDrawingManagerCreator = __webpack_require__(188);
 
 	var _creatorsDrawingManagerCreator2 = _interopRequireDefault(_creatorsDrawingManagerCreator);
 
@@ -24340,7 +26612,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Event [onEventName]
 
 /***/ },
-/* 161 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -24363,27 +26635,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _eventListsDrawingManagerEventList = __webpack_require__(162);
+	var _eventListsDrawingManagerEventList = __webpack_require__(189);
 
 	var _eventListsDrawingManagerEventList2 = _interopRequireDefault(_eventListsDrawingManagerEventList);
 
-	var _utilsEventHandlerCreator = __webpack_require__(146);
+	var _utilsEventHandlerCreator = __webpack_require__(173);
 
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 
-	var _utilsDefaultPropsCreator = __webpack_require__(147);
+	var _utilsDefaultPropsCreator = __webpack_require__(174);
 
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 
-	var _utilsComposeOptions = __webpack_require__(149);
+	var _utilsComposeOptions = __webpack_require__(176);
 
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 
-	var _utilsComponentLifecycleDecorator = __webpack_require__(151);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(178);
 
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 
-	var _GoogleMapHolder = __webpack_require__(143);
+	var _GoogleMapHolder = __webpack_require__(170);
 
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 
@@ -24472,7 +26744,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = DrawingManagerCreator;
 
 /***/ },
-/* 162 */
+/* 189 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#DrawingManager
@@ -24486,7 +26758,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 163 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -24511,11 +26783,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _canUseDom = __webpack_require__(154);
+	var _canUseDom = __webpack_require__(181);
 
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 
-	var _creatorsInfoWindowCreator = __webpack_require__(164);
+	var _creatorsInfoWindowCreator = __webpack_require__(191);
 
 	var _creatorsInfoWindowCreator2 = _interopRequireDefault(_creatorsInfoWindowCreator);
 
@@ -24596,7 +26868,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Event [onEventName]
 
 /***/ },
-/* 164 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -24619,31 +26891,31 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _eventListsInfoWindowEventList = __webpack_require__(165);
+	var _eventListsInfoWindowEventList = __webpack_require__(192);
 
 	var _eventListsInfoWindowEventList2 = _interopRequireDefault(_eventListsInfoWindowEventList);
 
-	var _utilsEventHandlerCreator = __webpack_require__(146);
+	var _utilsEventHandlerCreator = __webpack_require__(173);
 
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 
-	var _utilsDefaultPropsCreator = __webpack_require__(147);
+	var _utilsDefaultPropsCreator = __webpack_require__(174);
 
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 
-	var _utilsComposeOptions = __webpack_require__(149);
+	var _utilsComposeOptions = __webpack_require__(176);
 
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 
-	var _utilsSetContentForOptionalReactElement = __webpack_require__(166);
+	var _utilsSetContentForOptionalReactElement = __webpack_require__(193);
 
 	var _utilsSetContentForOptionalReactElement2 = _interopRequireDefault(_utilsSetContentForOptionalReactElement);
 
-	var _utilsComponentLifecycleDecorator = __webpack_require__(151);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(178);
 
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 
-	var _GoogleMapHolder = __webpack_require__(143);
+	var _GoogleMapHolder = __webpack_require__(170);
 
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 
@@ -24753,7 +27025,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = InfoWindowCreator;
 
 /***/ },
-/* 165 */
+/* 192 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#InfoWindow
@@ -24767,7 +27039,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 166 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -24810,7 +27082,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 167 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -24835,11 +27107,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _canUseDom = __webpack_require__(154);
+	var _canUseDom = __webpack_require__(181);
 
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 
-	var _creatorsKmlLayerCreator = __webpack_require__(168);
+	var _creatorsKmlLayerCreator = __webpack_require__(195);
 
 	var _creatorsKmlLayerCreator2 = _interopRequireDefault(_creatorsKmlLayerCreator);
 
@@ -24932,7 +27204,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Event [onEventName]
 
 /***/ },
-/* 168 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -24955,27 +27227,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _eventListsKmlLayerEventList = __webpack_require__(169);
+	var _eventListsKmlLayerEventList = __webpack_require__(196);
 
 	var _eventListsKmlLayerEventList2 = _interopRequireDefault(_eventListsKmlLayerEventList);
 
-	var _utilsEventHandlerCreator = __webpack_require__(146);
+	var _utilsEventHandlerCreator = __webpack_require__(173);
 
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 
-	var _utilsDefaultPropsCreator = __webpack_require__(147);
+	var _utilsDefaultPropsCreator = __webpack_require__(174);
 
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 
-	var _utilsComposeOptions = __webpack_require__(149);
+	var _utilsComposeOptions = __webpack_require__(176);
 
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 
-	var _utilsComponentLifecycleDecorator = __webpack_require__(151);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(178);
 
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 
-	var _GoogleMapHolder = __webpack_require__(143);
+	var _GoogleMapHolder = __webpack_require__(170);
 
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 
@@ -25092,7 +27364,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = KmlLayerCreator;
 
 /***/ },
-/* 169 */
+/* 196 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#KmlLayer
@@ -25106,7 +27378,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 170 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -25131,11 +27403,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _canUseDom = __webpack_require__(154);
+	var _canUseDom = __webpack_require__(181);
 
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 
-	var _creatorsMarkerCreator = __webpack_require__(171);
+	var _creatorsMarkerCreator = __webpack_require__(198);
 
 	var _creatorsMarkerCreator2 = _interopRequireDefault(_creatorsMarkerCreator);
 
@@ -25289,7 +27561,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Event [onEventName]
 
 /***/ },
-/* 171 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -25312,27 +27584,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _eventListsMarkerEventList = __webpack_require__(172);
+	var _eventListsMarkerEventList = __webpack_require__(199);
 
 	var _eventListsMarkerEventList2 = _interopRequireDefault(_eventListsMarkerEventList);
 
-	var _utilsEventHandlerCreator = __webpack_require__(146);
+	var _utilsEventHandlerCreator = __webpack_require__(173);
 
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 
-	var _utilsDefaultPropsCreator = __webpack_require__(147);
+	var _utilsDefaultPropsCreator = __webpack_require__(174);
 
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 
-	var _utilsComposeOptions = __webpack_require__(149);
+	var _utilsComposeOptions = __webpack_require__(176);
 
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 
-	var _utilsComponentLifecycleDecorator = __webpack_require__(151);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(178);
 
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 
-	var _GoogleMapHolder = __webpack_require__(143);
+	var _GoogleMapHolder = __webpack_require__(170);
 
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 
@@ -25507,7 +27779,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = MarkerCreator;
 
 /***/ },
-/* 172 */
+/* 199 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Marker
@@ -25521,7 +27793,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 173 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -25546,11 +27818,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _canUseDom = __webpack_require__(154);
+	var _canUseDom = __webpack_require__(181);
 
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 
-	var _creatorsOverlayViewCreator = __webpack_require__(174);
+	var _creatorsOverlayViewCreator = __webpack_require__(201);
 
 	var _creatorsOverlayViewCreator2 = _interopRequireDefault(_creatorsOverlayViewCreator);
 
@@ -25657,7 +27929,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Controlled [props] - used in componentDidMount/componentDidUpdate
 
 /***/ },
-/* 174 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -25682,19 +27954,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactDom = __webpack_require__(4);
 
-	var _invariant = __webpack_require__(175);
+	var _invariant = __webpack_require__(202);
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _utilsDefaultPropsCreator = __webpack_require__(147);
+	var _utilsDefaultPropsCreator = __webpack_require__(174);
 
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 
-	var _utilsComposeOptions = __webpack_require__(149);
+	var _utilsComposeOptions = __webpack_require__(176);
 
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 
-	var _GoogleMapHolder = __webpack_require__(143);
+	var _GoogleMapHolder = __webpack_require__(170);
 
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 
@@ -25909,7 +28181,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = OverlayViewCreator;
 
 /***/ },
-/* 175 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25935,7 +28207,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	var invariant = function(condition, format, a, b, c, d, e, f) {
-	  if (true) {
+	  if ((undefined) !== 'production') {
 	    if (format === undefined) {
 	      throw new Error('invariant requires an error message argument');
 	    }
@@ -25966,7 +28238,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 176 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -25991,11 +28263,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _canUseDom = __webpack_require__(154);
+	var _canUseDom = __webpack_require__(181);
 
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 
-	var _creatorsPolygonCreator = __webpack_require__(177);
+	var _creatorsPolygonCreator = __webpack_require__(204);
 
 	var _creatorsPolygonCreator2 = _interopRequireDefault(_creatorsPolygonCreator);
 
@@ -26088,7 +28360,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Event [onEventName]
 
 /***/ },
-/* 177 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26111,27 +28383,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _eventListsPolygonEventList = __webpack_require__(178);
+	var _eventListsPolygonEventList = __webpack_require__(205);
 
 	var _eventListsPolygonEventList2 = _interopRequireDefault(_eventListsPolygonEventList);
 
-	var _utilsEventHandlerCreator = __webpack_require__(146);
+	var _utilsEventHandlerCreator = __webpack_require__(173);
 
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 
-	var _utilsDefaultPropsCreator = __webpack_require__(147);
+	var _utilsDefaultPropsCreator = __webpack_require__(174);
 
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 
-	var _utilsComposeOptions = __webpack_require__(149);
+	var _utilsComposeOptions = __webpack_require__(176);
 
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 
-	var _utilsComponentLifecycleDecorator = __webpack_require__(151);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(178);
 
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 
-	var _GoogleMapHolder = __webpack_require__(143);
+	var _GoogleMapHolder = __webpack_require__(170);
 
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 
@@ -26236,7 +28508,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = PolygonCreator;
 
 /***/ },
-/* 178 */
+/* 205 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Polygon
@@ -26250,7 +28522,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 179 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26275,11 +28547,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _canUseDom = __webpack_require__(154);
+	var _canUseDom = __webpack_require__(181);
 
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 
-	var _creatorsPolylineCreator = __webpack_require__(180);
+	var _creatorsPolylineCreator = __webpack_require__(207);
 
 	var _creatorsPolylineCreator2 = _interopRequireDefault(_creatorsPolylineCreator);
 
@@ -26367,7 +28639,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Event [onEventName]
 
 /***/ },
-/* 180 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26390,27 +28662,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _eventListsPolylineEventList = __webpack_require__(181);
+	var _eventListsPolylineEventList = __webpack_require__(208);
 
 	var _eventListsPolylineEventList2 = _interopRequireDefault(_eventListsPolylineEventList);
 
-	var _utilsEventHandlerCreator = __webpack_require__(146);
+	var _utilsEventHandlerCreator = __webpack_require__(173);
 
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 
-	var _utilsDefaultPropsCreator = __webpack_require__(147);
+	var _utilsDefaultPropsCreator = __webpack_require__(174);
 
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 
-	var _utilsComposeOptions = __webpack_require__(149);
+	var _utilsComposeOptions = __webpack_require__(176);
 
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 
-	var _utilsComponentLifecycleDecorator = __webpack_require__(151);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(178);
 
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 
-	var _GoogleMapHolder = __webpack_require__(143);
+	var _GoogleMapHolder = __webpack_require__(170);
 
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 
@@ -26511,7 +28783,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = PolylineCreator;
 
 /***/ },
-/* 181 */
+/* 208 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Polyline
@@ -26525,7 +28797,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 182 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26550,11 +28822,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _canUseDom = __webpack_require__(154);
+	var _canUseDom = __webpack_require__(181);
 
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 
-	var _creatorsRectangleCreator = __webpack_require__(183);
+	var _creatorsRectangleCreator = __webpack_require__(210);
 
 	var _creatorsRectangleCreator2 = _interopRequireDefault(_creatorsRectangleCreator);
 
@@ -26647,7 +28919,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Event [onEventName]
 
 /***/ },
-/* 183 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26670,27 +28942,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _eventListsRectangleEventList = __webpack_require__(184);
+	var _eventListsRectangleEventList = __webpack_require__(211);
 
 	var _eventListsRectangleEventList2 = _interopRequireDefault(_eventListsRectangleEventList);
 
-	var _utilsEventHandlerCreator = __webpack_require__(146);
+	var _utilsEventHandlerCreator = __webpack_require__(173);
 
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 
-	var _utilsDefaultPropsCreator = __webpack_require__(147);
+	var _utilsDefaultPropsCreator = __webpack_require__(174);
 
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 
-	var _utilsComposeOptions = __webpack_require__(149);
+	var _utilsComposeOptions = __webpack_require__(176);
 
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 
-	var _utilsComponentLifecycleDecorator = __webpack_require__(151);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(178);
 
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 
-	var _GoogleMapHolder = __webpack_require__(143);
+	var _GoogleMapHolder = __webpack_require__(170);
 
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 
@@ -26791,7 +29063,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = RectangleCreator;
 
 /***/ },
-/* 184 */
+/* 211 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Rectangle
@@ -26805,7 +29077,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 185 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26832,11 +29104,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _canUseDom = __webpack_require__(154);
+	var _canUseDom = __webpack_require__(181);
 
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 
-	var _creatorsSearchBoxCreator = __webpack_require__(186);
+	var _creatorsSearchBoxCreator = __webpack_require__(213);
 
 	var _creatorsSearchBoxCreator2 = _interopRequireDefault(_creatorsSearchBoxCreator);
 
@@ -26943,7 +29215,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Event [onEventName]
 
 /***/ },
-/* 186 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26966,27 +29238,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _eventListsSearchBoxEventList = __webpack_require__(187);
+	var _eventListsSearchBoxEventList = __webpack_require__(214);
 
 	var _eventListsSearchBoxEventList2 = _interopRequireDefault(_eventListsSearchBoxEventList);
 
-	var _utilsEventHandlerCreator = __webpack_require__(146);
+	var _utilsEventHandlerCreator = __webpack_require__(173);
 
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 
-	var _utilsDefaultPropsCreator = __webpack_require__(147);
+	var _utilsDefaultPropsCreator = __webpack_require__(174);
 
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 
-	var _utilsComposeOptions = __webpack_require__(149);
+	var _utilsComposeOptions = __webpack_require__(176);
 
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 
-	var _utilsComponentLifecycleDecorator = __webpack_require__(151);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(178);
 
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 
-	var _GoogleMapHolder = __webpack_require__(143);
+	var _GoogleMapHolder = __webpack_require__(170);
 
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 
@@ -27100,7 +29372,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = SearchBoxCreator;
 
 /***/ },
-/* 187 */
+/* 214 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#SearchBox
@@ -27114,7 +29386,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 188 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -27139,11 +29411,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _canUseDom = __webpack_require__(154);
+	var _canUseDom = __webpack_require__(181);
 
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 
-	var _addonsCreatorsInfoBoxCreator = __webpack_require__(189);
+	var _addonsCreatorsInfoBoxCreator = __webpack_require__(216);
 
 	var _addonsCreatorsInfoBoxCreator2 = _interopRequireDefault(_addonsCreatorsInfoBoxCreator);
 
@@ -27232,7 +29504,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Event [onEventName]
 
 /***/ },
-/* 189 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -27255,31 +29527,31 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _addonsEventListsInfoBoxEventList = __webpack_require__(190);
+	var _addonsEventListsInfoBoxEventList = __webpack_require__(217);
 
 	var _addonsEventListsInfoBoxEventList2 = _interopRequireDefault(_addonsEventListsInfoBoxEventList);
 
-	var _utilsEventHandlerCreator = __webpack_require__(146);
+	var _utilsEventHandlerCreator = __webpack_require__(173);
 
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 
-	var _utilsDefaultPropsCreator = __webpack_require__(147);
+	var _utilsDefaultPropsCreator = __webpack_require__(174);
 
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 
-	var _utilsComposeOptions = __webpack_require__(149);
+	var _utilsComposeOptions = __webpack_require__(176);
 
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 
-	var _utilsSetContentForOptionalReactElement = __webpack_require__(166);
+	var _utilsSetContentForOptionalReactElement = __webpack_require__(193);
 
 	var _utilsSetContentForOptionalReactElement2 = _interopRequireDefault(_utilsSetContentForOptionalReactElement);
 
-	var _utilsComponentLifecycleDecorator = __webpack_require__(151);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(178);
 
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 
-	var _creatorsGoogleMapHolder = __webpack_require__(143);
+	var _creatorsGoogleMapHolder = __webpack_require__(170);
 
 	var _creatorsGoogleMapHolder2 = _interopRequireDefault(_creatorsGoogleMapHolder);
 
@@ -27358,7 +29630,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // have "google" on the server, we can not use it in server-side rendering.
 	      // As a result, we import "google-maps-infobox" here to prevent an error on
 	      // a isomorphic server.
-	      var GoogleMapsInfobox = __webpack_require__(191);
+	      var GoogleMapsInfobox = __webpack_require__(218);
 	      // http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/docs/reference.html
 	      var infoBox = new GoogleMapsInfobox((0, _utilsComposeOptions2["default"])(infoBoxProps, infoBoxControlledPropTypes));
 
@@ -27394,7 +29666,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = InfoBoxCreator;
 
 /***/ },
-/* 190 */
+/* 217 */
 /***/ function(module, exports) {
 
 	// http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/docs/reference.html
@@ -27407,7 +29679,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 191 */
+/* 218 */
 /***/ function(module, exports) {
 
 	/**
@@ -28233,7 +30505,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 192 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28260,11 +30532,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _canUseDom = __webpack_require__(154);
+	var _canUseDom = __webpack_require__(181);
 
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 
-	var _addonsCreatorsMarkerClustererCreator = __webpack_require__(193);
+	var _addonsCreatorsMarkerClustererCreator = __webpack_require__(220);
 
 	var _addonsCreatorsMarkerClustererCreator2 = _interopRequireDefault(_addonsCreatorsMarkerClustererCreator);
 
@@ -28455,7 +30727,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 193 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28478,27 +30750,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _addonsEventListsMarkerClustererEventList = __webpack_require__(194);
+	var _addonsEventListsMarkerClustererEventList = __webpack_require__(221);
 
 	var _addonsEventListsMarkerClustererEventList2 = _interopRequireDefault(_addonsEventListsMarkerClustererEventList);
 
-	var _utilsEventHandlerCreator = __webpack_require__(146);
+	var _utilsEventHandlerCreator = __webpack_require__(173);
 
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 
-	var _utilsDefaultPropsCreator = __webpack_require__(147);
+	var _utilsDefaultPropsCreator = __webpack_require__(174);
 
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 
-	var _utilsComposeOptions = __webpack_require__(149);
+	var _utilsComposeOptions = __webpack_require__(176);
 
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 
-	var _utilsComponentLifecycleDecorator = __webpack_require__(151);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(178);
 
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 
-	var _creatorsGoogleMapHolder = __webpack_require__(143);
+	var _creatorsGoogleMapHolder = __webpack_require__(170);
 
 	var _creatorsGoogleMapHolder2 = _interopRequireDefault(_creatorsGoogleMapHolder);
 
@@ -28656,7 +30928,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }], [{
 	    key: '_createMarkerClusterer',
 	    value: function _createMarkerClusterer(mapHolderRef, markerClustererProps) {
-	      var GoogleMarkerClusterer = __webpack_require__(195);
+	      var GoogleMarkerClusterer = __webpack_require__(222);
 
 	      // http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/docs/reference.html#events
 	      var markerClusterer = new GoogleMarkerClusterer(mapHolderRef.getMap(), [], (0, _utilsComposeOptions2['default'])(markerClustererProps, markerClustererControlledPropTypes));
@@ -28684,7 +30956,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = MarkerClustererCreator;
 
 /***/ },
-/* 194 */
+/* 221 */
 /***/ function(module, exports) {
 
 	// http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/docs/reference.html
@@ -28697,7 +30969,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 195 */
+/* 222 */
 /***/ function(module, exports) {
 
 	/**
@@ -30337,13 +32609,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 196 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	exports.SearchAsMove = undefined;
 
@@ -30370,84 +32642,84 @@ return /******/ (function(modules) { // webpackBootstrap
 	var helper = __webpack_require__(16);
 
 	var SearchAsMove = exports.SearchAsMove = function (_Component) {
-	  _inherits(SearchAsMove, _Component);
+		_inherits(SearchAsMove, _Component);
 
-	  function SearchAsMove(props) {
-	    _classCallCheck(this, SearchAsMove);
+		function SearchAsMove(props) {
+			_classCallCheck(this, SearchAsMove);
 
-	    var _this = _possibleConstructorReturn(this, (SearchAsMove.__proto__ || Object.getPrototypeOf(SearchAsMove)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (SearchAsMove.__proto__ || Object.getPrototypeOf(SearchAsMove)).call(this, props));
 
-	    _this.state = {
-	      items: []
-	    };
-	    _this.handleSelect = _this.handleSelect.bind(_this);
-	    _this.handleRemove = _this.handleRemove.bind(_this);
-	    return _this;
-	  }
+			_this.state = {
+				items: []
+			};
+			_this.handleSelect = _this.handleSelect.bind(_this);
+			_this.handleRemove = _this.handleRemove.bind(_this);
+			return _this;
+		}
 
-	  _createClass(SearchAsMove, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.setState({
-	        items: [{
-	          key: "Search as I move the map",
-	          value: true,
-	          status: this.props.searchAsMoveDefault
-	        }]
-	      });
-	      if (this.props.searchAsMoveDefault && this.props.searchAsMoveDefault === true) {
-	        this.handleSelect(this.props.searchAsMoveDefault);
-	      }
-	    }
-	    // Handler function when a value is selected
+		_createClass(SearchAsMove, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setState({
+					items: [{
+						key: "Search as I move the map",
+						value: true,
+						status: this.props.searchAsMoveDefault
+					}]
+				});
+				if (this.props.searchAsMoveDefault && this.props.searchAsMoveDefault === true) {
+					this.handleSelect(this.props.searchAsMoveDefault);
+				}
+			}
+			// Handler function when a value is selected
 
-	  }, {
-	    key: 'handleSelect',
-	    value: function handleSelect(value) {
-	      var flag = value && value.length ? true : false;
-	      this.props.searchAsMoveChange(flag);
-	    }
-	    // Handler function when a value is deselected or removed
+		}, {
+			key: 'handleSelect',
+			value: function handleSelect(value) {
+				var flag = value === true ? true : value && value.length ? true : false;
+				this.props.searchAsMoveChange(flag);
+			}
+			// Handler function when a value is deselected or removed
 
-	  }, {
-	    key: 'handleRemove',
-	    value: function handleRemove(value) {}
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var listComponent = void 0;
-	      listComponent = _react2.default.createElement(_ItemCheckboxList.ItemCheckboxList, {
-	        showTags: false,
-	        items: this.state.items,
-	        onSelect: this.handleSelect,
-	        onRemove: this.handleRemove,
-	        showCount: this.props.showCount });
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'searchAsMove' },
-	        listComponent
-	      );
-	    }
-	  }]);
+		}, {
+			key: 'handleRemove',
+			value: function handleRemove(value) {}
+		}, {
+			key: 'render',
+			value: function render() {
+				var listComponent = void 0;
+				listComponent = _react2.default.createElement(_ItemCheckboxList.ItemCheckboxList, {
+					showTags: false,
+					items: this.state.items,
+					onSelect: this.handleSelect,
+					onRemove: this.handleRemove,
+					showCount: this.props.showCount });
+				return _react2.default.createElement(
+					'div',
+					{ className: 'searchAsMove row clearfix' },
+					listComponent
+				);
+			}
+		}]);
 
-	  return SearchAsMove;
+		return SearchAsMove;
 	}(_react.Component);
 
 	SearchAsMove.propTypes = {};
 	// Default props value
 	SearchAsMove.defaultProps = {
-	  fieldName: 'SearchAsMove',
-	  searchAsMoveDefault: false
+		fieldName: 'SearchAsMove',
+		searchAsMoveDefault: false
 	};
 
 /***/ },
-/* 197 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	exports.MapStyles = undefined;
 
@@ -30470,139 +32742,372 @@ return /******/ (function(modules) { // webpackBootstrap
 	var helper = __webpack_require__(16);
 
 	var MapStyles = exports.MapStyles = function (_Component) {
-	  _inherits(MapStyles, _Component);
+		_inherits(MapStyles, _Component);
 
-	  function MapStyles(props) {
-	    _classCallCheck(this, MapStyles);
+		function MapStyles(props) {
+			_classCallCheck(this, MapStyles);
 
-	    var _this = _possibleConstructorReturn(this, (MapStyles.__proto__ || Object.getPrototypeOf(MapStyles)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (MapStyles.__proto__ || Object.getPrototypeOf(MapStyles)).call(this, props));
 
-	    _this.state = {
-	      items: []
-	    };
-	    _this.handleSelect = _this.handleSelect.bind(_this);
-	    return _this;
-	  }
+			_this.state = {
+				items: []
+			};
+			_this.handleSelect = _this.handleSelect.bind(_this);
+			return _this;
+		}
 
-	  _createClass(MapStyles, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      var _this2 = this;
+		_createClass(MapStyles, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				var _this2 = this;
 
-	      var selectedValue = 0;
-	      if (this.props.defaultSelected) {
-	        helper.mapStyles.forEach(function (style, index) {
-	          if (style.key === _this2.props.defaultSelected) {
-	            selectedValue = index;
-	          }
-	        });
-	      }
-	      this.setState({
-	        items: helper.mapStyles,
-	        selectedValue: selectedValue
-	      }, this.themeChanged);
-	    }
-	    // Handler function when a value is selected
+				var selectedValue = 0;
+				if (this.props.defaultSelected) {
+					helper.mapStyles.forEach(function (style, index) {
+						if (style.key === _this2.props.defaultSelected) {
+							selectedValue = index;
+						}
+					});
+				}
+				this.setState({
+					items: helper.mapStyles,
+					selectedValue: selectedValue
+				}, this.themeChanged);
+			}
+			// Handler function when a value is selected
 
-	  }, {
-	    key: 'handleSelect',
-	    value: function handleSelect(event) {
-	      this.setState({
-	        selectedValue: event.target.value
-	      }, function () {
-	        this.themeChanged(true);
-	      }.bind(this));
-	    }
-	  }, {
-	    key: 'themeChanged',
-	    value: function themeChanged() {
-	      var isExecute = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+		}, {
+			key: 'handleSelect',
+			value: function handleSelect(event) {
+				this.setState({
+					selectedValue: event.target.value
+				}, function () {
+					this.themeChanged(true);
+				}.bind(this));
+			}
+		}, {
+			key: 'themeChanged',
+			value: function themeChanged() {
+				var isExecute = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
-	      var style = helper.mapStyles[this.state.selectedValue].value;
-	      this.props.mapStyleChange(style);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var options = this.state.items.map(function (item, index) {
-	        return _react2.default.createElement(
-	          'option',
-	          { value: index, key: index },
-	          item.key
-	        );
-	      });
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'input-field mapStyles' },
-	        _react2.default.createElement(
-	          'select',
-	          { className: 'browser-default', onChange: this.handleSelect, value: this.state.selectedValue, name: 'mapStyles', id: 'mapStyles' },
-	          options
-	        )
-	      );
-	    }
-	  }]);
+				var style = helper.mapStyles[this.state.selectedValue].value;
+				this.props.mapStyleChange(style);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var options = this.state.items.map(function (item, index) {
+					return _react2.default.createElement(
+						'option',
+						{ value: index, key: index },
+						item.key
+					);
+				});
+				return _react2.default.createElement(
+					'div',
+					{ className: 'input-field col mapStyles' },
+					_react2.default.createElement(
+						'select',
+						{ className: 'browser-default form-control', onChange: this.handleSelect, value: this.state.selectedValue, name: 'mapStyles', id: 'mapStyles' },
+						options
+					)
+				);
+			}
+		}]);
 
-	  return MapStyles;
+		return MapStyles;
 	}(_react.Component);
 
 	MapStyles.propTypes = {};
 	// Default props value
 	MapStyles.defaultProps = {
-	  fieldName: 'MapStyles'
+		fieldName: 'MapStyles'
 	};
 
 /***/ },
-/* 198 */
+/* 225 */
 /***/ function(module, exports) {
 
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+		value: true
 	});
 	var RotateIcon = exports.RotateIcon = function RotateIcon(options) {
-	    this.options = options || {};
-	    this.rImg = options.img || new Image();
-	    this.rImg.src = this.rImg.src || this.options.url || '/static/groups/img/car_map_state_go.png';
-	    this.options.width = this.options.width || this.rImg.width || 52;
-	    this.options.height = this.options.height || this.rImg.height || 60;
-	    var canvas = document.createElement("canvas");
-	    var size = this.options.width > this.options.height ? this.options.width : this.options.height;
-	    canvas.width = size + 10;
-	    canvas.height = size + 10;
-	    this.context = canvas.getContext("2d");
-	    this.canvas = canvas;
+		this.options = options || {};
+		this.rImg = options.img || new Image();
+		this.rImg.src = this.rImg.src || this.options.url || '/static/groups/img/car_map_state_go.png';
+		this.options.width = this.options.width || this.rImg.width || 52;
+		this.options.height = this.options.height || this.rImg.height || 60;
+		var canvas = document.createElement("canvas");
+		var size = this.options.width > this.options.height ? this.options.width : this.options.height;
+		canvas.width = size + 10;
+		canvas.height = size + 10;
+		this.context = canvas.getContext("2d");
+		this.canvas = canvas;
 	};
 	RotateIcon.makeIcon = function (url) {
-	    return new RotateIcon({ url: url });
+		return new RotateIcon({ url: url });
 	};
 	RotateIcon.prototype.setRotation = function (options) {
-	    var canvas = this.context,
-	        angle = options.deg ? options.deg * Math.PI / 180 : options.rad,
-	        centerX = this.options.width / 2,
-	        centerY = this.options.height / 2;
+		var canvas = this.context,
+		    angle = options.deg ? options.deg * Math.PI / 180 : options.rad,
+		    centerX = this.options.width / 2,
+		    centerY = this.options.height / 2;
 
-	    canvas.clearRect(0, 0, this.options.width, this.options.height);
-	    canvas.save();
-	    canvas.translate(centerX, centerY);
-	    canvas.rotate(angle);
-	    canvas.drawImage(this.rImg, -centerX, -centerY);
-	    canvas.restore();
-	    return this;
+		canvas.clearRect(0, 0, this.options.width, this.options.height);
+		canvas.save();
+		canvas.translate(centerX, centerY);
+		canvas.rotate(angle);
+		canvas.drawImage(this.rImg, -centerX, -centerY);
+		canvas.restore();
+		return this;
 	};
 	RotateIcon.prototype.getUrl = function () {
-	    return this.canvas.toDataURL('idist/images');
+		return this.canvas.toDataURL('idist/images');
 	};
 
 /***/ },
-/* 199 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
+	});
+	exports.ListResult = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(4);
+
+	var _ImmutableQuery = __webpack_require__(8);
+
+	var _ChannelManager = __webpack_require__(104);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var helper = __webpack_require__(16);
+
+	var ListResult = exports.ListResult = function (_Component) {
+		_inherits(ListResult, _Component);
+
+		function ListResult(props) {
+			_classCallCheck(this, ListResult);
+
+			var _this = _possibleConstructorReturn(this, (ListResult.__proto__ || Object.getPrototypeOf(ListResult)).call(this, props));
+
+			_this.state = {
+				markers: [],
+				query: {},
+				rawData: {
+					hits: {
+						hits: []
+					}
+				},
+				resultMarkup: []
+			};
+			_this.nextPage = _this.nextPage.bind(_this);
+			return _this;
+		}
+
+		_createClass(ListResult, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.createChannel();
+				this.listComponent();
+			}
+
+			// Create a channel which passes the depends and receive results whenever depends changes
+
+		}, {
+			key: 'createChannel',
+			value: function createChannel() {
+				// Set the depends - add self aggs query as well with depends
+				var depends = this.props.depends ? this.props.depends : {};
+				// create a channel and listen the changes
+				var channelObj = _ChannelManager.manager.create(depends, this.props.requestSize);
+				this.channelId = channelObj.channelId;
+				channelObj.emitter.addListener(channelObj.channelId, function (res) {
+					var data = res.data;
+					var rawData = void 0,
+					    markersData = void 0;
+					this.streamFlag = false;
+					if (res.method === 'stream') {
+						this.channelMethod = 'stream';
+						var modData = this.streamDataModify(this.state.rawData, res);
+						rawData = modData.rawData;
+						res = modData.res;
+						this.streamFlag = true;
+						markersData = this.setMarkersData(rawData);
+					} else if (res.method === 'historic') {
+						this.channelMethod = 'historic';
+						rawData = res.appliedQuery && res.appliedQuery.body && res.appliedQuery.body.from !== 0 ? this.appendData(data) : data;
+						markersData = this.setMarkersData(data);
+					}
+					this.setState({
+						rawData: rawData,
+						markersData: markersData
+					}, function () {
+						// Pass the historic or streaming data in index method
+						res.allMarkers = rawData;
+						var generatedData = this.props.markerOnIndex ? this.props.markerOnIndex(res) : this.defaultMarkerOnIndex(res);
+						this.setState({
+							resultMarkup: generatedData
+						});
+						if (this.streamFlag) {
+							this.streamMarkerInterval();
+						}
+					}.bind(this));
+				}.bind(this));
+			}
+
+			// append data if pagination is applied
+
+		}, {
+			key: 'appendData',
+			value: function appendData(data) {
+				var rawData = this.state.rawData;
+				var hits = rawData.hits.hits.concat(data.hits.hits);
+				rawData.hits.hits = _.uniqBy(hits, '_id');;
+				return rawData;
+			}
+
+			// append stream boolean flag and also start time of stream
+
+		}, {
+			key: 'streamDataModify',
+			value: function streamDataModify(rawData, res) {
+				if (res.data) {
+					res.data.stream = true;
+					res.data.streamStart = new Date();
+					if (res.data._deleted) {
+						var hits = rawData.hits.hits.filter(function (hit) {
+							return hit._id !== res.data._id;
+						});
+						rawData.hits.hits = hits;
+					} else {
+						var prevData = rawData.hits.hits.filter(function (hit) {
+							return hit._id === res.data._id;
+						});
+						var _hits = rawData.hits.hits.filter(function (hit) {
+							return hit._id !== res.data._id;
+						});
+						rawData.hits.hits = _hits;
+						rawData.hits.hits.push(res.data);
+					}
+				}
+				return {
+					rawData: rawData,
+					res: res,
+					streamFlag: true
+				};
+			}
+
+			// tranform the raw data to marker data
+
+		}, {
+			key: 'setMarkersData',
+			value: function setMarkersData(data) {
+				var self = this;
+				if (data && data.hits && data.hits.hits) {
+					return data.hits.hits;
+				} else {
+					return [];
+				}
+			}
+
+			// default markup
+
+		}, {
+			key: 'defaultMarkerOnIndex',
+			value: function defaultMarkerOnIndex(res) {
+				var result = void 0;
+				if (res.allMarkers && res.allMarkers.hits && res.allMarkers.hits.hits) {
+					result = res.allMarkers.hits.hits.map(function (marker, index) {
+						return _react2.default.createElement(
+							'div',
+							{ key: index, className: 'makerInfo' },
+							JSON.stringify(marker)
+						);
+					});
+				}
+				return result;
+			}
+		}, {
+			key: 'nextPage',
+			value: function nextPage() {
+				var channelOptionsObj = _ChannelManager.manager.channels[this.channelId].previousSelectedSensor['channel-options-' + this.channelId];
+				var obj = {
+					key: 'channel-options-' + this.channelId,
+					value: {
+						size: this.props.requestSize,
+						from: channelOptionsObj.from + this.props.requestSize
+					}
+				};
+				_ChannelManager.manager.nextPage(this.channelId);
+			}
+		}, {
+			key: 'listComponent',
+			value: function listComponent() {
+				var _this2 = this;
+
+				var node = this.refs.ListContainer;
+				if (node) {
+					node.addEventListener('scroll', function () {
+						if ($(node).scrollTop() + $(node).innerHeight() >= node.scrollHeight) {
+							_this2.nextPage();
+						}
+					});
+				}
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ ref: 'ListContainer', className: 'map-container reactiveComponent appbaseMapComponent listResult', style: this.props.containerStyle },
+					this.state.resultMarkup
+				);
+			}
+		}]);
+
+		return ListResult;
+	}(_react.Component);
+
+	ListResult.propTypes = {
+		markerOnIndex: _react2.default.PropTypes.func,
+		requestSize: _react2.default.PropTypes.number,
+		requestOnScroll: _react2.default.PropTypes.bool
+	};
+	ListResult.defaultProps = {
+		requestSize: 20,
+		requestOnScroll: true,
+		containerStyle: {
+			height: '700px',
+			overflow: 'auto'
+		}
+	};
+
+/***/ },
+/* 227 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
 	});
 	exports.ReactiveMap = undefined;
 
@@ -30621,12 +33126,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var helper = __webpack_require__(16);
 
 	var ReactiveMap = exports.ReactiveMap = function ReactiveMap(_ref) {
-	  var config = _ref.config;
+		var config = _ref.config;
 
-	  helper.setConfigObject(config);
-	  _ImmutableQuery.queryObject.setConfig(config.appbase);
-	  _ChannelManager.manager.setConfig(config.appbase);
-	  return false;
+		helper.setConfigObject(config);
+		_ImmutableQuery.queryObject.setConfig(config.appbase);
+		_ChannelManager.manager.setConfig(config.appbase);
+		return false;
 	};
 
 /***/ }
