@@ -47,96 +47,97 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<ReactiveMap config={this.props.config} />
-				<div className="col s12 m6 col-xs-12 col-sm-6">
-					<div className="row h-100">
-						<div className="col s12 m6 col-xs-12 col-sm-6">
-							<AppbaseList
-								sensorId="CitySensor"
-								inputData={this.props.mapping.city}
-								defaultSelected="London"
-								showCount={true}
-								size={1000}
-								multipleSelect={false}
-								includeGeo={false}
-								staticSearch={true}
-								title="Cities"
-								searchPlaceholder="Filter City"
-							/>
+				<ReactiveMap config={this.props.config}>
+					<div className="col s12 m6 col-xs-12 col-sm-6">
+						<div className="row h-100">
+							<div className="col s12 m6 col-xs-12 col-sm-6">
+								<AppbaseList
+									sensorId="CitySensor"
+									inputData={this.props.mapping.city}
+									defaultSelected="London"
+									showCount={true}
+									size={1000}
+									multipleSelect={false}
+									includeGeo={false}
+									staticSearch={true}
+									title="Cities"
+									searchPlaceholder="Filter City"
+								/>
+							</div>
+							<div className="col s12 m6 col-xs-12 col-sm-6">
+								<AppbaseList
+									inputData={this.props.mapping.topic}
+									sensorId="TopicSensor"
+									showCount={true}
+									size={100}
+									multipleSelect={true}
+									includeGeo={true}
+									title="Topics"
+									depends={{
+										CitySensor: {
+											"operation": "must",
+											"defaultQuery": this.topicDepends
+										}
+									}}
+								/>
+							</div>
 						</div>
-						<div className="col s12 m6 col-xs-12 col-sm-6">
-							<AppbaseList
-								inputData={this.props.mapping.topic}
-								sensorId="TopicSensor"
-								showCount={true}
-								size={100}
-								multipleSelect={true}
-								includeGeo={true}
-								title="Topics"
-								depends={{
-									CitySensor: {
-										"operation": "must",
-										"defaultQuery": this.topicDepends
-									}
-								}}
-							/>
+						<div className="row">
+							<div className="col s12 col-xs-12">
+								<AppbaseSlider
+									sensorId="RangeSensor"
+									inputData={this.props.mapping.guests}
+									depends={{
+										CitySensor: {
+											"operation": "must",
+											"defaultQuery": this.topicDepends
+										}
+									}}
+									title="guests"
+									maxThreshold={5} />
+							</div>
 						</div>
 					</div>
-					<div className="row">
-						<div className="col s12 col-xs-12">
-							<AppbaseSlider
-								sensorId="RangeSensor"
-								inputData={this.props.mapping.guests}
-								depends={{
-									CitySensor: {
-										"operation": "must",
-										"defaultQuery": this.topicDepends
-									}
-								}}
-								title="guests"
-								maxThreshold={5} />
-						</div>
-					</div>
-				</div>
-				<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
-					<AppbaseMap
-						inputData={this.props.mapping.location}
-						historicalData={true}
-						markerCluster={false}
-						searchComponent="appbase"
-						searchField={this.props.mapping.venue}
-						mapStyle={this.props.mapStyle}
-						autoCenter={true}
-						searchAsMoveComponent={true}
-						MapStylesComponent={true}
-						title="Reactive Maps"
-						showPopoverOn = "onClick"
-						popoverContent = {this.popoverContent}
-						markerOnIndex = {this.markerOnIndex}
-						defaultZoom = {13}
-						defaultCenter={{ lat: 37.74, lng: -122.45 }}
-						depends={{
-							CitySensor: {"operation": "must"},
-							TopicSensor: {"operation": "must"},
-							RangeSensor: {"operation": "must"},
-							VenueSensor: {"operation": "must"}
-						}}
-					/>
-					<div id="searchVenue">
-						<AppbaseSearch
-							inputData={this.props.mapping.venue}
-							sensorId="VenueSensor"
-							searchRef="CityVenue"
-							placeholder="Search Venue"
+					<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
+						<AppbaseMap
+							inputData={this.props.mapping.location}
+							historicalData={true}
+							markerCluster={false}
+							searchComponent="appbase"
+							searchField={this.props.mapping.venue}
+							mapStyle={this.props.mapStyle}
+							autoCenter={true}
+							searchAsMoveComponent={true}
+							MapStylesComponent={true}
+							title="Reactive Maps"
+							showPopoverOn = "onClick"
+							popoverContent = {this.popoverContent}
+							markerOnIndex = {this.markerOnIndex}
+							defaultZoom = {13}
+							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							depends={{
-								'CitySensor': {
-									"operation": "must",
-									"doNotExecute": {true}
-								}
+								CitySensor: {"operation": "must"},
+								TopicSensor: {"operation": "must"},
+								RangeSensor: {"operation": "must"},
+								VenueSensor: {"operation": "must"}
 							}}
 						/>
+						<div id="searchVenue">
+							<AppbaseSearch
+								inputData={this.props.mapping.venue}
+								sensorId="VenueSensor"
+								searchRef="CityVenue"
+								placeholder="Search Venue"
+								depends={{
+									'CitySensor': {
+										"operation": "must",
+										"doNotExecute": {true}
+									}
+								}}
+							/>
+						</div>
 					</div>
-				</div>
+				</ReactiveMap>
 			</div>
 		);
 	}
