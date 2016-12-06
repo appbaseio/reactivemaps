@@ -185,7 +185,6 @@ export class AppbaseList extends Component {
 }
 AppbaseList.propTypes = {
 	inputData: React.PropTypes.string.isRequired,
-	appbaseRef: React.PropTypes.any.isRequired,
 	size: React.PropTypes.number,
 	showCount: React.PropTypes.bool,
 	multipleSelect: React.PropTypes.bool,
