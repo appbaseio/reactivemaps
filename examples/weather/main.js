@@ -9,6 +9,39 @@ import {ReactiveMap,
 class Main extends Component {
 	constructor(props) {
 		super(props);
+		this.markerOnIndex = this.markerOnIndex.bind(this);
+		this.result = {
+			markers: [],
+			heatmapPoints: []
+		};
+		this.heatmap = null;
+	}
+	markerOnIndex(res) {
+		if (res.allMarkers && res.allMarkers.hits && res.allMarkers.hits.hits) {
+			if(this.heatmap) {
+				this.heatmap.getData().clear();
+			}
+			res.allMarkers.hits.hits.forEach((markerData, index) => {
+				let location = markerData._source[this.props.mapping.location];
+				this.result.markers.forEach((result_marker, index) => {
+					if(location.lat === result_marker.lat && location.lon === result_marker.lon) {
+						this.result.markers.splice(index, 1);
+					}
+				});
+				let point = {
+					location: new google.maps.LatLng(location.lat, location.lon),
+					weight: markerData._source.main.temp
+				};
+				this.result.markers.push({lat: location.lat, lon: location.lon, weight: point.weight});
+				this.result.heatmapPoints.push(point);
+				
+			});
+			this.heatmap = new google.maps.visualization.HeatmapLayer({
+				data: this.result.heatmapPoints,
+				map: res.mapRef.props.map,
+				radius: 30
+			});
+		}
 	}
 	render() {
 		return (
@@ -17,18 +50,20 @@ class Main extends Component {
 				<div className="col s12 h-100">
 					<AppbaseMap
 						inputData={this.props.mapping.location}
-						defaultZoom={11}
+						defaultZoom={4}
 						defaultCenter={{ lat: 40.673940, lng: -101.314026 }}
 						historicalData={true}
 						markerCluster={false}
 						searchComponent="appbase"
 						searchField={this.props.mapping.venue}
 						mapStyle={this.props.mapStyle}
+						markerOnIndex={this.markerOnIndex}
 						autoCenter={false}
 						size={100}
 						searchAsMoveComponent={true}
 						searchAsMoveDefault={true}
 						MapStylesComponent={true}
+						allowMarkers={false}
 						title="Meetupblast"
 						/>
 				</div>

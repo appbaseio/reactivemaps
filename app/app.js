@@ -4,6 +4,7 @@ import {AppbaseSlider} from './sensors/AppbaseSlider';
 import {AppbaseSearch} from './sensors/AppbaseSearch';
 import {DistanceSensor} from './sensors/DistanceSensor';
 import {InputField} from './sensors/InputField';
+import {AppbaseButtonGroup} from './sensors/AppbaseButtonGroup';
 // actuators
 import {AppbaseMap} from './actuators/AppbaseMap';
 import {ListResult} from './actuators/ListResult';
@@ -18,5 +19,6 @@ module.exports = {
 	AppbaseMap: AppbaseMap,
 	ReactiveMap: ReactiveMap,
 	ListResult: ListResult,
-	InputField: InputField
+	InputField: InputField,
+	AppbaseButtonGroup: AppbaseButtonGroup
 };

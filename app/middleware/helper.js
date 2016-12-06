@@ -11,6 +11,7 @@ export function setConfigObject(config){
 		username: config.appbase.username,
 		password: config.appbase.password
 	});
+	return appbaseRef;
 };
 export var mapStyles = [{
 		key: 'Standard',
