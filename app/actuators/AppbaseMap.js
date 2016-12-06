@@ -87,6 +87,7 @@ export class AppbaseMap extends Component {
 		}, function() {
 			// Pass the historic or streaming data in index method
 			res.allMarkers = rawData;
+			res.mapRef = this.refs.map;
 			let generatedData = this.props.markerOnIndex(res);
 			this.setState({
 				externalData: generatedData
@@ -244,7 +245,7 @@ export class AppbaseMap extends Component {
 			"top_left": [west, north],
 			"bottom_right": [east, south]
 		};
-		let generatedData = this.props.OnIdle(this.refs.map, {
+		let generatedData = this.props.onIdle(this.refs.map, {
 			boundingBoxCoordinates: boundingBoxCoordinates,
 			mapBounds: mapBounds
 		});
@@ -434,6 +435,9 @@ export class AppbaseMap extends Component {
 				};
 			}
 		}
+		if(!this.props.allowMarkers) {
+			response.markerComponent = [];
+		}
 		return response;
 	}
 	externalData() {
@@ -447,7 +451,6 @@ export class AppbaseMap extends Component {
 		}
 		return recordList;
 	}
-	// Allow mapEvents and pass map refs as argument
 	mapEvents(eventName) {
 		if(this.props[eventName]) {
 			let externalData = this.props[eventName](this.refs.map);
@@ -520,11 +523,12 @@ export class AppbaseMap extends Component {
 						}}
 						{...searchComponentProps}
 						{...this.props}
-						onDragstart = {() => {
-								this.handleOnDrage();
+							onDragstart = {() => {
+								this.handleOnDrage()
 								this.mapEvents('onDragstart');
 							}
 						}
+						onIdle = {() => this.handleOnIdle()}
 						onClick = {() => this.mapEvents('onClick')}
 						onDblclick = {() => this.mapEvents('onDblclick')}
 						onDrag = {() => this.mapEvents('onDrag')}
@@ -541,11 +545,11 @@ export class AppbaseMap extends Component {
 						onTiltChanged = {() => this.mapEvents('onTiltChanged')}
 						onZoomChanged = {() => this.mapEvents('onZoomChanged')}
 					>
-						{searchComponent}
-						{markerComponent}
-						{this.externalData()}
-				</GoogleMap>}/>
-				{searchAsMoveComponent}
+					{searchComponent}
+					{markerComponent}
+					{this.externalData()}
+			</GoogleMap>}/>
+			{searchAsMoveComponent}
 			<div className="col s12 text-center center-align" >
 				<img width='200px' height='auto' src="http://opensource.appbase.io/reactive-maps/dist/images/logo.png" />
 			</div>
@@ -557,12 +561,13 @@ AppbaseMap.propTypes = {
 	inputData: React.PropTypes.string.isRequired,
 	searchField: React.PropTypes.string,
 	searchComponent: React.PropTypes.string,
-	OnIdle: React.PropTypes.func,
+	onIdle: React.PropTypes.func,
 	markerOnDelete: React.PropTypes.func,
 	markerOnIndex: React.PropTypes.func,
 	markerCluster: React.PropTypes.bool,
 	historicalData: React.PropTypes.bool,
 	rotateOnUpdate: React.PropTypes.bool,
+	allowMarkers: React.PropTypes.bool,
 	streamActiveTime: React.PropTypes.number,
 	requestSize: React.PropTypes.number
 };
@@ -580,6 +585,7 @@ AppbaseMap.defaultProps = {
 	streamActiveTime: 5,
 	streamAutoCenter: true,
 	rotateOnUpdate: false,
+	allowMarkers: true,
 	historicPin: 'http://opensource.appbase.io/reactive-maps/dist/images/historic-pin.png',
 	streamPin: 'http://opensource.appbase.io/reactive-maps/dist/images/stream-pin.png',
 	markerOnClick: function() {},
@@ -587,7 +593,7 @@ AppbaseMap.defaultProps = {
 	markerOnMouseover: function() {},
 	markerOnMouseout: function() {},
 	markerOnIndex: function() {},
-	OnIdle: function() {},
+	onIdle: function() {},
 	containerStyle: {
 		height: '700px'
 	}
