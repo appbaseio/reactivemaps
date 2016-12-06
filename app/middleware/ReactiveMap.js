@@ -41,9 +41,7 @@ export class ReactiveMap extends Component {
 	renderChildren() {
 		// return this.setAppbaseRef(this.props.children);
 		return React.Children.map(this.props.children, child => {
-			return React.cloneElement(child, {
-				appbaseRef: this.appbaseRef
-			})
+			return React.cloneElement(child)
 		});
 	}
 	render() {
