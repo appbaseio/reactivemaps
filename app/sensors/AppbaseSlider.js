@@ -3,13 +3,13 @@ import { render } from 'react-dom';
 import {queryObject} from '../middleware/ImmutableQuery.js';
 import {manager} from '../middleware/ChannelManager.js';
 import {HistoGramComponent} from './component/HistoGram.js';
-import InputRange from 'react-input-range';
+import Slider from 'rc-slider';
 var helper = require('../middleware/helper.js');
 var Style = require('../helper/Style.js');
 
 export class AppbaseSlider extends Component {
 
-	constructor(props) {
+	constructor(props, context) {
 		super(props);
 		let minThreshold = this.props.minThreshold ? this.props.minThreshold : 0;
 		let maxThreshold = this.props.maxThreshold ? this.props.maxThreshold : 5;
@@ -64,7 +64,7 @@ export class AppbaseSlider extends Component {
 			size: this.props.size
 		};
 		// create a channel and listen the changes
-		var channelObj = manager.create(depends);
+		var channelObj = manager.create(this.context.appbaseConfig, depends);
 		channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
 			let rawData;
@@ -117,7 +117,16 @@ export class AppbaseSlider extends Component {
 		return counts;
 	}
 	// Handle function when slider option change is completed
-	handleResults(component, values) {
+	handleResults(textVal, value) {
+		let values;
+		if(textVal) {
+			values = {
+				min: textVal[0],
+				max: textVal[1]
+			};
+		} else {
+			values = value;
+		}
 		var real_values = {
 			from: values.min,
 			to: values.max
@@ -127,9 +136,9 @@ export class AppbaseSlider extends Component {
 			value: real_values
 		};
 		helper.selectedSensor.set(obj, true);
-
 		this.setState({
-			currentValues: values
+			currentValues: values,
+			values: values
 		});
 	}
 	render() {
@@ -150,13 +159,12 @@ export class AppbaseSlider extends Component {
 				{title}
 				{histogram}
 				<div className="inputRangeContainer col s12 col-xs-12" style={{'margin': '25px 0'}}>
-					<InputRange
-						maxValue={this.state.maxThreshold}
-						minValue={this.state.minThreshold}
-						value={this.state.values}
-						onChange={this.handleValuesChange}
-						onChangeComplete={this.handleResults}
-						/>
+					<Slider range 
+						defaultValue={[this.state.values.min, this.state.values.max]}
+						min={this.state.minThreshold}
+						max={this.state.maxThreshold}
+						onAfterChange={this.handleResults}
+					/>
 				</div>
 			</div>
 		);
@@ -174,9 +182,14 @@ AppbaseSlider.propTypes = {
 AppbaseSlider.defaultProps = {
 	values: {
 		min: 0,
-		max: 10,
+		max: 10
 	},
 	sort: 'count',
 	size: 60,
 	title: null
+};
+
+// context type
+AppbaseSlider.contextTypes = {
+	appbaseConfig: React.PropTypes.any.isRequired
 };

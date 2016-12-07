@@ -2,13 +2,13 @@ import { default as React, Component } from 'react';
 import { render } from 'react-dom';
 import { manager } from '../middleware/ChannelManager.js';
 import { AppbaseSlider } from './AppbaseSlider';
-import InputRange from 'react-input-range';
+import Slider from 'rc-slider';
 import axios from 'axios';
 import Select from 'react-select';
 var helper = require('../middleware/helper.js');
 
 export class DistanceSensor extends Component {
-	constructor(props) {
+	constructor(props, context) {
 		super(props);
 		let value = this.props.value < this.props.minThreshold ? this.props.minThreshold :  this.props.value;
 		this.state = {
@@ -31,6 +31,7 @@ export class DistanceSensor extends Component {
 		this.defaultQuery = this.defaultQuery.bind(this);
 		this.handleValuesChange = this.handleValuesChange.bind(this);
 		this.handleResults = this.handleResults.bind(this);
+		this.unitFormatter = this.unitFormatter.bind(this);
 	}
 
 	componentWillMount() {
@@ -132,7 +133,7 @@ export class DistanceSensor extends Component {
 	// Create a channel which passes the depends and receive results whenever depends changes
 	createChannel() {
 		let depends = this.props.depends ? this.props.depends : {};
-		var channelObj = manager.create(depends);
+		var channelObj = manager.create(this.context.appbaseConfig, depends);
 	}
 
 	// handle the input change and pass the value inside sensor info
@@ -151,6 +152,10 @@ export class DistanceSensor extends Component {
 		}
 	}
 
+	unitFormatter(v) {
+		return v+' '+this.props.unit;
+	}
+
 	// Handle function when value slider option is changing
 	handleValuesChange(component, value) {
 		this.setState({
@@ -159,10 +164,11 @@ export class DistanceSensor extends Component {
 	}
 
 	// Handle function when slider option change is completed
-	handleResults(component, value) {
-		value = value + this.props.unit;
+	handleResults(value) {
+		let distValue = value + this.props.unit;
 		this.setState({
-			currentDistance: value
+			value: value,
+			currentDistance: distValue
 		}, this.executeQuery.bind(this));
 	}
 
@@ -214,14 +220,13 @@ export class DistanceSensor extends Component {
 					<div className="inputRangeContainer col s12 col-xs-6" 
 						style={{'padding': '12px 4px 16px 16px', 'marginBottom': '25px'}}
 						>
-						<InputRange
-							minValue={this.props.minThreshold}
-							maxValue={this.props.maxThreshold}
-							value={this.state.value}
-							labelSuffix={this.props.unit}
-							onChange={this.handleValuesChange}
-							onChangeComplete={this.handleResults}
-							/>
+						<Slider
+							tipFormatter={this.unitFormatter}
+							defaultValue={this.state.value}
+							min={this.props.minThreshold}
+							max={this.props.maxThreshold}
+							onAfterChange={this.handleResults}
+						/>
 					</div>
 				</div>
 			</div>
@@ -239,4 +244,9 @@ DistanceSensor.defaultProps = {
 	unit: 'km',
 	placeholder: "Search...",
 	size: 10
+};
+
+// context type
+DistanceSensor.contextTypes = {
+	appbaseConfig: React.PropTypes.any.isRequired
 };
