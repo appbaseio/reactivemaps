@@ -7,6 +7,7 @@ class channelManager {
 		this.channels = {};
 		this.streamRef = {};
 		this.queryOptions = {};
+		this.appbaseConfig = {};
 		this.receive = this.receive.bind(this);
 		this.nextPage = this.nextPage.bind(this);
 	}
@@ -36,28 +37,33 @@ class channelManager {
 				startTime: (new Date()).getTime(),
 				appliedQuery: queryObj
 			};
-			// apply search query and emit historic queryResult
-			helper.appbaseRef.search(queryObj).on('data', function(data) {
-				channelResponse.method = 'historic';
-				channelResponse.data = data;
-				self.emitter.emit(channelId, channelResponse);
-			}).on('error', function(error) {
-				console.log(error);
-			});
-			// apply searchStream query and emit streaming data
-			if(this.streamRef[channelId]) {
-				this.streamRef[channelId].stop();
-			} 
-			this.streamRef[channelId] = helper.appbaseRef.searchStream(queryObj).on('data', function(data) {
-				let obj = {
-					method: 'stream',
-					data: data,
-					appliedQuery: queryObj
-				};
-				self.emitter.emit(channelId, obj);
-			}).on('error', function(error) {
-				console.log(error);
-			});
+			let appbaseRef = this.appbaseConfig[channelId];
+			if(appbaseRef) {
+				// apply search query and emit historic queryResult
+				appbaseRef.search(queryObj).on('data', function(data) {
+					channelResponse.method = 'historic';
+					channelResponse.data = data;
+					self.emitter.emit(channelId, channelResponse);
+				}).on('error', function(error) {
+					console.log(error);
+				});
+				// apply searchStream query and emit streaming data
+				if(this.streamRef[channelId]) {
+					this.streamRef[channelId].stop();
+				} 
+				this.streamRef[channelId] = appbaseRef.searchStream(queryObj).on('data', function(data) {
+					let obj = {
+						method: 'stream',
+						data: data,
+						appliedQuery: queryObj
+					};
+					self.emitter.emit(channelId, obj);
+				}).on('error', function(error) {
+					console.log(error);
+				});
+			} else {
+				console.error('appbaseRef is not set for '+channelId);
+			}
 		} else {
 			let obj = {
 				method: 'historic',
@@ -208,13 +214,14 @@ class channelManager {
 
 	// Create the channel by passing depends
 	// if depends are same it will create single channel for them
-	create(depends, size = 100, from =0) {
+	create(config, depends, size = 100, from =0) {
 		let channelId = btoa(JSON.stringify(depends));
 		let optionValues = {
 			size: size,
 			from: from
 		};
 		this.queryOptions[channelId] = optionValues;
+		this.appbaseConfig[channelId] = this.setAppbaseRef(config);
 		depends['channel-options-'+channelId] = optionValues;
 		let previousSelectedSensor = {
 			['channel-options-'+channelId]: optionValues
@@ -244,5 +251,14 @@ class channelManager {
 		};
 	}
 
+	// set appbase ref
+	setAppbaseRef(config) {
+		return new Appbase({
+			url: 'https://scalr.api.appbase.io',
+			appname: config.appbase.appname,
+			username: config.appbase.username,
+			password: config.appbase.password
+		});
+	}
 };
 export const manager = new channelManager();

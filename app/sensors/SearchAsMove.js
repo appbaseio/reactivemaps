@@ -5,7 +5,7 @@ import {queryObject} from '../middleware/ImmutableQuery.js';
 var helper = require('../middleware/helper.js');
 
 export class SearchAsMove extends Component {
-	constructor(props) {
+	constructor(props, context) {
 		super(props);
 		this.state = {
 			items: []

@@ -6,7 +6,7 @@ import { manager } from '../middleware/ChannelManager.js';
 var helper = require('../middleware/helper.js');
 
 export class ListResult extends Component {
-	constructor(props) {
+	constructor(props, context) {
 		super(props);
 		this.state = {
 			markers: [],
@@ -30,7 +30,7 @@ export class ListResult extends Component {
 		// Set the depends - add self aggs query as well with depends
 		let depends = this.props.depends ? this.props.depends : {};
 		// create a channel and listen the changes
-		var channelObj = manager.create(depends, this.props.requestSize);
+		var channelObj = manager.create(this.context.appbaseConfig, depends, this.props.requestSize);
 		this.channelId = channelObj.channelId;
 		channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
@@ -162,4 +162,9 @@ ListResult.defaultProps = {
 		height: '700px',
 		overflow: 'auto'
 	}
+};
+
+// context type
+ListResult.contextTypes = {
+	appbaseConfig: React.PropTypes.any.isRequired
 };

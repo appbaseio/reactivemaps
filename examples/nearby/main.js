@@ -99,82 +99,83 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<ReactiveMap config={this.props.config} />
-				<div className="col s12 m6 col-xs-12 col-sm-6">
-					<div className="row h-100">
-						<div className="col s12 m6 col-xs-12 col-sm-6">
-							<AppbaseList
-								inputData={this.props.mapping.topic}
-								sensorId="TopicSensor"
-								showCount={true}
-								size={100}
-								multipleSelect={true}
-								includeGeo={true}
-								title="Topics"
+				<ReactiveMap config={this.props.config}>
+					<div className="col s12 m6 col-xs-12 col-sm-6">
+						<div className="row h-100">
+							<div className="col s12 m6 col-xs-12 col-sm-6">
+								<AppbaseList
+									inputData={this.props.mapping.topic}
+									sensorId="TopicSensor"
+									showCount={true}
+									size={100}
+									multipleSelect={true}
+									includeGeo={true}
+									title="Topics"
+									depends={{
+										CitySensor: {
+											"operation": "must",
+											"defaultQuery": this.topicDepends
+										}
+									}}
+								/>
+							</div>
+						</div>
+						<div className="row">
+							<div className="col s12 col-xs-12">
+								<DistanceSensor
+									sensorId="DistanceSensor"
+									APIkey={mapsAPIKey}
+									inputData={this.props.mapping.location}
+									minThreshold={1}
+									maxThreshold={60}
+									value={50}
+									unit="mi"
+									title="Geo Distance Search"
+									placeholder="Search Location" />
+							</div>
+						</div>
+					</div>
+					<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
+						<select className="browser-default form-control" onChange={this.handleSelect} value={this.state.view} name="chooseView" id="chooseView">
+							<option value='map' key='map'>Map</option>
+							<option value='list' key='list'>List</option>
+						</select>
+						<div className={this.state.view !== 'map' ? 'invible' : ''}>
+							<AppbaseMap
+								inputData={this.props.mapping.location}
+								historicalData={true}
+								markerCluster={false}
+								searchComponent="appbase"
+								searchField={this.props.mapping.venue}
+								mapStyle={this.props.mapStyle}
+								autoCenter={true}
+								searchAsMoveComponent={true}
+								MapStylesComponent={true}
+								title="Reactive Maps"
+								showPopoverOn = "onClick"
+								popoverContent = {this.popoverContent}
+								markerOnIndex = {this.markerOnIndex}
+								defaultZoom = {13}
+								defaultCenter={{ lat: 37.74, lng: -122.45 }}
 								depends={{
-									CitySensor: {
-										"operation": "must",
-										"defaultQuery": this.topicDepends
-									}
+									TopicSensor: {"operation": "must"},
+									DistanceSensor: {"operation": "must"}
+								}}
+							/>
+						</div>
+						<div className={this.state.view !== 'list' ? 'invible' : 'h-100'}>
+							<ListResult
+								containerStyle={{height: '100%'}}
+								requestSize={50}
+								markerOnIndex={this.markerOnIndex}
+								depends={{
+									TopicSensor: {"operation": "must"},
+									DistanceSensor: {"operation": "must"}
 								}}
 							/>
 						</div>
 					</div>
-					<div className="row">
-						<div className="col s12 col-xs-12">
-							<DistanceSensor
-								sensorId="DistanceSensor"
-								APIkey={mapsAPIKey}
-								inputData={this.props.mapping.location}
-								minThreshold={1}
-								maxThreshold={60}
-								value={50}
-								unit="mi"
-								title="Geo Distance Search"
-								placeholder="Search Location" />
-						</div>
-					</div>
-				</div>
-				<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
-					<select className="browser-default form-control" onChange={this.handleSelect} value={this.state.view} name="chooseView" id="chooseView">
-						<option value='map' key='map'>Map</option>
-						<option value='list' key='list'>List</option>
-					</select>
-					<div className={this.state.view !== 'map' ? 'invible' : ''}>
-						<AppbaseMap
-							inputData={this.props.mapping.location}
-							historicalData={true}
-							markerCluster={false}
-							searchComponent="appbase"
-							searchField={this.props.mapping.venue}
-							mapStyle={this.props.mapStyle}
-							autoCenter={true}
-							searchAsMoveComponent={true}
-							MapStylesComponent={true}
-							title="Reactive Maps"
-							showPopoverOn = "onClick"
-							popoverContent = {this.popoverContent}
-							markerOnIndex = {this.markerOnIndex}
-							defaultZoom = {13}
-							defaultCenter={{ lat: 37.74, lng: -122.45 }}
-							depends={{
-								TopicSensor: {"operation": "must"},
-								DistanceSensor: {"operation": "must"}
-							}}
-						/>
-					</div>
-					<div className={this.state.view !== 'list' ? 'invible' : 'h-100'}>
-						<ListResult
-							containerStyle={{height: '100%'}}
-							requestSize={50}
-							markerOnIndex={this.markerOnIndex}
-							depends={{
-								TopicSensor: {"operation": "must"},
-								DistanceSensor: {"operation": "must"}
-							}}
-						/>
-					</div>
-				</div>
+				</ReactiveMap>
 			</div>
 		);
 	}

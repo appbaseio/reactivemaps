@@ -4,7 +4,7 @@ import { manager } from '../middleware/ChannelManager.js';
 var helper = require('../middleware/helper.js');
 
 export class InputField extends Component {
-	constructor(props) {
+	constructor(props, context) {
 		super(props);
 		this.state = {
 			currentValue: ''
@@ -45,7 +45,7 @@ export class InputField extends Component {
 	// Create a channel which passes the depends and receive results whenever depends changes
 	createChannel() {
 		let depends = this.props.depends ? this.props.depends : {};
-		var channelObj = manager.create(depends);
+		var channelObj = manager.create(this.context.appbaseConfig, depends);
 
 	}
 
@@ -83,4 +83,9 @@ InputField.propTypes = {
 InputField.defaultProps = {
 	placeholder: "Search...",
 	size: 10
+};
+
+// context type
+InputField.contextTypes = {
+	appbaseConfig: React.PropTypes.any.isRequired
 };

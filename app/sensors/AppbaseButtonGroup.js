@@ -4,7 +4,7 @@ import { manager } from '../middleware/ChannelManager.js';
 var helper = require('../middleware/helper.js');
 
 export class AppbaseButtonGroup extends Component {
-	constructor(props) {
+	constructor(props, context) {
 		super(props);
 		this.state = {
 			selected: null
@@ -48,7 +48,7 @@ export class AppbaseButtonGroup extends Component {
 	// Create a channel which passes the depends and receive results whenever depends changes
 	createChannel() {
 		let depends = this.props.depends ? this.props.depends : {};
-		var channelObj = manager.create(depends);
+		var channelObj = manager.create(this.context.appbaseConfig, depends);
 
 	}
 
@@ -109,4 +109,9 @@ AppbaseButtonGroup.propTypes = {
 AppbaseButtonGroup.defaultProps = {
 	placeholder: "Search...",
 	size: 10
+};
+
+// context type
+AppbaseButtonGroup.contextTypes = {
+	appbaseConfig: React.PropTypes.any.isRequired
 };

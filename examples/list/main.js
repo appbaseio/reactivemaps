@@ -65,86 +65,87 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<ReactiveMap config={this.props.config} />
-				<div className="col s12 m6">
-					<div className="row h-100">
-						<div className="col s12 m6">
-							<AppbaseList
-								sensorId="CitySensor"
-								inputData={this.props.mapping.city}
-								defaultSelected="London"
-								showCount={true}
-								size={1000}
-								multipleSelect={false}
-								includeGeo={false}
-								staticSearch={true}
-								title="Cities"
-								searchPlaceholder="Search City"
-							/>
+				<ReactiveMap config={this.props.config}>
+					<div className="col s12 m6">
+						<div className="row h-100">
+							<div className="col s12 m6">
+								<AppbaseList
+									sensorId="CitySensor"
+									inputData={this.props.mapping.city}
+									defaultSelected="London"
+									showCount={true}
+									size={1000}
+									multipleSelect={false}
+									includeGeo={false}
+									staticSearch={true}
+									title="Cities"
+									searchPlaceholder="Search City"
+								/>
+							</div>
+							<div className="col s12 m6">
+								<AppbaseList
+									inputData={this.props.mapping.topic}
+									sensorId="TopicSensor"
+									showCount={true}
+									size={100}
+									multipleSelect={true}
+									includeGeo={true}
+									title="Topics"
+									depends={{
+										CitySensor: {
+											"operation": "must",
+											"defaultQuery": this.topicDepends
+										}
+									}}
+								/>
+							</div>
 						</div>
-						<div className="col s12 m6">
-							<AppbaseList
-								inputData={this.props.mapping.topic}
-								sensorId="TopicSensor"
-								showCount={true}
-								size={100}
-								multipleSelect={true}
-								includeGeo={true}
-								title="Topics"
-								depends={{
-									CitySensor: {
-										"operation": "must",
-										"defaultQuery": this.topicDepends
-									}
-								}}
-							/>
+						<div className="row">
+							<div className="col s12">
+								<AppbaseSlider
+									sensorId="RangeSensor"
+									inputData={this.props.mapping.guests}
+									depends={{
+										CitySensor: {
+											"operation": "must",
+											"defaultQuery": this.topicDepends
+										}
+									}}
+									title="guests"
+									maxThreshold={5} />
+							</div>
+						</div>
+						<div className="row">
+							<div className="col s12">
+								<AppbaseSearch
+									inputData={this.props.mapping.venue}
+									sensorId="VenueSensor"
+									searchRef="CityVenue"
+									placeholder="Search Venue"
+									depends={{
+										'CitySensor': {
+											"operation": "must",
+											"doNotExecute": {true}
+										}
+									}}
+								/>
+							</div>
 						</div>
 					</div>
-					<div className="row">
-						<div className="col s12">
-							<AppbaseSlider
-								sensorId="RangeSensor"
-								inputData={this.props.mapping.guests}
-								depends={{
-									CitySensor: {
-										"operation": "must",
-										"defaultQuery": this.topicDepends
-									}
-								}}
-								title="guests"
-								maxThreshold={5} />
-						</div>
-					</div>
-					<div className="row">
-						<div className="col s12">
-							<AppbaseSearch
-								inputData={this.props.mapping.venue}
-								sensorId="VenueSensor"
-								searchRef="CityVenue"
-								placeholder="Search Venue"
-								depends={{
-									'CitySensor': {
-										"operation": "must",
-										"doNotExecute": {true}
-									}
-								}}
+					<div className="col s12 m6 h-100">
+						<ListResult
+							containerStyle={{height: '100%'}}
+							markerOnIndex={this.markerOnIndex}
+							requestSize={50}
+							depends={{
+								CitySensor: {"operation": "must"},
+								TopicSensor: {"operation": "must"},
+								RangeSensor: {"operation": "must"},
+								VenueSensor: {"operation": "must"}
+							}}
 							/>
-						</div>
 					</div>
-				</div>
-				<div className="col s12 m6 h-100">
-					<ListResult
-						containerStyle={{height: '100%'}}
-						markerOnIndex={this.markerOnIndex}
-						requestSize={50}
-						depends={{
-							CitySensor: {"operation": "must"},
-							TopicSensor: {"operation": "must"},
-							RangeSensor: {"operation": "must"},
-							VenueSensor: {"operation": "must"}
-						}}
-						/>
-				</div>
+				</ReactiveMap>
 			</div>
 		);
 	}
