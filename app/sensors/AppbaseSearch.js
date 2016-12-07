@@ -6,7 +6,7 @@ import {manager} from '../middleware/ChannelManager.js';
 var helper = require('../middleware/helper.js');
 
 export class AppbaseSearch extends Component {
-	constructor(props) {
+	constructor(props, context) {
 		super(props);
 		this.state = {
 			items: [],
@@ -62,7 +62,7 @@ export class AppbaseSearch extends Component {
 			operation: "must",
 			defaultQuery: this.defaultSearchQuery
 		};
-		var channelObj = manager.create(depends);
+		var channelObj = manager.create(this.context.appbaseConfig, depends);
 		channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
 			let rawData;
@@ -177,4 +177,9 @@ AppbaseSearch.defaultProps = {
 	size: 10,
 	executeDepends: true,
 	searchRef: "searchLetter"
+};
+
+// context type
+AppbaseSearch.contextTypes = {
+	appbaseConfig: React.PropTypes.any.isRequired
 };

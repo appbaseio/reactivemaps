@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 var helper = require('../middleware/helper.js');
 
 export class MapStyles extends Component {
-	constructor(props) {
+	constructor(props, context) {
 		super(props);
 		this.state = {
 			items: []

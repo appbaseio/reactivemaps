@@ -1,14 +1,15 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
-import {Img} from './app/sensors/component/Img.js';
-import {ReactiveMap,
-		AppbaseMap,
-		AppbaseSearch,
-		DistanceSensor,
-		AppbaseSlider,
-		AppbaseList,
-		AppbaseButtonGroup
-	} from './app/app.js';
+import { Img } from './app/sensors/component/Img.js';
+import {
+	ReactiveMap,
+	AppbaseMap,
+	AppbaseSearch,
+	DistanceSensor,
+	AppbaseSlider,
+	AppbaseList,
+	AppbaseButtonGroup
+} from './app/app.js';
 
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 
@@ -20,29 +21,37 @@ class Main extends Component {
 		this.guestQuery = this.guestQuery.bind(this);
 		this.guestData = [{
 			text: 'Less than 2',
-			min: 0,
-			max: 2
+			value: {
+				min: 0,
+				max: 2
+			}
 		}, {
 			text: '2 to 4',
-			min: 2,
-			max: 4
+			value: {
+				min: 2,
+				max: 4
+			}
 		}, {
 			text: '4 to 6',
-			min: 4,
-			max: 6
+			value: {
+				min: 4,
+				max: 6
+			}
 		}, {
 			text: 'more than 6',
-			min: 6,
-			max: 100
+			value: {
+				min: 6,
+				max: 100
+			}
 		}];
 	}
 	guestQuery(record) {
-		if(record) {
+		if (record) {
 			return {
 				range: {
-						[this.props.mapping.guests]: {
-						gte: record.min,
-						lte: record.max,
+					[this.props.mapping.guests]: {
+						gte: record.value.min,
+						lte: record.value.max,
 						boost: 2.0
 					}
 				}
@@ -50,7 +59,7 @@ class Main extends Component {
 		}
 	}
 	topicDepends(value) {
-		if(this.props.mapping.city && value) {
+		if (this.props.mapping.city && value) {
 			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
 			return { Match: match };
 		} else return null;
@@ -75,8 +84,7 @@ class Main extends Component {
 			</div>
 		</div>);
 	}
-	markerOnIndex(res) {
-	}
+	markerOnIndex(res) {}
 	render() {
 		return (
 			<div className="row m-0 h-100">
@@ -199,10 +207,10 @@ Main.defaultProps = {
 	},
 	config: {
 		"appbase": {
-		   "appname": "reactivemap_demo",
-		   "username": "y4pVxY2Ok",
-		   "password": "c92481e2-c07f-4473-8326-082919282c18",
-		   "type": "meetupdata1"
+			"appname": "reactivemap_demo",
+			"username": "y4pVxY2Ok",
+			"password": "c92481e2-c07f-4473-8326-082919282c18",
+			"type": "meetupdata1"
 		}
 	}
 };

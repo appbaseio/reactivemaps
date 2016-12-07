@@ -6,7 +6,7 @@ import Select from 'react-select';
 var helper = require('../middleware/helper.js');
 
 export class GoogleSearch extends Component {
-	constructor(props) {
+	constructor(props, context) {
 		super(props);
 		this.state = {
 			currentValue: '',
@@ -113,7 +113,7 @@ export class GoogleSearch extends Component {
 	// Create a channel which passes the depends and receive results whenever depends changes
 	createChannel() {
 		let depends = this.props.depends ? this.props.depends : {};
-		var channelObj = manager.create(depends);
+		var channelObj = manager.create(this.context.appbaseConfig, depends);
 	}
 
 	// handle the input change and pass the value inside sensor info
@@ -205,4 +205,9 @@ GoogleSearch.propTypes = {
 GoogleSearch.defaultProps = {
 	placeholder: "Search...",
 	autoLocation: true
+};
+
+// context type
+GoogleSearch.contextTypes = {
+	appbaseConfig: React.PropTypes.any.isRequired
 };

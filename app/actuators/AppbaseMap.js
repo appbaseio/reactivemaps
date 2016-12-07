@@ -14,7 +14,7 @@ var helper = require('../middleware/helper.js');
 var Style = require('../helper/Style.js');
 
 export class AppbaseMap extends Component {
-	constructor(props) {
+	constructor(props, context) {
 		super(props);
 		this.state = {
 			markers: [],
@@ -50,7 +50,7 @@ export class AppbaseMap extends Component {
 		let depends = this.props.depends ? this.props.depends : {};
 		depends['geoQuery'] = { operation: "must" };
 		// create a channel and listen the changes
-		var channelObj = manager.create(depends, this.props.requestSize);
+		var channelObj = manager.create(this.context.appbaseConfig, depends, this.props.requestSize);
 		channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
 			// implementation to prevent initialize query issue if old query response is late then the newer query 
@@ -548,7 +548,9 @@ export class AppbaseMap extends Component {
 					{searchComponent}
 					{markerComponent}
 					{this.externalData()}
-			</GoogleMap>}/>
+					</GoogleMap>
+				}
+			/>
 			{searchAsMoveComponent}
 			<div className="col s12 text-center center-align" >
 				<img width='200px' height='auto' src="http://opensource.appbase.io/reactive-maps/dist/images/logo.png" />
@@ -597,4 +599,7 @@ AppbaseMap.defaultProps = {
 	containerStyle: {
 		height: '700px'
 	}
+};
+AppbaseMap.contextTypes = {
+	appbaseConfig: React.PropTypes.any.isRequired
 };

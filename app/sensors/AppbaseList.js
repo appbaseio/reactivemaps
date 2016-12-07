@@ -9,7 +9,7 @@ var helper = require('../middleware/helper.js');
 
 export class AppbaseList extends Component {
 
-	constructor(props) {
+	constructor(props, context) {
 		super(props);
 		this.state = {
 			items: [],
@@ -57,7 +57,7 @@ export class AppbaseList extends Component {
 			size: this.props.size
 		};
 		// create a channel and listen the changes
-		var channelObj = manager.create(depends);
+		var channelObj = manager.create(this.context.appbaseConfig, depends);
 		channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
 			let rawData;
@@ -205,4 +205,9 @@ AppbaseList.defaultProps = {
 		height: '500px',
 		overflow: 'auto'
 	}
+};
+
+// context type
+AppbaseList.contextTypes = {
+	appbaseConfig: React.PropTypes.any.isRequired
 };
