@@ -1,6 +1,6 @@
 {
   "name": "reactive-maps",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Data Components for building Reactive Maps Interfaces",
   "main": "lib/app.js",
   "scripts": {
