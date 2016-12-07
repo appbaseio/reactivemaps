@@ -123,46 +123,47 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<ReactiveMap config={this.props.config} />
-				<div className="col s12 m9 h-100">
-					<AppbaseMap
-						inputData={this.props.mapping.location}
-						defaultZoom={13}
-						defaultCenter={{ lat: 37.74, lng: -122.45 }}
-						historicalData={true}
-						markerCluster={false}
-						searchComponent="appbase"
-						searchField={this.props.mapping.venue}
-						mapStyle={this.props.mapStyle}
-						autoCenter={true}
-						searchAsMoveComponent={true}
-						title="Events Example"
-						MapStylesComponent={true}
-						onIdle={this.onIdle}
-						onMouseover={this.onMouseover}
-						onMouseout={this.onMouseout}
-						onClick={this.onClick}
-						onDblclick={this.onDblclick}
-						onDrag={this.onDrag}
-						onDragstart={this.onDragstart}
-						onDragend={this.onDragend}
-						onMousemove={this.onMousemove}
-						onMouseout={this.onMouseout}
-						onMouseover={this.onMouseover}
-						onResize={this.onResize}
-						onRightclick={this.onRightclick}
-						onBoundsChanged={this.onBoundsChanged}
-						onCenterChanged={this.onCenterChanged}
-						onProjectionChanged={this.onProjectionChanged}
-						onTiltChanged={this.onTiltChanged}
-						onZoomChanged={this.onZoomChanged}
-					/>
-				</div>
-				<div className="col s12 m3">
-					<ul>
-						{this.renderEventName()}
-					</ul>
-				</div>
+				<ReactiveMap config={this.props.config}>
+					<div className="col s12 m9 h-100">
+						<AppbaseMap
+							inputData={this.props.mapping.location}
+							defaultZoom={13}
+							defaultCenter={{ lat: 37.74, lng: -122.45 }}
+							historicalData={true}
+							markerCluster={false}
+							searchComponent="appbase"
+							searchField={this.props.mapping.venue}
+							mapStyle={this.props.mapStyle}
+							autoCenter={true}
+							searchAsMoveComponent={true}
+							title="Events Example"
+							MapStylesComponent={true}
+							onIdle={this.onIdle}
+							onMouseover={this.onMouseover}
+							onMouseout={this.onMouseout}
+							onClick={this.onClick}
+							onDblclick={this.onDblclick}
+							onDrag={this.onDrag}
+							onDragstart={this.onDragstart}
+							onDragend={this.onDragend}
+							onMousemove={this.onMousemove}
+							onMouseout={this.onMouseout}
+							onMouseover={this.onMouseover}
+							onResize={this.onResize}
+							onRightclick={this.onRightclick}
+							onBoundsChanged={this.onBoundsChanged}
+							onCenterChanged={this.onCenterChanged}
+							onProjectionChanged={this.onProjectionChanged}
+							onTiltChanged={this.onTiltChanged}
+							onZoomChanged={this.onZoomChanged}
+						/>
+					</div>
+					<div className="col s12 m3">
+						<ul>
+							{this.renderEventName()}
+						</ul>
+					</div>
+				</ReactiveMap>
 			</div>
 		);
 	}

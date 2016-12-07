@@ -29,8 +29,8 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<ReactiveMap config={this.props.config} />
-				<div className="col s6">
+				<ReactiveMap config={this.props.config}>
+					<div className="col s6">
 					<div className="row h-100">
 						<div className="col s6">
 							<AppbaseList
@@ -63,29 +63,30 @@ class Main extends Component {
 								}}
 							/>
 						</div>
+						</div>
 					</div>
-				</div>
-				<div className="col s6 h-100">
-					<AppbaseMap
-						inputData={this.props.mapping.location}
-						defaultZoom={13}
-						defaultCenter={{ lat: 37.74, lng: -122.45 }}
-						historicalData={true}
-						markerCluster={false}
-						searchComponent="appbase"
-						searchField={this.props.mapping.venue}
-						mapStyle={this.props.mapStyle}
-						autoCenter={true}
-						size={100}
-						searchAsMoveComponent={true}
-						MapStylesComponent={true}
-						title="Meetupblast"
-						depends={{
-							CitySensor: {"operation": "must", defaultQuery: this.cityQuery},
-							TopicSensor: {"operation": "must", defaultQuery: this.topicQuery}
-						}}
-						/>
-				</div>
+					<div className="col s6 h-100">
+						<AppbaseMap
+							inputData={this.props.mapping.location}
+							defaultZoom={13}
+							defaultCenter={{ lat: 37.74, lng: -122.45 }}
+							historicalData={true}
+							markerCluster={false}
+							searchComponent="appbase"
+							searchField={this.props.mapping.venue}
+							mapStyle={this.props.mapStyle}
+							autoCenter={true}
+							size={100}
+							searchAsMoveComponent={true}
+							MapStylesComponent={true}
+							title="Meetupblast"
+							depends={{
+								CitySensor: {"operation": "must", defaultQuery: this.cityQuery},
+								TopicSensor: {"operation": "must", defaultQuery: this.topicQuery}
+							}}
+							/>
+					</div>
+				</ReactiveMap>
 			</div>
 		);
 	}

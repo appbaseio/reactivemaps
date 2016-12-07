@@ -46,27 +46,28 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<ReactiveMap config={this.props.config} />
-				<div className="col s12 h-100">
-					<AppbaseMap
-						inputData={this.props.mapping.location}
-						defaultZoom={4}
-						defaultCenter={{ lat: 40.673940, lng: -101.314026 }}
-						historicalData={true}
-						markerCluster={false}
-						searchComponent="appbase"
-						searchField={this.props.mapping.venue}
-						mapStyle={this.props.mapStyle}
-						markerOnIndex={this.markerOnIndex}
-						autoCenter={false}
-						size={100}
-						searchAsMoveComponent={true}
-						searchAsMoveDefault={true}
-						MapStylesComponent={true}
-						allowMarkers={false}
-						title="Meetupblast"
-						/>
-				</div>
+				<ReactiveMap config={this.props.config}>
+					<div className="col s12 h-100">
+						<AppbaseMap
+							inputData={this.props.mapping.location}
+							defaultZoom={4}
+							defaultCenter={{ lat: 40.673940, lng: -101.314026 }}
+							historicalData={true}
+							markerCluster={false}
+							searchComponent="appbase"
+							searchField={this.props.mapping.venue}
+							mapStyle={this.props.mapStyle}
+							markerOnIndex={this.markerOnIndex}
+							autoCenter={false}
+							size={100}
+							searchAsMoveComponent={true}
+							searchAsMoveDefault={true}
+							MapStylesComponent={true}
+							allowMarkers={false}
+							title="Meetupblast"
+							/>
+					</div>
+				</ReactiveMap>
 			</div>
 		);
 	}

@@ -54,53 +54,54 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<ReactiveMap config={this.props.config} />
-				<div className="col s12 m3">
-					<div className="row h-100">
-						<div className="col s12">
-							<AppbaseList
-								sensorId="RoutesSensor"
-								inputData={this.props.mapping.routes}
-								showCount={false}
-								defaultSelected={['Bus-12', 'Bus-14', 'Bus-22', 'Bus-43', 'Train-1']}
-								size={1000}
-								multipleSelect={true}
-								includeSelectAll={true}
-								includeGeo={false}
-								staticSearch={true}
-								title="Bus"
-								searchPlaceholder="Search Bus"
-							/>
-						</div>
+				<ReactiveMap config={this.props.config}>
+					<div className="col s12 m3">
+						<div className="row h-100">
+							<div className="col s12">
+								<AppbaseList
+									sensorId="RoutesSensor"
+									inputData={this.props.mapping.routes}
+									showCount={false}
+									defaultSelected={['Bus-12', 'Bus-14', 'Bus-22', 'Bus-43', 'Train-1']}
+									size={1000}
+									multipleSelect={true}
+									includeSelectAll={true}
+									includeGeo={false}
+									staticSearch={true}
+									title="Bus"
+									searchPlaceholder="Search Bus"
+								/>
+							</div>
 
+						</div>
 					</div>
-				</div>
-				<div className="col s12 m9 h-100">
-					<AppbaseMap
-						inputData={this.props.mapping.location}
-						defaultZoom={11}
-						defaultCenter={{ lat: 37.74, lng: -122.45 }}
-						historicalData={true}
-						markerCluster={false}
-						searchComponent="appbase"
-						searchField={this.props.mapping.venue}
-						mapStyle={this.props.mapStyle}
-						autoCenter={true}
-						searchAsMoveComponent={true}
-						MapStylesComponent={true}
-						title="SF Transport"
-						showPopoverOn = "onClick"
-						popoverContent = {this.popoverContent}
-						markerOnIndex = {this.markerOnIndex}
-						streamAutoCenter={false}
-						rotateOnUpdate={true}
-						historicPin= 'dist/images/bus.png'
-						streamPin= 'dist/images/bus.png'
-						depends={{
-							RoutesSensor: {"operation": "must"}
-						}}
-						/>
-				</div>
+					<div className="col s12 m9 h-100">
+						<AppbaseMap
+							inputData={this.props.mapping.location}
+							defaultZoom={11}
+							defaultCenter={{ lat: 37.74, lng: -122.45 }}
+							historicalData={true}
+							markerCluster={false}
+							searchComponent="appbase"
+							searchField={this.props.mapping.venue}
+							mapStyle={this.props.mapStyle}
+							autoCenter={true}
+							searchAsMoveComponent={true}
+							MapStylesComponent={true}
+							title="SF Transport"
+							showPopoverOn = "onClick"
+							popoverContent = {this.popoverContent}
+							markerOnIndex = {this.markerOnIndex}
+							streamAutoCenter={false}
+							rotateOnUpdate={true}
+							historicPin= 'dist/images/bus.png'
+							streamPin= 'dist/images/bus.png'
+							depends={{
+								RoutesSensor: {"operation": "must"}
+							}}
+							/>
+					</div>
+				</ReactiveMap>
 			</div>
 		);
 	}

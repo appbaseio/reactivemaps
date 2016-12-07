@@ -98,8 +98,8 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<ReactiveMap config={this.props.config} />
-				<div className="col s12 h-100">
+				<ReactiveMap config={this.props.config}>
+					<div className="col s12 h-100">
 					<AppbaseMap
 						inputData={this.props.mapping.location}
 						requestSize={5}
@@ -121,7 +121,8 @@ class Main extends Component {
 						mapOnIdle = {this.mapOnIdle}
 						streamingMarkerTime={10}
 						/>
-				</div>
+					</div>
+				</ReactiveMap>
 			</div>
 		);
 	}
