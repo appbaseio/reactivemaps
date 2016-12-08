@@ -552,7 +552,7 @@ export class AppbaseMap extends Component {
 				}
 			/>
 			{searchAsMoveComponent}
-			<div className="col s12 text-center center-align" >
+			<div className="col s12 text-center center-align">
 				<img width='200px' height='auto' src="http://opensource.appbase.io/reactive-maps/dist/images/logo.png" />
 			</div>
 		</div >
