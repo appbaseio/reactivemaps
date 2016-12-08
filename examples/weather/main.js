@@ -1,11 +1,13 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import { Marker } from "react-google-maps";
-import {ReactiveMap,
+import {
+		ReactiveMap,
 		AppbaseMap,
 		AppbaseSearch,
 		AppbaseSlider,
-		AppbaseList} from '../../app/app.js';
+		AppbaseList
+	} from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {
@@ -126,7 +128,7 @@ class Main extends Component {
 							searchAsMoveDefault={true}
 							MapStylesComponent={true}
 							allowMarkers={false}
-							title="Meetupblast"
+							title="Weather"
 							/>
 					</div>
 				</ReactiveMap>
