@@ -1,14 +1,16 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
-import {Img} from '../../app/sensors/component/Img.js';
+import {Img} from '../HelperComponent/Img.js';
 import { Polygon } from "react-google-maps";
 var HeatmapCreator = require('./HeatmapCreator.js');
 var HeatmapWorker = require('./worker.js');
-import {ReactiveMap,
-		AppbaseMap,
-		AppbaseSearch,
-		AppbaseSlider,
-		AppbaseList} from '../../app/app.js';
+import {
+	AppbaseReactiveMap
+} from 'sensor-js';
+
+import {
+	AppbaseMap
+} from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {
@@ -98,7 +100,7 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<ReactiveMap config={this.props.config}>
+				<AppbaseReactiveMap config={this.props.config}>
 					<div className="col s12 h-100">
 					<AppbaseMap
 						inputData={this.props.mapping.location}
@@ -122,7 +124,7 @@ class Main extends Component {
 						streamingMarkerTime={10}
 						/>
 					</div>
-				</ReactiveMap>
+				</AppbaseReactiveMap>
 			</div>
 		);
 	}

@@ -1,9 +1,9 @@
 {
-	"name": "AutoPilot",
+	"name": "Reactivemaps",
 	"description": "",
 	"main": "main.js",
 	"authors": [
-		"Farhan Chauhan <farhan687@gmail.com>"
+		"Farhan Chauhan <farhan@appbase.io>"
 	],
 	"license": "ISC",
 	"homepage": "https://github.com/appbaseio/reactive-maps",

@@ -1,13 +1,13 @@
 import { default as React, Component } from 'react';
-import {Img} from '../../app/sensors/component/Img.js';
 var ReactDOM = require('react-dom');
-import {ReactiveMap,
-		AppbaseMap,
-		AppbaseSearch,
-		AppbaseSlider,
-		AppbaseList,
-		GoogleSearch
-	} from '../../app/app.js';
+import {
+	AppbaseReactiveMap,
+	AppbaseGoogleSearch
+} from 'sensor-js';
+
+import {
+	AppbaseMap
+} from '../../app/app.js';
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 
 class Main extends Component {
@@ -54,11 +54,11 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<ReactiveMap config={this.props.config}>
+				<AppbaseReactiveMap config={this.props.config}>
 					<div className="col s12 m6 col-xs-12 col-sm-6">
 						<div className="row h-100">
 							<div className="col s12 col-xs-12">
-								<GoogleSearch
+								<AppbaseGoogleSearch
 									inputData={this.props.mapping.venue}
 									sensorId="OriginSensor"
 									placeholder="Search Venue"
@@ -67,7 +67,7 @@ class Main extends Component {
 								/>
 							</div>
 							<div className="col s12 col-xs-12">
-								<GoogleSearch
+								<AppbaseGoogleSearch
 									inputData={this.props.mapping.venue}
 									sensorId="DestinationSensor"
 									placeholder="Search Venue"
@@ -102,7 +102,7 @@ class Main extends Component {
 							}}
 						/>
 					</div>
-				</ReactiveMap>
+				</AppbaseReactiveMap>
 			</div>
 		);
 	}

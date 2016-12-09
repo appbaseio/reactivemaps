@@ -1,9 +1,8 @@
 import { default as React, Component } from 'react';
 import { render } from 'react-dom';
-import { queryObject, emitter } from '../middleware/ImmutableQuery.js';
-import { manager } from '../middleware/ChannelManager.js';
-
-var helper = require('../middleware/helper.js');
+import {
+	AppbaseChannelManager
+} from 'sensor-js';
 
 export class ListResult extends Component {
 	constructor(props, context) {
@@ -30,7 +29,7 @@ export class ListResult extends Component {
 		// Set the depends - add self aggs query as well with depends
 		let depends = this.props.depends ? this.props.depends : {};
 		// create a channel and listen the changes
-		var channelObj = manager.create(this.context.appbaseConfig, depends, this.props.requestSize);
+		var channelObj = AppbaseChannelManager.create(this.context.appbaseConfig, depends, this.props.requestSize);
 		this.channelId = channelObj.channelId;
 		channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
