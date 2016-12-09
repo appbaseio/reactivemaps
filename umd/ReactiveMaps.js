@@ -24961,7 +24961,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				});
 				return _react2.default.createElement(
 					'div',
-					{ className: 'input-field col mapStyles' },
+					{ className: 'input-field col mapStyles pull-right right' },
 					_react2.default.createElement(
 						'select',
 						{ className: 'browser-default form-control', onChange: this.handleSelect, value: this.state.selectedValue, name: 'mapStyles', id: 'mapStyles' },
