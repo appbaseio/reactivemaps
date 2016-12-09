@@ -1,12 +1,13 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
-import {ReactiveMap,
-		AppbaseMap,
-		AppbaseSearch,
-		AppbaseSlider,
-		AppbaseList,
-		InputField
-	} from '../../app/app.js';
+import {
+	AppbaseReactiveMap,
+	AppbaseInputField
+} from 'sensor-js';
+
+import {
+	AppbaseMap
+} from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {
@@ -25,11 +26,11 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<ReactiveMap config={this.props.config}>
+				<AppbaseReactiveMap config={this.props.config}>
 					<div className="col s6">
 						<div className="row h-100">
 							<div className="col s12">
-								<InputField
+								<AppbaseInputField
 									sensorId="InputSensor"
 									title="Cities"
 									placeholder="Search City (i.e London)"
@@ -57,7 +58,7 @@ class Main extends Component {
 							}}
 							/>
 					</div>
-				</ReactiveMap>
+				</AppbaseReactiveMap>
 			</div>
 		);
 	}

@@ -1,14 +1,16 @@
 import { default as React, Component } from 'react';
-import {Img} from '../../app/sensors/component/Img.js';
+import {Img} from '../HelperComponent/Img.js';
 var ReactDOM = require('react-dom');
-import {ReactiveMap,
-		AppbaseMap,
-		AppbaseSearch,
-		AppbaseSlider,
-		AppbaseList,
-		DistanceSensor,
-		ListResult
-	} from '../../app/app.js';
+import {
+	AppbaseReactiveMap,
+	AppbaseList,
+	AppbaseDistanceSensor
+} from 'sensor-js';
+
+import {
+	AppbaseMap,
+	AppbaseListResult
+} from '../../app/app.js';
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 
 class Main extends Component {
@@ -99,7 +101,7 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<ReactiveMap config={this.props.config}>
+				<AppbaseReactiveMap config={this.props.config}>
 					<div className="col s12 m6 col-xs-12 col-sm-6">
 						<div className="row h-100">
 							<div className="col s12 m6 col-xs-12 col-sm-6">
@@ -122,7 +124,7 @@ class Main extends Component {
 						</div>
 						<div className="row">
 							<div className="col s12 col-xs-12">
-								<DistanceSensor
+								<AppbaseDistanceSensor
 									sensorId="DistanceSensor"
 									APIkey={mapsAPIKey}
 									inputData={this.props.mapping.location}
@@ -164,7 +166,7 @@ class Main extends Component {
 							/>
 						</div>
 						<div className={this.state.view !== 'list' ? 'invible' : 'h-100'}>
-							<ListResult
+							<AppbaseListResult
 								containerStyle={{height: '100%'}}
 								requestSize={50}
 								markerOnIndex={this.markerOnIndex}
@@ -175,7 +177,7 @@ class Main extends Component {
 							/>
 						</div>
 					</div>
-				</ReactiveMap>
+				</AppbaseReactiveMap>
 			</div>
 		);
 	}

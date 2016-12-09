@@ -1,14 +1,16 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
-import { Img } from './app/sensors/component/Img.js';
+import { Img } from './examples/HelperComponent/Img.js';
 import {
-	ReactiveMap,
-	AppbaseMap,
-	AppbaseSearch,
-	DistanceSensor,
-	AppbaseSlider,
+	AppbaseReactiveMap,
 	AppbaseList,
+	AppbaseSlider,
+	AppbaseSearch,
 	AppbaseButtonGroup
+} from 'sensor-js';
+
+import {
+	AppbaseMap
 } from './app/app.js';
 
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
@@ -88,7 +90,7 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<ReactiveMap config={this.props.config}>
+				<AppbaseReactiveMap config={this.props.config}>
 					<div className="col s12 m6 col-xs-12 col-sm-6">
 						<div className="row h-100">
 							<div className="col s12 m6 col-xs-12 col-sm-6">
@@ -190,7 +192,7 @@ class Main extends Component {
 							/>
 						</div>
 					</div>
-				</ReactiveMap>
+				</AppbaseReactiveMap>
 			</div>
 		);
 	}

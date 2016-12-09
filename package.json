@@ -1,6 +1,6 @@
 {
   "name": "reactive-maps",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Data Components for building Reactive Maps Interfaces",
   "main": "lib/app.js",
   "scripts": {
@@ -37,7 +37,8 @@
     "react-dom": "^15.1.0",
     "react-google-maps": "^4.11.0",
     "react-select": "^1.0.0-beta13",
-    "react-tooltip": "^3.1.8"
+    "react-tooltip": "^3.1.8",
+    "sensor-js": "0.0.5"
   },
   "devDependencies": {
     "babel-core": "^6.9.1",

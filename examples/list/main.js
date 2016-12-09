@@ -1,13 +1,15 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
-import { Img } from '../../app/sensors/component/Img.js';
+import { Img } from '../HelperComponent/Img.js';
 import {
-	ReactiveMap,
-	AppbaseMap,
-	AppbaseSearch,
-	AppbaseSlider,
+	AppbaseReactiveMap,
 	AppbaseList,
-	ListResult
+	AppbaseSlider,
+	AppbaseSearch
+} from 'sensor-js';
+
+import {
+	AppbaseListResult
 } from '../../app/app.js';
 
 class Main extends Component {
@@ -65,7 +67,7 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<ReactiveMap config={this.props.config}>
+				<AppbaseReactiveMap config={this.props.config}>
 					<div className="col s12 m6">
 						<div className="row h-100">
 							<div className="col s12 m6">
@@ -133,7 +135,7 @@ class Main extends Component {
 						</div>
 					</div>
 					<div className="col s12 m6 h-100">
-						<ListResult
+						<AppbaseListResult
 							containerStyle={{height: '100%'}}
 							markerOnIndex={this.markerOnIndex}
 							requestSize={50}
@@ -143,9 +145,9 @@ class Main extends Component {
 								RangeSensor: {"operation": "must"},
 								VenueSensor: {"operation": "must"}
 							}}
-							/>
+						/>
 					</div>
-				</ReactiveMap>
+				</AppbaseReactiveMap>
 			</div>
 		);
 	}

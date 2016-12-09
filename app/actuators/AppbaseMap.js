@@ -3,15 +3,15 @@ import { render } from 'react-dom';
 import { GoogleMapLoader, GoogleMap, Marker, SearchBox, InfoWindow } from "react-google-maps";
 import InfoBox from 'react-google-maps/lib/addons/InfoBox';
 import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerClusterer";
-import {queryObject, emitter} from '../middleware/ImmutableQuery.js';
-import {manager} from '../middleware/ChannelManager.js';
-import {AppbaseSearch} from '../sensors/AppbaseSearch';
-import {SearchAsMove} from '../sensors/SearchAsMove';
-import {MapStyles} from '../sensors/MapStyles';
-import {RotateIcon} from '../helper/RotateIcon';
+import {SearchAsMove} from '../addons/SearchAsMove';
+import {MapStyles} from '../addons/MapStyles';
+import {
+	AppbaseSearch,
+	AppbaseChannelManager,
+	AppbaseSensorHelper
+} from 'sensor-js';
 
-var helper = require('../middleware/helper.js');
-var Style = require('../helper/Style.js');
+var helper = AppbaseSensorHelper;
 
 export class AppbaseMap extends Component {
 	constructor(props, context) {
@@ -50,7 +50,7 @@ export class AppbaseMap extends Component {
 		let depends = this.props.depends ? this.props.depends : {};
 		depends['geoQuery'] = { operation: "must" };
 		// create a channel and listen the changes
-		var channelObj = manager.create(this.context.appbaseConfig, depends, this.props.requestSize);
+		var channelObj = AppbaseChannelManager.create(this.context.appbaseConfig, depends, this.props.requestSize);
 		channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
 			// implementation to prevent initialize query issue if old query response is late then the newer query 
