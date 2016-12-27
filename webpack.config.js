@@ -131,17 +131,17 @@ var lib_config = {
 var examples_config = {
 	entry: {
 		main: './main.js',
-		meetupblast: './examples/meetupblast/main.js',
-		now: './examples/now/main.js',
-		heatmap: './examples/heatmap/main.js',
-		transport: './examples/transport/main.js',
-		earthquake: './examples/earthquake/main.js',
-		weather: './examples/weather/main.js',
-		list: './examples/list/main.js',
-		nearby: './examples/nearby/main.js',
-		events: './examples/events/main.js',
-		CustomQuery: './examples/CustomQuery/main.js',
-		direction: './examples/direction/main.js'
+		// meetupblast: './examples/meetupblast/main.js',
+		// now: './examples/now/main.js',
+		// heatmap: './examples/heatmap/main.js',
+		// transport: './examples/transport/main.js',
+		// earthquake: './examples/earthquake/main.js',
+		// weather: './examples/weather/main.js',
+		// list: './examples/list/main.js',
+		// nearby: './examples/nearby/main.js',
+		// events: './examples/events/main.js',
+		// CustomQuery: './examples/CustomQuery/main.js',
+		// direction: './examples/direction/main.js'
 	},
 	output: {
 		path: path.join(__dirname, "dist"),

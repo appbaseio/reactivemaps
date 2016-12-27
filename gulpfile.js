@@ -11,10 +11,8 @@ var files = {
 		vendor: [
 			// 'bower_components/bootstrap/dist/css/bootstrap.min.css',
 			// 'bower_components/materialize/dist/css/materialize.min.css',
-			'node_modules/react-select/dist/react-select.min.css',
-			'node_modules/react-input-range/dist/react-input-range.min.css',
-			'node_modules/rc-slider/assets/index.css',
-			'bower_components/font-awesome/css/font-awesome.min.css'
+			'node_modules/@appbaseio/reactivebase/dist/css/vendor.min.css',
+			'node_modules/@appbaseio/reactivebase/dist/css/style.min.css'
 		],
 		custom: [dir_path+'assets/css/*.css'],
 		sassFile: [dir_path+'assets/styles/*.scss']
@@ -86,9 +84,9 @@ gulp.task('moveListCss', function() {
 });
 
 gulp.task('moveFonts', function() {
-	return gulp.src(['bower_components/bootstrap/dist/fonts/*',
-		'bower_components/font-awesome/fonts/*',
+	return gulp.src([
 		'bower_components/materialize/dist/fonts/**/*',
+		'node_modules/@appbaseio/reactivebase/dist/fonts/**/*',
 		'app/assets/styles/fonts/**/*'
 		])
 		.pipe(gulp.dest('dist/fonts'));

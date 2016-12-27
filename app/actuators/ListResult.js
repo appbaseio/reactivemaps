@@ -2,7 +2,7 @@ import { default as React, Component } from 'react';
 import { render } from 'react-dom';
 import {
 	AppbaseChannelManager
-} from 'sensor-js';
+} from '@appbaseio/reactivebase';
 
 export class ListResult extends Component {
 	constructor(props, context) {

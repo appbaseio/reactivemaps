@@ -3,13 +3,13 @@ import { render } from 'react-dom';
 import { GoogleMapLoader, GoogleMap, Marker, SearchBox, InfoWindow } from "react-google-maps";
 import InfoBox from 'react-google-maps/lib/addons/InfoBox';
 import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerClusterer";
-import {SearchAsMove} from '../addons/SearchAsMove';
-import {MapStyles} from '../addons/MapStyles';
+import { SearchAsMove } from '../addons/SearchAsMove';
+import { MapStyles, mapStylesCollection } from '../addons/MapStyles';
 import {
-	AppbaseSearch,
+	DataSearch,
 	AppbaseChannelManager,
 	AppbaseSensorHelper
-} from 'sensor-js';
+} from '@appbaseio/reactivebase';
 
 var helper = AppbaseSensorHelper;
 
@@ -36,45 +36,60 @@ export class AppbaseMap extends Component {
 		this.queryStartTime = 0;
 		this.reposition = false;
 	}
+
+	getMapStyle(styleName) {
+		let selectedStyle = mapStylesCollection.filter(function(style) {
+			return style.key === styleName;
+		});
+
+		if (selectedStyle.length) {
+			return selectedStyle[0].value;
+		} else {
+			return null;
+		}
+	}
+
 	componentDidMount() {
 		this.createChannel();
 		this.setGeoQueryInfo();
-		let currentMapStyle = helper.getMapStyle(this.props.mapStyle);
+		let currentMapStyle = this.getMapStyle(this.props.mapStyle);
 		this.setState({
 			currentMapStyle: currentMapStyle
 		});
 	}
+
 	// Create a channel which passes the depends and receive results whenever depends changes
 	createChannel() {
 		// Set the depends - add self aggs query as well with depends
 		let depends = this.props.depends ? this.props.depends : {};
 		depends['geoQuery'] = { operation: "must" };
 		// create a channel and listen the changes
-		var channelObj = AppbaseChannelManager.create(this.context.appbaseConfig, depends, this.props.requestSize);
+		var channelObj = AppbaseChannelManager.create(this.context.appbaseRef, this.context.type, depends, this.props.requestSize);
 		channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
-			// implementation to prevent initialize query issue if old query response is late then the newer query 
+			// implementation to prevent initialize query issue if old query response is late then the newer query
 			// then we will consider the response of new query and prevent to apply changes for old query response.
 			// if queryStartTime of channel response is greater than the previous one only then apply changes
-			if(res.method === 'historic' && res.startTime > this.queryStartTime) {
+			if(res.mode === 'historic' && res.startTime > this.queryStartTime) {
 				this.afterChannelResponse(res);
-			} else if(res.method === 'stream') {
+			} else if(res.mode === 'stream') {
 				this.afterChannelResponse(res);
 			}
 		}.bind(this));
 	}
+
 	afterChannelResponse(res) {
 		let data = res.data;
 		let rawData, markersData;
 		this.streamFlag = false;
-		if(res.method === 'stream') {
+		if(res.mode === 'stream') {
 			this.channelMethod = 'stream';
 			let modData = this.streamDataModify(this.state.rawData, res);
 			rawData = modData.rawData;
 			res = modData.res;
 			this.streamFlag = true;
 			markersData = this.setMarkersData(rawData);
-		} else if(res.method === 'historic') {
+		} else if(res.mode === 'historic') {
 			this.channelMethod = 'historic';
 			this.queryStartTime = res.startTime;
 			rawData = data;
@@ -97,6 +112,7 @@ export class AppbaseMap extends Component {
 			}
 		}.bind(this));
 	}
+
 	// append stream boolean flag and also start time of stream
 	streamDataModify(rawData, res) {
 		if(res.data) {
@@ -129,6 +145,7 @@ export class AppbaseMap extends Component {
 			streamFlag: true
 		};
 	}
+
 	bearing (lat1,lng1,lat2,lng2) {
 		var dLon = this._toRad(lng2-lng1);
 		var y = Math.sin(dLon) * Math.cos(this._toRad(lat2));
@@ -136,12 +153,15 @@ export class AppbaseMap extends Component {
 		var brng = this._toDeg(Math.atan2(y, x));
 		return ((brng + 360) % 360);
 	}
+
 	_toRad(deg) {
 		 return deg * Math.PI / 180;
 	}
+
 	_toDeg(rad) {
 		return rad * 180 / Math.PI;
 	}
+
 	// tranform the raw data to marker data
 	setMarkersData(data) {
 		var self = this;
@@ -157,14 +177,15 @@ export class AppbaseMap extends Component {
 			markersData = markersData.map((marker) => {
 				marker.showInfo = false;
 				return marker;
-			})
+			});
 			return markersData;
 		} else {
 			return [];
 		}
 	}
+
 	// centrialize the map
-	// calculate the distance from each marker to other marker, 
+	// calculate the distance from each marker to other marker,
 	// summation of all the distance and sort by distance in ascending order
 	sortByDistance(data) {
 		let modifiedData = data.map((record) => {
@@ -174,6 +195,7 @@ export class AppbaseMap extends Component {
 		modifiedData = _.orderBy(modifiedData, 'distance');
 		return modifiedData;
 	}
+
 	findDistance(data, record) {
 		record.distance = 0;
 		let modifiednData = data.map((to) => {
@@ -182,11 +204,11 @@ export class AppbaseMap extends Component {
 		function getDistance(lat1,lon1,lat2,lon2) {
 			var R = 6371; // Radius of the earth in km
 			var dLat = deg2rad(lat2-lat1);  // deg2rad below
-			var dLon = deg2rad(lon2-lon1); 
+			var dLon = deg2rad(lon2-lon1);
 			var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-					Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-					Math.sin(dLon/2) * Math.sin(dLon/2); 
-			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+					Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+					Math.sin(dLon/2) * Math.sin(dLon/2);
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 			var d = R * c; // Distance in km
 			return d;
 		}
@@ -195,6 +217,7 @@ export class AppbaseMap extends Component {
 		}
 		return record.distance;
 	}
+
 	// set the query type and input data
 	setGeoQueryInfo() {
 		var obj = {
@@ -206,6 +229,7 @@ export class AppbaseMap extends Component {
 		};
 		helper.selectedSensor.setSensorInfo(obj);
 	}
+
 	// Show InfoWindow and re-renders component
 	handleMarkerClick(marker) {
 		marker.showInfo = true;
@@ -214,12 +238,14 @@ export class AppbaseMap extends Component {
 			rerender: true
 		});
 	}
+
 	// Close infowindow
 	handleMarkerClose(marker) {
 		marker.showInfo = false;
 		this.reposition = false;
 		this.setState(this.state);
 	}
+
 	// render infowindow
 	renderInfoWindow(ref, marker) {
 		var popoverContent = this.props.popoverContent ? this.props.popoverContent(marker) : 'Popver';
@@ -234,6 +260,7 @@ export class AppbaseMap extends Component {
 			</InfoWindow>
 		);
 	}
+
 	// Handle function which is fired when map is moved and reaches to idle position
 	handleOnIdle() {
 		var mapBounds = this.refs.map.getBounds();
@@ -256,10 +283,12 @@ export class AppbaseMap extends Component {
 			this.setValue(boundingBoxCoordinates, this.searchAsMove);
 		}
 	}
+
 	// Handle function which is fired when map is dragged
 	handleOnDrage() {
 		this.storeCenter = null;
 	}
+
 	// set value
 	setValue(value, isExecuteQuery=false) {
 		var obj = {
@@ -268,6 +297,7 @@ export class AppbaseMap extends Component {
 		};
 		helper.selectedSensor.set(obj, isExecuteQuery);
 	}
+
 	// on change of selectiong
 	searchAsMoveChange(value) {
 		this.searchAsMove = value;
@@ -275,12 +305,14 @@ export class AppbaseMap extends Component {
 			this.handleOnIdle();
 		}
 	}
+
 	// mapStyle changes
 	mapStyleChange(style) {
 		this.setState({
 			currentMapStyle: style
 		});
 	}
+
 	// Handler function for bounds changed which udpates the map center
 	handleBoundsChanged() {
 		if(!this.searchQueryProgress) {
@@ -293,6 +325,7 @@ export class AppbaseMap extends Component {
 			}, 1000*1);
 		}
 	}
+
 	// Handler function which is fired when an input is selected from autocomplete google places
 	handlePlacesChanged() {
 		const places = this.refs.searchBox.getPlaces();
@@ -300,12 +333,14 @@ export class AppbaseMap extends Component {
 		//   center: places[0].geometry.location
 		// });
 	}
+
 	// Handler function which is fired when an input is selected from Appbase geo search field
 	handleSearch(location) {
 		// this.setState({
 		//   center: new google.maps.LatLng(location.value.lat, location.value.lon)
 		// });
 	}
+
 	identifyGeoData(input) {
 		let type = Object.prototype.toString.call(input);
 		let convertedGeo = null;
@@ -323,6 +358,7 @@ export class AppbaseMap extends Component {
 		}
 		return convertedGeo;
 	}
+
 	// Check if stream data exists in markersData
 	// and if exists the call streamToNormal.
 	streamMarkerInterval() {
@@ -335,6 +371,7 @@ export class AppbaseMap extends Component {
 			this.isStreamDataExists = false;
 		}
 	}
+
 	// Check the difference between current time and attached stream time
 	// if difference is equal to streamActiveTime then delete stream and starStream property of marker
 	streamToNormal() {
@@ -359,6 +396,7 @@ export class AppbaseMap extends Component {
 			this.isStreamDataExists = false;
 		}
 	}
+
 	chooseIcon(hit) {
 		let icon = hit.external_icon ? hit.external_icon : (hit.stream ? this.props.streamPin : this.props.historicPin);
 		let isSvg = typeof icon === 'object' && icon.hasOwnProperty('path') ? true : false;
@@ -371,6 +409,7 @@ export class AppbaseMap extends Component {
 		}
 		return icon;
 	}
+
 	// here we accepts marker props which we received from markerOnIndex and apply those external props in Marker component
 	combineProps(hit) {
 		let externalProps, markerProp = {};
@@ -384,6 +423,7 @@ export class AppbaseMap extends Component {
 		markerProp.icon = this.chooseIcon(hit);
 		return markerProp;
 	}
+
 	generateMarkers() {
 		var self = this;
 		let markersData = this.state.markersData;
@@ -440,6 +480,7 @@ export class AppbaseMap extends Component {
 		}
 		return response;
 	}
+
 	externalData() {
 		let recordList = [];
 		if(this.state.externalData) {
@@ -451,6 +492,7 @@ export class AppbaseMap extends Component {
 		}
 		return recordList;
 	}
+
 	mapEvents(eventName) {
 		if(this.props[eventName]) {
 			let externalData = this.props[eventName](this.refs.map);
@@ -461,6 +503,7 @@ export class AppbaseMap extends Component {
 			}
 		}
 	}
+
 	render() {
 		var self = this;
 		var markerComponent, searchComponent, searchAsMoveComponent, MapStylesComponent;
@@ -553,12 +596,13 @@ export class AppbaseMap extends Component {
 			/>
 			{searchAsMoveComponent}
 			<div className="col s12 text-center center-align">
-				<img width='200px' height='auto' src="http://opensource.appbase.io/reactive-maps/dist/images/logo.png" />
+				<img width='200px' height='auto' src="dist/images/logo.png" />
 			</div>
 		</div >
 		)
 	}
 }
+
 AppbaseMap.propTypes = {
 	inputData: React.PropTypes.string.isRequired,
 	searchField: React.PropTypes.string,
@@ -573,6 +617,7 @@ AppbaseMap.propTypes = {
 	streamActiveTime: React.PropTypes.number,
 	requestSize: React.PropTypes.number
 };
+
 AppbaseMap.defaultProps = {
 	historicalData: true,
 	markerCluster: true,
@@ -588,8 +633,8 @@ AppbaseMap.defaultProps = {
 	streamAutoCenter: true,
 	rotateOnUpdate: false,
 	allowMarkers: true,
-	historicPin: 'http://opensource.appbase.io/reactive-maps/dist/images/historic-pin.png',
-	streamPin: 'http://opensource.appbase.io/reactive-maps/dist/images/stream-pin.png',
+	historicPin: 'dist/images/historic-pin.png',
+	streamPin: 'dist/images/stream-pin.png',
 	markerOnClick: function() {},
 	markerOnDblclick: function() {},
 	markerOnMouseover: function() {},
@@ -600,6 +645,8 @@ AppbaseMap.defaultProps = {
 		height: '700px'
 	}
 };
+
 AppbaseMap.contextTypes = {
-	appbaseConfig: React.PropTypes.any.isRequired
+	appbaseRef: React.PropTypes.any.isRequired,
+	type: React.PropTypes.any.isRequired
 };
