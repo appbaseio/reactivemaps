@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import {ItemCheckboxList} from './ItemCheckboxList.js';
 import {
 	AppbaseSensorHelper
-} from 'sensor-js';
+} from '@appbaseio/reactivebase';
 
 export class SearchAsMove extends Component {
 	constructor(props, context) {

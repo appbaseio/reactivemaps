@@ -1,17 +1,15 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import { Img } from './examples/HelperComponent/Img.js';
-import {
-	AppbaseReactiveMap,
-	AppbaseList,
-	AppbaseSlider,
-	AppbaseSearch,
-	AppbaseButtonGroup
-} from 'sensor-js';
+import { ReactiveBase } from '@appbaseio/reactivebase';
+import { SingleList,
+	MultiList,
+	RangeSlider,
+	DataSearch,
+	ToggleButton
+} from '@appbaseio/reactivebase';
 
-import {
-	AppbaseMap
-} from './app/app.js';
+import { AppbaseMap } from './app/app.js';
 
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 
@@ -22,50 +20,55 @@ class Main extends Component {
 		this.popoverContent = this.popoverContent.bind(this);
 		this.guestQuery = this.guestQuery.bind(this);
 		this.guestData = [{
-			text: 'Less than 2',
+			label: 'Less than 2',
 			value: {
 				min: 0,
 				max: 2
 			}
 		}, {
-			text: '2 to 4',
+			label: '2 to 4',
 			value: {
 				min: 2,
 				max: 4
 			}
 		}, {
-			text: '4 to 6',
+			label: '4 to 6',
 			value: {
 				min: 4,
 				max: 6
 			}
 		}, {
-			text: 'more than 6',
+			label: 'more than 6',
 			value: {
 				min: 6,
 				max: 100
 			}
 		}];
 	}
-	guestQuery(record) {
-		if (record) {
-			return {
-				range: {
-					[this.props.mapping.guests]: {
-						gte: record.value.min,
-						lte: record.value.max,
-						boost: 2.0
+
+	guestQuery(records) {
+		if (records) {
+			return records.map(record => {
+				return {
+					range: {
+						[this.props.mapping.guests]: {
+							gte: record.value.min,
+							lte: record.value.max,
+							boost: 2.0
+						}
 					}
-				}
-			};
+				};
+			});
 		}
 	}
+
 	topicDepends(value) {
 		if (this.props.mapping.city && value) {
 			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
 			return { Match: match };
 		} else return null;
 	}
+
 	popoverContent(marker) {
 		console.log(marker);
 		return (<div className="popoverComponent row">
@@ -86,21 +89,26 @@ class Main extends Component {
 			</div>
 		</div>);
 	}
+
 	markerOnIndex(res) {}
+
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<AppbaseReactiveMap config={this.props.config}>
+				<ReactiveBase
+					appname={this.props.config.appbase.appname}
+					username={this.props.config.appbase.username}
+					password={this.props.config.appbase.password}
+					>
 					<div className="col s12 m6 col-xs-12 col-sm-6">
 						<div className="row h-100">
 							<div className="col s12 m6 col-xs-12 col-sm-6">
-								<AppbaseList
+								<SingleList
 									sensorId="CitySensor"
-									inputData={this.props.mapping.city}
+									appbaseField={this.props.mapping.city}
 									defaultSelected="London"
 									showCount={true}
 									size={1000}
-									multipleSelect={false}
 									includeGeo={false}
 									staticSearch={true}
 									title="Cities"
@@ -108,12 +116,11 @@ class Main extends Component {
 								/>
 							</div>
 							<div className="col s12 m6 col-xs-12 col-sm-6">
-								<AppbaseList
-									inputData={this.props.mapping.topic}
+								<MultiList
+									appbaseField={this.props.mapping.topic}
 									sensorId="TopicSensor"
 									showCount={true}
 									size={100}
-									multipleSelect={true}
 									includeGeo={true}
 									title="Topics"
 									depends={{
@@ -127,28 +134,13 @@ class Main extends Component {
 						</div>
 						<div className="row">
 							<div className="col s12 col-xs-12">
-								<AppbaseButtonGroup
-									inputData={this.props.mapping.guests}
+								<ToggleButton
+									appbaseField={this.props.mapping.guests}
 									sensorId="GuestSensor"
 									title="Guests"
 									data={this.guestData}
-									defaultSelected={this.guestData[0]}
+									defaultSelected={[this.guestData[0].label]}
 								/>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col s12 col-xs-12">
-								<AppbaseSlider
-									sensorId="RangeSensor"
-									inputData={this.props.mapping.guests}
-									depends={{
-										CitySensor: {
-											"operation": "must",
-											"defaultQuery": this.topicDepends
-										}
-									}}
-									title="guests"
-									maxThreshold={5} />
 							</div>
 						</div>
 					</div>
@@ -177,9 +169,10 @@ class Main extends Component {
 								GuestSensor: {"operation": "must", defaultQuery: this.guestQuery}
 							}}
 						/>
+
 						<div id="searchVenue">
-							<AppbaseSearch
-								inputData={this.props.mapping.venue}
+							<DataSearch
+								appbaseField={this.props.mapping.venue}
 								sensorId="VenueSensor"
 								searchRef="CityVenue"
 								placeholder="Search Venue"
@@ -192,7 +185,7 @@ class Main extends Component {
 							/>
 						</div>
 					</div>
-				</AppbaseReactiveMap>
+				</ReactiveBase>
 			</div>
 		);
 	}
