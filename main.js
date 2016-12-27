@@ -18,7 +18,6 @@ class Main extends Component {
 		super(props);
 		this.topicDepends = this.topicDepends.bind(this);
 		this.popoverContent = this.popoverContent.bind(this);
-		this.guestQuery = this.guestQuery.bind(this);
 		this.guestData = [{
 			label: 'Less than 2',
 			value: {
@@ -44,22 +43,6 @@ class Main extends Component {
 				max: 100
 			}
 		}];
-	}
-
-	guestQuery(records) {
-		if (records) {
-			return records.map(record => {
-				return {
-					range: {
-						[this.props.mapping.guests]: {
-							gte: record.value.min,
-							lte: record.value.max,
-							boost: 2.0
-						}
-					}
-				};
-			});
-		}
 	}
 
 	topicDepends(value) {
@@ -166,7 +149,7 @@ class Main extends Component {
 								TopicSensor: {"operation": "must"},
 								RangeSensor: {"operation": "must"},
 								VenueSensor: {"operation": "must"},
-								GuestSensor: {"operation": "must", defaultQuery: this.guestQuery}
+								GuestSensor: {"operation": "should"}
 							}}
 						/>
 
