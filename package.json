@@ -33,6 +33,7 @@
     "fbemitter": "^2.0.2",
     "google-map-react": "^0.14.5",
     "lodash": "^4.15.0",
+    "lodash-webpack-plugin": "^0.10.6",
     "rc-slider": "^5.4.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
