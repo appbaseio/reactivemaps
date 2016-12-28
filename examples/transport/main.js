@@ -1,13 +1,11 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import {
-	AppbaseReactiveMap,
-	AppbaseList
-} from 'sensor-js';
+	ReactiveBase,
+	MultiList
+} from '@appbaseio/reactivebase';
 
-import {
-	AppbaseMap
-} from '../../app/app.js';
+import { ReactiveMap } from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {
@@ -57,17 +55,21 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<AppbaseReactiveMap config={this.props.config}>
+				<ReactiveBase
+					appname={this.props.config.appbase.appname}
+					username={this.props.config.appbase.username}
+					password={this.props.config.appbase.password}
+					type={this.props.config.appbase.type}
+					>
 					<div className="col s12 m3">
 						<div className="row h-100">
 							<div className="col s12">
-								<AppbaseList
+								<MultiList
 									sensorId="RoutesSensor"
-									inputData={this.props.mapping.routes}
+									appbaseField={this.props.mapping.routes}
 									showCount={false}
 									defaultSelected={['Bus-12', 'Bus-14', 'Bus-22', 'Bus-43', 'Train-1']}
 									size={1000}
-									multipleSelect={true}
 									includeSelectAll={true}
 									includeGeo={false}
 									staticSearch={true}
@@ -79,8 +81,8 @@ class Main extends Component {
 						</div>
 					</div>
 					<div className="col s12 m9 h-100">
-						<AppbaseMap
-							inputData={this.props.mapping.location}
+						<ReactiveMap
+							appbaseField={this.props.mapping.location}
 							defaultZoom={11}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							historicalData={true}
@@ -104,7 +106,7 @@ class Main extends Component {
 							}}
 							/>
 					</div>
-				</AppbaseReactiveMap>
+				</ReactiveBase>
 			</div>
 		);
 	}
