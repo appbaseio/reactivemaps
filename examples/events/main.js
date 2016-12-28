@@ -1,12 +1,8 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
-import {
-	AppbaseReactiveMap
-} from 'sensor-js';
+import { ReactiveBase } from '@appbaseio/reactivebase';
 
-import {
-	AppbaseMap
-} from '../../app/app.js';
+import { ReactiveMap } from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {
@@ -124,10 +120,15 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<AppbaseReactiveMap config={this.props.config}>
+				<ReactiveBase
+					appname={this.props.config.appbase.appname}
+					username={this.props.config.appbase.username}
+					password={this.props.config.appbase.password}
+					type={this.props.config.appbase.type}
+					>
 					<div className="col s12 m9 h-100">
-						<AppbaseMap
-							inputData={this.props.mapping.location}
+						<ReactiveMap
+							appbaseField={this.props.mapping.location}
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							historicalData={true}
@@ -164,7 +165,7 @@ class Main extends Component {
 							{this.renderEventName()}
 						</ul>
 					</div>
-				</AppbaseReactiveMap>
+				</ReactiveBase>
 			</div>
 		);
 	}

@@ -1,8 +1,9 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import { Img } from './examples/HelperComponent/Img.js';
-import { ReactiveBase } from '@appbaseio/reactivebase';
-import { SingleList,
+import {
+	ReactiveBase,
+	SingleList,
 	MultiList,
 	RangeSlider,
 	DataSearch,
