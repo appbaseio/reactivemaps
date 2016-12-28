@@ -9,40 +9,13 @@ import { SingleList,
 	ToggleButton
 } from '@appbaseio/reactivebase';
 
-import { AppbaseMap } from './app/app.js';
-
-const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
+import { ReactiveMap } from './app/app.js';
 
 class Main extends Component {
 	constructor(props) {
 		super(props);
 		this.topicDepends = this.topicDepends.bind(this);
 		this.popoverContent = this.popoverContent.bind(this);
-		this.guestData = [{
-			label: 'Less than 2',
-			value: {
-				min: 0,
-				max: 2
-			}
-		}, {
-			label: '2 to 4',
-			value: {
-				min: 2,
-				max: 4
-			}
-		}, {
-			label: '4 to 6',
-			value: {
-				min: 4,
-				max: 6
-			}
-		}, {
-			label: 'more than 6',
-			value: {
-				min: 6,
-				max: 100
-			}
-		}];
 	}
 
 	topicDepends(value) {
@@ -93,7 +66,7 @@ class Main extends Component {
 									showCount={true}
 									size={1000}
 									includeGeo={false}
-									staticSearch={true}
+									showSearch={true}
 									title="Cities"
 									searchPlaceholder="Filter City"
 								/>
@@ -115,20 +88,9 @@ class Main extends Component {
 								/>
 							</div>
 						</div>
-						<div className="row">
-							<div className="col s12 col-xs-12">
-								<ToggleButton
-									appbaseField={this.props.mapping.guests}
-									sensorId="GuestSensor"
-									title="Guests"
-									data={this.guestData}
-									defaultSelected={[this.guestData[0].label]}
-								/>
-							</div>
-						</div>
 					</div>
 					<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
-						<AppbaseMap
+						<ReactiveMap
 							inputData={this.props.mapping.location}
 							historicalData={true}
 							markerCluster={false}

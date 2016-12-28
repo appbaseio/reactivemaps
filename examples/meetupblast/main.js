@@ -1,12 +1,13 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import {
-	AppbaseReactiveMap,
-	AppbaseList
-} from 'sensor-js';
+	ReactiveBase,
+	SingleList,
+	MultiList
+} from '@appbaseio/reactivebase';
 
 import {
-	AppbaseMap
+	ReactiveMap
 } from '../../app/app.js';
 
 class Main extends Component {
@@ -15,6 +16,7 @@ class Main extends Component {
 		this.cityQuery = this.cityQuery.bind(this);
 		this.topicQuery = this.topicQuery.bind(this);
 	}
+
 	cityQuery(value) {
 		if(value) {
 			let field = 'group.group_city.group_city_simple';
@@ -22,6 +24,7 @@ class Main extends Component {
 			return { match: match };
 		} else return null;
 	}
+
 	topicQuery(value) {
 		if(value) {
 			let field = 'group.group_topics.topic_name.topic_name_simple';
@@ -29,33 +32,37 @@ class Main extends Component {
 			return { terms: query };
 		} else return null;
 	}
+
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<AppbaseReactiveMap config={this.props.config}>
+				<ReactiveBase
+					appname={this.props.config.appbase.appname}
+					username={this.props.config.appbase.username}
+					password={this.props.config.appbase.password}
+					type={this.props.config.appbase.type}
+					>
 					<div className="col s6">
 					<div className="row h-100">
 						<div className="col s6">
-							<AppbaseList
+							<SingleList
 								sensorId="CitySensor"
-								inputData={this.props.mapping.city}
+								appbaseField={this.props.mapping.city}
 								defaultSelected="London"
 								showCount={true}
 								size={100}
-								multipleSelect={false}
 								includeGeo={false}
-								staticSearch={true}
+								showSearch={true}
 								title="Cities"
 								searchPlaceholder="Search City"
 							/>
 						</div>
 						<div className="col s6">
-							<AppbaseList
-								inputData={this.props.mapping.topic}
+							<MultiList
+								appbaseField={this.props.mapping.topic}
 								sensorId="TopicSensor"
 								showCount={true}
 								size={100}
-								multipleSelect={true}
 								includeGeo={true}
 								title="Topics"
 								depends={{
@@ -69,7 +76,7 @@ class Main extends Component {
 						</div>
 					</div>
 					<div className="col s6 h-100">
-						<AppbaseMap
+						<ReactiveMap
 							inputData={this.props.mapping.location}
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
@@ -89,7 +96,8 @@ class Main extends Component {
 							}}
 							/>
 					</div>
-				</AppbaseReactiveMap>
+				</ReactiveBase>
+
 			</div>
 		);
 	}

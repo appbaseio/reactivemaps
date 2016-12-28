@@ -1,8 +1,6 @@
 // actuators
-import {AppbaseMap} from './actuators/AppbaseMap';
-import {ListResult} from './actuators/ListResult';
+import {ReactiveMap} from './actuators/ReactiveMap';
 
 module.exports = {
-	AppbaseMap: AppbaseMap,
-	AppbaseListResult: ListResult
+	ReactiveMap: ReactiveMap
 };

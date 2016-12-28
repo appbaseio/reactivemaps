@@ -131,7 +131,7 @@ var lib_config = {
 var examples_config = {
 	entry: {
 		main: './main.js',
-		// meetupblast: './examples/meetupblast/main.js',
+		meetupblast: './examples/meetupblast/main.js',
 		// now: './examples/now/main.js',
 		// heatmap: './examples/heatmap/main.js',
 		// transport: './examples/transport/main.js',

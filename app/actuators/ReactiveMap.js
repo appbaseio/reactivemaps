@@ -13,7 +13,7 @@ import {
 
 var helper = AppbaseSensorHelper;
 
-export class AppbaseMap extends Component {
+export class ReactiveMap extends Component {
 	constructor(props, context) {
 		super(props);
 		this.state = {
@@ -603,7 +603,7 @@ export class AppbaseMap extends Component {
 	}
 }
 
-AppbaseMap.propTypes = {
+ReactiveMap.propTypes = {
 	inputData: React.PropTypes.string.isRequired,
 	searchField: React.PropTypes.string,
 	searchComponent: React.PropTypes.string,
@@ -618,7 +618,7 @@ AppbaseMap.propTypes = {
 	requestSize: React.PropTypes.number
 };
 
-AppbaseMap.defaultProps = {
+ReactiveMap.defaultProps = {
 	historicalData: true,
 	markerCluster: true,
 	searchComponent: "google",
@@ -646,7 +646,7 @@ AppbaseMap.defaultProps = {
 	}
 };
 
-AppbaseMap.contextTypes = {
+ReactiveMap.contextTypes = {
 	appbaseRef: React.PropTypes.any.isRequired,
 	type: React.PropTypes.any.isRequired
 };
