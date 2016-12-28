@@ -128,8 +128,8 @@ export class ReactiveMap extends Component {
 					return hit._id === res.data._id;
 				});
 				if(prevData && prevData.length) {
-					let preCord = prevData[0]._source[this.props.inputData];
-					let newCord = res.data._source[this.props.inputData];
+					let preCord = prevData[0]._source[this.props.appbaseField];
+					let newCord = res.data._source[this.props.appbaseField];
 					res.data.angleDeg = this.bearing(preCord.lat, preCord.lon, newCord.lat, newCord.lon);
 				}
 				let hits = rawData.hits.hits.filter((hit) => {
@@ -167,7 +167,7 @@ export class ReactiveMap extends Component {
 		var self = this;
 		if(data && data.hits && data.hits.hits) {
 			let markersData = data.hits.hits.map((hit, index) => {
-				hit._source.mapPoint = self.identifyGeoData(hit._source[self.props.inputData]);
+				hit._source.mapPoint = self.identifyGeoData(hit._source[self.props.appbaseField]);
 				return hit;
 			});
 			markersData = markersData.filter((hit, index) => {
@@ -224,7 +224,7 @@ export class ReactiveMap extends Component {
 				key: 'geoQuery',
 				value: {
 					queryType: 'geo_bounding_box',
-					inputData: this.props.inputData
+					appbaseField: this.props.appbaseField
 				}
 		};
 		helper.selectedSensor.setSensorInfo(obj);
@@ -434,7 +434,7 @@ export class ReactiveMap extends Component {
 		};
 		if(markersData && markersData.length) {
 			response.markerComponent = markersData.map((hit, index) => {
-				let field = self.identifyGeoData(hit._source[self.props.inputData]);
+				let field = self.identifyGeoData(hit._source[self.props.appbaseField]);
 				// let icon = !this.props.rotateOnUpdate ? iconPath : RotateIcon.makeIcon(iconPath).setRotation({deg: deg}).getUrl();
 				// let icon = self.chooseIcon(hit);
 				if(field) {
@@ -604,7 +604,7 @@ export class ReactiveMap extends Component {
 }
 
 ReactiveMap.propTypes = {
-	inputData: React.PropTypes.string.isRequired,
+	appbaseField: React.PropTypes.string.isRequired,
 	searchField: React.PropTypes.string,
 	searchComponent: React.PropTypes.string,
 	onIdle: React.PropTypes.func,

@@ -43,41 +43,41 @@ class Main extends Component {
 					type={this.props.config.appbase.type}
 					>
 					<div className="col s6">
-					<div className="row h-100">
-						<div className="col s6">
-							<SingleList
-								sensorId="CitySensor"
-								appbaseField={this.props.mapping.city}
-								defaultSelected="London"
-								showCount={true}
-								size={100}
-								includeGeo={false}
-								showSearch={true}
-								title="Cities"
-								searchPlaceholder="Search City"
-							/>
-						</div>
-						<div className="col s6">
-							<MultiList
-								appbaseField={this.props.mapping.topic}
-								sensorId="TopicSensor"
-								showCount={true}
-								size={100}
-								includeGeo={true}
-								title="Topics"
-								depends={{
-									CitySensor: {
-										"operation": "must",
-										"defaultQuery": this.cityQuery
-									}
-								}}
-							/>
-						</div>
+						<div className="row h-100">
+							<div className="col s6">
+								<SingleList
+									sensorId="CitySensor"
+									appbaseField={this.props.mapping.city}
+									defaultSelected="London"
+									showCount={true}
+									size={100}
+									includeGeo={false}
+									showSearch={true}
+									title="Cities"
+									searchPlaceholder="Search City"
+								/>
+							</div>
+							<div className="col s6">
+								<MultiList
+									appbaseField={this.props.mapping.topic}
+									sensorId="TopicSensor"
+									showCount={true}
+									size={100}
+									includeGeo={true}
+									title="Topics"
+									depends={{
+										CitySensor: {
+											"operation": "must",
+											"defaultQuery": this.cityQuery
+										}
+									}}
+								/>
+							</div>
 						</div>
 					</div>
 					<div className="col s6 h-100">
 						<ReactiveMap
-							inputData={this.props.mapping.location}
+							appbaseField={this.props.mapping.location}
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							historicalData={true}
@@ -97,7 +97,6 @@ class Main extends Component {
 							/>
 					</div>
 				</ReactiveBase>
-
 			</div>
 		);
 	}

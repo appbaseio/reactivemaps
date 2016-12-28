@@ -91,7 +91,7 @@ class Main extends Component {
 					</div>
 					<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
 						<ReactiveMap
-							inputData={this.props.mapping.location}
+							appbaseField={this.props.mapping.location}
 							historicalData={true}
 							markerCluster={false}
 							searchComponent="appbase"
