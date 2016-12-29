@@ -1,11 +1,12 @@
 import { default as React, Component } from 'react';
-import { render } from 'react-dom';
-import { AppbaseChannelManager, AppbaseSensorHelper } from '@appbaseio/reactivebase';
-import Slider from 'rc-slider';
-import axios from 'axios';
-import Select from 'react-select';
+import {
+	AppbaseChannelManager as manager,
+	AppbaseSensorHelper as helper
+} from '@appbaseio/reactivebase';
 
-var helper = AppbaseSensorHelper;
+import axios from 'axios';
+import Slider from 'rc-slider';
+import Select from 'react-select';
 
 export class GeoDistanceSlider extends Component {
 	constructor(props, context) {
@@ -133,7 +134,7 @@ export class GeoDistanceSlider extends Component {
 	// Create a channel which passes the depends and receive results whenever depends changes
 	createChannel() {
 		let depends = this.props.depends ? this.props.depends : {};
-		var channelObj = AppbaseChannelManager.create(this.context.appbaseRef, this.context.type, depends);
+		var channelObj = manager.create(this.context.appbaseRef, this.context.type, depends);
 	}
 
 	// handle the input change and pass the value inside sensor info
@@ -199,18 +200,18 @@ export class GeoDistanceSlider extends Component {
 
 	// render
 	render() {
-		let title = null;
+		let title = null, titleExists = false;
 		if(this.props.title) {
+			titleExists = true;
 			title = (<h4 className="rbc-title">{this.props.title}</h4>);
 		}
 
 		return (
-			<div className="rbc rbc-geodistance clearfix card thumbnail col s12 col-xs-12">
+			<div className={`rbc rbc-geodistance clearfix card thumbnail col s12 col-xs-12 title-${titleExists}`}>
 				<div className="row">
 					{title}
 					<div className="col s12 col-xs-12">
 						<Select.Async
-							name="appbase-search"
 							value={this.state.currentValue}
 							loadOptions={this.loadOptions}
 							placeholder={this.props.placeholder}
