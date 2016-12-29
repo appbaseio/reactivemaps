@@ -137,7 +137,7 @@ var examples_config = {
 		transport: './examples/transport/main.js',
 		// earthquake: './examples/earthquake/main.js',
 		// weather: './examples/weather/main.js',
-		// list: './examples/list/main.js',
+		list: './examples/list/main.js',
 		nearby: './examples/nearby/main.js',
 		events: './examples/events/main.js',
 		// CustomQuery: './examples/CustomQuery/main.js',

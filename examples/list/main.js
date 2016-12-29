@@ -2,29 +2,29 @@ import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import { Img } from '../HelperComponent/Img.js';
 import {
-	AppbaseReactiveMap,
-	AppbaseList,
-	AppbaseSlider,
-	AppbaseSearch
-} from 'sensor-js';
-
-import {
-	AppbaseListResult
-} from '../../app/app.js';
+	ReactiveBase,
+	SingleList,
+	MultiList,
+	RangeSlider,
+	DataSearch,
+	ResultList
+} from '@appbaseio/reactivebase';
 
 class Main extends Component {
 	constructor(props) {
 		super(props);
 		this.topicDepends = this.topicDepends.bind(this);
-		this.markerOnIndex = this.markerOnIndex.bind(this);
+		this.onData = this.onData.bind(this);
 		this.DEFAULT_IMAGE = 'http://www.avidog.com/wp-content/uploads/2015/01/BellaHead082712_11-50x65.jpg';
 	}
+
 	topicDepends(value) {
 		if (this.props.mapping.city && value) {
 			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
 			return { Match: match };
 		} else return null;
 	}
+
 	itemMarkup(marker, markerData) {
 		return (
 			<a className="full_row single-record single_record_for_clone"
@@ -54,44 +54,50 @@ class Main extends Component {
 			</a>
 		);
 	}
-	markerOnIndex(res) {
-		let result;
-		if (res.allMarkers && res.allMarkers.hits && res.allMarkers.hits.hits) {
-			result = res.allMarkers.hits.hits.map((markerData, index) => {
+
+	onData(res) {
+		let result, combineData = res.currentData;
+		if(res.mode === 'historic') {
+			combineData = res.currentData.concat(res.newData);
+		}
+		if (combineData) {
+			result = combineData.map((markerData, index) => {
 				let marker = markerData._source;
 				return this.itemMarkup(marker, markerData);
 			});
 		}
 		return result;
 	}
+
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<AppbaseReactiveMap config={this.props.config}>
+				<ReactiveBase
+					appname={this.props.config.appbase.appname}
+					username={this.props.config.appbase.username}
+					password={this.props.config.appbase.password}
+					type={this.props.config.appbase.type}
+					>
 					<div className="col s12 m6">
 						<div className="row h-100">
 							<div className="col s12 m6">
-								<AppbaseList
+								<SingleList
 									sensorId="CitySensor"
-									inputData={this.props.mapping.city}
+									appbaseField={this.props.mapping.city}
 									defaultSelected="London"
 									showCount={true}
 									size={1000}
-									multipleSelect={false}
-									includeGeo={false}
-									staticSearch={true}
+									showSearch={true}
 									title="Cities"
 									searchPlaceholder="Search City"
 								/>
 							</div>
 							<div className="col s12 m6">
-								<AppbaseList
-									inputData={this.props.mapping.topic}
+								<MultiList
+									appbaseField={this.props.mapping.topic}
 									sensorId="TopicSensor"
 									showCount={true}
 									size={100}
-									multipleSelect={true}
-									includeGeo={true}
 									title="Topics"
 									depends={{
 										CitySensor: {
@@ -104,9 +110,9 @@ class Main extends Component {
 						</div>
 						<div className="row">
 							<div className="col s12">
-								<AppbaseSlider
+								<RangeSlider
 									sensorId="RangeSensor"
-									inputData={this.props.mapping.guests}
+									appbaseField={this.props.mapping.guests}
 									depends={{
 										CitySensor: {
 											"operation": "must",
@@ -114,13 +120,15 @@ class Main extends Component {
 										}
 									}}
 									title="guests"
-									maxThreshold={5} />
+									startThreshold={0}
+									endThreshold={5}
+									stepValue={1} />
 							</div>
 						</div>
 						<div className="row">
 							<div className="col s12">
-								<AppbaseSearch
-									inputData={this.props.mapping.venue}
+								<DataSearch
+									appbaseField={this.props.mapping.venue}
 									sensorId="VenueSensor"
 									searchRef="CityVenue"
 									placeholder="Search Venue"
@@ -135,10 +143,14 @@ class Main extends Component {
 						</div>
 					</div>
 					<div className="col s12 m6 h-100">
-						<AppbaseListResult
+						<ResultList
+							appbaseField={this.props.mapping.topic}
 							containerStyle={{height: '100%'}}
-							markerOnIndex={this.markerOnIndex}
-							requestSize={50}
+							onData={this.onData}
+							from={0}
+							size={10}
+							requestOnScroll={true}
+							title="Results"
 							depends={{
 								CitySensor: {"operation": "must"},
 								TopicSensor: {"operation": "must"},
@@ -147,7 +159,7 @@ class Main extends Component {
 							}}
 						/>
 					</div>
-				</AppbaseReactiveMap>
+				</ReactiveBase>
 			</div>
 		);
 	}

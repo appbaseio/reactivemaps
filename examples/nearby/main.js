@@ -123,7 +123,6 @@ class Main extends Component {
 									sensorId="TopicSensor"
 									showCount={true}
 									size={100}
-									includeGeo={true}
 									title="Topics"
 									depends={{
 										CitySensor: {
