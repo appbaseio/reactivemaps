@@ -6,9 +6,7 @@ import {
 	MultiList
 } from '@appbaseio/reactivebase';
 
-import {
-	ReactiveMap
-} from '../../app/app.js';
+import { ReactiveMap } from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {

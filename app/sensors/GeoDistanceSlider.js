@@ -1,13 +1,13 @@
 import { default as React, Component } from 'react';
 import { render } from 'react-dom';
-import { manager } from '../middleware/ChannelManager.js';
-import { AppbaseSlider } from './AppbaseSlider';
+import { AppbaseChannelManager, AppbaseSensorHelper } from '@appbaseio/reactivebase';
 import Slider from 'rc-slider';
 import axios from 'axios';
 import Select from 'react-select';
-var helper = require('../middleware/helper.js');
 
-export class DistanceSensor extends Component {
+var helper = AppbaseSensorHelper;
+
+export class GeoDistanceSlider extends Component {
 	constructor(props, context) {
 		super(props);
 		let value = this.props.value < this.props.minThreshold ? this.props.minThreshold :  this.props.value;
@@ -68,7 +68,7 @@ export class DistanceSensor extends Component {
 			key: this.props.sensorId,
 			value: {
 				queryType: this.type,
-				inputData: this.props.inputData,
+				appbaseField: this.props.appbaseField,
 				defaultQuery: this.defaultQuery
 			}
 		};
@@ -80,7 +80,7 @@ export class DistanceSensor extends Component {
 		if(value && value.currentValue != '' && value.location != '') {
 			return {
 				[this.type]: {
-					[this.props.inputData]: value.location,
+					[this.props.appbaseField]: value.location,
 					'distance': value.currentDistance
 				}
 			}
@@ -118,7 +118,7 @@ export class DistanceSensor extends Component {
 				key: this.props.sensorId,
 				value: {
 					[this.sortInfo.type]: {
-						[this.props.inputData]: this.locString,
+						[this.props.appbaseField]: this.locString,
 						'order': this.sortInfo.order,
 						'unit': this.sortInfo.unit
 					}
@@ -133,7 +133,7 @@ export class DistanceSensor extends Component {
 	// Create a channel which passes the depends and receive results whenever depends changes
 	createChannel() {
 		let depends = this.props.depends ? this.props.depends : {};
-		var channelObj = manager.create(this.context.appbaseConfig, depends);
+		var channelObj = AppbaseChannelManager.create(this.context.appbaseRef, this.context.type, depends);
 	}
 
 	// handle the input change and pass the value inside sensor info
@@ -201,32 +201,33 @@ export class DistanceSensor extends Component {
 	render() {
 		let title = null;
 		if(this.props.title) {
-			title = (<h4 className="componentTitle">{this.props.title}</h4>);
+			title = (<h4 className="rbc-title">{this.props.title}</h4>);
 		}
 
 		return (
-			<div className="appbaseSearchComponent sliderComponent reactiveComponent clearfix card thumbnail col s12 col-xs-12">
-				{title}
-				<Select.Async
-					className="appbase-select col s12 col-xs-6 p-0"
-					name="appbase-search"
-					value={this.state.currentValue}
-					loadOptions={this.loadOptions}
-					placeholder={this.props.placeholder}
-					onChange={this.handleChange}
-					/>
+			<div className="rbc rbc-geodistance clearfix card thumbnail col s12 col-xs-12">
+				<div className="row">
+					{title}
+					<div className="col s12 col-xs-12">
+						<Select.Async
+							name="appbase-search"
+							value={this.state.currentValue}
+							loadOptions={this.loadOptions}
+							placeholder={this.props.placeholder}
+							onChange={this.handleChange}
+							/>
 
-				<div className="sliderComponent">
-					<div className="inputRangeContainer col s12 col-xs-6" 
-						style={{'padding': '12px 4px 16px 16px', 'marginBottom': '25px'}}
-						>
-						<Slider
-							tipFormatter={this.unitFormatter}
-							defaultValue={this.state.value}
-							min={this.props.minThreshold}
-							max={this.props.maxThreshold}
-							onAfterChange={this.handleResults}
-						/>
+						<div className="col s12 col-xs-12"
+							style={{'padding': '20px 0'}}
+							>
+							<Slider
+								tipFormatter={this.unitFormatter}
+								defaultValue={this.state.value}
+								min={this.props.minThreshold}
+								max={this.props.maxThreshold}
+								onAfterChange={this.handleResults}
+							/>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -234,12 +235,12 @@ export class DistanceSensor extends Component {
 	}
 }
 
-DistanceSensor.propTypes = {
-	inputData: React.PropTypes.string.isRequired,
+GeoDistanceSlider.propTypes = {
+	appbaseField: React.PropTypes.string.isRequired,
 	placeholder: React.PropTypes.string
 };
 // Default props value
-DistanceSensor.defaultProps = {
+GeoDistanceSlider.defaultProps = {
 	value: 1,
 	unit: 'km',
 	placeholder: "Search...",
@@ -247,6 +248,7 @@ DistanceSensor.defaultProps = {
 };
 
 // context type
-DistanceSensor.contextTypes = {
-	appbaseConfig: React.PropTypes.any.isRequired
+GeoDistanceSlider.contextTypes = {
+	appbaseRef: React.PropTypes.any.isRequired,
+	type: React.PropTypes.any.isRequired
 };

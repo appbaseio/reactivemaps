@@ -14,12 +14,14 @@ class Main extends Component {
 		this.popoverContent = this.popoverContent.bind(this);
 		this.markerOnIndex =  this.markerOnIndex.bind(this);
 	}
+
 	topicDepends(value) {
 		if(this.props.mapping.city && value) {
 			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
 			return { Match: match };
 		} else return null;
 	}
+
 	popoverContent(marker) {
 		console.log(marker);
 		return (<div className="popoverComponent row">
@@ -33,6 +35,7 @@ class Main extends Component {
 			</div>
 		</div>);
 	}
+
 	markerOnIndex(res) {
 		let markers = {};
 		res.allMarkers.hits.hits.forEach((hit, index) => {
@@ -52,6 +55,7 @@ class Main extends Component {
 			markers: markers
 		};
 	}
+
 	render() {
 		return (
 			<div className="row m-0 h-100">

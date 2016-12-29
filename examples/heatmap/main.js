@@ -47,12 +47,12 @@ class Main extends Component {
 	markerOnIndex(res) {
 		this.markers = res.allMarkers;
 		this.passExistingData(res);
-		console.log('Applying polgon', res.method);
+		console.log('Applying polgon', res.mode);
 		return this.generatePolyColor();
 	}
 
 	passExistingData(res) {
-		if(res.method === 'stream') {
+		if(res.mode === 'stream') {
 			this.simulationFlag = false;
 		}
 		HeatmapWorker.heatmapExistingData(this.markers);
@@ -107,10 +107,11 @@ class Main extends Component {
 					appname={this.props.config.appbase.appname}
 					username={this.props.config.appbase.username}
 					password={this.props.config.appbase.password}
+					type={this.props.config.appbase.type}
 					>
 					<div className="col s12 h-100">
 					<ReactiveMap
-						appbaseField={this.props.mapping.location}
+						appbaseField="location"
 						requestSize={5}
 						defaultZoom={13}
 						defaultCenter={{ lat: 37.74, lng: -122.45 }}

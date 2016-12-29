@@ -7,11 +7,9 @@ import { SearchAsMove } from '../addons/SearchAsMove';
 import { MapStyles, mapStylesCollection } from '../addons/MapStyles';
 import {
 	DataSearch,
-	AppbaseChannelManager,
-	AppbaseSensorHelper
+	AppbaseChannelManager as manager,
+	AppbaseSensorHelper as helper
 } from '@appbaseio/reactivebase';
-
-var helper = AppbaseSensorHelper;
 
 export class ReactiveMap extends Component {
 	constructor(props, context) {
@@ -64,7 +62,7 @@ export class ReactiveMap extends Component {
 		let depends = this.props.depends ? this.props.depends : {};
 		depends['geoQuery'] = { operation: "must" };
 		// create a channel and listen the changes
-		var channelObj = AppbaseChannelManager.create(this.context.appbaseRef, this.context.type, depends, this.props.requestSize);
+		var channelObj = manager.create(this.context.appbaseRef, this.context.type, depends, this.props.requestSize);
 		channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
 			// implementation to prevent initialize query issue if old query response is late then the newer query
@@ -224,9 +222,10 @@ export class ReactiveMap extends Component {
 				key: 'geoQuery',
 				value: {
 					queryType: 'geo_bounding_box',
-					appbaseField: this.props.appbaseField
+					inputData: this.props.appbaseField
 				}
 		};
+
 		helper.selectedSensor.setSensorInfo(obj);
 	}
 
