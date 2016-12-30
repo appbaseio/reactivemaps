@@ -1,30 +1,27 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import { Marker } from "react-google-maps";
-import {
-	AppbaseReactiveMap
-} from 'sensor-js';
-
-import {
-	AppbaseMap
-} from '../../app/app.js';
+import { ReactiveBase } from '@appbaseio/reactivebase';
+import { ReactiveMap } from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {
 		super(props);
-		this.markerOnIndex = this.markerOnIndex.bind(this);
+		this.onData = this.onData.bind(this);
 		this.result = {
 			markers: [],
 			heatmapPoints: []
 		};
 		this.heatmap = null;
 	}
-	markerOnIndex(res) {
+
+	onData(res) {
 		if (res.allMarkers && res.allMarkers.hits && res.allMarkers.hits.hits) {
 			this.heatmapCreation(res);
 			return this.markerCreation(res);
 		}
 	}
+
 	markerIcons(markerData) {
 		let icon = null;
 		if(markerData.clouds.all > 20 && markerData.clouds.all < 70) {
@@ -41,6 +38,7 @@ class Main extends Component {
 		}
 		return icon;
 	}
+
 	identifyGeoData(input) {
 		let type = Object.prototype.toString.call(input);
 		let convertedGeo = null;
@@ -58,6 +56,7 @@ class Main extends Component {
 		}
 		return convertedGeo;
 	}
+
 	markerCreation(res) {
 		let markers = [];
 		res.allMarkers.hits.hits.forEach((hit, index) => {
@@ -68,7 +67,7 @@ class Main extends Component {
 					position: field
 				};
 				let markerObj = (
-					<Marker 
+					<Marker
 						{...position}
 						key={hit._id}
 						zIndex={1}
@@ -82,6 +81,7 @@ class Main extends Component {
 			extraMarkers: markers
 		};
 	}
+
 	heatmapCreation(res) {
 		if(this.heatmap) {
 			this.heatmap.getData().clear();
@@ -107,13 +107,19 @@ class Main extends Component {
 			radius: 30
 		});
 	}
+
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<AppbaseReactiveMap config={this.props.config}>
+				<ReactiveBase
+					appname={this.props.config.appbase.appname}
+					username={this.props.config.appbase.username}
+					password={this.props.config.appbase.password}
+					type={this.props.config.appbase.type}
+					>
 					<div className="col s12 h-100">
-						<AppbaseMap
-							inputData={this.props.mapping.location}
+						<ReactiveMap
+							appbaseField={this.props.mapping.location}
 							defaultZoom={4}
 							defaultCenter={{ lat: 40.673940, lng: -101.314026 }}
 							historicalData={true}
@@ -121,7 +127,7 @@ class Main extends Component {
 							searchComponent="appbase"
 							searchField={this.props.mapping.venue}
 							mapStyle={this.props.mapStyle}
-							markerOnIndex={this.markerOnIndex}
+							onData={this.onData}
 							autoCenter={false}
 							size={100}
 							searchAsMoveComponent={true}
@@ -131,7 +137,7 @@ class Main extends Component {
 							title="Weather"
 							/>
 					</div>
-				</AppbaseReactiveMap>
+				</ReactiveBase>
 			</div>
 		);
 	}
