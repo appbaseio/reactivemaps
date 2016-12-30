@@ -1,13 +1,10 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
-import {
-	AppbaseReactiveMap,
-	AppbaseGoogleSearch
-} from 'sensor-js';
 
-import {
-	AppbaseMap
-} from '../../app/app.js';
+import { ReactiveBase } from '@appbaseio/reactivebase';
+import { ReactiveMap } from '../../app/app.js';
+import { GoogleSearch } from '../../app/sensors/GoogleSearch.js';
+
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 
 class Main extends Component {
@@ -23,14 +20,17 @@ class Main extends Component {
 		this.directionsDisplay = new google.maps.DirectionsRenderer;
 		this.directionsService = new google.maps.DirectionsService;
 	}
+
 	originQuery(value) {
 		this.origin = value;
 		this.executeQuery();
 	}
+
 	destinationQuery(value) {
 		this.destination = value;
 		this.executeQuery();
 	}
+
 	executeQuery() {
 		if(this.mapRef && this.origin && this.destination) {
 			this.directionsDisplay.setMap(this.mapRef);
@@ -48,18 +48,25 @@ class Main extends Component {
 			}.bind(this));
 		}
 	}
+
 	onIdle(res) {
 		this.mapRef = res.props.map;
 	}
+
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<AppbaseReactiveMap config={this.props.config}>
+				<ReactiveBase
+					appname={this.props.config.appbase.appname}
+					username={this.props.config.appbase.username}
+					password={this.props.config.appbase.password}
+					type={this.props.config.appbase.type}
+					>
 					<div className="col s12 m6 col-xs-12 col-sm-6">
 						<div className="row h-100">
 							<div className="col s12 col-xs-12">
-								<AppbaseGoogleSearch
-									inputData={this.props.mapping.venue}
+								<GoogleSearch
+									appbaseField={this.props.mapping.venue}
 									sensorId="OriginSensor"
 									placeholder="Search Venue"
 									title="Origin"
@@ -67,8 +74,8 @@ class Main extends Component {
 								/>
 							</div>
 							<div className="col s12 col-xs-12">
-								<AppbaseGoogleSearch
-									inputData={this.props.mapping.venue}
+								<GoogleSearch
+									appbaseField={this.props.mapping.venue}
 									sensorId="DestinationSensor"
 									placeholder="Search Venue"
 									autoLocation={false}
@@ -79,8 +86,8 @@ class Main extends Component {
 						</div>
 					</div>
 					<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
-						<AppbaseMap
-							inputData={this.props.mapping.location}
+						<ReactiveMap
+							appbaseField={this.props.mapping.location}
 							historicalData={true}
 							markerCluster={false}
 							searchComponent="appbase"
@@ -102,7 +109,7 @@ class Main extends Component {
 							}}
 						/>
 					</div>
-				</AppbaseReactiveMap>
+				</ReactiveBase>
 			</div>
 		);
 	}

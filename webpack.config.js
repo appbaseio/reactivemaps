@@ -141,7 +141,7 @@ var examples_config = {
 		nearby: './examples/nearby/main.js',
 		events: './examples/events/main.js',
 		CustomQuery: './examples/CustomQuery/main.js',
-		// direction: './examples/direction/main.js'
+		direction: './examples/direction/main.js'
 	},
 	output: {
 		path: path.join(__dirname, "dist"),
