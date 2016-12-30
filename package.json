@@ -1,7 +1,7 @@
 {
-  "name": "reactive-maps",
-  "version": "0.0.14",
-  "description": "Data Components for building Reactive Maps Interfaces",
+  "name": "@appbaseio/reactivemaps",
+  "version": "0.0.1",
+  "description": "Data Components for building map UIs",
   "main": "lib/app.js",
   "scripts": {
     "test": "react-scripts test --env=jsdom",

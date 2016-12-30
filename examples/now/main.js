@@ -2,13 +2,12 @@ import { default as React, Component } from 'react';
 import {Img} from '../HelperComponent/Img.js';
 var ReactDOM = require('react-dom');
 import {
-	AppbaseReactiveMap,
-	AppbaseList
-} from 'sensor-js';
+	ReactiveBase,
+	SingleList,
+	MultiList
+} from '@appbaseio/reactivebase';
 
-import {
-	AppbaseMap
-} from '../../app/app.js';
+import { ReactiveMap } from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {
@@ -17,6 +16,7 @@ class Main extends Component {
 		this.categoryQuery = this.categoryQuery.bind(this);
 		this.markerOnIndex = this.markerOnIndex.bind(this);
 	}
+
 	cityQuery(value) {
 		if(value) {
 			let field = 'city';
@@ -24,6 +24,7 @@ class Main extends Component {
 			return { match: match };
 		} else return null;
 	}
+
 	categoryQuery(value) {
 		let query = {
 			bool: {
@@ -49,6 +50,7 @@ class Main extends Component {
 			return { match: match };
 		}
 	}
+
 	popoverContent(marker) {
 		console.log(marker);
 		return (<div className="popoverComponent row">
@@ -70,6 +72,7 @@ class Main extends Component {
 			</div>
 		</div>);
 	}
+
 	markerOnIndex(res) {
 		let markers = {};
 		res.allMarkers.hits.hits.forEach((hit, index) => {
@@ -81,13 +84,19 @@ class Main extends Component {
 			markers: markers
 		};
 	}
+
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<AppbaseReactiveMap config={this.props.config}>
+				<ReactiveBase
+					appname={this.props.config.appbase.appname}
+					username={this.props.config.appbase.username}
+					password={this.props.config.appbase.password}
+					type={this.props.config.appbase.type}
+					>
 					<div className="col s12 m9 h-100">
-						<AppbaseMap
-							inputData={this.props.mapping.location}
+						<ReactiveMap
+							appbaseField={this.props.mapping.location}
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							historicalData={true}
@@ -111,22 +120,22 @@ class Main extends Component {
 					<div className="col s12 m3">
 						<div className="row h-100">
 							<div className="col s12">
-								<AppbaseList
+								<SingleList
 									sensorId="CitySensor"
-									inputData={this.props.mapping.city}
+									appbaseField={this.props.mapping.city}
 									defaultSelected="london"
 									showCount={true}
 									size={100}
 									multipleSelect={false}
 									includeGeo={false}
-									staticSearch={true}
+									showSearch={true}
 									title="Cities"
 									searchPlaceholder="Search City"
 								/>
 							</div>
 							<div className="col s12">
-								<AppbaseList
-									inputData={this.props.mapping.topic}
+								<MultiList
+									appbaseField={this.props.mapping.topic}
 									sensorId="CategorySensor"
 									showCount={true}
 									size={100}
@@ -140,7 +149,7 @@ class Main extends Component {
 							</div>
 						</div>
 					</div>
-				</AppbaseReactiveMap>
+				</ReactiveBase>
 			</div>
 		);
 	}

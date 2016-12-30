@@ -1,5 +1,4 @@
 import { default as React, Component } from 'react';
-import { render } from 'react-dom';
 import { GoogleMapLoader, GoogleMap, Marker, SearchBox, InfoWindow } from "react-google-maps";
 import InfoBox from 'react-google-maps/lib/addons/InfoBox';
 import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerClusterer";
@@ -7,13 +6,11 @@ import { SearchAsMove } from '../addons/SearchAsMove';
 import { MapStyles, mapStylesCollection } from '../addons/MapStyles';
 import {
 	DataSearch,
-	AppbaseChannelManager,
-	AppbaseSensorHelper
+	AppbaseChannelManager as manager,
+	AppbaseSensorHelper as helper
 } from '@appbaseio/reactivebase';
 
-var helper = AppbaseSensorHelper;
-
-export class AppbaseMap extends Component {
+export class ReactiveMap extends Component {
 	constructor(props, context) {
 		super(props);
 		this.state = {
@@ -64,7 +61,7 @@ export class AppbaseMap extends Component {
 		let depends = this.props.depends ? this.props.depends : {};
 		depends['geoQuery'] = { operation: "must" };
 		// create a channel and listen the changes
-		var channelObj = AppbaseChannelManager.create(this.context.appbaseRef, this.context.type, depends, this.props.requestSize);
+		var channelObj = manager.create(this.context.appbaseRef, this.context.type, depends, this.props.requestSize);
 		channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
 			// implementation to prevent initialize query issue if old query response is late then the newer query
@@ -128,8 +125,8 @@ export class AppbaseMap extends Component {
 					return hit._id === res.data._id;
 				});
 				if(prevData && prevData.length) {
-					let preCord = prevData[0]._source[this.props.inputData];
-					let newCord = res.data._source[this.props.inputData];
+					let preCord = prevData[0]._source[this.props.appbaseField];
+					let newCord = res.data._source[this.props.appbaseField];
 					res.data.angleDeg = this.bearing(preCord.lat, preCord.lon, newCord.lat, newCord.lon);
 				}
 				let hits = rawData.hits.hits.filter((hit) => {
@@ -167,7 +164,7 @@ export class AppbaseMap extends Component {
 		var self = this;
 		if(data && data.hits && data.hits.hits) {
 			let markersData = data.hits.hits.map((hit, index) => {
-				hit._source.mapPoint = self.identifyGeoData(hit._source[self.props.inputData]);
+				hit._source.mapPoint = self.identifyGeoData(hit._source[self.props.appbaseField]);
 				return hit;
 			});
 			markersData = markersData.filter((hit, index) => {
@@ -224,9 +221,10 @@ export class AppbaseMap extends Component {
 				key: 'geoQuery',
 				value: {
 					queryType: 'geo_bounding_box',
-					inputData: this.props.inputData
+					inputData: this.props.appbaseField
 				}
 		};
+
 		helper.selectedSensor.setSensorInfo(obj);
 	}
 
@@ -434,7 +432,7 @@ export class AppbaseMap extends Component {
 		};
 		if(markersData && markersData.length) {
 			response.markerComponent = markersData.map((hit, index) => {
-				let field = self.identifyGeoData(hit._source[self.props.inputData]);
+				let field = self.identifyGeoData(hit._source[self.props.appbaseField]);
 				// let icon = !this.props.rotateOnUpdate ? iconPath : RotateIcon.makeIcon(iconPath).setRotation({deg: deg}).getUrl();
 				// let icon = self.chooseIcon(hit);
 				if(field) {
@@ -603,8 +601,8 @@ export class AppbaseMap extends Component {
 	}
 }
 
-AppbaseMap.propTypes = {
-	inputData: React.PropTypes.string.isRequired,
+ReactiveMap.propTypes = {
+	appbaseField: React.PropTypes.string.isRequired,
 	searchField: React.PropTypes.string,
 	searchComponent: React.PropTypes.string,
 	onIdle: React.PropTypes.func,
@@ -618,7 +616,7 @@ AppbaseMap.propTypes = {
 	requestSize: React.PropTypes.number
 };
 
-AppbaseMap.defaultProps = {
+ReactiveMap.defaultProps = {
 	historicalData: true,
 	markerCluster: true,
 	searchComponent: "google",
@@ -646,7 +644,7 @@ AppbaseMap.defaultProps = {
 	}
 };
 
-AppbaseMap.contextTypes = {
+ReactiveMap.contextTypes = {
 	appbaseRef: React.PropTypes.any.isRequired,
 	type: React.PropTypes.any.isRequired
 };

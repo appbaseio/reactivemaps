@@ -1,12 +1,12 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import {
-	AppbaseReactiveMap,
-	AppbaseInputField
-} from 'sensor-js';
+	ReactiveBase,
+	TextField
+} from '@appbaseio/reactivebase';
 
 import {
-	AppbaseMap
+	ReactiveMap
 } from '../../app/app.js';
 
 class Main extends Component {
@@ -14,23 +14,30 @@ class Main extends Component {
 		super(props);
 		this.cityQuery = this.cityQuery.bind(this);
 	}
+
 	cityQuery(value) {
 		if(value) {
-			return { 
+			return {
 				match: {
 					'group.group_city.group_city_simple': value
 				}
 			};
 		} else return null;
 	}
+
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<AppbaseReactiveMap config={this.props.config}>
+				<ReactiveBase
+					appname={this.props.config.appbase.appname}
+					username={this.props.config.appbase.username}
+					password={this.props.config.appbase.password}
+					type={this.props.config.appbase.type}
+					>
 					<div className="col s6">
 						<div className="row h-100">
 							<div className="col s12">
-								<AppbaseInputField
+								<TextField
 									sensorId="InputSensor"
 									title="Cities"
 									placeholder="Search City (i.e London)"
@@ -39,8 +46,8 @@ class Main extends Component {
 						</div>
 					</div>
 					<div className="col s6 h-100">
-						<AppbaseMap
-							inputData={this.props.mapping.location}
+						<ReactiveMap
+							appbaseField={this.props.mapping.location}
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							historicalData={true}
@@ -58,7 +65,7 @@ class Main extends Component {
 							}}
 							/>
 					</div>
-				</AppbaseReactiveMap>
+				</ReactiveBase>
 			</div>
 		);
 	}

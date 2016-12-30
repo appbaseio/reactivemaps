@@ -15,7 +15,8 @@ var files = {
 			'node_modules/@appbaseio/reactivebase/dist/css/style.min.css'
 		],
 		custom: [dir_path+'assets/css/*.css'],
-		sassFile: [dir_path+'assets/styles/*.scss']
+		sassFile: [dir_path+'assets/styles/*.scss'],
+		sassPartials: [dir_path+'assets/styles/partials/**/*.scss']
 	},
 	js: {
 		vendor: [
@@ -107,10 +108,13 @@ gulp.task('compact', [
 ]);
 
 gulp.task('watchfiles', function() {
-	// gulp.watch(files.css.custom, ['customcss']);
 	gulp.watch(files.css.sassFile, ['moveCss']);
+});
+
+gulp.task('watchSassPartials', function() {
+	gulp.watch(files.css.sassPartials, ['moveCss']);
 });
 
 gulp.task('default', ['compact']);
 
-gulp.task('watch', ['compact', 'watchfiles']);
+gulp.task('watch', ['compact', 'watchfiles', 'watchSassPartials']);

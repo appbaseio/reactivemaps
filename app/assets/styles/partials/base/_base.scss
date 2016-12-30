@@ -1,4 +1,38 @@
-@import "variable.scss";
+html,
+body {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	font-size: 16px;
+	line-height: 22px;
+	font-family: $font-regular;
+	background: $bg-grey;
+	
+	@media screen and (max-width: 1024px) {
+		font-size: 14px;
+		line-height: 20px;
+	}
+}
+
+a {
+	cursor: pointer;
+}
+
+#map {
+	width: 100%;
+	height: 100%;
+}
+
+.infobox {
+	background: #fff;
+	padding: 5px;
+}
+
+.h-100 {
+	height: 100%;
+}
+
 .m-0 {
 	margin: 0;
 }
@@ -142,27 +176,6 @@
 	color: $primary-color;
 }
 
-.red-color {
-	color: $red;
-}
-
-a {
-	cursor: pointer;
-}
-
-// Fonts
-html,
-body {
-	font-size: 16px;
-	line-height: 22px;
-	font-family: $font-regular;
-	background: $bg-grey;
-	@media screen and (max-width: 1024px) {
-		font-size: 14px;
-		line-height: 20px;
-	}
-}
-
 .font-0 {
 	font-size: $font-size-0;
 	line-height: $line-height-0;
@@ -262,11 +275,13 @@ body {
 .i-b {
 	display: inline-block;
 }
-.reactiveComponent {
+
+.rbc {
 	margin: 5px;
 	background: #fff;
-	padding: 15px;
-	.componentTitle {
+	padding: 0;
+
+	.rbc-title {
 		font-size: 20px;
 		padding: 10px;
 		line-height: 30px;
@@ -277,22 +292,51 @@ body {
 		text-transform: uppercase;
 		margin: 0;
 	}
-	.inputBox {
+
+	.rbc-input {
 		position: relative;
-		padding-right: 50px;
 		background: darken($bg-grey, 2%);
-		input {
-			border: 0;
-			margin: 0;
-			font-weight: bold;
-			font-family: $font-bold-i;
-			width: 100%;
-		}
+		border: 0;
+		margin: 0;
+		font-weight: bold;
+		font-family: $font-bold-i;
+		width: calc(100% - 20px);
+		padding: 0 10px;
+
 		.add-on {
 			position: absolute;
 			right: 15px;
 			top: 12px;
 			color: $blue;
 		}
+	}
+
+	[type="radio"]:checked+label:after,
+	[type="radio"].with-gap:checked+label:before,
+	[type="radio"].with-gap:checked+label:after {
+		border-color: $primary-color;
+		background-color: $primary-color;
+	}
+
+	[type="checkbox"]:checked+label:before {
+		border-right: 2px solid $primary-color;
+		border-bottom: 2px solid $primary-color;
+	}
+
+	input:not([type]):focus:not([readonly]),
+	input[type=text]:focus:not([readonly]),
+	input[type=password]:focus:not([readonly]),
+	input[type=email]:focus:not([readonly]),
+	input[type=url]:focus:not([readonly]),
+	input[type=time]:focus:not([readonly]),
+	input[type=date]:focus:not([readonly]),
+	input[type=datetime]:focus:not([readonly]),
+	input[type=datetime-local]:focus:not([readonly]),
+	input[type=tel]:focus:not([readonly]),
+	input[type=number]:focus:not([readonly]),
+	input[type=search]:focus:not([readonly]),
+	textarea.materialize-textarea:focus:not([readonly]) {
+		border-bottom: 1px solid $primary-color;
+		box-shadow: 0 1px 0 0 $primary-color;
 	}
 }

@@ -1,16 +1,15 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import {
-	AppbaseReactiveMap,
-	AppbaseList,
-	AppbaseSlider,
-	AppbaseSearch,
-	AppbaseDistanceSensor,
-	AppbaseButtonGroup
-} from 'sensor-js';
+	ReactiveBase,
+	SingleList,
+	RangeSlider,
+	GeoDistanceSlider,
+	ToggleButton
+} from '@appbaseio/reactivebase';
 
 import {
-	AppbaseMap
+	ReactiveMap
 } from '../../app/app.js';
 
 class Main extends Component {
@@ -62,10 +61,15 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<AppbaseReactiveMap config={this.props.config}>
+				<ReactiveBase
+					appname={this.props.config.appbase.appname}
+					username={this.props.config.appbase.username}
+					password={this.props.config.appbase.password}
+					type={this.props.config.appbase.type}
+					>
 					<div className="col s12 m8 h-100 col-xs-12 col-sm-8">
-						<AppbaseMap
-							inputData={this.props.mapping.location}
+						<ReactiveMap
+							appbaseField={this.props.mapping.location}
 							defaultZoom={8}
 							defaultCenter={{ lat: 35.272, lng: 138.582 }}
 							historicalData={true}
@@ -88,15 +92,13 @@ class Main extends Component {
 					<div className="col s12 m4 col-xs-12 col-sm-4">
 						<div className="row h-100">
 							<div className="col s12 col-xs-12">
-								<AppbaseList
+								<SingleList
 									sensorId="PlaceSensor"
-									inputData={this.props.mapping.venue}
+									appbaseField={this.props.mapping.venue}
 									defaultSelected="Japan"
 									showCount={true}
 									size={1000}
-									multipleSelect={false}
-									includeGeo={false}
-									staticSearch={true}
+									showSearch={true}
 									title="Places"
 									searchPlaceholder="Search Place"
 								/>
@@ -104,25 +106,32 @@ class Main extends Component {
 						</div>
 						<div className="row">
 							<div className="col s12 col-xs-12">
-								<AppbaseSlider
+								<RangeSlider
 									sensorId="RangeSensor"
-									inputData={this.props.mapping.mag}
+									appbaseField={this.props.mapping.mag}
 									depends={{
 										PlaceSensor: {
 											"operation": "must",
 											"defaultQuery": this.placeQuery
 										}
 									}}
+									defaultSelected={
+										{
+											"start": 1,
+											"end": 5
+										}
+									}
 									title="Magnitude"
-									maxThreshold={10}
-									minThreshold={0} />
+									startThreshold={1}
+									endThreshold={10}
+									stepValue={1} />
 							</div>
 						</div>
 						<div className="row">
 							<div className="col s12 col-xs-12">
-								<AppbaseSlider
+								<RangeSlider
 									sensorId="YearSensor"
-									inputData={this.props.mapping.time}
+									appbaseField={this.props.mapping.time}
 									depends={{
 										PlaceSensor: {
 											"operation": "must",
@@ -130,12 +139,12 @@ class Main extends Component {
 										}
 									}}
 									title="Year"
-									maxThreshold={2016}
-									minThreshold={1900} />
+									startThreshold={1900}
+									endThreshold={2016} />
 							</div>
 						</div>
 					</div>
-				</AppbaseReactiveMap>
+				</ReactiveBase>
 			</div>
 		);
 	}

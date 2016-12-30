@@ -1,9 +1,10 @@
 import { default as React, Component } from 'react';
-import { render } from 'react-dom';
-import { manager } from '../middleware/ChannelManager.js';
+import {
+	AppbaseChannelManager as manager,
+	AppbaseSensorHelper as helper
+} from '@appbaseio/reactivebase';
 import axios from 'axios';
 import Select from 'react-select';
-var helper = require('../middleware/helper.js');
 
 export class GoogleSearch extends Component {
 	constructor(props, context) {
@@ -60,7 +61,7 @@ export class GoogleSearch extends Component {
 			key: this.props.sensorId,
 			value: {
 				queryType: this.type,
-				inputData: this.props.inputData,
+				inputData: this.props.appbaseField,
 				defaultQuery: this.defaultQuery
 			}
 		};
@@ -72,7 +73,7 @@ export class GoogleSearch extends Component {
 		if(value && value.currentValue != '' && value.location != '') {
 			return {
 				[this.type]: {
-					[this.props.inputData]: value.location,
+					[this.props.appbaseField]: value.location,
 					'distance': value.currentDistance
 				}
 			}
@@ -113,7 +114,7 @@ export class GoogleSearch extends Component {
 	// Create a channel which passes the depends and receive results whenever depends changes
 	createChannel() {
 		let depends = this.props.depends ? this.props.depends : {};
-		var channelObj = manager.create(this.context.appbaseConfig, depends);
+		var channelObj = manager.create(this.context.appbaseRef, this.context.type, depends);
 	}
 
 	// handle the input change and pass the value inside sensor info
@@ -174,23 +175,24 @@ export class GoogleSearch extends Component {
 
 	// render
 	render() {
-		let title = null;
+		let title = null, titleExists = false;
 		if(this.props.title) {
-			title = (<h4 className="componentTitle">{this.props.title}</h4>);
+			titleExists = true;
+			title = (<h4 className="rbc-title">{this.props.title}</h4>);
 		}
 
 		return (
-			<div className="appbaseSearchComponent sliderComponent reactiveComponent clearfix card thumbnail col s12 col-xs-12">
-				{title}
+			<div className={`rbc rbc-googlesearch clearfix card thumbnail col s12 col-xs-12 title-${titleExists}`}>
 				<div className="row">
-				<Select.Async
-					className="appbase-select col s12 col-xs-6 p-0"
-					name="appbase-search"
-					value={this.state.currentValue}
-					loadOptions={this.loadOptions}
-					placeholder={this.props.placeholder}
-					onChange={this.handleChange}
-				/>
+					{title}
+					<div className="col s12 col-xs-12">
+						<Select.Async
+							value={this.state.currentValue}
+							loadOptions={this.loadOptions}
+							placeholder={this.props.placeholder}
+							onChange={this.handleChange}
+						/>
+					</div>
 				</div>
 			</div>
 		);
@@ -198,7 +200,7 @@ export class GoogleSearch extends Component {
 }
 
 GoogleSearch.propTypes = {
-	inputData: React.PropTypes.string.isRequired,
+	appbaseField: React.PropTypes.string.isRequired,
 	placeholder: React.PropTypes.string
 };
 // Default props value
@@ -209,5 +211,6 @@ GoogleSearch.defaultProps = {
 
 // context type
 GoogleSearch.contextTypes = {
-	appbaseConfig: React.PropTypes.any.isRequired
+	appbaseRef: React.PropTypes.any.isRequired,
+	type: React.PropTypes.any.isRequired
 };

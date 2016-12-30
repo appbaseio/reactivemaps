@@ -1,16 +1,12 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
-import {Img} from '../HelperComponent/Img.js';
+import { Img } from '../HelperComponent/Img.js';
 import { Polygon } from "react-google-maps";
 var HeatmapCreator = require('./HeatmapCreator.js');
 var HeatmapWorker = require('./worker.js');
-import {
-	AppbaseReactiveMap
-} from 'sensor-js';
 
-import {
-	AppbaseMap
-} from '../../app/app.js';
+import { ReactiveBase } from '@appbaseio/reactivebase';
+import { ReactiveMap } from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {
@@ -26,6 +22,7 @@ class Main extends Component {
 		this.markerOnIndex = this.markerOnIndex.bind(this);
 		this.popoverContent = this.popoverContent.bind(this);
 	}
+
 	popoverContent(marker) {
 		return (<div className="popoverComponent row">
 			<span className="imgContainer col s2">
@@ -45,21 +42,24 @@ class Main extends Component {
 			</div>
 		</div>);
 	}
+
 	// get the markers create polygon accordingly
 	markerOnIndex(res) {
 		this.markers = res.allMarkers;
 		this.passExistingData(res);
-		console.log('Applying polgon', res.method);
+		console.log('Applying polgon', res.mode);
 		return this.generatePolyColor();
 	}
+
 	passExistingData(res) {
-		if(res.method === 'stream') {
+		if(res.mode === 'stream') {
 			this.simulationFlag = false;
 		}
 		HeatmapWorker.heatmapExistingData(this.markers);
 	}
+
 	// get the mapBounds Create polygon
-	mapOnIdle(res) {
+	mapOnIdle(refMap, res) {
 		this.simulationFlag = true;
 		this.boundingBoxCoordinates = res.boundingBoxCoordinates;
 		this.polygonGrid = HeatmapCreator.createGridLines(res.mapBounds, 0);
@@ -73,6 +73,7 @@ class Main extends Component {
 		}, 10*1000);
 		return this.generatePolyColor();
 	}
+
 	generatePolyColor() {
 		if(this.polygonGrid.length && this.markers && this.markers.hits && this.markers.hits.hits.length) {
 			let polygonGrid = this.polygonGrid.map((polygon) => {
@@ -86,6 +87,7 @@ class Main extends Component {
 			return this.applyPoloygon(polygonData);
 		}
 	}
+
 	applyPoloygon(polygonData) {
 		let polygons = polygonData.map((polyProp, index) => {
 		  let options = {
@@ -97,13 +99,19 @@ class Main extends Component {
 			polygons: polygons
 		};
 	}
+
 	render() {
 		return (
 			<div className="row m-0 h-100">
-				<AppbaseReactiveMap config={this.props.config}>
+				<ReactiveBase
+					appname={this.props.config.appbase.appname}
+					username={this.props.config.appbase.username}
+					password={this.props.config.appbase.password}
+					type={this.props.config.appbase.type}
+					>
 					<div className="col s12 h-100">
-					<AppbaseMap
-						inputData={this.props.mapping.location}
+					<ReactiveMap
+						appbaseField="location"
 						requestSize={5}
 						defaultZoom={13}
 						defaultCenter={{ lat: 37.74, lng: -122.45 }}
@@ -120,11 +128,11 @@ class Main extends Component {
 						showPopoverOn = "onClick"
 						popoverContent = {this.popoverContent}
 						markerOnIndex = {this.markerOnIndex}
-						mapOnIdle = {this.mapOnIdle}
+						onIdle = {this.mapOnIdle}
 						streamingMarkerTime={10}
 						/>
 					</div>
-				</AppbaseReactiveMap>
+				</ReactiveBase>
 			</div>
 		);
 	}
