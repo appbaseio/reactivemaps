@@ -59,7 +59,7 @@ class Main extends Component {
 	}
 
 	// get the mapBounds Create polygon
-	mapOnIdle(res) {
+	mapOnIdle(refMap, res) {
 		this.simulationFlag = true;
 		this.boundingBoxCoordinates = res.boundingBoxCoordinates;
 		this.polygonGrid = HeatmapCreator.createGridLines(res.mapBounds, 0);
@@ -128,7 +128,7 @@ class Main extends Component {
 						showPopoverOn = "onClick"
 						popoverContent = {this.popoverContent}
 						onData = {this.onData}
-						mapOnIdle = {this.mapOnIdle}
+						onIdle = {this.mapOnIdle}
 						streamingMarkerTime={10}
 						/>
 					</div>
