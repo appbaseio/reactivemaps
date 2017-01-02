@@ -100,7 +100,7 @@ export class ReactiveMap extends Component {
 			// Pass the historic or streaming data in index method
 			res.allMarkers = rawData;
 			res.mapRef = this.refs.map;
-			let generatedData = this.props.markerOnIndex(res);
+			let generatedData = this.props.onData(res);
 			this.setState({
 				externalData: generatedData
 			});
@@ -408,7 +408,7 @@ export class ReactiveMap extends Component {
 		return icon;
 	}
 
-	// here we accepts marker props which we received from markerOnIndex and apply those external props in Marker component
+	// here we accepts marker props which we received from onData and apply those external props in Marker component
 	combineProps(hit) {
 		let externalProps, markerProp = {};
 		if(this.state.externalData && this.state.externalData.markers && this.state.externalData.markers[hit._id]) {
@@ -544,18 +544,18 @@ export class ReactiveMap extends Component {
 		// include title if exists
 		if(this.props.title) {
 			titleExists = true;
-			title = (<h4 className="componentTitle col s12 m8 col-xs-12 col-sm-8">{this.props.title}</h4>);
+			title = (<h4 className="rmc-title col s12 m8 col-xs-12 col-sm-8">{this.props.title}</h4>);
 		}
 
 	return(
-		<div className="map-container reactiveComponent appbaseMapComponent col s12 col-xs-12 card thumbnail">
+		<div className="rmc rmc-reactivemap col s12 col-xs-12 card thumbnail">
 			{title}
 			<span className="col s12 m4 col-xs-12 col-sm-4">
 				{MapStylesComponent}
 			</span>
 			<GoogleMapLoader
 				containerElement={
-					<div className="containerElement col s12 col-xs-12"  style={this.props.containerStyle} />
+					<div className="rmc-container col s12 col-xs-12"  style={this.props.containerStyle} />
 				}
 				googleMapElement={
 					<GoogleMap ref = "map"
@@ -586,9 +586,9 @@ export class ReactiveMap extends Component {
 						onTiltChanged = {() => this.mapEvents('onTiltChanged')}
 						onZoomChanged = {() => this.mapEvents('onZoomChanged')}
 					>
-					{searchComponent}
-					{markerComponent}
-					{this.externalData()}
+						{searchComponent}
+						{markerComponent}
+						{this.externalData()}
 					</GoogleMap>
 				}
 			/>
@@ -607,7 +607,7 @@ ReactiveMap.propTypes = {
 	searchComponent: React.PropTypes.string,
 	onIdle: React.PropTypes.func,
 	markerOnDelete: React.PropTypes.func,
-	markerOnIndex: React.PropTypes.func,
+	onData: React.PropTypes.func,
 	markerCluster: React.PropTypes.bool,
 	historicalData: React.PropTypes.bool,
 	rotateOnUpdate: React.PropTypes.bool,
@@ -637,7 +637,7 @@ ReactiveMap.defaultProps = {
 	markerOnDblclick: function() {},
 	markerOnMouseover: function() {},
 	markerOnMouseout: function() {},
-	markerOnIndex: function() {},
+	onData: function() {},
 	onIdle: function() {},
 	containerStyle: {
 		height: '700px'

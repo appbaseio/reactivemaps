@@ -14,7 +14,7 @@ class Main extends Component {
 		super(props);
 		this.cityQuery = this.cityQuery.bind(this);
 		this.categoryQuery = this.categoryQuery.bind(this);
-		this.markerOnIndex = this.markerOnIndex.bind(this);
+		this.onData = this.onData.bind(this);
 	}
 
 	cityQuery(value) {
@@ -73,7 +73,7 @@ class Main extends Component {
 		</div>);
 	}
 
-	markerOnIndex(res) {
+	onData(res) {
 		let markers = {};
 		res.allMarkers.hits.hits.forEach((hit, index) => {
 			markers[hit._id] = {};
@@ -109,7 +109,7 @@ class Main extends Component {
 							title="Foursquare checkins"
 							showPopoverOn = "onClick"
 							popoverContent = {this.popoverContent}
-							markerOnIndex = {this.markerOnIndex}
+							onData = {this.onData}
 							MapStylesComponent={true}
 							depends={{
 								CitySensor: {"operation": "must", defaultQuery: this.cityQuery},

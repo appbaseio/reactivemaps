@@ -12,7 +12,7 @@ class Main extends Component {
 		super(props);
 		this.topicDepends = this.topicDepends.bind(this);
 		this.popoverContent = this.popoverContent.bind(this);
-		this.markerOnIndex =  this.markerOnIndex.bind(this);
+		this.onData =  this.onData.bind(this);
 	}
 
 	topicDepends(value) {
@@ -36,7 +36,7 @@ class Main extends Component {
 		</div>);
 	}
 
-	markerOnIndex(res) {
+	onData(res) {
 		let markers = {};
 		res.allMarkers.hits.hits.forEach((hit, index) => {
 			markers[hit._id] = {};
@@ -100,7 +100,7 @@ class Main extends Component {
 							title="SF Transport"
 							showPopoverOn = "onClick"
 							popoverContent = {this.popoverContent}
-							markerOnIndex = {this.markerOnIndex}
+							onData = {this.onData}
 							streamAutoCenter={false}
 							rotateOnUpdate={true}
 							historicPin= 'dist/images/bus.png'
