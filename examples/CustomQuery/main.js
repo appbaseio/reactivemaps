@@ -6,8 +6,11 @@ import {
 } from '@appbaseio/reactivebase';
 
 import {
-	ReactiveMap
+	ReactiveMap,
+	GeoDistanceDropdown
 } from '../../app/app.js';
+
+const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 
 class Main extends Component {
 	constructor(props) {
@@ -44,6 +47,17 @@ class Main extends Component {
 								/>
 							</div>
 						</div>
+
+						<div className="row">
+							<GeoDistanceDropdown
+								sensorId="GeoSensor"
+								appbaseField={this.props.mapping.location}
+								title="Geo Distance"
+								APIkey={mapsAPIKey}
+								distanceOptions={[2,5,10,15]}
+								unit="mi"
+							/>
+						</div>
 					</div>
 					<div className="col s6 h-100">
 						<ReactiveMap
@@ -62,6 +76,7 @@ class Main extends Component {
 							title="Meetupblast"
 							depends={{
 								InputSensor: {"operation": "must", defaultQuery: this.cityQuery},
+								GeoSensor: {"operation": "must"}
 							}}
 							/>
 					</div>
