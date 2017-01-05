@@ -1,10 +1,14 @@
 @import "variables.scss";
 #home {
 	.navbar {
-		background: $primary-color;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 70px;
+		background: transparent;
 		border: 0;
 		border-radius: 0;
-		border-bottom: 1px solid $primary-color;
 		margin-bottom: 0;
 		.navbar-collapse {
 			text-align: center;
@@ -17,7 +21,7 @@
 		}
 		.navbar-brand {
 			img {
-				width: 15px;
+				width: 30px;
 			}
 		}
 		.navbar-nav {
@@ -26,11 +30,13 @@
 					background: transparent;
 				}
 			}
+			li {
+				padding: 15px 20px 5px;
+			}
 			li a {
 				color: #fff;
+				font-size: 17px;
 				font-weight: bold;
-				&:hover {
-				}
 			}
 		}
 	}

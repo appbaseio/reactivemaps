@@ -4,7 +4,12 @@ html, body {
 	font-size: 18px;
 	color: $font-color;
 	font-family: $font-light;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	-moz-osx-font-smoothing: grayscale;
+	-moz-font-feature-settings: "liga" on;
 }
+
 section {
 	padding: 60px 0;
 	.section-head {
@@ -17,20 +22,46 @@ section {
 		}
 	}
 }
+
 #top {
-	background: $primary-color;
+	padding-top: 120px;
+	background-color: $primary-color;
+	background-image: url('../images/bg.png');
+	background-size: cover;
+	background-position: center center;
 	color: #fff;
-	.website-title {
-		font-size: 4em;
-		margin: 0 0 30px 0;
-		font-family: $font-bold;
+
+	.row {
+		max-width: 1200px;
+		margin: 0 auto;
 	}
+
+	.landing-content {
+		padding: 40px 15px;
+		max-width: 380px;
+	}
+
+	.website-title {
+		font-size: 5.4em;
+		letter-spacing: 0.028em;
+		line-height: 0.84em;
+		margin: 0 0 24px;
+		font-family: $font-black;
+	}
+
+	p {
+		font-size: 28px;
+		font-family: $font-light;
+	}
+
 	.star-frame {
 		padding-left: 60px;
 	}
 }
+
 #features {
 	background: #fff;
+
 	.feature {
 		.img-container {
 			height: 200px;
@@ -40,47 +71,43 @@ section {
 			}
 		}
 		.description {
-			margin-top: 20px;
+			font-size: 24px;
+			max-width: 280px;
+			padding: 5px 15px;
+			margin: 20px auto;
 		}
 	}
 }
-#choose-map {
-	background: $light-color;
-	.owl-container {
-		position: relative;
-		padding: 0 65px;
-		margin: 30px 0;
-		.img-container {
-			display: flex;
-			height: 400px;
-		}
-		.owl-item.active.center {
-			border: 5px solid $yellow-color;
-			padding: 5px;
-		}
-		.owl-custom-nav {
-			background: $yellow-color;
-			color: #fff;
-			position: absolute;
-			height: 100%;
-			width: 50px;
-			top: 0;
-			z-index: 50;
-			display: flex;
-			border: 0;
-			&.left-nav {
-				left: 0;
-			}
-			&.right-nav {
-				right: 0;
-			}
-			i {
-				margin: auto;
-				font-size: 2em;
+
+#ui-components {
+	background: $secondary-color;
+	color: #fff;
+
+	.container {
+		width: 95%;
+		max-width: 1250px;
+	}
+
+	.section-head .title {
+		color: #fff;
+	}
+
+	img {
+		width: 92%;
+		margin-bottom: 30px;
+	}
+
+	.small {
+		margin-bottom: 20px;
+		img {
+			width: calc(33.33% - 28px);
+			&:nth-child(2) {
+				margin: 0 15px 30px;
 			}
 		}
 	}
 }
+
 #use-cases {
 	.tab-container {
 		margin: 30px 0;
@@ -137,13 +164,15 @@ footer {
 		color: #fff;
 	}
 }
+
 .theme-btn {
 	background: $yellow-color;
 	color: #fff;
 	text-transform: uppercase;
-	font-size: 1.2em;
-	padding: 0.6em 2.5em;
-	font-family: $font-semi-bold;
+	font-size: 1em;
+	padding: 0.72em 3.8em;
+	border-radius: 8px;
+	font-family: $font-bold;
 	&.theme-btn-inverse {
 		background: $font-color;
 		color: $yellow-color;
