@@ -1,4 +1,5 @@
-import { default as React, Component } from 'react';
+import {
+	default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import {
 	ReactiveBase,
@@ -19,7 +20,7 @@ class Main extends Component {
 	}
 
 	cityQuery(value) {
-		if(value) {
+		if (value) {
 			return {
 				match: {
 					'group.group_city.group_city_simple': value
@@ -90,14 +91,14 @@ Main.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
 		city: 'group.group_city.group_city_simple',
-		location: 'venue'
+		location: 'location'
 	},
 	config: {
 		"appbase": {
-			"appname": "meetup2",
-			"username": "qz4ZD8xq1",
-			"password": "a0edfc7f-5611-46f6-8fe1-d4db234631f3",
-			"type": "meetup"
+			"appname": "reactivemap_demo",
+			"username": "y4pVxY2Ok",
+			"password": "c92481e2-c07f-4473-8326-082919282c18",
+			"type": "meetupdata1"
 		}
 	}
 };
