@@ -4,6 +4,7 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var minifyCSS = require('gulp-minify-css');
 var rename = require("gulp-rename");
+var fileinclude = require('gulp-file-include');
 var dir_path = './';
 
 var files = {
@@ -22,8 +23,25 @@ var files = {
         ],
         custom: [
         ]
+    },
+    html: {
+        pages: [
+            './pages/*.html'
+        ],
+        include: [
+            './partials/*.html'
+        ]
     }
 };
+
+gulp.task('fileinclude', function() {
+    gulp.src(files.html.pages)
+        .pipe(fileinclude({
+            prefix: '@@',
+            basepath: '@file'
+        }))
+        .pipe(gulp.dest('./'));
+});
 
 gulp.task('vendorcss', function() {
     return gulp.src(files.css.vendor)
@@ -99,13 +117,16 @@ gulp.task('compact', ['sass',
     'vendorjs',
     'moveCss',
     'moveFonts',
-    'moveImages'
+    'moveImages',
+    'fileinclude'
 ]);
 
 gulp.task('watchfiles', function() {
     gulp.watch(files.js.admin_custom, ['admin_customjs']);
     gulp.watch(files.css.custom, ['customcss']);
     gulp.watch(files.css.sassFile, ['sass']);
+    gulp.watch(files.html.include, ['fileinclude']);
+    gulp.watch(files.html.pages, ['fileinclude']);
 });
 
 gulp.task('default', ['compact']);
