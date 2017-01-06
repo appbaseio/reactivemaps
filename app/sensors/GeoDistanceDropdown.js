@@ -4,6 +4,7 @@ import {
 	AppbaseSensorHelper as helper
 } from '@appbaseio/reactivebase';
 
+import classNames from 'classnames';
 import axios from 'axios';
 import Slider from 'rc-slider';
 import Select from 'react-select';
@@ -102,7 +103,7 @@ export class GeoDistanceDropdown extends Component {
 		}
 	}
 
-	// execute query after changing location or distanc
+	// execute query after changing location or distance
 	executeQuery() {
 		if (this.state.currentValue != '' && this.state.currentDistance && this.locString) {
 			var obj = {
@@ -207,8 +208,13 @@ export class GeoDistanceDropdown extends Component {
 			title = (<h4 className="rbc-title">{this.props.title}</h4>);
 		}
 
+		let cx = classNames({
+			'rmc-title-active': this.props.title,
+			'rmc-title-inactive': !this.props.title
+		});
+
 		return (
-			<div className={`rbc rbc-geodistance clearfix card thumbnail col s12 col-xs-12`}>
+			<div className={`rbc rbc-geodistance clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
 				<div className="row">
 					{title}
 					<div className="col s12 col-xs-12">
