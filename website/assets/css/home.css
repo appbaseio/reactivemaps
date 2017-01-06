@@ -85,7 +85,14 @@
 html, body {
   font-size: 18px;
   color: #808080;
-  font-family: "Source Sans Pro Light"; }
+  font-family: "Source Sans Pro Light";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-font-feature-settings: "liga" on; }
+  @media screen and (max-width: 768px) {
+    html, body {
+      font-size: 14px; } }
 
 section {
   padding: 60px 0; }
@@ -94,17 +101,37 @@ section {
     font-family: "Source Sans Pro Semi Bold";
     margin: 0;
     padding-bottom: 5px;
-    font-size: 2em; }
+    font-size: 2rem; }
 
 #top {
-  background: #5677FC;
+  padding-top: 120px;
+  background-color: #5677FC;
+  background-image: url("../images/bg.png");
+  background-size: cover;
+  background-position: center center;
   color: #fff; }
+  #top .row {
+    max-width: 1200px;
+    margin: 0 auto; }
+  #top .landing-section {
+    padding: 40px 15px; }
+  #top .install-section {
+    padding-bottom: 0; }
   #top .website-title {
-    font-size: 4em;
-    margin: 0 0 30px 0;
-    font-family: "Source Sans Pro Bold"; }
+    font-size: 5.4rem;
+    line-height: 100%;
+    margin: 0 0 24px;
+    font-family: "Source Sans Pro Black"; }
+  #top p {
+    font-size: 1.5rem;
+    font-family: "Source Sans Pro Light"; }
   #top .star-frame {
     padding-left: 60px; }
+    #top .star-frame .github-btn-large .gh-btn, #top .star-frame .github-btn-large .gh-count {
+      font-size: 2rem; }
+  @media screen and (max-width: 768px) {
+    #top .landing-content {
+      text-align: center; } }
 
 #features {
   background: #fff; }
@@ -114,42 +141,46 @@ section {
     #features .feature .img-container img {
       margin: auto; }
   #features .feature .description {
-    margin-top: 20px; }
+    font-size: 1.5rem;
+    max-width: 280px;
+    padding: 5px 15px;
+    margin: 20px auto; }
 
-#choose-map {
-  background: #F8F8F8; }
-  #choose-map .owl-container {
-    position: relative;
-    padding: 0 65px;
-    margin: 30px 0; }
-    #choose-map .owl-container .img-container {
-      display: flex;
-      height: 400px; }
-    #choose-map .owl-container .owl-item.active.center {
-      border: 5px solid #CDDC39;
-      padding: 5px; }
-    #choose-map .owl-container .owl-custom-nav {
-      background: #CDDC39;
-      color: #fff;
-      position: absolute;
-      height: 100%;
-      width: 50px;
-      top: 0;
-      z-index: 50;
-      display: flex;
-      border: 0; }
-      #choose-map .owl-container .owl-custom-nav.left-nav {
-        left: 0; }
-      #choose-map .owl-container .owl-custom-nav.right-nav {
-        right: 0; }
-      #choose-map .owl-container .owl-custom-nav i {
-        margin: auto;
-        font-size: 2em; }
+#ui-components {
+  background: #6889FF;
+  color: #fff; }
+  #ui-components .container {
+    width: 95%;
+    max-width: 1250px; }
+  #ui-components .section-head .title {
+    color: #fff; }
+  #ui-components img {
+    width: 92%;
+    margin-bottom: 30px; }
+  #ui-components .small {
+    margin-bottom: 20px; }
+    #ui-components .small img {
+      width: calc(33.33% - 28px); }
+      #ui-components .small img:nth-child(2) {
+        margin: 0 15px 30px; }
 
 #use-cases .tab-container {
   margin: 30px 0; }
-  #use-cases .tab-container .tab-text .title {
-    font-family: "Source Sans Pro Semi Bold"; }
+  #use-cases .tab-container .tab-content {
+    padding: 0 30px; }
+    #use-cases .tab-container .tab-content .tab-text {
+      padding-bottom: 10px; }
+      #use-cases .tab-container .tab-content .tab-text .title {
+        margin-top: 0;
+        font-size: 1.5rem;
+        font-family: "Source Sans Pro Semi Bold"; }
+    #use-cases .tab-container .tab-content .img-container img {
+      max-height: 100%; }
+    @media screen and (max-width: 768px) {
+      #use-cases .tab-container .tab-content {
+        padding: 0; }
+        #use-cases .tab-container .tab-content .img-container {
+          padding: 15px; } }
   #use-cases .tab-container .nav-tabs {
     border: 0; }
     #use-cases .tab-container .nav-tabs li {
@@ -177,6 +208,7 @@ section {
   background: #5677FC;
   color: #fff; }
   #footer h2, footer h2 {
+    font-size: 2rem;
     font-family: "Source Sans Pro Semi Bold"; }
 
 footer {
@@ -189,9 +221,10 @@ footer {
   background: #CDDC39;
   color: #fff;
   text-transform: uppercase;
-  font-size: 1.2em;
-  padding: 0.6em 2.5em;
-  font-family: "Source Sans Pro Semi Bold"; }
+  font-size: 1em;
+  padding: 0.72em 3.8em;
+  border-radius: 8px;
+  font-family: "Source Sans Pro Bold"; }
   .theme-btn.theme-btn-inverse {
     background: #808080;
     color: #CDDC39; }
@@ -224,3 +257,11 @@ footer {
 
 .m-b-4 {
   margin-bottom: 60px; }
+
+.flex-box {
+  display: flex; }
+  .flex-box .flex-center {
+    margin: auto; }
+  @media screen and (max-width: 768px) {
+    .flex-box {
+      display: block; } }

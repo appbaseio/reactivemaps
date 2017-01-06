@@ -19,7 +19,7 @@ class Main extends Component {
 		};
 		this.simulationFlag = true;
 		this.mapOnIdle = this.mapOnIdle.bind(this);
-		this.markerOnIndex = this.markerOnIndex.bind(this);
+		this.onData = this.onData.bind(this);
 		this.popoverContent = this.popoverContent.bind(this);
 	}
 
@@ -44,7 +44,7 @@ class Main extends Component {
 	}
 
 	// get the markers create polygon accordingly
-	markerOnIndex(res) {
+	onData(res) {
 		this.markers = res.allMarkers;
 		this.passExistingData(res);
 		console.log('Applying polgon', res.mode);
@@ -127,7 +127,7 @@ class Main extends Component {
 						title="Heatmap"
 						showPopoverOn = "onClick"
 						popoverContent = {this.popoverContent}
-						markerOnIndex = {this.markerOnIndex}
+						onData = {this.onData}
 						onIdle = {this.mapOnIdle}
 						streamingMarkerTime={10}
 						/>

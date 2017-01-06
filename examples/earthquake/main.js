@@ -83,9 +83,9 @@ class Main extends Component {
 							showPopoverOn = "onClick"
 							popoverContent = {this.popoverContent}
 							depends={{
-								PlaceSensor: {"operation": "must", defaultQuery: this.placeQuery},
-								RangeSensor: {"operation": "must", defaultQuery: this.magQuery},
-								YearSensor: {"operation": "must", defaultQuery: this.yearQuery},
+								PlaceSensor: {"operation": "must"},
+								RangeSensor: {"operation": "must"},
+								YearSensor: {"operation": "must"},
 							}}
 							/>
 					</div>

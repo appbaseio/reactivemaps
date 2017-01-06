@@ -1,4 +1,5 @@
-import { default as React, Component } from 'react';
+import {
+	default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import {
 	ReactiveBase,
@@ -6,8 +7,11 @@ import {
 } from '@appbaseio/reactivebase';
 
 import {
-	ReactiveMap
+	ReactiveMap,
+	GeoDistanceDropdown
 } from '../../app/app.js';
+
+const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 
 class Main extends Component {
 	constructor(props) {
@@ -16,7 +20,7 @@ class Main extends Component {
 	}
 
 	cityQuery(value) {
-		if(value) {
+		if (value) {
 			return {
 				match: {
 					'group.group_city.group_city_simple': value
@@ -44,6 +48,17 @@ class Main extends Component {
 								/>
 							</div>
 						</div>
+
+						<div className="row">
+							<GeoDistanceDropdown
+								sensorId="GeoSensor"
+								appbaseField={this.props.mapping.location}
+								title="Geo Distance"
+								APIkey={mapsAPIKey}
+								distanceOptions={[2,5,10,15]}
+								unit="mi"
+							/>
+						</div>
 					</div>
 					<div className="col s6 h-100">
 						<ReactiveMap
@@ -62,6 +77,7 @@ class Main extends Component {
 							title="Meetupblast"
 							depends={{
 								InputSensor: {"operation": "must", defaultQuery: this.cityQuery},
+								GeoSensor: {"operation": "must"}
 							}}
 							/>
 					</div>
@@ -75,14 +91,14 @@ Main.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
 		city: 'group.group_city.group_city_simple',
-		location: 'venue'
+		location: 'location'
 	},
 	config: {
 		"appbase": {
-			"appname": "meetup2",
-			"username": "qz4ZD8xq1",
-			"password": "a0edfc7f-5611-46f6-8fe1-d4db234631f3",
-			"type": "meetup"
+			"appname": "reactivemap_demo",
+			"username": "y4pVxY2Ok",
+			"password": "c92481e2-c07f-4473-8326-082919282c18",
+			"type": "meetupdata1"
 		}
 	}
 };

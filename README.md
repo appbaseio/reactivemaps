@@ -64,7 +64,7 @@ and `ReactiveMap` to set appbase configuration
     historicalData={true}
     markerCluster={false}
     markerOnDelete={this.markerOnDelete}
-    markerOnIndex={this.markerOnIndex}
+    onData={this.onData}
     markerOnClick={this.markerOnClick}
     markerOnDblclick={this.markerOnDblclick}
     markerOnMouseover={this.markerOnMouseover}
@@ -88,7 +88,7 @@ and `ReactiveMap` to set appbase configuration
 - `searchField`: `String`: is the name of the field on which Appbase location search will be enables.    
 -  `markerCluster`: `Boolean`: is the property which decides on clustering the markers. Defaulted to `true`     
 - `markerOnDelete`: is the event which is fired when any element is deleted from the map. It has argument which contains the object which was deleted.    
-- `markerOnIndex`is the event which is fired when any element is added into the map. It has argument which contains the object which was indexed.    
+- `onData`is the event which is fired when any element is added into the map. It has argument which contains the object which was indexed.    
 - `markerOnClick`, `markerOnDblclick`, `markerOnMouseover`, `markerOnMouseout` are the events which will be fired on click, doubleclick, mouse over, mouse out actions on markers.
 - `mapStyle`: is the property which set the default map style. Available options for mapStyle is: `"MapBox"`, `"Blue Essence"`, `"Blue Water"`,  `"Flat Map"`,  `"Light Monochrome"`,  `"Midnight Commander"`,  `"Unsaturated Browns"`.  
 - `autoCenter`: `Boolean`: is the property which decides whether to change center of map according to result or not.
@@ -101,7 +101,7 @@ and `ReactiveMap` to set appbase configuration
 ### ListResult
 ``` javascript    
 <ListResult
-  markerOnIndex={this.markerOnIndex}
+  onData={this.onData}
   requestSize={50}
   depends={{
     CitySensor: {"operation": "must"},
@@ -112,7 +112,7 @@ and `ReactiveMap` to set appbase configuration
 />
 ```    
 
-- `markerOnIndex`is the event which is fired whenever query result is received. The event contains the result and this can be used to set the markup for result.
+- `onData`is the event which is fired whenever query result is received. The event contains the result and this can be used to set the markup for result.
 - `requestSize`: `number`: is the property which sets the size parameter while building the query. `ListResult` provides the infinite scrolling which means whenever scroll reach at the bottom it will build the next query for the further data with same request size. 
 - `depends`: `object`: is the property where user can specify the dependency on sensors.
 

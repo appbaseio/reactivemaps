@@ -9,8 +9,7 @@ var dir_path = './';
 var files = {
     css: {
         vendor: [
-            dir_path+'bower_components/bootstrap/dist/css/bootstrap.min.css',
-            dir_path+'bower_components/owl.carousel/dist/assets/owl.carousel.min.css'
+            dir_path+'bower_components/bootstrap/dist/css/bootstrap.min.css'
         ],
         custom: [dir_path+'assets/css/*.css'],
         sassFile: [dir_path+'assets/styles/*.scss']
@@ -18,8 +17,7 @@ var files = {
     js: {
         vendor: [
             dir_path+'bower_components/jquery/dist/jquery.min.js',
-            dir_path+'bower_components/bootstrap/dist/js/bootstrap.min.js',
-            dir_path+'bower_components/owl.carousel/dist/owl.carousel.min.js'
+            dir_path+'bower_components/bootstrap/dist/js/bootstrap.min.js'
         ],
         custom: [
         ]
@@ -68,27 +66,28 @@ gulp.task('moveCss', function() {
         .pipe(gulp.dest(dir_path+'dist/css'));
 });
 
-gulp.task('moveFonts', ['moveCustomFonts', 'moveOwl'], function() {
+gulp.task('moveFonts', ['moveCustomFonts'], function() {
     return gulp.src([dir_path+'bower_components/bootstrap/dist/fonts/*'])
         .pipe(gulp.dest(dir_path+'dist/fonts'));
 });
 
 gulp.task('moveCustomFonts', function() {
-    return gulp.src([dir_path+'assets/styles/fonts/**/*'])
+    return gulp.src(['./assets/styles/fonts/**/*'])
         .pipe(gulp.dest(dir_path+'dist/fonts'));
 });
 
-gulp.task('moveOwl', function() {
-    return gulp.src([dir_path+'bower_components/owl.carousel/dist/assets/**/*'])
-        .pipe(gulp.dest(dir_path+'dist/js/assets'));
+gulp.task('moveImages', function() {
+	return gulp.src([dir_path+'assets/images/*'])
+		.pipe(gulp.dest('dist/images'));
 });
 
 gulp.task('compact', ['sass',
-    'customcss', 
-    'vendorcss', 
-    'vendorjs', 
-    'moveCss', 
-    'moveFonts'
+    'customcss',
+    'vendorcss',
+    'vendorjs',
+    'moveCss',
+    'moveFonts',
+    'moveImages'
 ]);
 
 gulp.task('watchfiles', function() {

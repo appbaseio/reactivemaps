@@ -1,9 +1,6 @@
 import { default as React, Component } from 'react';
-import { render } from 'react-dom';
-import {ItemCheckboxList} from './ItemCheckboxList.js';
-import {
-	AppbaseSensorHelper
-} from '@appbaseio/reactivebase';
+import { ItemCheckboxList } from './ItemCheckboxList.js';
+import { AppbaseSensorHelper } from '@appbaseio/reactivebase';
 
 export class SearchAsMove extends Component {
 	constructor(props, context) {
@@ -14,6 +11,7 @@ export class SearchAsMove extends Component {
 		this.handleSelect = this.handleSelect.bind(this);
 		this.handleRemove = this.handleRemove.bind(this);
 	}
+
 	componentDidMount() {
 		this.setState({
 			items: [{
@@ -26,14 +24,17 @@ export class SearchAsMove extends Component {
 			this.handleSelect(this.props.searchAsMoveDefault);
 		}
 	}
+
 	// Handler function when a value is selected
 	handleSelect(value) {
 		let flag = value === true ? true : (value && value.length ? true : false);
 		this.props.searchAsMoveChange(flag);
 	}
+
 	// Handler function when a value is deselected or removed
 	handleRemove(value) {
 	}
+
 	render() {
 		let listComponent;
 		listComponent = <ItemCheckboxList
@@ -42,8 +43,9 @@ export class SearchAsMove extends Component {
 			onSelect={this.handleSelect}
 			onRemove={this.handleRemove}
 			showCount={this.props.showCount} />
+
 		return (
-			<div className="searchAsMove row clearfix">
+			<div className="rmc-checkbox row clearfix">
 				{listComponent}
 			</div>
 		);
@@ -51,8 +53,8 @@ export class SearchAsMove extends Component {
 
 }
 
-SearchAsMove.propTypes = {
-};
+SearchAsMove.propTypes = {};
+
 // Default props value
 SearchAsMove.defaultProps = {
 	fieldName: 'SearchAsMove',

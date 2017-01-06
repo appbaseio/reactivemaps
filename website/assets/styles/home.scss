@@ -4,7 +4,15 @@ html, body {
 	font-size: 18px;
 	color: $font-color;
 	font-family: $font-light;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	-moz-osx-font-smoothing: grayscale;
+	-moz-font-feature-settings: "liga" on;
+	@media screen and (max-width: 768px) {
+		font-size: 14px;
+	}
 }
+
 section {
 	padding: 60px 0;
 	.section-head {
@@ -13,24 +21,61 @@ section {
 			font-family: $font-semi-bold;
 			margin: 0;
 			padding-bottom: 5px;
-			font-size: 2em;
+			font-size: 2rem;
 		}
 	}
 }
+
 #top {
-	background: $primary-color;
+	padding-top: 120px;
+	background-color: $primary-color;
+	background-image: url('../images/bg.png');
+	background-size: cover;
+	background-position: center center;
 	color: #fff;
-	.website-title {
-		font-size: 4em;
-		margin: 0 0 30px 0;
-		font-family: $font-bold;
+
+	.row {
+		max-width: 1200px;
+		margin: 0 auto;
 	}
+
+	.landing-section {
+		padding: 40px 15px;
+	}
+
+	.install-section {
+		padding-bottom: 0;
+	}
+
+	.website-title {
+		font-size: 5.4rem;
+		line-height: 100%;
+		margin: 0 0 24px;
+		font-family: $font-black;
+	}
+
+	p {
+		font-size: 1.5rem;
+		font-family: $font-light;
+	}
+
 	.star-frame {
 		padding-left: 60px;
+		.github-btn-large .gh-btn, .github-btn-large .gh-count {
+			font-size: 2rem;
+		}
+	}
+
+	@media screen and (max-width: 768px) {
+		.landing-content {
+			text-align: center;
+		}
 	}
 }
+
 #features {
 	background: #fff;
+
 	.feature {
 		.img-container {
 			height: 200px;
@@ -40,56 +85,67 @@ section {
 			}
 		}
 		.description {
-			margin-top: 20px;
+			font-size: 1.5rem;
+			max-width: 280px;
+			padding: 5px 15px;
+			margin: 20px auto;
 		}
 	}
 }
-#choose-map {
-	background: $light-color;
-	.owl-container {
-		position: relative;
-		padding: 0 65px;
-		margin: 30px 0;
-		.img-container {
-			display: flex;
-			height: 400px;
-		}
-		.owl-item.active.center {
-			border: 5px solid $yellow-color;
-			padding: 5px;
-		}
-		.owl-custom-nav {
-			background: $yellow-color;
-			color: #fff;
-			position: absolute;
-			height: 100%;
-			width: 50px;
-			top: 0;
-			z-index: 50;
-			display: flex;
-			border: 0;
-			&.left-nav {
-				left: 0;
-			}
-			&.right-nav {
-				right: 0;
-			}
-			i {
-				margin: auto;
-				font-size: 2em;
+
+#ui-components {
+	background: $secondary-color;
+	color: #fff;
+
+	.container {
+		width: 95%;
+		max-width: 1250px;
+	}
+
+	.section-head .title {
+		color: #fff;
+	}
+
+	img {
+		width: 92%;
+		margin-bottom: 30px;
+	}
+
+	.small {
+		margin-bottom: 20px;
+		img {
+			width: calc(33.33% - 28px);
+			&:nth-child(2) {
+				margin: 0 15px 30px;
 			}
 		}
 	}
 }
+
 #use-cases {
 	.tab-container {
 		margin: 30px 0;
-		.tab-text {
-			.title {
-				font-family: $font-semi-bold;
+		.tab-content {
+			padding: 0 30px;
+			.tab-text {
+				padding-bottom: 10px;
+				.title {
+					margin-top: 0;
+					font-size: 1.5rem;
+					font-family: $font-semi-bold;
+				}
 			}
-		}
-		.tab-img {
+			.img-container {
+				img {
+					max-height: 100%;
+				}
+			}
+			@media screen and (max-width: 768px) {
+				padding: 0;
+				.img-container {
+					padding: 15px;
+				}
+			}
 		}
 		.nav-tabs {
 			border: 0;
@@ -127,6 +183,7 @@ section {
 	background: $primary-color;
 	color: #fff;
 	h2 {
+		font-size: 2rem;
 		font-family: $font-semi-bold;
 	}
 }
@@ -137,13 +194,15 @@ footer {
 		color: #fff;
 	}
 }
+
 .theme-btn {
 	background: $yellow-color;
 	color: #fff;
 	text-transform: uppercase;
-	font-size: 1.2em;
-	padding: 0.6em 2.5em;
-	font-family: $font-semi-bold;
+	font-size: 1em;
+	padding: 0.72em 3.8em;
+	border-radius: 8px;
+	font-family: $font-bold;
 	&.theme-btn-inverse {
 		background: $font-color;
 		color: $yellow-color;
@@ -184,4 +243,13 @@ footer {
 }
 .m-b-4 {
 	margin-bottom: 60px;
+}
+.flex-box {
+	display: flex;
+	.flex-center {
+		margin: auto;
+	}
+	@media screen and (max-width: 768px) {
+		display: block;
+	}
 }

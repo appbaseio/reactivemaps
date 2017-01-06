@@ -99,7 +99,7 @@ class Main extends Component {
 							title="Reactive Maps"
 							showPopoverOn = "onClick"
 							popoverContent = {this.popoverContent}
-							markerOnIndex = {this.markerOnIndex}
+							onData = {this.onData}
 							onIdle={this.onIdle}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
