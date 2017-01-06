@@ -4,6 +4,7 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var minifyCSS = require('gulp-minify-css');
 var rename = require("gulp-rename");
+var fileinclude = require('gulp-file-include');
 var dir_path = './';
 
 var files = {
@@ -12,7 +13,8 @@ var files = {
             dir_path+'bower_components/bootstrap/dist/css/bootstrap.min.css'
         ],
         custom: [dir_path+'assets/css/*.css'],
-        sassFile: [dir_path+'assets/styles/*.scss']
+        sassFile: [dir_path+'assets/styles/*.scss'],
+        sassPartials: [dir_path+'assets/styles/partials/**/*.scss']
     },
     js: {
         vendor: [
@@ -21,8 +23,25 @@ var files = {
         ],
         custom: [
         ]
+    },
+    html: {
+        pages: [
+            './pages/*.html'
+        ],
+        include: [
+            './partials/*.html'
+        ]
     }
 };
+
+gulp.task('fileinclude', function() {
+    gulp.src(files.html.pages)
+        .pipe(fileinclude({
+            prefix: '@@',
+            basepath: '@file'
+        }))
+        .pipe(gulp.dest('./'));
+});
 
 gulp.task('vendorcss', function() {
     return gulp.src(files.css.vendor)
@@ -30,11 +49,17 @@ gulp.task('vendorcss', function() {
         .pipe(gulp.dest(dir_path+'dist/css'));
 });
 
-gulp.task('customcss', function() {
+gulp.task('customcss', ['sass'], function() {
     return gulp.src(files.css.custom)
         .pipe(minifyCSS())
         .pipe(concat('style.min.css'))
         .pipe(gulp.dest(dir_path+'dist/css'));
+});
+
+gulp.task('sass', function() {
+    return gulp.src(files.css.sassFile)
+        .pipe(sass.sync().on('error', sass.logError))
+        .pipe(gulp.dest(dir_path+'assets/css'));
 });
 
 gulp.task('vendorjs', function() {
@@ -72,7 +97,7 @@ gulp.task('moveFonts', ['moveCustomFonts'], function() {
 });
 
 gulp.task('moveCustomFonts', function() {
-    return gulp.src([dir_path+'assets/styles/fonts/**/*'])
+    return gulp.src(['./assets/styles/fonts/**/*'])
         .pipe(gulp.dest(dir_path+'dist/fonts'));
 });
 
@@ -81,21 +106,29 @@ gulp.task('moveImages', function() {
 		.pipe(gulp.dest('dist/images'));
 });
 
+
+gulp.task('watchSassPartials', function() {
+    gulp.watch(files.css.sassPartials, ['customcss']);
+});
+
 gulp.task('compact', ['sass',
     'customcss',
     'vendorcss',
     'vendorjs',
     'moveCss',
     'moveFonts',
-    'moveImages'
+    'moveImages',
+    'fileinclude'
 ]);
 
 gulp.task('watchfiles', function() {
     gulp.watch(files.js.admin_custom, ['admin_customjs']);
     gulp.watch(files.css.custom, ['customcss']);
     gulp.watch(files.css.sassFile, ['sass']);
+    gulp.watch(files.html.include, ['fileinclude']);
+    gulp.watch(files.html.pages, ['fileinclude']);
 });
 
 gulp.task('default', ['compact']);
 
-gulp.task('watch', ['compact', 'watchfiles']);
+gulp.task('watch', ['compact', 'watchfiles', 'watchSassPartials']);
