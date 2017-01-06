@@ -10,14 +10,22 @@ $componentBg: rgba(255,255,255,0.9);
 		height: 100%;
 	}
 
+	.rmc-list-container {
+		.row {
+			margin-bottom: 0;
+		}
+	}
+
 	.rmc-title {
 		position: absolute;
-		top: 10px;
+		top: 11px;
 		left: 110px;
 		margin: 0;
 		z-index: 4;
 		background: #fff;
 		display: inline-block;
+		box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;
+		padding: 10px 14px;
 		width: auto;
 		border-radius: 2px;
 		font-size: 16px;
@@ -28,18 +36,20 @@ $componentBg: rgba(255,255,255,0.9);
 	.rmc-checkbox {
 		position: absolute;
 		left: 10px;
-		bottom: 15px;
+		bottom: 45px;
 		padding: 5px;
 		border-radius: 2px;
+		box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;
 		background: $componentBg;
 
-		.checkbox-item {
-			padding: 5px 10px;
+		.rmc-checkbox-item {
+			padding: 5px 0;
 			max-height: 34px;
 
 			label {
 				color: $dark-grey;
 				font-weight: normal;
+				line-height: 22px;
 			}
 		}
 	}

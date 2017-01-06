@@ -155,9 +155,13 @@ export class ItemCheckboxList extends Component {
 		}
 		return (
 			<div className="rmc-list-container col s12 col-xs-12">
-				<div className="row">
-					{TagItemsArray}
-				</div>
+				{
+					TagItemsArray.length ?
+					<div className="row">
+						{TagItemsArray}
+					</div> :
+					null
+				}
 				<div className="row">
 					{ListItemsArray}
 				</div>
@@ -208,7 +212,7 @@ class ListItem extends Component {
 			count = <span> ({this.props.doc_count}) </span>;
 		}
 		return (
-			<div onClick={this.handleClick.bind(this) } className="rmc-list-item checkbox-item col s12 col-xs-12">
+			<div onClick={this.handleClick.bind(this) } className="rmc-list-item rmc-checkbox-item col s12 col-xs-12">
 				<input type="checkbox"
 					checked={this.state.status}
 					onChange={this.handleCheckboxChange.bind(this) } />
