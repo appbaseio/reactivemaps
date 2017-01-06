@@ -12,6 +12,9 @@ $(document).ready(function() {
 		}
 	};
 	function handleResponsive() {
+		$('.tab-pane .img-container').css({
+			'height': 'auto'
+		});
 		var tabHeight = $('.tab-pane.fade.in .img-container').height();
 		$('.tab-pane .img-container').css({
 			'height': tabHeight
