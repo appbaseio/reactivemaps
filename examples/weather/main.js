@@ -127,7 +127,7 @@ class Main extends Component {
 							searchComponent="appbase"
 							searchField={this.props.mapping.venue}
 							mapStyle={this.props.mapStyle}
-							markerOnIndex={this.onData}
+							onData={this.onData}
 							autoCenter={false}
 							size={100}
 							searchAsMoveComponent={true}
