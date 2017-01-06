@@ -208,6 +208,7 @@ section {
   background: #5677FC;
   color: #fff; }
   #footer h2, footer h2 {
+    font-size: 2rem;
     font-family: "Source Sans Pro Semi Bold"; }
 
 footer {
