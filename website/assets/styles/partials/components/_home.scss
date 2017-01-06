@@ -1,5 +1,3 @@
-@import "variables.scss";
-
 html, body {
 	font-size: 18px;
 	color: $font-color;
@@ -43,7 +41,7 @@ section {
 		padding: 40px 15px;
 	}
 
-	.install-section {
+	.last-section {
 		padding-bottom: 0;
 	}
 
@@ -75,7 +73,6 @@ section {
 
 #features {
 	background: #fff;
-
 	.feature {
 		.img-container {
 			height: 200px;
@@ -84,8 +81,12 @@ section {
 				margin: auto;
 			}
 		}
-		.description {
+		.title {
 			font-size: 1.5rem;
+			font-family: $font-semi-bold;
+		}
+		.description {
+			font-size: 1.2rem;
 			max-width: 280px;
 			padding: 5px 15px;
 			margin: 20px auto;
@@ -138,6 +139,7 @@ section {
 			.img-container {
 				img {
 					max-height: 100%;
+					margin: 0 auto;
 				}
 			}
 			@media screen and (max-width: 768px) {
@@ -188,10 +190,12 @@ section {
 	}
 }
 footer {
-	padding-bottom: 15px;
+	padding: 15px 0;
 	color: #fff;
-	.footer-link {
+	.footer-link, .navbar-nav>li>a {
 		color: #fff;
+		padding: 10px 15px;
+		line-height: 20px;
 	}
 }
 
@@ -200,9 +204,14 @@ footer {
 	color: #fff;
 	text-transform: uppercase;
 	font-size: 1em;
-	padding: 0.72em 3.8em;
+	padding: 0.72em 40px;
 	border-radius: 8px;
-	font-family: $font-bold;
+	font-family: $font-semi-bold;
+	border: 0;
+	outline: none;
+	&:active, &:focus, &:hover {
+		color: $primary-color !important;
+	}
 	&.theme-btn-inverse {
 		background: $font-color;
 		color: $yellow-color;

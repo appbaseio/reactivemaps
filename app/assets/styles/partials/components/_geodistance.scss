@@ -13,4 +13,8 @@
 		-o-transition: none;
 		transition: none;
 	}
+
+	&.rmc-title-inactive {
+		padding-top: 25px;
+	}
 }

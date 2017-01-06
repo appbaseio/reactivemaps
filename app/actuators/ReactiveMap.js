@@ -4,6 +4,7 @@ import InfoBox from 'react-google-maps/lib/addons/InfoBox';
 import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerClusterer";
 import { SearchAsMove } from '../addons/SearchAsMove';
 import { MapStyles, mapStylesCollection } from '../addons/MapStyles';
+import classNames from 'classnames';
 import {
 	DataSearch,
 	AppbaseChannelManager as manager,
@@ -505,7 +506,7 @@ export class ReactiveMap extends Component {
 	render() {
 		var self = this;
 		var markerComponent, searchComponent, searchAsMoveComponent, MapStylesComponent;
-		let appbaseSearch, titleExists, title = null;
+		let appbaseSearch, title = null;
 		var searchComponentProps = {};
 		var otherOptions;
 		var generatedMarkers = this.generateMarkers();
@@ -543,61 +544,65 @@ export class ReactiveMap extends Component {
 		}
 		// include title if exists
 		if(this.props.title) {
-			titleExists = true;
 			title = (<h4 className="rmc-title col s12 m8 col-xs-12 col-sm-8">{this.props.title}</h4>);
 		}
 
-	return(
-		<div className="rmc rmc-reactivemap col s12 col-xs-12 card thumbnail">
-			{title}
-			<span className="col s12 m4 col-xs-12 col-sm-4">
-				{MapStylesComponent}
-			</span>
-			<GoogleMapLoader
-				containerElement={
-					<div className="rmc-container col s12 col-xs-12"  style={this.props.containerStyle} />
-				}
-				googleMapElement={
-					<GoogleMap ref = "map"
-						options = {{
-							styles: this.state.currentMapStyle
-						}}
-						{...searchComponentProps}
-						{...this.props}
-							onDragstart = {() => {
-								this.handleOnDrage()
-								this.mapEvents('onDragstart');
+		let cx = classNames({
+			'rmc-title-active': this.props.title,
+			'rmc-title-inactive': !this.props.title
+		});
+
+		return(
+			<div className={`rmc rmc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`}>
+				{title}
+				<span className="col s12 m4 col-xs-12 col-sm-4">
+					{MapStylesComponent}
+				</span>
+				<GoogleMapLoader
+					containerElement={
+						<div className="rmc-container col s12 col-xs-12"  style={this.props.containerStyle} />
+					}
+					googleMapElement={
+						<GoogleMap ref = "map"
+							options = {{
+								styles: this.state.currentMapStyle
+							}}
+							{...searchComponentProps}
+							{...this.props}
+								onDragstart = {() => {
+									this.handleOnDrage()
+									this.mapEvents('onDragstart');
+								}
 							}
-						}
-						onIdle = {() => this.handleOnIdle()}
-						onClick = {() => this.mapEvents('onClick')}
-						onDblclick = {() => this.mapEvents('onDblclick')}
-						onDrag = {() => this.mapEvents('onDrag')}
-						onDragend = {() => this.mapEvents('onDragend')}
-						onMousemove = {() => this.mapEvents('onMousemove')}
-						onMouseout = {() => this.mapEvents('onMouseout')}
-						onMouseover = {() => this.mapEvents('onMouseover')}
-						onResize = {() => this.mapEvents('onResize')}
-						onRightclick = {() => this.mapEvents('onRightclick')}
-						onTilesloaded = {() => this.mapEvents('onTilesloaded')}
-						onBoundsChanged = {() => this.mapEvents('onBoundsChanged')}
-						onCenterChanged = {() => this.mapEvents('onCenterChanged')}
-						onProjectionChanged = {() => this.mapEvents('onProjectionChanged')}
-						onTiltChanged = {() => this.mapEvents('onTiltChanged')}
-						onZoomChanged = {() => this.mapEvents('onZoomChanged')}
-					>
-						{searchComponent}
-						{markerComponent}
-						{this.externalData()}
-					</GoogleMap>
-				}
-			/>
-			{searchAsMoveComponent}
-			<div className="col s12 text-center center-align">
-				<img width='200px' height='auto' src="dist/images/logo.png" />
-			</div>
-		</div >
-		)
+							onIdle = {() => this.handleOnIdle()}
+							onClick = {() => this.mapEvents('onClick')}
+							onDblclick = {() => this.mapEvents('onDblclick')}
+							onDrag = {() => this.mapEvents('onDrag')}
+							onDragend = {() => this.mapEvents('onDragend')}
+							onMousemove = {() => this.mapEvents('onMousemove')}
+							onMouseout = {() => this.mapEvents('onMouseout')}
+							onMouseover = {() => this.mapEvents('onMouseover')}
+							onResize = {() => this.mapEvents('onResize')}
+							onRightclick = {() => this.mapEvents('onRightclick')}
+							onTilesloaded = {() => this.mapEvents('onTilesloaded')}
+							onBoundsChanged = {() => this.mapEvents('onBoundsChanged')}
+							onCenterChanged = {() => this.mapEvents('onCenterChanged')}
+							onProjectionChanged = {() => this.mapEvents('onProjectionChanged')}
+							onTiltChanged = {() => this.mapEvents('onTiltChanged')}
+							onZoomChanged = {() => this.mapEvents('onZoomChanged')}
+						>
+							{searchComponent}
+							{markerComponent}
+							{this.externalData()}
+						</GoogleMap>
+					}
+				/>
+				{searchAsMoveComponent}
+				<div className="col s12 text-center center-align">
+					<img width='200px' height='auto' src="dist/images/logo.png" />
+				</div>
+			</div >
+		);
 	}
 }
 

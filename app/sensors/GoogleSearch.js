@@ -3,6 +3,8 @@ import {
 	AppbaseChannelManager as manager,
 	AppbaseSensorHelper as helper
 } from '@appbaseio/reactivebase';
+
+import classNames from 'classnames';
 import axios from 'axios';
 import Select from 'react-select';
 
@@ -175,14 +177,18 @@ export class GoogleSearch extends Component {
 
 	// render
 	render() {
-		let title = null, titleExists = false;
+		let title = null;
 		if(this.props.title) {
-			titleExists = true;
-			title = (<h4 className="rbc-title">{this.props.title}</h4>);
+			title = (<h4 className="rmc-title">{this.props.title}</h4>);
 		}
 
+		let cx = classNames({
+			'rmc-title-active': this.props.title,
+			'rmc-title-inactive': !this.props.title
+		});
+
 		return (
-			<div className={`rbc rbc-googlesearch clearfix card thumbnail col s12 col-xs-12 title-${titleExists}`}>
+			<div className={`rmc rmc-googlesearch clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
 				<div className="row">
 					{title}
 					<div className="col s12 col-xs-12">
