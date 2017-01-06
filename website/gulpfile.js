@@ -12,7 +12,8 @@ var files = {
             dir_path+'bower_components/bootstrap/dist/css/bootstrap.min.css'
         ],
         custom: [dir_path+'assets/css/*.css'],
-        sassFile: [dir_path+'assets/styles/*.scss']
+        sassFile: [dir_path+'assets/styles/*.scss'],
+        sassPartials: [dir_path+'assets/styles/partials/**/*.scss']
     },
     js: {
         vendor: [
@@ -30,11 +31,17 @@ gulp.task('vendorcss', function() {
         .pipe(gulp.dest(dir_path+'dist/css'));
 });
 
-gulp.task('customcss', function() {
+gulp.task('customcss', ['sass'], function() {
     return gulp.src(files.css.custom)
         .pipe(minifyCSS())
         .pipe(concat('style.min.css'))
         .pipe(gulp.dest(dir_path+'dist/css'));
+});
+
+gulp.task('sass', function() {
+    return gulp.src(files.css.sassFile)
+        .pipe(sass.sync().on('error', sass.logError))
+        .pipe(gulp.dest(dir_path+'assets/css'));
 });
 
 gulp.task('vendorjs', function() {
@@ -81,6 +88,11 @@ gulp.task('moveImages', function() {
 		.pipe(gulp.dest('dist/images'));
 });
 
+
+gulp.task('watchSassPartials', function() {
+    gulp.watch(files.css.sassPartials, ['customcss']);
+});
+
 gulp.task('compact', ['sass',
     'customcss',
     'vendorcss',
@@ -98,4 +110,4 @@ gulp.task('watchfiles', function() {
 
 gulp.task('default', ['compact']);
 
-gulp.task('watch', ['compact', 'watchfiles']);
+gulp.task('watch', ['compact', 'watchfiles', 'watchSassPartials']);
