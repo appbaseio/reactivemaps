@@ -72,7 +72,7 @@ gulp.task('moveFonts', ['moveCustomFonts'], function() {
 });
 
 gulp.task('moveCustomFonts', function() {
-    return gulp.src([dir_path+'assets/styles/fonts/**/*'])
+    return gulp.src(['./assets/styles/fonts/**/*'])
         .pipe(gulp.dest(dir_path+'dist/fonts'));
 });
 

@@ -90,6 +90,9 @@ html, body {
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
   -moz-font-feature-settings: "liga" on; }
+  @media screen and (max-width: 768px) {
+    html, body {
+      font-size: 14px; } }
 
 section {
   padding: 60px 0; }
@@ -98,7 +101,7 @@ section {
     font-family: "Source Sans Pro Semi Bold";
     margin: 0;
     padding-bottom: 5px;
-    font-size: 2em; }
+    font-size: 2rem; }
 
 #top {
   padding-top: 120px;
@@ -110,20 +113,25 @@ section {
   #top .row {
     max-width: 1200px;
     margin: 0 auto; }
-  #top .landing-content {
-    padding: 40px 15px;
-    max-width: 380px; }
+  #top .landing-section {
+    padding: 40px 15px; }
+  #top .install-section {
+    padding-bottom: 0; }
   #top .website-title {
-    font-size: 5.4em;
-    letter-spacing: 0.028em;
-    line-height: 0.84em;
+    font-size: 5.4rem;
+    line-height: 100%;
     margin: 0 0 24px;
     font-family: "Source Sans Pro Black"; }
   #top p {
-    font-size: 28px;
+    font-size: 1.5rem;
     font-family: "Source Sans Pro Light"; }
   #top .star-frame {
     padding-left: 60px; }
+    #top .star-frame .github-btn-large .gh-btn, #top .star-frame .github-btn-large .gh-count {
+      font-size: 2rem; }
+  @media screen and (max-width: 768px) {
+    #top .landing-content {
+      text-align: center; } }
 
 #features {
   background: #fff; }
@@ -133,7 +141,7 @@ section {
     #features .feature .img-container img {
       margin: auto; }
   #features .feature .description {
-    font-size: 24px;
+    font-size: 1.5rem;
     max-width: 280px;
     padding: 5px 15px;
     margin: 20px auto; }
@@ -158,8 +166,21 @@ section {
 
 #use-cases .tab-container {
   margin: 30px 0; }
-  #use-cases .tab-container .tab-text .title {
-    font-family: "Source Sans Pro Semi Bold"; }
+  #use-cases .tab-container .tab-content {
+    padding: 0 30px; }
+    #use-cases .tab-container .tab-content .tab-text {
+      padding-bottom: 10px; }
+      #use-cases .tab-container .tab-content .tab-text .title {
+        margin-top: 0;
+        font-size: 1.5rem;
+        font-family: "Source Sans Pro Semi Bold"; }
+    #use-cases .tab-container .tab-content .img-container img {
+      max-height: 100%; }
+    @media screen and (max-width: 768px) {
+      #use-cases .tab-container .tab-content {
+        padding: 0; }
+        #use-cases .tab-container .tab-content .img-container {
+          padding: 15px; } }
   #use-cases .tab-container .nav-tabs {
     border: 0; }
     #use-cases .tab-container .nav-tabs li {
@@ -235,3 +256,11 @@ footer {
 
 .m-b-4 {
   margin-bottom: 60px; }
+
+.flex-box {
+  display: flex; }
+  .flex-box .flex-center {
+    margin: auto; }
+  @media screen and (max-width: 768px) {
+    .flex-box {
+      display: block; } }
