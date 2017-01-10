@@ -8,7 +8,6 @@ class Main extends Component {
 	constructor(props) {
 		super(props);
 		this.eventLists = [
-			'onDragstart',
 			'onClick',
 			'onDblclick',
 			'onDrag',
