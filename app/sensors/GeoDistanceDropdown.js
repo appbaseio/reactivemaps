@@ -205,16 +205,18 @@ export class GeoDistanceDropdown extends Component {
 		let distanceOptions = this.getDistanceOptions();
 
 		if(this.props.title) {
-			title = (<h4 className="rbc-title">{this.props.title}</h4>);
+			title = (<h4 className="rmc-title">{this.props.title}</h4>);
 		}
 
 		let cx = classNames({
 			'rmc-title-active': this.props.title,
-			'rmc-title-inactive': !this.props.title
+			'rmc-title-inactive': !this.props.title,
+			'rmc-placeholder-active': this.props.placeholder,
+			'rmc-placeholder-inactive': !this.props.placeholder
 		});
 
 		return (
-			<div className={`rbc rbc-geodistance clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
+			<div className={`rmc rmc-geodistancedropdown clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
 				<div className="row">
 					{title}
 					<div className="col s12 col-xs-12">

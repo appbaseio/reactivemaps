@@ -139,6 +139,7 @@ class Main extends Component {
 										}
 									}}
 									title="Year"
+									stepValue={1}
 									startThreshold={1900}
 									endThreshold={2016} />
 							</div>

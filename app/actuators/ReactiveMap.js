@@ -1,7 +1,7 @@
 import { default as React, Component } from 'react';
 import { GoogleMapLoader, GoogleMap, Marker, SearchBox, InfoWindow } from "react-google-maps";
 import InfoBox from 'react-google-maps/lib/addons/InfoBox';
-import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerClusterer";
+import MarkerClusterer from "react-google-maps/lib/addons/MarkerClusterer";
 import { SearchAsMove } from '../addons/SearchAsMove';
 import { MapStyles, mapStylesCollection } from '../addons/MapStyles';
 import classNames from 'classnames';
@@ -80,8 +80,8 @@ export class ReactiveMap extends Component {
 		let data = res.data;
 		let rawData, markersData;
 		this.streamFlag = false;
-		if(res.mode === 'stream') {
-			this.channelMethod = 'stream';
+		if(res.mode === 'streaming') {
+			this.channelMethod = 'streaming';
 			let modData = this.streamDataModify(this.state.rawData, res);
 			rawData = modData.rawData;
 			res = modData.res;
