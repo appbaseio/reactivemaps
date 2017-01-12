@@ -8,8 +8,8 @@
     "webpack-server": "webpack-dev-server --hot --inline --progress --colors --port 8012",
     "web-server": "http-server -p 3000 .",
     "start": "cross-env CHOOSE_CONFIG=EXAMPLES && concurrently \"npm run webpack-server\" \"gulp watch\" ",
-    "build": "cross-env NODE_ENV=production && cross-env CHOOSE_CONFIG=EXAMPLES && webpack -p && gulp",
-    "build:lib": "npm run build && cross-env NODE_ENV=production && cross-env CHOOSE_CONFIG=LIB babel app --out-dir lib",
+    "build": "cross-env NODE_ENV=production && cross-env CHOOSE_CONFIG=EXAMPLES && webpack -p --progress && gulp",
+    "build:lib": "gulp && cross-env NODE_ENV=production && cross-env CHOOSE_CONFIG=LIB babel app --out-dir lib",
     "build:umd": "cross-env NODE_ENV=development && webpack --config webpack.config.umd.js app/app.js umd/ReactiveMaps.js",
     "build-bro": "browserify -t [ babelify --presets [ es2015 stage-0 react ] ] main.js -o dist/main.bundle.js"
   },
@@ -26,7 +26,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@appbaseio/reactivebase": "latest",
+    "@appbaseio/reactivebase": "^0.1.2",
     "appbase-js": "^0.10.8",
     "axios": "^0.15.2",
     "babel-preset-stage-0": "^6.5.0",
@@ -65,6 +65,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.1",
     "gulp-uglify": "^1.5.3",
+    "lodash-webpack-plugin": "^0.10.7",
     "react-addons-shallow-compare": "^15.4.2",
     "react-scripts": "^0.7.0",
     "rimraf": "^2.5.4",

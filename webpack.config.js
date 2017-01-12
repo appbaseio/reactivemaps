@@ -179,7 +179,8 @@ switch(CHOOSE_CONFIG) {
 	break;
 	case 'EXAMPLES':
 	default:
-		final_config = examples_config;
+		final_config = examples_config
 	break;
 }
+
 module.exports = final_config;
