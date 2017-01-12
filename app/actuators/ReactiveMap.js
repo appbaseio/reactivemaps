@@ -70,7 +70,7 @@ export class ReactiveMap extends Component {
 			// if queryStartTime of channel response is greater than the previous one only then apply changes
 			if(res.mode === 'historic' && res.startTime > this.queryStartTime) {
 				this.afterChannelResponse(res);
-			} else if(res.mode === 'stream') {
+			} else if(res.mode === 'streaming') {
 				this.afterChannelResponse(res);
 			}
 		}.bind(this));
@@ -520,7 +520,7 @@ export class ReactiveMap extends Component {
 		}
 		// Auto center using markers data
 		var streamCenterFlag = true;
-		if(this.channelMethod === 'stream' && !this.props.streamAutoCenter) {
+		if(this.channelMethod === 'streaming' && !this.props.streamAutoCenter) {
 			streamCenterFlag = false;
 		}
 		if(!this.searchAsMove && this.props.autoCenter && this.reposition && streamCenterFlag) {
