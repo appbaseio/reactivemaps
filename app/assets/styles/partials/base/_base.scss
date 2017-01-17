@@ -7,7 +7,7 @@ body {
 	font-size: 16px;
 	line-height: 22px;
 	font-family: $font-regular;
-	background: $bg-grey;
+	background: $light-grey;
 	
 	@media screen and (max-width: 1024px) {
 		font-size: 14px;
@@ -176,101 +176,6 @@ a {
 	color: $primary-color;
 }
 
-.font-0 {
-	font-size: $font-size-0;
-	line-height: $line-height-0;
-}
-
-.font-1 {
-	font-size: $font-size-1;
-	line-height: $line-height-1;
-}
-
-.font-2 {
-	font-size: $font-size-2;
-	line-height: $line-height-2;
-}
-
-.font-3 {
-	font-size: $font-size-3;
-	line-height: $line-height-3;
-}
-
-.font-3.primary {
-	font-size: $font-size-3;
-	line-height: $line-height-3;
-	color: $primary-color;
-}
-
-.font-4 {
-	font-size: $font-size-4;
-	line-height: $line-height-4;
-}
-
-.font-5 {
-	font-size: $font-size-5;
-	line-height: $line-height-5;
-}
-
-.font-6 {
-	font-size: $font-size-6;
-	line-height: $line-height-6;
-}
-
-.font-7 {
-	font-size: $font-size-7;
-	line-height: $line-height-7;
-}
-
-.font-8 {
-	font-size: $font-size-8;
-	line-height: $line-height-8;
-}
-
-.font-bold {
-	font-family: $font-bold;
-}
-
-.font-semi-bold {
-	font-family: $font-semi-bold;
-}
-
-.font-italic {
-	font-family: $font-italic;
-}
-
-.font-light {
-	font-family: $font-light;
-}
-
-.font-grey {
-	color: $grey;
-}
-
-.font-dark-grey {
-	color: $dark-grey;
-}
-
-.l-s-1 {
-	letter-spacing: 1px;
-}
-
-.l-s-2 {
-	letter-spacing: 2px;
-}
-
-.l-s-3 {
-	letter-spacing: 3px;
-}
-
-.l-s-4 {
-	letter-spacing: 4px;
-}
-
-.l-s-5 {
-	letter-spacing: 5px;
-}
-
 // Others
 .i-b {
 	display: inline-block;
@@ -295,7 +200,7 @@ a {
 
 	.rmc-input {
 		position: relative;
-		background: darken($bg-grey, 2%);
+		background: darken($light-grey, 2%);
 		border: 0;
 		margin: 0;
 		font-weight: bold;
@@ -307,7 +212,7 @@ a {
 			position: absolute;
 			right: 15px;
 			top: 12px;
-			color: $blue;
+			color: $primary-color;
 		}
 	}
 
