@@ -96,6 +96,7 @@ class Main extends Component {
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
+							clearOnEmpty={false}
 							title="Reactive Maps"
 							onIdle={this.onIdle}
 							defaultZoom = {13}
