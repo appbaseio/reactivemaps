@@ -68,10 +68,19 @@ export class ReactiveMap extends Component {
 			// implementation to prevent initialize query issue if old query response is late then the newer query
 			// then we will consider the response of new query and prevent to apply changes for old query response.
 			// if queryStartTime of channel response is greater than the previous one only then apply changes
-			if(res.mode === 'historic' && res.startTime > this.queryStartTime) {
-				this.afterChannelResponse(res);
-			} else if(res.mode === 'streaming') {
-				this.afterChannelResponse(res);
+			if(this.props.clearOnEmpty) {
+				checkAndGo().bind(this);
+			} else {
+				if(data.hits.hits.length) {
+					checkAndGo().bind(this);
+				}
+			}
+			function checkAndGo() {
+				if(res.mode === 'historic' && res.startTime > this.queryStartTime) {
+					this.afterChannelResponse(res);
+				} else if(res.mode === 'streaming') {
+					this.afterChannelResponse(res);
+				}
 			}
 		}.bind(this));
 	}
@@ -618,7 +627,8 @@ ReactiveMap.propTypes = {
 	rotateOnUpdate: React.PropTypes.bool,
 	allowMarkers: React.PropTypes.bool,
 	streamActiveTime: React.PropTypes.number,
-	requestSize: React.PropTypes.number
+	requestSize: React.PropTypes.number,
+	clearOnEmpty: React.PropTypes.bool
 };
 
 ReactiveMap.defaultProps = {
@@ -636,6 +646,7 @@ ReactiveMap.defaultProps = {
 	streamAutoCenter: true,
 	rotateOnUpdate: false,
 	allowMarkers: true,
+	clearOnEmpty: true,
 	historicPin: 'dist/images/historic-pin.png',
 	streamPin: 'dist/images/stream-pin.png',
 	markerOnClick: function() {},
