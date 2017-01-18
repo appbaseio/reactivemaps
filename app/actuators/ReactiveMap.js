@@ -69,10 +69,10 @@ export class ReactiveMap extends Component {
 			// then we will consider the response of new query and prevent to apply changes for old query response.
 			// if queryStartTime of channel response is greater than the previous one only then apply changes
 			if(this.props.clearOnEmpty) {
-				checkAndGo().bind(this);
+				checkAndGo.call(this);
 			} else {
 				if(data.hits.hits.length) {
-					checkAndGo().bind(this);
+					checkAndGo.call(this);
 				}
 			}
 			function checkAndGo() {
