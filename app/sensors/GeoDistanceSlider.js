@@ -203,11 +203,11 @@ export class GeoDistanceSlider extends Component {
 		let title = null, titleExists = false;
 		if(this.props.title) {
 			titleExists = true;
-			title = (<h4 className="rbc-title">{this.props.title}</h4>);
+			title = (<h4 className="rmc-title">{this.props.title}</h4>);
 		}
 
 		return (
-			<div className={`rbc rbc-geodistance clearfix card thumbnail col s12 col-xs-12 title-${titleExists}`}>
+			<div className={`rmc rmc-geodistanceslider clearfix card thumbnail col s12 col-xs-12 title-${titleExists}`}>
 				<div className="row">
 					{title}
 					<div className="col s12 col-xs-12">

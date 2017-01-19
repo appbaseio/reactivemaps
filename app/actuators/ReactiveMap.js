@@ -1,7 +1,7 @@
 import { default as React, Component } from 'react';
 import { GoogleMapLoader, GoogleMap, Marker, SearchBox, InfoWindow } from "react-google-maps";
 import InfoBox from 'react-google-maps/lib/addons/InfoBox';
-import { default as MarkerClusterer } from "react-google-maps/lib/addons/MarkerClusterer";
+import MarkerClusterer from "react-google-maps/lib/addons/MarkerClusterer";
 import { SearchAsMove } from '../addons/SearchAsMove';
 import { MapStyles, mapStylesCollection } from '../addons/MapStyles';
 import classNames from 'classnames';
@@ -68,10 +68,19 @@ export class ReactiveMap extends Component {
 			// implementation to prevent initialize query issue if old query response is late then the newer query
 			// then we will consider the response of new query and prevent to apply changes for old query response.
 			// if queryStartTime of channel response is greater than the previous one only then apply changes
-			if(res.mode === 'historic' && res.startTime > this.queryStartTime) {
-				this.afterChannelResponse(res);
-			} else if(res.mode === 'stream') {
-				this.afterChannelResponse(res);
+			if(this.props.clearOnEmpty) {
+				checkAndGo.call(this);
+			} else {
+				if(data.hits.hits.length) {
+					checkAndGo.call(this);
+				}
+			}
+			function checkAndGo() {
+				if(res.mode === 'historic' && res.startTime > this.queryStartTime) {
+					this.afterChannelResponse(res);
+				} else if(res.mode === 'streaming') {
+					this.afterChannelResponse(res);
+				}
 			}
 		}.bind(this));
 	}
@@ -80,8 +89,8 @@ export class ReactiveMap extends Component {
 		let data = res.data;
 		let rawData, markersData;
 		this.streamFlag = false;
-		if(res.mode === 'stream') {
-			this.channelMethod = 'stream';
+		if(res.mode === 'streaming') {
+			this.channelMethod = 'streaming';
 			let modData = this.streamDataModify(this.state.rawData, res);
 			rawData = modData.rawData;
 			res = modData.res;
@@ -520,7 +529,7 @@ export class ReactiveMap extends Component {
 		}
 		// Auto center using markers data
 		var streamCenterFlag = true;
-		if(this.channelMethod === 'stream' && !this.props.streamAutoCenter) {
+		if(this.channelMethod === 'streaming' && !this.props.streamAutoCenter) {
 			streamCenterFlag = false;
 		}
 		if(!this.searchAsMove && this.props.autoCenter && this.reposition && streamCenterFlag) {
@@ -618,7 +627,8 @@ ReactiveMap.propTypes = {
 	rotateOnUpdate: React.PropTypes.bool,
 	allowMarkers: React.PropTypes.bool,
 	streamActiveTime: React.PropTypes.number,
-	requestSize: React.PropTypes.number
+	requestSize: React.PropTypes.number,
+	clearOnEmpty: React.PropTypes.bool
 };
 
 ReactiveMap.defaultProps = {
@@ -636,6 +646,7 @@ ReactiveMap.defaultProps = {
 	streamAutoCenter: true,
 	rotateOnUpdate: false,
 	allowMarkers: true,
+	clearOnEmpty: true,
 	historicPin: 'dist/images/historic-pin.png',
 	streamPin: 'dist/images/stream-pin.png',
 	markerOnClick: function() {},

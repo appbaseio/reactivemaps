@@ -96,13 +96,12 @@ class Main extends Component {
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
+							clearOnEmpty={false}
 							title="Reactive Maps"
-							showPopoverOn = "onClick"
-							popoverContent = {this.popoverContent}
-							onData = {this.onData}
 							onIdle={this.onIdle}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
+							size={100}
 							depends={{
 								OriginSensor: {"operation": "must", defaultQuery: this.originQuery},
 								DestinationSensor: {"operation": "must", defaultQuery: this.destinationQuery}
