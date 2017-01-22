@@ -86,7 +86,6 @@ class Main extends Component {
 	}
 
 	onData(res) {
-		debugger;
 		let result, combineData = res.currentData;
 		if(res.mode === 'historic') {
 			combineData = res.currentData.concat(res.newData);
