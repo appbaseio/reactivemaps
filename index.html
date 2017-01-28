@@ -1,39 +1,332 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Google map</title>
-	<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC-v0oz7Pay_ltypZbKasABXGiY9NlpCIY&libraries=places"></script>
-	<!-- Compiled and minified CSS -->
-	<link rel="stylesheet" href="dist/css/materialize.min.css" />
-	<link rel="stylesheet" type="text/css" href="dist/css/vendor.min.css" />
-	<link rel="stylesheet" type="text/css" href="dist/css/style.min.css" />
-	<!-- <link rel="stylesheet" type="text/css" href="app/assets/css/UserDefined.css" /> -->
-	<style type="text/css">
-		#searchVenue {
-			position: absolute;
-			right: 34px;
-			top: 54px;
-			width: 250px;
-			z-index: 1;
-		}
-
-		#searchVenue .rbc.rbc-datasearch {
-			margin: 0;
-			padding: 0;
-			box-shadow: rgba(0,0,0,.298039) 0 1px 4px -1px;
-			border-radius: 2px;
-		}
-	</style>
-	<!-- Compiled and minified JavaScript -->
-	<script type="text/javascript" src="dist/js/vendor.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+	<meta name="theme-color" content="#2196F3">
+	<title>Reactive Maps - Appbase.io</title>
+	<link href="website/dist/css/vendor.min.css" type="text/css" rel="stylesheet">
+	<link href="website/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link href="website/dist/css/style.min.css" type="text/css" rel="stylesheet">
 </head>
 
-<body>
-	<div id="map"  class="container-fluid"></div>
-	<script src="dist/main.bundle.js"></script>
+<body id="home">
+	<!-- top section START -->
+	<section id="top" class="container-fluid">
+		<!-- Navigation START -->
+		<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">
+				<img src="website/assets/images/reactive-logo.png" alt="Icon" />
+			</a>
+		</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="#">Guide <span class="sr-only">(current)</span></a></li>
+				<li><a href="#">API</a></li>
+				<li><a href="#">Examples</a></li>
+				<li><a href="#">Blog</a></li>
+				<li><a href="#">Github</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+		<!-- Navigation END -->
+		<div class="container">
+			<div class="row flex-box">
+				<div class="col-xs-12 col-sm-5 flex-center">
+					<div class="landing-content landing-section">
+						<h1 class="website-title m-b-2">Reactive Maps</h1>
+						<div class="description">
+							<p>
+								A data components library for<br /> building reactive map UIs.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-7 flex-center landing-section">
+					<img width="100%" src="website/assets/images/landing.gif" alt="Reactive Maps">
+				</div>
+			</div>
+			<div class="row text-center landing-section last-section">
+				<div class="install-row  m-b-2">
+					<a href="#" class="btn theme-btn">Install</a>
+				</div>
+				<div class="star-frame">
+					<iframe src="https://ghbtns.com/github-btn.html?user=appbaseio&repo=reactivemaps&type=star&count=true&size=large" frameBorder="0" scrolling="0" width="160px" height="30px"></iframe>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- top section END -->
+	<!-- features section START -->
+	<section id="features" class="container-fluid">
+		<div class="container">
+			<div class="row text-center">
+				<!-- feature START -->
+				<div class="col-xs-12 col-sm-4 feature">
+					<div class="img-container">
+						<img src="website/assets/images/Icons/RM_icon_1.svg" class="img-responsive" alt="Icon" />
+					</div>
+					<div>
+						<p class="description">
+							Everything is a Component
+						</p>
+					</div>
+				</div>
+				<!-- feature END -->
+				<!-- feature START -->
+				<div class="col-xs-12 col-sm-4 feature">
+					<div class="img-container">
+						<img src="website/assets/images/Icons/RM_icon_2.svg" class="img-responsive" alt="Icon" />
+					</div>
+					<div>
+						<p class="description">
+							Define data dependencies inside the components
+						</p>
+					</div>
+				</div>
+				<!-- feature END -->
+				<!-- feature START -->
+				<div class="col-xs-12 col-sm-4 feature">
+					<div class="img-container">
+						<img src="website/assets/images/Icons/RM_icon_3.svg" class="img-responsive" alt="Icon" />
+					</div>
+					<div>
+						<p class="description">
+							Works with dozens of maps layouts and your favorite UI libraries
+						</p>
+					</div>
+				</div>
+				<!-- feature END -->
+			</div>
+		</div>
+	</section>
+	<!-- features section END -->
+	<!-- choose a map section START -->
+	<section id="ui-components" class="container-fluid">
+		<div class="container">
+			<div class="row text-center m-b-2">
+				<div class="section-head col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+					<h2 class="title">
+						UI Components
+					</h2>
+					<p class="description">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit.<br /> Impedit facere perferendis rem, corporis maxime quo illo.
+					</p>
+				</div>
+			</div>
+			<div class="row text-center">
+				<div class="col-xs-6 col-sm-3">
+					<img src="website/assets/images/ui/UI_icon-34.png" alt="ReactiveMap UI Component">
+					<img src="website/assets/images/ui/UI_icon-35.png" alt="ReactiveMap UI Component">
+					<img src="website/assets/images/ui/UI_icon-36.png" alt="ReactiveMap UI Component">
+				</div>
+				<div class="col-xs-6 col-sm-6">
+					<img src="website/assets/images/ui/UI_icon-46.png" alt="ReactiveMap UI Component">
+					<div class="small">
+						<img src="website/assets/images/ui/UI_icon-37.png" alt="ReactiveMap UI Component">
+						<img src="website/assets/images/ui/UI_icon-38.png" alt="ReactiveMap UI Component">
+						<img src="website/assets/images/ui/UI_icon-39.png" alt="ReactiveMap UI Component">
+					</div>
+					<img src="website/assets/images/ui/UI_icon-40.png" alt="ReactiveMap UI Component">
+					<img src="website/assets/images/ui/UI_icon-41.png" alt="ReactiveMap UI Component">
+				</div>
+				<div class="col-xs-6 col-sm-3">
+					<img src="website/assets/images/ui/UI_icon-45.png" alt="ReactiveMap UI Component">
+					<img src="website/assets/images/ui/UI_icon-44.png" alt="ReactiveMap UI Component">
+					<img src="website/assets/images/ui/UI_icon-43.png" alt="ReactiveMap UI Component">
+					<img src="website/assets/images/ui/UI_icon-42.png" alt="ReactiveMap UI Component">
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- choose map section END -->
+	<!-- use cases section START -->
+	<section id="use-cases" class="container-fluid">
+		<div class="container">
+			<div class="row text-center">
+				<div class="section-head col-xs-12 col-sm-8 col-md-6 col-md-offset-3 col-sm-offset-2 text-center">
+					<h2 class="title">
+						Use-cases
+					</h2>
+					<p class="description">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit.<br /> Impedit facere perferendis rem, corporis maxime quo illo.
+					</p>
+				</div>
+			</div>
+			<div class="row tab-container">
+				<!-- Tab panes -->
+				<div class="tab-content clearfix">
+					<!-- mapbox start -->
+					<div role="tabpanel" class="tab-pane fade active in" id="mapbox">
+						<div class="row demo-container-block">
+							<div class="img-container tab-img col-xs-12 col-sm-7">
+								<img src="website/assets/images/Use-Cases/ReactiveMaps_UI-22.png" alt="image" class="img-responsive" />
+							</div>
+							<div class="col-xs-12 col-sm-5 tab-text">
+								<h2 class="title">
+								Mapbox
+							</h2>
+								<p class="description">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit minus magni ratione molestias. Tempora, eum! Error deleniti ullam consequuntur itaque dignissimos repellat libero consectetur quod, sunt officia iure. Maiores, vitae.
+								</p>
+							</div>
+						</div>
+					</div>
+					<!-- mapbox end -->
+					<!-- blueessence start -->
+					<div role="tabpanel" class="tab-pane" id="blueessence">
+						<div class="row demo-container-block">
+							<div class="img-container tab-img col-xs-12 col-sm-7">
+								<img src="assets/images/Use-Cases/ReactiveMaps_Use-case-15.png" alt="image" class="img-responsive" />
+							</div>
+							<div class="col-xs-12 col-sm-5 tab-text">
+								<h2 class="title">
+								Blue essence
+							</h2>
+								<p class="description">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit minus magni ratione molestias. Tempora, eum! Error deleniti ullam consequuntur itaque dignissimos repellat libero consectetur quod, sunt officia iure. Maiores, vitae.
+								</p>
+							</div>
+						</div>
+					</div>
+					<!-- blueessence end -->
+					<!-- bluewater start -->
+					<div role="tabpanel" class="tab-pane" id="bluewater">
+						<div class="row demo-container-block">
+							<div class="img-container tab-img col-xs-12 col-sm-7">
+								<img src="website/assets/images/Use-Cases/Use-case-19.png" alt="image" class="img-responsive" />
+							</div>
+							<div class="col-xs-12 col-sm-5 tab-text">
+								<h2 class="title">
+								Blue water
+							</h2>
+								<p class="description">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit minus magni ratione molestias. Tempora, eum! Error deleniti ullam consequuntur itaque dignissimos repellat libero consectetur quod, sunt officia iure. Maiores, vitae.
+								</p>
+							</div>
+						</div>
+					</div>
+					<!-- bluewater end -->
+					<!-- flatmap start -->
+					<div role="tabpanel" class="tab-pane" id="flatmap">
+						<div class="row demo-container-block">
+							<div class="img-container tab-img col-xs-12 col-sm-7">
+								<img src="website/assets/images/Use-Cases/ReactiveMaps_Use-case-15.png" alt="image" class="img-responsive" />
+							</div>
+							<div class="col-xs-12 col-sm-5 tab-text">
+								<h2 class="title">
+								flatmap
+							</h2>
+								<p class="description">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit minus magni ratione molestias. Tempora, eum! Error deleniti ullam consequuntur itaque dignissimos repellat libero consectetur quod, sunt officia iure. Maiores, vitae.
+								</p>
+							</div>
+						</div>
+					</div>
+					<!-- flatmap end -->
+					<!-- lightmonochrome start -->
+					<div role="tabpanel" class="tab-pane" id="lightmonochrome">
+						<div class="row demo-container-block">
+							<div class="img-container tab-img col-xs-12 col-sm-7">
+								<img src="website/assets/images/Use-Cases/ReactiveMaps_UI-22.png" alt="image" class="img-responsive" />
+							</div>
+							<div class="col-xs-12 col-sm-5 tab-text">
+								<h2 class="title">
+								lightmonochrome
+							</h2>
+								<p class="description">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit minus magni ratione molestias. Tempora, eum! Error deleniti ullam consequuntur itaque dignissimos repellat libero consectetur quod, sunt officia iure. Maiores, vitae.
+								</p>
+							</div>
+						</div>
+					</div>
+					<!-- lightmonochrome end -->
+					<!-- midnightcommander start -->
+					<div role="tabpanel" class="tab-pane" id="midnightcommander">
+						<div class="row demo-container-block">
+							<div class="img-container tab-img col-xs-12 col-sm-7">
+								<img src="website/assets/images/Use-Cases/Use-case-19.png" alt="image" class="img-responsive" />
+							</div>
+							<div class="col-xs-12 col-sm-5 tab-text">
+								<h2 class="title">
+								midnightcommander
+							</h2>
+								<p class="description">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit minus magni ratione molestias. Tempora, eum! Error deleniti ullam consequuntur itaque dignissimos repellat libero consectetur quod, sunt officia iure. Maiores, vitae.
+								</p>
+							</div>
+						</div>
+					</div>
+					<!-- midnightcommander end -->
+				</div>
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active col-xs-12 col-sm-2 text-center">
+						<a href="#mapbox" aria-controls="mapbox" role="tab" data-toggle="tab">mapbox</a>
+					</li>
+					<li role="presentation" class=" col-xs-12 col-sm-2 text-center">
+						<a href="#blueessence" aria-controls="blueessence" role="tab" data-toggle="tab">Blue Essence</a>
+					</li>
+					<li role="presentation" class="col-xs-12 col-sm-2 text-center">
+						<a href="#bluewater" aria-controls="messages" role="tab" data-toggle="tab">Blue Water</a>
+					</li>
+					<li role="presentation" class=" col-xs-12 col-sm-2 text-center">
+						<a href="#flatmap" aria-controls="flatmap" role="tab" data-toggle="tab">Flat Map</a>
+					</li>
+					<li role="presentation" class=" col-xs-12 col-sm-2 text-center">
+						<a href="#lightmonochrome" aria-controls="lightmonochrome" role="tab" data-toggle="tab">Light Monochrome</a>
+					</li>
+					<li role="presentation" class="col-xs-12 col-sm-2  text-center">
+						<a href="#midnightcommander" aria-controls="midnightcommander" role="tab" data-toggle="tab">Midnight Commander</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<!-- choose map section END -->
+	<!-- footer section START -->
+	<section id="footer" class="container-fluid">
+		<div class="container">
+			<div class="row text-center">
+				<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+					<h2 class="m-b-2">
+						Lorem ipsum dolor sit amet,<br /> consectetur adipisicing elit.
+					</h2>
+					<div>
+						<a href="#" class="btn theme-btn">GET STARTED</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- footer section END -->
+	<footer class="container-fluid">
+	<div class="row">
+		<div class="col-xs-12">
+			<ul class="nav navbar-nav navbar-left">
+				<li><a href="#">Documentation</a></li>
+				<li><a href="#">Support</a></li>
+			</ul>
+			<a href="#" class="pull-right footer-link">
+				Made with <i class="fa fa-heart"></i> by appbase.io
+			</a>
+		</div>
+	</div>
+</footer>
+	<!--  Scripts-->
+	<script src="website/dist/js/vendor.min.js"></script>
+	<script src="website/assets/js/app.js"></script>
 </body>
 
 </html>

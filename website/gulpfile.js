@@ -40,7 +40,7 @@ gulp.task('fileinclude', function() {
             prefix: '@@',
             basepath: '@file'
         }))
-        .pipe(gulp.dest('./'));
+        .pipe(gulp.dest('../'));
 });
 
 gulp.task('vendorcss', function() {

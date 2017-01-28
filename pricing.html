@@ -15,7 +15,31 @@
 	<!-- top section START -->
 	<section id="top" class="container-fluid">
 		<!-- Navigation START -->
-		@@include('../partials/nav.html')
+		<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">
+				<img src="website/assets/images/reactive-logo.png" alt="Icon" />
+			</a>
+		</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="#">Guide <span class="sr-only">(current)</span></a></li>
+				<li><a href="#">API</a></li>
+				<li><a href="#">Examples</a></li>
+				<li><a href="#">Blog</a></li>
+				<li><a href="#">Github</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
 		<!-- Navigation END -->
 		<div class="container">
 			<div class="row">
@@ -414,7 +438,19 @@
 		</div>
 	</section>
 	<!-- faq END -->
-	@@include('../partials/footer.html')
+	<footer class="container-fluid">
+	<div class="row">
+		<div class="col-xs-12">
+			<ul class="nav navbar-nav navbar-left">
+				<li><a href="#">Documentation</a></li>
+				<li><a href="#">Support</a></li>
+			</ul>
+			<a href="#" class="pull-right footer-link">
+				Made with <i class="fa fa-heart"></i> by appbase.io
+			</a>
+		</div>
+	</div>
+</footer>
 	<!--  Scripts-->
 	<script src="website/dist/js/vendor.min.js"></script>
 	<script src="website/assets/js/app.js"></script>
