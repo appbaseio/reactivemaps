@@ -68,7 +68,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return baseConvert(lodash, lodash, options);
 	}
 
-	if (typeof _ == 'function') {
+	if (typeof _ == 'function' && typeof _.runInContext == 'function') {
 	  _ = browserConvert(_.runInContext());
 	}
 	module.exports = browserConvert;
@@ -79,8 +79,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var mapping = __webpack_require__(2),
-	    mutateMap = mapping.mutate,
 	    fallbackHolder = __webpack_require__(3);
+
+	/** Built-in value reference. */
+	var push = Array.prototype.push;
 
 	/**
 	 * Creates a function, with an arity of `n`, that invokes `func` with the
@@ -139,6 +141,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	function createCloner(func) {
 	  return function(object) {
 	    return func({}, object);
+	  };
+	}
+
+	/**
+	 * A specialized version of `_.spread` which flattens the spread array into
+	 * the arguments of the invoked `func`.
+	 *
+	 * @private
+	 * @param {Function} func The function to spread arguments over.
+	 * @param {number} start The start position of the spread.
+	 * @returns {Function} Returns the new function.
+	 */
+	function flatSpread(func, start) {
+	  return function() {
+	    var length = arguments.length,
+	        lastIndex = length - 1,
+	        args = Array(length);
+
+	    while (length--) {
+	      args[length] = arguments[length];
+	    }
+	    var array = args[start],
+	        otherArgs = args.slice(0, start);
+
+	    if (array) {
+	      push.apply(otherArgs, array);
+	    }
+	    if (start != lastIndex) {
+	      push.apply(otherArgs, args.slice(start + 1));
+	    }
+	    return func.apply(this, otherArgs);
 	  };
 	}
 
@@ -222,7 +255,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    'iteratee': util.iteratee,
 	    'keys': util.keys,
 	    'rearg': util.rearg,
-	    'spread': util.spread,
 	    'toInteger': util.toInteger,
 	    'toPath': util.toPath
 	  };
@@ -236,7 +268,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      isFunction = helpers.isFunction,
 	      keys = helpers.keys,
 	      rearg = helpers.rearg,
-	      spread = helpers.spread,
 	      toInteger = helpers.toInteger,
 	      toPath = helpers.toPath;
 
@@ -363,7 +394,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var data = mapping.methodSpread[name],
 	          start = data && data.start;
 
-	      return start  === undefined ? ary(func, n) : spread(func, start);
+	      return start  === undefined ? ary(func, n) : flatSpread(func, start);
 	    }
 	    return func;
 	  }
@@ -431,13 +462,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {Function} Returns the new converter function.
 	   */
 	  function createConverter(name, func) {
-	    var oldOptions = options;
+	    var realName = mapping.aliasToReal[name] || name,
+	        methodName = mapping.remap[realName] || realName,
+	        oldOptions = options;
+
 	    return function(options) {
 	      var newUtil = isLib ? pristine : helpers,
-	          newFunc = isLib ? pristine[name] : func,
+	          newFunc = isLib ? pristine[methodName] : func,
 	          newOptions = assign(assign({}, oldOptions), options);
 
-	      return baseConvert(newUtil, name, newFunc, newOptions);
+	      return baseConvert(newUtil, realName, newFunc, newOptions);
 	    };
 	  }
 
@@ -508,38 +542,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {Function} Returns the converted function.
 	   */
 	  function wrap(name, func) {
-	    name = mapping.aliasToReal[name] || name;
-
 	    var result,
+	        realName = mapping.aliasToReal[name] || name,
 	        wrapped = func,
-	        wrapper = wrappers[name];
+	        wrapper = wrappers[realName];
 
 	    if (wrapper) {
 	      wrapped = wrapper(func);
 	    }
 	    else if (config.immutable) {
-	      if (mutateMap.array[name]) {
+	      if (mapping.mutate.array[realName]) {
 	        wrapped = wrapImmutable(func, cloneArray);
 	      }
-	      else if (mutateMap.object[name]) {
+	      else if (mapping.mutate.object[realName]) {
 	        wrapped = wrapImmutable(func, createCloner(func));
 	      }
-	      else if (mutateMap.set[name]) {
+	      else if (mapping.mutate.set[realName]) {
 	        wrapped = wrapImmutable(func, cloneByPath);
 	      }
 	    }
 	    each(aryMethodKeys, function(aryKey) {
 	      each(mapping.aryMethod[aryKey], function(otherName) {
-	        if (name == otherName) {
-	          var spreadData = mapping.methodSpread[name],
-	              afterRearg = spreadData && spreadData.afterRearg;
+	        if (realName == otherName) {
+	          var data = mapping.methodSpread[realName],
+	              afterRearg = data && data.afterRearg;
 
 	          result = afterRearg
-	            ? castFixed(name, castRearg(name, wrapped, aryKey), aryKey)
-	            : castRearg(name, castFixed(name, wrapped, aryKey), aryKey);
+	            ? castFixed(realName, castRearg(realName, wrapped, aryKey), aryKey)
+	            : castRearg(realName, castFixed(realName, wrapped, aryKey), aryKey);
 
-	          result = castCap(name, result);
-	          result = castCurry(name, result, aryKey);
+	          result = castCap(realName, result);
+	          result = castCurry(realName, result, aryKey);
 	          return false;
 	        }
 	      });
@@ -552,8 +585,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return func.apply(this, arguments);
 	      };
 	    }
-	    result.convert = createConverter(name, func);
-	    if (mapping.placeholder[name]) {
+	    result.convert = createConverter(realName, func);
+	    if (mapping.placeholder[realName]) {
 	      setPlaceholder = true;
 	      result.placeholder = func.placeholder = placeholder;
 	    }
@@ -729,9 +762,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    'includesFrom', 'indexOfFrom', 'inRange', 'intersectionBy', 'intersectionWith',
 	    'invokeArgs', 'invokeArgsMap', 'isEqualWith', 'isMatchWith', 'flatMapDepth',
 	    'lastIndexOfFrom', 'mergeWith', 'orderBy', 'padChars', 'padCharsEnd',
-	    'padCharsStart', 'pullAllBy', 'pullAllWith', 'reduce', 'reduceRight', 'replace',
-	    'set', 'slice', 'sortedIndexBy', 'sortedLastIndexBy', 'transform', 'unionBy',
-	    'unionWith', 'update', 'xorBy', 'xorWith', 'zipWith'
+	    'padCharsStart', 'pullAllBy', 'pullAllWith', 'rangeStep', 'rangeStepRight',
+	    'reduce', 'reduceRight', 'replace', 'set', 'slice', 'sortedIndexBy',
+	    'sortedLastIndexBy', 'transform', 'unionBy', 'unionWith', 'update', 'xorBy',
+	    'xorWith', 'zipWith'
 	  ],
 	  '4': [
 	    'fill', 'setWith', 'updateWith'
@@ -787,14 +821,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/** Used to map method names to iteratee rearg configs. */
 	exports.iterateeRearg = {
-	  'mapKeys': [1]
+	  'mapKeys': [1],
+	  'reduceRight': [1, 0]
 	};
 
 	/** Used to map method names to rearg configs. */
 	exports.methodRearg = {
-	  'assignInAllWith': [1, 2, 0],
+	  'assignInAllWith': [1, 0],
 	  'assignInWith': [1, 2, 0],
-	  'assignAllWith': [1, 2, 0],
+	  'assignAllWith': [1, 0],
 	  'assignWith': [1, 2, 0],
 	  'differenceBy': [1, 2, 0],
 	  'differenceWith': [1, 2, 0],
@@ -803,13 +838,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  'intersectionWith': [1, 2, 0],
 	  'isEqualWith': [1, 2, 0],
 	  'isMatchWith': [2, 1, 0],
-	  'mergeAllWith': [1, 2, 0],
+	  'mergeAllWith': [1, 0],
 	  'mergeWith': [1, 2, 0],
 	  'padChars': [2, 1, 0],
 	  'padCharsEnd': [2, 1, 0],
 	  'padCharsStart': [2, 1, 0],
 	  'pullAllBy': [2, 1, 0],
 	  'pullAllWith': [2, 1, 0],
+	  'rangeStep': [1, 2, 0],
+	  'rangeStepRight': [1, 2, 0],
 	  'setWith': [3, 1, 2, 0],
 	  'sortedIndexBy': [2, 1, 0],
 	  'sortedLastIndexBy': [2, 1, 0],
@@ -824,15 +861,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	/** Used to map method names to spread configs. */
 	exports.methodSpread = {
 	  'assignAll': { 'start': 0 },
-	  'assignAllWith': { 'afterRearg': true, 'start': 1 },
+	  'assignAllWith': { 'start': 0 },
 	  'assignInAll': { 'start': 0 },
-	  'assignInAllWith': { 'afterRearg': true, 'start': 1 },
+	  'assignInAllWith': { 'start': 0 },
 	  'defaultsAll': { 'start': 0 },
 	  'defaultsDeepAll': { 'start': 0 },
 	  'invokeArgs': { 'start': 2 },
 	  'invokeArgsMap': { 'start': 2 },
 	  'mergeAll': { 'start': 0 },
-	  'mergeAllWith': { 'afterRearg': true, 'start': 1 },
+	  'mergeAllWith': { 'start': 0 },
 	  'partial': { 'start': 1 },
 	  'partialRight': { 'start': 1 },
 	  'without': { 'start': 1 },
@@ -931,6 +968,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  'padCharsEnd': 'padEnd',
 	  'padCharsStart': 'padStart',
 	  'propertyOf': 'get',
+	  'rangeStep': 'range',
+	  'rangeStepRight': 'rangeRight',
 	  'restFrom': 'rest',
 	  'spreadFrom': 'spread',
 	  'trimChars': 'trim',

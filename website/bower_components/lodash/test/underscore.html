@@ -222,10 +222,7 @@
           'throttle repeatedly with results': true,
           'more throttle does not trigger leading call when leading is set to false': true,
           'throttle does not trigger trailing call when trailing is set to false': true,
-          'before': [
-            'stores a memo to the last value',
-            'provides context'
-          ],
+          'before': true,
           'bind': [
             'Died on test #2'
           ],
@@ -300,6 +297,12 @@
           ]
         },
         'Utility': {
+          '_.escape & unescape': [
+            '` is escaped',
+            '` can be unescaped',
+            'can escape multiple occurances of `',
+            'multiple occurrences of ` can be unescaped'
+          ],
           'now': [
             'Produces the correct time in milliseconds'
           ],
@@ -346,18 +349,20 @@
         var lodash = _.noConflict();
 
         return function(_) {
-          lodash.defaultsDeep(_, { 'templateSettings': lodash.templateSettings });
-          lodash.mixin(_, lodash.pick(lodash, lodash.difference(lodash.functions(lodash), lodash.functions(_))));
+          lodash(_)
+            .defaultsDeep({ 'templateSettings': lodash.templateSettings })
+            .mixin(lodash.pick(lodash, lodash.difference(lodash.functions(lodash), lodash.functions(_))))
+            .value();
 
           lodash.forOwn(keyMap, function(realName, otherName) {
             _[otherName] = lodash[realName];
             _.prototype[otherName] = lodash.prototype[realName];
           });
-
           lodash.forOwn(aliasToReal, function(realName, alias) {
             _[alias] = _[realName];
             _.prototype[alias] = _.prototype[realName];
           });
+          return _;
         };
       }());
 
@@ -439,9 +444,12 @@
         }
 
         QUnit.config.autostart = false;
+        QUnit.config.excused.Functions.iteratee = true;
+        QUnit.config.excused.Utility.noConflict = true;
+        QUnit.config.excused.Utility['noConflict (node vm)'] = true;
 
         require(getConfig(), [moduleId], function(lodash) {
-          mixinPrereqs(lodash);
+          _ = mixinPrereqs(lodash);
           require(getConfig(), [
             'test/collections',
             'test/arrays',
@@ -450,9 +458,7 @@
             'test/cross-document',
             'test/utility',
             'test/chaining'
-          ], function() {
-            QUnit.start();
-          });
+          ], QUnit.start);
         });
       }());
     </script>
