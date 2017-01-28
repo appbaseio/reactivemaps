@@ -203,14 +203,15 @@ Main.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
 		topic: 'group.group_topics.topic_name_raw.raw',
-		location: 'location'
+		location: 'location',
+		venue: 'venue_name_ngrams'
 	},
 	config: {
 		"appbase": {
-		   "appname": "reactivemap_demo",
-		   "username": "y4pVxY2Ok",
-		   "password": "c92481e2-c07f-4473-8326-082919282c18",
-		   "type": "meetupdata1"
+			"appname": "reactivemap_demo",
+			"username": "y4pVxY2Ok",
+			"password": "c92481e2-c07f-4473-8326-082919282c18",
+			"type": "meetupdata1"
 		}
 	}
 };

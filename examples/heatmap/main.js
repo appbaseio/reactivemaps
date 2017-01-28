@@ -52,7 +52,7 @@ class Main extends Component {
 	}
 
 	passExistingData(res) {
-		if(res.mode === 'stream') {
+		if(res.mode === 'streaming') {
 			this.simulationFlag = false;
 		}
 		HeatmapWorker.heatmapExistingData(this.markers);
