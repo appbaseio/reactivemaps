@@ -38,7 +38,7 @@ export default class GeoDistanceSliderDefault extends Component {
 				username={this.props.config.appbase.username}
 				password={this.props.config.appbase.password}
 				type={this.props.config.appbase.type}
-				theme="rbc-orange"
+				theme="rbc-blue"
 			>
 				<div className="row">
 
