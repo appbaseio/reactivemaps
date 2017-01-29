@@ -184,7 +184,9 @@ export class GoogleSearch extends Component {
 
 		let cx = classNames({
 			'rmc-title-active': this.props.title,
-			'rmc-title-inactive': !this.props.title
+			'rmc-title-inactive': !this.props.title,
+			'rmc-placeholder-active': this.props.placeholder,
+			'rmc-placeholder-inactive': !this.props.placeholder
 		});
 
 		return (

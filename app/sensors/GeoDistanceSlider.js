@@ -4,6 +4,7 @@ import {
 	AppbaseSensorHelper as helper
 } from '@appbaseio/reactivebase';
 
+import classNames from 'classnames';
 import axios from 'axios';
 import Slider from 'rc-slider';
 import Select from 'react-select';
@@ -200,14 +201,20 @@ export class GeoDistanceSlider extends Component {
 
 	// render
 	render() {
-		let title = null, titleExists = false;
+		let title = null;
 		if(this.props.title) {
-			titleExists = true;
 			title = (<h4 className="rmc-title">{this.props.title}</h4>);
 		}
 
+		let cx = classNames({
+			'rmc-title-active': this.props.title,
+			'rmc-title-inactive': !this.props.title,
+			'rmc-placeholder-active': this.props.placeholder,
+			'rmc-placeholder-inactive': !this.props.placeholder
+		});
+
 		return (
-			<div className={`rmc rmc-geodistanceslider clearfix card thumbnail col s12 col-xs-12 title-${titleExists}`}>
+			<div className={`rmc rmc-geodistanceslider clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
 				<div className="row">
 					{title}
 					<div className="col s12 col-xs-12">
