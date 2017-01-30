@@ -1,9 +1,10 @@
 import React from 'react';
 import { storiesOf, addDecorator } from "@kadira/storybook";
-import { withKnobs, text, boolean, number, select } from "@kadira/storybook-addon-knobs";
+import { withKnobs, text, number, array } from "@kadira/storybook-addon-knobs";
 import { Appbase } from "appbase-js";
 
 import GeoDistanceSliderDefault from "./GeoDistanceSlider.stories";
+import GeoDistanceDropdownDefault from "./GeoDistanceDropdown.stories";
 
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
@@ -33,4 +34,30 @@ storiesOf("GeoDistanceSlider", module)
 			title={text("title", "Geo Distance Slider")}
 			placeholder={text("placeholder", "Search Location")}
 		/>
+	));
+
+storiesOf("GeoDistanceDropdown", module)
+	.addDecorator(withKnobs)
+	.add("Basic", () => (
+		<GeoDistanceDropdownDefault
+			unit="mi"
+			distanceOptions={[20,50,100,150]}
+			placeholder="Search Location"
+		/>
 	))
+	.add("With Title", () => (
+		<GeoDistanceDropdownDefault
+			unit="mi"
+			distanceOptions={[20,50,100,150]}
+			title="Geo Distance Search"
+			placeholder="Search Location"
+		/>
+	))
+	.add("Playground", () => (
+		<GeoDistanceDropdownDefault
+			unit={text("unit", "mi")}
+			distanceOptions={array("distanceOptions", [20,50,100,150])}
+			title={text("title", "Geo Distance Slider")}
+			placeholder={text("placeholder", "Search Location")}
+		/>
+	));
