@@ -5,6 +5,7 @@ import { Appbase } from "appbase-js";
 
 import GeoDistanceSliderDefault from "./GeoDistanceSlider.stories";
 import GeoDistanceDropdownDefault from "./GeoDistanceDropdown.stories";
+import GoogleSearchDefault from "./GoogleSearch.stories";
 
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
@@ -60,4 +61,10 @@ storiesOf("GeoDistanceDropdown", module)
 			title={text("title", "Geo Distance Slider")}
 			placeholder={text("placeholder", "Search Location")}
 		/>
+	));
+
+storiesOf("GoogleSearch", module)
+	.addDecorator(withKnobs)
+	.add("Basic - Direction Demo", () => (
+		<GoogleSearchDefault />
 	));
