@@ -179,18 +179,18 @@ export class GoogleSearch extends Component {
 	render() {
 		let title = null;
 		if(this.props.title) {
-			title = (<h4 className="rmc-title">{this.props.title}</h4>);
+			title = (<h4 className="rbc-title">{this.props.title}</h4>);
 		}
 
 		let cx = classNames({
-			'rmc-title-active': this.props.title,
-			'rmc-title-inactive': !this.props.title,
-			'rmc-placeholder-active': this.props.placeholder,
-			'rmc-placeholder-inactive': !this.props.placeholder
+			'rbc-title-active': this.props.title,
+			'rbc-title-inactive': !this.props.title,
+			'rbc-placeholder-active': this.props.placeholder,
+			'rbc-placeholder-inactive': !this.props.placeholder
 		});
 
 		return (
-			<div className={`rmc rmc-googlesearch clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
+			<div className={`rbc rbc-googlesearch clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
 				<div className="row">
 					{title}
 					<div className="col s12 col-xs-12">

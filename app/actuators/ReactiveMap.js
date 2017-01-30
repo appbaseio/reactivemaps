@@ -564,23 +564,23 @@ export class ReactiveMap extends Component {
 		}
 		// include title if exists
 		if(this.props.title) {
-			title = (<h4 className="rmc-title col s12 m8 col-xs-12 col-sm-8">{this.props.title}</h4>);
+			title = (<h4 className="rbc-title col s12 m8 col-xs-12 col-sm-8">{this.props.title}</h4>);
 		}
 
 		let cx = classNames({
-			'rmc-title-active': this.props.title,
-			'rmc-title-inactive': !this.props.title
+			'rbc-title-active': this.props.title,
+			'rbc-title-inactive': !this.props.title
 		});
 
 		return(
-			<div className={`rmc rmc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`}>
+			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`}>
 				{title}
 				<span className="col s12 m4 col-xs-12 col-sm-4">
 					{MapStylesComponent}
 				</span>
 				<GoogleMapLoader
 					containerElement={
-						<div className="rmc-container col s12 col-xs-12"  style={this.props.containerStyle} />
+						<div className="rbc-container col s12 col-xs-12"  style={this.props.containerStyle} />
 					}
 					googleMapElement={
 						<GoogleMap ref = "map"

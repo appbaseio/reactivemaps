@@ -177,12 +177,12 @@ a {
 	display: inline-block;
 }
 
-.rmc {
+.rbc {
 	margin: 5px;
 	background: #fff;
 	padding: 0;
 
-	.rmc-title {
+	.rbc-title {
 		font-size: 20px;
 		padding: 10px;
 		line-height: 30px;
@@ -194,7 +194,7 @@ a {
 		margin: 0;
 	}
 
-	.rmc-input {
+	.rbc-input {
 		position: relative;
 		background: darken($light-grey, 2%);
 		border: 0;

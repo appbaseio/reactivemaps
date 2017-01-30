@@ -45,7 +45,7 @@ export class SearchAsMove extends Component {
 			showCount={this.props.showCount} />
 
 		return (
-			<div className="rmc-checkbox row clearfix">
+			<div className="rbc-checkbox row clearfix">
 				{listComponent}
 			</div>
 		);
