@@ -46,6 +46,21 @@ export class GeoDistanceSlider extends Component {
 		this.getUserLocation();
 	}
 
+	componentWillReceiveProps(nextProps) {
+		setTimeout(() => {
+			this.handleResults(nextProps.value);
+		}, 300);
+	}
+
+	componentWillUnmount() {
+		if(this.channelId) {
+			manager.stopStream(this.channelId);
+		}
+		if(this.channelListener) {
+			this.channelListener.remove();
+		}
+	}
+
 	getUserLocation() {
 		navigator.geolocation.getCurrentPosition((location) => {
 			this.locString = location.coords.latitude + ', ' + location.coords.longitude;
@@ -136,6 +151,7 @@ export class GeoDistanceSlider extends Component {
 	createChannel() {
 		let depends = this.props.depends ? this.props.depends : {};
 		var channelObj = manager.create(this.context.appbaseRef, this.context.type, depends);
+		this.channelId = channelObj.channelId;
 	}
 
 	// handle the input change and pass the value inside sensor info
@@ -230,10 +246,10 @@ export class GeoDistanceSlider extends Component {
 							>
 							<Slider
 								tipFormatter={this.unitFormatter}
-								defaultValue={this.state.value}
+								value={this.state.value}
 								min={this.props.minThreshold}
 								max={this.props.maxThreshold}
-								onAfterChange={this.handleResults}
+								onChange={this.handleResults}
 							/>
 						</div>
 					</div>

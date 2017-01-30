@@ -56,6 +56,16 @@ export class ReactiveMap extends Component {
 		});
 	}
 
+	// stop streaming request and remove listener when component will unmount
+	componentWillUnmount() {
+		if(this.channelId) {
+			manager.stopStream(this.channelId);
+		}
+		if(this.channelListener) {
+			this.channelListener.remove();
+		}
+	}
+
 	// Create a channel which passes the depends and receive results whenever depends changes
 	createChannel() {
 		// Set the depends - add self aggs query as well with depends
@@ -63,7 +73,8 @@ export class ReactiveMap extends Component {
 		depends['geoQuery'] = { operation: "must" };
 		// create a channel and listen the changes
 		var channelObj = manager.create(this.context.appbaseRef, this.context.type, depends, this.props.requestSize);
-		channelObj.emitter.addListener(channelObj.channelId, function(res) {
+		this.channelId = channelObj.channelId;
+		this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
 			// implementation to prevent initialize query issue if old query response is late then the newer query
 			// then we will consider the response of new query and prevent to apply changes for old query response.
