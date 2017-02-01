@@ -2,43 +2,98 @@
 	padding: 0;
 
 	.row { margin: 0; }
-
+	
 	.is-focused:not(.is-open)>.Select-control {
 		box-shadow: none;
-		border: 0;
+		border: 1px solid #ccc;
+	}
+
+	.Select {
+		margin-bottom: 12px;
+
+		.Select-control {
+			height: 46px;
+		}
+
+		.Select-input {
+			height: 46px;
+
+			input {
+				height: 46px;
+				line-height: 34px;
+			}
+		}
 	}
 	
-	.Select-control {
-		border: 0;
-		height: 48px;
-		border-radius: 0;
-		font-family: $font-regular;
-		background: darken($light-grey, 2%);
-		outline: none;
+	.rbc-search-container {
+		margin-bottom: 12px;
+
+		.is-focused:not(.is-open)>.Select-control {
+			border: 0;
+		}
+
+		.Select-control {
+			border: 0;
+			height: 48px;
+			border-radius: 0;
+			font-family: $font-regular;
+			background: darken($light-grey, 2%);
+			outline: none;
+
+			&:hover, &:focus {
+				outline: none;
+			}
+
+			.Select-arrow-zone {
+				position: absolute;
+				right: 6px;
+				top: 12px;
+
+				.Select-arrow {
+					border: 0;
+					width: 30px;
+					height: 30px;
+					display: inline-block;
+					font: normal normal normal 14px/1 FontAwesome;
+					font-size: inherit;
+					text-rendering: auto;
+					-webkit-font-smoothing: antialiased;
+
+					&:before {
+					  content: "\f002";
+					}
+				}
+			}
+		}
+		
+		.Select-placeholder, 
+		.Select-control,
+		.Select--single>.Select-control .Select-value {
+			padding-right: 30px;
+		}
+
+		.Select-input {
+			height: 48px;
+
+			input {
+				height: 48px;
+				line-height: 36px;
+			}
+		}
+	}
+
+	.Select-input {
+		input {
+			padding: 0;
+			-webkit-transition: none;
+			-moz-transition: none;
+			-ms-transition: none;
+			-o-transition: none;
+			transition: none;
+		}
 
 		&:hover, &:focus {
 			outline: none;
-		}
-
-		.Select-arrow-zone {
-			position: absolute;
-			right: 6px;
-			top: 12px;
-
-			.Select-arrow {
-				border: 0;
-				width: 30px;
-				height: 30px;
-				display: inline-block;
-				font: normal normal normal 14px/1 FontAwesome;
-				font-size: inherit;
-				text-rendering: auto;
-				-webkit-font-smoothing: antialiased;
-
-				&:before {
-				  content: "\f002";
-				}
-			}
 		}
 	}
 
@@ -46,33 +101,7 @@
 		line-height: 46px;
 	}
 
-	.Select-placeholder, 
-	.Select-control,
-	.Select--single>.Select-control .Select-value {
-		padding-right: 30px;
-	}
-	
-	.Select-input {
-		height: 48px;
-
-		input {
-			height: 48px;
-			line-height: 36px;
-			padding: 0;
-			-webkit-transition: none;
-			-moz-transition: none;
-			-ms-transition: none;
-			-o-transition: none;
-			transition: none;
-
-		}
-
-		&:hover, &:focus {
-			outline: none;
-		}
-	}
-
 	&.rbc-title-inactive {
-		padding-top: 25px;
+		padding-top: 12px;
 	}
 }

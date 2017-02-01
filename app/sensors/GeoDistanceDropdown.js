@@ -219,25 +219,23 @@ export class GeoDistanceDropdown extends Component {
 			<div className={`rbc rbc-geodistancedropdown clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
 				<div className="row">
 					{title}
-					<div className="col s12 col-xs-12">
+					<div className="rbc-search-container col s12 col-xs-12">
 						<Select.Async
 							value={this.state.currentValue}
 							loadOptions={this.loadOptions}
 							placeholder={this.props.placeholder}
 							onChange={this.handleChange}
 							/>
+					</div>
 
-						<div className="col s12 col-xs-12"
-							style={{'padding': '20px 0'}}
-							>
-							<Select
-								value={this.state.currentDistance}
-								options={distanceOptions}
-								clearable={false}
-								searchable={false}
-								onChange={this.handleDistanceChange}
-								/>
-						</div>
+					<div className="col s12 col-xs-12">
+						<Select
+							value={this.state.currentDistance}
+							options={distanceOptions}
+							clearable={false}
+							searchable={false}
+							onChange={this.handleDistanceChange}
+							/>
 					</div>
 				</div>
 			</div>

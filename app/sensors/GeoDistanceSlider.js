@@ -233,25 +233,23 @@ export class GeoDistanceSlider extends Component {
 			<div className={`rbc rbc-geodistanceslider clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
 				<div className="row">
 					{title}
-					<div className="col s12 col-xs-12">
+					<div className="rbc-search-container col s12 col-xs-12">
 						<Select.Async
 							value={this.state.currentValue}
 							loadOptions={this.loadOptions}
 							placeholder={this.props.placeholder}
 							onChange={this.handleChange}
 							/>
+					</div>
 
-						<div className="col s12 col-xs-12"
-							style={{'padding': '20px 0'}}
-							>
-							<Slider
-								tipFormatter={this.unitFormatter}
-								value={this.state.value}
-								min={this.props.minThreshold}
-								max={this.props.maxThreshold}
-								onChange={this.handleResults}
-							/>
-						</div>
+					<div className="col s12 col-xs-12" style={{'padding': '10px 15px 20px'}}>
+						<Slider
+							tipFormatter={this.unitFormatter}
+							value={this.state.value}
+							min={this.props.minThreshold}
+							max={this.props.maxThreshold}
+							onChange={this.handleResults}
+						/>
 					</div>
 				</div>
 			</div>
