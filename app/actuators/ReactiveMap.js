@@ -71,7 +71,7 @@ export class ReactiveMap extends Component {
 		let actuate = this.props.actuate ? this.props.actuate : {};
 		actuate['geoQuery'] = { operation: "must" };
 		// create a channel and listen the changes
-		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate, this.props.requestSize);
+		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate, this.props.size);
 		this.channelId = channelObj.channelId;
 		this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
@@ -416,7 +416,7 @@ export class ReactiveMap extends Component {
 	}
 
 	chooseIcon(hit) {
-		let icon = hit.external_icon ? hit.external_icon : (hit.stream ? this.props.streamPin : this.props.historicPin);
+		let icon = hit.external_icon ? hit.external_icon : (hit.stream ? this.props.streamPin : this.props.defaultPin);
 		let isSvg = typeof icon === 'object' && icon.hasOwnProperty('path') ? true : false;
 		if(isSvg) {
 			icon = JSON.parse(JSON.stringify(icon));
@@ -493,7 +493,7 @@ export class ReactiveMap extends Component {
 				};
 			}
 		}
-		if(!this.props.allowMarkers) {
+		if(!this.props.showMarkers) {
 			response.markerComponent = [];
 		}
 		return response;
@@ -524,7 +524,7 @@ export class ReactiveMap extends Component {
 
 	render() {
 		var self = this;
-		var markerComponent, searchAsMoveComponent, MapStylesComponent;
+		var markerComponent, searchAsMoveComponent, showMapStyles;
 		let appbaseSearch, title = null, center = null;
 		var otherOptions;
 		var generatedMarkers = this.generateMarkers();
@@ -554,11 +554,11 @@ export class ReactiveMap extends Component {
 		}
 		// include searchasMove component
 		if(this.props.searchAsMoveComponent) {
-			searchAsMoveComponent = <SearchAsMove searchAsMoveDefault={this.props.searchAsMoveDefault} searchAsMoveChange={this.searchAsMoveChange} />;
+			searchAsMoveComponent = <SearchAsMove setSearchAsMove={this.props.setSearchAsMove} searchAsMoveChange={this.searchAsMoveChange} />;
 		}
 		// include mapStyle choose component
-		if(this.props.MapStylesComponent) {
-			MapStylesComponent = <MapStyles defaultSelected={this.props.mapStyle} mapStyleChange={this.mapStyleChange} />;
+		if(this.props.showMapStyles) {
+			showMapStyles = <MapStyles defaultSelected={this.props.mapStyle} mapStyleChange={this.mapStyleChange} />;
 		}
 		// include title if exists
 		if(this.props.title) {
@@ -574,7 +574,7 @@ export class ReactiveMap extends Component {
 			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={this.props.componentStyle}>
 				{title}
 				<span className="col s12 m4 col-xs-12 col-sm-4">
-					{MapStylesComponent}
+					{showMapStyles}
 				</span>
 				<GoogleMapLoader
 					containerElement={
@@ -632,10 +632,10 @@ ReactiveMap.propTypes = {
 	markerCluster: React.PropTypes.bool,
 	historicalData: React.PropTypes.bool,
 	rotateOnUpdate: React.PropTypes.bool,
-	allowMarkers: React.PropTypes.bool,
+	showMarkers: React.PropTypes.bool,
 	streamActiveTime: React.PropTypes.number,
-	requestSize: React.PropTypes.number,
-	clearOnEmpty: React.PropTypes.bool,
+	size: React.PropTypes.number,
+	clearOnEmpty: React.PropTypes.bool, // usecase
 	componentStyle: React.PropTypes.object
 };
 
@@ -644,24 +644,18 @@ ReactiveMap.defaultProps = {
 	markerCluster: true,
 	autoCenter: false,
 	searchAsMoveComponent: false,
-	searchAsMoveDefault: false,
-	MapStylesComponent: false,
+	setSearchAsMove: false,
+	showMapStyles: false,
 	mapStyle: 'Standard',
 	title: null,
-	requestSize: 100,
+	size: 100,
 	streamActiveTime: 5,
 	streamAutoCenter: true,
 	rotateOnUpdate: false,
-	allowMarkers: true,
+	showMarkers: true,
 	clearOnEmpty: true,
-	historicPin: 'dist/images/historic-pin.png',
+	defaultPin: 'dist/images/historic-pin.png',
 	streamPin: 'dist/images/stream-pin.png',
-	markerOnClick: function() {},
-	markerOnDblclick: function() {},
-	markerOnMouseover: function() {},
-	markerOnMouseout: function() {},
-	onData: function() {},
-	onIdle: function() {},
 	componentStyle: {}
 };
 
