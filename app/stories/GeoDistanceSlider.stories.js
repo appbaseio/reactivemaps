@@ -48,8 +48,8 @@ export default class GeoDistanceSliderDefault extends Component {
 							APIkey={mapsAPIKey}
 							appbaseField={this.props.mapping.location}
 							range={{
-								start: 1,
-								end: 60
+								"start": 0,
+								"end": 60
 							}}
 							{...this.props}
 						/>

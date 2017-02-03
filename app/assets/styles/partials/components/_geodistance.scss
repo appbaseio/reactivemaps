@@ -104,4 +104,12 @@
 	&.rbc-title-inactive {
 		padding-top: 12px;
 	}
+
+	.rbc-rangeslider-container {
+		padding: 10px 15px 20px;
+	}
+	
+	&.rbc-labels-active .rbc-rangeslider-container {
+		padding: 10px 18px 30px;
+	}
 }

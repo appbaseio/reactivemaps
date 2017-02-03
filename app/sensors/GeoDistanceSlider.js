@@ -217,16 +217,29 @@ export class GeoDistanceSlider extends Component {
 
 	// render
 	render() {
-		let title = null;
+		let title = null,
+			marks = {};
+
 		if(this.props.title) {
 			title = (<h4 className="rbc-title">{this.props.title}</h4>);
 		}
+
+		if (this.props.rangeLabels.start || this.props.rangeLabels.end) {
+			marks = {
+				[this.props.range.start]: this.props.rangeLabels.start,
+				[this.props.range.end]: this.props.rangeLabels.end
+			}
+		}
+
+		console.log(marks);
 
 		let cx = classNames({
 			'rbc-title-active': this.props.title,
 			'rbc-title-inactive': !this.props.title,
 			'rbc-placeholder-active': this.props.placeholder,
-			'rbc-placeholder-inactive': !this.props.placeholder
+			'rbc-placeholder-inactive': !this.props.placeholder,
+			'rbc-labels-active': this.props.rangeLabels.start || this.props.rangeLabels.end,
+			'rbc-labels-inactive': !this.props.rangeLabels.start && !this.props.rangeLabels.end
 		});
 
 		return (
@@ -242,13 +255,14 @@ export class GeoDistanceSlider extends Component {
 							/>
 					</div>
 
-					<div className="col s12 col-xs-12" style={{'padding': '10px 15px 20px'}}>
+					<div className="rbc-rangeslider-container col s12 col-xs-12">
 						<Slider
 							tipFormatter={this.unitFormatter}
 							value={this.state.value}
 							min={this.props.range.start}
 							max={this.props.range.end}
 							onChange={this.handleResults}
+							marks={marks}
 						/>
 					</div>
 				</div>
@@ -263,8 +277,13 @@ GeoDistanceSlider.propTypes = {
 	range: React.PropTypes.shape({
 		start: helper.validateThreshold,
 		end: helper.validateThreshold
+	}),
+	rangeLabels: React.PropTypes.shape({
+		start: React.PropTypes.string,
+		end: React.PropTypes.string
 	})
 };
+
 // Default props value
 GeoDistanceSlider.defaultProps = {
 	value: 1,
@@ -275,6 +294,10 @@ GeoDistanceSlider.defaultProps = {
 		start: 0,
 		end: 10
 	},
+	rangeLabels: {
+		start: null,
+		end: null
+	}
 };
 
 // context type

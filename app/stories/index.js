@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf, addDecorator } from "@kadira/storybook";
-import { withKnobs, text, number, array } from "@kadira/storybook-addon-knobs";
+import { withKnobs, text, number, array, object } from "@kadira/storybook-addon-knobs";
 import { Appbase } from "appbase-js";
 
 import GeoDistanceSliderDefault from "./GeoDistanceSlider.stories";
@@ -29,12 +29,30 @@ storiesOf("GeoDistanceSlider", module)
 			placeholder="Search Location"
 		/>
 	))
+	.add("With Range Labels", () => (
+		<GeoDistanceSliderDefault
+			value={50}
+			unit="mi"
+			title="Geo Distance Search"
+			placeholder="Search Location"
+			rangeLabels={
+				{
+					"start": "Start",
+					"end": "End"
+				}
+			}
+		/>
+	))
 	.add("Playground", () => (
 		<GeoDistanceSliderDefault
 			value={number("value", 50)}
 			unit={text("unit", "mi")}
 			title={text("title", "Geo Distance Slider")}
 			placeholder={text("placeholder", "Search Location")}
+			rangeLabels={object("rangeLabels", {
+				"start": "Start",
+				"end": "End"
+			})}
 		/>
 	));
 
