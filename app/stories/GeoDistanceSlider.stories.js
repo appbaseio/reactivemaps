@@ -47,8 +47,10 @@ export default class GeoDistanceSliderDefault extends Component {
 							componentId="GeoDistanceSlider"
 							APIkey={mapsAPIKey}
 							appbaseField={this.props.mapping.location}
-							minThreshold={1}
-							maxThreshold={60}
+							range={{
+								start: 1,
+								end: 60
+							}}
 							{...this.props}
 						/>
 					</div>

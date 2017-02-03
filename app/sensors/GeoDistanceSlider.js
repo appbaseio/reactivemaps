@@ -12,7 +12,7 @@ import Select from 'react-select';
 export class GeoDistanceSlider extends Component {
 	constructor(props, context) {
 		super(props);
-		let value = this.props.value < this.props.minThreshold ? this.props.minThreshold :  this.props.value;
+		let value = this.props.value < this.props.range.start ? this.props.range.start :  this.props.value;
 		this.state = {
 			currentValue: '',
 			currentDistance: this.props.value + this.props.unit,
@@ -246,8 +246,8 @@ export class GeoDistanceSlider extends Component {
 						<Slider
 							tipFormatter={this.unitFormatter}
 							value={this.state.value}
-							min={this.props.minThreshold}
-							max={this.props.maxThreshold}
+							min={this.props.range.start}
+							max={this.props.range.end}
 							onChange={this.handleResults}
 						/>
 					</div>
@@ -259,14 +259,22 @@ export class GeoDistanceSlider extends Component {
 
 GeoDistanceSlider.propTypes = {
 	appbaseField: React.PropTypes.string.isRequired,
-	placeholder: React.PropTypes.string
+	placeholder: React.PropTypes.string,
+	range: React.PropTypes.shape({
+		start: helper.validateThreshold,
+		end: helper.validateThreshold
+	})
 };
 // Default props value
 GeoDistanceSlider.defaultProps = {
 	value: 1,
-	unit: 'km',
+	unit: 'mi',
 	placeholder: "Search...",
-	size: 10
+	size: 10,
+	range: {
+		start: 0,
+		end: 10
+	},
 };
 
 // context type
