@@ -231,8 +231,6 @@ export class GeoDistanceSlider extends Component {
 			}
 		}
 
-		console.log(marks);
-
 		let cx = classNames({
 			'rbc-title-active': this.props.title,
 			'rbc-title-inactive': !this.props.title,
