@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf, addDecorator } from "@kadira/storybook";
-import { withKnobs, text, number, array, object } from "@kadira/storybook-addon-knobs";
+import { withKnobs, text, number, array, object, select, boolean } from "@kadira/storybook-addon-knobs";
 import { Appbase } from "appbase-js";
 
 import GeoDistanceSliderDefault from "./GeoDistanceSlider.stories";
@@ -143,10 +143,23 @@ storiesOf("ReactiveMap", module)
 			showPopoverOn="onMouseover"
 		/>
 	))
-	.add("With DataSearch", () => (
+	.add("Playground", () => (
 		<ReactiveMapDefault
-			title="Reactive Maps"
-			showPopoverOn="onMouseover"
-			showSearch={true}
+			title={text("title", "Reactive maps")}
+			showPopoverOn={select("showPopoverOn", {'onClick': 'onClick', 'onMouseover':'onMouseover'}, 'onClick')}
+			markerCluster={boolean("markerCluster", true)}
+			autoCenter={boolean("autoCenter", true)}
+			showSearchAsMove={boolean("showSearchAsMove", true)}
+			setSearchAsMove={boolean("setSearchAsMove", false)}
+			showMapStyles={boolean("showMapStyles", false)}
+			mapStyle={select("mapStyle", {'Standard':'Standard', 'Blue Essence':'Blue Essence', 'Blue Water':'Blue Water', 'Flat Map':'Flat Map', 'Light Monochrome':'Light Monochrome', 'Midnight Commander':'Midnight Commander', 'Unsaturated Browns':'Unsaturated Browns'}, 'Standard')}
+			size={number('size', 100)}
+			streamActiveTime={number("streamActiveTime", 5)}
+			streamAutoCenter={boolean("streamAutoCenter", true)}
+			rotateOnUpdate={boolean("rotateOnUpdate", false)}
+			showMarkers={boolean("showMarkers", true)}
+			clearOnEmpty={boolean("clearOnEmpty", true)}
+			defaultPin={text('defaultPin', 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png')}
+			streamPin={text('streamPin', 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png')}
 		/>
-	))
+	));
