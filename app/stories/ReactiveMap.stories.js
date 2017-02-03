@@ -37,6 +37,7 @@ export default class ReactiveMapDefault extends Component {
 				appname="meetup_demo"
 				username="LPpISlEBe"
 				password="2a8935f5-0f63-4084-bc3e-2b2b4d1a8e02"
+				theme="rbc-blue"
 			>
 				<div className="row">
 					<div className="col s6">
@@ -74,7 +75,7 @@ export default class ReactiveMapDefault extends Component {
 							/>
 						</div>
 						<div>
-							
+
 						</div>
 					</div>
 				</div>

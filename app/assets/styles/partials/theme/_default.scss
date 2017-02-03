@@ -38,8 +38,24 @@ $themes: (
 				color: map-get($map, font-color);
 			}
 
+			.rbc-loader::after {
+				border: .25rem solid rgba(map-get($map, font-color), 0.2);
+				border-top-color: map-get($map, font-color);
+			}
+
+			[type="radio"]:checked+label:after,
+			[type="radio"].with-gap:checked+label:before,
+			[type="radio"].with-gap:checked+label:after {
+				border-color: map-get($map, color);
+				background-color: map-get($map, color);
+			}
+
 			.rbc-input {
 				background-color: map-get($map, input-bg);
+			}
+
+			.rbc-search-icon {
+				color: map-get($map, color);
 			}
 
 			.primary-title {
@@ -69,6 +85,16 @@ $themes: (
 				border-color:  map-get($map, color);
 				box-shadow: 0 1px 0 0 map-get($map, color);
 			}
+		}
+
+		[type="checkbox"]:checked+label:before {
+			border-color: transparent;
+			border-right-color: map-get($map, color);
+			border-bottom-color: map-get($map, color);
+		}
+
+		a {
+			color: map-get($map, font-color);
 		}
 	}
 }
