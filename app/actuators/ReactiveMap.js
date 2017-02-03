@@ -530,7 +530,7 @@ export class ReactiveMap extends Component {
 
 	render() {
 		var self = this;
-		var markerComponent, searchAsMoveComponent, showMapStyles;
+		var markerComponent, showSearchAsMove, showMapStyles;
 		let appbaseSearch, title = null, center = null;
 		var otherOptions;
 		var generatedMarkers = this.generateMarkers();
@@ -559,8 +559,8 @@ export class ReactiveMap extends Component {
 			}
 		}
 		// include searchasMove component
-		if(this.props.searchAsMoveComponent) {
-			searchAsMoveComponent = <SearchAsMove setSearchAsMove={this.props.setSearchAsMove} searchAsMoveChange={this.searchAsMoveChange} />;
+		if(this.props.showSearchAsMove) {
+			showSearchAsMove = <SearchAsMove setSearchAsMove={this.props.setSearchAsMove} searchAsMoveChange={this.searchAsMoveChange} />;
 		}
 		// include mapStyle choose component
 		if(this.props.showMapStyles) {
@@ -620,7 +620,7 @@ export class ReactiveMap extends Component {
 						</GoogleMap>
 					}
 				/>
-				{searchAsMoveComponent}
+				{showSearchAsMove}
 				<div className="col s12 text-center center-align">
 					<img width='200px' height='auto' src="dist/images/logo.png" />
 				</div>
@@ -641,17 +641,24 @@ ReactiveMap.propTypes = {
 	streamActiveTime: React.PropTypes.number,
 	size: React.PropTypes.number,
 	clearOnEmpty: React.PropTypes.bool, // usecase?
-	componentStyle: React.PropTypes.object
+	componentStyle: React.PropTypes.object,
+	autoCenter: React.PropTypes.bool,
+	showSearchAsMove: React.PropTypes.bool,
+	setSearchAsMove: React.PropTypes.bool,
+	mapStyle: React.PropTypes.oneOf(['Standard', 'Blue Essence', 'Blue Water', 'Flat Map', 'Light Monochrome', 'Midnight Commander', 'Unsaturated Browns']),
+	title: React.PropTypes.string,
+	streamAutoCenter: React.PropTypes.bool,
+	defaultPin: React.PropTypes.string,
+	streamPin: React.PropTypes.string
 };
 
 ReactiveMap.defaultProps = {
 	markerCluster: true,
 	autoCenter: false,
-	searchAsMoveComponent: false,
+	showSearchAsMove: false,
 	setSearchAsMove: false,
 	showMapStyles: false,
 	mapStyle: 'Standard',
-	title: null,
 	size: 100,
 	streamActiveTime: 5,
 	streamAutoCenter: true,
