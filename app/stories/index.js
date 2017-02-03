@@ -61,23 +61,55 @@ storiesOf("GeoDistanceDropdown", module)
 	.add("Basic", () => (
 		<GeoDistanceDropdownDefault
 			unit="mi"
-			distanceOptions={[20,50,100,150]}
+			data={
+				[{"start": 0, "end": 100, "label": "Less than 100 miles"},
+				{"start": 101, "end": 200, "label": "Between 100 and 200 miles"},
+				{"start": 201, "end": 500, "label": "Between 200 and 500 miles"},
+				{"start": 501, "end": 1000, "label": "Above 500 miles"}]
+			}
+			// distanceOptions={[20,50,100,150]}
 			placeholder="Search Location"
 		/>
 	))
 	.add("With Title", () => (
 		<GeoDistanceDropdownDefault
 			unit="mi"
-			distanceOptions={[20,50,100,150]}
+			data={
+				[{"start": 0, "end": 100, "label": "Less than 100 miles"},
+				{"start": 101, "end": 200, "label": "Between 100 and 200 miles"},
+				{"start": 201, "end": 500, "label": "Between 200 and 500 miles"},
+				{"start": 501, "end": 1000, "label": "Above 500 miles"}]
+			}
+			// distanceOptions={[20,50,100,150]}
+			title="Geo Distance Search"
+			placeholder="Search Location"
+		/>
+	))
+	.add("With Default Selected", () => (
+		<GeoDistanceDropdownDefault
+			unit="mi"
+			data={
+				[{"start": 0, "end": 100, "label": "Less than 100 miles"},
+				{"start": 101, "end": 200, "label": "Between 100 and 200 miles"},
+				{"start": 201, "end": 500, "label": "Between 200 and 500 miles"},
+				{"start": 501, "end": 1000, "label": "Above 500 miles"}]
+			}
+			defaultSelected="Between 200 and 500 miles"
 			title="Geo Distance Search"
 			placeholder="Search Location"
 		/>
 	))
 	.add("Playground", () => (
 		<GeoDistanceDropdownDefault
+			data={
+				[{"start": 0, "end": 100, "label": "Less than 100 miles"},
+				{"start": 101, "end": 200, "label": "Between 100 and 200 miles"},
+				{"start": 201, "end": 500, "label": "Between 200 and 500 miles"},
+				{"start": 501, "end": 1000, "label": "Above 500 miles"}]
+			}
 			unit={text("unit", "mi")}
-			distanceOptions={array("distanceOptions", [20,50,100,150])}
 			title={text("title", "Geo Distance Slider")}
+			defaultSelected={text("defaultSelected", "Between 200 and 500 miles")}
 			placeholder={text("placeholder", "Search Location")}
 		/>
 	));

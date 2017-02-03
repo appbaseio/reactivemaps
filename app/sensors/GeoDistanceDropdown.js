@@ -13,10 +13,10 @@ export class GeoDistanceDropdown extends Component {
 	constructor(props, context) {
 		super(props);
 		this.state = {
-			currentValue: '',
-			currentDistance: this.props.distanceOptions[0] + this.props.unit
+			selected: {},
+			currentValue: ''
 		};
-		this.type = 'geo_distance';
+		this.type = 'geo_distance_range';
 		this.locString = '';
 		this.result = {
 			options: []
@@ -26,16 +26,36 @@ export class GeoDistanceDropdown extends Component {
 			order: 'asc',
 			unit: 'mi'
 		};
+
+		if (this.props.defaultSelected) {
+			let selected = this.props.data.filter(item => item.label === this.props.defaultSelected);
+			if (selected[0]) {
+				this.state.selected = selected[0];
+			}
+		}
+
 		this.handleChange = this.handleChange.bind(this);
 		this.loadOptions = this.loadOptions.bind(this);
 		this.defaultQuery = this.defaultQuery.bind(this);
 		this.handleValuesChange = this.handleValuesChange.bind(this);
-		this.getDistanceOptions = this.getDistanceOptions.bind(this);
 		this.handleDistanceChange = this.handleDistanceChange.bind(this);
 	}
 
 	componentWillMount() {
 		this.googleMaps = window.google.maps;
+	}
+
+	componentWillReceiveProps(nextProps) {
+		setTimeout(() => {
+			if (nextProps.defaultSelected != this.props.defaultSelected) {
+				let selected = nextProps.data.filter(item => item.label === this.props.defaultSelected);
+				if (selected[0]) {
+					this.setState({
+						selected: selected[0]
+					})
+				}
+			}
+		}, 300);
 	}
 
 	// Set query information
@@ -77,11 +97,12 @@ export class GeoDistanceDropdown extends Component {
 
 	// build query for this sensor only
 	defaultQuery(value) {
-		if(value && value.currentValue != '' && value.location != '') {
+		if(value && value.start >= 0 && value.end >=0 && value.location != '') {
 			return {
 				[this.type]: {
 					[this.props.appbaseField]: value.location,
-					'distance': value.currentDistance
+					"from": value.start + this.props.unit,
+					"to": value.end + this.props.unit
 				}
 			}
 		} else {
@@ -105,12 +126,13 @@ export class GeoDistanceDropdown extends Component {
 
 	// execute query after changing location or distance
 	executeQuery() {
-		if (this.state.currentValue != '' && this.state.currentDistance && this.locString) {
+		if (this.state.currentValue != '' && this.state.selected && this.locString) {
 			var obj = {
 				key: this.props.componentId,
 				value: {
 					currentValue: this.state.currentValue,
-					currentDistance: this.state.currentDistance,
+					start: this.state.selected.start,
+					end: this.state.selected.end,
 					location: this.locString
 				}
 			};
@@ -184,25 +206,19 @@ export class GeoDistanceDropdown extends Component {
 		}
 	}
 
-	getDistanceOptions() {
-		return this.props.distanceOptions.map(item => {
-			return {
-				label: item + ' ' + this.props.unit,
-				value: item + this.props.unit,
-			}
-		});
-	}
-
 	handleDistanceChange(input) {
 		this.setState({
-			currentDistance: input.value
+			selected: {
+				start: input.start,
+				end: input.end,
+				label: input.label
+			}
 		}, this.executeQuery.bind(this));
 	}
 
 	// render
 	render() {
 		let title = null;
-		let distanceOptions = this.getDistanceOptions();
 
 		if(this.props.title) {
 			title = (<h4 className="rbc-title">{this.props.title}</h4>);
@@ -227,14 +243,14 @@ export class GeoDistanceDropdown extends Component {
 							onChange={this.handleChange}
 							/>
 					</div>
-
 					<div className="col s12 col-xs-12">
 						<Select
-							value={this.state.currentDistance}
-							options={distanceOptions}
+							value={this.state.selected.label ? this.state.selected : ''}
+							options={this.props.data}
 							clearable={false}
 							searchable={false}
 							onChange={this.handleDistanceChange}
+							placeholder="Select Distance"
 							/>
 					</div>
 				</div>
@@ -245,10 +261,16 @@ export class GeoDistanceDropdown extends Component {
 
 GeoDistanceDropdown.propTypes = {
 	appbaseField: React.PropTypes.string.isRequired,
-	distanceOptions: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
 	placeholder: React.PropTypes.string,
 	unit: React.PropTypes.string,
-	APIkey: React.PropTypes.string.isRequired
+	APIkey: React.PropTypes.string.isRequired,
+	data: React.PropTypes.arrayOf(
+		React.PropTypes.shape({
+			start: React.PropTypes.number.isRequired,
+			end: React.PropTypes.number.isRequired,
+			label: React.PropTypes.string.isRequired
+		})
+	)
 };
 // Default props value
 GeoDistanceDropdown.defaultProps = {
