@@ -649,7 +649,8 @@ ReactiveMap.propTypes = {
 	title: React.PropTypes.string,
 	streamAutoCenter: React.PropTypes.bool,
 	defaultPin: React.PropTypes.string,
-	streamPin: React.PropTypes.string
+	streamPin: React.PropTypes.string,
+	showPopoverOn: React.PropTypes.oneOf(['onClick', 'onMouseover'])
 };
 
 ReactiveMap.defaultProps = {

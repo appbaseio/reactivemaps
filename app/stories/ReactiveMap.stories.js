@@ -69,37 +69,33 @@ export default class ReactiveMapDefault extends Component {
 							}}
 							{...this.props}
 						/>
-						{
-							this.props.showSearch
-							? (
-								<div style={searchStyles}>
-									<DataSearch
-										appbaseField={this.props.mapping.venue}
-										componentId="VenueSensor"
-										searchRef="CityVenue"
-										placeholder="Search Venue"
-										actuate={{
-											'CitySensor': {
-												"operation": "must",
-												"doNotExecute": {true}
-											}
-										}}
-									/>
-								</div>
-							)
-							: null
-						}
 					</div>
 					<div className="col s6">
-						<MultiList
-							componentId="CitySensor"
-							appbaseField={this.props.mapping.city}
-							showCount={true}
-							size={10}
-							title="Input Filter"
-							searchPlaceholder="Search City"
-							includeSelectAll={true}
-						/>
+						<div>
+							<DataSearch
+								appbaseField={this.props.mapping.venue}
+								componentId="VenueSensor"
+								searchRef="CityVenue"
+								placeholder="Search Venue"
+								actuate={{
+									'CitySensor': {
+										"operation": "must",
+										"doNotExecute": {true}
+									}
+								}}
+							/>
+						</div>
+						<div>
+							<MultiList
+								componentId="CitySensor"
+								appbaseField={this.props.mapping.city}
+								showCount={true}
+								size={10}
+								title="Input Filter"
+								searchPlaceholder="Search City"
+								includeSelectAll={true}
+							/>
+						</div>
 					</div>
 				</div>
 			</ReactiveBase>
