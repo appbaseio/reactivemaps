@@ -120,10 +120,12 @@ export class ReactiveMap extends Component {
 			// Pass the historic or streaming data in index method
 			res.allMarkers = rawData;
 			res.mapRef = this.refs.map;
-			let generatedData = this.props.onData(res);
-			this.setState({
-				externalData: generatedData
-			});
+			if(this.props.onData) {
+				let generatedData = this.props.onData(res);
+				this.setState({
+					externalData: generatedData
+				});
+			}
 			if(this.streamFlag) {
 				this.streamMarkerInterval();
 			}
@@ -282,23 +284,27 @@ export class ReactiveMap extends Component {
 	// Handle function which is fired when map is moved and reaches to idle position
 	handleOnIdle() {
 		var mapBounds = this.refs.map.getBounds();
-		var north = mapBounds.getNorthEast().lat();
-		var south = mapBounds.getSouthWest().lat();
-		var east = mapBounds.getNorthEast().lng();
-		var west = mapBounds.getSouthWest().lng();
-		var boundingBoxCoordinates = {
-			"top_left": [west, north],
-			"bottom_right": [east, south]
-		};
-		let generatedData = this.props.onIdle(this.refs.map, {
-			boundingBoxCoordinates: boundingBoxCoordinates,
-			mapBounds: mapBounds
-		});
-		this.setState({
-			externalData: generatedData
-		});
-		if(this.searchAsMove && !this.searchQueryProgress) {
-			this.setValue(boundingBoxCoordinates, this.searchAsMove);
+		if(mapBounds) {
+			var north = mapBounds.getNorthEast().lat();
+			var south = mapBounds.getSouthWest().lat();
+			var east = mapBounds.getNorthEast().lng();
+			var west = mapBounds.getSouthWest().lng();
+			var boundingBoxCoordinates = {
+				"top_left": [west, north],
+				"bottom_right": [east, south]
+			};
+			if(this.props.onIdle) {
+				let generatedData = this.props.onIdle(this.refs.map, {
+					boundingBoxCoordinates: boundingBoxCoordinates,
+					mapBounds: mapBounds
+				});
+				this.setState({
+					externalData: generatedData
+				});
+			}
+			if(this.searchAsMove && !this.searchQueryProgress) {
+				this.setValue(boundingBoxCoordinates, this.searchAsMove);
+			}
 		}
 	}
 
@@ -630,17 +636,15 @@ ReactiveMap.propTypes = {
 	markerOnDelete: React.PropTypes.func,
 	onData: React.PropTypes.func,
 	markerCluster: React.PropTypes.bool,
-	historicalData: React.PropTypes.bool,
 	rotateOnUpdate: React.PropTypes.bool,
 	showMarkers: React.PropTypes.bool,
 	streamActiveTime: React.PropTypes.number,
 	size: React.PropTypes.number,
-	clearOnEmpty: React.PropTypes.bool, // usecase
+	clearOnEmpty: React.PropTypes.bool, // usecase?
 	componentStyle: React.PropTypes.object
 };
 
 ReactiveMap.defaultProps = {
-	historicalData: true,
 	markerCluster: true,
 	autoCenter: false,
 	searchAsMoveComponent: false,
@@ -654,8 +658,8 @@ ReactiveMap.defaultProps = {
 	rotateOnUpdate: false,
 	showMarkers: true,
 	clearOnEmpty: true,
-	defaultPin: 'dist/images/historic-pin.png',
-	streamPin: 'dist/images/stream-pin.png',
+	defaultPin: 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png',
+	streamPin: 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png',
 	componentStyle: {}
 };
 
