@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
-import { ReactiveBase, MultiList } from '@appbaseio/reactivebase';
+import { ReactiveBase, DataSearch, MultiList } from '@appbaseio/reactivebase';
 import { GoogleSearch, ReactiveMap } from '../app.js';
+import { Img } from './Img.js';
 
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 const historyPin = require('./placeholder.svg');
+const searchStyles = {
+	'width': '260px',
+	'position': 'absolute',
+	'top': '45px',
+	'left' : '23px',
+	'zIndex': '5'
+};
 
 export default class ReactiveMapDefault extends Component {
 	constructor(props) {
@@ -12,8 +20,8 @@ export default class ReactiveMapDefault extends Component {
 	}
 
 	popoverContent(marker) {
-		return (<div className="popoverComponent row">
-			<span className="imgContainer col s2">
+		return (<div className="popoverComponent row" style={{'margin': '0', 'maxWidth': '300px'}}>
+			<span className="imgContainer col s2" style={{'padding': '0'}}>
 				<Img src={marker._source.member.photo}  />
 			</span>
 			<div className="infoContainer col s10">
@@ -21,7 +29,7 @@ export default class ReactiveMapDefault extends Component {
 					<strong>{marker._source.member.member_name}</strong>
 				</div>
 				<div className="description">
-					<p>is going to&nbsp;
+					<p style={{'margin': '5px 0', 'lineHeight': '18px'}}>is going to&nbsp;
 						<a href={marker._source.event.event_url} target="_blank">
 							{marker._source.event.event_name}
 						</a>
@@ -51,32 +59,47 @@ export default class ReactiveMapDefault extends Component {
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
-							title="Reactive Maps"
-							showPopoverOn = "onClick"
 							historicPin={historyPin}
 							popoverContent = {this.popoverContent}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							actuate={{
-								CitySensor: {"operation": "must"}
+								CitySensor: {"operation": "must"},
+								VenueSensor: {"operation": "must"}
 							}}
+							{...this.props}
 						/>
+						{
+							this.props.showSearch
+							? (
+								<div style={searchStyles}>
+									<DataSearch
+										appbaseField={this.props.mapping.venue}
+										componentId="VenueSensor"
+										searchRef="CityVenue"
+										placeholder="Search Venue"
+										actuate={{
+											'CitySensor': {
+												"operation": "must",
+												"doNotExecute": {true}
+											}
+										}}
+									/>
+								</div>
+							)
+							: null
+						}
 					</div>
 					<div className="col s6">
-						<div>
-							<MultiList
-								componentId="CitySensor"
-								appbaseField={this.props.mapping.city}
-								showCount={true}
-								size={10}
-								title="Input Filter"
-								searchPlaceholder="Search City"
-								includeSelectAll={true}
-							/>
-						</div>
-						<div>
-
-						</div>
+						<MultiList
+							componentId="CitySensor"
+							appbaseField={this.props.mapping.city}
+							showCount={true}
+							size={10}
+							title="Input Filter"
+							searchPlaceholder="Search City"
+							includeSelectAll={true}
+						/>
 					</div>
 				</div>
 			</ReactiveBase>

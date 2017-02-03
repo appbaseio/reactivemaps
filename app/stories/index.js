@@ -94,3 +94,27 @@ storiesOf("ReactiveMap", module)
 	.add("Basic", () => (
 		<ReactiveMapDefault />
 	))
+	.add("With Title", () => (
+		<ReactiveMapDefault
+			title="Reactive Maps"
+		/>
+	))
+	.add("With Popover onClick", () => (
+		<ReactiveMapDefault
+			title="Reactive Maps"
+			showPopoverOn="onClick"
+		/>
+	))
+	.add("With Popover onMouseOver", () => (
+		<ReactiveMapDefault
+			title="Reactive Maps"
+			showPopoverOn="onMouseover"
+		/>
+	))
+	.add("With DataSearch", () => (
+		<ReactiveMapDefault
+			title="Reactive Maps"
+			showPopoverOn="onMouseover"
+			showSearch={true}
+		/>
+	))

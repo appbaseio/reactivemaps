@@ -80,7 +80,7 @@ class Main extends Component {
 									size={100}
 									includeGeo={true}
 									title="Topics"
-									depends={{
+									actuate={{
 										CitySensor: {
 											"operation": "must",
 											"defaultQuery": this.topicDepends
@@ -107,7 +107,7 @@ class Main extends Component {
 							onData = {this.onData}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
-							depends={{
+							actuate={{
 								CitySensor: {"operation": "must"},
 								TopicSensor: {"operation": "must"},
 								RangeSensor: {"operation": "must"},
@@ -122,7 +122,7 @@ class Main extends Component {
 								sensorId="VenueSensor"
 								searchRef="CityVenue"
 								placeholder="Search Venue"
-								depends={{
+								actuate={{
 									'CitySensor': {
 										"operation": "must",
 										"doNotExecute": {true}

@@ -6,7 +6,6 @@ import { SearchAsMove } from '../addons/SearchAsMove';
 import { MapStyles, mapStylesCollection } from '../addons/MapStyles';
 import classNames from 'classnames';
 import {
-	DataSearch,
 	AppbaseChannelManager as manager,
 	AppbaseSensorHelper as helper
 } from '@appbaseio/reactivebase';
@@ -525,9 +524,8 @@ export class ReactiveMap extends Component {
 
 	render() {
 		var self = this;
-		var markerComponent, searchComponent, searchAsMoveComponent, MapStylesComponent;
-		let appbaseSearch, title = null;
-		var searchComponentProps = {};
+		var markerComponent, searchAsMoveComponent, MapStylesComponent;
+		let appbaseSearch, title = null, center = null;
 		var otherOptions;
 		var generatedMarkers = this.generateMarkers();
 		if (this.props.markerCluster) {
@@ -544,14 +542,14 @@ export class ReactiveMap extends Component {
 			streamCenterFlag = false;
 		}
 		if(!this.searchAsMove && this.props.autoCenter && this.reposition && streamCenterFlag) {
-			searchComponentProps.center =  generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : (this.storeCenter ? this.storeCenter : this.state.center);
-			this.storeCenter = searchComponentProps.center;
+			center =  generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : (this.storeCenter ? this.storeCenter : this.state.center);
+			this.storeCenter = center;
 			this.reposition = false;
 		} else {
 			if(this.storeCenter) {
-				searchComponentProps.center = this.storeCenter;
+				center = this.storeCenter;
 			} else {
-				delete searchComponentProps.center;
+				center = null;
 			}
 		}
 		// include searchasMove component
@@ -573,21 +571,21 @@ export class ReactiveMap extends Component {
 		});
 
 		return(
-			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`}>
+			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={this.props.componentStyle}>
 				{title}
 				<span className="col s12 m4 col-xs-12 col-sm-4">
 					{MapStylesComponent}
 				</span>
 				<GoogleMapLoader
 					containerElement={
-						<div className="rbc-container col s12 col-xs-12"  style={this.props.containerStyle} />
+						<div className="rbc-container col s12 col-xs-12" />
 					}
 					googleMapElement={
 						<GoogleMap ref = "map"
 							options = {{
 								styles: this.state.currentMapStyle
 							}}
-							{...searchComponentProps}
+							center = {center}
 							{...this.props}
 								onDragstart = {() => {
 									this.handleOnDrage()
@@ -611,7 +609,6 @@ export class ReactiveMap extends Component {
 							onTiltChanged = {() => this.mapEvents('onTiltChanged')}
 							onZoomChanged = {() => this.mapEvents('onZoomChanged')}
 						>
-							{searchComponent}
 							{markerComponent}
 							{this.externalData()}
 						</GoogleMap>
@@ -629,7 +626,6 @@ export class ReactiveMap extends Component {
 ReactiveMap.propTypes = {
 	appbaseField: React.PropTypes.string.isRequired,
 	searchField: React.PropTypes.string,
-	searchComponent: React.PropTypes.string,
 	onIdle: React.PropTypes.func,
 	markerOnDelete: React.PropTypes.func,
 	onData: React.PropTypes.func,
@@ -639,13 +635,13 @@ ReactiveMap.propTypes = {
 	allowMarkers: React.PropTypes.bool,
 	streamActiveTime: React.PropTypes.number,
 	requestSize: React.PropTypes.number,
-	clearOnEmpty: React.PropTypes.bool
+	clearOnEmpty: React.PropTypes.bool,
+	componentStyle: React.PropTypes.object
 };
 
 ReactiveMap.defaultProps = {
 	historicalData: true,
 	markerCluster: true,
-	searchComponent: "google",
 	autoCenter: false,
 	searchAsMoveComponent: false,
 	searchAsMoveDefault: false,
@@ -666,9 +662,7 @@ ReactiveMap.defaultProps = {
 	markerOnMouseout: function() {},
 	onData: function() {},
 	onIdle: function() {},
-	containerStyle: {
-		height: '700px'
-	}
+	componentStyle: {}
 };
 
 ReactiveMap.contextTypes = {
