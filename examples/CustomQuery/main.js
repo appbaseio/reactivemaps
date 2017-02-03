@@ -42,7 +42,7 @@ class Main extends Component {
 						<div className="row h-100">
 							<div className="col s12">
 								<TextField
-									sensorId="InputSensor"
+									componentId="InputSensor"
 									title="Cities"
 									placeholder="Search City (i.e London)"
 								/>
@@ -51,7 +51,7 @@ class Main extends Component {
 
 						<div className="row">
 							<GeoDistanceDropdown
-								sensorId="GeoSensor"
+								componentId="GeoSensor"
 								appbaseField={this.props.mapping.location}
 								title="Geo Distance"
 								APIkey={mapsAPIKey}
@@ -75,7 +75,7 @@ class Main extends Component {
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
 							title="Meetupblast"
-							depends={{
+							actuate={{
 								InputSensor: {"operation": "must", defaultQuery: this.cityQuery},
 								GeoSensor: {"operation": "must"}
 							}}

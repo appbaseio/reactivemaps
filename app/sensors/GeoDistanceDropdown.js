@@ -65,7 +65,7 @@ export class GeoDistanceDropdown extends Component {
 	// set the query type and input data
 	setQueryInfo() {
 		let obj = {
-			key: this.props.sensorId,
+			key: this.props.componentId,
 			value: {
 				queryType: this.type,
 				appbaseField: this.props.appbaseField,
@@ -107,7 +107,7 @@ export class GeoDistanceDropdown extends Component {
 	executeQuery() {
 		if (this.state.currentValue != '' && this.state.currentDistance && this.locString) {
 			var obj = {
-				key: this.props.sensorId,
+				key: this.props.componentId,
 				value: {
 					currentValue: this.state.currentValue,
 					currentDistance: this.state.currentDistance,
@@ -115,7 +115,7 @@ export class GeoDistanceDropdown extends Component {
 				}
 			};
 			let sortObj = {
-				key: this.props.sensorId,
+				key: this.props.componentId,
 				value: {
 					[this.sortInfo.type]: {
 						[this.props.appbaseField]: this.locString,
@@ -130,10 +130,10 @@ export class GeoDistanceDropdown extends Component {
 	}
 
 	// use this only if want to create actuators
-	// Create a channel which passes the depends and receive results whenever depends changes
+	// Create a channel which passes the actuate and receive results whenever actuate changes
 	createChannel() {
-		let depends = this.props.depends ? this.props.depends : {};
-		var channelObj = manager.create(this.context.appbaseRef, this.context.type, depends);
+		let actuate = this.props.actuate ? this.props.actuate : {};
+		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate);
 	}
 
 	// handle the input change and pass the value inside sensor info

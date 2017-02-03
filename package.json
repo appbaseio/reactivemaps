@@ -28,7 +28,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@appbaseio/reactivebase": "^0.2.0",
+    "@appbaseio/reactivebase": "^0.3.0",
     "appbase-js": "^0.10.8",
     "axios": "^0.15.2",
     "babel-preset-stage-0": "^6.5.0",

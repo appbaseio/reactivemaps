@@ -44,7 +44,7 @@ export default class GeoDistanceDropdownDefault extends Component {
 
 					<div className="col s6">
 						<GeoDistanceDropdown
-							sensorId="GeoDistanceDropdown"
+							componentId="GeoDistanceDropdown"
 							APIkey={mapsAPIKey}
 							appbaseField={this.props.mapping.location}
 							{...this.props}
@@ -67,7 +67,7 @@ export default class GeoDistanceDropdownDefault extends Component {
 							popoverContent = {this.popoverContent}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
-							depends={{
+							actuate={{
 								GeoDistanceDropdown: {"operation": "must"}
 							}}
 						/>

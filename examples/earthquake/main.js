@@ -82,7 +82,7 @@ class Main extends Component {
 							title="Earthquake"
 							showPopoverOn = "onClick"
 							popoverContent = {this.popoverContent}
-							depends={{
+							actuate={{
 								PlaceSensor: {"operation": "must"},
 								RangeSensor: {"operation": "must"},
 								YearSensor: {"operation": "must"},
@@ -93,7 +93,7 @@ class Main extends Component {
 						<div className="row h-100">
 							<div className="col s12 col-xs-12">
 								<SingleList
-									sensorId="PlaceSensor"
+									componentId="PlaceSensor"
 									appbaseField={this.props.mapping.venue}
 									defaultSelected="Japan"
 									showCount={true}
@@ -107,9 +107,9 @@ class Main extends Component {
 						<div className="row">
 							<div className="col s12 col-xs-12">
 								<RangeSlider
-									sensorId="RangeSensor"
+									componentId="RangeSensor"
 									appbaseField={this.props.mapping.mag}
-									depends={{
+									actuate={{
 										PlaceSensor: {
 											"operation": "must",
 											"defaultQuery": this.placeQuery
@@ -130,9 +130,9 @@ class Main extends Component {
 						<div className="row">
 							<div className="col s12 col-xs-12">
 								<RangeSlider
-									sensorId="YearSensor"
+									componentId="YearSensor"
 									appbaseField={this.props.mapping.time}
-									depends={{
+									actuate={{
 										PlaceSensor: {
 											"operation": "must",
 											"defaultQuery": this.placeQuery

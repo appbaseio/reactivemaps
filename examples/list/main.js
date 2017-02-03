@@ -13,12 +13,12 @@ import {
 class Main extends Component {
 	constructor(props) {
 		super(props);
-		this.topicDepends = this.topicDepends.bind(this);
+		this.topicactuate = this.topicactuate.bind(this);
 		this.onData = this.onData.bind(this);
 		this.DEFAULT_IMAGE = 'http://www.avidog.com/wp-content/uploads/2015/01/BellaHead082712_11-50x65.jpg';
 	}
 
-	topicDepends(value) {
+	topicactuate(value) {
 		if (this.props.mapping.city && value) {
 			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
 			return { Match: match };
@@ -82,7 +82,7 @@ class Main extends Component {
 						<div className="row h-100">
 							<div className="col s12 m6">
 								<SingleList
-									sensorId="CitySensor"
+									componentId="CitySensor"
 									appbaseField={this.props.mapping.city}
 									defaultSelected="London"
 									showCount={true}
@@ -95,14 +95,14 @@ class Main extends Component {
 							<div className="col s12 m6">
 								<MultiList
 									appbaseField={this.props.mapping.topic}
-									sensorId="TopicSensor"
+									componentId="TopicSensor"
 									showCount={true}
 									size={100}
 									title="Topics"
-									depends={{
+									actuate={{
 										CitySensor: {
 											"operation": "must",
-											"defaultQuery": this.topicDepends
+											"defaultQuery": this.topicactuate
 										}
 									}}
 								/>
@@ -111,12 +111,12 @@ class Main extends Component {
 						<div className="row">
 							<div className="col s12">
 								<RangeSlider
-									sensorId="RangeSensor"
+									componentId="RangeSensor"
 									appbaseField={this.props.mapping.guests}
-									depends={{
+									actuate={{
 										CitySensor: {
 											"operation": "must",
-											"defaultQuery": this.topicDepends
+											"defaultQuery": this.topicactuate
 										}
 									}}
 									title="guests"
@@ -129,10 +129,10 @@ class Main extends Component {
 							<div className="col s12">
 								<DataSearch
 									appbaseField={this.props.mapping.venue}
-									sensorId="VenueSensor"
+									componentId="VenueSensor"
 									searchRef="CityVenue"
 									placeholder="Search Venue"
-									depends={{
+									actuate={{
 										'CitySensor': {
 											"operation": "must",
 											"doNotExecute": {true}
@@ -151,7 +151,7 @@ class Main extends Component {
 							size={10}
 							requestOnScroll={true}
 							title="Results"
-							depends={{
+							actuate={{
 								CitySensor: {"operation": "must"},
 								TopicSensor: {"operation": "must"},
 								RangeSensor: {"operation": "must"},

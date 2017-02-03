@@ -67,7 +67,7 @@ export default class GoogleSearchDefault extends Component {
 							<div className="col s12 col-xs-12">
 								<GoogleSearch
 									appbaseField={this.props.mapping.venue}
-									sensorId="OriginSensor"
+									componentId="OriginSensor"
 									placeholder="Search Venue"
 									title="Origin"
 									APIkey={mapsAPIKey}
@@ -76,7 +76,7 @@ export default class GoogleSearchDefault extends Component {
 							<div className="col s12 col-xs-12">
 								<GoogleSearch
 									appbaseField={this.props.mapping.venue}
-									sensorId="DestinationSensor"
+									componentId="DestinationSensor"
 									placeholder="Search Venue"
 									autoLocation={false}
 									title="Destination"
@@ -102,7 +102,7 @@ export default class GoogleSearchDefault extends Component {
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							size={100}
-							depends={{
+							actuate={{
 								OriginSensor: {"operation": "must", defaultQuery: this.originQuery},
 								DestinationSensor: {"operation": "must", defaultQuery: this.destinationQuery}
 							}}

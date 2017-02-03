@@ -111,7 +111,7 @@ class Main extends Component {
 							popoverContent = {this.popoverContent}
 							onData = {this.onData}
 							MapStylesComponent={true}
-							depends={{
+							actuate={{
 								CitySensor: {"operation": "must", defaultQuery: this.cityQuery},
 								CategorySensor: {"operation": "must", defaultQuery: this.categoryQuery}
 							}}
@@ -121,7 +121,7 @@ class Main extends Component {
 						<div className="row h-100">
 							<div className="col s12">
 								<SingleList
-									sensorId="CitySensor"
+									componentId="CitySensor"
 									appbaseField={this.props.mapping.city}
 									defaultSelected="london"
 									showCount={true}
@@ -136,13 +136,13 @@ class Main extends Component {
 							<div className="col s12">
 								<MultiList
 									appbaseField={this.props.mapping.topic}
-									sensorId="CategorySensor"
+									componentId="CategorySensor"
 									showCount={true}
 									size={100}
 									multipleSelect={true}
 									includeGeo={true}
 									title="Categories"
-									depends={{
+									actuate={{
 										CitySensor: {"operation": "must", defaultQuery: this.cityQuery}
 									}}
 								/>

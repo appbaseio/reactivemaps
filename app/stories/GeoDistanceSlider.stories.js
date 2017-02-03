@@ -44,7 +44,7 @@ export default class GeoDistanceSliderDefault extends Component {
 
 					<div className="col s6">
 						<GeoDistanceSlider
-							sensorId="GeoDistanceSlider"
+							componentId="GeoDistanceSlider"
 							APIkey={mapsAPIKey}
 							appbaseField={this.props.mapping.location}
 							minThreshold={1}
@@ -69,7 +69,7 @@ export default class GeoDistanceSliderDefault extends Component {
 							popoverContent = {this.popoverContent}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
-							depends={{
+							actuate={{
 								GeoDistanceSlider: {"operation": "must"}
 							}}
 						/>
