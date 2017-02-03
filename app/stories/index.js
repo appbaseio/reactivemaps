@@ -6,6 +6,7 @@ import { Appbase } from "appbase-js";
 import GeoDistanceSliderDefault from "./GeoDistanceSlider.stories";
 import GeoDistanceDropdownDefault from "./GeoDistanceDropdown.stories";
 import GoogleSearchDefault from "./GoogleSearch.stories";
+import ReactiveMapDefault from "./ReactiveMap.stories";
 
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
@@ -68,3 +69,10 @@ storiesOf("GoogleSearch", module)
 	.add("Basic - Direction Demo", () => (
 		<GoogleSearchDefault />
 	));
+
+
+storiesOf("ReactiveMap", module)
+	.addDecorator(withKnobs)
+	.add("Basic", () => (
+		<ReactiveMapDefault />
+	))
