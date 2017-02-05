@@ -131,9 +131,9 @@ class Main extends Component {
 							autoCenter={false}
 							size={100}
 							showSearchAsMove={true}
-							searchAsMoveDefault={true}
+							setSearchAsMove={true}
 							showMapStyles={true}
-							allowMarkers={false}
+							showMarkers={false}
 							title="Weather"
 							/>
 					</div>

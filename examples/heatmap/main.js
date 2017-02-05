@@ -130,6 +130,7 @@ class Main extends Component {
 						onData = {this.onData}
 						onIdle = {this.mapOnIdle}
 						streamingMarkerTime={10}
+						stream={true}
 						/>
 					</div>
 				</ReactiveBase>

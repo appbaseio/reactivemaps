@@ -87,7 +87,7 @@ class Main extends Component {
 
 	onData(res) {
 		let result, combineData = res.currentData;
-		if(res.mode === 'historic') {
+		if(res.mode === 'historic' && res.currentData) {
 			combineData = res.currentData.concat(res.newData);
 		}
 		if (combineData) {

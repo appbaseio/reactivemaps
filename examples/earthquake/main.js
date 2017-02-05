@@ -118,12 +118,14 @@ class Main extends Component {
 									defaultSelected={
 										{
 											"start": 1,
-											"end": 5
+											"end": 9
 										}
 									}
+									range={{
+										start: 1,
+										end: 10
+									}}
 									title="Magnitude"
-									startThreshold={1}
-									endThreshold={10}
 									stepValue={1} />
 							</div>
 						</div>
@@ -138,10 +140,18 @@ class Main extends Component {
 											"defaultQuery": this.placeQuery
 										}
 									}}
+									defaultSelected={
+										{
+											"start": 1901,
+											"end": 2015
+										}
+									}
+									range={{
+										start: 1900,
+										end: 2016
+									}}
 									title="Year"
-									stepValue={1}
-									startThreshold={1900}
-									endThreshold={2016} />
+									stepValue={1} />
 							</div>
 						</div>
 					</div>
