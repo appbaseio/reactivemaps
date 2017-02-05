@@ -48,6 +48,11 @@ export class ReactiveMap extends Component {
 	}
 
 	componentDidMount() {
+		this.streamProp = this.props.stream;
+		this.initialize();
+	}
+
+	initialize() {
 		this.createChannel();
 		this.setGeoQueryInfo();
 		let currentMapStyle = this.getMapStyle(this.props.mapStyle);
@@ -56,10 +61,25 @@ export class ReactiveMap extends Component {
 		});
 	}
 
+	componentWillUpdate() {
+		setTimeout(() => {
+			if (this.streamProp != this.props.stream) {
+				this.streamProp = this.props.stream;
+				this.removeChannel();
+				this.initialize();
+			}
+		}, 300);
+	}
+
 	// stop streaming request and remove listener when component will unmount
 	componentWillUnmount() {
+		this.removeChannel();
+	}
+
+	removeChannel() {
 		if(this.channelId) {
 			manager.stopStream(this.channelId);
+			this.channelId = null;
 		}
 		if(this.channelListener) {
 			this.channelListener.remove();
@@ -72,7 +92,7 @@ export class ReactiveMap extends Component {
 		let actuate = this.props.actuate ? this.props.actuate : {};
 		actuate['geoQuery'] = { operation: "must" };
 		// create a channel and listen the changes
-		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate, this.props.size);
+		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate, this.props.size, this.props.from, this.props.stream);
 		this.channelId = channelObj.channelId;
 		this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
@@ -482,6 +502,13 @@ export class ReactiveMap extends Component {
 						popoverEvent = {};
 						popoverEvent['onClick'] = this.handleMarkerClick.bind(this, hit);
 					}
+					let defaultFn = function(){};
+					let events = {
+						onClick: this.props.markerOnClick ? this.props.markerOnClick : defaultFn,
+						onDblclick: this.props.markerOnDblclick ? this.props.markerOnDblclick : defaultFn,
+						onMouseover: this.props.onMouseover ? this.props.onMouseover : defaultFn,
+						onMouseout: this.props.onMouseout ? this.props.onMouseout : defaultFn
+					};
 					let timenow = new Date();
 					return (
 						<Marker {...position}
@@ -489,10 +516,10 @@ export class ReactiveMap extends Component {
 							zIndex={1}
 							ref={ref}
 							{...self.combineProps(hit)}
-							onClick={() => self.props.markerOnClick(hit._source)}
-							onDblclick={() => self.props.markerOnDblclick(hit._source)}
-							onMouseover={() => self.props.markerOnMouseover(hit._source)}
-							onMouseout={() => self.props.markerOnMouseout(hit._source)}
+							onClick={() => events.onClick(hit._source)}
+							onDblclick={() => events.onDblclick(hit._source)}
+							onMouseover={() => events.onMouseover(hit._source)}
+							onMouseout={() => events.onMouseout(hit._source)}
 							{...popoverEvent}>
 							{hit.showInfo ? self.renderInfoWindow(ref, hit) : null}
 						</Marker>
@@ -594,7 +621,7 @@ export class ReactiveMap extends Component {
 				</span>
 				<GoogleMapLoader
 					containerElement={
-						<div className="rbc-container col s12 col-xs-12" />
+						<div className="rbc-container col s12 col-xs-12" style={this.props.containerStyle}/>
 					}
 					googleMapElement={
 						<GoogleMap ref = "map"
@@ -650,8 +677,10 @@ ReactiveMap.propTypes = {
 	showMarkers: React.PropTypes.bool,
 	streamActiveTime: React.PropTypes.number,
 	size: React.PropTypes.number,
+	from: React.PropTypes.number,
 	clearOnEmpty: React.PropTypes.bool, // usecase?
 	componentStyle: React.PropTypes.object,
+	containerStyle: React.PropTypes.object,
 	autoCenter: React.PropTypes.bool,
 	showSearchAsMove: React.PropTypes.bool,
 	setSearchAsMove: React.PropTypes.bool,
@@ -660,6 +689,7 @@ ReactiveMap.propTypes = {
 	streamAutoCenter: React.PropTypes.bool,
 	defaultPin: React.PropTypes.string,
 	streamPin: React.PropTypes.string,
+	stream: React.PropTypes.bool,
 	showPopoverOn: React.PropTypes.oneOf(['onClick', 'onMouseover'])
 };
 
@@ -670,6 +700,7 @@ ReactiveMap.defaultProps = {
 	setSearchAsMove: false,
 	showMapStyles: false,
 	mapStyle: 'Standard',
+	from: 0,
 	size: 100,
 	streamActiveTime: 5,
 	streamAutoCenter: true,
@@ -678,7 +709,13 @@ ReactiveMap.defaultProps = {
 	clearOnEmpty: true,
 	defaultPin: 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png',
 	streamPin: 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png',
-	componentStyle: {}
+	componentStyle: {
+		height: '100%'
+	},
+	containerStyle: {
+		height: '700px'
+	},
+	stream: false
 };
 
 ReactiveMap.contextTypes = {
