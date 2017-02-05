@@ -136,9 +136,9 @@ class Main extends Component {
 							searchField={this.props.mapping.venue}
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
-							searchAsMoveComponent={true}
+							showSearchAsMove={true}
 							title="Events Example"
-							MapStylesComponent={true}
+							showMapStyles={true}
 							onIdle={this.onIdle}
 							onMouseover={this.onMouseover}
 							onMouseout={this.onMouseout}

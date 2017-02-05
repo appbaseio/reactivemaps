@@ -90,12 +90,10 @@ class Main extends Component {
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
 							markerCluster={false}
-							searchComponent="appbase"
-							searchField={this.props.mapping.venue}
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
-							searchAsMoveComponent={true}
-							MapStylesComponent={true}
+							showSearchAsMove={true}
+							showMapStyles={true}
 							clearOnEmpty={false}
 							title="Reactive Maps"
 							onIdle={this.onIdle}

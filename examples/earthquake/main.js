@@ -78,7 +78,7 @@ class Main extends Component {
 							searchField={this.props.mapping.place}
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
-							searchAsMoveComponent={true}
+							showSearchAsMove={true}
 							title="Earthquake"
 							showPopoverOn = "onClick"
 							popoverContent = {this.popoverContent}

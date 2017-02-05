@@ -162,8 +162,8 @@ class Main extends Component {
 								searchField={this.props.mapping.venue}
 								mapStyle={this.props.mapStyle}
 								autoCenter={true}
-								searchAsMoveComponent={true}
-								MapStylesComponent={true}
+								showSearchAsMove={true}
+								showMapStyles={true}
 								title="Reactive Maps"
 								showPopoverOn = "onClick"
 								popoverContent = {this.popoverContent}

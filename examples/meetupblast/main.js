@@ -85,8 +85,8 @@ class Main extends Component {
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
 							size={100}
-							searchAsMoveComponent={true}
-							MapStylesComponent={true}
+							showSearchAsMove={true}
+							showMapStyles={true}
 							title="Meetupblast"
 							actuate={{
 								CitySensor: {"operation": "must", defaultQuery: this.cityQuery},

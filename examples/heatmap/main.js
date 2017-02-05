@@ -121,9 +121,9 @@ class Main extends Component {
 						searchField={this.props.mapping.venue}
 						mapStyle={this.props.mapStyle}
 						autoCenter={true}
-						searchAsMoveComponent={true}
+						showSearchAsMove={true}
 						searchAsMoveDefault={false}
-						MapStylesComponent={true}
+						showMapStyles={true}
 						title="Heatmap"
 						showPopoverOn = "onClick"
 						popoverContent = {this.popoverContent}

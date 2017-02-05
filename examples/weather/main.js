@@ -130,9 +130,9 @@ class Main extends Component {
 							onData={this.onData}
 							autoCenter={false}
 							size={100}
-							searchAsMoveComponent={true}
+							showSearchAsMove={true}
 							searchAsMoveDefault={true}
-							MapStylesComponent={true}
+							showMapStyles={true}
 							allowMarkers={false}
 							title="Weather"
 							/>

@@ -105,12 +105,12 @@ class Main extends Component {
 							searchField={this.props.mapping.venue}
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
-							searchAsMoveComponent={true}
+							showSearchAsMove={true}
 							title="Foursquare checkins"
 							showPopoverOn = "onClick"
 							popoverContent = {this.popoverContent}
 							onData = {this.onData}
-							MapStylesComponent={true}
+							showMapStyles={true}
 							actuate={{
 								CitySensor: {"operation": "must", defaultQuery: this.cityQuery},
 								CategorySensor: {"operation": "must", defaultQuery: this.categoryQuery}
