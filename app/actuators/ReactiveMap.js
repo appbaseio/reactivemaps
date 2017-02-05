@@ -24,7 +24,8 @@ export class ReactiveMap extends Component {
 					hits: []
 				}
 			},
-			externalData: {}
+			externalData: {},
+			mapBounds: null
 		};
 		this.previousSelectedSensor = {};
 		this.handleSearch = this.handleSearch.bind(this);
@@ -78,11 +79,15 @@ export class ReactiveMap extends Component {
 			// implementation to prevent initialize query issue if old query response is late then the newer query
 			// then we will consider the response of new query and prevent to apply changes for old query response.
 			// if queryStartTime of channel response is greater than the previous one only then apply changes
-			if(this.props.clearOnEmpty) {
+			if(!this.state.mapBounds) {
 				checkAndGo.call(this);
 			} else {
-				if(data.hits.hits.length) {
+				if(this.props.clearOnEmpty) {
 					checkAndGo.call(this);
+				} else {
+					if(data.hits.hits.length) {
+						checkAndGo.call(this);
+					}
 				}
 			}
 			function checkAndGo() {
@@ -293,18 +298,20 @@ export class ReactiveMap extends Component {
 				"top_left": [west, north],
 				"bottom_right": [east, south]
 			};
+			var stateObj = {
+				mapBounds: mapBounds
+			};
 			if(this.props.onIdle) {
 				let generatedData = this.props.onIdle(this.refs.map, {
 					boundingBoxCoordinates: boundingBoxCoordinates,
 					mapBounds: mapBounds
 				});
-				this.setState({
-					externalData: generatedData
-				});
+				stateObj.externalData = generatedData;
 			}
 			if(this.searchAsMove && !this.searchQueryProgress) {
 				this.setValue(boundingBoxCoordinates, this.searchAsMove);
 			}
+			this.setState(stateObj);
 		}
 	}
 
@@ -532,6 +539,7 @@ export class ReactiveMap extends Component {
 		var self = this;
 		var markerComponent, showSearchAsMove, showMapStyles;
 		let appbaseSearch, title = null, center = null;
+		let centerComponent = {};
 		var otherOptions;
 		var generatedMarkers = this.generateMarkers();
 		if (this.props.markerCluster) {
@@ -551,9 +559,11 @@ export class ReactiveMap extends Component {
 			center =  generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : (this.storeCenter ? this.storeCenter : this.state.center);
 			this.storeCenter = center;
 			this.reposition = false;
+			centerComponent.center = center;
 		} else {
 			if(this.storeCenter) {
 				center = this.storeCenter;
+				centerComponent.center = center;
 			} else {
 				center = null;
 			}
@@ -591,7 +601,7 @@ export class ReactiveMap extends Component {
 							options = {{
 								styles: this.state.currentMapStyle
 							}}
-							center = {center}
+							{...centerComponent}
 							{...this.props}
 								onDragstart = {() => {
 									this.handleOnDrage()
