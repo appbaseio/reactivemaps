@@ -91,7 +91,7 @@ class Main extends Component {
 							historicalData={true}
 							markerCluster={false}
 							mapStyle={this.props.mapStyle}
-							autoCenter={true}
+							autoCenter={false}
 							showSearchAsMove={true}
 							showMapStyles={true}
 							clearOnEmpty={false}
