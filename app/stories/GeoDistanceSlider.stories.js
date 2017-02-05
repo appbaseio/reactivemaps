@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ReactiveBase } from '@appbaseio/reactivebase';
 import { GeoDistanceSlider, ReactiveMap } from '../app.js';
 import { Img } from './Img.js';
+import { AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
 
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 const historyPin = require('./placeholder.svg');
@@ -10,6 +11,10 @@ export default class GeoDistanceSliderDefault extends Component {
 	constructor(props) {
 		super(props);
 		this.popoverContent = this.popoverContent.bind(this);
+	}
+
+	componentDidMount() {
+		helper.ResponsiveStory();
 	}
 
 	popoverContent(marker) {
