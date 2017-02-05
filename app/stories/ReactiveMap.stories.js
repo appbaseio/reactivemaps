@@ -5,13 +5,6 @@ import { Img } from './Img.js';
 
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 const historyPin = require('./placeholder.svg');
-const searchStyles = {
-	'width': '260px',
-	'position': 'absolute',
-	'top': '45px',
-	'left' : '23px',
-	'zIndex': '5'
-};
 
 export default class ReactiveMapDefault extends Component {
 	constructor(props) {
