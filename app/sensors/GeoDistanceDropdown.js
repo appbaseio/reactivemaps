@@ -14,7 +14,8 @@ export class GeoDistanceDropdown extends Component {
 		super(props);
 		this.state = {
 			selected: {},
-			currentValue: ''
+			currentValue: '',
+			userLocation: ''
 		};
 		this.type = 'geo_distance_range';
 		this.locString = '';
@@ -37,8 +38,8 @@ export class GeoDistanceDropdown extends Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.loadOptions = this.loadOptions.bind(this);
 		this.defaultQuery = this.defaultQuery.bind(this);
-		this.handleValuesChange = this.handleValuesChange.bind(this);
 		this.handleDistanceChange = this.handleDistanceChange.bind(this);
+		this.renderValue = this.renderValue.bind(this);
 	}
 
 	componentWillMount() {
@@ -72,11 +73,12 @@ export class GeoDistanceDropdown extends Component {
 				.then(res => {
 					let currentValue = res.data.results[0].formatted_address;
 					this.result.options.push({
-						'value': currentValue,
-						'label': currentValue
+						value: currentValue,
+						label: currentValue
 					});
 					this.setState({
-						currentValue: currentValue
+						currentValue: currentValue,
+						userLocation: currentValue
 					}, this.executeQuery.bind(this));
 				});
 		});
@@ -174,13 +176,6 @@ export class GeoDistanceDropdown extends Component {
 		}
 	}
 
-	// Handle function when value slider option is changing
-	handleValuesChange(component, value) {
-		this.setState({
-			value: value,
-		});
-	}
-
 	loadOptions(input, callback) {
 		this.callback = callback;
 		if (input) {
@@ -195,10 +190,16 @@ export class GeoDistanceDropdown extends Component {
 			this.autocompleteService.getPlacePredictions(options, res => {
 				res.map(place => {
 					this.result.options.push({
-						'value': place.description,
-						'label': place.description
+						label: place.description,
+						value: place.description
 					});
-				})
+				});
+				if (this.result.options[0]["label"] != "Use my current location") {
+					this.result.options.unshift({
+						label: "Use my current location",
+						value: this.state.userLocation
+					});
+				}
 				this.callback(null, this.result);
 			});
 		} else {
@@ -214,6 +215,10 @@ export class GeoDistanceDropdown extends Component {
 				label: input.label
 			}
 		}, this.executeQuery.bind(this));
+	}
+
+	renderValue(option) {
+		return <span>{option.value}</span>;
 	}
 
 	// render
@@ -241,6 +246,8 @@ export class GeoDistanceDropdown extends Component {
 							loadOptions={this.loadOptions}
 							placeholder={this.props.placeholder}
 							onChange={this.handleChange}
+							filterOption={() => true}
+							valueRenderer={this.renderValue}
 							/>
 					</div>
 					<div className="col s12 col-xs-12">
