@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ReactiveBase, DataSearch, MultiList } from '@appbaseio/reactivebase';
+import { ReactiveBase, DataSearch, SingleList } from '@appbaseio/reactivebase';
 import { GoogleSearch, ReactiveMap } from '../app.js';
 import { Img } from './Img.js';
 import { AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
@@ -84,7 +84,7 @@ export default class ReactiveMapDefault extends Component {
 							/>
 						</div>
 						<div>
-							<MultiList
+							<SingleList
 								componentId="CitySensor"
 								appbaseField={this.props.mapping.city}
 								showCount={true}
