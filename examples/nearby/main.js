@@ -19,13 +19,13 @@ class Main extends Component {
 			view: 'map'
 		};
 		this.handleSelect = this.handleSelect.bind(this);
-		this.topicDepends = this.topicDepends.bind(this);
+		this.topicactuate = this.topicactuate.bind(this);
 		this.onData = this.onData.bind(this);
 		this.popoverContent = this.popoverContent.bind(this);
 		this.DEFAULT_IMAGE = 'http://www.avidog.com/wp-content/uploads/2015/01/BellaHead082712_11-50x65.jpg';
 	}
 
-	topicDepends(value) {
+	topicactuate(value) {
 		if(this.props.mapping.city && value) {
 			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
 			return { Match: match };
@@ -87,7 +87,7 @@ class Main extends Component {
 
 	onData(res) {
 		let result, combineData = res.currentData;
-		if(res.mode === 'historic') {
+		if(res.mode === 'historic' && res.currentData) {
 			combineData = res.currentData.concat(res.newData);
 		}
 		if (combineData) {
@@ -120,14 +120,14 @@ class Main extends Component {
 							<div className="col s12 m6 col-xs-12 col-sm-6">
 								<MultiList
 									appbaseField={this.props.mapping.topic}
-									sensorId="TopicSensor"
+									componentId="TopicSensor"
 									showCount={true}
 									size={100}
 									title="Topics"
-									depends={{
+									actuate={{
 										CitySensor: {
 											"operation": "must",
-											"defaultQuery": this.topicDepends
+											"defaultQuery": this.topicactuate
 										}
 									}}
 								/>
@@ -136,7 +136,7 @@ class Main extends Component {
 						<div className="row">
 							<div className="col s12 col-xs-12">
 								<GeoDistanceSlider
-									sensorId="GeoDistanceSlider"
+									componentId="GeoDistanceSlider"
 									APIkey={mapsAPIKey}
 									appbaseField={this.props.mapping.location}
 									minThreshold={1}
@@ -162,15 +162,15 @@ class Main extends Component {
 								searchField={this.props.mapping.venue}
 								mapStyle={this.props.mapStyle}
 								autoCenter={true}
-								searchAsMoveComponent={true}
-								MapStylesComponent={true}
+								showSearchAsMove={true}
+								showMapStyles={true}
 								title="Reactive Maps"
 								showPopoverOn = "onClick"
 								popoverContent = {this.popoverContent}
 								onData = {this.onData}
 								defaultZoom = {13}
 								defaultCenter={{ lat: 37.74, lng: -122.45 }}
-								depends={{
+								actuate={{
 									TopicSensor: {"operation": "must"},
 									GeoDistanceSlider: {"operation": "must"}
 								}}
@@ -178,7 +178,7 @@ class Main extends Component {
 						</div>
 						<div className={this.state.view !== 'list' ? 'invible' : 'h-100'}>
 							<ResultList
-								sensorId="SearchResult"
+								componentId="SearchResult"
 								appbaseField={this.props.mapping.location}
 								containerStyle={{height: '100%'}}
 								title="Result List"
@@ -186,7 +186,7 @@ class Main extends Component {
 								size={20}
 								requestOnScroll={true}
 								onData={this.onData}
-								depends={{
+								actuate={{
 									TopicSensor: {"operation": "must"},
 									GeoDistanceSlider: {"operation": "must"}
 								}}

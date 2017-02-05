@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { ReactiveBase } from '@appbaseio/reactivebase';
-import { GeoDistanceSlider, ReactiveMap } from '../app.js';
+import { GeoDistanceDropdown, ReactiveMap } from '../app.js';
 
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 const historyPin = require('./placeholder.svg');
 
-export default class GeoDistanceSliderDefault extends Component {
+export default class GeoDistanceDropdownDefault extends Component {
 	constructor(props) {
 		super(props);
 		this.popoverContent = this.popoverContent.bind(this);
@@ -43,14 +43,10 @@ export default class GeoDistanceSliderDefault extends Component {
 				<div className="row">
 
 					<div className="col s6">
-						<GeoDistanceSlider
-							componentId="GeoDistanceSlider"
+						<GeoDistanceDropdown
+							componentId="GeoDistanceDropdown"
 							APIkey={mapsAPIKey}
 							appbaseField={this.props.mapping.location}
-							range={{
-								"start": 0,
-								"end": 60
-							}}
 							{...this.props}
 						/>
 					</div>
@@ -72,7 +68,7 @@ export default class GeoDistanceSliderDefault extends Component {
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							actuate={{
-								GeoDistanceSlider: {"operation": "must"}
+								GeoDistanceDropdown: {"operation": "must"}
 							}}
 						/>
 					</div>
@@ -82,7 +78,7 @@ export default class GeoDistanceSliderDefault extends Component {
 	}
 }
 
-GeoDistanceSliderDefault.defaultProps = {
+GeoDistanceDropdownDefault.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
 		topic: 'group.group_topics.topic_name_raw.raw',

@@ -10,12 +10,12 @@ import { ReactiveMap } from '../../app/app.js';
 class Main extends Component {
 	constructor(props) {
 		super(props);
-		this.topicDepends = this.topicDepends.bind(this);
+		this.topicactuate = this.topicactuate.bind(this);
 		this.popoverContent = this.popoverContent.bind(this);
 		this.onData =  this.onData.bind(this);
 	}
 
-	topicDepends(value) {
+	topicactuate(value) {
 		if(this.props.mapping.city && value) {
 			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
 			return { Match: match };
@@ -69,7 +69,7 @@ class Main extends Component {
 						<div className="row h-100">
 							<div className="col s12">
 								<MultiList
-									sensorId="RoutesSensor"
+									componentId="RoutesSensor"
 									appbaseField={this.props.mapping.routes}
 									showCount={false}
 									defaultSelected={['Bus-12', 'Bus-14', 'Bus-22', 'Bus-43', 'Train-1']}
@@ -95,8 +95,8 @@ class Main extends Component {
 							searchField={this.props.mapping.venue}
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
-							searchAsMoveComponent={true}
-							MapStylesComponent={true}
+							showSearchAsMove={true}
+							showMapStyles={true}
 							title="SF Transport"
 							showPopoverOn = "onClick"
 							popoverContent = {this.popoverContent}
@@ -105,7 +105,7 @@ class Main extends Component {
 							rotateOnUpdate={true}
 							historicPin= 'dist/images/bus.png'
 							streamPin= 'dist/images/bus.png'
-							depends={{
+							actuate={{
 								RoutesSensor: {"operation": "must"}
 							}}
 							/>

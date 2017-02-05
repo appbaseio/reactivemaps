@@ -44,7 +44,7 @@ class Main extends Component {
 						<div className="row h-100">
 							<div className="col s6">
 								<SingleList
-									sensorId="CitySensor"
+									componentId="CitySensor"
 									appbaseField={this.props.mapping.city}
 									defaultSelected="London"
 									showCount={true}
@@ -58,12 +58,12 @@ class Main extends Component {
 							<div className="col s6">
 								<MultiList
 									appbaseField={this.props.mapping.topic}
-									sensorId="TopicSensor"
+									componentId="TopicSensor"
 									showCount={true}
 									size={100}
 									includeGeo={true}
 									title="Topics"
-									depends={{
+									actuate={{
 										CitySensor: {
 											"operation": "must",
 											"defaultQuery": this.cityQuery
@@ -85,10 +85,10 @@ class Main extends Component {
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
 							size={100}
-							searchAsMoveComponent={true}
-							MapStylesComponent={true}
+							showSearchAsMove={true}
+							showMapStyles={true}
 							title="Meetupblast"
-							depends={{
+							actuate={{
 								CitySensor: {"operation": "must", defaultQuery: this.cityQuery},
 								TopicSensor: {"operation": "must", defaultQuery: this.topicQuery}
 							}}

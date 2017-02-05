@@ -9,8 +9,6 @@ var dir_path = './app/';
 var files = {
 	css: {
 		vendor: [
-			// 'bower_components/bootstrap/dist/css/bootstrap.min.css',
-			// 'bower_components/materialize/dist/css/materialize.min.css',
 			'node_modules/@appbaseio/reactivebase/dist/css/vendor.min.css',
 			'node_modules/@appbaseio/reactivebase/dist/css/style.min.css'
 		],

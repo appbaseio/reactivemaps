@@ -6,7 +6,6 @@ import { SearchAsMove } from '../addons/SearchAsMove';
 import { MapStyles, mapStylesCollection } from '../addons/MapStyles';
 import classNames from 'classnames';
 import {
-	DataSearch,
 	AppbaseChannelManager as manager,
 	AppbaseSensorHelper as helper
 } from '@appbaseio/reactivebase';
@@ -25,7 +24,8 @@ export class ReactiveMap extends Component {
 					hits: []
 				}
 			},
-			externalData: {}
+			externalData: {},
+			mapBounds: null
 		};
 		this.previousSelectedSensor = {};
 		this.handleSearch = this.handleSearch.bind(this);
@@ -48,6 +48,11 @@ export class ReactiveMap extends Component {
 	}
 
 	componentDidMount() {
+		this.streamProp = this.props.stream;
+		this.initialize();
+	}
+
+	initialize() {
 		this.createChannel();
 		this.setGeoQueryInfo();
 		let currentMapStyle = this.getMapStyle(this.props.mapStyle);
@@ -56,23 +61,53 @@ export class ReactiveMap extends Component {
 		});
 	}
 
-	// Create a channel which passes the depends and receive results whenever depends changes
+	componentWillUpdate() {
+		setTimeout(() => {
+			if (this.streamProp != this.props.stream) {
+				this.streamProp = this.props.stream;
+				this.removeChannel();
+				this.initialize();
+			}
+		}, 300);
+	}
+
+	// stop streaming request and remove listener when component will unmount
+	componentWillUnmount() {
+		this.removeChannel();
+	}
+
+	removeChannel() {
+		if(this.channelId) {
+			manager.stopStream(this.channelId);
+			this.channelId = null;
+		}
+		if(this.channelListener) {
+			this.channelListener.remove();
+		}
+	}
+
+	// Create a channel which passes the actuate and receive results whenever actuate changes
 	createChannel() {
-		// Set the depends - add self aggs query as well with depends
-		let depends = this.props.depends ? this.props.depends : {};
-		depends['geoQuery'] = { operation: "must" };
+		// Set the actuate - add self aggs query as well with actuate
+		let actuate = this.props.actuate ? this.props.actuate : {};
+		actuate['geoQuery'] = { operation: "must" };
 		// create a channel and listen the changes
-		var channelObj = manager.create(this.context.appbaseRef, this.context.type, depends, this.props.requestSize);
-		channelObj.emitter.addListener(channelObj.channelId, function(res) {
+		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate, this.props.size, this.props.from, this.props.stream);
+		this.channelId = channelObj.channelId;
+		this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
 			// implementation to prevent initialize query issue if old query response is late then the newer query
 			// then we will consider the response of new query and prevent to apply changes for old query response.
 			// if queryStartTime of channel response is greater than the previous one only then apply changes
-			if(this.props.clearOnEmpty) {
+			if(!this.state.mapBounds) {
 				checkAndGo.call(this);
 			} else {
-				if(data.hits.hits.length) {
+				if(this.props.clearOnEmpty) {
 					checkAndGo.call(this);
+				} else {
+					if(data.hits.hits.length) {
+						checkAndGo.call(this);
+					}
 				}
 			}
 			function checkAndGo() {
@@ -110,10 +145,12 @@ export class ReactiveMap extends Component {
 			// Pass the historic or streaming data in index method
 			res.allMarkers = rawData;
 			res.mapRef = this.refs.map;
-			let generatedData = this.props.onData(res);
-			this.setState({
-				externalData: generatedData
-			});
+			if(this.props.onData) {
+				let generatedData = this.props.onData(res);
+				this.setState({
+					externalData: generatedData
+				});
+			}
 			if(this.streamFlag) {
 				this.streamMarkerInterval();
 			}
@@ -272,23 +309,29 @@ export class ReactiveMap extends Component {
 	// Handle function which is fired when map is moved and reaches to idle position
 	handleOnIdle() {
 		var mapBounds = this.refs.map.getBounds();
-		var north = mapBounds.getNorthEast().lat();
-		var south = mapBounds.getSouthWest().lat();
-		var east = mapBounds.getNorthEast().lng();
-		var west = mapBounds.getSouthWest().lng();
-		var boundingBoxCoordinates = {
-			"top_left": [west, north],
-			"bottom_right": [east, south]
-		};
-		let generatedData = this.props.onIdle(this.refs.map, {
-			boundingBoxCoordinates: boundingBoxCoordinates,
-			mapBounds: mapBounds
-		});
-		this.setState({
-			externalData: generatedData
-		});
-		if(this.searchAsMove && !this.searchQueryProgress) {
-			this.setValue(boundingBoxCoordinates, this.searchAsMove);
+		if(mapBounds) {
+			var north = mapBounds.getNorthEast().lat();
+			var south = mapBounds.getSouthWest().lat();
+			var east = mapBounds.getNorthEast().lng();
+			var west = mapBounds.getSouthWest().lng();
+			var boundingBoxCoordinates = {
+				"top_left": [west, north],
+				"bottom_right": [east, south]
+			};
+			var stateObj = {
+				mapBounds: mapBounds
+			};
+			if(this.props.onIdle) {
+				let generatedData = this.props.onIdle(this.refs.map, {
+					boundingBoxCoordinates: boundingBoxCoordinates,
+					mapBounds: mapBounds
+				});
+				stateObj.externalData = generatedData;
+			}
+			if(this.searchAsMove && !this.searchQueryProgress) {
+				this.setValue(boundingBoxCoordinates, this.searchAsMove);
+			}
+			this.setState(stateObj);
 		}
 	}
 
@@ -406,7 +449,7 @@ export class ReactiveMap extends Component {
 	}
 
 	chooseIcon(hit) {
-		let icon = hit.external_icon ? hit.external_icon : (hit.stream ? this.props.streamPin : this.props.historicPin);
+		let icon = hit.external_icon ? hit.external_icon : (hit.stream ? this.props.streamPin : this.props.defaultPin);
 		let isSvg = typeof icon === 'object' && icon.hasOwnProperty('path') ? true : false;
 		if(isSvg) {
 			icon = JSON.parse(JSON.stringify(icon));
@@ -459,6 +502,13 @@ export class ReactiveMap extends Component {
 						popoverEvent = {};
 						popoverEvent['onClick'] = this.handleMarkerClick.bind(this, hit);
 					}
+					let defaultFn = function(){};
+					let events = {
+						onClick: this.props.markerOnClick ? this.props.markerOnClick : defaultFn,
+						onDblclick: this.props.markerOnDblclick ? this.props.markerOnDblclick : defaultFn,
+						onMouseover: this.props.onMouseover ? this.props.onMouseover : defaultFn,
+						onMouseout: this.props.onMouseout ? this.props.onMouseout : defaultFn
+					};
 					let timenow = new Date();
 					return (
 						<Marker {...position}
@@ -466,10 +516,10 @@ export class ReactiveMap extends Component {
 							zIndex={1}
 							ref={ref}
 							{...self.combineProps(hit)}
-							onClick={() => self.props.markerOnClick(hit._source)}
-							onDblclick={() => self.props.markerOnDblclick(hit._source)}
-							onMouseover={() => self.props.markerOnMouseover(hit._source)}
-							onMouseout={() => self.props.markerOnMouseout(hit._source)}
+							onClick={() => events.onClick(hit._source)}
+							onDblclick={() => events.onDblclick(hit._source)}
+							onMouseover={() => events.onMouseover(hit._source)}
+							onMouseout={() => events.onMouseout(hit._source)}
 							{...popoverEvent}>
 							{hit.showInfo ? self.renderInfoWindow(ref, hit) : null}
 						</Marker>
@@ -483,7 +533,7 @@ export class ReactiveMap extends Component {
 				};
 			}
 		}
-		if(!this.props.allowMarkers) {
+		if(!this.props.showMarkers) {
 			response.markerComponent = [];
 		}
 		return response;
@@ -514,9 +564,9 @@ export class ReactiveMap extends Component {
 
 	render() {
 		var self = this;
-		var markerComponent, searchComponent, searchAsMoveComponent, MapStylesComponent;
-		let appbaseSearch, title = null;
-		var searchComponentProps = {};
+		var markerComponent, showSearchAsMove, showMapStyles;
+		let appbaseSearch, title = null, center = null;
+		let centerComponent = {};
 		var otherOptions;
 		var generatedMarkers = this.generateMarkers();
 		if (this.props.markerCluster) {
@@ -533,50 +583,52 @@ export class ReactiveMap extends Component {
 			streamCenterFlag = false;
 		}
 		if(!this.searchAsMove && this.props.autoCenter && this.reposition && streamCenterFlag) {
-			searchComponentProps.center =  generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : (this.storeCenter ? this.storeCenter : this.state.center);
-			this.storeCenter = searchComponentProps.center;
+			center =  generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : (this.storeCenter ? this.storeCenter : this.state.center);
+			this.storeCenter = center;
 			this.reposition = false;
+			centerComponent.center = center;
 		} else {
 			if(this.storeCenter) {
-				searchComponentProps.center = this.storeCenter;
+				center = this.storeCenter;
+				centerComponent.center = center;
 			} else {
-				delete searchComponentProps.center;
+				center = null;
 			}
 		}
 		// include searchasMove component
-		if(this.props.searchAsMoveComponent) {
-			searchAsMoveComponent = <SearchAsMove searchAsMoveDefault={this.props.searchAsMoveDefault} searchAsMoveChange={this.searchAsMoveChange} />;
+		if(this.props.showSearchAsMove) {
+			showSearchAsMove = <SearchAsMove searchAsMoveDefault={this.props.setSearchAsMove} searchAsMoveChange={this.searchAsMoveChange} />;
 		}
 		// include mapStyle choose component
-		if(this.props.MapStylesComponent) {
-			MapStylesComponent = <MapStyles defaultSelected={this.props.mapStyle} mapStyleChange={this.mapStyleChange} />;
+		if(this.props.showMapStyles) {
+			showMapStyles = <MapStyles defaultSelected={this.props.mapStyle} mapStyleChange={this.mapStyleChange} />;
 		}
 		// include title if exists
 		if(this.props.title) {
-			title = (<h4 className="rmc-title col s12 m8 col-xs-12 col-sm-8">{this.props.title}</h4>);
+			title = (<h4 className="rbc-title col s12 m8 col-xs-12 col-sm-8">{this.props.title}</h4>);
 		}
 
 		let cx = classNames({
-			'rmc-title-active': this.props.title,
-			'rmc-title-inactive': !this.props.title
+			'rbc-title-active': this.props.title,
+			'rbc-title-inactive': !this.props.title
 		});
 
 		return(
-			<div className={`rmc rmc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`}>
+			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={this.props.componentStyle}>
 				{title}
 				<span className="col s12 m4 col-xs-12 col-sm-4">
-					{MapStylesComponent}
+					{showMapStyles}
 				</span>
 				<GoogleMapLoader
 					containerElement={
-						<div className="rmc-container col s12 col-xs-12"  style={this.props.containerStyle} />
+						<div className="rbc-container col s12 col-xs-12" style={this.props.containerStyle}/>
 					}
 					googleMapElement={
 						<GoogleMap ref = "map"
 							options = {{
 								styles: this.state.currentMapStyle
 							}}
-							{...searchComponentProps}
+							{...centerComponent}
 							{...this.props}
 								onDragstart = {() => {
 									this.handleOnDrage()
@@ -600,13 +652,12 @@ export class ReactiveMap extends Component {
 							onTiltChanged = {() => this.mapEvents('onTiltChanged')}
 							onZoomChanged = {() => this.mapEvents('onZoomChanged')}
 						>
-							{searchComponent}
 							{markerComponent}
 							{this.externalData()}
 						</GoogleMap>
 					}
 				/>
-				{searchAsMoveComponent}
+				{showSearchAsMove}
 				<div className="col s12 text-center center-align">
 					<img width='200px' height='auto' src="dist/images/logo.png" />
 				</div>
@@ -618,46 +669,53 @@ export class ReactiveMap extends Component {
 ReactiveMap.propTypes = {
 	appbaseField: React.PropTypes.string.isRequired,
 	searchField: React.PropTypes.string,
-	searchComponent: React.PropTypes.string,
 	onIdle: React.PropTypes.func,
 	markerOnDelete: React.PropTypes.func,
 	onData: React.PropTypes.func,
 	markerCluster: React.PropTypes.bool,
-	historicalData: React.PropTypes.bool,
 	rotateOnUpdate: React.PropTypes.bool,
-	allowMarkers: React.PropTypes.bool,
+	showMarkers: React.PropTypes.bool,
 	streamActiveTime: React.PropTypes.number,
-	requestSize: React.PropTypes.number,
-	clearOnEmpty: React.PropTypes.bool
+	size: React.PropTypes.number,
+	from: React.PropTypes.number,
+	clearOnEmpty: React.PropTypes.bool, // usecase?
+	componentStyle: React.PropTypes.object,
+	containerStyle: React.PropTypes.object,
+	autoCenter: React.PropTypes.bool,
+	showSearchAsMove: React.PropTypes.bool,
+	setSearchAsMove: React.PropTypes.bool,
+	mapStyle: React.PropTypes.oneOf(['Standard', 'Blue Essence', 'Blue Water', 'Flat Map', 'Light Monochrome', 'Midnight Commander', 'Unsaturated Browns']),
+	title: React.PropTypes.string,
+	streamAutoCenter: React.PropTypes.bool,
+	defaultPin: React.PropTypes.string,
+	streamPin: React.PropTypes.string,
+	stream: React.PropTypes.bool,
+	showPopoverOn: React.PropTypes.oneOf(['onClick', 'onMouseover'])
 };
 
 ReactiveMap.defaultProps = {
-	historicalData: true,
 	markerCluster: true,
-	searchComponent: "google",
 	autoCenter: false,
-	searchAsMoveComponent: false,
-	searchAsMoveDefault: false,
-	MapStylesComponent: false,
+	showSearchAsMove: false,
+	setSearchAsMove: false,
+	showMapStyles: false,
 	mapStyle: 'Standard',
-	title: null,
-	requestSize: 100,
+	from: 0,
+	size: 100,
 	streamActiveTime: 5,
 	streamAutoCenter: true,
 	rotateOnUpdate: false,
-	allowMarkers: true,
+	showMarkers: true,
 	clearOnEmpty: true,
-	historicPin: 'dist/images/historic-pin.png',
-	streamPin: 'dist/images/stream-pin.png',
-	markerOnClick: function() {},
-	markerOnDblclick: function() {},
-	markerOnMouseover: function() {},
-	markerOnMouseout: function() {},
-	onData: function() {},
-	onIdle: function() {},
+	defaultPin: 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png',
+	streamPin: 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png',
+	componentStyle: {
+		height: '100%'
+	},
 	containerStyle: {
 		height: '700px'
-	}
+	},
+	stream: false
 };
 
 ReactiveMap.contextTypes = {

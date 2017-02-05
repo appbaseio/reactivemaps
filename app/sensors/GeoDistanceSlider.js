@@ -4,6 +4,7 @@ import {
 	AppbaseSensorHelper as helper
 } from '@appbaseio/reactivebase';
 
+import classNames from 'classnames';
 import axios from 'axios';
 import Slider from 'rc-slider';
 import Select from 'react-select';
@@ -11,7 +12,7 @@ import Select from 'react-select';
 export class GeoDistanceSlider extends Component {
 	constructor(props, context) {
 		super(props);
-		let value = this.props.value < this.props.minThreshold ? this.props.minThreshold :  this.props.value;
+		let value = this.props.value < this.props.range.start ? this.props.range.start :  this.props.value;
 		this.state = {
 			currentValue: '',
 			currentDistance: this.props.value + this.props.unit,
@@ -45,6 +46,21 @@ export class GeoDistanceSlider extends Component {
 		this.getUserLocation();
 	}
 
+	componentWillReceiveProps(nextProps) {
+		setTimeout(() => {
+			this.handleResults(nextProps.value);
+		}, 300);
+	}
+
+	componentWillUnmount() {
+		if(this.channelId) {
+			manager.stopStream(this.channelId);
+		}
+		if(this.channelListener) {
+			this.channelListener.remove();
+		}
+	}
+
 	getUserLocation() {
 		navigator.geolocation.getCurrentPosition((location) => {
 			this.locString = location.coords.latitude + ', ' + location.coords.longitude;
@@ -66,7 +82,7 @@ export class GeoDistanceSlider extends Component {
 	// set the query type and input data
 	setQueryInfo() {
 		let obj = {
-			key: this.props.sensorId,
+			key: this.props.componentId,
 			value: {
 				queryType: this.type,
 				appbaseField: this.props.appbaseField,
@@ -108,7 +124,7 @@ export class GeoDistanceSlider extends Component {
 	executeQuery() {
 		if (this.state.currentValue != '' && this.state.currentDistance && this.locString) {
 			var obj = {
-				key: this.props.sensorId,
+				key: this.props.componentId,
 				value: {
 					currentValue: this.state.currentValue,
 					currentDistance: this.state.currentDistance,
@@ -116,7 +132,7 @@ export class GeoDistanceSlider extends Component {
 				}
 			};
 			let sortObj = {
-				key: this.props.sensorId,
+				key: this.props.componentId,
 				value: {
 					[this.sortInfo.type]: {
 						[this.props.appbaseField]: this.locString,
@@ -131,10 +147,11 @@ export class GeoDistanceSlider extends Component {
 	}
 
 	// use this only if want to create actuators
-	// Create a channel which passes the depends and receive results whenever depends changes
+	// Create a channel which passes the actuate and receive results whenever actuate changes
 	createChannel() {
-		let depends = this.props.depends ? this.props.depends : {};
-		var channelObj = manager.create(this.context.appbaseRef, this.context.type, depends);
+		let actuate = this.props.actuate ? this.props.actuate : {};
+		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate);
+		this.channelId = channelObj.channelId;
 	}
 
 	// handle the input change and pass the value inside sensor info
@@ -200,35 +217,51 @@ export class GeoDistanceSlider extends Component {
 
 	// render
 	render() {
-		let title = null, titleExists = false;
+		let title = null,
+			marks = {};
+
 		if(this.props.title) {
-			titleExists = true;
-			title = (<h4 className="rmc-title">{this.props.title}</h4>);
+			title = (<h4 className="rbc-title">{this.props.title}</h4>);
 		}
 
+		if (this.props.rangeLabels.start || this.props.rangeLabels.end) {
+			marks = {
+				[this.props.range.start]: this.props.rangeLabels.start,
+				[this.props.range.end]: this.props.rangeLabels.end
+			}
+		}
+
+		let cx = classNames({
+			'rbc-title-active': this.props.title,
+			'rbc-title-inactive': !this.props.title,
+			'rbc-placeholder-active': this.props.placeholder,
+			'rbc-placeholder-inactive': !this.props.placeholder,
+			'rbc-labels-active': this.props.rangeLabels.start || this.props.rangeLabels.end,
+			'rbc-labels-inactive': !this.props.rangeLabels.start && !this.props.rangeLabels.end
+		});
+
 		return (
-			<div className={`rmc rmc-geodistanceslider clearfix card thumbnail col s12 col-xs-12 title-${titleExists}`}>
+			<div className={`rbc rbc-geodistanceslider clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
 				<div className="row">
 					{title}
-					<div className="col s12 col-xs-12">
+					<div className="rbc-search-container col s12 col-xs-12">
 						<Select.Async
 							value={this.state.currentValue}
 							loadOptions={this.loadOptions}
 							placeholder={this.props.placeholder}
 							onChange={this.handleChange}
 							/>
+					</div>
 
-						<div className="col s12 col-xs-12"
-							style={{'padding': '20px 0'}}
-							>
-							<Slider
-								tipFormatter={this.unitFormatter}
-								defaultValue={this.state.value}
-								min={this.props.minThreshold}
-								max={this.props.maxThreshold}
-								onAfterChange={this.handleResults}
-							/>
-						</div>
+					<div className="rbc-rangeslider-container col s12 col-xs-12">
+						<Slider
+							tipFormatter={this.unitFormatter}
+							value={this.state.value}
+							min={this.props.range.start}
+							max={this.props.range.end}
+							onChange={this.handleResults}
+							marks={marks}
+						/>
 					</div>
 				</div>
 			</div>
@@ -238,14 +271,31 @@ export class GeoDistanceSlider extends Component {
 
 GeoDistanceSlider.propTypes = {
 	appbaseField: React.PropTypes.string.isRequired,
-	placeholder: React.PropTypes.string
+	placeholder: React.PropTypes.string,
+	range: React.PropTypes.shape({
+		start: helper.validateThreshold,
+		end: helper.validateThreshold
+	}),
+	rangeLabels: React.PropTypes.shape({
+		start: React.PropTypes.string,
+		end: React.PropTypes.string
+	})
 };
+
 // Default props value
 GeoDistanceSlider.defaultProps = {
 	value: 1,
-	unit: 'km',
+	unit: 'mi',
 	placeholder: "Search...",
-	size: 10
+	size: 10,
+	range: {
+		start: 0,
+		end: 10
+	},
+	rangeLabels: {
+		start: null,
+		end: null
+	}
 };
 
 // context type

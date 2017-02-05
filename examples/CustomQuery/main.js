@@ -42,7 +42,7 @@ class Main extends Component {
 						<div className="row h-100">
 							<div className="col s12">
 								<TextField
-									sensorId="InputSensor"
+									componentId="InputSensor"
 									title="Cities"
 									placeholder="Search City (i.e London)"
 								/>
@@ -51,11 +51,27 @@ class Main extends Component {
 
 						<div className="row">
 							<GeoDistanceDropdown
-								sensorId="GeoSensor"
+								componentId="GeoSensor"
 								appbaseField={this.props.mapping.location}
 								title="Geo Distance"
 								APIkey={mapsAPIKey}
-								distanceOptions={[2,5,10,15]}
+								data={[{
+									start: 0,
+									end: 2,
+									label: '0-2 mi'
+								}, {
+									start: 2,
+									end: 5,
+									label: '2-5 mi'
+								}, {
+									start: 5,
+									end: 10,
+									label: '5-10 mi'
+								}, {
+									start: 10,
+									end: 15,
+									label: '10-15 mi'
+								}]}
 								unit="mi"
 							/>
 						</div>
@@ -67,15 +83,14 @@ class Main extends Component {
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							historicalData={true}
 							markerCluster={false}
-							searchComponent="appbase"
 							searchField={this.props.mapping.venue}
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
 							size={100}
-							searchAsMoveComponent={true}
-							MapStylesComponent={true}
+							showSearchAsMove={true}
+							showMapStyles={true}
 							title="Meetupblast"
-							depends={{
+							actuate={{
 								InputSensor: {"operation": "must", defaultQuery: this.cityQuery},
 								GeoSensor: {"operation": "must"}
 							}}

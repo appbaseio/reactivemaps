@@ -7,7 +7,7 @@ import { GoogleSearch } from '../../app/sensors/GoogleSearch.js';
 
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 
-class Main extends Component {
+export default class GoogleSearchDefault extends Component {
 	constructor(props) {
 		super(props);
 		this.originQuery = this.originQuery.bind(this);
@@ -90,10 +90,12 @@ class Main extends Component {
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
 							markerCluster={false}
+							searchComponent="appbase"
+							searchField={this.props.mapping.venue}
 							mapStyle={this.props.mapStyle}
-							autoCenter={false}
-							showSearchAsMove={true}
-							showMapStyles={true}
+							autoCenter={true}
+							searchAsMoveComponent={true}
+							MapStylesComponent={true}
 							clearOnEmpty={false}
 							title="Reactive Maps"
 							onIdle={this.onIdle}
@@ -112,7 +114,7 @@ class Main extends Component {
 	}
 }
 
-Main.defaultProps = {
+GoogleSearchDefault.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
 		city: 'group.group_city.raw',
@@ -130,5 +132,3 @@ Main.defaultProps = {
 		}
 	}
 };
-
-ReactDOM.render(<Main />, document.getElementById('map'));

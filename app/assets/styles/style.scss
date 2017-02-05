@@ -1,6 +1,7 @@
 @import "partials/base/fonts",
-		"partials/settings/variables",
-		"partials/base/base";
+		"partials/settings/variables";
+
+@import "partials/theme/default";
 
 @import "partials/components/reactivemap",
 		"partials/components/geodistance",

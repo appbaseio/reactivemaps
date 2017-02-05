@@ -78,11 +78,11 @@ class Main extends Component {
 							searchField={this.props.mapping.place}
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
-							searchAsMoveComponent={true}
+							showSearchAsMove={true}
 							title="Earthquake"
 							showPopoverOn = "onClick"
 							popoverContent = {this.popoverContent}
-							depends={{
+							actuate={{
 								PlaceSensor: {"operation": "must"},
 								RangeSensor: {"operation": "must"},
 								YearSensor: {"operation": "must"},
@@ -93,7 +93,7 @@ class Main extends Component {
 						<div className="row h-100">
 							<div className="col s12 col-xs-12">
 								<SingleList
-									sensorId="PlaceSensor"
+									componentId="PlaceSensor"
 									appbaseField={this.props.mapping.venue}
 									defaultSelected="Japan"
 									showCount={true}
@@ -107,9 +107,9 @@ class Main extends Component {
 						<div className="row">
 							<div className="col s12 col-xs-12">
 								<RangeSlider
-									sensorId="RangeSensor"
+									componentId="RangeSensor"
 									appbaseField={this.props.mapping.mag}
-									depends={{
+									actuate={{
 										PlaceSensor: {
 											"operation": "must",
 											"defaultQuery": this.placeQuery
@@ -118,30 +118,40 @@ class Main extends Component {
 									defaultSelected={
 										{
 											"start": 1,
-											"end": 5
+											"end": 9
 										}
 									}
+									range={{
+										start: 1,
+										end: 10
+									}}
 									title="Magnitude"
-									startThreshold={1}
-									endThreshold={10}
 									stepValue={1} />
 							</div>
 						</div>
 						<div className="row">
 							<div className="col s12 col-xs-12">
 								<RangeSlider
-									sensorId="YearSensor"
+									componentId="YearSensor"
 									appbaseField={this.props.mapping.time}
-									depends={{
+									actuate={{
 										PlaceSensor: {
 											"operation": "must",
 											"defaultQuery": this.placeQuery
 										}
 									}}
+									defaultSelected={
+										{
+											"start": 1901,
+											"end": 2015
+										}
+									}
+									range={{
+										start: 1900,
+										end: 2016
+									}}
 									title="Year"
-									stepValue={1}
-									startThreshold={1900}
-									endThreshold={2016} />
+									stepValue={1} />
 							</div>
 						</div>
 					</div>

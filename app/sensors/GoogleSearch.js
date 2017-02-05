@@ -60,7 +60,7 @@ export class GoogleSearch extends Component {
 	// set the query type and input data
 	setQueryInfo() {
 		let obj = {
-			key: this.props.sensorId,
+			key: this.props.componentId,
 			value: {
 				queryType: this.type,
 				inputData: this.props.appbaseField,
@@ -102,7 +102,7 @@ export class GoogleSearch extends Component {
 	executeQuery() {
 		if (this.state.currentValue != '' && this.locString) {
 			var obj = {
-				key: this.props.sensorId,
+				key: this.props.componentId,
 				value: {
 					currentValue: this.state.currentValue,
 					location: this.locString
@@ -113,10 +113,10 @@ export class GoogleSearch extends Component {
 	}
 
 	// use this only if want to create actuators
-	// Create a channel which passes the depends and receive results whenever depends changes
+	// Create a channel which passes the actuate and receive results whenever actuate changes
 	createChannel() {
-		let depends = this.props.depends ? this.props.depends : {};
-		var channelObj = manager.create(this.context.appbaseRef, this.context.type, depends);
+		let actuate = this.props.actuate ? this.props.actuate : {};
+		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate);
 	}
 
 	// handle the input change and pass the value inside sensor info
@@ -179,16 +179,18 @@ export class GoogleSearch extends Component {
 	render() {
 		let title = null;
 		if(this.props.title) {
-			title = (<h4 className="rmc-title">{this.props.title}</h4>);
+			title = (<h4 className="rbc-title">{this.props.title}</h4>);
 		}
 
 		let cx = classNames({
-			'rmc-title-active': this.props.title,
-			'rmc-title-inactive': !this.props.title
+			'rbc-title-active': this.props.title,
+			'rbc-title-inactive': !this.props.title,
+			'rbc-placeholder-active': this.props.placeholder,
+			'rbc-placeholder-inactive': !this.props.placeholder
 		});
 
 		return (
-			<div className={`rmc rmc-googlesearch clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
+			<div className={`rbc rbc-googlesearch clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
 				<div className="row">
 					{title}
 					<div className="col s12 col-xs-12">

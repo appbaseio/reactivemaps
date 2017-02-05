@@ -76,6 +76,7 @@ module.exports = {
 				id: this.heatmapData[index]._id.toString()
 			};
 			this.heatmapApp.delete(requestObject).on('data', function(response) {
+				console.log('Deleted', index);
 			}).on('error', function(error) {
 				console.log(error);
 			});
