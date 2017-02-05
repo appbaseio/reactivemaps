@@ -597,7 +597,7 @@ export class ReactiveMap extends Component {
 		}
 		// include searchasMove component
 		if(this.props.showSearchAsMove) {
-			showSearchAsMove = <SearchAsMove setSearchAsMove={this.props.setSearchAsMove} searchAsMoveChange={this.searchAsMoveChange} />;
+			showSearchAsMove = <SearchAsMove searchAsMoveDefault={this.props.setSearchAsMove} searchAsMoveChange={this.searchAsMoveChange} />;
 		}
 		// include mapStyle choose component
 		if(this.props.showMapStyles) {
