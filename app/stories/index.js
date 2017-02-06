@@ -16,14 +16,14 @@ storiesOf("GeoDistanceSlider", module)
 	.addDecorator(withKnobs)
 	.add("Basic", () => (
 		<GeoDistanceSliderDefault
-			value={50}
+			defaultSelected={50}
 			unit="mi"
 			placeholder="Search Location"
 		/>
 	))
 	.add("With Title", () => (
 		<GeoDistanceSliderDefault
-			value={50}
+			defaultSelected={50}
 			unit="mi"
 			title="Geo Distance Search"
 			placeholder="Search Location"
@@ -31,7 +31,7 @@ storiesOf("GeoDistanceSlider", module)
 	))
 	.add("With Range Labels", () => (
 		<GeoDistanceSliderDefault
-			value={50}
+			defaultSelected={50}
 			unit="mi"
 			title="Geo Distance Search"
 			placeholder="Search Location"
@@ -45,10 +45,14 @@ storiesOf("GeoDistanceSlider", module)
 	))
 	.add("Playground", () => (
 		<GeoDistanceSliderDefault
-			value={number("value", 50)}
+			defaultSelected={number("defaultSelected", 50)}
 			unit={text("unit", "mi")}
 			title={text("title", "Geo Distance Slider")}
 			placeholder={text("placeholder", "Search Location")}
+			range={object("range", {
+				"start": 0,
+				"end": 50
+			})}
 			rangeLabels={object("rangeLabels", {
 				"start": "Start",
 				"end": "End"

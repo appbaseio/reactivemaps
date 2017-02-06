@@ -12,10 +12,11 @@ import Select from 'react-select';
 export class GeoDistanceSlider extends Component {
 	constructor(props, context) {
 		super(props);
-		let value = this.props.value < this.props.range.start ? this.props.range.start :  this.props.value;
+		let value = this.props.defaultSelected < this.props.range.start ? this.props.range.start :  this.props.defaultSelected;
 		this.state = {
 			currentValue: '',
-			currentDistance: this.props.value + this.props.unit,
+			currentDistance: this.props.defaultSelected + this.props.unit,
+			userLocation: '',
 			value: value
 		};
 		this.type = 'geo_distance';
@@ -34,6 +35,7 @@ export class GeoDistanceSlider extends Component {
 		this.handleValuesChange = this.handleValuesChange.bind(this);
 		this.handleResults = this.handleResults.bind(this);
 		this.unitFormatter = this.unitFormatter.bind(this);
+		this.renderValue = this.renderValue.bind(this);
 	}
 
 	componentWillMount() {
@@ -48,7 +50,7 @@ export class GeoDistanceSlider extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		setTimeout(() => {
-			this.handleResults(nextProps.value);
+			this.handleResults(nextProps.defaultSelected);
 		}, 300);
 	}
 
@@ -69,11 +71,12 @@ export class GeoDistanceSlider extends Component {
 				.then(res => {
 					let currentValue = res.data.results[0].formatted_address;
 					this.result.options.push({
-						'value': currentValue,
-						'label': currentValue
+						value: currentValue,
+						label: currentValue
 					});
 					this.setState({
-						currentValue: currentValue
+						currentValue: currentValue,
+						userLocation: currentValue
 					}, this.executeQuery.bind(this));
 				});
 		});
@@ -204,15 +207,25 @@ export class GeoDistanceSlider extends Component {
 			this.autocompleteService.getPlacePredictions(options, res => {
 				res.map(place => {
 					this.result.options.push({
-						'value': place.description,
-						'label': place.description
+						label: place.description,
+						value: place.description
 					});
-				})
+				});
+				if (this.result.options[0]["label"] != "Use my current location") {
+					this.result.options.unshift({
+						label: "Use my current location",
+						value: this.state.userLocation
+					});
+				}
 				this.callback(null, this.result);
 			});
 		} else {
 			this.callback(null, this.result);
 		}
+	}
+
+	renderValue(option) {
+		return <span>{option.value}</span>;
 	}
 
 	// render
@@ -250,6 +263,8 @@ export class GeoDistanceSlider extends Component {
 							loadOptions={this.loadOptions}
 							placeholder={this.props.placeholder}
 							onChange={this.handleChange}
+							filterOption={() => true}
+							valueRenderer={this.renderValue}
 							/>
 					</div>
 
@@ -284,7 +299,7 @@ GeoDistanceSlider.propTypes = {
 
 // Default props value
 GeoDistanceSlider.defaultProps = {
-	value: 1,
+	defaultSelected: 1,
 	unit: 'mi',
 	placeholder: "Search...",
 	size: 10,

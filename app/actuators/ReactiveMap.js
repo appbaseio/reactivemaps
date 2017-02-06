@@ -71,6 +71,12 @@ export class ReactiveMap extends Component {
 		}, 300);
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.mapStyle != this.props.mapStyle) {
+			this.mapStyleChange(this.getMapStyle(nextProps.mapStyle));
+		}
+	}
+
 	// stop streaming request and remove listener when component will unmount
 	componentWillUnmount() {
 		this.removeChannel();

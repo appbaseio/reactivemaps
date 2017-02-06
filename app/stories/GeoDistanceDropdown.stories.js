@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { ReactiveBase } from '@appbaseio/reactivebase';
 import { GeoDistanceDropdown, ReactiveMap } from '../app.js';
+import { Img } from './Img.js';
+import { AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
 
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 const historyPin = require('./placeholder.svg');
@@ -11,9 +13,13 @@ export default class GeoDistanceDropdownDefault extends Component {
 		this.popoverContent = this.popoverContent.bind(this);
 	}
 
+	componentDidMount() {
+		helper.ResponsiveStory();
+	}
+
 	popoverContent(marker) {
-		return (<div className="popoverComponent row">
-			<span className="imgContainer col s2">
+		return (<div className="popoverComponent row" style={{'margin': '0', 'maxWidth': '300px'}}>
+			<span className="imgContainer col s2" style={{'padding': '0'}}>
 				<Img src={marker._source.member.photo}  />
 			</span>
 			<div className="infoContainer col s10">
@@ -21,7 +27,7 @@ export default class GeoDistanceDropdownDefault extends Component {
 					<strong>{marker._source.member.member_name}</strong>
 				</div>
 				<div className="description">
-					<p>is going to&nbsp;
+					<p style={{'margin': '5px 0', 'lineHeight': '18px'}}>is going to&nbsp;
 						<a href={marker._source.event.event_url} target="_blank">
 							{marker._source.event.event_name}
 						</a>

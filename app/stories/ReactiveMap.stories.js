@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
-import { ReactiveBase, DataSearch, MultiList } from '@appbaseio/reactivebase';
+import { ReactiveBase, DataSearch, SingleList } from '@appbaseio/reactivebase';
 import { GoogleSearch, ReactiveMap } from '../app.js';
 import { Img } from './Img.js';
+import { AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
 
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 const historyPin = require('./placeholder.svg');
-const searchStyles = {
-	'width': '260px',
-	'position': 'absolute',
-	'top': '45px',
-	'left' : '23px',
-	'zIndex': '5'
-};
 
 export default class ReactiveMapDefault extends Component {
 	constructor(props) {
 		super(props);
 		this.popoverContent = this.popoverContent.bind(this);
+	}
+
+	componentDidMount() {
+		helper.ResponsiveStory();
 	}
 
 	popoverContent(marker) {
@@ -86,7 +84,7 @@ export default class ReactiveMapDefault extends Component {
 							/>
 						</div>
 						<div>
-							<MultiList
+							<SingleList
 								componentId="CitySensor"
 								appbaseField={this.props.mapping.city}
 								showCount={true}
