@@ -64,7 +64,7 @@ class Main extends Component {
 				</div>
 				<div className="description">
 					<p>is going to&nbsp;
-						<a href={marker._source.url} target="_blank">
+						<a href={'https://'+marker._source.url} target="_blank">
 							{marker._source.venue}
 						</a>
 					</p>
