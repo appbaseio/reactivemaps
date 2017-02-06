@@ -123,7 +123,6 @@ class Main extends Component {
 								<SingleList
 									componentId="CitySensor"
 									appbaseField={this.props.mapping.city}
-									defaultSelected="london"
 									showCount={true}
 									size={100}
 									multipleSelect={false}
@@ -165,10 +164,10 @@ Main.defaultProps = {
 	},
 	config: {
 		"appbase": {
-			"appname": "checkin",
-			"username": "6PdfXag4h",
-			"password": "b614d8fa-03d8-4005-b6f1-f2ff31cd0f91",
-			"type": "city"
+			"appname": "checkinNew",
+			"username": "FUNb872sF",
+			"password": "03616fcc-e4a1-4598-9401-3ad2d7f7f5ce",
+			"type": "checkinData"
 		}
 	},
 	markerIcons: {
