@@ -12,10 +12,10 @@ import Select from 'react-select';
 export class GeoDistanceSlider extends Component {
 	constructor(props, context) {
 		super(props);
-		let value = this.props.value < this.props.range.start ? this.props.range.start :  this.props.value;
+		let value = this.props.defaultSelected < this.props.range.start ? this.props.range.start :  this.props.defaultSelected;
 		this.state = {
 			currentValue: '',
-			currentDistance: this.props.value + this.props.unit,
+			currentDistance: this.props.defaultSelected + this.props.unit,
 			userLocation: '',
 			value: value
 		};
@@ -50,7 +50,7 @@ export class GeoDistanceSlider extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		setTimeout(() => {
-			this.handleResults(nextProps.value);
+			this.handleResults(nextProps.defaultSelected);
 		}, 300);
 	}
 
@@ -299,7 +299,7 @@ GeoDistanceSlider.propTypes = {
 
 // Default props value
 GeoDistanceSlider.defaultProps = {
-	value: 1,
+	defaultSelected: 1,
 	unit: 'mi',
 	placeholder: "Search...",
 	size: 10,
