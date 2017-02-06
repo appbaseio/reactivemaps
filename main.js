@@ -53,7 +53,7 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					appname={this.props.config.appbase.appname}
+					app={this.props.config.appbase.app}
 					username={this.props.config.appbase.username}
 					password={this.props.config.appbase.password}
 					>
@@ -148,7 +148,7 @@ Main.defaultProps = {
 	},
 	config: {
 		"appbase": {
-			"appname": "reactivemap_demo",
+			"app": "reactivemap_demo",
 			"username": "y4pVxY2Ok",
 			"password": "c92481e2-c07f-4473-8326-082919282c18",
 			"type": "meetupdata1"

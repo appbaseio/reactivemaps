@@ -40,7 +40,7 @@ export default class GeoDistanceDropdownDefault extends Component {
 	render() {
 		return (
 			<ReactiveBase
-				appname={this.props.config.appbase.appname}
+				app={this.props.config.appbase.app}
 				username={this.props.config.appbase.username}
 				password={this.props.config.appbase.password}
 				type={this.props.config.appbase.type}
@@ -93,7 +93,7 @@ GeoDistanceDropdownDefault.defaultProps = {
 	},
 	config: {
 		"appbase": {
-			"appname": "reactivemap_demo",
+			"app": "reactivemap_demo",
 			"username": "y4pVxY2Ok",
 			"password": "c92481e2-c07f-4473-8326-082919282c18",
 			"type": "meetupdata1"

@@ -40,7 +40,7 @@ export default class ReactiveMapDefault extends Component {
 	render() {
 		return (
 			<ReactiveBase
-				appname="meetup_demo"
+				app="meetup_demo"
 				username="LPpISlEBe"
 				password="2a8935f5-0f63-4084-bc3e-2b2b4d1a8e02"
 				theme="rbc-blue"
@@ -111,7 +111,7 @@ ReactiveMapDefault.defaultProps = {
 	},
 	config: {
 		"appbase": {
-			"appname": "meetup2",
+			"app": "meetup2",
 			"username": "qz4ZD8xq1",
 			"password": "a0edfc7f-5611-46f6-8fe1-d4db234631f3",
 			"type": "meetup"
