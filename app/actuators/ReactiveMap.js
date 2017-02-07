@@ -677,7 +677,7 @@ export class ReactiveMap extends Component {
 var validation = {
 	defaultZoom: function(props, propName, componentName) {
 		if (props[propName] < 1 || props[propName] > 20) {
-			return new Error('zoom value is invalid, it should be between 1 and 20.');
+			return new Error('zoom value should be an integer between 1 and 20.');
 		}
 	},
 	validCenter: function(props, propName, componentName) {
@@ -685,21 +685,21 @@ var validation = {
 			return new Error(propName+' value must be number');
 		} else {
 			if(propName === 'lat' && (props[propName] < -90 || props[propName] > 90)) {
-				return new Error(propName+' value must be between -90 and 90');
+				return new Error(propName+' value should be between -90 and 90.');
 			}
 			else if(propName === 'lng' && (props[propName] < -180 || props[propName] > 180)) {
-				return new Error(propName+' value must be between -180 and 180');
+				return new Error(propName+' value should be between -180 and 180.');
 			}
 		}
 	},
 	fromValidation: function(props, propName, componentName) {
 		if (props[propName] < 0) {
-			return new Error(propName+' should be greater than 0');
+			return new Error(propName+' value should be greater than or equal to 0.');
 		}
 	},
 	streamTTL: function(props, propName, componentName) {
 		if (props[propName] < 0 || props[propName] > 1000 ) {
-			return new Error(propName+' should be between 0 and 1000.');
+			return new Error(propName+' should be a positive integer between 0 and 1000, counted in seconds for a streaming update to be visible.');
 		}
 	}
 }
