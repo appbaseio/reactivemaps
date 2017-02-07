@@ -79,8 +79,8 @@ Additionally, you can also pass **type** and **theme** props. **type** determine
 npm install && bower install
 ```
 
-Start the development server on port `8080`:
-
+Start the development server on port `8012`:
+g
 ```
 npm start
 ```
