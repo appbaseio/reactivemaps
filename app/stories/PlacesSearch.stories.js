@@ -1,8 +1,8 @@
 import { default as React, Component } from 'react';
 import { ReactiveBase } from '@appbaseio/reactivebase';
-import { ReactiveMap, GoogleSearch } from '../../app/app.js';
+import { ReactiveMap, PlacesSearch } from '../../app/app.js';
 
-export default class GoogleSearchDefault extends Component {
+export default class PlacesSearchDefault extends Component {
 	constructor(props) {
 		super(props);
 		this.originQuery = this.originQuery.bind(this);
@@ -60,7 +60,7 @@ export default class GoogleSearchDefault extends Component {
 					<div className="col s12 m6 col-xs-12 col-sm-6">
 						<div className="row h-100">
 							<div className="col s12 col-xs-12">
-								<GoogleSearch
+								<PlacesSearch
 									appbaseField={this.props.mapping.venue}
 									componentId="OriginSensor"
 									placeholder="Search Venue"
@@ -68,7 +68,7 @@ export default class GoogleSearchDefault extends Component {
 								/>
 							</div>
 							<div className="col s12 col-xs-12">
-								<GoogleSearch
+								<PlacesSearch
 									appbaseField={this.props.mapping.venue}
 									componentId="DestinationSensor"
 									placeholder="Search Venue"
@@ -84,9 +84,9 @@ export default class GoogleSearchDefault extends Component {
 							historicalData={true}
 							markerCluster={false}
 							mapStyle="Light Monochrome"
-							autoCenter={true}
-							searchAsMoveComponent={true}
-							MapStylesComponent={true}
+							autoCenter={false}
+							showSearchAsMove={true}
+							showMapStyles={true}
 							clearOnEmpty={false}
 							title="Reactive Maps"
 							onIdle={this.onIdle}
@@ -105,17 +105,17 @@ export default class GoogleSearchDefault extends Component {
 	}
 }
 
-GoogleSearchDefault.defaultProps = {
+PlacesSearchDefault.defaultProps = {
 	mapping: {
 		venue: 'venue_name_ngrams',
 		location: 'location'
 	},
 	config: {
 		"appbase": {
-		   "app": "reactivemap_demo",
-		   "username": "y4pVxY2Ok",
-		   "password": "c92481e2-c07f-4473-8326-082919282c18",
-		   "type": "meetupdata1"
+			"app": "reactivemap_demo",
+			"username": "y4pVxY2Ok",
+			"password": "c92481e2-c07f-4473-8326-082919282c18",
+			"type": "meetupdata1"
 		}
 	}
 };

@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import axios from 'axios';
 import Select from 'react-select';
 
-export class GoogleSearch extends Component {
+export class PlacesSearch extends Component {
 	constructor(props, context) {
 		super(props);
 		this.state = {
@@ -190,7 +190,7 @@ export class GoogleSearch extends Component {
 		});
 
 		return (
-			<div className={`rbc rbc-googlesearch clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
+			<div className={`rbc rbc-placessearch clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
 				<div className="row">
 					{title}
 					<div className="col s12 col-xs-12">
@@ -207,18 +207,18 @@ export class GoogleSearch extends Component {
 	}
 }
 
-GoogleSearch.propTypes = {
+PlacesSearch.propTypes = {
 	appbaseField: React.PropTypes.string.isRequired,
 	placeholder: React.PropTypes.string
 };
 // Default props value
-GoogleSearch.defaultProps = {
+PlacesSearch.defaultProps = {
 	placeholder: "Search...",
 	autoLocation: true
 };
 
 // context type
-GoogleSearch.contextTypes = {
+PlacesSearch.contextTypes = {
 	appbaseRef: React.PropTypes.any.isRequired,
 	type: React.PropTypes.any.isRequired
 };

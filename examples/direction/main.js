@@ -3,9 +3,7 @@ var ReactDOM = require('react-dom');
 
 import { ReactiveBase } from '@appbaseio/reactivebase';
 import { ReactiveMap } from '../../app/app.js';
-import { GoogleSearch } from '../../app/sensors/GoogleSearch.js';
-
-const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
+import { PlacesSearch } from '../../app/sensors/PlacesSearch.js';
 
 class Main extends Component {
 	constructor(props) {
@@ -65,22 +63,20 @@ class Main extends Component {
 					<div className="col s12 m6 col-xs-12 col-sm-6">
 						<div className="row h-100">
 							<div className="col s12 col-xs-12">
-								<GoogleSearch
+								<PlacesSearch
 									appbaseField={this.props.mapping.venue}
 									componentId="OriginSensor"
 									placeholder="Search Venue"
 									title="Origin"
-									APIkey={mapsAPIKey}
 								/>
 							</div>
 							<div className="col s12 col-xs-12">
-								<GoogleSearch
+								<PlacesSearch
 									appbaseField={this.props.mapping.venue}
 									componentId="DestinationSensor"
 									placeholder="Search Venue"
 									autoLocation={false}
 									title="Destination"
-									APIkey={mapsAPIKey}
 								/>
 							</div>
 						</div>
@@ -123,10 +119,10 @@ Main.defaultProps = {
 	},
 	config: {
 		"appbase": {
-		   "app": "reactivemap_demo",
-		   "username": "y4pVxY2Ok",
-		   "password": "c92481e2-c07f-4473-8326-082919282c18",
-		   "type": "meetupdata1"
+			"app": "reactivemap_demo",
+			"username": "y4pVxY2Ok",
+			"password": "c92481e2-c07f-4473-8326-082919282c18",
+			"type": "meetupdata1"
 		}
 	}
 };

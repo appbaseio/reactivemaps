@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ReactiveBase, DataSearch, SingleList, AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
-import { GoogleSearch, ReactiveMap } from '../app.js';
+import { PlacesSearch, ReactiveMap } from '../app.js';
 import { Img } from './Img.js';
 import {  } from '@appbaseio/reactivebase';
 

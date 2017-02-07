@@ -7,7 +7,7 @@ import { Appbase } from "appbase-js";
 
 import GeoDistanceSliderDefault from "./GeoDistanceSlider.stories";
 import GeoDistanceDropdownDefault from "./GeoDistanceDropdown.stories";
-import GoogleSearchDefault from "./GoogleSearch.stories";
+import PlacesSearchDefault from "./PlacesSearch.stories";
 import ReactiveMapDefault from "./ReactiveMap.stories";
 
 import SingleListDefault from "./SingleList.stories";
@@ -141,10 +141,10 @@ storiesOf("GeoDistanceDropdown", module)
 		/>
 	));
 
-storiesOf("GoogleSearch", module)
+storiesOf("PlacesSearch", module)
 	.addDecorator(withKnobs)
 	.add("Basic - Direction Demo", () => (
-		<GoogleSearchDefault />
+		<PlacesSearchDefault />
 	));
 
 
