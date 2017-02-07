@@ -498,8 +498,8 @@ storiesOf("NumberBox", module)
 				defaultSelected={3}
 				data={{
 					label: "Guests",
-					min: 1,
-					max: 5
+					start: 1,
+					end: 5
 				}}
 				labelPosition="left"
 			/>
@@ -510,8 +510,8 @@ storiesOf("NumberBox", module)
 			<NumberBoxDefault
 				defaultSelected={number("defaultSelected", 3)}
 				data={object("data", {
-					"min": 1,
-					"max": 5,
+					"start": 1,
+					"end": 5,
 					"label": "Guests"
 				})}
 				labelPosition={select("labelPosition", {"bottom": "bottom", "top": "top", "left": "left", "right": "right"}, "right")}
