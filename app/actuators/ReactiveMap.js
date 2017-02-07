@@ -676,8 +676,8 @@ export class ReactiveMap extends Component {
 
 var validation = {
 	defaultZoom: function(props, propName, componentName) {
-		if (props[propName] < 1 || props[propName] > 20) {
-			return new Error('zoom value should be an integer between 1 and 20.');
+		if (props[propName] < 0 || props[propName] > 20) {
+			return new Error('zoom value should be an integer between 0 and 20.');
 		}
 	},
 	validCenter: function(props, propName, componentName) {
