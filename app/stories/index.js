@@ -43,6 +43,8 @@ import NestedListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/
 import RangeSliderDefault from "./RangeSlider.stories";
 import RangeSliderReadme from "@appbaseio/reactivebase-manual/docs/v1/components/RangeSlider.md";
 
+import NumberBoxDefault from './NumberBox.stories';
+
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
 require ("../../dist/css/style.min.css");
@@ -487,3 +489,32 @@ storiesOf("RangeSlider", module)
 			})}
 		/>
 	)));
+
+storiesOf("NumberBox", module)
+	.addDecorator(withKnobs)
+	.add("Basic", () => {
+		return (
+			<NumberBoxDefault
+				defaultSelected={3}
+				data={{
+					label: "Guests",
+					min: 1,
+					max: 5
+				}}
+				labelPosition="left"
+			/>
+		);
+	})
+	.add("Playground", () => {
+		return (
+			<NumberBoxDefault
+				defaultSelected={number("defaultSelected", 3)}
+				data={object("data", {
+					"min": 1,
+					"max": 5,
+					"label": "Guests"
+				})}
+				labelPosition={select("labelPosition", {"bottom": "bottom", "top": "top", "left": "left", "right": "right"}, "right")}
+			/>
+		);
+	});
