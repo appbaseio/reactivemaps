@@ -11,6 +11,7 @@ import ReactiveMapDefault from "./ReactiveMap.stories";
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
 require ("../../dist/css/style.min.css");
+require ("./styles.css");
 
 storiesOf("GeoDistanceSlider", module)
 	.addDecorator(withKnobs)

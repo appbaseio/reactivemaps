@@ -45,7 +45,7 @@ export default class ReactiveMapDefault extends Component {
 				password="71ea4254-49ba-4685-8276-e44da225c141"
 				theme="rbc-blue"
 			>
-				<div className="row">
+				<div className="row reverse-labels">
 					<div className="col s6">
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
