@@ -124,7 +124,7 @@ class Main extends Component {
 							defaultCenter={{ lat: 40.673940, lng: -101.314026 }}
 							historicalData={true}
 							setMarkerCluster={false}
-							mapStyle={this.props.mapStyle}
+							defaultMapStyle={this.props.mapStyle}
 							onData={this.onData}
 							autoCenter={false}
 							size={100}

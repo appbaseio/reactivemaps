@@ -60,7 +60,7 @@ export default class SingleDropdownRangeDefault extends Component {
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
 							setMarkerCluster={false}
-							mapStyle="Light Monochrome"
+							defaultMapStyle="Light Monochrome"
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}

@@ -83,7 +83,7 @@ export default class PlacesSearchDefault extends Component {
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
 							setMarkerCluster={false}
-							mapStyle="Light Monochrome"
+							defaultMapStyle="Light Monochrome"
 							autoMapRender={false}
 							autoCenter={false}
 							showSearchAsMove={true}

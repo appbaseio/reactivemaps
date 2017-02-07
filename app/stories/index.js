@@ -179,7 +179,7 @@ storiesOf("ReactiveMap", module)
 			showSearchAsMove={boolean("showSearchAsMove", true)}
 			setSearchAsMove={boolean("setSearchAsMove", false)}
 			showMapStyles={boolean("showMapStyles", false)}
-			mapStyle={select("mapStyle", {'Standard':'Standard', 'Blue Essence':'Blue Essence', 'Blue Water':'Blue Water', 'Flat Map':'Flat Map', 'Light Monochrome':'Light Monochrome', 'Midnight Commander':'Midnight Commander', 'Unsaturated Browns':'Unsaturated Browns'}, 'Standard')}
+			defaultMapStyle={select("defaultMapStyle", {'Standard':'Standard', 'Blue Essence':'Blue Essence', 'Blue Water':'Blue Water', 'Flat Map':'Flat Map', 'Light Monochrome':'Light Monochrome', 'Midnight Commander':'Midnight Commander', 'Unsaturated Browns':'Unsaturated Browns'}, 'Standard')}
 			size={number('size', 100)}
 			streamTTL={number("streamTTL", 5)}
 			streamAutoCenter={boolean("streamAutoCenter", true)}

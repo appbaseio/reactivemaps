@@ -83,7 +83,7 @@ class Main extends Component {
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							historicalData={true}
 							setMarkerCluster={false}
-							mapStyle={this.props.mapStyle}
+							defaultMapStyle={this.props.mapStyle}
 							autoCenter={true}
 							size={100}
 							showSearchAsMove={true}

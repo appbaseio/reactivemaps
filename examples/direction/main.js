@@ -86,7 +86,7 @@ class Main extends Component {
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
 							setMarkerCluster={false}
-							mapStyle={this.props.mapStyle}
+							defaultMapStyle={this.props.mapStyle}
 							autoCenter={false}
 							showSearchAsMove={true}
 							showMapStyles={true}

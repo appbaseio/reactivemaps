@@ -74,7 +74,7 @@ class Main extends Component {
 							defaultCenter={{ lat: 35.272, lng: 138.582 }}
 							historicalData={true}
 							setMarkerCluster={false}
-							mapStyle={this.props.mapStyle}
+							defaultMapStyle={this.props.mapStyle}
 							autoCenter={true}
 							showSearchAsMove={true}
 							title="Earthquake"
