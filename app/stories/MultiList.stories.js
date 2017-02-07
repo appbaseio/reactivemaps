@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { 
+import {
 	ReactiveBase,
 	MultiList,
 	AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
@@ -9,7 +9,7 @@ import { Img } from './Img.js';
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 const historyPin = require('./placeholder.svg');
 
-export default class SingleListDefault extends Component {
+export default class MultiListDefault extends Component {
 	constructor(props) {
 		super(props);
 		this.popoverContent = this.popoverContent.bind(this);
@@ -115,7 +115,7 @@ export default class SingleListDefault extends Component {
 	}
 }
 
-SingleListDefault.defaultProps = {
+MultiListDefault.defaultProps = {
 	mapping: {
 		city: 'group.group_city.raw',
 		location: 'location'
