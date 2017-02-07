@@ -25,6 +25,9 @@ import MultiDropdownListReadme from "@appbaseio/reactivebase-manual/docs/v1/comp
 import SingleDropdownRangeDefault from "./SingleDropdownRange.stories";
 import SingleDropdownRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/components/SingleDropdownRange.md";
 
+import MultiDropdownRangeDefault from "./MultiDropdownRange.stories";
+import MultiDropdownRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/components/MultiDropdownRange.md";
+
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
 require ("../../dist/css/style.min.css");
@@ -146,7 +149,6 @@ storiesOf("PlacesSearch", module)
 	.add("Basic - Direction Demo", () => (
 		<PlacesSearchDefault />
 	));
-
 
 storiesOf("ReactiveMap", module)
 	.addDecorator(withKnobs)
@@ -332,4 +334,18 @@ storiesOf("SingleDropdownRange", module)
 		<SingleDropdownRangeDefault
 			title={text("title", "SingleDropdownRange: Earthquake Magnitude Classes")}
 			defaultSelected={text("defaultSelected", "Strong")} />
+	)));
+
+storiesOf("MultiDropdownRange", module)
+	.addDecorator(withKnobs)
+	.add("Basic", withReadme(removeFirstLine(MultiDropdownRangeReadme), () => (
+		<MultiDropdownRangeDefault />
+	)))
+	.add("With Default Selected", withReadme(removeFirstLine(MultiDropdownRangeReadme), () => (
+		<MultiDropdownRangeDefault defaultSelected={["Moderate", "Strong"]} />
+	)))
+	.add("Playground", withReadme(removeFirstLine(MultiDropdownRangeReadme), () => (
+		<MultiDropdownRangeDefault
+			title={text("title", "MultiDropdownRange: Earthquake Magnitude Classes")}
+			defaultSelected={array("defaultSelected", ["Moderate", "Strong"])} />
 	)));
