@@ -78,8 +78,6 @@ class Main extends Component {
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							historicalData={true}
 							setMarkerCluster={false}
-							searchComponent="appbase"
-							searchField={this.props.mapping.venue}
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
 							size={100}
@@ -103,7 +101,6 @@ Main.defaultProps = {
 	mapping: {
 		topic: 'group.group_topics.topic_name_raw.raw',
 		location: 'location',
-		venue: 'venue_name_ngrams',
 		city: 'group.group_city.raw'
 	},
 	config: {

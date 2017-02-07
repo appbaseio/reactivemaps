@@ -124,8 +124,6 @@ class Main extends Component {
 							defaultCenter={{ lat: 40.673940, lng: -101.314026 }}
 							historicalData={true}
 							setMarkerCluster={false}
-							searchComponent="appbase"
-							searchField={this.props.mapping.venue}
 							mapStyle={this.props.mapStyle}
 							onData={this.onData}
 							autoCenter={false}
@@ -146,7 +144,6 @@ class Main extends Component {
 Main.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
-		city: 'name',
 		location: 'coord'
 	},
 	config: {

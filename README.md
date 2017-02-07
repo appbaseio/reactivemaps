@@ -38,7 +38,7 @@ import {
 } from 'reactivebase';
 ```     
 
-ReactiveMaps provides components specific to the map interface. It comes `GeoDistanceSlider`, `GeoDistanceDropdown`, `GoogleSearch` and `ReactiveMap`.
+ReactiveMaps provides components specific to the map interface. It comes `GeoDistanceSlider`, `GeoDistanceDropdown`, `PlacesSearch` and `ReactiveMap`.
 
 ReactiveBase provides components that are generic in nature. Amongst many others, `ReactiveBase`, `DataSearch`, `RangeSlider`, and `SingleList` components belong to ReactiveBase.
 

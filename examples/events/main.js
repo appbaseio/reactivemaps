@@ -132,8 +132,6 @@ class Main extends Component {
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							historicalData={true}
 							setMarkerCluster={false}
-							searchComponent="appbase"
-							searchField={this.props.mapping.venue}
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
 							showSearchAsMove={true}

@@ -98,3 +98,22 @@ $themes: (
 		}
 	}
 }
+
+.rbc-dark .rbc-reactivemap {
+	background-color: #fff;
+	
+	.rbc.rbc-poweredby {
+		background-color: transparent;
+		bottom: 10px;
+		right: 40px;
+
+		.rbc-img-responsive {
+			&.rbc-poweredby-dark {
+				display: none;
+			}
+			&.rbc-poweredby-light {
+				display: inline-block;
+			}
+		}
+	}
+}
