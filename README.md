@@ -1,14 +1,22 @@
-# Realtime React Map library
+# ReactiveMaps
 
 [![Join the chat at https://gitter.im/appbaseio/reactivemaps](https://badges.gitter.im/appbaseio/reactivemaps.svg)](https://gitter.im/appbaseio/reactivemaps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Examples
-- https://opensource.appbase.io/reactivemaps/examples/now
-- https://opensource.appbase.io/reactivemaps/examples/meetupblast/
-- https://opensource.appbase.io/reactivemaps/examples/heatmap/
-- https://opensource.appbase.io/reactivemaps/examples/earthquake/
-- https://opensource.appbase.io/reactivemaps/examples/transport/
-- https://opensource.appbase.io/reactivemaps/examples/list/
+A React components library for building maps that update in realtime.
+
+## Playground
+
+Try the live playground at https://opensource.appbase.io/reactivemaps/playground.
+
+## Examples
+
+- [examples/now](https://opensource.appbase.io/reactivemaps/examples/now)
+- [examples/meetupblast](https://opensource.appbase.io/reactivemaps/examples/meetupblast/)
+- [examples/heatmap](https://opensource.appbase.io/reactivemaps/examples/heatmap/)
+- [examples/earthquake](https://opensource.appbase.io/reactivemaps/examples/earthquake/)
+- [examples/transport](https://opensource.appbase.io/reactivemaps/examples/transport/)
+- [examples/list](https://opensource.appbase.io/reactivemaps/examples/list/)
+- [examples/events](https://opensource.appbase.io/reactivemaps/examples/events/)
 
 ## Using it
 
