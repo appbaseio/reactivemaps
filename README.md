@@ -1,6 +1,8 @@
-# Realtime React Map library
+# ReactiveMaps
 
 [![Join the chat at https://gitter.im/appbaseio/reactivemaps](https://badges.gitter.im/appbaseio/reactivemaps.svg)](https://gitter.im/appbaseio/reactivemaps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+A React components library for building maps that update in realtime.
 
 Examples
 - https://opensource.appbase.io/reactivemaps/examples/now
