@@ -58,10 +58,6 @@ $themes: (
 				color: map-get($map, color);
 			}
 
-			.primary-title {
-				color: map-get($map, color);
-			}
-
 			label,
 			[type="checkbox"]+label:before, [type="checkbox"]:not(.filled-in)+label:after,
 			[type="radio"]:not(:checked)+label:before, [type="radio"]:not(:checked)+label:after {
@@ -99,11 +95,29 @@ $themes: (
 	}
 }
 
-.rbc-dark .rbc-reactivemap {
+.rbc-dark .rbc.rbc-reactivemap {
 	background-color: #fff;
+
+	.rbc-title { color: #777; }
+	
+	[type=checkbox]:checked+label:before {
+		border-color: transparent #777 #777 transparent;
+	}
+
+	label,
+	[type="checkbox"]+label:before, [type="checkbox"]:not(.filled-in)+label:after,
+	[type="radio"]:not(:checked)+label:before, [type="radio"]:not(:checked)+label:after {
+		color: #777;
+		border-color: #777;
+	}
 }
 
+
 .rbc.rbc-reactivemap {
+	[type="checkbox"]+label {
+		padding-left: 30px;
+	}
+
 	.rbc.rbc-poweredby {
 		background-color: transparent;
 		bottom: 10px;
