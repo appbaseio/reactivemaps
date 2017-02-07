@@ -696,6 +696,11 @@ var validation = {
 		if (props[propName] < 0) {
 			return new Error(propName+' should be greater than 0');
 		}
+	},
+	streamTTL: function(props, propName, componentName) {
+		if (props[propName] < 0 || props[propName] > 1000 ) {
+			return new Error(propName+' should be between 0 and 1000.');
+		}
 	}
 }
 
@@ -706,7 +711,7 @@ ReactiveMap.propTypes = {
 	setMarkerCluster: React.PropTypes.bool,
 	autoMarkerPosition: React.PropTypes.bool,
 	showMarkers: React.PropTypes.bool,
-	streamTTL: React.PropTypes.number,
+	streamTTL: validation.streamTTL,
 	size: helper.sizeValidation,
 	from: validation.fromValidation,
 	autoMapRender: React.PropTypes.bool, // usecase?
