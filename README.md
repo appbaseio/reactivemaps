@@ -80,7 +80,6 @@ npm install && bower install
 ```
 
 Start the development server on port `8012`:
-g
 ```
 npm start
 ```
