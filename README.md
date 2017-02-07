@@ -1,5 +1,7 @@
 # Realtime React Map library
 
+[![Join the chat at https://gitter.im/appbaseio/reactivemaps](https://badges.gitter.im/appbaseio/reactivemaps.svg)](https://gitter.im/appbaseio/reactivemaps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Examples
 - https://opensource.appbase.io/reactivemaps/examples/now
 - https://opensource.appbase.io/reactivemaps/examples/meetupblast/
