@@ -41,7 +41,7 @@ export default class ReactiveMapDefault extends Component {
 				app="reactivemap-demo"
 				username="SL8fiQ1fg"
 				password="71ea4254-49ba-4685-8276-e44da225c141"
-				theme="rbc-blue"
+				theme="rbc-dark"
 			>
 				<div className="row reverse-labels">
 					<div className="col s6">
