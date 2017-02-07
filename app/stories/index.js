@@ -22,6 +22,9 @@ import SingleDropdownListReadme from "@appbaseio/reactivebase-manual/docs/v1/com
 import MultiDropdownListDefault from "./MultiDropdownList.stories";
 import MultiDropdownListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/MultiDropdownList.md";
 
+import SingleRangeDefault from "./SingleRange.stories";
+import SingleRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/components/SingleRange.md";
+
 import SingleDropdownRangeDefault from "./SingleDropdownRange.stories";
 import SingleDropdownRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/components/SingleDropdownRange.md";
 
@@ -320,6 +323,20 @@ storiesOf("MultiDropdownList", module)
 			defaultSelected={array("defaultSelected", ["London", "Melbourne"])}
 			placeholder={text("placeholder", "Select Cities")}
 		/>
+	)));
+
+storiesOf("SingleRange", module)
+	.addDecorator(withKnobs)
+	.add("Basic", withReadme(removeFirstLine(SingleRangeReadme), () => (
+		<SingleRangeDefault />
+	)))
+	.add("With Default Selected", withReadme(removeFirstLine(SingleRangeReadme), () => (
+		<SingleRangeDefault defaultSelected="Cheap" />
+	)))
+	.add("Playground", withReadme(removeFirstLine(SingleRangeReadme), () => (
+		<SingleRangeDefault
+			title={text("title", "SingleRange: Magnitude Filter")}
+			defaultSelected={text("defaultSelected", "Cheap")} />
 	)));
 
 storiesOf("SingleDropdownRange", module)
