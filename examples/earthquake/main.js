@@ -74,8 +74,6 @@ class Main extends Component {
 							defaultCenter={{ lat: 35.272, lng: 138.582 }}
 							historicalData={true}
 							markerCluster={false}
-							searchComponent="appbase"
-							searchField={this.props.mapping.place}
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
 							showSearchAsMove={true}
@@ -165,7 +163,6 @@ Main.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
 		mag: 'mag',
-		place: 'place',
 		venue: 'place.raw',
 		location: 'location',
 		time: 'time'

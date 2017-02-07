@@ -10,8 +10,6 @@ import {
 import { GeoDistanceSlider } from '../../app/sensors/GeoDistanceSlider';
 import { ReactiveMap } from '../../app/app.js';
 
-const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
-
 class Main extends Component {
 	constructor(props) {
 		super(props);
@@ -137,7 +135,6 @@ class Main extends Component {
 							<div className="col s12 col-xs-12">
 								<GeoDistanceSlider
 									componentId="GeoDistanceSlider"
-									APIkey={mapsAPIKey}
 									appbaseField={this.props.mapping.location}
 									minThreshold={1}
 									maxThreshold={60}
@@ -158,8 +155,6 @@ class Main extends Component {
 								appbaseField={this.props.mapping.location}
 								historicalData={true}
 								markerCluster={false}
-								searchComponent="appbase"
-								searchField={this.props.mapping.venue}
 								mapStyle={this.props.mapStyle}
 								autoCenter={true}
 								showSearchAsMove={true}
@@ -203,8 +198,7 @@ Main.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
 		topic: 'group.group_topics.topic_name_raw.raw',
-		location: 'location',
-		venue: 'venue_name_ngrams'
+		location: 'location'
 	},
 	config: {
 		"appbase": {
