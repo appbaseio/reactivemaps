@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import {
 	ReactiveBase,
-	SingleList,
+	SingleDropdownList,
 	AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
 import { ReactiveMap } from '../app.js';
 import { Img } from './Img.js';
 
 const historyPin = require('./placeholder.svg');
 
-export default class SingleListDefault extends Component {
+export default class SingleDropdownListDefault extends Component {
 	constructor(props) {
 		super(props);
 		this.popoverContent = this.popoverContent.bind(this);
@@ -78,10 +78,10 @@ export default class SingleListDefault extends Component {
 			>
 				<div className="row">
 					<div className="col s6 col-xs-6">
-						<SingleList
+						<SingleDropdownList
 							componentId="CitySensor"
 							appbaseField={this.props.mapping.city}
-							title="SingleList"
+							title="SingleDropdownList"
 							size={100}
 							{...this.props}
 						/>
@@ -114,7 +114,7 @@ export default class SingleListDefault extends Component {
 	}
 }
 
-SingleListDefault.defaultProps = {
+SingleDropdownListDefault.defaultProps = {
 	mapping: {
 		city: 'group.group_city.raw',
 		location: 'location'

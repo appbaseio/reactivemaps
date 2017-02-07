@@ -6,7 +6,6 @@ import {
 import { ReactiveMap } from '../app.js';
 import { Img } from './Img.js';
 
-const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 const historyPin = require('./placeholder.svg');
 
 export default class MultiListDefault extends Component {

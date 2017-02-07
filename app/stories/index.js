@@ -16,6 +16,9 @@ import SingleListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/
 import MultiListDefault from "./MultiList.stories";
 import MultiListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/MultiList.md";
 
+import SingleDropdownListDefault from "./SingleDropdownList.stories";
+import SingleDropdownListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/SingleDropdownList.md";
+
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
 require ("../../dist/css/style.min.css");
@@ -239,4 +242,32 @@ storiesOf("MultiList", module)
 			placeholder={text("placeholder", "Search City")}
 			selectAllLabel={text("selectAllLabel", "All cities")}
 		/>
+	)));
+
+storiesOf("SingleDropdownList", module)
+	.addDecorator(withKnobs)
+	.add("Basic", withReadme(removeFirstLine(SingleDropdownListReadme), () => (
+		<SingleDropdownListDefault />
+	)))
+	.add("With Select All", withReadme(removeFirstLine(SingleDropdownListReadme), () => (
+		<SingleDropdownListDefault
+			selectAllLabel="All Cities"
+		/>
+	)))
+	.add("With Default Selected", withReadme(removeFirstLine(SingleDropdownListReadme), () => (
+		<SingleDropdownListDefault
+			selectAllLabel="All Cities"
+			defaultSelected="London"
+		/>
+	)))
+	.add("Playground", withReadme(removeFirstLine(SingleDropdownListReadme), () => (
+		<SingleDropdownListDefault
+			title={text("title", "SingleDropdownList")}
+			size={number("size", 100)}
+			showCount={boolean("showCount", true)}
+			sortBy={select("sortBy", {asc: "asc", desc: "desc", count: "count"}, "count")}
+			selectAllLabel={text("selectAllLabel", "All Cities")}
+			defaultSelected={text("defaultSelected", "London")}
+			placeholder={text("placeholder", "Select a City")}
+			/>
 	)));
