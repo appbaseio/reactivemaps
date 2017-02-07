@@ -7,7 +7,8 @@ import { MapStyles, mapStylesCollection } from '../addons/MapStyles';
 import classNames from 'classnames';
 import {
 	AppbaseChannelManager as manager,
-	AppbaseSensorHelper as helper
+	AppbaseSensorHelper as helper,
+	PoweredBy
 } from '@appbaseio/reactivebase';
 
 export class ReactiveMap extends Component {
@@ -664,9 +665,7 @@ export class ReactiveMap extends Component {
 					}
 				/>
 				{showSearchAsMove}
-				<div className="col s12 text-center center-align">
-					<img width='200px' height='auto' src="dist/images/logo.png" />
-				</div>
+				<PoweredBy />
 			</div >
 		);
 	}
