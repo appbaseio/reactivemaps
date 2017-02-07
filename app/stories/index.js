@@ -40,6 +40,9 @@ import DataSearchReadme from "@appbaseio/reactivebase-manual/docs/v1/components/
 import NestedListDefault from "./NestedList.stories";
 import NestedListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/NestedList.md";
 
+import RangeSliderDefault from "./RangeSlider.stories";
+import RangeSliderReadme from "@appbaseio/reactivebase-manual/docs/v1/components/RangeSlider.md";
+
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
 require ("../../dist/css/style.min.css");
@@ -432,5 +435,55 @@ storiesOf("NestedList", module)
 			showCount={boolean("showCount", true)}
 			showSearch={boolean("showSearch", true)}
 			placeholder={text("placeholder", "Search Topics")}
+		/>
+	)));
+
+storiesOf("RangeSlider", module)
+	.addDecorator(withKnobs)
+	.add("Basic", withReadme(removeFirstLine(RangeSliderReadme), () => (
+		<RangeSliderDefault />
+	)))
+	.add("With Default Selected", withReadme(removeFirstLine(RangeSliderReadme), () => (
+		<RangeSliderDefault
+			defaultSelected={
+				{
+					"start": 0,
+					"end": 2
+				}
+			}
+		/>
+	)))
+	.add("With Range Labels", withReadme(removeFirstLine(RangeSliderReadme), () => (
+		<RangeSliderDefault
+			defaultSelected={
+				{
+					"start": 0,
+					"end": 2
+				}
+			}
+			rangeLabels={
+				{
+					"start": "Start",
+					"end": "End"
+				}
+			}
+		/>
+	)))
+	.add("Playground", withReadme(removeFirstLine(RangeSliderReadme), () => (
+		<RangeSliderDefault
+			title={text("title", "RangeSlider: Guest RSVPs")}
+			range={object("range", {
+				"start": 0,
+				"end": 5
+			})}
+			stepValue={number("stepValue", 1)}
+			defaultSelected={object("defaultSelected", {
+				"start": 0,
+				"end": 2
+			})}
+			rangeLabels={object("rangeLabels", {
+				"start": "Start",
+				"end": "End"
+			})}
 		/>
 	)));
