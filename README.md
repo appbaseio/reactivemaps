@@ -75,10 +75,18 @@ Additionally, you can also pass **type** and **theme** props. **type** determine
 
 ## Developing Locally
 
-```     
+```
 npm install && bower install
-```    
+```
 
-```     
-npm run webpack-server
+Start the development sever on port `8080`
+
+```
+npm start
+```
+
+Run Storybook on port `9009`
+
+```
+npm run storybook
 ```
