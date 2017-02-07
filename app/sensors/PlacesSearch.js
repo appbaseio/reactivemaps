@@ -213,7 +213,7 @@ PlacesSearch.propTypes = {
 };
 // Default props value
 PlacesSearch.defaultProps = {
-	placeholder: "Search...",
+	placeholder: "Search..",
 	autoLocation: true
 };
 
