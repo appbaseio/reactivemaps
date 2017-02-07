@@ -25,6 +25,9 @@ import MultiDropdownListReadme from "@appbaseio/reactivebase-manual/docs/v1/comp
 import SingleRangeDefault from "./SingleRange.stories";
 import SingleRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/components/SingleRange.md";
 
+import MultiRangeDefault from "./MultiRange.stories";
+import MultiRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/components/MultiRange.md";
+
 import SingleDropdownRangeDefault from "./SingleDropdownRange.stories";
 import SingleDropdownRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/components/SingleDropdownRange.md";
 
@@ -331,12 +334,27 @@ storiesOf("SingleRange", module)
 		<SingleRangeDefault />
 	)))
 	.add("With Default Selected", withReadme(removeFirstLine(SingleRangeReadme), () => (
-		<SingleRangeDefault defaultSelected="Cheap" />
+		<SingleRangeDefault defaultSelected="Strong" />
 	)))
 	.add("Playground", withReadme(removeFirstLine(SingleRangeReadme), () => (
 		<SingleRangeDefault
-			title={text("title", "SingleRange: Magnitude Filter")}
-			defaultSelected={text("defaultSelected", "Cheap")} />
+			title={text("title", "SingleRange: Earthquake Magnitude Classes")}
+			defaultSelected={text("defaultSelected", "Strong")} />
+	)));
+
+storiesOf("MultiRange", module)
+	.addDecorator(withKnobs)
+	.add("Basic", withReadme(removeFirstLine(MultiRangeReadme), () => (
+		<MultiRangeDefault />
+	)))
+	.add("With Default Selected", withReadme(removeFirstLine(MultiRangeReadme), () => (
+		<MultiRangeDefault defaultSelected={["Moderate", "Strong"]} />
+	)))
+	.add("Playground", withReadme(removeFirstLine(MultiRangeReadme), () => (
+		<MultiRangeDefault
+			title={text("title", "MultiRange: Earthquake Magnitude Classes")}
+			defaultSelected={array("defaultSelected", ["Moderate", "Strong"])}
+			showTags={boolean("showTags", "false")} />
 	)));
 
 storiesOf("SingleDropdownRange", module)
