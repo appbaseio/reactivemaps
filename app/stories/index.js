@@ -37,6 +37,9 @@ import MultiDropdownRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/com
 import DataSearchDefault from "./DataSearch.stories";
 import DataSearchReadme from "@appbaseio/reactivebase-manual/docs/v1/components/DataSearch.md";
 
+import NestedListDefault from "./NestedList.stories";
+import NestedListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/NestedList.md";
+
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
 require ("../../dist/css/style.min.css");
@@ -406,4 +409,28 @@ storiesOf("DataSearch", module)
 			title={text("title", "DataSearch: Meetups")}
 			placeholder={text("placeholder", "Search Venue")}
 			autocomplete={boolean("autocomplete", true)} />
+	)));
+
+storiesOf("NestedList", module)
+	.addDecorator(withKnobs)
+	.add("Basic", withReadme(removeFirstLine(NestedListReadme), () => (
+		<NestedListDefault />
+	)))
+	.add("With Title", withReadme(removeFirstLine(NestedListReadme), () => (
+		<NestedListDefault
+			title={text("title", "City-wise Meetups")} />
+	)))
+	.add("Default selection", withReadme(removeFirstLine(NestedListReadme), () => (
+		<NestedListDefault
+			defaultSelected={["London","Travel"]} />
+	))).add("Playground", withReadme(removeFirstLine(NestedListReadme), () => (
+		<NestedListDefault
+			title={text("title", "NestedList: City-wise Meetup Topics")}
+			size={number("size", 100)}
+			sortBy={select("sortBy", {asc: "asc", desc: "desc", count: "count"}, "count")}
+			defaultSelected={array("defaultSelected", ["London","Travel"])}
+			showCount={boolean("showCount", true)}
+			showSearch={boolean("showSearch", true)}
+			placeholder={text("placeholder", "Search Topics")}
+		/>
 	)));
