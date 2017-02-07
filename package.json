@@ -13,7 +13,7 @@
     "build:umd": "cross-env NODE_ENV=development && webpack --config webpack.config.umd.js app/app.js umd/ReactiveMaps.js",
     "build-bro": "browserify -t [ babelify --presets [ es2015 stage-0 react ] ] main.js -o dist/main.bundle.js",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public -o playground"
   },
   "files": [
     "lib/",
