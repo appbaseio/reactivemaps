@@ -1,6 +1,8 @@
 import React from 'react';
 import { storiesOf, addDecorator } from "@kadira/storybook";
 import { withKnobs, text, number, array, object, select, boolean } from "@kadira/storybook-addon-knobs";
+import withReadme from "storybook-readme/with-readme";
+
 import { Appbase } from "appbase-js";
 
 import GeoDistanceSliderDefault from "./GeoDistanceSlider.stories";
@@ -8,10 +10,17 @@ import GeoDistanceDropdownDefault from "./GeoDistanceDropdown.stories";
 import GoogleSearchDefault from "./GoogleSearch.stories";
 import ReactiveMapDefault from "./ReactiveMap.stories";
 
+import SingleListDefault from "./SingleList.stories";
+import SingleListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/SingleList.md";
+
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
 require ("../../dist/css/style.min.css");
 require ("./styles.css");
+
+function removeFirstLine(str) {
+	return str.substring(str.indexOf("\n") + 1);
+}
 
 storiesOf("GeoDistanceSlider", module)
 	.addDecorator(withKnobs)
@@ -168,3 +177,33 @@ storiesOf("ReactiveMap", module)
 			streamPin={text('streamPin', 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png')}
 		/>
 	));
+
+storiesOf("SingleList", module)
+	.addDecorator(withKnobs)
+	.add("Basic", withReadme(removeFirstLine(SingleListReadme), () => (
+		<SingleListDefault showSearch={true} placeholder="Search City" />
+	)))
+	.add("Without Search", withReadme(removeFirstLine(SingleListReadme), () => (
+		<SingleListDefault showSearch={false} placeholder="Search City" />
+	)))
+	.add("Default Selected", withReadme(removeFirstLine(SingleListReadme), () => (
+		<SingleListDefault showSearch={true} defaultSelected="San Francisco" placeholder="Search City" />
+	)))
+	.add("Custom Sort", withReadme(removeFirstLine(SingleListReadme), () => (
+		<SingleListDefault title="SingleList: Ascending Sort" showSearch={true} defaultSelected="London" sortBy="asc" placeholder="Search City" />
+	)))
+	.add("With Select All", withReadme(removeFirstLine(SingleListReadme), () => (
+		<SingleListDefault showSearch={true} selectAllLabel="All Cities" placeholder="Search City" />
+	)))
+	.add("Playground", withReadme(removeFirstLine(SingleListReadme), () => (
+		<SingleListDefault
+			title={text("title", "SingleList: City Filter")}
+			size={number("size", 100)}
+			sortBy={select("sortBy", {asc: "asc", desc: "desc", count: "count"}, "count")}
+			defaultSelected={text("defaultSelected", "San Francisco")}
+			showCount={boolean("showCount", true)}
+			showSearch={boolean("showSearch", true)}
+			placeholder={text("placeholder", "Search City")}
+			selectAllLabel={text("selectAllLabel", "All cities")}
+		/>
+	)));
