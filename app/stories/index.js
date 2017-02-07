@@ -13,6 +13,9 @@ import ReactiveMapDefault from "./ReactiveMap.stories";
 import SingleListDefault from "./SingleList.stories";
 import SingleListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/SingleList.md";
 
+import MultiListDefault from "./MultiList.stories";
+import MultiListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/MultiList.md";
+
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
 require ("../../dist/css/style.min.css");
@@ -201,6 +204,36 @@ storiesOf("SingleList", module)
 			size={number("size", 100)}
 			sortBy={select("sortBy", {asc: "asc", desc: "desc", count: "count"}, "count")}
 			defaultSelected={text("defaultSelected", "San Francisco")}
+			showCount={boolean("showCount", true)}
+			showSearch={boolean("showSearch", true)}
+			placeholder={text("placeholder", "Search City")}
+			selectAllLabel={text("selectAllLabel", "All cities")}
+		/>
+	)));
+
+storiesOf("MultiList", module)
+	.addDecorator(withKnobs)
+	.add("Basic", withReadme(removeFirstLine(MultiListReadme), () => (
+		<MultiListDefault showSearch={true} placeholder="Search City" />
+	)))
+	.add("Without Search", withReadme(removeFirstLine(MultiListReadme), () => (
+		<MultiListDefault showSearch={false} placeholder="Search City" />
+	)))
+	.add("Default Selected", withReadme(removeFirstLine(MultiListReadme), () => (
+		<MultiListDefault showSearch={true} defaultSelected={["London", "Sydney"]} placeholder="Search City" />
+	)))
+	.add("Custom Sort", withReadme(removeFirstLine(MultiListReadme), () => (
+		<MultiListDefault title="MultiList: Ascending Sort" showSearch={true} defaultSelected={["London"]} sortBy="asc" placeholder="Search City" />
+	)))
+	.add("With Select All", withReadme(removeFirstLine(MultiListReadme), () => (
+		<MultiListDefault showSearch={true} selectAllLabel="All Cities" placeholder="Search City" />
+	)))
+	.add("Playground", withReadme(removeFirstLine(MultiListReadme), () => (
+		<MultiListDefault
+			title={text("title", "MultiList: City Filter")}
+			size={number("size", 10)}
+			sortBy={select("sortBy", {asc: "asc", desc: "desc", count: "count"}, "count")}
+			defaultSelected={array("defaultSelected", ["London", "Sydney"])}
 			showCount={boolean("showCount", true)}
 			showSearch={boolean("showSearch", true)}
 			placeholder={text("placeholder", "Search City")}

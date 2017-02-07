@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {
+import { 
 	ReactiveBase,
-	SingleList,
+	MultiList,
 	AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
 import { ReactiveMap } from '../app.js';
 import { Img } from './Img.js';
@@ -79,10 +79,10 @@ export default class SingleListDefault extends Component {
 			>
 				<div className="row">
 					<div className="col s6 col-xs-6">
-						<SingleList
+						<MultiList
 							componentId="CitySensor"
 							appbaseField={this.props.mapping.city}
-							title="SingleList"
+							title="MultiList"
 							size={100}
 							{...this.props}
 						/>
