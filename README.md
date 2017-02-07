@@ -4,7 +4,12 @@
 
 A React components library for building maps that update in realtime.
 
-Examples
+## Playground
+
+Try the live playground at https://opensource.appbase.io/reactivemaps/playground.
+
+## Examples
+
 - https://opensource.appbase.io/reactivemaps/examples/now
 - https://opensource.appbase.io/reactivemaps/examples/meetupblast/
 - https://opensource.appbase.io/reactivemaps/examples/heatmap/
