@@ -68,6 +68,7 @@ storiesOf("GeoDistanceSlider", module)
 	.add("Playground", () => (
 		<GeoDistanceSliderDefault
 			defaultSelected={number("defaultSelected", 50)}
+			stepValue={number("stepValue", 1)}
 			unit={text("unit", "mi")}
 			title={text("title", "Geo Distance Slider")}
 			placeholder={text("placeholder", "Search Location")}

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { ReactiveBase } from '@appbaseio/reactivebase';
+import { ReactiveBase, AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
 import { GeoDistanceDropdown, ReactiveMap } from '../app.js';
-import { Img } from './Img.js';
-import { AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
 
-const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
+import { Img } from './Img.js';
 const historyPin = require('./placeholder.svg');
 
 export default class GeoDistanceDropdownDefault extends Component {
@@ -51,7 +49,6 @@ export default class GeoDistanceDropdownDefault extends Component {
 					<div className="col s6">
 						<GeoDistanceDropdown
 							componentId="GeoDistanceDropdown"
-							APIkey={mapsAPIKey}
 							appbaseField={this.props.mapping.location}
 							{...this.props}
 						/>
@@ -61,7 +58,7 @@ export default class GeoDistanceDropdownDefault extends Component {
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
 							markerCluster={false}
-							mapStyle={this.props.mapStyle}
+							mapStyle="Light Monochrome"
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
@@ -83,11 +80,8 @@ export default class GeoDistanceDropdownDefault extends Component {
 }
 
 GeoDistanceDropdownDefault.defaultProps = {
-	mapStyle: "Light Monochrome",
 	mapping: {
-		topic: 'group.group_topics.topic_name_raw.raw',
-		location: 'location',
-		venue: 'venue_name_ngrams'
+		location: 'location'
 	},
 	config: {
 		"appbase": {

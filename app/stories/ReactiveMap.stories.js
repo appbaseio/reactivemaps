@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { ReactiveBase, DataSearch, SingleList } from '@appbaseio/reactivebase';
+import { ReactiveBase, DataSearch, SingleList, AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
 import { GoogleSearch, ReactiveMap } from '../app.js';
 import { Img } from './Img.js';
-import { AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
+import {  } from '@appbaseio/reactivebase';
 
 const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
 const historyPin = require('./placeholder.svg');
@@ -102,7 +102,6 @@ export default class ReactiveMapDefault extends Component {
 ReactiveMapDefault.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
-		topic: 'group.group_topics.topic_name_raw.raw',
 		location: 'location',
 		venue: 'venue_name_ngrams',
 		city: 'group.group_city.raw'

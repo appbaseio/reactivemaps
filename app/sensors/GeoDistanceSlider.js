@@ -67,7 +67,7 @@ export class GeoDistanceSlider extends Component {
 		navigator.geolocation.getCurrentPosition((location) => {
 			this.locString = location.coords.latitude + ', ' + location.coords.longitude;
 
-			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}&key=${this.props.APIkey}`)
+			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}`)
 				.then(res => {
 					let currentValue = res.data.results[0].formatted_address;
 					this.result.options.push({
@@ -112,7 +112,7 @@ export class GeoDistanceSlider extends Component {
 	// get coordinates
 	getCoordinates(value) {
 		if(value && value != '') {
-			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${this.props.APIkey}`)
+			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}`)
 				.then(res => {
 					let location = res.data.results[0].geometry.location;
 					this.locString = location.lat + ', ' + location.lng;
@@ -276,6 +276,7 @@ export class GeoDistanceSlider extends Component {
 							max={this.props.range.end}
 							onChange={this.handleResults}
 							marks={marks}
+							step={this.props.stepValue}
 						/>
 					</div>
 				</div>
@@ -287,6 +288,7 @@ export class GeoDistanceSlider extends Component {
 GeoDistanceSlider.propTypes = {
 	appbaseField: React.PropTypes.string.isRequired,
 	placeholder: React.PropTypes.string,
+	stepValue: helper.stepValidation,
 	range: React.PropTypes.shape({
 		start: helper.validateThreshold,
 		end: helper.validateThreshold
@@ -299,10 +301,9 @@ GeoDistanceSlider.propTypes = {
 
 // Default props value
 GeoDistanceSlider.defaultProps = {
-	defaultSelected: 1,
+	stepValue: 1,
 	unit: 'mi',
 	placeholder: "Search...",
-	size: 10,
 	range: {
 		start: 0,
 		end: 10

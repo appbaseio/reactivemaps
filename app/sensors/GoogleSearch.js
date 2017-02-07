@@ -43,7 +43,7 @@ export class GoogleSearch extends Component {
 	getUserLocation() {
 		navigator.geolocation.getCurrentPosition((location) => {
 			this.locString = location.coords.latitude + ', ' + location.coords.longitude;
-			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}&key=${this.props.APIkey}`)
+			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}`)
 				.then(res => {
 					let currentValue = res.data.results[0].formatted_address;
 					this.result.options.push({
@@ -87,7 +87,7 @@ export class GoogleSearch extends Component {
 	// get coordinates
 	getCoordinates(value) {
 		if(value && value != '') {
-			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${this.props.APIkey}`)
+			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}`)
 				.then(res => {
 					let location = res.data.results[0].geometry.location;
 					this.locString = location.lat + ', ' + location.lng;

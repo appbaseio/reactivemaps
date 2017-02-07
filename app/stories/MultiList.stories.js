@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import {
-	ReactiveBase,
-	MultiList,
-	AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
+import { ReactiveBase, MultiList, AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
 import { ReactiveMap } from '../app.js';
-import { Img } from './Img.js';
 
+import { Img } from './Img.js';
 const historyPin = require('./placeholder.svg');
 
 export default class MultiListDefault extends Component {
@@ -62,7 +59,7 @@ export default class MultiListDefault extends Component {
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
 							markerCluster={false}
-							mapStyle={this.props.mapStyle}
+							mapStyle="Light Monochrome"
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
@@ -83,7 +80,6 @@ export default class MultiListDefault extends Component {
 }
 
 MultiListDefault.defaultProps = {
-	mapStyle: "Light Monochrome",
 	mapping: {
 		city: 'group.group_city.raw',
 		location: 'location'

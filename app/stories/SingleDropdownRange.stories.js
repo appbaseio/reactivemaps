@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import {
-	ReactiveBase,
-	SingleDropdownRange,
-	AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
+import { ReactiveBase, SingleDropdownRange, AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
 import { ReactiveMap } from '../app.js';
-import { Img } from './Img.js';
 
+import { Img } from './Img.js';
 const historyPin = require('./placeholder.svg');
 
 export default class SingleDropdownRangeDefault extends Component {
@@ -63,7 +60,7 @@ export default class SingleDropdownRangeDefault extends Component {
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
 							markerCluster={false}
-							mapStyle={this.props.mapStyle}
+							mapStyle="Light Monochrome"
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
@@ -84,7 +81,6 @@ export default class SingleDropdownRangeDefault extends Component {
 }
 
 SingleDropdownRangeDefault.defaultProps = {
-	mapStyle: "Light Monochrome",
 	mapping: {
 		mag: 'mag',
 		location: 'location'

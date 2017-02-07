@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { ReactiveBase } from '@appbaseio/reactivebase';
+import { ReactiveBase, AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
 import { GeoDistanceSlider, ReactiveMap } from '../app.js';
-import { Img } from './Img.js';
-import { AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
 
-const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
+import { Img } from './Img.js';
 const historyPin = require('./placeholder.svg');
 
 export default class GeoDistanceSliderDefault extends Component {
@@ -47,11 +45,9 @@ export default class GeoDistanceSliderDefault extends Component {
 				theme="rbc-blue"
 			>
 				<div className="row">
-
 					<div className="col s6">
 						<GeoDistanceSlider
 							componentId="GeoDistanceSlider"
-							APIkey={mapsAPIKey}
 							appbaseField={this.props.mapping.location}
 							range={{
 								"start": 0,
@@ -65,7 +61,7 @@ export default class GeoDistanceSliderDefault extends Component {
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
 							markerCluster={false}
-							mapStyle={this.props.mapStyle}
+							mapStyle="Light Monochrome"
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
@@ -87,11 +83,8 @@ export default class GeoDistanceSliderDefault extends Component {
 }
 
 GeoDistanceSliderDefault.defaultProps = {
-	mapStyle: "Light Monochrome",
 	mapping: {
-		topic: 'group.group_topics.topic_name_raw.raw',
-		location: 'location',
-		venue: 'venue_name_ngrams'
+		location: 'location'
 	},
 	config: {
 		"appbase": {

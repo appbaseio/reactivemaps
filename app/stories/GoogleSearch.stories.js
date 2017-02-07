@@ -1,11 +1,6 @@
 import { default as React, Component } from 'react';
-var ReactDOM = require('react-dom');
-
 import { ReactiveBase } from '@appbaseio/reactivebase';
-import { ReactiveMap } from '../../app/app.js';
-import { GoogleSearch } from '../../app/sensors/GoogleSearch.js';
-
-const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
+import { ReactiveMap, GoogleSearch } from '../../app/app.js';
 
 export default class GoogleSearchDefault extends Component {
 	constructor(props) {
@@ -70,7 +65,6 @@ export default class GoogleSearchDefault extends Component {
 									componentId="OriginSensor"
 									placeholder="Search Venue"
 									title="Origin"
-									APIkey={mapsAPIKey}
 								/>
 							</div>
 							<div className="col s12 col-xs-12">
@@ -80,7 +74,6 @@ export default class GoogleSearchDefault extends Component {
 									placeholder="Search Venue"
 									autoLocation={false}
 									title="Destination"
-									APIkey={mapsAPIKey}
 								/>
 							</div>
 						</div>
@@ -90,7 +83,7 @@ export default class GoogleSearchDefault extends Component {
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
 							markerCluster={false}
-							mapStyle={this.props.mapStyle}
+							mapStyle="Light Monochrome"
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
@@ -113,12 +106,8 @@ export default class GoogleSearchDefault extends Component {
 }
 
 GoogleSearchDefault.defaultProps = {
-	mapStyle: "Light Monochrome",
 	mapping: {
-		city: 'group.group_city.raw',
-		topic: 'group.group_topics.topic_name_raw.raw',
 		venue: 'venue_name_ngrams',
-		guests: 'guests',
 		location: 'location'
 	},
 	config: {
