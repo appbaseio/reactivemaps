@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { ReactiveBase, DataSearch, SingleList, AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
 import { PlacesSearch, ReactiveMap } from '../app.js';
-import { Img } from './Img.js';
-import {  } from '@appbaseio/reactivebase';
 
-const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
+import { Img } from './Img.js';
 const historyPin = require('./placeholder.svg');
 
 export default class ReactiveMapDefault extends Component {
