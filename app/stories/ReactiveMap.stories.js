@@ -50,7 +50,7 @@ export default class ReactiveMapDefault extends Component {
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
-							markerCluster={false}
+							setMarkerCluster={false}
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
 							searchAsMoveComponent={true}

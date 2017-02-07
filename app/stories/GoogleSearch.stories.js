@@ -82,12 +82,12 @@ export default class GoogleSearchDefault extends Component {
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
-							markerCluster={false}
+							setMarkerCluster={false}
 							mapStyle="Light Monochrome"
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
-							clearOnEmpty={false}
+							autoMapRender={false}
 							title="Reactive Maps"
 							onIdle={this.onIdle}
 							defaultZoom = {13}

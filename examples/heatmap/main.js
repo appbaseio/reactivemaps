@@ -116,7 +116,7 @@ class Main extends Component {
 						defaultZoom={13}
 						defaultCenter={{ lat: 37.74, lng: -122.45 }}
 						historicalData={true}
-						markerCluster={false}
+						setMarkerCluster={false}
 						searchComponent="appbase"
 						searchField={this.props.mapping.venue}
 						mapStyle={this.props.mapStyle}
@@ -125,7 +125,7 @@ class Main extends Component {
 						searchAsMoveDefault={false}
 						showMapStyles={true}
 						title="Heatmap"
-						showPopoverOn = "onClick"
+						showPopoverOn = "click"
 						popoverContent = {this.popoverContent}
 						onData = {this.onData}
 						onIdle = {this.mapOnIdle}

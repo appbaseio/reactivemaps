@@ -73,14 +73,14 @@ class Main extends Component {
 							defaultZoom={8}
 							defaultCenter={{ lat: 35.272, lng: 138.582 }}
 							historicalData={true}
-							markerCluster={false}
+							setMarkerCluster={false}
 							searchComponent="appbase"
 							searchField={this.props.mapping.place}
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
 							showSearchAsMove={true}
 							title="Earthquake"
-							showPopoverOn = "onClick"
+							showPopoverOn = "click"
 							popoverContent = {this.popoverContent}
 							actuate={{
 								PlaceSensor: {"operation": "must"},

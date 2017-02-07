@@ -161,33 +161,38 @@ storiesOf("ReactiveMap", module)
 	.add("With Popover onClick", () => (
 		<ReactiveMapDefault
 			title="Reactive Maps"
-			showPopoverOn="onClick"
+			showPopoverOn="click"
 		/>
 	))
 	.add("With Popover onMouseOver", () => (
 		<ReactiveMapDefault
 			title="Reactive Maps"
-			showPopoverOn="onMouseover"
+			showPopoverOn="mouseover"
 		/>
 	))
 	.add("Playground", () => (
 		<ReactiveMapDefault
 			title={text("title", "Reactive maps")}
-			showPopoverOn={select("showPopoverOn", {'onClick': 'onClick', 'onMouseover':'onMouseover'}, 'onClick')}
-			markerCluster={boolean("markerCluster", true)}
+			showPopoverOn={select("showPopoverOn", {'click': 'click', 'mouseover':'mouseover'}, 'click')}
+			setMarkerCluster={boolean("setMarkerCluster", true)}
 			autoCenter={boolean("autoCenter", true)}
 			showSearchAsMove={boolean("showSearchAsMove", true)}
 			setSearchAsMove={boolean("setSearchAsMove", false)}
 			showMapStyles={boolean("showMapStyles", false)}
 			mapStyle={select("mapStyle", {'Standard':'Standard', 'Blue Essence':'Blue Essence', 'Blue Water':'Blue Water', 'Flat Map':'Flat Map', 'Light Monochrome':'Light Monochrome', 'Midnight Commander':'Midnight Commander', 'Unsaturated Browns':'Unsaturated Browns'}, 'Standard')}
 			size={number('size', 100)}
-			streamActiveTime={number("streamActiveTime", 5)}
+			streamTTL={number("streamTTL", 5)}
 			streamAutoCenter={boolean("streamAutoCenter", true)}
-			rotateOnUpdate={boolean("rotateOnUpdate", false)}
+			autoMarkerPosition={boolean("autoMarkerPosition", false)}
 			showMarkers={boolean("showMarkers", true)}
-			clearOnEmpty={boolean("clearOnEmpty", true)}
-			defaultPin={text('defaultPin', 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png')}
-			streamPin={text('streamPin', 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png')}
+			autoMapRender={boolean("autoMapRender", true)}
+			defaultZoom={number('defaultZoom', 13)}
+			defaultCenter={object("defaultCenter", {
+				"lat": 37.74,
+				"lng": -122.45
+			})}
+			defaultMarkerImage={text('defaultMarkerImage', 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png')}
+			streamMarkerImage={text('streamMarkerImage', 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png')}
 		/>
 	));
 

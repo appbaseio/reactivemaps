@@ -74,6 +74,7 @@
     "gulp-uglify": "^1.5.3",
     "json-loader": "^0.5.4",
     "lodash-webpack-plugin": "^0.10.7",
+    "raw": "^0.1.4",
     "raw-loader": "^0.5.1",
     "react-addons-shallow-compare": "^15.4.2",
     "react-scripts": "^0.7.0",

@@ -57,13 +57,13 @@ export default class GeoDistanceDropdownDefault extends Component {
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
-							markerCluster={false}
+							setMarkerCluster={false}
 							mapStyle="Light Monochrome"
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
 							title="Reactive Maps"
-							showPopoverOn = "onClick"
+							showPopoverOn = "click"
 							historicPin={historyPin}
 							popoverContent = {this.popoverContent}
 							defaultZoom = {13}

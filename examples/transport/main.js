@@ -90,7 +90,7 @@ class Main extends Component {
 							defaultZoom={11}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							historicalData={true}
-							markerCluster={false}
+							setMarkerCluster={false}
 							searchComponent="appbase"
 							searchField={this.props.mapping.venue}
 							mapStyle={this.props.mapStyle}
@@ -98,13 +98,13 @@ class Main extends Component {
 							showSearchAsMove={true}
 							showMapStyles={true}
 							title="SF Transport"
-							showPopoverOn = "onClick"
+							showPopoverOn = "click"
 							popoverContent = {this.popoverContent}
 							onData = {this.onData}
 							streamAutoCenter={false}
-							rotateOnUpdate={true}
+							autoMarkerPosition={true}
 							historicPin= 'dist/images/bus.png'
-							streamPin= 'dist/images/bus.png'
+							streamMarkerImage= 'dist/images/bus.png'
 							actuate={{
 								RoutesSensor: {"operation": "must"}
 							}}

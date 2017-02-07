@@ -58,7 +58,7 @@ export default class MultiListDefault extends Component {
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
-							markerCluster={false}
+							setMarkerCluster={false}
 							mapStyle="Light Monochrome"
 							autoCenter={true}
 							searchAsMoveComponent={true}

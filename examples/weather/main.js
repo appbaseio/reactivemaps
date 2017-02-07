@@ -123,7 +123,7 @@ class Main extends Component {
 							defaultZoom={4}
 							defaultCenter={{ lat: 40.673940, lng: -101.314026 }}
 							historicalData={true}
-							markerCluster={false}
+							setMarkerCluster={false}
 							searchComponent="appbase"
 							searchField={this.props.mapping.venue}
 							mapStyle={this.props.mapStyle}

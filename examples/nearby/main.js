@@ -157,7 +157,7 @@ class Main extends Component {
 							<ReactiveMap
 								appbaseField={this.props.mapping.location}
 								historicalData={true}
-								markerCluster={false}
+								setMarkerCluster={false}
 								searchComponent="appbase"
 								searchField={this.props.mapping.venue}
 								mapStyle={this.props.mapStyle}
@@ -165,7 +165,7 @@ class Main extends Component {
 								showSearchAsMove={true}
 								showMapStyles={true}
 								title="Reactive Maps"
-								showPopoverOn = "onClick"
+								showPopoverOn = "click"
 								popoverContent = {this.popoverContent}
 								onData = {this.onData}
 								defaultZoom = {13}

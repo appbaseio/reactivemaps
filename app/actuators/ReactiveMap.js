@@ -56,7 +56,7 @@ export class ReactiveMap extends Component {
 	initialize() {
 		this.createChannel();
 		this.setGeoQueryInfo();
-		let currentMapStyle = this.getMapStyle(this.props.mapStyle);
+		let currentMapStyle = this.getMapStyle(this.props.defaultMapStyle);
 		this.setState({
 			currentMapStyle: currentMapStyle
 		});
@@ -73,8 +73,8 @@ export class ReactiveMap extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.mapStyle != this.props.mapStyle) {
-			this.mapStyleChange(this.getMapStyle(nextProps.mapStyle));
+		if (nextProps.defaultMapStyle != this.props.defaultMapStyle) {
+			this.mapStyleChange(this.getMapStyle(nextProps.defaultMapStyle));
 		}
 	}
 
@@ -109,7 +109,7 @@ export class ReactiveMap extends Component {
 			if(!this.state.mapBounds) {
 				checkAndGo.call(this);
 			} else {
-				if(this.props.clearOnEmpty) {
+				if(this.props.autoMapRender) {
 					checkAndGo.call(this);
 				} else {
 					if(data.hits.hits.length) {
@@ -424,14 +424,14 @@ export class ReactiveMap extends Component {
 		let isStreamData = markersData.filter((hit) => hit.stream && hit.streamStart);
 		if(isStreamData.length) {
 			this.isStreamDataExists = true;
-			setTimeout(() => this.streamToNormal(), this.props.streamActiveTime*1000);
+			setTimeout(() => this.streamToNormal(), this.props.streamTTL*1000);
 		} else {
 			this.isStreamDataExists = false;
 		}
 	}
 
 	// Check the difference between current time and attached stream time
-	// if difference is equal to streamActiveTime then delete stream and starStream property of marker
+	// if difference is equal to streamTTL then delete stream and starStream property of marker
 	streamToNormal() {
 		let markersData = this.state.markersData;
 		let isStreamData = markersData.filter((hit) => hit.stream && hit.streamStart);
@@ -440,7 +440,7 @@ export class ReactiveMap extends Component {
 				if(hit.stream && hit.streamStart) {
 					let currentTime = new Date();
 					let timeDiff = (currentTime.getTime() - hit.streamStart.getTime())/1000;
-					if(timeDiff >= this.props.streamActiveTime) {
+					if(timeDiff >= this.props.streamTTL) {
 						delete hit.stream;
 						delete hit.streamStart;
 					}
@@ -456,11 +456,11 @@ export class ReactiveMap extends Component {
 	}
 
 	chooseIcon(hit) {
-		let icon = hit.external_icon ? hit.external_icon : (hit.stream ? this.props.streamPin : this.props.defaultPin);
+		let icon = hit.external_icon ? hit.external_icon : (hit.stream ? this.props.streamMarkerImage : this.props.defaultMarkerImage);
 		let isSvg = typeof icon === 'object' && icon.hasOwnProperty('path') ? true : false;
 		if(isSvg) {
 			icon = JSON.parse(JSON.stringify(icon));
-			if(this.props.rotateOnUpdate) {
+			if(this.props.autoMarkerPosition) {
 				let deg = hit.angleDeg ? hit.angleDeg : 0;
 				icon.rotation = deg;
 			}
@@ -493,7 +493,7 @@ export class ReactiveMap extends Component {
 		if(markersData && markersData.length) {
 			response.markerComponent = markersData.map((hit, index) => {
 				let field = self.identifyGeoData(hit._source[self.props.appbaseField]);
-				// let icon = !this.props.rotateOnUpdate ? iconPath : RotateIcon.makeIcon(iconPath).setRotation({deg: deg}).getUrl();
+				// let icon = !this.props.autoMarkerPosition ? iconPath : RotateIcon.makeIcon(iconPath).setRotation({deg: deg}).getUrl();
 				// let icon = self.chooseIcon(hit);
 				if(field) {
 					response.convertedGeo.push(field);
@@ -504,7 +504,10 @@ export class ReactiveMap extends Component {
 					let popoverEvent;
 					if(this.props.showPopoverOn) {
 						popoverEvent = {};
-						popoverEvent[this.props.showPopoverOn] = this.handleMarkerClick.bind(this, hit);
+						let eventName = this.props.showPopoverOn.split('');
+						eventName[0] = eventName[0].toUpperCase();
+						eventName = eventName.join('');
+						popoverEvent['on'+eventName] = this.handleMarkerClick.bind(this, hit);
 					} else {
 						popoverEvent = {};
 						popoverEvent['onClick'] = this.handleMarkerClick.bind(this, hit);
@@ -576,7 +579,7 @@ export class ReactiveMap extends Component {
 		let centerComponent = {};
 		var otherOptions;
 		var generatedMarkers = this.generateMarkers();
-		if (this.props.markerCluster) {
+		if (this.props.setMarkerCluster) {
 			markerComponent = <MarkerClusterer averageCenter enableRetinaIcons gridSize={ 60 } >
 				{generatedMarkers.markerComponent}
 			</MarkerClusterer>;
@@ -608,7 +611,7 @@ export class ReactiveMap extends Component {
 		}
 		// include mapStyle choose component
 		if(this.props.showMapStyles) {
-			showMapStyles = <MapStyles defaultSelected={this.props.mapStyle} mapStyleChange={this.mapStyleChange} />;
+			showMapStyles = <MapStyles defaultSelected={this.props.defaultMapStyle} mapStyleChange={this.mapStyleChange} />;
 		}
 		// include title if exists
 		if(this.props.title) {
@@ -671,55 +674,89 @@ export class ReactiveMap extends Component {
 	}
 }
 
+var validation = {
+	defaultZoom: function(props, propName, componentName) {
+		if (props[propName] < 1 || props[propName] > 20) {
+			return new Error('zoom value is invalid, it should be between 1 and 20.');
+		}
+	},
+	validCenter: function(props, propName, componentName) {
+		if(isNaN(props[propName])) {
+			return new Error(propName+' value must be number');
+		} else {
+			if(propName === 'lat' && (props[propName] < -90 || props[propName] > 90)) {
+				return new Error(propName+' value must be between -90 and 90');
+			}
+			else if(propName === 'lng' && (props[propName] < -180 || props[propName] > 180)) {
+				return new Error(propName+' value must be between -180 and 180');
+			}
+		}
+	},
+	fromValidation: function(props, propName, componentName) {
+		if (props[propName] < 0) {
+			return new Error(propName+' should be greater than 0');
+		}
+	}
+}
+
 ReactiveMap.propTypes = {
 	appbaseField: React.PropTypes.string.isRequired,
 	onIdle: React.PropTypes.func,
-	markerOnDelete: React.PropTypes.func,
 	onData: React.PropTypes.func,
-	markerCluster: React.PropTypes.bool,
-	rotateOnUpdate: React.PropTypes.bool,
+	setMarkerCluster: React.PropTypes.bool,
+	autoMarkerPosition: React.PropTypes.bool,
 	showMarkers: React.PropTypes.bool,
-	streamActiveTime: React.PropTypes.number,
-	size: React.PropTypes.number,
-	from: React.PropTypes.number,
-	clearOnEmpty: React.PropTypes.bool, // usecase?
+	streamTTL: React.PropTypes.number,
+	size: helper.sizeValidation,
+	from: validation.fromValidation,
+	autoMapRender: React.PropTypes.bool, // usecase?
 	componentStyle: React.PropTypes.object,
 	containerStyle: React.PropTypes.object,
 	autoCenter: React.PropTypes.bool,
 	showSearchAsMove: React.PropTypes.bool,
 	setSearchAsMove: React.PropTypes.bool,
-	mapStyle: React.PropTypes.oneOf(['Standard', 'Blue Essence', 'Blue Water', 'Flat Map', 'Light Monochrome', 'Midnight Commander', 'Unsaturated Browns']),
+	defaultMapStyle: React.PropTypes.oneOf(['Standard', 'Blue Essence', 'Blue Water', 'Flat Map', 'Light Monochrome', 'Midnight Commander', 'Unsaturated Browns']),
 	title: React.PropTypes.string,
 	streamAutoCenter: React.PropTypes.bool,
-	defaultPin: React.PropTypes.string,
-	streamPin: React.PropTypes.string,
+	defaultMarkerImage: React.PropTypes.string,
+	streamMarkerImage: React.PropTypes.string,
 	stream: React.PropTypes.bool,
-	showPopoverOn: React.PropTypes.oneOf(['onClick', 'onMouseover'])
+	defaultZoom: validation.defaultZoom,
+	showPopoverOn: React.PropTypes.oneOf(['click', 'mouseover']),
+	defaultCenter: React.PropTypes.shape({
+		lat: validation.validCenter,
+		lng: validation.validCenter
+	})
 };
 
 ReactiveMap.defaultProps = {
-	markerCluster: true,
+	setMarkerCluster: true,
 	autoCenter: false,
 	showSearchAsMove: false,
 	setSearchAsMove: false,
 	showMapStyles: false,
-	mapStyle: 'Standard',
+	defaultMapStyle: 'Standard',
 	from: 0,
 	size: 100,
-	streamActiveTime: 5,
+	streamTTL: 5,
 	streamAutoCenter: true,
-	rotateOnUpdate: false,
+	autoMarkerPosition: false,
 	showMarkers: true,
-	clearOnEmpty: true,
-	defaultPin: 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png',
-	streamPin: 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png',
+	autoMapRender: true,
+	defaultMarkerImage: 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png',
+	streamMarkerImage: 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png',
 	componentStyle: {
 		height: '100%'
 	},
 	containerStyle: {
 		height: '700px'
 	},
-	stream: false
+	stream: false,
+	defaultZoom: 13,
+	defaultCenter: {
+		"lat": 37.74,
+		"lng": -122.45
+	}
 };
 
 ReactiveMap.contextTypes = {

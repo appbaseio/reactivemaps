@@ -89,12 +89,12 @@ class Main extends Component {
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
-							markerCluster={false}
+							setMarkerCluster={false}
 							mapStyle={this.props.mapStyle}
 							autoCenter={false}
 							showSearchAsMove={true}
 							showMapStyles={true}
-							clearOnEmpty={false}
+							autoMapRender={false}
 							title="Reactive Maps"
 							onIdle={this.onIdle}
 							defaultZoom = {13}
