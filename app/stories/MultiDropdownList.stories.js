@@ -63,6 +63,8 @@ export default class MultiDropdownListDefault extends Component {
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
+							title="Reactive Maps"
+							showPopoverOn = "click"
 							historicPin={historyPin}
 							popoverContent = {this.popoverContent}
 							defaultZoom = {13}
@@ -70,7 +72,6 @@ export default class MultiDropdownListDefault extends Component {
 							actuate={{
 								CitySensor: {"operation": "must"},
 							}}
-							{...this.props}
 						/>
 					</div>
 				</div>

@@ -64,14 +64,15 @@ export default class MultiRangeDefault extends Component {
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
+							title="Reactive Maps"
+							showPopoverOn = "click"
 							historicPin={historyPin}
 							popoverContent = {this.popoverContent}
-							defaultZoom = {5}
+							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							actuate={{
 								EarthquakeSensor: {"operation": "must"},
 							}}
-							{...this.props}
 						/>
 					</div>
 				</div>

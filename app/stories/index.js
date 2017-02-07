@@ -338,7 +338,7 @@ storiesOf("SingleRange", module)
 	)))
 	.add("Playground", withReadme(removeFirstLine(SingleRangeReadme), () => (
 		<SingleRangeDefault
-			title={text("title", "SingleRange: Earthquake Magnitude Classes")}
+			title={text("title", "SingleRange: Earthquake Magnitude")}
 			defaultSelected={text("defaultSelected", "Strong")} />
 	)));
 
@@ -352,7 +352,7 @@ storiesOf("MultiRange", module)
 	)))
 	.add("Playground", withReadme(removeFirstLine(MultiRangeReadme), () => (
 		<MultiRangeDefault
-			title={text("title", "MultiRange: Earthquake Magnitude Classes")}
+			title={text("title", "MultiRange: Earthquake Magnitude")}
 			defaultSelected={array("defaultSelected", ["Moderate", "Strong"])}
 			showTags={boolean("showTags", "false")} />
 	)));
@@ -367,7 +367,7 @@ storiesOf("SingleDropdownRange", module)
 	)))
 	.add("Playground", withReadme(removeFirstLine(SingleDropdownRangeReadme), () => (
 		<SingleDropdownRangeDefault
-			title={text("title", "SingleDropdownRange: Earthquake Magnitude Classes")}
+			title={text("title", "SingleDropdownRange: Earthquake Magnitude")}
 			defaultSelected={text("defaultSelected", "Strong")} />
 	)));
 
@@ -381,6 +381,6 @@ storiesOf("MultiDropdownRange", module)
 	)))
 	.add("Playground", withReadme(removeFirstLine(MultiDropdownRangeReadme), () => (
 		<MultiDropdownRangeDefault
-			title={text("title", "MultiDropdownRange: Earthquake Magnitude Classes")}
+			title={text("title", "MultiDropdownRange: Earthquake Magnitude")}
 			defaultSelected={array("defaultSelected", ["Moderate", "Strong"])} />
 	)));
