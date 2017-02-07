@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { ReactiveBase, DataSearch, SingleList, AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
-import { PlacesSearch, ReactiveMap } from '../app.js';
+import { ReactiveBase, DataSearch, AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
+import { ReactiveMap } from '../app.js';
 
 import { Img } from './Img.js';
 const historyPin = require('./placeholder.svg');
 
-export default class ReactiveMapDefault extends Component {
+export default class DataSearchDefault extends Component {
 	constructor(props) {
 		super(props);
 		this.popoverContent = this.popoverContent.bind(this);
@@ -38,57 +38,40 @@ export default class ReactiveMapDefault extends Component {
 	render() {
 		return (
 			<ReactiveBase
-				app="reactivemap-demo"
-				username="SL8fiQ1fg"
-				password="71ea4254-49ba-4685-8276-e44da225c141"
-				theme="rbc-blue"
+				app="reactivemap_demo"
+				username="y4pVxY2Ok"
+				password="c92481e2-c07f-4473-8326-082919282c18"
+				type="meetupdata1"
 			>
-				<div className="row reverse-labels">
-					<div className="col s6">
+				<div className="row">
+					<div className="col s6 col-xs-6">
+						<DataSearch
+							appbaseField={this.props.mapping.venue}
+							componentId="VenueSensor"
+							placeholder="Search Venue"
+							{...this.props}
+						/>
+					</div>
+
+					<div className="col s6 col-xs-6">
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
 							setMarkerCluster={false}
-							defaultMapStyle={this.props.mapStyle}
+							defaultMapStyle="Light Monochrome"
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
+							title="Reactive Maps"
+							showPopoverOn = "click"
 							historicPin={historyPin}
 							popoverContent = {this.popoverContent}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							actuate={{
-								CitySensor: {"operation": "must"},
 								VenueSensor: {"operation": "must"}
 							}}
-							{...this.props}
 						/>
-					</div>
-					<div className="col s6">
-						<div>
-							<DataSearch
-								appbaseField={this.props.mapping.venue}
-								componentId="VenueSensor"
-								placeholder="Search Venue"
-								actuate={{
-									'CitySensor': {
-										"operation": "must",
-										"doNotExecute": {true}
-									}
-								}}
-							/>
-						</div>
-						<div>
-							<SingleList
-								componentId="CitySensor"
-								appbaseField={this.props.mapping.city}
-								showCount={true}
-								size={10}
-								title="Input Filter"
-								searchPlaceholder="Search City"
-								includeSelectAll={true}
-							/>
-						</div>
 					</div>
 				</div>
 			</ReactiveBase>
@@ -96,19 +79,9 @@ export default class ReactiveMapDefault extends Component {
 	}
 }
 
-ReactiveMapDefault.defaultProps = {
-	mapStyle: "Light Monochrome",
+DataSearchDefault.defaultProps = {
 	mapping: {
-		location: 'location',
 		venue: 'venue_name_ngrams',
-		city: 'group.group_city.raw'
-	},
-	config: {
-		"appbase": {
-			"app": "meetup2",
-			"username": "qz4ZD8xq1",
-			"password": "a0edfc7f-5611-46f6-8fe1-d4db234631f3",
-			"type": "meetup"
-		}
+		location: 'location'
 	}
 };

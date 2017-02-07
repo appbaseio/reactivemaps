@@ -120,7 +120,6 @@ class Main extends Component {
 							<DataSearch
 								appbaseField={this.props.mapping.venue}
 								sensorId="VenueSensor"
-								searchRef="CityVenue"
 								placeholder="Search Venue"
 								actuate={{
 									'CitySensor': {

@@ -34,6 +34,9 @@ import SingleDropdownRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/co
 import MultiDropdownRangeDefault from "./MultiDropdownRange.stories";
 import MultiDropdownRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/components/MultiDropdownRange.md";
 
+import DataSearchDefault from "./DataSearch.stories";
+import DataSearchReadme from "@appbaseio/reactivebase-manual/docs/v1/components/DataSearch.md";
+
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
 require ("../../dist/css/style.min.css");
@@ -383,4 +386,24 @@ storiesOf("MultiDropdownRange", module)
 		<MultiDropdownRangeDefault
 			title={text("title", "MultiDropdownRange: Earthquake Magnitude")}
 			defaultSelected={array("defaultSelected", ["Moderate", "Strong"])} />
+	)));
+
+storiesOf("DataSearch", module)
+	.addDecorator(withKnobs)
+	.add("Basic", withReadme(removeFirstLine(DataSearchReadme), () => (
+		<DataSearchDefault
+			title="DataSearch"
+			placeholder="Search Venue" />
+	)))
+	.add("Without Autocomplete", withReadme(removeFirstLine(DataSearchReadme), () => (
+		<DataSearchDefault
+			title="DataSearch"
+			placeholder="Search Venue"
+			autocomplete={false} />
+	)))
+	.add("Playground", withReadme(removeFirstLine(DataSearchReadme), () => (
+		<DataSearchDefault
+			title={text("title", "DataSearch: Meetups")}
+			placeholder={text("placeholder", "Search Venue")}
+			autocomplete={boolean("autocomplete", true)} />
 	)));
