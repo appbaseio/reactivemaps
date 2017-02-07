@@ -19,6 +19,9 @@ import MultiListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/M
 import SingleDropdownListDefault from "./SingleDropdownList.stories";
 import SingleDropdownListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/SingleDropdownList.md";
 
+import MultiDropdownListDefault from "./MultiDropdownList.stories";
+import MultiDropdownListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/MultiDropdownList.md";
+
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
 require ("../../dist/css/style.min.css");
@@ -270,4 +273,40 @@ storiesOf("SingleDropdownList", module)
 			defaultSelected={text("defaultSelected", "London")}
 			placeholder={text("placeholder", "Select a City")}
 			/>
+	)));
+
+storiesOf("MultiDropdownList", module)
+	.addDecorator(withKnobs)
+	.add("Basic", withReadme(removeFirstLine(MultiDropdownListReadme), () => (
+		<MultiDropdownListDefault />
+	)))
+	.add("With Placeholder", withReadme(removeFirstLine(MultiDropdownListReadme), () => (
+		<MultiDropdownListDefault
+			placeholder="Select Cities"
+		/>
+	)))
+	.add("With Select All", withReadme(removeFirstLine(MultiDropdownListReadme), () => (
+		<MultiDropdownListDefault
+			placeholder="Select Cities"
+			selectAllLabel="All Cities"
+		/>
+	)))
+	.add("With Default Selected", withReadme(removeFirstLine(MultiDropdownListReadme), () => (
+		<MultiDropdownListDefault
+			placeholder="Select Cities"
+			size={100}
+			sortBy="count"
+			defaultSelected={["London", "Melbourne"]}
+		/>
+	)))
+	.add("Playground", withReadme(removeFirstLine(MultiDropdownListReadme), () => (
+		<MultiDropdownListDefault
+			title={text("title", "MultiDropdownList")}
+			size={number("size", 100)}
+			showCount={boolean("showCount", true)}
+			sortBy={select("sortBy", {asc: "asc", desc: "desc", count: "count"}, "count")}
+			selectAllLabel={text("selectAllLabel", "All Cities")}
+			defaultSelected={array("defaultSelected", ["London", "Melbourne"])}
+			placeholder={text("placeholder", "Select Cities")}
+		/>
 	)));
