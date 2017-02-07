@@ -10,12 +10,13 @@ Try the live playground at https://opensource.appbase.io/reactivemaps/playground
 
 ## Examples
 
-- https://opensource.appbase.io/reactivemaps/examples/now
-- https://opensource.appbase.io/reactivemaps/examples/meetupblast/
-- https://opensource.appbase.io/reactivemaps/examples/heatmap/
-- https://opensource.appbase.io/reactivemaps/examples/earthquake/
-- https://opensource.appbase.io/reactivemaps/examples/transport/
-- https://opensource.appbase.io/reactivemaps/examples/list/
+- [examples/now](https://opensource.appbase.io/reactivemaps/examples/now)
+- [examples/meetupblast](https://opensource.appbase.io/reactivemaps/examples/meetupblast/)
+- [examples/heatmap](https://opensource.appbase.io/reactivemaps/examples/heatmap/)
+- [examples/earthquake](https://opensource.appbase.io/reactivemaps/examples/earthquake/)
+- [examples/transport](https://opensource.appbase.io/reactivemaps/examples/transport/)
+- [examples/list](https://opensource.appbase.io/reactivemaps/examples/list/)
+- [examples/events](https://opensource.appbase.io/reactivemaps/examples/events/)
 
 ## Using it
 
