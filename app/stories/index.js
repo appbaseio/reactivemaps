@@ -22,6 +22,9 @@ import SingleDropdownListReadme from "@appbaseio/reactivebase-manual/docs/v1/com
 import MultiDropdownListDefault from "./MultiDropdownList.stories";
 import MultiDropdownListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/MultiDropdownList.md";
 
+import SingleDropdownRangeDefault from "./SingleDropdownRange.stories";
+import SingleDropdownRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/components/SingleDropdownRange.md";
+
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
 require ("../../dist/css/style.min.css");
@@ -309,4 +312,18 @@ storiesOf("MultiDropdownList", module)
 			defaultSelected={array("defaultSelected", ["London", "Melbourne"])}
 			placeholder={text("placeholder", "Select Cities")}
 		/>
+	)));
+
+storiesOf("SingleDropdownRange", module)
+	.addDecorator(withKnobs)
+	.add("Basic", withReadme(removeFirstLine(SingleDropdownRangeReadme), () => (
+		<SingleDropdownRangeDefault />
+	)))
+	.add("With Default Selected", withReadme(removeFirstLine(SingleDropdownRangeReadme), () => (
+		<SingleDropdownRangeDefault defaultSelected="Strong" />
+	)))
+	.add("Playground", withReadme(removeFirstLine(SingleDropdownRangeReadme), () => (
+		<SingleDropdownRangeDefault
+			title={text("title", "SingleDropdownRange: Earthquake Magnitude Classes")}
+			defaultSelected={text("defaultSelected", "Strong")} />
 	)));

@@ -673,7 +673,6 @@ export class ReactiveMap extends Component {
 
 ReactiveMap.propTypes = {
 	appbaseField: React.PropTypes.string.isRequired,
-	searchField: React.PropTypes.string,
 	onIdle: React.PropTypes.func,
 	markerOnDelete: React.PropTypes.func,
 	onData: React.PropTypes.func,

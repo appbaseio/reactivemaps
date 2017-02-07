@@ -38,36 +38,6 @@ export default class SingleDropdownListDefault extends Component {
 		</div>);
 	}
 
-	itemMarkup(marker, markerData) {
-		return (
-			<a className="full_row single-record single_record_for_clone"
-				href={marker.event ? marker.event.event_url : ''}
-				target="_blank"
-				key={markerData._id}>
-				<div className="img-container">
-					<Img key={markerData._id} src={marker.member ? marker.member.photo : this.DEFAULT_IMAGE} />
-				</div>
-				<div className="text-container full_row">
-					<div className="text-head text-overflow full_row">
-						<span className="text-head-info text-overflow">
-							{marker.member ? marker.member.member_name : ''} is going to {marker.event ? marker.event.event_name : ''}
-						</span>
-						<span className="text-head-city">{marker.group ? marker.group.group_city : ''}</span>
-					</div>
-					<div className="text-description text-overflow full_row">
-						<ul className="highlight_tags">
-							{
-								marker.group.group_topics.map(function(tag,i){
-									return (<li key={i}>{tag.topic_name}</li>)
-								})
-							}
-						</ul>
-					</div>
-				</div>
-			</a>
-		);
-	}
-
 	render() {
 		return (
 			<ReactiveBase
@@ -92,8 +62,6 @@ export default class SingleDropdownListDefault extends Component {
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
 							markerCluster={false}
-							searchComponent="appbase"
-							searchField={this.props.mapping.venue}
 							mapStyle={this.props.mapStyle}
 							autoCenter={true}
 							searchAsMoveComponent={true}
@@ -115,6 +83,7 @@ export default class SingleDropdownListDefault extends Component {
 }
 
 SingleDropdownListDefault.defaultProps = {
+	mapStyle: "Light Monochrome",
 	mapping: {
 		city: 'group.group_city.raw',
 		location: 'location'
