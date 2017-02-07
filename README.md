@@ -85,11 +85,7 @@ Start the development server on port `8012`:
 npm start
 ```
 
-<<<<<<< HEAD
 Run Storybook on port `9009`
-=======
-Run Storybook on port `9009`:
->>>>>>> a4d74bdd586b44918e27ad968211eefa76db0cc2
 
 ```
 npm run storybook
