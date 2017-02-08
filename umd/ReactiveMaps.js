@@ -9321,7 +9321,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			_this.filterBySearch = _this.filterBySearch.bind(_this);
 			_this.selectAll = _this.selectAll.bind(_this);
 			_this.type = _this.props.multipleSelect ? 'Terms' : 'Term';
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			return _this;
 		}
 
@@ -9339,8 +9339,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(value) {
+			key: 'customQuery',
+			value: function customQuery(value) {
 				if (this.state.selectAll) {
 					return {
 						"exists": {
@@ -9411,7 +9411,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -10381,8 +10381,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var _require = __webpack_require__(69),
-	    EventEmitter = _require.EventEmitter;
+	var _require = __webpack_require__(69);
+
+	var EventEmitter = _require.EventEmitter;
 
 	var helper = __webpack_require__(76);
 
@@ -10534,8 +10535,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						requestOptions = previousSelectedSensor[depend];
 					} else {
 						var queryObj = null;
-						if (actuate[depend].defaultQuery) {
-							queryObj = actuate[depend].defaultQuery(previousSelectedSensor[depend]);
+						if (actuate[depend].customQuery) {
+							queryObj = actuate[depend].customQuery(previousSelectedSensor[depend]);
 						} else {
 							queryObj = singleQuery(depend);
 						}
@@ -10563,8 +10564,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				function singleQuery(depend) {
 					var sensorInfo = helper.selectedSensor.get(depend, 'sensorInfo');
 					var s_query = null;
-					if (sensorInfo && sensorInfo.defaultQuery) {
-						s_query = sensorInfo.defaultQuery(previousSelectedSensor[depend]);
+					if (sensorInfo && sensorInfo.customQuery) {
+						s_query = sensorInfo.customQuery(previousSelectedSensor[depend]);
 					} else if (previousSelectedSensor[depend]) {
 						s_query = {};
 						s_query[sensorInfo.queryType] = {};
@@ -11271,8 +11272,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var _require = __webpack_require__(69),
-	    EventEmitter = _require.EventEmitter;
+	var _require = __webpack_require__(69);
+
+	var EventEmitter = _require.EventEmitter;
 
 	var $ = __webpack_require__(77);
 	var globalI = 0;
@@ -22011,7 +22013,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			_this.defaultSelected = _this.props.defaultSelected;
 			_this.handleChange = _this.handleChange.bind(_this);
 			_this.type = _this.props.multipleSelect ? 'Terms' : 'Term';
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			_this.renderOption = _this.renderOption.bind(_this);
 			return _this;
 		}
@@ -22099,8 +22101,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(value) {
+			key: 'customQuery',
+			value: function customQuery(value) {
 				if (this.selectAll) {
 					return {
 						"exists": {
@@ -22122,7 +22124,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -41931,7 +41933,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			_this.channelListener = null;
 			_this.handleValuesChange = _this.handleValuesChange.bind(_this);
 			_this.handleResults = _this.handleResults.bind(_this);
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			return _this;
 		}
 
@@ -42096,7 +42098,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: 'range',
 						inputData: this.props.appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -42113,8 +42115,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				helper.selectedSensor.set(objValue, true);
 			}
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(record) {
+			key: 'customQuery',
+			value: function customQuery(record) {
 				if (record) {
 					return {
 						range: _defineProperty({}, this.props.appbaseField, {
@@ -42136,7 +42138,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				actuate['aggs'] = {
 					key: this.props.appbaseField,
 					sort: 'asc',
-					size: this.getSize()
+					size: 1000
 				};
 				actuate[this.props.componentId + '-internal'] = {
 					operation: 'must'
@@ -42203,9 +42205,18 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: 'countCalc',
 			value: function countCalc(min, max, newItems) {
 				var counts = [];
+				var storeItems = {};
+				newItems = newItems.map(function (item) {
+					item.key = Math.floor(item.key);
+					if (!storeItems.hasOwnProperty(item.key)) {
+						storeItems[item.key] = item.doc_count;
+					} else {
+						storeItems[item.key] += item.doc_count;
+					}
+					return item;
+				});
 				for (var i = min; i <= max; i++) {
-					var item = _.find(newItems, { 'key': i });
-					var val = item ? item.doc_count : 0;
+					var val = storeItems[i] ? storeItems[i] : 0;
 					counts.push(val);
 				}
 				return counts;
@@ -42456,9 +42467,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					'span',
 					{ className: 'rbc-bar-item', style: barStyle },
 					_react2.default.createElement('span', { className: 'bar', style: this.style.bar,
-						'data-tip': element.count,
-						title: element.count }),
-					_react2.default.createElement(_reactTooltip2.default, null)
+						title: element.count })
 				);
 			}
 		}]);
@@ -50924,7 +50933,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			};
 			_this.type = 'match';
 			_this.handleChange = _this.handleChange.bind(_this);
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			return _this;
 		}
 
@@ -50947,7 +50956,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -50956,8 +50965,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(value) {
+			key: 'customQuery',
+			value: function customQuery(value) {
 				return {
 					'term': _defineProperty({}, this.props.appbaseField, value)
 				};
@@ -51152,7 +51161,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						defaultQuery: this.defaultSearchQuery
+						customQuery: this.defaultSearchQuery
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -51174,7 +51183,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				var actuate = {};
 				actuate[this.props.searchInputId] = {
 					operation: "must",
-					defaultQuery: this.defaultSearchQuery
+					customQuery: this.defaultSearchQuery
 				};
 				var channelObj = _ChannelManager.manager.create(this.context.appbaseRef, this.context.type, actuate);
 				this.channelId = channelObj.channelId;
@@ -51488,7 +51497,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			_this.type = 'range';
 			_this.defaultSelected = _this.props.defaultSelected;
 			_this.handleChange = _this.handleChange.bind(_this);
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			return _this;
 		}
 
@@ -51538,7 +51547,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -51547,8 +51556,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(record) {
+			key: 'customQuery',
+			value: function customQuery(record) {
 				if (record) {
 					return {
 						range: _defineProperty({}, this.props.appbaseField, {
@@ -51725,7 +51734,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			_this.handleChange = _this.handleChange.bind(_this);
 			_this.resetState = _this.resetState.bind(_this);
 			_this.handleTagClick = _this.handleTagClick.bind(_this);
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			return _this;
 		}
 
@@ -51780,7 +51789,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -51789,8 +51798,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(record) {
+			key: 'customQuery',
+			value: function customQuery(record) {
 				if (record) {
 					var query = {
 						bool: {
@@ -52066,7 +52075,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			_this.type = 'range';
 			_this.defaultSelected = _this.props.defaultSelected;
 			_this.handleChange = _this.handleChange.bind(_this);
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			return _this;
 		}
 
@@ -52116,7 +52125,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -52125,8 +52134,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(record) {
+			key: 'customQuery',
+			value: function customQuery(record) {
 				if (record) {
 					return {
 						range: _defineProperty({}, this.props.appbaseField, {
@@ -52288,7 +52297,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			});
 			_this.defaultSelected = _this.props.defaultSelected;
 			_this.handleChange = _this.handleChange.bind(_this);
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			return _this;
 		}
 
@@ -52338,7 +52347,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -52347,8 +52356,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(record) {
+			key: 'customQuery',
+			value: function customQuery(record) {
 				if (record) {
 					var query = {
 						bool: {
@@ -52521,7 +52530,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			_this.type = 'term';
 			_this.defaultSelected = _this.props.defaultSelected;
 			_this.handleChange = _this.handleChange.bind(_this);
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			return _this;
 		}
 
@@ -52573,7 +52582,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -52582,8 +52591,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(record) {
+			key: 'customQuery',
+			value: function customQuery(record) {
 				var query = null;
 				if (record && record.length) {
 					query = {
@@ -52792,7 +52801,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			};
 			_this.type = 'range';
 			_this.handleChange = _this.handleChange.bind(_this);
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			return _this;
 		}
 
@@ -52815,7 +52824,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -52824,8 +52833,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(value) {
+			key: 'customQuery',
+			value: function customQuery(value) {
 				var query = null;
 				if (value) {
 					query = {
@@ -75945,7 +75954,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			};
 			_this.type = 'range';
 			_this.handleChange = _this.handleChange.bind(_this);
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			_this.onFocusChange = _this.onFocusChange.bind(_this);
 			return _this;
 		}
@@ -75969,7 +75978,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -75978,8 +75987,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(value) {
+			key: 'customQuery',
+			value: function customQuery(value) {
 				var query = null;
 				if (value) {
 					query = {
@@ -76191,7 +76200,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			_this.defaultSelected = _this.props.defaultSelected;
 			_this.filterBySearch = _this.filterBySearch.bind(_this);
 			_this.onItemSelect = _this.onItemSelect.bind(_this);
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			_this.handleSelect = _this.handleSelect.bind(_this);
 			_this.type = 'Term';
 			return _this;
@@ -76279,8 +76288,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(record) {
+			key: 'customQuery',
+			value: function customQuery(record) {
 				if (record) {
 					var query = {
 						bool: {
@@ -76308,7 +76317,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField[0],
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -76949,10 +76958,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	var NumberComponent = function NumberComponent(props) {
-		var label = props.label,
-		    end = props.end,
-		    start = props.start,
-		    handleChange = props.handleChange;
+		var label = props.label;
+		var end = props.end;
+		var start = props.start;
+		var handleChange = props.handleChange;
 
 		var value = props.value != undefined ? props.value : start;
 		var isPlusActive = end != undefined ? value < end : true;
@@ -76988,9 +76997,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			var _this = _possibleConstructorReturn(this, (NumberBox.__proto__ || Object.getPrototypeOf(NumberBox)).call(this, props));
 
-			var _this$props = _this.props,
-			    defaultSelected = _this$props.defaultSelected,
-			    focused = _this$props.focused;
+			var _this$props = _this.props;
+			var defaultSelected = _this$props.defaultSelected;
+			var focused = _this$props.focused;
 
 			_this.state = {
 				currentValue: defaultSelected,
@@ -76998,7 +77007,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			};
 			_this.type = 'term';
 			_this.handleChange = _this.handleChange.bind(_this);
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			return _this;
 		}
 
@@ -77025,23 +77034,23 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(value) {
+			key: 'customQuery',
+			value: function customQuery(value) {
 				return _defineProperty({}, this.type, _defineProperty({}, this.props.appbaseField, value));
 			}
 		}, {
 			key: 'setQueryInfo',
 			value: function setQueryInfo() {
-				var _props = this.props,
-				    componentId = _props.componentId,
-				    appbaseField = _props.appbaseField;
+				var _props = this.props;
+				var componentId = _props.componentId;
+				var appbaseField = _props.appbaseField;
 
 				var obj = {
 					key: componentId,
 					value: {
 						queryType: this.type,
 						inputData: appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -77063,11 +77072,11 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: 'handleChange',
 			value: function handleChange() {
 				var increment = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-				var _props2 = this.props,
-				    componentId = _props2.componentId,
-				    data = _props2.data;
-				var start = data.start,
-				    end = data.end;
+				var _props2 = this.props;
+				var componentId = _props2.componentId;
+				var data = _props2.data;
+				var start = data.start;
+				var end = data.end;
 
 				var inputVal = this.state.currentValue;
 
@@ -77093,10 +77102,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: 'render',
 			value: function render() {
-				var _props3 = this.props,
-				    title = _props3.title,
-				    data = _props3.data,
-				    labelPosition = _props3.labelPosition;
+				var _props3 = this.props;
+				var title = _props3.title;
+				var data = _props3.data;
+				var labelPosition = _props3.labelPosition;
 				var currentValue = this.state.currentValue;
 
 				var ComponentTitle = title ? _react2.default.createElement(TitleComponent, { title: title }) : null;
@@ -92464,7 +92473,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			};
 			_this.handleChange = _this.handleChange.bind(_this);
 			_this.loadOptions = _this.loadOptions.bind(_this);
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			_this.handleValuesChange = _this.handleValuesChange.bind(_this);
 			_this.handleResults = _this.handleResults.bind(_this);
 			_this.unitFormatter = _this.unitFormatter.bind(_this);
@@ -92537,7 +92546,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						appbaseField: this.props.appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				_reactivebase.AppbaseSensorHelper.selectedSensor.setSensorInfo(obj);
@@ -92546,8 +92555,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(value) {
+			key: 'customQuery',
+			value: function customQuery(value) {
 				if (value && value.currentValue != '' && value.location != '') {
 					var _type;
 
@@ -94376,7 +94385,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			_this.handleChange = _this.handleChange.bind(_this);
 			_this.loadOptions = _this.loadOptions.bind(_this);
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			_this.handleDistanceChange = _this.handleDistanceChange.bind(_this);
 			_this.renderValue = _this.renderValue.bind(_this);
 			return _this;
@@ -94450,7 +94459,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						appbaseField: this.props.appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				_reactivebase.AppbaseSensorHelper.selectedSensor.setSensorInfo(obj);
@@ -94459,8 +94468,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(value) {
+			key: 'customQuery',
+			value: function customQuery(value) {
 				if (value && value.start >= 0 && value.end >= 0 && value.location != '') {
 					var _type;
 
@@ -94742,7 +94751,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			};
 			_this.handleChange = _this.handleChange.bind(_this);
 			_this.loadOptions = _this.loadOptions.bind(_this);
-			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.customQuery = _this.customQuery.bind(_this);
 			_this.handleValuesChange = _this.handleValuesChange.bind(_this);
 			_this.handleResults = _this.handleResults.bind(_this);
 			return _this;
@@ -94794,7 +94803,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						defaultQuery: this.defaultQuery
+						customQuery: this.customQuery
 					}
 				};
 				_reactivebase.AppbaseSensorHelper.selectedSensor.setSensorInfo(obj);
@@ -94803,8 +94812,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			// build query for this sensor only
 
 		}, {
-			key: 'defaultQuery',
-			value: function defaultQuery(value) {
+			key: 'customQuery',
+			value: function customQuery(value) {
 				if (value && value.currentValue != '' && value.location != '') {
 					var _type;
 
