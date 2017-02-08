@@ -28,7 +28,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@appbaseio/reactivebase": "^0.3.1",
+    "@appbaseio/reactivebase": "^0.3.2",
     "appbase-js": "^0.10.8",
     "axios": "^0.15.2",
     "babel-preset-stage-0": "^6.5.0",
@@ -44,7 +44,7 @@
     "react-tooltip": "^3.1.8"
   },
   "devDependencies": {
-    "@appbaseio/reactivebase-manual": "^0.1.0",
+    "@appbaseio/reactivemaps-manual": "^0.2.0",
     "@kadira/storybook": "^2.34.0",
     "@kadira/storybook-addon-knobs": "^1.7.1",
     "@kadira/storybook-addon-options": "^1.0.1",

@@ -6,44 +6,52 @@ import withReadme from "storybook-readme/with-readme";
 import { Appbase } from "appbase-js";
 
 import GeoDistanceSliderDefault from "./GeoDistanceSlider.stories";
+import GeoDistanceSliderReadme from "@appbaseio/reactivemaps-manual/docs/v1/map-components/GeoDistanceSlider.md";
+
 import GeoDistanceDropdownDefault from "./GeoDistanceDropdown.stories";
+import GeoDistanceDropdownReadme from "@appbaseio/reactivemaps-manual/docs/v1/map-components/GeoDistanceDropdown.md";
+
 import PlacesSearchDefault from "./PlacesSearch.stories";
+import PlacesSearchReadme from "@appbaseio/reactivemaps-manual/docs/v1/map-components/PlacesSearch.md";
+
 import ReactiveMapDefault from "./ReactiveMap.stories";
+import ReactiveMapReadme from "@appbaseio/reactivemaps-manual/docs/v1/map-components/ReactiveMap.md";
 
 import SingleListDefault from "./SingleList.stories";
-import SingleListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/SingleList.md";
+import SingleListReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/SingleList.md";
 
 import MultiListDefault from "./MultiList.stories";
-import MultiListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/MultiList.md";
+import MultiListReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/MultiList.md";
 
 import SingleDropdownListDefault from "./SingleDropdownList.stories";
-import SingleDropdownListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/SingleDropdownList.md";
+import SingleDropdownListReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/SingleDropdownList.md";
 
 import MultiDropdownListDefault from "./MultiDropdownList.stories";
-import MultiDropdownListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/MultiDropdownList.md";
+import MultiDropdownListReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/MultiDropdownList.md";
 
 import SingleRangeDefault from "./SingleRange.stories";
-import SingleRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/components/SingleRange.md";
+import SingleRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/SingleRange.md";
 
 import MultiRangeDefault from "./MultiRange.stories";
-import MultiRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/components/MultiRange.md";
+import MultiRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/MultiRange.md";
 
 import SingleDropdownRangeDefault from "./SingleDropdownRange.stories";
-import SingleDropdownRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/components/SingleDropdownRange.md";
+import SingleDropdownRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/SingleDropdownRange.md";
 
 import MultiDropdownRangeDefault from "./MultiDropdownRange.stories";
-import MultiDropdownRangeReadme from "@appbaseio/reactivebase-manual/docs/v1/components/MultiDropdownRange.md";
+import MultiDropdownRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/MultiDropdownRange.md";
 
 import DataSearchDefault from "./DataSearch.stories";
-import DataSearchReadme from "@appbaseio/reactivebase-manual/docs/v1/components/DataSearch.md";
+import DataSearchReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/DataSearch.md";
 
 import NestedListDefault from "./NestedList.stories";
-import NestedListReadme from "@appbaseio/reactivebase-manual/docs/v1/components/NestedList.md";
+import NestedListReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/NestedList.md";
 
 import RangeSliderDefault from "./RangeSlider.stories";
-import RangeSliderReadme from "@appbaseio/reactivebase-manual/docs/v1/components/RangeSlider.md";
+import RangeSliderReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/RangeSlider.md";
 
 import NumberBoxDefault from './NumberBox.stories';
+import NumberBoxReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/NumberBox.md";
 
 require ("../../bower_components/materialize/dist/css/materialize.min.css");
 require ("../../dist/css/vendor.min.css");
@@ -56,22 +64,22 @@ function removeFirstLine(str) {
 
 storiesOf("GeoDistanceSlider", module)
 	.addDecorator(withKnobs)
-	.add("Basic", () => (
+	.add("Basic", withReadme(removeFirstLine(GeoDistanceSliderReadme), () => (
 		<GeoDistanceSliderDefault
 			defaultSelected={50}
 			unit="mi"
 			placeholder="Search Location"
 		/>
-	))
-	.add("With Title", () => (
+	)))
+	.add("With Title", withReadme(removeFirstLine(GeoDistanceSliderReadme), () => (
 		<GeoDistanceSliderDefault
 			defaultSelected={50}
 			unit="mi"
 			title="Geo Distance Search"
 			placeholder="Search Location"
 		/>
-	))
-	.add("With Range Labels", () => (
+	)))
+	.add("With Range Labels", withReadme(removeFirstLine(GeoDistanceSliderReadme), () => (
 		<GeoDistanceSliderDefault
 			defaultSelected={50}
 			unit="mi"
@@ -84,8 +92,8 @@ storiesOf("GeoDistanceSlider", module)
 				}
 			}
 		/>
-	))
-	.add("Playground", () => (
+	)))
+	.add("Playground", withReadme(removeFirstLine(GeoDistanceSliderReadme), () => (
 		<GeoDistanceSliderDefault
 			defaultSelected={number("defaultSelected", 50)}
 			stepValue={number("stepValue", 1)}
@@ -101,11 +109,11 @@ storiesOf("GeoDistanceSlider", module)
 				"end": "End"
 			})}
 		/>
-	));
+	)));
 
 storiesOf("GeoDistanceDropdown", module)
 	.addDecorator(withKnobs)
-	.add("Basic", () => (
+	.add("Basic", withReadme(removeFirstLine(GeoDistanceDropdownReadme), () => (
 		<GeoDistanceDropdownDefault
 			unit="mi"
 			data={
@@ -117,8 +125,8 @@ storiesOf("GeoDistanceDropdown", module)
 			// distanceOptions={[20,50,100,150]}
 			placeholder="Search Location"
 		/>
-	))
-	.add("With Title", () => (
+	)))
+	.add("With Title", withReadme(removeFirstLine(GeoDistanceDropdownReadme), () => (
 		<GeoDistanceDropdownDefault
 			unit="mi"
 			data={
@@ -131,8 +139,8 @@ storiesOf("GeoDistanceDropdown", module)
 			title="Geo Distance Search"
 			placeholder="Search Location"
 		/>
-	))
-	.add("With Default Selected", () => (
+	)))
+	.add("With Default Selected", withReadme(removeFirstLine(GeoDistanceDropdownReadme), () => (
 		<GeoDistanceDropdownDefault
 			unit="mi"
 			data={
@@ -145,8 +153,8 @@ storiesOf("GeoDistanceDropdown", module)
 			title="Geo Distance Search"
 			placeholder="Search Location"
 		/>
-	))
-	.add("Playground", () => (
+	)))
+	.add("Playground", withReadme(removeFirstLine(GeoDistanceDropdownReadme), () => (
 		<GeoDistanceDropdownDefault
 			data={
 				[{"start": 0, "end": 100, "label": "Less than 100 miles"},
@@ -159,37 +167,37 @@ storiesOf("GeoDistanceDropdown", module)
 			defaultSelected={text("defaultSelected", "Between 200 and 500 miles")}
 			placeholder={text("placeholder", "Search Location")}
 		/>
-	));
+	)));
 
 storiesOf("PlacesSearch", module)
 	.addDecorator(withKnobs)
-	.add("Basic - Direction Demo", () => (
+	.add("Basic - Direction Demo", withReadme(removeFirstLine(PlacesSearchReadme), () => (
 		<PlacesSearchDefault />
-	));
+	)));
 
 storiesOf("ReactiveMap", module)
 	.addDecorator(withKnobs)
-	.add("Basic", () => (
+	.add("Basic", withReadme(removeFirstLine(ReactiveMapReadme), () => (
 		<ReactiveMapDefault />
-	))
-	.add("With Title", () => (
+	)))
+	.add("With Title", withReadme(removeFirstLine(ReactiveMapReadme), () => (
 		<ReactiveMapDefault
 			title="Reactive Maps"
 		/>
-	))
-	.add("With Popover onClick", () => (
+	)))
+	.add("With Popover onClick", withReadme(removeFirstLine(ReactiveMapReadme), () => (
 		<ReactiveMapDefault
 			title="Reactive Maps"
 			showPopoverOn="click"
 		/>
-	))
-	.add("With Popover onMouseOver", () => (
+	)))
+	.add("With Popover onMouseOver", withReadme(removeFirstLine(ReactiveMapReadme), () => (
 		<ReactiveMapDefault
 			title="Reactive Maps"
 			showPopoverOn="mouseover"
 		/>
-	))
-	.add("Playground", () => (
+	)))
+	.add("Playground", withReadme(removeFirstLine(ReactiveMapReadme), () => (
 		<ReactiveMapDefault
 			title={text("title", "Reactive maps")}
 			showPopoverOn={select("showPopoverOn", {'click': 'click', 'mouseover':'mouseover'}, 'click')}
@@ -213,7 +221,7 @@ storiesOf("ReactiveMap", module)
 			defaultMarkerImage={text('defaultMarkerImage', 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png')}
 			streamMarkerImage={text('streamMarkerImage', 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png')}
 		/>
-	));
+	)));
 
 storiesOf("SingleList", module)
 	.addDecorator(withKnobs)
@@ -492,29 +500,25 @@ storiesOf("RangeSlider", module)
 
 storiesOf("NumberBox", module)
 	.addDecorator(withKnobs)
-	.add("Basic", () => {
-		return (
-			<NumberBoxDefault
-				defaultSelected={3}
-				data={{
-					label: "Guests",
-					start: 1,
-					end: 5
-				}}
-				labelPosition="left"
-			/>
-		);
-	})
-	.add("Playground", () => {
-		return (
-			<NumberBoxDefault
-				defaultSelected={number("defaultSelected", 3)}
-				data={object("data", {
-					"start": 1,
-					"end": 5,
-					"label": "Guests"
-				})}
-				labelPosition={select("labelPosition", {"bottom": "bottom", "top": "top", "left": "left", "right": "right"}, "right")}
-			/>
-		);
-	});
+	.add("Basic", withReadme(removeFirstLine(NumberBoxReadme), () => (
+		<NumberBoxDefault
+			defaultSelected={3}
+			data={{
+				label: "Guests",
+				start: 1,
+				end: 5
+			}}
+			labelPosition="left"
+		/>
+	)))
+	.add("Playground", withReadme(removeFirstLine(NumberBoxReadme), () => (
+		<NumberBoxDefault
+			defaultSelected={number("defaultSelected", 3)}
+			data={object("data", {
+				"start": 1,
+				"end": 5,
+				"label": "Guests"
+			})}
+			labelPosition={select("labelPosition", {"bottom": "bottom", "top": "top", "left": "left", "right": "right"}, "right")}
+		/>
+	)));
