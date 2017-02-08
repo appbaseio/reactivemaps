@@ -201,6 +201,9 @@ footer {
 		color: #fff;
 		padding: 10px 15px;
 		line-height: 20px;
+		&:hover {
+			background-color: transparent;
+		}
 	}
 }
 
