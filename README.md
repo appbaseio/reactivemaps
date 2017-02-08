@@ -32,7 +32,6 @@ ReactiveMaps uses Google Maps underneath. You should include this script in your
 
 ``` javascript
 npm install --save @appbaseio/reactivemaps
-npm install --save @appbaseio/reactivebase
 ```
 
 And then import the components
@@ -55,8 +54,8 @@ ReactiveBase provides components that are generic in nature. Amongst many others
 Besides importing the components, there is a single CSS file that should be added in your app's &lt;head&gt; element along with a CSS framework of your choice. We have tested with Materialize and Bootstrap while building reactivemaps.
 
 ```html
-<link rel="stylesheet" href="node_modules/@appbaseio/reactivebase/dist/css/style.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+<link rel="stylesheet" href="node_modules/@appbaseio/reactivemaps/dist/css/style.min.css">
 ```
 
 ### Building a Simple App
