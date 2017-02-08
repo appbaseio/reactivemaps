@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { ReactiveBase } from '@appbaseio/reactivebase';
+import { ReactiveBase, AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
 import { GeoDistanceDropdown, ReactiveMap } from '../app.js';
 
-const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
+import { Img } from './Img.js';
 const historyPin = require('./placeholder.svg');
 
 export default class GeoDistanceDropdownDefault extends Component {
@@ -11,9 +11,13 @@ export default class GeoDistanceDropdownDefault extends Component {
 		this.popoverContent = this.popoverContent.bind(this);
 	}
 
+	componentDidMount() {
+		helper.ResponsiveStory();
+	}
+
 	popoverContent(marker) {
-		return (<div className="popoverComponent row">
-			<span className="imgContainer col s2">
+		return (<div className="popoverComponent row" style={{'margin': '0', 'maxWidth': '300px'}}>
+			<span className="imgContainer col s2" style={{'padding': '0'}}>
 				<Img src={marker._source.member.photo}  />
 			</span>
 			<div className="infoContainer col s10">
@@ -21,7 +25,7 @@ export default class GeoDistanceDropdownDefault extends Component {
 					<strong>{marker._source.member.member_name}</strong>
 				</div>
 				<div className="description">
-					<p>is going to&nbsp;
+					<p style={{'margin': '5px 0', 'lineHeight': '18px'}}>is going to&nbsp;
 						<a href={marker._source.event.event_url} target="_blank">
 							{marker._source.event.event_name}
 						</a>
@@ -34,7 +38,7 @@ export default class GeoDistanceDropdownDefault extends Component {
 	render() {
 		return (
 			<ReactiveBase
-				appname={this.props.config.appbase.appname}
+				app={this.props.config.appbase.app}
 				username={this.props.config.appbase.username}
 				password={this.props.config.appbase.password}
 				type={this.props.config.appbase.type}
@@ -45,7 +49,6 @@ export default class GeoDistanceDropdownDefault extends Component {
 					<div className="col s6">
 						<GeoDistanceDropdown
 							componentId="GeoDistanceDropdown"
-							APIkey={mapsAPIKey}
 							appbaseField={this.props.mapping.location}
 							{...this.props}
 						/>
@@ -54,15 +57,13 @@ export default class GeoDistanceDropdownDefault extends Component {
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
-							markerCluster={false}
-							searchComponent="appbase"
-							searchField={this.props.mapping.venue}
-							mapStyle={this.props.mapStyle}
+							setMarkerCluster={false}
+							defaultMapStyle="Light Monochrome"
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
 							title="Reactive Maps"
-							showPopoverOn = "onClick"
+							showPopoverOn = "click"
 							historicPin={historyPin}
 							popoverContent = {this.popoverContent}
 							defaultZoom = {13}
@@ -79,15 +80,12 @@ export default class GeoDistanceDropdownDefault extends Component {
 }
 
 GeoDistanceDropdownDefault.defaultProps = {
-	mapStyle: "Light Monochrome",
 	mapping: {
-		topic: 'group.group_topics.topic_name_raw.raw',
-		location: 'location',
-		venue: 'venue_name_ngrams'
+		location: 'location'
 	},
 	config: {
 		"appbase": {
-			"appname": "reactivemap_demo",
+			"app": "reactivemap_demo",
 			"username": "y4pVxY2Ok",
 			"password": "c92481e2-c07f-4473-8326-082919282c18",
 			"type": "meetupdata1"

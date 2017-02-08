@@ -14,17 +14,19 @@ export class GeoDistanceDropdown extends Component {
 		super(props);
 		this.state = {
 			selected: {},
-			currentValue: ''
+			currentValue: '',
+			userLocation: ''
 		};
 		this.type = 'geo_distance_range';
 		this.locString = '';
+		this.unit = this.props.unit;
 		this.result = {
 			options: []
 		};
 		this.sortInfo = {
 			type: '_geo_distance',
 			order: 'asc',
-			unit: 'mi'
+			unit: this.unit
 		};
 
 		if (this.props.defaultSelected) {
@@ -37,8 +39,8 @@ export class GeoDistanceDropdown extends Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.loadOptions = this.loadOptions.bind(this);
 		this.defaultQuery = this.defaultQuery.bind(this);
-		this.handleValuesChange = this.handleValuesChange.bind(this);
 		this.handleDistanceChange = this.handleDistanceChange.bind(this);
+		this.renderValue = this.renderValue.bind(this);
 	}
 
 	componentWillMount() {
@@ -55,6 +57,10 @@ export class GeoDistanceDropdown extends Component {
 					})
 				}
 			}
+			if (nextProps.unit != this.unit) {
+				this.unit = nextProps.unit;
+				this.executeQuery();
+			}
 		}, 300);
 	}
 
@@ -68,15 +74,16 @@ export class GeoDistanceDropdown extends Component {
 		navigator.geolocation.getCurrentPosition((location) => {
 			this.locString = location.coords.latitude + ', ' + location.coords.longitude;
 
-			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}&key=${this.props.APIkey}`)
+			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}`)
 				.then(res => {
 					let currentValue = res.data.results[0].formatted_address;
 					this.result.options.push({
-						'value': currentValue,
-						'label': currentValue
+						value: currentValue,
+						label: currentValue
 					});
 					this.setState({
-						currentValue: currentValue
+						currentValue: currentValue,
+						userLocation: currentValue
 					}, this.executeQuery.bind(this));
 				});
 		});
@@ -101,8 +108,8 @@ export class GeoDistanceDropdown extends Component {
 			return {
 				[this.type]: {
 					[this.props.appbaseField]: value.location,
-					"from": value.start + this.props.unit,
-					"to": value.end + this.props.unit
+					"from": value.start + this.unit,
+					"to": value.end + this.unit
 				}
 			}
 		} else {
@@ -113,7 +120,7 @@ export class GeoDistanceDropdown extends Component {
 	// get coordinates
 	getCoordinates(value) {
 		if(value && value != '') {
-			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${this.props.APIkey}`)
+			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}`)
 				.then(res => {
 					let location = res.data.results[0].geometry.location;
 					this.locString = location.lat + ', ' + location.lng;
@@ -142,7 +149,7 @@ export class GeoDistanceDropdown extends Component {
 					[this.sortInfo.type]: {
 						[this.props.appbaseField]: this.locString,
 						'order': this.sortInfo.order,
-						'unit': this.sortInfo.unit
+						'unit': this.unit
 					}
 				}
 			};
@@ -174,13 +181,6 @@ export class GeoDistanceDropdown extends Component {
 		}
 	}
 
-	// Handle function when value slider option is changing
-	handleValuesChange(component, value) {
-		this.setState({
-			value: value,
-		});
-	}
-
 	loadOptions(input, callback) {
 		this.callback = callback;
 		if (input) {
@@ -195,10 +195,16 @@ export class GeoDistanceDropdown extends Component {
 			this.autocompleteService.getPlacePredictions(options, res => {
 				res.map(place => {
 					this.result.options.push({
-						'value': place.description,
-						'label': place.description
+						label: place.description,
+						value: place.description
 					});
-				})
+				});
+				if (this.result.options[0]["label"] != "Use my current location") {
+					this.result.options.unshift({
+						label: "Use my current location",
+						value: this.state.userLocation
+					});
+				}
 				this.callback(null, this.result);
 			});
 		} else {
@@ -214,6 +220,10 @@ export class GeoDistanceDropdown extends Component {
 				label: input.label
 			}
 		}, this.executeQuery.bind(this));
+	}
+
+	renderValue(option) {
+		return <span>{option.value}</span>;
 	}
 
 	// render
@@ -241,6 +251,8 @@ export class GeoDistanceDropdown extends Component {
 							loadOptions={this.loadOptions}
 							placeholder={this.props.placeholder}
 							onChange={this.handleChange}
+							filterOption={() => true}
+							valueRenderer={this.renderValue}
 							/>
 					</div>
 					<div className="col s12 col-xs-12">
@@ -263,18 +275,17 @@ GeoDistanceDropdown.propTypes = {
 	appbaseField: React.PropTypes.string.isRequired,
 	placeholder: React.PropTypes.string,
 	unit: React.PropTypes.string,
-	APIkey: React.PropTypes.string.isRequired,
 	data: React.PropTypes.arrayOf(
 		React.PropTypes.shape({
-			start: React.PropTypes.number.isRequired,
-			end: React.PropTypes.number.isRequired,
+			start: helper.validateThreshold,
+			end: helper.validateThreshold,
 			label: React.PropTypes.string.isRequired
 		})
 	)
 };
 // Default props value
 GeoDistanceDropdown.defaultProps = {
-	unit: 'km',
+	unit: 'mi',
 	placeholder: "Search..."
 };
 

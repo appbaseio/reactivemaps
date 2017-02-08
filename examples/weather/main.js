@@ -112,7 +112,7 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					appname={this.props.config.appbase.appname}
+					app={this.props.config.appbase.app}
 					username={this.props.config.appbase.username}
 					password={this.props.config.appbase.password}
 					type={this.props.config.appbase.type}
@@ -123,10 +123,8 @@ class Main extends Component {
 							defaultZoom={4}
 							defaultCenter={{ lat: 40.673940, lng: -101.314026 }}
 							historicalData={true}
-							markerCluster={false}
-							searchComponent="appbase"
-							searchField={this.props.mapping.venue}
-							mapStyle={this.props.mapStyle}
+							setMarkerCluster={false}
+							defaultMapStyle={this.props.mapStyle}
 							onData={this.onData}
 							autoCenter={false}
 							size={100}
@@ -146,12 +144,11 @@ class Main extends Component {
 Main.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
-		city: 'name',
 		location: 'coord'
 	},
 	config: {
 		"appbase": {
-			"appname": "weather",
+			"app": "weather",
 			"username": "dmgyKySw5",
 			"password": "162202d3-43f7-4e01-95f2-f9f3e1b02bb5",
 			"type": "city"

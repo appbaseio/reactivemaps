@@ -104,7 +104,7 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					appname={this.props.config.appbase.appname}
+					app={this.props.config.appbase.app}
 					username={this.props.config.appbase.username}
 					password={this.props.config.appbase.password}
 					type={this.props.config.appbase.type}
@@ -116,16 +116,14 @@ class Main extends Component {
 						defaultZoom={13}
 						defaultCenter={{ lat: 37.74, lng: -122.45 }}
 						historicalData={true}
-						markerCluster={false}
-						searchComponent="appbase"
-						searchField={this.props.mapping.venue}
-						mapStyle={this.props.mapStyle}
+						setMarkerCluster={false}
+						defaultMapStyle={this.props.mapStyle}
 						autoCenter={true}
 						showSearchAsMove={true}
 						searchAsMoveDefault={false}
 						showMapStyles={true}
 						title="Heatmap"
-						showPopoverOn = "onClick"
+						showPopoverOn = "click"
 						popoverContent = {this.popoverContent}
 						onData = {this.onData}
 						onIdle = {this.mapOnIdle}
@@ -146,7 +144,7 @@ Main.defaultProps = {
 	},
 	config: {
 		"appbase": {
-			"appname": "heatmap-app",
+			"app": "heatmap-app",
 			"username": "SIhtMbkv4",
 			"password": "ad153ba9-4475-40e7-be53-69389c4f7f68",
 			"type": "meetupdata1"

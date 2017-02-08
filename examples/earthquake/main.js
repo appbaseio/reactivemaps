@@ -62,7 +62,7 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					appname={this.props.config.appbase.appname}
+					app={this.props.config.appbase.app}
 					username={this.props.config.appbase.username}
 					password={this.props.config.appbase.password}
 					type={this.props.config.appbase.type}
@@ -73,14 +73,12 @@ class Main extends Component {
 							defaultZoom={8}
 							defaultCenter={{ lat: 35.272, lng: 138.582 }}
 							historicalData={true}
-							markerCluster={false}
-							searchComponent="appbase"
-							searchField={this.props.mapping.place}
-							mapStyle={this.props.mapStyle}
+							setMarkerCluster={false}
+							defaultMapStyle={this.props.mapStyle}
 							autoCenter={true}
 							showSearchAsMove={true}
 							title="Earthquake"
-							showPopoverOn = "onClick"
+							showPopoverOn = "click"
 							popoverContent = {this.popoverContent}
 							actuate={{
 								PlaceSensor: {"operation": "must"},
@@ -165,14 +163,13 @@ Main.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
 		mag: 'mag',
-		place: 'place',
 		venue: 'place.raw',
 		location: 'location',
 		time: 'time'
 	},
 	config: {
 		"appbase": {
-			"appname": "earthquake",
+			"app": "earthquake",
 			"username": "OrXIHcgHn",
 			"password": "d539c6e7-ed14-4407-8214-c227b0600d8e",
 			"type": "places"

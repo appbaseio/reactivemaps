@@ -2,11 +2,11 @@
 import {ReactiveMap} from './actuators/ReactiveMap';
 import {GeoDistanceSlider} from './sensors/GeoDistanceSlider';
 import {GeoDistanceDropdown} from './sensors/GeoDistanceDropdown';
-import {GoogleSearch} from './sensors/GoogleSearch';
+import {PlacesSearch} from './sensors/PlacesSearch';
 
 module.exports = {
 	ReactiveMap: ReactiveMap,
 	GeoDistanceSlider: GeoDistanceSlider,
 	GeoDistanceDropdown: GeoDistanceDropdown,
-	GoogleSearch: GoogleSearch
+	PlacesSearch: PlacesSearch
 };

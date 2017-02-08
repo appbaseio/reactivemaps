@@ -64,7 +64,7 @@ class Main extends Component {
 				</div>
 				<div className="description">
 					<p>is going to&nbsp;
-						<a href={marker._source.url} target="_blank">
+						<a href={'https://'+marker._source.url} target="_blank">
 							{marker._source.venue}
 						</a>
 					</p>
@@ -89,7 +89,7 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					appname={this.props.config.appbase.appname}
+					app={this.props.config.appbase.app}
 					username={this.props.config.appbase.username}
 					password={this.props.config.appbase.password}
 					type={this.props.config.appbase.type}
@@ -100,14 +100,12 @@ class Main extends Component {
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							historicalData={true}
-							markerCluster={false}
-							searchComponent="appbase"
-							searchField={this.props.mapping.venue}
-							mapStyle={this.props.mapStyle}
+							setMarkerCluster={false}
+							defaultMapStyle={this.props.mapStyle}
 							autoCenter={true}
 							showSearchAsMove={true}
 							title="Foursquare checkins"
-							showPopoverOn = "onClick"
+							showPopoverOn = "click"
 							popoverContent = {this.popoverContent}
 							onData = {this.onData}
 							showMapStyles={true}
@@ -123,7 +121,6 @@ class Main extends Component {
 								<SingleList
 									componentId="CitySensor"
 									appbaseField={this.props.mapping.city}
-									defaultSelected="london"
 									showCount={true}
 									size={100}
 									multipleSelect={false}
@@ -160,15 +157,14 @@ Main.defaultProps = {
 	mapping: {
 		city: 'city',
 		topic: 'category.raw',
-		venue: 'venue_name_ngrams',
 		location: 'location'
 	},
 	config: {
 		"appbase": {
-			"appname": "checkin",
-			"username": "6PdfXag4h",
-			"password": "b614d8fa-03d8-4005-b6f1-f2ff31cd0f91",
-			"type": "city"
+			"app": "checkinNew",
+			"username": "FUNb872sF",
+			"password": "03616fcc-e4a1-4598-9401-3ad2d7f7f5ce",
+			"type": "checkinData"
 		}
 	},
 	markerIcons: {

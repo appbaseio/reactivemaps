@@ -60,7 +60,7 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					appname={this.props.config.appbase.appname}
+					app={this.props.config.appbase.app}
 					username={this.props.config.appbase.username}
 					password={this.props.config.appbase.password}
 					type={this.props.config.appbase.type}
@@ -90,21 +90,19 @@ class Main extends Component {
 							defaultZoom={11}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							historicalData={true}
-							markerCluster={false}
-							searchComponent="appbase"
-							searchField={this.props.mapping.venue}
-							mapStyle={this.props.mapStyle}
+							setMarkerCluster={false}
+							defaultMapStyle={this.props.mapStyle}
 							autoCenter={true}
 							showSearchAsMove={true}
 							showMapStyles={true}
 							title="SF Transport"
-							showPopoverOn = "onClick"
+							showPopoverOn = "click"
 							popoverContent = {this.popoverContent}
 							onData = {this.onData}
 							streamAutoCenter={false}
-							rotateOnUpdate={true}
+							autoMarkerPosition={true}
 							historicPin= 'dist/images/bus.png'
-							streamPin= 'dist/images/bus.png'
+							streamMarkerImage= 'dist/images/bus.png'
 							actuate={{
 								RoutesSensor: {"operation": "must"}
 							}}
@@ -120,12 +118,11 @@ Main.defaultProps = {
 	mapStyle: "Standard",
 	mapping: {
 		routes: 'tag.raw',
-		vehicle: 'vehicle.raw',
 		location: 'location'
 	},
 	config: {
 		"appbase": {
-			"appname": "bus",
+			"app": "bus",
 			"username": "UzOKXiRYK",
 			"password": "000fb7ce-c92e-4f78-b3b7-0d4e33964134",
 			"type": "sftransport"

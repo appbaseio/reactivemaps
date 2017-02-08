@@ -10,8 +10,6 @@ import {
 import { GeoDistanceSlider } from '../../app/sensors/GeoDistanceSlider';
 import { ReactiveMap } from '../../app/app.js';
 
-const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
-
 class Main extends Component {
 	constructor(props) {
 		super(props);
@@ -110,7 +108,7 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					appname={this.props.config.appbase.appname}
+					app={this.props.config.appbase.app}
 					username={this.props.config.appbase.username}
 					password={this.props.config.appbase.password}
 					type={this.props.config.appbase.type}
@@ -137,7 +135,6 @@ class Main extends Component {
 							<div className="col s12 col-xs-12">
 								<GeoDistanceSlider
 									componentId="GeoDistanceSlider"
-									APIkey={mapsAPIKey}
 									appbaseField={this.props.mapping.location}
 									minThreshold={1}
 									maxThreshold={60}
@@ -157,15 +154,13 @@ class Main extends Component {
 							<ReactiveMap
 								appbaseField={this.props.mapping.location}
 								historicalData={true}
-								markerCluster={false}
-								searchComponent="appbase"
-								searchField={this.props.mapping.venue}
-								mapStyle={this.props.mapStyle}
+								setMarkerCluster={false}
+								defaultMapStyle={this.props.mapStyle}
 								autoCenter={true}
 								showSearchAsMove={true}
 								showMapStyles={true}
 								title="Reactive Maps"
-								showPopoverOn = "onClick"
+								showPopoverOn = "click"
 								popoverContent = {this.popoverContent}
 								onData = {this.onData}
 								defaultZoom = {13}
@@ -203,12 +198,11 @@ Main.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
 		topic: 'group.group_topics.topic_name_raw.raw',
-		location: 'location',
-		venue: 'venue_name_ngrams'
+		location: 'location'
 	},
 	config: {
 		"appbase": {
-			"appname": "reactivemap_demo",
+			"app": "reactivemap_demo",
 			"username": "y4pVxY2Ok",
 			"password": "c92481e2-c07f-4473-8326-082919282c18",
 			"type": "meetupdata1"

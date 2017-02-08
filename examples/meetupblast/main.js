@@ -35,10 +35,9 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					appname={this.props.config.appbase.appname}
+					app={this.props.config.appbase.app}
 					username={this.props.config.appbase.username}
 					password={this.props.config.appbase.password}
-					type={this.props.config.appbase.type}
 					>
 					<div className="col s6">
 						<div className="row h-100">
@@ -65,8 +64,7 @@ class Main extends Component {
 									title="Topics"
 									actuate={{
 										CitySensor: {
-											"operation": "must",
-											"defaultQuery": this.cityQuery
+											"operation": "must"
 										}
 									}}
 								/>
@@ -79,18 +77,16 @@ class Main extends Component {
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							historicalData={true}
-							markerCluster={false}
-							searchComponent="appbase"
-							searchField={this.props.mapping.venue}
-							mapStyle={this.props.mapStyle}
+							setMarkerCluster={false}
+							defaultMapStyle={this.props.mapStyle}
 							autoCenter={true}
 							size={100}
 							showSearchAsMove={true}
 							showMapStyles={true}
 							title="Meetupblast"
 							actuate={{
-								CitySensor: {"operation": "must", defaultQuery: this.cityQuery},
-								TopicSensor: {"operation": "must", defaultQuery: this.topicQuery}
+								CitySensor: {"operation": "must"},
+								TopicSensor: {"operation": "must"}
 							}}
 							/>
 					</div>
@@ -103,16 +99,15 @@ class Main extends Component {
 Main.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
-		city: 'group.group_city.group_city_simple',
-		topic: 'group.group_topics.topic_name.topic_name_simple',
-		venue: 'venue_name_ngrams',
-		location: 'venue'
+		topic: 'group.group_topics.topic_name_raw.raw',
+		location: 'location',
+		city: 'group.group_city.raw'
 	},
 	config: {
 		"appbase": {
-			"appname": "meetup2",
-			"username": "qz4ZD8xq1",
-			"password": "a0edfc7f-5611-46f6-8fe1-d4db234631f3",
+			"app": "reactivemap-demo",
+			"username": "SL8fiQ1fg",
+			"password": "71ea4254-49ba-4685-8276-e44da225c141",
 			"type": "meetup"
 		}
 	}

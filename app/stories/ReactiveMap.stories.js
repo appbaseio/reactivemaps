@@ -1,22 +1,18 @@
 import React, { Component } from 'react';
-import { ReactiveBase, DataSearch, MultiList } from '@appbaseio/reactivebase';
-import { GoogleSearch, ReactiveMap } from '../app.js';
-import { Img } from './Img.js';
+import { ReactiveBase, DataSearch, SingleList, AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
+import { PlacesSearch, ReactiveMap } from '../app.js';
 
-const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
+import { Img } from './Img.js';
 const historyPin = require('./placeholder.svg');
-const searchStyles = {
-	'width': '260px',
-	'position': 'absolute',
-	'top': '45px',
-	'left' : '23px',
-	'zIndex': '5'
-};
 
 export default class ReactiveMapDefault extends Component {
 	constructor(props) {
 		super(props);
 		this.popoverContent = this.popoverContent.bind(this);
+	}
+
+	componentDidMount() {
+		helper.ResponsiveStory();
 	}
 
 	popoverContent(marker) {
@@ -42,20 +38,18 @@ export default class ReactiveMapDefault extends Component {
 	render() {
 		return (
 			<ReactiveBase
-				appname="meetup_demo"
-				username="LPpISlEBe"
-				password="2a8935f5-0f63-4084-bc3e-2b2b4d1a8e02"
+				app="reactivemap-demo"
+				username="SL8fiQ1fg"
+				password="71ea4254-49ba-4685-8276-e44da225c141"
 				theme="rbc-blue"
 			>
-				<div className="row">
+				<div className="row reverse-labels">
 					<div className="col s6">
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
 							historicalData={true}
-							markerCluster={false}
-							searchComponent="appbase"
-							searchField={this.props.mapping.venue}
-							mapStyle={this.props.mapStyle}
+							setMarkerCluster={false}
+							defaultMapStyle={this.props.mapStyle}
 							autoCenter={true}
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
@@ -75,7 +69,6 @@ export default class ReactiveMapDefault extends Component {
 							<DataSearch
 								appbaseField={this.props.mapping.venue}
 								componentId="VenueSensor"
-								searchRef="CityVenue"
 								placeholder="Search Venue"
 								actuate={{
 									'CitySensor': {
@@ -86,7 +79,7 @@ export default class ReactiveMapDefault extends Component {
 							/>
 						</div>
 						<div>
-							<MultiList
+							<SingleList
 								componentId="CitySensor"
 								appbaseField={this.props.mapping.city}
 								showCount={true}
@@ -106,14 +99,13 @@ export default class ReactiveMapDefault extends Component {
 ReactiveMapDefault.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
-		topic: 'group.group_topics.topic_name_raw.raw',
 		location: 'location',
 		venue: 'venue_name_ngrams',
 		city: 'group.group_city.raw'
 	},
 	config: {
 		"appbase": {
-			"appname": "meetup2",
+			"app": "meetup2",
 			"username": "qz4ZD8xq1",
 			"password": "a0edfc7f-5611-46f6-8fe1-d4db234631f3",
 			"type": "meetup"
