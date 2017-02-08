@@ -10,7 +10,8 @@ var dir_path = './';
 var files = {
     css: {
         vendor: [
-            dir_path+'bower_components/bootstrap/dist/css/bootstrap.min.css'
+            dir_path+'bower_components/bootstrap/dist/css/bootstrap.min.css',
+            dir_path+'bower_components/font-awesome/css/font-awesome.min.css'
         ],
         custom: [dir_path+'assets/css/*.css'],
         sassFile: [dir_path+'assets/styles/*.scss'],
