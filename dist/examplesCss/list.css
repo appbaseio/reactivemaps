@@ -1,0 +1,105 @@
+#map,
+.h-100,
+body,
+html {
+	height: 100%;
+}
+
+.listResult {
+	height: 100%;
+	position: relative;
+	padding: 0;
+	margin: 0;
+	overflow: auto;
+}
+
+.makerInfo {
+	margin-bottom: 15px;
+	font-size: 12px;
+}
+
+.full_row {
+	display: block;
+	width: 100%;
+	position: relative;
+	float: left;
+}
+
+.single-record {
+	background: #fff;
+	border: 1px solid #ccc;
+	height: 70px;
+}
+
+.single-record .img-container {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	width: 50px;
+	height: 50px;
+	overflow: hidden;
+	border-radius: 8px;
+}
+
+.img-container img {
+	width: 100%;
+}
+
+.single-record .text-container {
+	padding-left: 70px;
+	padding-top: 10px;
+	font-size: 16px;
+	line-height: 25px
+}
+
+.single-record .text-description {
+	color: #aaa
+}
+
+.text-overflow {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.highlight_tags {
+	display: block;
+	float: left;
+	padding-left: 0;
+	list-style-position: inside;
+	overflow: hidden;
+	max-height: 24px;
+	margin: 0;
+}
+
+.highlight_tags li {
+	float: left;
+	padding-right: 10px;
+}
+
+.text-head-city {
+	position: absolute;
+	right: 10px;
+	top: 0;
+	font-size: 12px;
+	line-height: 25px;
+	color: #aaa;
+	font-weight: bold;
+}
+
+.text-head-info {
+	display: block;
+	width: 100%;
+	padding-right: 100px;
+	position: relative;
+}
+
+.single-record .text-description {
+	position: relative;
+	padding-right: 100px;
+}
+.single-record .sort-info {
+	position: absolute;
+	right: 5px;
+	font-size: 10px;
+}
