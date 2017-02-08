@@ -22,7 +22,7 @@ Try the live playground at https://opensource.appbase.io/reactivemaps/playground
 
 ## Using it
 
-Include the map library in your html file with your key
+ReactiveMaps uses Google Maps underneath. You should include this script in your app's <head> element with an API key to get access to 25,000 daily map views*.
 
 ```javascript    
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=Your_key_here"></script>
@@ -37,7 +37,7 @@ npm install --save @appbaseio/reactivebase
 
 And then import the components
 
-``` javascript    
+```javascript    
 import {
   ReactiveMap
 } from '@appbaseio/reactivemaps';
@@ -52,9 +52,14 @@ ReactiveMaps provides components specific to the map interface. It comes with `G
 
 ReactiveBase provides components that are generic in nature. Amongst many others, `ReactiveBase` and `SingleList` components belong to ReactiveBase.
 
-## Description
+Besides importing the components, there is a single CSS file that should be added in your app's &lt;head&gt; element along with a CSS framework of your choice. We have tested with Materialize and Bootstrap while building reactivemaps.
 
-### ReactiveBase
+```html
+<link rel="stylesheet" href="node_modules/@appbaseio/reactivebase/dist/css/style.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+```
+
+### Building a Simple App
 
 ```javascript
   <ReactiveBase 
