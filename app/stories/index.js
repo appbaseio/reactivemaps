@@ -159,7 +159,7 @@ storiesOf("GeoDistanceDropdown", module)
 				{"start": 201, "end": 500, "label": "Between 200 and 500 miles"},
 				{"start": 501, "end": 1000, "label": "Above 500 miles"}]
 			}
-			unit={text("unit", "mi")}
+			unit={select("unit", {'mi':'mi', 'miles':'miles', 'yd':'yd', 'yards':'yards', 'ft':'ft', 'feet':'feet', 'in':'in', 'inch':'inch', 'km':'km', 'kilometers':'kilometers', 'm':'m', 'meters':'meters', 'cm':'cm', 'centimeters':'centimeters', 'mm':'mm', 'millimeters':'millimeters', 'NM':'NM', 'nmi':'nmi', 'nauticalmiles':'nauticalmiles'}, 'mi')}
 			title={text("title", "Geo Distance Slider")}
 			defaultSelected={text("defaultSelected", "Between 200 and 500 miles")}
 			placeholder={text("placeholder", "Search Location")}
