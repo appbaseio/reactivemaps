@@ -11,8 +11,6 @@ import {
 	GeoDistanceDropdown
 } from '../../app/app.js';
 
-const mapsAPIKey = 'AIzaSyAXev-G9ReCOI4QOjPotLsJE-vQ1EX7i-A';
-
 class Main extends Component {
 	constructor(props) {
 		super(props);

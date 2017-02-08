@@ -3,8 +3,6 @@ import { storiesOf, addDecorator } from "@kadira/storybook";
 import { withKnobs, text, number, array, object, select, boolean } from "@kadira/storybook-addon-knobs";
 import withReadme from "storybook-readme/with-readme";
 
-import { Appbase } from "appbase-js";
-
 import GeoDistanceSliderDefault from "./GeoDistanceSlider.stories";
 import GeoDistanceSliderReadme from "@appbaseio/reactivemaps-manual/docs/v1/map-components/GeoDistanceSlider.md";
 
@@ -53,8 +51,7 @@ import RangeSliderReadme from "@appbaseio/reactivemaps-manual/docs/v1/components
 import NumberBoxDefault from './NumberBox.stories';
 import NumberBoxReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/NumberBox.md";
 
-require ("../../bower_components/materialize/dist/css/materialize.min.css");
-require ("../../dist/css/vendor.min.css");
+require ("../../node_modules/materialize-css/dist/css/materialize.min.css");
 require ("../../dist/css/style.min.css");
 require ("./styles.css");
 
