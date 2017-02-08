@@ -104,7 +104,7 @@ export class ReactiveMap extends Component {
 		// Set the actuate - add self aggs query as well with actuate
 		let actuate = this.props.actuate ? this.props.actuate : {};
 		actuate['geoQuery'] = { operation: "must" };
-		actuate['updateExecute'] = { operation: "must", defaultQuery: function() {} };
+		actuate.streamChanges = {operation: 'must'};
 		// create a channel and listen the changes
 		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate, this.props.size, this.props.from, this.props.stream);
 		this.channelId = channelObj.channelId;
@@ -132,9 +132,11 @@ export class ReactiveMap extends Component {
 				}
 			}
 		}.bind(this));
-		if(updateExecute) {
-			this.updateExecute();
-		}
+		var obj = {
+			key: 'streamChanges',
+			value: ''
+		};
+		helper.selectedSensor.set(obj, true);
 	}
 
 	afterChannelResponse(res) {
