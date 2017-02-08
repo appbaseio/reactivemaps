@@ -10,6 +10,7 @@ import {
 	AppbaseSensorHelper as helper,
 	PoweredBy
 } from '@appbaseio/reactivebase';
+var _ = require('lodash');
 
 export class ReactiveMap extends Component {
 	constructor(props, context) {
