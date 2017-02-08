@@ -4,6 +4,8 @@
 
 A React components library for building maps that update in realtime.
 
+![](https://i.imgur.com/PqRqJDz.png)
+
 ## Playground
 
 Try the live playground at https://opensource.appbase.io/reactivemaps/playground.
@@ -20,7 +22,7 @@ Try the live playground at https://opensource.appbase.io/reactivemaps/playground
 
 ## Using it
 
-Include the map library in your html file with your key
+ReactiveMaps uses Google Maps underneath. You should include this script in your app's <head> element with an API key to get access to 25,000 daily map views*.
 
 ```javascript    
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=Your_key_here"></script>
@@ -35,28 +37,31 @@ npm install --save @appbaseio/reactivebase
 
 And then import the components
 
-``` javascript    
+```javascript    
 import {
   ReactiveMap
-} from 'reactivemaps';
+} from '@appbaseio/reactivemaps';
 
 import {
-  DataSearch,
-  RangeSlider,
   SingleList,
   ReactiveBase
-} from 'reactivebase';
+} from '@appbaseio/reactivebase';
 ```     
 
-ReactiveMaps provides components specific to the map interface. It comes `GeoDistanceSlider`, `GeoDistanceDropdown`, `PlacesSearch` and `ReactiveMap`.
+ReactiveMaps provides components specific to the map interface. It comes with `GeoDistanceSlider`, `GeoDistanceDropdown`, `PlacesSearch` and `ReactiveMap` components.
 
-ReactiveBase provides components that are generic in nature. Amongst many others, `ReactiveBase`, `DataSearch`, `RangeSlider`, and `SingleList` components belong to ReactiveBase.
+ReactiveBase provides components that are generic in nature. Amongst many others, `ReactiveBase` and `SingleList` components belong to ReactiveBase.
 
-## Description
+Besides importing the components, there is a single CSS file that should be added in your app's &lt;head&gt; element along with a CSS framework of your choice. We have tested with Materialize and Bootstrap while building reactivemaps.
 
-### ReactiveBase
+```html
+<link rel="stylesheet" href="node_modules/@appbaseio/reactivebase/dist/css/style.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+```
 
-``` javascript
+### Building a Simple App
+
+```javascript
   <ReactiveBase 
     app="map-demo"
     username="mgVijsReD"
@@ -72,11 +77,42 @@ username:password form the credentials to access an appbase.io app.
 
 Additionally, you can also pass **type** and **theme** props. **type** determines the scope of data to be accessed within the app, it defaults to the entire app. **theme** determines the overall look and feel. Available themes include `rbc-blue`, `rbc-green`, `rbc-red`, `rbc-orange`, `rbc-yellow` and `rbc-dark`.
 
+### Adding Components
+
+Adding `SingleList` and `ReactiveMap` component inside your React component's render() method should look something like this.
+
+```javascript
+  <ReactiveBase ... >
+    <div class="row">
+      <div class="col-xs-6">
+        <SingleList
+          title="SingleList Sensor"
+          componentId="SingleListSensor"
+          appbaseField="group.group_city"
+          size={50}
+          showSearch={true}
+        />
+      </div>
+      <div class="col-xs-6">
+        <ReactiveMap
+          title="ReactiveMap Actuator"
+          componentId="ReactiveMapActuator"
+          appbaseField="venue"
+          actuate={{
+            "SingleListSensor": { "operation": "must" }
+          }}
+        />
+      </div>
+    </div>
+  </ReactiveBase>
+```
+
+If you don't already have a React app, we recommend checking out the [starter app](https://github.com/appbaseio-apps/reactivemaps-starter-app) for getting started with ReactiveMaps.
 
 ## Developing Locally
 
 ```
-npm install && bower install
+npm install
 ```
 
 Start the development server on port `8012`:
@@ -85,7 +121,11 @@ Start the development server on port `8012`:
 npm start
 ```
 
-Run Storybook on port `9009`
+Examples can be accessed at http://localhost:8012/examples.  
+
+Docs can be accessed at http://localhost:8012/manual.
+
+You can also run storybook (aka component playground) on port `9009` with
 
 ```
 npm run storybook
