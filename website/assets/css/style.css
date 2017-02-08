@@ -304,7 +304,9 @@ footer {
   #home .navbar .navbar-nav li.active a {
     background: transparent; }
   #home .navbar .navbar-nav li {
-    padding: 15px 20px 5px; }
+    background: #5677FC;
+    padding: 15px 20px 5px;
+    z-index: 10; }
   #home .navbar .navbar-nav li a {
     color: #fff;
     font-size: 17px;
