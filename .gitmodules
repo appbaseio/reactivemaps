@@ -1,3 +1,3 @@
 [submodule "manual"]
 	path = manual
-	url = git@github.com:appbaseio/reactivemaps-manual.git
+	url = https://github.com/appbaseio/reactivemaps-manual.git
