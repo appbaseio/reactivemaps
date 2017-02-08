@@ -29,3 +29,6 @@ node_modules
 npm-debug.log.*
 bower_components
 website/bower_components
+
+# .DS_Store
+.DS_Store
