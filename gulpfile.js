@@ -8,56 +8,21 @@ var dir_path = './app/';
 
 var files = {
 	css: {
-		vendor: [
-			'node_modules/@appbaseio/reactivebase/dist/css/vendor.min.css',
-			'node_modules/@appbaseio/reactivebase/dist/css/style.min.css'
+		main: [
+			'node_modules/@appbaseio/reactivebase/dist/css/style.min.css',
+			dir_path+'assets/css/style.css'
 		],
-		custom: [dir_path+'assets/css/*.css'],
 		sassFile: [dir_path+'assets/styles/*.scss'],
 		sassPartials: [dir_path+'assets/styles/partials/**/*.scss']
-	},
-	js: {
-		vendor: [
-			'bower_components/jquery/dist/jquery.min.js',
-			'bower_components/bootstrap/dist/js/bootstrap.min.js',
-			'bower_components/lodash/dist/lodash.min.js',
-			'node_modules/appbase-js/browser/appbase.js'
-		],
-		custom: [
-		]
 	}
 };
 
-gulp.task('vendorcss', function() {
-	return gulp.src(files.css.vendor)
-		.pipe(concat('vendor.min.css'))
-		.pipe(gulp.dest('dist/css'));
-});
-
-gulp.task('customcss', ['sass'], function() {
-	return gulp.src(files.css.custom)
+gulp.task('maincss', ['sass'], function() {
+	return gulp.src(files.css.main)
 		.pipe(minifyCSS())
 		.pipe(concat('style.min.css'))
 		.pipe(gulp.dest('dist/css'));
 });
-
-gulp.task('vendorjs', function() {
-	return gulp.src(files.js.vendor)
-		.pipe(concat('vendor.min.js'))
-		.pipe(gulp.dest('dist/js'));
-});
-
-// gulp.task('customjs', function() {
-//     return gulp.src(files.js.custom)
-//         .pipe(jshint())
-//         .pipe(jshint.reporter('default'))
-//         .pipe(concat('app.js'))
-//         .pipe(gulp.dest('dist/js'))
-//         .pipe(uglify())
-//         .pipe(concat('app.min.js'))
-//         .pipe(gulp.dest(dir_path+'dist/js'));
-// });
-
 
 gulp.task('sass', function() {
 	return gulp.src(files.css.sassFile)
@@ -65,17 +30,13 @@ gulp.task('sass', function() {
 		.pipe(gulp.dest(dir_path+'assets/css'));
 });
 
-gulp.task('moveCss', ['customcss'], function() {
+gulp.task('moveCss', ['maincss'], function() {
 	return gulp.src([
-			'bower_components/bootstrap/dist/css/bootstrap.min.css.map',
-			'bower_components/bootstrap/dist/css/bootstrap.min.css',
-			'bower_components/materialize/dist/css/materialize.min.css',
 			'app/assets/css/bootstrap.polyfill.css',
 			'app/assets/css/material.polyfill.css'
 		])
 		.pipe(gulp.dest('dist/css'));
 });
-
 
 gulp.task('moveListCss', function() {
 	return gulp.src(['examples/list/*.css'])
@@ -84,9 +45,8 @@ gulp.task('moveListCss', function() {
 
 gulp.task('moveFonts', function() {
 	return gulp.src([
-		'bower_components/materialize/dist/fonts/**/*',
-		'node_modules/@appbaseio/reactivebase/dist/fonts/**/*',
-		'app/assets/styles/fonts/**/*'
+			'node_modules/@appbaseio/reactivebase/dist/fonts/**/*',
+			'app/assets/styles/fonts/**/*'
 		])
 		.pipe(gulp.dest('dist/fonts'));
 });
@@ -97,8 +57,7 @@ gulp.task('moveImages', function() {
 });
 
 gulp.task('compact', [
-	'vendorcss',
-	'vendorjs',
+	'maincss',
 	'moveCss',
 	'moveFonts',
 	'moveImages',
