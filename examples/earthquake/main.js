@@ -2,7 +2,7 @@ import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import {
 	ReactiveBase,
-	SingleList,
+	MultiList,
 	RangeSlider,
 	GeoDistanceSlider,
 	ToggleButton
@@ -21,9 +21,9 @@ class Main extends Component {
 
 	placeQuery(value) {
 		if(value) {
-			let field = 'place';
+			let field = 'place.raw';
 			let match = JSON.parse(`{"${field}":` + JSON.stringify(value) + '}');
-			return { match: match };
+			return { term: match };
 		} else return null;
 	}
 
@@ -90,10 +90,10 @@ class Main extends Component {
 					<div className="col s12 m4 col-xs-12 col-sm-4">
 						<div className="row h-100">
 							<div className="col s12 col-xs-12">
-								<SingleList
+								<MultiList
 									componentId="PlaceSensor"
 									appbaseField={this.props.mapping.venue}
-									defaultSelected="Japan"
+									defaultSelected={["Japan"]}
 									showCount={true}
 									size={1000}
 									showSearch={true}
@@ -109,8 +109,7 @@ class Main extends Component {
 									appbaseField={this.props.mapping.mag}
 									actuate={{
 										PlaceSensor: {
-											"operation": "must",
-											"defaultQuery": this.placeQuery
+											"operation": "must"
 										}
 									}}
 									defaultSelected={
@@ -134,8 +133,7 @@ class Main extends Component {
 									appbaseField={this.props.mapping.time}
 									actuate={{
 										PlaceSensor: {
-											"operation": "must",
-											"defaultQuery": this.placeQuery
+											"operation": "must"
 										}
 									}}
 									defaultSelected={

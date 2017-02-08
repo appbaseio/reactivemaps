@@ -110,8 +110,8 @@ class Main extends Component {
 							onData = {this.onData}
 							showMapStyles={true}
 							actuate={{
-								CitySensor: {"operation": "must", defaultQuery: this.cityQuery},
-								CategorySensor: {"operation": "must", defaultQuery: this.categoryQuery}
+								CitySensor: {"operation": "must", customQuery: this.cityQuery},
+								CategorySensor: {"operation": "must", customQuery: this.categoryQuery}
 							}}
 							/>
 					</div>
@@ -140,7 +140,7 @@ class Main extends Component {
 									includeGeo={true}
 									title="Categories"
 									actuate={{
-										CitySensor: {"operation": "must", defaultQuery: this.cityQuery}
+										CitySensor: {"operation": "must", customQuery: this.cityQuery}
 									}}
 								/>
 							</div>
