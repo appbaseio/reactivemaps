@@ -64,6 +64,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	var _AppbaseMap = __webpack_require__(2);
+
+	var _ListResult = __webpack_require__(284);
+
+	// actuators
+	module.exports = {
+		AppbaseMap: _AppbaseMap.AppbaseMap,
+		AppbaseListResult: _ListResult.ListResult
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	var _ReactiveMap = __webpack_require__(2);
 
 	var _GeoDistanceSlider = __webpack_require__(446);
@@ -77,7 +90,12 @@ return /******/ (function(modules) { // webpackBootstrap
 		ReactiveMap: _ReactiveMap.ReactiveMap,
 		GeoDistanceSlider: _GeoDistanceSlider.GeoDistanceSlider,
 		GeoDistanceDropdown: _GeoDistanceDropdown.GeoDistanceDropdown,
+<<<<<<< HEAD
 		PlacesSearch: _PlacesSearch.PlacesSearch
+=======
+		GoogleSearch: _GoogleSearch.GoogleSearch
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	};
 
 /***/ },
@@ -89,7 +107,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+<<<<<<< HEAD
 	exports.ReactiveMap = undefined;
+=======
+<<<<<<< HEAD
+	exports.AppbaseMap = undefined;
+=======
+	exports.ReactiveMap = undefined;
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -111,6 +137,26 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _MarkerClusterer2 = _interopRequireDefault(_MarkerClusterer);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	var _reactGoogleMaps = __webpack_require__(5);
+
+	var _InfoBox = __webpack_require__(52);
+
+	var _InfoBox2 = _interopRequireDefault(_InfoBox);
+
+	var _MarkerClusterer = __webpack_require__(56);
+
+	var _MarkerClusterer2 = _interopRequireDefault(_MarkerClusterer);
+
+	var _SearchAsMove = __webpack_require__(60);
+
+	var _MapStyles = __webpack_require__(283);
+
+	var _sensorJs = __webpack_require__(62);
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	var _SearchAsMove = __webpack_require__(60);
 
 	var _MapStyles = __webpack_require__(438);
@@ -120,6 +166,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classnames2 = _interopRequireDefault(_classnames);
 
 	var _reactivebase = __webpack_require__(62);
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -129,6 +179,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	var helper = _sensorJs.AppbaseSensorHelper;
+
+	var AppbaseMap = exports.AppbaseMap = function (_Component) {
+		_inherits(AppbaseMap, _Component);
+
+		function AppbaseMap(props, context) {
+			_classCallCheck(this, AppbaseMap);
+
+			var _this = _possibleConstructorReturn(this, (AppbaseMap.__proto__ || Object.getPrototypeOf(AppbaseMap)).call(this, props));
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	var ReactiveMap = exports.ReactiveMap = function (_Component) {
 		_inherits(ReactiveMap, _Component);
 
@@ -136,6 +200,10 @@ return /******/ (function(modules) { // webpackBootstrap
 			_classCallCheck(this, ReactiveMap);
 
 			var _this = _possibleConstructorReturn(this, (ReactiveMap.__proto__ || Object.getPrototypeOf(ReactiveMap)).call(this, props));
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			_this.state = {
 				markers: [],
@@ -160,6 +228,12 @@ return /******/ (function(modules) { // webpackBootstrap
 			return _this;
 		}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+		_createClass(AppbaseMap, [{
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 		_createClass(ReactiveMap, [{
 			key: 'getMapStyle',
 			value: function getMapStyle(styleName) {
@@ -174,6 +248,10 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			}
 		}, {
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 			key: 'componentDidMount',
 			value: function componentDidMount() {
 				this.streamProp = this.props.stream;
@@ -184,11 +262,20 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function initialize() {
 				this.createChannel();
 				this.setGeoQueryInfo();
+<<<<<<< HEAD
 				var currentMapStyle = this.getMapStyle(this.props.defaultMapStyle);
+=======
+<<<<<<< HEAD
+				var currentMapStyle = helper.getMapStyle(this.props.mapStyle);
+=======
+				var currentMapStyle = this.getMapStyle(this.props.mapStyle);
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 				this.setState({
 					currentMapStyle: currentMapStyle
 				});
 			}
+<<<<<<< HEAD
 		}, {
 			key: 'componentWillUpdate',
 			value: function componentWillUpdate() {
@@ -230,6 +317,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 
 			// Create a channel which passes the actuate and receive results whenever actuate changes
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
+			// Create a channel which passes the depends and receive results whenever depends changes
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		}, {
 			key: 'createChannel',
@@ -238,9 +332,27 @@ return /******/ (function(modules) { // webpackBootstrap
 				var actuate = this.props.actuate ? this.props.actuate : {};
 				actuate['geoQuery'] = { operation: "must" };
 				// create a channel and listen the changes
+<<<<<<< HEAD
 				var channelObj = _reactivebase.AppbaseChannelManager.create(this.context.appbaseRef, this.context.type, actuate, this.props.size, this.props.from, this.props.stream);
 				this.channelId = channelObj.channelId;
 				this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function (res) {
+=======
+<<<<<<< HEAD
+				var channelObj = _sensorJs.AppbaseChannelManager.create(this.context.appbaseConfig, depends, this.props.requestSize);
+				channelObj.emitter.addListener(channelObj.channelId, function (res) {
+					var data = res.data;
+					// implementation to prevent initialize query issue if old query response is late then the newer query 
+					// then we will consider the response of new query and prevent to apply changes for old query response.
+					// if queryStartTime of channel response is greater than the previous one only then apply changes
+					if (res.method === 'historic' && res.startTime > this.queryStartTime) {
+						this.afterChannelResponse(res);
+					} else if (res.method === 'stream') {
+						this.afterChannelResponse(res);
+					}
+=======
+				var channelObj = _reactivebase.AppbaseChannelManager.create(this.context.appbaseRef, this.context.type, depends, this.props.requestSize);
+				channelObj.emitter.addListener(channelObj.channelId, function (res) {
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 					var data = res.data;
 					// implementation to prevent initialize query issue if old query response is late then the newer query
 					// then we will consider the response of new query and prevent to apply changes for old query response.
@@ -299,6 +411,48 @@ return /******/ (function(modules) { // webpackBootstrap
 							externalData: generatedData
 						});
 					}
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+				}.bind(this));
+			}
+
+			// append stream boolean flag and also start time of stream
+
+		}, {
+<<<<<<< HEAD
+			key: 'afterChannelResponse',
+			value: function afterChannelResponse(res) {
+				var data = res.data;
+				var rawData = void 0,
+				    markersData = void 0;
+				this.streamFlag = false;
+				if (res.method === 'stream') {
+					this.channelMethod = 'stream';
+					var modData = this.streamDataModify(this.state.rawData, res);
+					rawData = modData.rawData;
+					res = modData.res;
+					this.streamFlag = true;
+					markersData = this.setMarkersData(rawData);
+				} else if (res.method === 'historic') {
+					this.channelMethod = 'historic';
+					this.queryStartTime = res.startTime;
+					rawData = data;
+					markersData = this.setMarkersData(data);
+				}
+				this.reposition = true;
+				this.setState({
+					rawData: rawData,
+					markersData: markersData
+				}, function () {
+					// Pass the historic or streaming data in index method
+					res.allMarkers = rawData;
+					res.mapRef = this.refs.map;
+					var generatedData = this.props.markerOnIndex(res);
+					this.setState({
+						externalData: generatedData
+					});
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 					if (this.streamFlag) {
 						this.streamMarkerInterval();
 					}
@@ -461,6 +615,10 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.setState(this.state);
 			}
 
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 			// render infowindow
 
 		}, {
@@ -480,6 +638,95 @@ return /******/ (function(modules) { // webpackBootstrap
 					)
 				);
 			}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+			// Handle function which is fired when map is moved and reaches to idle position
+
+		}, {
+			key: 'handleOnIdle',
+			value: function handleOnIdle() {
+				var mapBounds = this.refs.map.getBounds();
+				var north = mapBounds.getNorthEast().lat();
+				var south = mapBounds.getSouthWest().lat();
+				var east = mapBounds.getNorthEast().lng();
+				var west = mapBounds.getSouthWest().lng();
+				var boundingBoxCoordinates = {
+					"top_left": [west, north],
+					"bottom_right": [east, south]
+				};
+				var generatedData = this.props.onIdle(this.refs.map, {
+					boundingBoxCoordinates: boundingBoxCoordinates,
+					mapBounds: mapBounds
+				});
+				this.setState({
+					externalData: generatedData
+				});
+				if (this.searchAsMove && !this.searchQueryProgress) {
+					this.setValue(boundingBoxCoordinates, this.searchAsMove);
+				}
+			}
+			// Handle function which is fired when map is dragged
+
+		}, {
+			key: 'handleOnDrage',
+			value: function handleOnDrage() {
+				this.storeCenter = null;
+			}
+			// set value
+
+		}, {
+			key: 'setValue',
+			value: function setValue(value) {
+				var isExecuteQuery = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+				var obj = {
+					key: 'geoQuery',
+					value: value
+				};
+				helper.selectedSensor.set(obj, isExecuteQuery);
+			}
+			// on change of selectiong
+
+		}, {
+			key: 'searchAsMoveChange',
+			value: function searchAsMoveChange(value) {
+				this.searchAsMove = value;
+				if (value && this.refs.map) {
+					this.handleOnIdle();
+				}
+			}
+			// mapStyle changes
+
+		}, {
+			key: 'mapStyleChange',
+			value: function mapStyleChange(style) {
+				this.setState({
+					currentMapStyle: style
+				});
+			}
+			// Handler function for bounds changed which udpates the map center
+
+		}, {
+			key: 'handleBoundsChanged',
+			value: function handleBoundsChanged() {
+				var _this3 = this;
+
+				if (!this.searchQueryProgress) {
+					// this.setState({
+					//   center: this.refs.map.getCenter()
+					// });
+				} else {
+					setTimeout(function () {
+						_this3.searchQueryProgress = false;
+					}, 1000 * 1);
+				}
+			}
+			// Handler function which is fired when an input is selected from autocomplete google places
+
+		}, {
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			// Handle function which is fired when map is moved and reaches to idle position
 
@@ -577,6 +824,10 @@ return /******/ (function(modules) { // webpackBootstrap
 			// Handler function which is fired when an input is selected from autocomplete google places
 
 		}, {
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 			key: 'handlePlacesChanged',
 			value: function handlePlacesChanged() {
 				var places = this.refs.searchBox.getPlaces();
@@ -584,6 +835,100 @@ return /******/ (function(modules) { // webpackBootstrap
 				//   center: places[0].geometry.location
 				// });
 			}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+			// Handler function which is fired when an input is selected from Appbase geo search field
+
+		}, {
+			key: 'handleSearch',
+			value: function handleSearch(location) {
+				// this.setState({
+				//   center: new google.maps.LatLng(location.value.lat, location.value.lon)
+				// });
+			}
+		}, {
+			key: 'identifyGeoData',
+			value: function identifyGeoData(input) {
+				var type = Object.prototype.toString.call(input);
+				var convertedGeo = null;
+				if (type === '[object Object]' && input.hasOwnProperty('lat') && input.hasOwnProperty('lon')) {
+					convertedGeo = {
+						lat: Number(input.lat),
+						lng: Number(input.lon)
+					};
+				} else if (type === '[object Array]' && input.length === 2) {
+					convertedGeo = {
+						lat: Number(input[0]),
+						lng: Number(input[1])
+					};
+				}
+				return convertedGeo;
+			}
+			// Check if stream data exists in markersData
+			// and if exists the call streamToNormal.
+
+		}, {
+			key: 'streamMarkerInterval',
+			value: function streamMarkerInterval() {
+				var _this4 = this;
+
+				var markersData = this.state.markersData;
+				var isStreamData = markersData.filter(function (hit) {
+					return hit.stream && hit.streamStart;
+				});
+				if (isStreamData.length) {
+					this.isStreamDataExists = true;
+					setTimeout(function () {
+						return _this4.streamToNormal();
+					}, this.props.streamActiveTime * 1000);
+				} else {
+					this.isStreamDataExists = false;
+				}
+			}
+			// Check the difference between current time and attached stream time
+			// if difference is equal to streamActiveTime then delete stream and starStream property of marker
+
+		}, {
+			key: 'streamToNormal',
+			value: function streamToNormal() {
+				var _this5 = this;
+
+				var markersData = this.state.markersData;
+				var isStreamData = markersData.filter(function (hit) {
+					return hit.stream && hit.streamStart;
+				});
+				if (isStreamData.length) {
+					markersData = markersData.map(function (hit, index) {
+						if (hit.stream && hit.streamStart) {
+							var currentTime = new Date();
+							var timeDiff = (currentTime.getTime() - hit.streamStart.getTime()) / 1000;
+							if (timeDiff >= _this5.props.streamActiveTime) {
+								delete hit.stream;
+								delete hit.streamStart;
+							}
+						}
+						return hit;
+					});
+					this.setState({
+						markersData: markersData
+					});
+				} else {
+					this.isStreamDataExists = false;
+				}
+			}
+		}, {
+			key: 'chooseIcon',
+			value: function chooseIcon(hit) {
+				var icon = hit.external_icon ? hit.external_icon : hit.stream ? this.props.streamPin : this.props.historicPin;
+				var isSvg = (typeof icon === 'undefined' ? 'undefined' : _typeof(icon)) === 'object' && icon.hasOwnProperty('path') ? true : false;
+				if (isSvg) {
+					icon = JSON.parse(JSON.stringify(icon));
+					if (this.props.rotateOnUpdate) {
+						var deg = hit.angleDeg ? hit.angleDeg : 0;
+						icon.rotation = deg;
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			// Handler function which is fired when an input is selected from Appbase geo search field
 
@@ -804,6 +1149,27 @@ return /******/ (function(modules) { // webpackBootstrap
 						this.setState({
 							externalData: externalData
 						});
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+					}
+				}
+				return icon;
+			}
+			// here we accepts marker props which we received from markerOnIndex and apply those external props in Marker component
+
+		}, {
+<<<<<<< HEAD
+			key: 'combineProps',
+			value: function combineProps(hit) {
+				var externalProps = void 0,
+				    markerProp = {};
+				if (this.state.externalData && this.state.externalData.markers && this.state.externalData.markers[hit._id]) {
+					externalProps = this.state.externalData.markers[hit._id];
+					for (var external_p in externalProps) {
+						hit["external_" + external_p] = externalProps[external_p];
+						markerProp[external_p] = externalProps[external_p];
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 					}
 				}
 			}
@@ -1120,6 +1486,137 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 5 */
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+<<<<<<< HEAD
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _creatorsGoogleMapHolder = __webpack_require__(7);
+
+	var _creatorsGoogleMapHolder2 = _interopRequireDefault(_creatorsGoogleMapHolder);
+
+	var USE_NEW_BEHAVIOR_TAG_NAME = "__new_behavior__"; /* CIRCULAR_DEPENDENCY */
+
+	var GoogleMapLoader = (function (_Component) {
+	  _inherits(GoogleMapLoader, _Component);
+
+	  function GoogleMapLoader() {
+	    _classCallCheck(this, GoogleMapLoader);
+
+	    _get(Object.getPrototypeOf(GoogleMapLoader.prototype), "constructor", this).apply(this, arguments);
+
+	    this.state = {
+	      map: null
+	    };
+	  }
+
+	  _createClass(GoogleMapLoader, [{
+	    key: "mountGoogleMap",
+	    value: function mountGoogleMap(domEl) {
+	      if (this.state.map || domEl === null) {
+	        return;
+	      }
+	      var _props$googleMapElement$props = this.props.googleMapElement.props;
+	      var children = _props$googleMapElement$props.children;
+
+	      var mapProps = _objectWithoutProperties(_props$googleMapElement$props, ["children"]);
+
+	      //
+	      // Create google.maps.Map instance so that dom is initialized before
+	      // React's children creators.
+	      //
+	      var map = _creatorsGoogleMapHolder2["default"]._createMap(domEl, mapProps);
+	      this.setState({ map: map });
+	    }
+	  }, {
+	    key: "renderChild",
+	    value: function renderChild() {
+	      if (this.state.map) {
+	        // Notice: implementation details
+	        //
+	        // In this state, the DOM of google.maps.Map is already initialized in
+	        // my innerHTML. Adding extra React components will not clean it
+	        // in current version*. It will use prepend to add DOM of
+	        // GoogleMapHolder and become a sibling of the DOM of google.maps.Map
+	        // Not sure this is subject to change
+	        //
+	        // *current version: 0.13.3, 0.14.2
+	        //
+	        return _react2["default"].cloneElement(this.props.googleMapElement, {
+	          map: this.state.map,
+	          // ------------ Deprecated ------------
+	          containerTagName: USE_NEW_BEHAVIOR_TAG_NAME
+	        });
+	      }
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2["default"].cloneElement(this.props.containerElement, {
+	        ref: this.mountGoogleMap.bind(this)
+	      }, this.renderChild());
+	    }
+	  }], [{
+	    key: "propTypes",
+	    value: {
+	      containerElement: _react.PropTypes.node.isRequired,
+	      googleMapElement: _react.PropTypes.element.isRequired },
+	    enumerable: true
+	  }, {
+	    key: "defaultProps",
+	    /* CIRCULAR_DEPENDENCY. Uncomment when 5.0.0 comes: propTypesElementOfType(GoogleMap).isRequired, */
+	    value: {
+	      containerElement: _react2["default"].createElement("div", null)
+	    },
+	    enumerable: true
+	  }]);
+
+	  return GoogleMapLoader;
+	})(_react.Component);
+
+	exports["default"] = GoogleMapLoader;
+	module.exports = exports["default"];
+
+/***/ },
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1133,8 +1630,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1402,9 +1898,142 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	'use strict';
 
+<<<<<<< HEAD
+	/**
+	 * Similar to invariant but only logs a warning if the condition is not met.
+	 * This can be used to log issues in development environments in critical
+	 * paths. Removing the logging code for production environments will keep the
+	 * same logic and follow the same code paths.
+	 */
+=======
+<<<<<<< HEAD
+	exports.mapControlledPropTypes = mapControlledPropTypes;
+	var mapDefaultPropTypes = (0, _utilsDefaultPropsCreator2["default"])(mapControlledPropTypes);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
+
+	var warning = function() {};
+
+	if ((undefined) !== 'production') {
+	  warning = function(condition, format, args) {
+	    var len = arguments.length;
+	    args = new Array(len > 2 ? len - 2 : 0);
+	    for (var key = 2; key < len; key++) {
+	      args[key - 2] = arguments[key];
+	    }
+	    if (format === undefined) {
+	      throw new Error(
+	        '`warning(condition, format, ...args)` requires a warning ' +
+	        'message argument'
+	      );
+	    }
+
+	    if (format.length < 10 || (/^[s\W]*$/).test(format)) {
+	      throw new Error(
+	        'The warning format should be able to uniquely identify this ' +
+	        'warning. Please, use a more descriptive format than: ' + format
+	      );
+	    }
+
+	    if (!condition) {
+	      var argIndex = 0;
+	      var message = 'Warning: ' +
+	        format.replace(/%s/g, function() {
+	          return args[argIndex++];
+	        });
+	      if (typeof console !== 'undefined') {
+	        console.error(message);
+	      }
+	      try {
+	        // This error was thrown as a convenience so that you can use this stack
+	        // to find the callsite that caused this warning to fire.
+	        throw new Error(message);
+	      } catch(x) {}
+	    }
+	  };
+	}
+
+	module.exports = warning;
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+<<<<<<< HEAD
+	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Map
+	// [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; })
+	"use strict";
+=======
+	  _createClass(GoogleMapHolder, [{
+	    key: "getMap",
+	    value: function getMap() {
+	      return this.props.map;
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      var _this = this;
+
+	      return _react2["default"].createElement(
+	        "div",
+	        null,
+	        _react.Children.map(this.props.children, function (childElement) {
+	          if (_react2["default"].isValidElement(childElement)) {
+	            return _react2["default"].cloneElement(childElement, {
+	              mapHolderRef: _this
+	            });
+	          } else {
+	            return childElement;
+	          }
+	        })
+	      );
+	    }
+	  }], [{
+	    key: "_createMap",
+	    value: function _createMap(domEl, mapProps) {
+	      (0, _warning2["default"])("undefined" !== typeof google, "Make sure you've put a <script> tag in your <head> element to load Google Maps JavaScript API v3.\n If you're looking for built-in support to load it for you, use the \"async/ScriptjsLoader\" instead.\n See https://github.com/tomchentw/react-google-maps/pull/168");
+	      // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Map
+	      return new google.maps.Map(domEl, (0, _utilsComposeOptions2["default"])(mapProps, mapControlledPropTypes));
+	    }
+	  }, {
+	    key: "propTypes",
+	    value: {
+	      map: _react.PropTypes.object.isRequired
+	    },
+	    enumerable: true
+	  }]);
+
+	  var _GoogleMapHolder = GoogleMapHolder;
+	  GoogleMapHolder = (0, _utilsComponentLifecycleDecorator2["default"])({
+	    registerEvents: registerEvents,
+	    instanceMethodName: "getMap",
+	    updaters: mapUpdaters
+	  })(GoogleMapHolder) || GoogleMapHolder;
+	  return GoogleMapHolder;
+	})(_react.Component);
+
+	exports["default"] = GoogleMapHolder;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2014-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+=======
 	/**
 	 * Similar to invariant but only logs a warning if the condition is not met.
 	 * This can be used to log issues in development environments in critical
@@ -1463,6 +2092,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Map
 	// [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; })
 	"use strict";
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -1470,6 +2101,74 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = ["bounds_changed", "center_changed", "click", "dblclick", "drag", "dragend", "dragstart", "heading_changed", "idle", "maptypeid_changed", "mousemove", "mouseout", "mouseover", "projection_changed", "resize", "rightclick", "tilesloaded", "tilt_changed", "zoom_changed"];
 	module.exports = exports["default"];
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	/**
+	 * Similar to invariant but only logs a warning if the condition is not met.
+	 * This can be used to log issues in development environments in critical
+	 * paths. Removing the logging code for production environments will keep the
+	 * same logic and follow the same code paths.
+	 */
+
+	var warning = function() {};
+
+	if ((undefined) !== 'production') {
+	  warning = function(condition, format, args) {
+	    var len = arguments.length;
+	    args = new Array(len > 2 ? len - 2 : 0);
+	    for (var key = 2; key < len; key++) {
+	      args[key - 2] = arguments[key];
+	    }
+	    if (format === undefined) {
+	      throw new Error(
+	        '`warning(condition, format, ...args)` requires a warning ' +
+	        'message argument'
+	      );
+	    }
+
+	    if (format.length < 10 || (/^[s\W]*$/).test(format)) {
+	      throw new Error(
+	        'The warning format should be able to uniquely identify this ' +
+	        'warning. Please, use a more descriptive format than: ' + format
+	      );
+	    }
+
+	    if (!condition) {
+	      var argIndex = 0;
+	      var message = 'Warning: ' +
+	        format.replace(/%s/g, function() {
+	          return args[argIndex++];
+	        });
+	      if (typeof console !== 'undefined') {
+	        console.error(message);
+	      }
+	      try {
+	        // This error was thrown as a convenience so that you can use this stack
+	        // to find the callsite that caused this warning to fire.
+	        throw new Error(message);
+	      } catch(x) {}
+	    }
+	  };
+	}
+
+	module.exports = warning;
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Map
+	// [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; })
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports["default"] = ["bounds_changed", "center_changed", "click", "dblclick", "drag", "dragend", "dragstart", "heading_changed", "idle", "maptypeid_changed", "mousemove", "mouseout", "mouseover", "projection_changed", "resize", "rightclick", "tilesloaded", "tilt_changed", "zoom_changed"];
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 /***/ },
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
@@ -1520,6 +2219,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	}
 
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	module.exports = exports["default"];
 
 /***/ },
@@ -1531,6 +2234,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	exports["default"] = eventHandlerCreator;
+
+	var _react = __webpack_require__(3);
+
+	function groupToUpperCase(match, group) {
+	  return group.toUpperCase();
+	}
+
+	function toOnEventName(rawName) {
+	  return "on" + rawName.replace(/^(.)/, groupToUpperCase).replace(/_(.)/g, groupToUpperCase);
+	}
+
+	function eventHandlerCreator(rawNameList) {
+	  var eventPropTypes = {};
+	  var onEventNameByRawName = {};
+
+	  rawNameList.forEach(function (rawName) {
+	    var onEventName = toOnEventName(rawName);
+	    eventPropTypes[onEventName] = _react.PropTypes.func;
+	    onEventNameByRawName[rawName] = onEventName;
+	  });
+
+	  function registerEvents(event, props, googleMapInstance) {
+	    var registered = rawNameList.reduce(function (acc, rawName) {
+	      var onEventName = onEventNameByRawName[rawName];
+
+	      if (Object.prototype.hasOwnProperty.call(props, onEventName)) {
+	        acc.push(event.addListener(googleMapInstance, rawName, props[onEventName]));
+	      }
+	      return acc;
+	    }, []);
+
+	    return registered.forEach.bind(registered, event.removeListener, event);
+	  }
+
+	  return {
+	    eventPropTypes: eventPropTypes,
+	    registerEvents: registerEvents
+	  };
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	exports["default"] = defaultPropsCreator;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -1561,12 +2308,24 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function addDefaultPrefix(name) {
 	  return "default" + (name[0].toUpperCase() + name.slice(1));
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	}
 
 	module.exports = exports["default"];
 
 /***/ },
+<<<<<<< HEAD
 /* 12 */
+=======
+<<<<<<< HEAD
+/* 11 */
+=======
+/* 12 */
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1574,6 +2333,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	exports["default"] = defaultPropsCreator;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	var _addDefaultPrefix = __webpack_require__(12);
+
+	var _addDefaultPrefix2 = _interopRequireDefault(_addDefaultPrefix);
+
+	function defaultPropsCreator(propTypes) {
+	  return Object.keys(propTypes).reduce(function (acc, name) {
+	    acc[(0, _addDefaultPrefix2["default"])(name)] = propTypes[name];
+	    return acc;
+	  }, {});
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -1600,11 +2377,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return acc;
 	  }, _extends({}, getter("options")));
+<<<<<<< HEAD
+=======
+>>>>>>> dev
 	}
 
 	module.exports = exports["default"];
 
 /***/ },
+<<<<<<< HEAD
+/* 12 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports["default"] = addDefaultPrefix;
+
+	function addDefaultPrefix(name) {
+	  return "default" + (name[0].toUpperCase() + name.slice(1));
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
+	}
+
+	module.exports = exports["default"];
+
+/***/ },
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1613,6 +2417,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports["default"] = composeOptions;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	var _controlledOrDefault = __webpack_require__(14);
+
+	var _controlledOrDefault2 = _interopRequireDefault(_controlledOrDefault);
+
+	function composeOptions(props, controlledPropTypes) {
+	  var optionNameList = Object.keys(controlledPropTypes);
+	  var getter = (0, _controlledOrDefault2["default"])(props);
+
+	  // props from arguments may contain unknow props.
+	  // We only interested those in optionNameList
+	  return optionNameList.reduce(function (acc, optionName) {
+	    if ("options" !== optionName) {
+	      var value = getter(optionName);
+	      if ("undefined" !== typeof value) {
+	        acc[optionName] = value;
+	      }
+	    }
+	    return acc;
+	  }, _extends({}, getter("options")));
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	exports["default"] = controlledOrDefault;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -1629,12 +2464,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return props[(0, _addDefaultPrefix2["default"])(name)];
 	    }
 	  };
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	}
 
 	module.exports = exports["default"];
 
 /***/ },
 /* 14 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+/***/ function(module, exports, __webpack_require__) {
+=======
+/***/ function(module, exports) {
+>>>>>>> dev
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+<<<<<<< HEAD
+	exports["default"] = controlledOrDefault;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	var _addDefaultPrefix = __webpack_require__(12);
+
+	var _addDefaultPrefix2 = _interopRequireDefault(_addDefaultPrefix);
+
+	function controlledOrDefault(props) {
+	  return function (name) {
+	    if (Object.prototype.hasOwnProperty.call(props, name)) {
+	      return props[name];
+	    } else {
+	      return props[(0, _addDefaultPrefix2["default"])(name)];
+	    }
+	  };
+	}
+
+	module.exports = exports["default"];
+
+/***/ },
+/* 15 */
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2185,6 +3061,500 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function render() {
 	      return _react2["default"].createElement("noscript", null);
 	    }
+<<<<<<< HEAD
+=======
+	  }, {
+	    key: "getHeading",
+	    value: function getHeading() {
+	      return (this.props.map || this.refs.delegate).getHeading();
+	    }
+	  }, {
+	    key: "getMapTypeId",
+	    value: function getMapTypeId() {
+	      return (this.props.map || this.refs.delegate).getMapTypeId();
+	    }
+	  }, {
+	    key: "getProjection",
+	    value: function getProjection() {
+	      return (this.props.map || this.refs.delegate).getProjection();
+	    }
+	  }, {
+	    key: "getStreetView",
+	    value: function getStreetView() {
+	      return (this.props.map || this.refs.delegate).getStreetView();
+	    }
+	  }, {
+	    key: "getTilt",
+	    value: function getTilt() {
+	      return (this.props.map || this.refs.delegate).getTilt();
+	    }
+	  }, {
+	    key: "getZoom",
+	    value: function getZoom() {
+	      return (this.props.map || this.refs.delegate).getZoom();
+	    }
+
+	    // END - Public APIs
+	    //
+	    // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Map
+	    //
+	    // Public APIs - Use this carefully
+	    // See discussion in https://github.com/tomchentw/react-google-maps/issues/62
+	    //
+	    // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Map
+	    //
+	    // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; }).filter(function(it){ return !it.match(/^get/) && !it.match(/^set/) && !it.match(/Map$/); })
+	  }, {
+	    key: "fitBounds",
+	    value: function fitBounds(bounds) {
+	      return (this.props.map || this.refs.delegate).fitBounds(bounds);
+	    }
+	  }, {
+	    key: "panBy",
+	    value: function panBy(x, y) {
+	      return (this.props.map || this.refs.delegate).panBy(x, y);
+	    }
+	  }, {
+	    key: "panTo",
+	    value: function panTo(latLng) {
+	      return (this.props.map || this.refs.delegate).panTo(latLng);
+	    }
+	  }, {
+	    key: "panToBounds",
+	    value: function panToBounds(latLngBounds) {
+	      return (this.props.map || this.refs.delegate).panToBounds(latLngBounds);
+	    }
+
+	    // END - Public APIs - Use this carefully
+	    //
+	    // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Map
+
+	  }, {
+	    key: "componentWillMount",
+	    value: function componentWillMount() {
+	      var containerTagName = this.props.containerTagName;
+
+	      var isUsingNewBehavior = USE_NEW_BEHAVIOR_TAG_NAME === containerTagName;
+
+	      (0, _warning2["default"])(isUsingNewBehavior, "\"GoogleMap\" with containerTagName is deprecated now and will be removed in next major release (5.0.0).\nUse \"GoogleMapLoader\" instead. See https://github.com/tomchentw/react-google-maps/pull/157 for more details.");
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      var _props = this.props;
+	      var containerTagName = _props.containerTagName;
+	      var _props$containerProps = _props.containerProps;
+	      var containerProps = _props$containerProps === undefined ? {} : _props$containerProps;
+	      var children = _props.children;
+
+	      var mapProps = _objectWithoutProperties(_props, ["containerTagName", "containerProps", "children"]);
+
+	      var isUsingNewBehavior = USE_NEW_BEHAVIOR_TAG_NAME === containerTagName;
+
+	      if (isUsingNewBehavior) {
+	        return _react2["default"].createElement(
+	          _creatorsGoogleMapHolder2["default"],
+	          mapProps,
+	          children
+	        );
+	      } else {
+	        // ------------ Deprecated ------------
+	        var realContainerTagName = containerTagName === undefined || containerTagName === null ? "div" : containerTagName;
+
+	        return _react2["default"].createElement(_GoogleMapLoader2["default"], {
+	          ref: "loader",
+	          containerElement: _react2["default"].createElement(realContainerTagName, containerProps),
+	          googleMapElement: _react2["default"].createElement(
+	            GoogleMap,
+	            _extends({ ref: "delegate", containerTagName: USE_NEW_BEHAVIOR_TAG_NAME }, mapProps),
+	            children
+	          )
+	        });
+	      }
+	    }
+	  }], [{
+	    key: "propTypes",
+	    value: _extends({
+	      containerTagName: _react.PropTypes.string,
+	      containerProps: _react.PropTypes.object,
+	      map: _react.PropTypes.object
+	    }, _creatorsGoogleMapHolder.mapDefaultPropTypes, _creatorsGoogleMapHolder.mapControlledPropTypes, _creatorsGoogleMapHolder.mapEventPropTypes),
+	    enumerable: true
+	  }]);
+
+	  return GoogleMap;
+	})(_react.Component);
+
+	exports["default"] = GoogleMap;
+	module.exports = exports["default"];
+	// Uncontrolled default[props] - used only in componentDidMount
+
+	// Controlled [props] - used in componentDidMount/componentDidUpdate
+
+	// Event [onEventName]
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _canUseDom = __webpack_require__(17);
+
+	var _canUseDom2 = _interopRequireDefault(_canUseDom);
+
+	var _creatorsCircleCreator = __webpack_require__(18);
+
+	var _creatorsCircleCreator2 = _interopRequireDefault(_creatorsCircleCreator);
+
+	var Circle = (function (_Component) {
+	  _inherits(Circle, _Component);
+
+	  function Circle() {
+	    _classCallCheck(this, Circle);
+
+	    _get(Object.getPrototypeOf(Circle.prototype), "constructor", this).apply(this, arguments);
+
+	    this.state = {};
+	  }
+
+	  _createClass(Circle, [{
+	    key: "getBounds",
+
+	    // Public APIs
+	    //
+	    // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Circle
+	    //
+	    // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; }).filter(function(it){ return it.match(/^get/) && !it.match(/^getMap/); })
+	    value: function getBounds() {
+	      return this.state.circle.getBounds();
+	    }
+	  }, {
+	    key: "getCenter",
+	    value: function getCenter() {
+	      return this.state.circle.getCenter();
+	    }
+	  }, {
+	    key: "getDraggable",
+	    value: function getDraggable() {
+	      return this.state.circle.getDraggable();
+	    }
+	  }, {
+	    key: "getEditable",
+	    value: function getEditable() {
+	      return this.state.circle.getEditable();
+	    }
+	  }, {
+	    key: "getMap",
+	    value: function getMap() {
+	      return this.state.circle.getMap();
+	    }
+	  }, {
+	    key: "getRadius",
+	    value: function getRadius() {
+	      return this.state.circle.getRadius();
+	    }
+	  }, {
+	    key: "getVisible",
+	    value: function getVisible() {
+	      return this.state.circle.getVisible();
+	    }
+
+	    // END - Public APIs
+	    //
+	    // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Circle
+
+	  }, {
+	    key: "componentWillMount",
+	    value: function componentWillMount() {
+	      if (!_canUseDom2["default"]) {
+	        return;
+	      }
+	      var circle = _creatorsCircleCreator2["default"]._createCircle(this.props);
+
+	      this.setState({ circle: circle });
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      if (this.state.circle) {
+	        return _react2["default"].createElement(
+	          _creatorsCircleCreator2["default"],
+	          _extends({ circle: this.state.circle }, this.props),
+	          this.props.children
+	        );
+	      } else {
+	        return _react2["default"].createElement("noscript", null);
+	      }
+	    }
+	  }], [{
+	    key: "propTypes",
+	    value: _extends({}, _creatorsCircleCreator.circleDefaultPropTypes, _creatorsCircleCreator.circleControlledPropTypes, _creatorsCircleCreator.circleEventPropTypes),
+	    enumerable: true
+	  }]);
+
+	  return Circle;
+	})(_react.Component);
+
+	exports["default"] = Circle;
+	module.exports = exports["default"];
+
+	// Uncontrolled default[props] - used only in componentDidMount
+
+	// Controlled [props] - used in componentDidMount/componentDidUpdate
+
+	// Event [onEventName]
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	var canUseDOM = !!(
+	  typeof window !== 'undefined' &&
+	  window.document &&
+	  window.document.createElement
+	);
+
+	module.exports = canUseDOM;
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _eventListsCircleEventList = __webpack_require__(19);
+
+	var _eventListsCircleEventList2 = _interopRequireDefault(_eventListsCircleEventList);
+
+	var _utilsEventHandlerCreator = __webpack_require__(9);
+
+	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
+
+	var _utilsDefaultPropsCreator = __webpack_require__(10);
+
+	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
+
+	var _utilsComposeOptions = __webpack_require__(12);
+
+	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
+
+	var _utilsComponentLifecycleDecorator = __webpack_require__(14);
+
+	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
+
+	var _GoogleMapHolder = __webpack_require__(6);
+
+	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
+
+	var circleControlledPropTypes = {
+	  // NOTICE!!!!!!
+	  //
+	  // Only expose those with getters & setters in the table as controlled props.
+	  //
+	  // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; }).filter(function(it){ return it.match(/^set/) && !it.match(/^setMap/); })
+	  //
+	  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Circle
+	  center: _react.PropTypes.any,
+	  draggable: _react.PropTypes.bool,
+	  editable: _react.PropTypes.bool,
+	  options: _react.PropTypes.object,
+	  radius: _react.PropTypes.number,
+	  visible: _react.PropTypes.bool
+	};
+
+	exports.circleControlledPropTypes = circleControlledPropTypes;
+	var circleDefaultPropTypes = (0, _utilsDefaultPropsCreator2["default"])(circleControlledPropTypes);
+
+	exports.circleDefaultPropTypes = circleDefaultPropTypes;
+	var circleUpdaters = {
+	  center: function center(_center, component) {
+	    component.getCircle().setCenter(_center);
+	  },
+	  draggable: function draggable(_draggable, component) {
+	    component.getCircle().setDraggable(_draggable);
+	  },
+	  editable: function editable(_editable, component) {
+	    component.getCircle().setEditable(_editable);
+	  },
+	  options: function options(_options, component) {
+	    component.getCircle().setOptions(_options);
+	  },
+	  radius: function radius(_radius, component) {
+	    component.getCircle().setRadius(_radius);
+	  },
+	  visible: function visible(_visible, component) {
+	    component.getCircle().setVisible(_visible);
+	  }
+	};
+
+	var _eventHandlerCreator = (0, _utilsEventHandlerCreator2["default"])(_eventListsCircleEventList2["default"]);
+
+	var eventPropTypes = _eventHandlerCreator.eventPropTypes;
+	var registerEvents = _eventHandlerCreator.registerEvents;
+	var circleEventPropTypes = eventPropTypes;
+
+	exports.circleEventPropTypes = circleEventPropTypes;
+
+	var CircleCreator = (function (_Component) {
+	  _inherits(CircleCreator, _Component);
+>>>>>>> dev
+
+	  function CircleCreator() {
+	    _classCallCheck(this, _CircleCreator);
+
+<<<<<<< HEAD
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _eventListsCircleEventList = __webpack_require__(20);
+
+	var _eventListsCircleEventList2 = _interopRequireDefault(_eventListsCircleEventList);
+
+	var _utilsEventHandlerCreator = __webpack_require__(10);
+
+	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
+
+	var _utilsDefaultPropsCreator = __webpack_require__(11);
+
+	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
+
+	var _utilsComposeOptions = __webpack_require__(13);
+
+	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
+
+	var _utilsComponentLifecycleDecorator = __webpack_require__(15);
+
+	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
+
+	var _GoogleMapHolder = __webpack_require__(7);
+
+	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
+
+	var circleControlledPropTypes = {
+	  // NOTICE!!!!!!
+	  //
+	  // Only expose those with getters & setters in the table as controlled props.
+	  //
+	  // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; }).filter(function(it){ return it.match(/^set/) && !it.match(/^setMap/); })
+	  //
+	  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Circle
+	  center: _react.PropTypes.any,
+	  draggable: _react.PropTypes.bool,
+	  editable: _react.PropTypes.bool,
+	  options: _react.PropTypes.object,
+	  radius: _react.PropTypes.number,
+	  visible: _react.PropTypes.bool
+	};
+
+	exports.circleControlledPropTypes = circleControlledPropTypes;
+	var circleDefaultPropTypes = (0, _utilsDefaultPropsCreator2["default"])(circleControlledPropTypes);
+
+	exports.circleDefaultPropTypes = circleDefaultPropTypes;
+	var circleUpdaters = {
+	  center: function center(_center, component) {
+	    component.getCircle().setCenter(_center);
+	  },
+	  draggable: function draggable(_draggable, component) {
+	    component.getCircle().setDraggable(_draggable);
+	  },
+	  editable: function editable(_editable, component) {
+	    component.getCircle().setEditable(_editable);
+	  },
+	  options: function options(_options, component) {
+	    component.getCircle().setOptions(_options);
+	  },
+	  radius: function radius(_radius, component) {
+	    component.getCircle().setRadius(_radius);
+	  },
+	  visible: function visible(_visible, component) {
+	    component.getCircle().setVisible(_visible);
+	  }
+	};
+
+	var _eventHandlerCreator = (0, _utilsEventHandlerCreator2["default"])(_eventListsCircleEventList2["default"]);
+
+	var eventPropTypes = _eventHandlerCreator.eventPropTypes;
+	var registerEvents = _eventHandlerCreator.registerEvents;
+	var circleEventPropTypes = eventPropTypes;
+
+	exports.circleEventPropTypes = circleEventPropTypes;
+
+	var CircleCreator = (function (_Component) {
+	  _inherits(CircleCreator, _Component);
+
+	  function CircleCreator() {
+	    _classCallCheck(this, _CircleCreator);
+
+	    _get(Object.getPrototypeOf(_CircleCreator.prototype), "constructor", this).apply(this, arguments);
+	  }
+
+	  _createClass(CircleCreator, [{
+	    key: "getCircle",
+	    value: function getCircle() {
+	      return this.props.circle;
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2["default"].createElement("noscript", null);
+	    }
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	  }], [{
 	    key: "_createCircle",
 	    value: function _createCircle(circleProps) {
@@ -3488,6 +4858,83 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function getPlace() {
 	      return this.state.marker.getPlace();
 	    }
+<<<<<<< HEAD
+=======
+	  }], [{
+	    key: "propTypes",
+	    value: _extends({}, _creatorsInfoWindowCreator.infoWindowDefaultPropTypes, _creatorsInfoWindowCreator.infoWindowControlledPropTypes, _creatorsInfoWindowCreator.infoWindowEventPropTypes),
+	    enumerable: true
+	  }]);
+
+	  return InfoWindow;
+	})(_react.Component);
+
+	exports["default"] = InfoWindow;
+	module.exports = exports["default"];
+
+	// Uncontrolled default[props] - used only in componentDidMount
+
+	// Controlled [props] - used in componentDidMount/componentDidUpdate
+
+	// Event [onEventName]
+>>>>>>> dev
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+<<<<<<< HEAD
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _canUseDom = __webpack_require__(18);
+
+	var _canUseDom2 = _interopRequireDefault(_canUseDom);
+
+	var _creatorsInfoWindowCreator = __webpack_require__(28);
+
+	var _creatorsInfoWindowCreator2 = _interopRequireDefault(_creatorsInfoWindowCreator);
+
+	var InfoWindow = (function (_Component) {
+	  _inherits(InfoWindow, _Component);
+
+	  function InfoWindow() {
+	    _classCallCheck(this, InfoWindow);
+
+	    _get(Object.getPrototypeOf(InfoWindow.prototype), "constructor", this).apply(this, arguments);
+
+	    this.state = {};
+	  }
+
+	  _createClass(InfoWindow, [{
+	    key: "getContent",
+
+	    // Public APIs
+	    //
+	    // https://developers.google.com/maps/documentation/javascript/3.exp/reference#InfoWindow
+	    //
+	    // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; }).filter(function(it){ return it.match(/^get/) && !it.match(/^getMap/); })
+	    value: function getContent() {/* TODO: children */}
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	  }, {
 	    key: "getPosition",
 	    value: function getPosition() {
@@ -6604,10 +8051,86 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function getGridSize() {
 	      return this.state.markerClusterer.getGridSize();
 	    }
+<<<<<<< HEAD
 	  }, {
 	    key: 'getIgnoreHidden',
 	    value: function getIgnoreHidden() {
 	      return this.state.markerClusterer.getIgnoreHidden();
+=======
+	  }], [{
+	    key: "propTypes",
+	    value: _extends({}, _creatorsPolygonCreator.polygonDefaultPropTypes, _creatorsPolygonCreator.polygonControlledPropTypes, _creatorsPolygonCreator.polygonEventPropTypes),
+	    enumerable: true
+	  }]);
+
+	  return Polygon;
+	})(_react.Component);
+
+	exports["default"] = Polygon;
+	module.exports = exports["default"];
+
+	// Uncontrolled default[props] - used only in componentDidMount
+
+	// Controlled [props] - used in componentDidMount/componentDidUpdate
+
+	// Event [onEventName]
+
+/***/ },
+/* 41 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+>>>>>>> dev
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+<<<<<<< HEAD
+	var _canUseDom = __webpack_require__(18);
+
+	var _canUseDom2 = _interopRequireDefault(_canUseDom);
+
+	var _creatorsPolylineCreator = __webpack_require__(44);
+
+	var _creatorsPolylineCreator2 = _interopRequireDefault(_creatorsPolylineCreator);
+
+	var Polyline = (function (_Component) {
+	  _inherits(Polyline, _Component);
+
+	  function Polyline() {
+	    _classCallCheck(this, Polyline);
+
+	    _get(Object.getPrototypeOf(Polyline.prototype), "constructor", this).apply(this, arguments);
+
+	    this.state = {};
+	  }
+
+	  _createClass(Polyline, [{
+	    key: "getDraggable",
+
+	    // Public APIs
+	    //
+	    // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Polyline
+	    //
+	    // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; }).filter(function(it){ return it.match(/^get/) && !it.match(/^getMap/); })
+	    value: function getDraggable() {
+	      return this.state.polyline.getDraggable();
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	    }
 	  }, {
 	    key: 'getImageExtension',
@@ -9252,7 +10775,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
+<<<<<<< HEAD
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+=======
+>>>>>>> dev
+	  }, {
+	    key: "componentWillMount",
+	    value: function componentWillMount() {
+	      if (!_canUseDom2["default"]) {
+	        return;
+	      }
+	      var infoBox = _addonsCreatorsInfoBoxCreator2["default"]._createInfoBox(this.props);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	var helper = __webpack_require__(76);
 
@@ -9366,7 +10900,12 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			}
 
+<<<<<<< HEAD
 			// set the query type and input data
+=======
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+<<<<<<< HEAD
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		}, {
 			key: 'setQueryInfo',
@@ -10078,17 +11617,68 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 	}());
 
+<<<<<<< HEAD
+=======
+	    this.setBoxStyle_();
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 /***/ },
 /* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 	'use strict';
+=======
+<<<<<<< HEAD
+	// http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/docs/reference.html
+	"use strict";
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+<<<<<<< HEAD
 	exports.ItemList = undefined;
+=======
+	exports["default"] = ["closeclick", "content_changed", "domready", "position_changed", "zindex_changed"];
+	module.exports = exports["default"];
+=======
+	    // Add the InfoBox DIV to the DOM
+	    this.getPanes()[this.pane_].appendChild(this.div_);
+>>>>>>> dev
+
+	    this.addClickHandler_();
+
+<<<<<<< HEAD
+	/**
+	 * @name InfoBox
+	 * @version 1.1.13 [March 19, 2014]
+	 * @author Gary Little (inspired by proof-of-concept code from Pamela Fox of Google)
+	 * @copyright Copyright 2010 Gary Little [gary at luxcentral.com]
+	 * @fileoverview InfoBox extends the Google Maps JavaScript API V3 <tt>OverlayView</tt> class.
+	 *  <p>
+	 *  An InfoBox behaves like a <tt>google.maps.InfoWindow</tt>, but it supports several
+	 *  additional properties for advanced styling. An InfoBox can also be used as a map label.
+	 *  <p>
+	 *  An InfoBox also fires the same events as a <tt>google.maps.InfoWindow</tt>.
+	 */
+
+	/*!
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *       http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -11554,11 +13144,24 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 
+<<<<<<< HEAD
 	var
 		version = "3.1.1",
 
 		// Define a local copy of jQuery
 		jQuery = function( selector, context ) {
+=======
+	    this.addClickHandler_();
+>>>>>>> dev
+	  }
+	  if (typeof opt_opts.boxStyle !== "undefined") { // Must be second
+
+<<<<<<< HEAD
+	    this.boxStyle_ = opt_opts.boxStyle;
+	    this.setBoxStyle_();
+	  }
+	  if (typeof opt_opts.content !== "undefined") {
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			// The jQuery object is actually just the init constructor 'enhanced'
 			// Need init if jQuery is called (just allow error to be thrown if not included)
@@ -11619,6 +13222,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			return ret;
 		},
 
+<<<<<<< HEAD
 		// Execute a callback for every element in the matched set.
 		each: function( callback ) {
 			return jQuery.each( this, callback );
@@ -11629,6 +13233,17 @@ return /******/ (function(modules) { // webpackBootstrap
 				return callback.call( elem, i, elem );
 			} ) );
 		},
+=======
+	    this.div_.style.zIndex = index;
+>>>>>>> dev
+	  }
+	  if (typeof opt_opts.closeBoxURL !== "undefined") {
+
+<<<<<<< HEAD
+	    this.closeBoxURL_ = opt_opts.closeBoxURL;
+	  }
+	  if (typeof opt_opts.infoBoxClearance !== "undefined") {
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		slice: function() {
 			return this.pushStack( slice.apply( this, arguments ) );
@@ -11752,6 +13367,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			return obj != null && obj === obj.window;
 		},
 
+<<<<<<< HEAD
 		isNumeric: function( obj ) {
 
 			// As of jQuery 3.0, isNumeric is limited to
@@ -11759,6 +13375,25 @@ return /******/ (function(modules) { // webpackBootstrap
 			// that can be coerced to finite numbers (gh-2662)
 			var type = jQuery.type( obj );
 			return ( type === "number" || type === "string" ) &&
+=======
+	  if ((typeof this.getMap() === "undefined") || (this.getMap() === null)) {
+	    isVisible = false;
+	  } else {
+	    isVisible = !this.isHidden_;
+>>>>>>> dev
+	  }
+	  return isVisible;
+	};
+
+<<<<<<< HEAD
+	  /**
+	   * This event is fired when the position of the InfoBox changes.
+	   * @name InfoBox#position_changed
+	   * @event
+	   */
+	  google.maps.event.trigger(this, "position_changed");
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				// parseFloat NaNs numeric-cast false positives ("")
 				// ...but misinterprets leading-number strings, particularly hex literals ("0x...")
@@ -12001,9 +13636,14 @@ return /******/ (function(modules) { // webpackBootstrap
 		var length = !!obj && "length" in obj && obj.length,
 			type = jQuery.type( obj );
 
+<<<<<<< HEAD
 		if ( type === "function" || jQuery.isWindow( obj ) ) {
 			return false;
 		}
+=======
+	module.exports = InfoBox;
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		return type === "array" || length === 0 ||
 			typeof length === "number" && length > 0 && ( length - 1 ) in obj;
@@ -12021,6 +13661,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	(function( window ) {
 
+<<<<<<< HEAD
 	var i,
 		support,
 		Expr,
@@ -12032,6 +13673,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		outermostContext,
 		sortInput,
 		hasDuplicate,
+=======
+<<<<<<< HEAD
+	  var i;
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		// Local document vars
 		setDocument,
@@ -12353,6 +13998,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}
 
+<<<<<<< HEAD
 		// All others
 		return select( selector.replace( rtrim, "$1" ), context, results, seed );
 	}
@@ -12365,6 +14011,147 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function createCache() {
 		var keys = [];
+=======
+>>>>>>> dev
+	    // Public APIs
+	    // http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/docs/reference.html#events
+	    value: function getAverageCenter() {
+	      return this.state.markerClusterer.getAverageCenter();
+	    }
+	  }, {
+	    key: 'getBatchSizeIE',
+	    value: function getBatchSizeIE() {
+	      return this.state.markerClusterer.getBatchSizeIE();
+	    }
+	  }, {
+	    key: 'getCalculator',
+	    value: function getCalculator() {
+	      return this.state.markerClusterer.getCalculator();
+	    }
+	  }, {
+	    key: 'getClusterClass',
+	    value: function getClusterClass() {
+	      return this.state.markerClusterer.getClusterClass();
+	    }
+	  }, {
+	    key: 'getClusters',
+	    value: function getClusters() {
+	      return this.state.markerClusterer.getClusters();
+	    }
+	  }, {
+	    key: 'getEnableRetinaIcons',
+	    value: function getEnableRetinaIcons() {
+	      return this.state.markerClusterer.getEnableRetinaIcons();
+	    }
+	  }, {
+	    key: 'getGridSize',
+	    value: function getGridSize() {
+	      return this.state.markerClusterer.getGridSize();
+	    }
+	  }, {
+	    key: 'getIgnoreHidden',
+	    value: function getIgnoreHidden() {
+	      return this.state.markerClusterer.getIgnoreHidden();
+	    }
+	  }, {
+	    key: 'getImageExtension',
+	    value: function getImageExtension() {
+	      return this.state.markerClusterer.getImageExtension();
+	    }
+	  }, {
+	    key: 'getImagePath',
+	    value: function getImagePath() {
+	      return this.state.markerClusterer.getImagePath();
+	    }
+	  }, {
+	    key: 'getImageSize',
+	    value: function getImageSize() {
+	      return this.state.markerClusterer.getImageSize();
+	    }
+	  }, {
+	    key: 'getMarkers',
+	    value: function getMarkers() {
+	      return this.state.markerClusterer.getMarkers();
+	    }
+	  }, {
+	    key: 'getMaxZoom',
+	    value: function getMaxZoom() {
+	      return this.state.markerClusterer.getMaxZoom();
+	    }
+	  }, {
+	    key: 'getMinimumClusterSize',
+	    value: function getMinimumClusterSize() {
+	      return this.state.markerClusterer.getMinimumClusterSize();
+	    }
+	  }, {
+	    key: 'getStyles',
+	    value: function getStyles() {
+	      return this.state.markerClusterer.getStyles();
+	    }
+	  }, {
+	    key: 'getTitle',
+	    value: function getTitle() {
+	      return this.state.markerClusterer.getTitle();
+	    }
+	  }, {
+	    key: 'getTotalClusters',
+	    value: function getTotalClusters() {
+	      return this.state.markerClusterer.getTotalClusters();
+	    }
+	  }, {
+	    key: 'getZoomOnClick',
+	    value: function getZoomOnClick() {
+	      return this.state.markerClusterer.getZoomOnClick();
+	    }
+
+	    // Public APIs - Use this carefully
+	  }, {
+	    key: 'addMarker',
+	    value: function addMarker(marker) {
+	      var nodraw = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+	      return this.state.markerClusterer.addMarker(marker, nodraw);
+	    }
+	  }, {
+	    key: 'addMarkers',
+	    value: function addMarkers(markers) {
+	      var nodraw = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+	      return this.state.markerClusterer.addMarkers(markers, nodraw);
+	    }
+	  }, {
+	    key: 'removeMarker',
+	    value: function removeMarker(marker) {
+	      var nodraw = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+	      return this.state.markerClusterer.removeMarker(marker, nodraw);
+	    }
+	  }, {
+	    key: 'removeMarkers',
+	    value: function removeMarkers(markers) {
+	      var nodraw = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+	      return this.state.markerClusterer.removeMarkers(markers, nodraw);
+	    }
+	  }, {
+	    key: 'clearMarkers',
+	    value: function clearMarkers() {
+	      return this.state.markerClusterer.clearMarkers();
+	    }
+	  }, {
+	    key: 'fitMapToMarkers',
+	    value: function fitMapToMarkers() {
+	      return this.state.markerClusterer.fitMapToMarkers();
+	    }
+	  }, {
+	    key: 'repaint',
+	    value: function repaint() {
+	      return this.state.markerClusterer.repaint();
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      if (!_canUseDom2['default']) {
+	        return;
+<<<<<<< HEAD
+	      }
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		function cache( key, value ) {
 			// Use (key + " ") to avoid collision with native prototype properties (see Issue #157)
@@ -12446,8 +14233,14 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}
 
+<<<<<<< HEAD
 		return a ? 1 : -1;
 	}
+=======
+>>>>>>> dev
+	  return MarkerClusterer;
+	})(_react.Component);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	/**
 	 * Returns a function to use in pseudos for input types
@@ -12471,11 +14264,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Returns a function to use in pseudos for :enabled/:disabled
 	 * @param {Boolean} disabled true for :disabled; false for :enabled
 	 */
 	function createDisabledPseudo( disabled ) {
+=======
+	'use strict';
+<<<<<<< HEAD
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		// Known :disabled false positives: fieldset[disabled] > legend:nth-of-type(n+2) :can-disable
 		return function( elem ) {
@@ -12811,11 +14609,18 @@ return /******/ (function(modules) { // webpackBootstrap
 					rbuggyQSA.push( "name" + whitespace + "*[*^$|!~]?=" );
 				}
 
+<<<<<<< HEAD
 				// FF 3.5 - :enabled/:disabled and hidden elements (hidden elements are still enabled)
 				// IE8 throws error here and will not see later tests
 				if ( el.querySelectorAll(":enabled").length !== 2 ) {
 					rbuggyQSA.push( ":enabled", ":disabled" );
 				}
+=======
+>>>>>>> dev
+	  enableRetinaIcons: function enableRetinaIcons(_enableRetinaIcons, component) {
+	    component.getMarkerClusterer().setEnableRetinaIcons(_enableRetinaIcons);
+	  },
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				// Support: IE9-11+
 				// IE's :disabled selector does not pick up the children of disabled fieldsets
@@ -12836,10 +14641,17 @@ return /******/ (function(modules) { // webpackBootstrap
 			docElem.oMatchesSelector ||
 			docElem.msMatchesSelector) )) ) {
 
+<<<<<<< HEAD
 			assert(function( el ) {
 				// Check to see if it's possible to do matchesSelector
 				// on a disconnected node (IE 9)
 				support.disconnectedMatch = matches.call( el, "*" );
+=======
+	  imagePath: function imagePath(_imagePath, component) {
+	    component.getMarkerClusterer().setImagePath(_imagePath);
+	  },
+<<<<<<< HEAD
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				// This should fail with an exception
 				// Gecko does not error, returns false instead
@@ -13184,16 +14996,39 @@ return /******/ (function(modules) { // webpackBootstrap
 					Sizzle.error( match[0] );
 				}
 
+<<<<<<< HEAD
 				return match;
 			},
+=======
+	/**
+	 * Removes the icon from the DOM.
+	 */
+	ClusterIcon.prototype.onRemove = function () {
+	  if (this.div_ && this.div_.parentNode) {
+	    this.hide();
+	    google.maps.event.removeListener(this.boundsChangedListener_);
+	    google.maps.event.clearInstanceListeners(this.div_);
+	    this.div_.parentNode.removeChild(this.div_);
+	    this.div_ = null;
+	  }
+	};
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			"PSEUDO": function( match ) {
 				var excess,
 					unquoted = !match[6] && match[2];
 
+<<<<<<< HEAD
 				if ( matchExpr["CHILD"].test( match[0] ) ) {
 					return null;
 				}
+=======
+<<<<<<< HEAD
+/***/ },
+/* 58 */
+/***/ function(module, exports) {
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				// Accept quoted arguments as-is
 				if ( match[3] ) {
@@ -13406,6 +15241,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					return fn( argument );
 				}
 
+<<<<<<< HEAD
 				// But maintain support for old signatures
 				if ( fn.length > 1 ) {
 					args = [ pseudo, pseudo, "", argument ];
@@ -13423,11 +15259,24 @@ return /******/ (function(modules) { // webpackBootstrap
 							return fn( elem, 0, args );
 						};
 				}
+=======
+	/**
+	 * Returns the map with which the cluster is associated.
+	 *
+	 * @return {google.maps.Map} The map.
+	 * @ignore
+	 */
+	Cluster.prototype.getMap = function () {
+	  return this.map_;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				return fn;
 			}
 		},
 
+<<<<<<< HEAD
 		pseudos: {
 			// Potentially complex pseudos
 			"not": markFunction(function( selector ) {
@@ -13437,6 +15286,30 @@ return /******/ (function(modules) { // webpackBootstrap
 				var input = [],
 					results = [],
 					matcher = compile( selector.replace( rtrim, "$1" ) );
+=======
+	/**
+<<<<<<< HEAD
+	 * Removes the icon from the DOM.
+	 */
+	ClusterIcon.prototype.onRemove = function () {
+	  if (this.div_ && this.div_.parentNode) {
+	    this.hide();
+	    google.maps.event.removeListener(this.boundsChangedListener_);
+	    google.maps.event.clearInstanceListeners(this.div_);
+	    this.div_.parentNode.removeChild(this.div_);
+	    this.div_ = null;
+	  }
+=======
+	 * Returns the <code>MarkerClusterer</code> object with which the cluster is associated.
+	 *
+	 * @return {MarkerClusterer} The associated marker clusterer.
+	 * @ignore
+	 */
+	Cluster.prototype.getMarkerClusterer = function () {
+	  return this.markerClusterer_;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				return matcher[ expando ] ?
 					markFunction(function( seed, matches, context, xml ) {
@@ -13444,6 +15317,7 @@ return /******/ (function(modules) { // webpackBootstrap
 							unmatched = matcher( seed, null, xml, [] ),
 							i = seed.length;
 
+<<<<<<< HEAD
 						// Match elements unmatched by `matcher`
 						while ( i-- ) {
 							if ( (elem = unmatched[i]) ) {
@@ -13459,6 +15333,34 @@ return /******/ (function(modules) { // webpackBootstrap
 						return !results.pop();
 					};
 			}),
+=======
+	/**
+<<<<<<< HEAD
+	 * Draws the icon.
+	 */
+	ClusterIcon.prototype.draw = function () {
+	  if (this.visible_) {
+	    var pos = this.getPosFromLatLng_(this.center_);
+	    this.div_.style.top = pos.y + "px";
+	    this.div_.style.left = pos.x + "px";
+	  }
+=======
+	 * Returns the bounds of the cluster.
+	 *
+	 * @return {google.maps.LatLngBounds} the cluster bounds.
+	 * @ignore
+	 */
+	Cluster.prototype.getBounds = function () {
+	  var i;
+	  var bounds = new google.maps.LatLngBounds(this.center_, this.center_);
+	  var markers = this.getMarkers();
+	  for (i = 0; i < markers.length; i++) {
+	    bounds.extend(markers[i].getPosition());
+	  }
+	  return bounds;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			"has": markFunction(function( selector ) {
 				return function( elem ) {
@@ -13466,12 +15368,25 @@ return /******/ (function(modules) { // webpackBootstrap
 				};
 			}),
 
+<<<<<<< HEAD
 			"contains": markFunction(function( text ) {
 				text = text.replace( runescape, funescape );
 				return function( elem ) {
 					return ( elem.textContent || elem.innerText || getText( elem ) ).indexOf( text ) > -1;
 				};
 			}),
+=======
+	/**
+<<<<<<< HEAD
+	 * Hides the icon.
+	 */
+	ClusterIcon.prototype.hide = function () {
+	  if (this.div_) {
+	    this.div_.style.display = "none";
+	  }
+	  this.visible_ = false;
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			// "Whether an element is represented by a :lang() selector
 			// is based solely on the element's language value
@@ -13627,6 +15542,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Expr.pseudos["nth"] = Expr.pseudos["eq"];
 
+<<<<<<< HEAD
 	// Add button/input type pseudos
 	for ( i in { radio: true, checkbox: true, file: true, password: true, image: true } ) {
 		Expr.pseudos[ i ] = createInputPseudo( i );
@@ -13634,16 +15550,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	for ( i in { submit: true, reset: true } ) {
 		Expr.pseudos[ i ] = createButtonPseudo( i );
 	}
+=======
+	/**
+	 * Calculates the extended bounds of the cluster with the grid.
+	 */
+	Cluster.prototype.calculateBounds_ = function () {
+	  var bounds = new google.maps.LatLngBounds(this.center_, this.center_);
+	  this.bounds_ = this.markerClusterer_.getExtendedBounds(bounds);
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	// Easy API for creating new setFilters
 	function setFilters() {}
 	setFilters.prototype = Expr.filters = Expr.pseudos;
 	Expr.setFilters = new setFilters();
 
+<<<<<<< HEAD
 	tokenize = Sizzle.tokenize = function( selector, parseOnly ) {
 		var matched, match, tokens, type,
 			soFar, groups, preFilters,
 			cached = tokenCache[ selector + " " ];
+=======
+	/**
+<<<<<<< HEAD
+	 * Returns the array of markers managed by the cluster. You can call this from
+	 * a <code>click</code>, <code>mouseover</code>, or <code>mouseout</code> event handler
+	 * for the <code>MarkerClusterer</code> object.
+	 *
+	 * @return {Array} The array of markers in the cluster.
+	 */
+	Cluster.prototype.getMarkers = function () {
+	  return this.markers_;
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		if ( cached ) {
 			return parseOnly ? 0 : cached.slice( 0 );
@@ -14079,19 +16019,48 @@ return /******/ (function(modules) { // webpackBootstrap
 					outermostContext = contextBackup;
 				}
 
+<<<<<<< HEAD
 				return unmatched;
 			};
+=======
+	  this.getMap().fitBounds(bounds);
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		return bySet ?
 			markFunction( superMatcher ) :
 			superMatcher;
 	}
 
+<<<<<<< HEAD
 	compile = Sizzle.compile = function( selector, match /* Internal Use Only */ ) {
 		var i,
 			setMatchers = [],
 			elementMatchers = [],
 			cached = compilerCache[ selector + " " ];
+=======
+	/**
+<<<<<<< HEAD
+	 * Determines if a marker has already been added to the cluster.
+	 *
+	 * @param {google.maps.Marker} marker The marker to check.
+	 * @return {boolean} True if the marker has already been added.
+	 */
+	Cluster.prototype.isMarkerAlreadyAdded_ = function (marker) {
+	  var i;
+	  if (this.markers_.indexOf) {
+	    return this.markers_.indexOf(marker) !== -1;
+	  } else {
+	    for (i = 0; i < this.markers_.length; i++) {
+	      if (marker === this.markers_[i]) {
+	        return true;
+	      }
+	    }
+	  }
+	  return false;
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		if ( !cached ) {
 			// Generate a function of recursive functions that can be used to check each element
@@ -14400,6 +16369,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			return !!winnow(
 				this,
 
+<<<<<<< HEAD
 				// If this is a positional/relative selector, check membership in the returned set
 				// so $("p:first").is("p:last") won't return true for a doc with two "p".
 				typeof selector === "string" && rneedsContext.test( selector ) ?
@@ -14416,6 +16386,55 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// A central reference to the root jQuery(document)
 	var rootjQuery,
+=======
+	/**
+	 * Returns the value of the <code>enableRetinaIcons</code> property.
+	 *
+	 * @return {boolean} True if enableRetinaIcons property is set.
+	 */
+	MarkerClusterer.prototype.getEnableRetinaIcons = function () {
+	  return this.enableRetinaIcons_;
+>>>>>>> dev
+	};
+
+
+	/**
+<<<<<<< HEAD
+	 * Returns the value of the <code>gridSize</code> property.
+	 *
+	 * @return {number} The grid size.
+	 */
+	MarkerClusterer.prototype.getGridSize = function () {
+	  return this.gridSize_;
+=======
+	 *  Sets the value of the <code>enableRetinaIcons</code> property.
+	 *
+	 *  @param {boolean} enableRetinaIcons The value of the enableRetinaIcons property.
+	 */
+	MarkerClusterer.prototype.setEnableRetinaIcons = function (enableRetinaIcons) {
+	  this.enableRetinaIcons_ = enableRetinaIcons;
+>>>>>>> dev
+	};
+
+
+	/**
+<<<<<<< HEAD
+	 * Sets the value of the <code>gridSize</code> property.
+	 *
+	 * @param {number} gridSize The grid size.
+	 */
+	MarkerClusterer.prototype.setGridSize = function (gridSize) {
+	  this.gridSize_ = gridSize;
+=======
+	 * Returns the value of the <code>imageExtension</code> property.
+	 *
+	 * @return {string} The value of the imageExtension property.
+	 */
+	MarkerClusterer.prototype.getImageExtension = function () {
+	  return this.imageExtension_;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		// A simple way to check for HTML strings
 		// Prioritize #id over <tag> to avoid XSS via location.hash (#9521)
@@ -14423,8 +16442,20 @@ return /******/ (function(modules) { // webpackBootstrap
 		// Shortcut simple #id case for speed
 		rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]+))$/,
 
+<<<<<<< HEAD
 		init = jQuery.fn.init = function( selector, context, root ) {
 			var match, elem;
+=======
+	/**
+<<<<<<< HEAD
+	 * Returns the value of the <code>minimumClusterSize</code> property.
+	 *
+	 * @return {number} The minimum cluster size.
+	 */
+	MarkerClusterer.prototype.getMinimumClusterSize = function () {
+	  return this.minClusterSize_;
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			// HANDLE: $(""), $(null), $(undefined), $(false)
 			if ( !selector ) {
@@ -14444,16 +16475,48 @@ return /******/ (function(modules) { // webpackBootstrap
 					// Assume that strings that start and end with <> are HTML and skip the regex check
 					match = [ null, selector, null ];
 
+<<<<<<< HEAD
 				} else {
 					match = rquickExpr.exec( selector );
 				}
+=======
+	/**
+	 *  Sets the value of the <code>imagePath</code> property.
+	 *
+	 *  @param {string} imagePath The value of the imagePath property.
+	 */
+	MarkerClusterer.prototype.setImagePath = function (imagePath) {
+	  this.imagePath_ = imagePath;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				// Match html or make sure no context is specified for #id
 				if ( match && ( match[ 1 ] || !context ) ) {
 
+<<<<<<< HEAD
 					// HANDLE: $(html) -> $(array)
 					if ( match[ 1 ] ) {
 						context = context instanceof jQuery ? context[ 0 ] : context;
+=======
+	/**
+<<<<<<< HEAD
+	 *  Returns the value of the <code>maxZoom</code> property.
+	 *
+	 *  @return {number} The maximum zoom level.
+	 */
+	MarkerClusterer.prototype.getMaxZoom = function () {
+	  return this.maxZoom_;
+=======
+	 * Returns the value of the <code>imageSizes</code> property.
+	 *
+	 * @return {Array} The value of the imageSizes property.
+	 */
+	MarkerClusterer.prototype.getImageSizes = function () {
+	  return this.imageSizes_;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 						// Option to run scripts is true for back-compat
 						// Intentionally let the error be thrown if parseHTML is not present
@@ -14463,45 +16526,146 @@ return /******/ (function(modules) { // webpackBootstrap
 							true
 						) );
 
+<<<<<<< HEAD
 						// HANDLE: $(html, props)
 						if ( rsingleTag.test( match[ 1 ] ) && jQuery.isPlainObject( context ) ) {
 							for ( match in context ) {
+=======
+	/**
+<<<<<<< HEAD
+	 *  Sets the value of the <code>maxZoom</code> property.
+	 *
+	 *  @param {number} maxZoom The maximum zoom level.
+	 */
+	MarkerClusterer.prototype.setMaxZoom = function (maxZoom) {
+	  this.maxZoom_ = maxZoom;
+=======
+	 *  Sets the value of the <code>imageSizes</code> property.
+	 *
+	 *  @param {Array} imageSizes The value of the imageSizes property.
+	 */
+	MarkerClusterer.prototype.setImageSizes = function (imageSizes) {
+	  this.imageSizes_ = imageSizes;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 								// Properties of context are called as methods if possible
 								if ( jQuery.isFunction( this[ match ] ) ) {
 									this[ match ]( context[ match ] );
 
+<<<<<<< HEAD
 								// ...and otherwise set as attributes
 								} else {
 									this.attr( match, context[ match ] );
 								}
 							}
 						}
+=======
+	/**
+<<<<<<< HEAD
+	 *  Returns the value of the <code>styles</code> property.
+	 *
+	 *  @return {Array} The array of styles defining the cluster markers to be used.
+	 */
+	MarkerClusterer.prototype.getStyles = function () {
+	  return this.styles_;
+=======
+	 * Returns the value of the <code>calculator</code> property.
+	 *
+	 * @return {function} the value of the calculator property.
+	 */
+	MarkerClusterer.prototype.getCalculator = function () {
+	  return this.calculator_;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 						return this;
 
+<<<<<<< HEAD
 					// HANDLE: $(#id)
 					} else {
 						elem = document.getElementById( match[ 2 ] );
+=======
+	/**
+<<<<<<< HEAD
+	 *  Sets the value of the <code>styles</code> property.
+	 *
+	 *  @param {Array.<ClusterIconStyle>} styles The array of styles to use.
+	 */
+	MarkerClusterer.prototype.setStyles = function (styles) {
+	  this.styles_ = styles;
+=======
+	 * Sets the value of the <code>calculator</code> property.
+	 *
+	 * @param {function(Array.<google.maps.Marker>, number)} calculator The value
+	 *  of the calculator property.
+	 */
+	MarkerClusterer.prototype.setCalculator = function (calculator) {
+	  this.calculator_ = calculator;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 						if ( elem ) {
 
+<<<<<<< HEAD
 							// Inject the element directly into the jQuery object
 							this[ 0 ] = elem;
 							this.length = 1;
 						}
 						return this;
 					}
+=======
+	/**
+<<<<<<< HEAD
+	 * Returns the value of the <code>title</code> property.
+	 *
+	 * @return {string} The content of the title text.
+	 */
+	MarkerClusterer.prototype.getTitle = function () {
+	  return this.title_;
+=======
+	 * Returns the value of the <code>batchSizeIE</code> property.
+	 *
+	 * @return {number} the value of the batchSizeIE property.
+	 */
+	MarkerClusterer.prototype.getBatchSizeIE = function () {
+	  return this.batchSizeIE_;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				// HANDLE: $(expr, $(...))
 				} else if ( !context || context.jquery ) {
 					return ( context || root ).find( selector );
 
+<<<<<<< HEAD
 				// HANDLE: $(expr, context)
 				// (which is just equivalent to: $(context).find(expr)
 				} else {
 					return this.constructor( context ).find( selector );
 				}
+=======
+	/**
+<<<<<<< HEAD
+	 *  Sets the value of the <code>title</code> property.
+	 *
+	 *  @param {string} title The value of the title property.
+	 */
+	MarkerClusterer.prototype.setTitle = function (title) {
+	  this.title_ = title;
+=======
+	 * Sets the value of the <code>batchSizeIE</code> property.
+	 *
+	 *  @param {number} batchSizeIE The value of the batchSizeIE property.
+	 */
+	MarkerClusterer.prototype.setBatchSizeIE = function (batchSizeIE) {
+	  this.batchSizeIE_ = batchSizeIE;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			// HANDLE: $(DOMElement)
 			} else if ( selector.nodeType ) {
@@ -14509,27 +16673,97 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.length = 1;
 				return this;
 
+<<<<<<< HEAD
 			// HANDLE: $(function)
 			// Shortcut for document ready
 			} else if ( jQuery.isFunction( selector ) ) {
 				return root.ready !== undefined ?
 					root.ready( selector ) :
+=======
+	/**
+<<<<<<< HEAD
+	 * Returns the value of the <code>zoomOnClick</code> property.
+	 *
+	 * @return {boolean} True if zoomOnClick property is set.
+	 */
+	MarkerClusterer.prototype.getZoomOnClick = function () {
+	  return this.zoomOnClick_;
+=======
+	 * Returns the value of the <code>clusterClass</code> property.
+	 *
+	 * @return {string} the value of the clusterClass property.
+	 */
+	MarkerClusterer.prototype.getClusterClass = function () {
+	  return this.clusterClass_;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 					// Execute immediately if ready is not present
 					selector( jQuery );
 			}
 
+<<<<<<< HEAD
 			return jQuery.makeArray( selector, this );
 		};
+=======
+	/**
+<<<<<<< HEAD
+	 *  Sets the value of the <code>zoomOnClick</code> property.
+	 *
+	 *  @param {boolean} zoomOnClick The value of the zoomOnClick property.
+	 */
+	MarkerClusterer.prototype.setZoomOnClick = function (zoomOnClick) {
+	  this.zoomOnClick_ = zoomOnClick;
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	// Give the init function the jQuery prototype for later instantiation
 	init.prototype = jQuery.fn;
 
+<<<<<<< HEAD
 	// Initialize central reference
 	rootjQuery = jQuery( document );
 
 
 	var rparentsprev = /^(?:parents|prev(?:Until|All))/,
+=======
+	/**
+	 * Returns the value of the <code>averageCenter</code> property.
+	 *
+	 * @return {boolean} True if averageCenter property is set.
+	 */
+	MarkerClusterer.prototype.getAverageCenter = function () {
+	  return this.averageCenter_;
+=======
+	 * Sets the value of the <code>clusterClass</code> property.
+	 *
+	 *  @param {string} clusterClass The value of the clusterClass property.
+	 */
+	MarkerClusterer.prototype.setClusterClass = function (clusterClass) {
+	  this.clusterClass_ = clusterClass;
+>>>>>>> dev
+	};
+
+
+	/**
+<<<<<<< HEAD
+	 *  Sets the value of the <code>averageCenter</code> property.
+	 *
+	 *  @param {boolean} averageCenter The value of the averageCenter property.
+	 */
+	MarkerClusterer.prototype.setAverageCenter = function (averageCenter) {
+	  this.averageCenter_ = averageCenter;
+=======
+	 *  Returns the array of markers managed by the clusterer.
+	 *
+	 *  @return {Array} The array of markers managed by the clusterer.
+	 */
+	MarkerClusterer.prototype.getMarkers = function () {
+	  return this.markers_;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		// Methods guaranteed to produce a unique set when starting from a unique set
 		guaranteedUnique = {
@@ -14539,10 +16773,30 @@ return /******/ (function(modules) { // webpackBootstrap
 			prev: true
 		};
 
+<<<<<<< HEAD
 	jQuery.fn.extend( {
 		has: function( target ) {
 			var targets = jQuery( target, this ),
 				l = targets.length;
+=======
+	/**
+<<<<<<< HEAD
+	 * Returns the value of the <code>ignoreHidden</code> property.
+	 *
+	 * @return {boolean} True if ignoreHidden property is set.
+	 */
+	MarkerClusterer.prototype.getIgnoreHidden = function () {
+	  return this.ignoreHidden_;
+=======
+	 *  Returns the number of markers managed by the clusterer.
+	 *
+	 *  @return {number} The number of markers.
+	 */
+	MarkerClusterer.prototype.getTotalMarkers = function () {
+	  return this.markers_.length;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			return this.filter( function() {
 				var i = 0;
@@ -14554,38 +16808,115 @@ return /******/ (function(modules) { // webpackBootstrap
 			} );
 		},
 
+<<<<<<< HEAD
 		closest: function( selectors, context ) {
 			var cur,
 				i = 0,
 				l = this.length,
 				matched = [],
 				targets = typeof selectors !== "string" && jQuery( selectors );
+=======
+	/**
+<<<<<<< HEAD
+	 *  Sets the value of the <code>ignoreHidden</code> property.
+	 *
+	 *  @param {boolean} ignoreHidden The value of the ignoreHidden property.
+	 */
+	MarkerClusterer.prototype.setIgnoreHidden = function (ignoreHidden) {
+	  this.ignoreHidden_ = ignoreHidden;
+=======
+	 * Returns the current array of clusters formed by the clusterer.
+	 *
+	 * @return {Array} The array of clusters formed by the clusterer.
+	 */
+	MarkerClusterer.prototype.getClusters = function () {
+	  return this.clusters_;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			// Positional selectors never match, since there's no _selection_ context
 			if ( !rneedsContext.test( selectors ) ) {
 				for ( ; i < l; i++ ) {
 					for ( cur = this[ i ]; cur && cur !== context; cur = cur.parentNode ) {
 
+<<<<<<< HEAD
 						// Always skip document fragments
 						if ( cur.nodeType < 11 && ( targets ?
 							targets.index( cur ) > -1 :
+=======
+	/**
+<<<<<<< HEAD
+	 * Returns the value of the <code>enableRetinaIcons</code> property.
+	 *
+	 * @return {boolean} True if enableRetinaIcons property is set.
+	 */
+	MarkerClusterer.prototype.getEnableRetinaIcons = function () {
+	  return this.enableRetinaIcons_;
+=======
+	 * Returns the number of clusters formed by the clusterer.
+	 *
+	 * @return {number} The number of clusters formed by the clusterer.
+	 */
+	MarkerClusterer.prototype.getTotalClusters = function () {
+	  return this.clusters_.length;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 							// Don't pass non-elements to Sizzle
 							cur.nodeType === 1 &&
 								jQuery.find.matchesSelector( cur, selectors ) ) ) {
 
+<<<<<<< HEAD
 							matched.push( cur );
 							break;
 						}
 					}
 				}
 			}
+=======
+	/**
+<<<<<<< HEAD
+	 *  Sets the value of the <code>enableRetinaIcons</code> property.
+	 *
+	 *  @param {boolean} enableRetinaIcons The value of the enableRetinaIcons property.
+	 */
+	MarkerClusterer.prototype.setEnableRetinaIcons = function (enableRetinaIcons) {
+	  this.enableRetinaIcons_ = enableRetinaIcons;
+=======
+	 * Adds a marker to the clusterer. The clusters are redrawn unless
+	 *  <code>opt_nodraw</code> is set to <code>true</code>.
+	 *
+	 * @param {google.maps.Marker} marker The marker to add.
+	 * @param {boolean} [opt_nodraw] Set to <code>true</code> to prevent redrawing.
+	 */
+	MarkerClusterer.prototype.addMarker = function (marker, opt_nodraw) {
+	  this.pushMarkerTo_(marker);
+	  if (!opt_nodraw) {
+	    this.redraw_();
+	  }
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			return this.pushStack( matched.length > 1 ? jQuery.uniqueSort( matched ) : matched );
 		},
 
+<<<<<<< HEAD
 		// Determine the position of an element within the set
 		index: function( elem ) {
+=======
+	/**
+<<<<<<< HEAD
+	 * Returns the value of the <code>imageExtension</code> property.
+	 *
+	 * @return {string} The value of the imageExtension property.
+	 */
+	MarkerClusterer.prototype.getImageExtension = function () {
+	  return this.imageExtension_;
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			// No argument, return index in parent
 			if ( !elem ) {
@@ -14671,16 +17002,51 @@ return /******/ (function(modules) { // webpackBootstrap
 				selector = until;
 			}
 
+<<<<<<< HEAD
 			if ( selector && typeof selector === "string" ) {
 				matched = jQuery.filter( selector, matched );
 			}
+=======
+	/**
+	 * Pushes a marker to the clusterer.
+	 *
+	 * @param {google.maps.Marker} marker The marker to add.
+	 */
+	MarkerClusterer.prototype.pushMarkerTo_ = function (marker) {
+	  // If the marker is draggable add a listener so we can update the clusters on the dragend:
+	  if (marker.getDraggable()) {
+	    var cMarkerClusterer = this;
+	    google.maps.event.addListener(marker, "dragend", function () {
+	      if (cMarkerClusterer.ready_) {
+	        this.isAdded = false;
+	        cMarkerClusterer.repaint();
+	      }
+	    });
+	  }
+	  marker.isAdded = false;
+	  this.markers_.push(marker);
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			if ( this.length > 1 ) {
 
+<<<<<<< HEAD
 				// Remove duplicates
 				if ( !guaranteedUnique[ name ] ) {
 					jQuery.uniqueSort( matched );
 				}
+=======
+	/**
+<<<<<<< HEAD
+	 *  Sets the value of the <code>imageSizes</code> property.
+	 *
+	 *  @param {Array} imageSizes The value of the imageSizes property.
+	 */
+	MarkerClusterer.prototype.setImageSizes = function (imageSizes) {
+	  this.imageSizes_ = imageSizes;
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				// Reverse order for parents* and prev-derivatives
 				if ( rparentsprev.test( name ) ) {
@@ -14694,6 +17060,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var rnothtmlwhite = ( /[^\x20\t\r\n\f]+/g );
 
 
+<<<<<<< HEAD
+=======
+	  return removed;
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	// Convert String-formatted options into Object-formatted ones
 	function createOptions( options ) {
@@ -14704,8 +17076,14 @@ return /******/ (function(modules) { // webpackBootstrap
 		return object;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * Create a callback list using the following parameters:
+=======
+	/**
+<<<<<<< HEAD
+	 * Sets the value of the <code>calculator</code> property.
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	 *
 	 *	options: an optional list of space-separated options that will change how
 	 *			the callback list behaves or a more traditional option object
@@ -15145,7 +17523,18 @@ return /******/ (function(modules) { // webpackBootstrap
 							};
 						}
 
+<<<<<<< HEAD
 						return jQuery.Deferred( function( newDefer ) {
+=======
+	  index = Math.min(index, numStyles);
+	  return {
+	    text: count,
+	    index: index,
+	    title: title
+	  };
+>>>>>>> dev
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 							// progress_handlers.add( ... )
 							tuples[ 0 ][ 3 ].add(
@@ -15159,6 +17548,7 @@ return /******/ (function(modules) { // webpackBootstrap
 								)
 							);
 
+<<<<<<< HEAD
 							// fulfilled_handlers.add( ... )
 							tuples[ 1 ][ 3 ].add(
 								resolve(
@@ -15169,6 +17559,18 @@ return /******/ (function(modules) { // webpackBootstrap
 										Identity
 								)
 							);
+=======
+	/**
+<<<<<<< HEAD
+	 * Recalculates and redraws all the marker clusters from scratch.
+	 *  Call this after changing any properties.
+	 */
+	MarkerClusterer.prototype.repaint = function () {
+	  var oldClusters = this.clusters_.slice();
+	  this.clusters_ = [];
+	  this.resetViewport_(false);
+	  this.redraw_();
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 							// rejected_handlers.add( ... )
 							tuples[ 2 ][ 3 ].add(
@@ -16083,11 +18485,18 @@ return /******/ (function(modules) { // webpackBootstrap
 		return display;
 	}
 
+<<<<<<< HEAD
 	function showHide( elements, show ) {
 		var display, elem,
 			values = [],
 			index = 0,
 			length = elements.length;
+=======
+/***/ },
+/* 63 */
+>>>>>>> dev
+/***/ function(module, exports, __webpack_require__) {
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		// Determine new display value for elements that need to change
 		for ( ; index < length; index++ ) {
@@ -16121,12 +18530,17 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}
 
+<<<<<<< HEAD
 		// Set the display of the elements in a second loop to avoid constant reflow
 		for ( index = 0; index < length; index++ ) {
 			if ( values[ index ] != null ) {
 				elements[ index ].style.display = values[ index ];
 			}
 		}
+=======
+<<<<<<< HEAD
+	var _AppbaseList = __webpack_require__(63);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		return elements;
 	}
@@ -16342,6 +18756,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var documentElement = document.documentElement;
 
 
+<<<<<<< HEAD
+=======
+	var _StaticSearch = __webpack_require__(77);
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	var
 		rkeyEvent = /^key/,
@@ -16364,8 +18783,13 @@ return /******/ (function(modules) { // webpackBootstrap
 		} catch ( err ) { }
 	}
 
+<<<<<<< HEAD
 	function on( elem, types, selector, data, fn, one ) {
 		var origFn, type;
+=======
+<<<<<<< HEAD
+	var helper = __webpack_require__(75);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		// Types can be a map of types/handlers
 		if ( typeof types === "object" ) {
@@ -16391,10 +18815,15 @@ return /******/ (function(modules) { // webpackBootstrap
 		} else if ( fn == null ) {
 			if ( typeof selector === "string" ) {
 
+<<<<<<< HEAD
 				// ( types, selector, fn )
 				fn = data;
 				data = undefined;
 			} else {
+=======
+			var _this = _possibleConstructorReturn(this, (NativeList.__proto__ || Object.getPrototypeOf(NativeList)).call(this, props));
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				// ( types, data, fn )
 				fn = data;
@@ -16416,15 +18845,32 @@ return /******/ (function(modules) { // webpackBootstrap
 				jQuery().off( event );
 				return origFn.apply( this, arguments );
 			};
+<<<<<<< HEAD
 
 			// Use same guid so caller can remove using origFn
 			fn.guid = origFn.guid || ( origFn.guid = jQuery.guid++ );
+=======
+			_this.previousSelectedSensor = {};
+<<<<<<< HEAD
+=======
+			_this.channelId = null;
+			_this.channelListener = null;
+			_this.defaultSelected = _this.props.defaultSelected;
+>>>>>>> dev
+			_this.handleSelect = _this.handleSelect.bind(_this);
+			_this.handleRemove = _this.handleRemove.bind(_this);
+			_this.filterBySearch = _this.filterBySearch.bind(_this);
+			_this.selectAll = _this.selectAll.bind(_this);
+			_this.type = _this.props.multipleSelect ? 'Terms' : 'Term';
+			return _this;
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 		}
 		return elem.each( function() {
 			jQuery.event.add( this, types, fn, data, selector );
 		} );
 	}
 
+<<<<<<< HEAD
 	/*
 	 * Helper functions for managing events -- not part of the public interface.
 	 * Props to Dean Edwards' addEvent library for many of the ideas.
@@ -16443,6 +18889,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			// Don't attach events to noData or text/comment nodes (but allow plain objects)
 			if ( !elemData ) {
 				return;
+=======
+<<<<<<< HEAD
+		_createClass(AppbaseList, [{
+			key: 'componentWillMount',
+			value: function componentWillMount() {
+				this.defaultSelected = this.props.defaultSelected;
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 			}
 
 			// Caller can pass in an object of custom data in lieu of the handler
@@ -16608,12 +19061,29 @@ return /******/ (function(modules) { // webpackBootstrap
 					if ( !special.teardown ||
 						special.teardown.call( elem, namespaces, elemData.handle ) === false ) {
 
+<<<<<<< HEAD
 						jQuery.removeEvent( elem, type, elemData.handle );
 					}
 
 					delete events[ type ];
+=======
+		}, {
+>>>>>>> dev
+			key: 'selectAll',
+			value: function selectAll(value, defaultSelected, cb) {
+				var items = this.state.items.filter(function (item) {
+					item.status = value;return item;
+				});
+				if (value) {
+					this.defaultSelected = defaultSelected;
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 				}
 			}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+			// filter
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			// Remove data and the expando if it's no longer used
 			if ( jQuery.isEmptyObject( events ) ) {
@@ -16698,15 +19168,23 @@ return /******/ (function(modules) { // webpackBootstrap
 				// Black-hole SVG <use> instance trees (trac-13180)
 				cur.nodeType &&
 
+<<<<<<< HEAD
 				// Support: Firefox <=42
 				// Suppress spec-violating clicks indicating a non-primary pointer button (trac-3861)
 				// https://www.w3.org/TR/DOM-Level-3-Events/#event-type-click
 				// Support: IE 11 only
 				// ...but not arrow key "clicks" of radio inputs, which can have `button` -1 (gh-2343)
 				!( event.type === "click" && event.button >= 1 ) ) {
+=======
+/***/ },
+/* 65 */
+>>>>>>> dev
+/***/ function(module, exports, __webpack_require__) {
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				for ( ; cur !== this; cur = cur.parentNode || this ) {
 
+<<<<<<< HEAD
 					// Don't check non-elements (#13208)
 					// Don't process clicks on disabled elements (#6911, #8165, #11382, #11764)
 					if ( cur.nodeType === 1 && !( event.type === "click" && cur.disabled === true ) ) {
@@ -16714,6 +19192,13 @@ return /******/ (function(modules) { // webpackBootstrap
 						matchedSelectors = {};
 						for ( i = 0; i < delegateCount; i++ ) {
 							handleObj = handlers[ i ];
+=======
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.ItemCheckboxList = undefined;
+<<<<<<< HEAD
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 							// Don't conflict with Object.prototype properties (#13203)
 							sel = handleObj.selector + " ";
@@ -16889,6 +19374,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		this[ jQuery.expando ] = true;
 	};
 
+<<<<<<< HEAD
 	// jQuery.Event is based on DOM3 Events as specified by the ECMAScript Language Binding
 	// https://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
 	jQuery.Event.prototype = {
@@ -16902,13 +19388,61 @@ return /******/ (function(modules) { // webpackBootstrap
 			var e = this.originalEvent;
 
 			this.isDefaultPrevented = returnTrue;
+=======
+>>>>>>> dev
+		}, {
+			key: 'componentDidUpdate',
+			value: function componentDidUpdate() {
+				var _this2 = this;
+
+				var updated = null;
+				if (this.state.selectedItems) {
+					updated = JSON.parse(JSON.stringify(this.state.selectedItems));
+				}
+				if (updated && updated.length && this.props.items && this.props.items.length) {
+					updated = updated.filter(function (item) {
+						var updatedFound = _this2.props.items.filter(function (propItem) {
+							return propItem.key === item;
+						});
+						return updatedFound.length ? true : false;
+					});
+					if (updated.length !== this.state.selectedItems.length) {
+						var isExecutable = updated.length ? false : true;
+						this.props.onRemove(this.state.selectedItems, isExecutable);
+						this.setState({
+							'selectedItems': updated
+						});
+						if (updated.length) {
+							this.props.onSelect(updated);
+						}
+					}
+				}
+			}
+		}, {
+			key: 'updateAction',
+			value: function updateAction() {
+				if (!this.state.selectedItems.length) {
+					this.props.onSelect(null);
+				}
+			}
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
+			// handler function for select all
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			if ( e && !this.isSimulated ) {
 				e.preventDefault();
 			}
+<<<<<<< HEAD
 		},
 		stopPropagation: function() {
 			var e = this.originalEvent;
+=======
+<<<<<<< HEAD
+			// Handler function when a checkbox is clicked
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			this.isPropagationStopped = returnTrue;
 
@@ -16929,6 +19463,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 	};
 
+<<<<<<< HEAD
 	// Includes all common event props including KeyEvent and MouseEvent specific props
 	jQuery.each( {
 		altKey: true,
@@ -16967,6 +19502,29 @@ return /******/ (function(modules) { // webpackBootstrap
 			// Add which for key events
 			if ( event.which == null && rkeyEvent.test( event.type ) ) {
 				return event.charCode != null ? event.charCode : event.keyCode;
+=======
+		}, {
+>>>>>>> dev
+			key: 'handleTagClick',
+			value: function handleTagClick(value) {
+				// Pass the older value props to parent components to remove older list in terms query
+				var isExecutable = this.state.selectedItems.length === 1 ? true : false;
+				this.props.onRemove(this.state.selectedItems, isExecutable);
+				var keyRef = value.toString().replace(/ /g, '_');
+				var ref = 'ref' + keyRef;
+				var checkboxElement = this.refs[ref];
+				checkboxElement.state.status = false;
+				var updated = this.state.selectedItems;
+				var index = updated.indexOf(value);
+				updated.splice(index, 1);
+				this.setState({
+					selectedItems: updated
+				}, this.updateAction.bind(this));
+				// Pass the removed value props to parent components to add updated list in terms query
+				if (this.state.selectedItems.length) {
+					this.props.onSelect(this.state.selectedItems);
+				}
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 			}
 
 			// Add which for click: 1 === left; 2 === middle; 3 === right
@@ -16978,6 +19536,34 @@ return /******/ (function(modules) { // webpackBootstrap
 				if ( button & 2 ) {
 					return 3;
 				}
+<<<<<<< HEAD
+=======
+				return _react2.default.createElement(
+					'div',
+<<<<<<< HEAD
+					{ className: 'ab-ListComponent-container col s12 col-xs-12' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						TagItemsArray
+					),
+=======
+					{ className: 'rbc-list-container col s12 col-xs-12' },
+					TagItemsArray.length ? _react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						TagItemsArray
+					) : null,
+>>>>>>> dev
+					_react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						ListItemsArray
+					)
+				);
+			}
+		}]);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				if ( button & 4 ) {
 					return 2;
@@ -17023,6 +19609,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 				return ret;
 			}
+<<<<<<< HEAD
 		};
 	} );
 
@@ -17046,10 +19633,74 @@ return /******/ (function(modules) { // webpackBootstrap
 						handleObj.origType,
 					handleObj.selector,
 					handleObj.handler
+=======
+		}, {
+			key: 'handleClick',
+			value: function handleClick() {
+				this.setState({
+					status: !this.state.status
+				});
+				this.props.handleClick(this.props.value, !this.state.status);
+			}
+		}, {
+			key: 'handleCheckboxChange',
+			value: function handleCheckboxChange(event) {
+				this.setState({
+					status: event.target.checked
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var count = void 0;
+				// Check if the user has set to display countField
+				if (this.props.countField) {
+					count = _react2.default.createElement(
+						'span',
+<<<<<<< HEAD
+						null,
+=======
+						{ className: 'rbc-count' },
+>>>>>>> dev
+						' (',
+						this.props.doc_count,
+						') '
+					);
+				}
+				return _react2.default.createElement(
+					'div',
+<<<<<<< HEAD
+					{ onClick: this.handleClick.bind(this), className: 'ab-ListComponent-listitem ab-checkbox-container checkboxItem col s12 col-xs-12' },
+					_react2.default.createElement('input', { type: 'checkbox', className: 'ab-checkbox',
+=======
+					{ onClick: this.handleClick.bind(this), className: 'rbc-list-item row' },
+					_react2.default.createElement('input', { type: 'checkbox',
+						className: 'rbc-checkbox-item',
+>>>>>>> dev
+						checked: this.state.status,
+						onChange: this.handleCheckboxChange.bind(this) }),
+					_react2.default.createElement(
+						'label',
+<<<<<<< HEAD
+						null,
+						' ',
+=======
+						{ className: 'rbc-label' },
+>>>>>>> dev
+						this.props.value,
+						' ',
+						count
+					)
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 				);
 				return this;
 			}
+<<<<<<< HEAD
 			if ( typeof types === "object" ) {
+=======
+		}]);
+<<<<<<< HEAD
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				// ( types-object [, selector] )
 				for ( type in types ) {
@@ -17092,9 +19743,45 @@ return /******/ (function(modules) { // webpackBootstrap
 		rscriptTypeMasked = /^true\/(.*)/,
 		rcleanScript = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g;
 
+<<<<<<< HEAD
 	function manipulationTarget( elem, content ) {
 		if ( jQuery.nodeName( elem, "table" ) &&
 			jQuery.nodeName( content.nodeType !== 11 ? content : content.firstChild, "tr" ) ) {
+=======
+>>>>>>> dev
+		_createClass(Tag, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'span',
+<<<<<<< HEAD
+					{ onClick: this.props.onClick.bind(null, this.props.value), className: 'ab-ListComponent-tagItem col' },
+=======
+					{ onClick: this.props.onClick.bind(null, this.props.value), className: 'rbc-tag-item col' },
+					_react2.default.createElement(
+						'a',
+						{ href: 'javascript:void(0)', className: 'close' },
+						' x '
+					),
+>>>>>>> dev
+					_react2.default.createElement(
+						'span',
+						null,
+						this.props.value
+<<<<<<< HEAD
+					),
+					_react2.default.createElement(
+						'a',
+						{ href: 'javascript:void(0)', className: 'ab-ListComponent-closeTag' },
+						' x '
+=======
+>>>>>>> dev
+					)
+				);
+			}
+		}]);
+<<<<<<< HEAD
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			return elem.getElementsByTagName( "tbody" )[ 0 ] || elem;
 		}
@@ -17544,9 +20231,32 @@ return /******/ (function(modules) { // webpackBootstrap
 			return view.getComputedStyle( elem );
 		};
 
+<<<<<<< HEAD
+=======
+	var helper = __webpack_require__(76);
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
+<<<<<<< HEAD
 	( function() {
+=======
+			this.emitter = new EventEmitter();
+			this.channels = {};
+			this.streamRef = {};
+			this.queryOptions = {};
+<<<<<<< HEAD
+			this.appbaseConfig = {};
+=======
+			this.appbaseRef = {};
+			this.type = {};
+>>>>>>> dev
+			this.receive = this.receive.bind(this);
+			this.nextPage = this.nextPage.bind(this);
+			this.paginationChanges = this.paginationChanges.bind(this);
+			this.sortChanges = this.sortChanges.bind(this);
+		}
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		// Executing both pixelPosition & boxSizingReliable tests require only one layout
 		// so they're executed at the same time to save the second computation.
@@ -17572,10 +20282,88 @@ return /******/ (function(modules) { // webpackBootstrap
 			reliableMarginLeftVal = divStyle.marginLeft === "2px";
 			boxSizingReliableVal = divStyle.width === "4px";
 
+<<<<<<< HEAD
 			// Support: Android 4.0 - 4.3 only
 			// Some styles come back with percentage values, even though they shouldn't
 			div.style.marginRight = "50%";
 			pixelMarginRightVal = divStyle.marginRight === "4px";
+=======
+				if (validQuery) {
+					(function () {
+						var channelResponse = {
+							startTime: new Date().getTime(),
+							appliedQuery: queryObj
+						};
+<<<<<<< HEAD
+						var appbaseRef = _this.appbaseConfig[channelId];
+						if (appbaseRef) {
+							// apply search query and emit historic queryResult
+							appbaseRef.search(queryObj).on('data', function (data) {
+								channelResponse.method = 'historic';
+								channelResponse.data = data;
+								self.emitter.emit(channelId, channelResponse);
+=======
+						var appbaseRef = _this.appbaseRef[channelId];
+						if (appbaseRef) {
+							// apply search query and emit historic queryResult
+							var searchQueryObj = queryObj;
+							searchQueryObj.type = _this.type[channelId] == '*' ? '' : _this.type[channelId];
+							appbaseRef.search(searchQueryObj).on('data', function (data) {
+								channelResponse.mode = 'historic';
+								channelResponse.data = data;
+								self.emitter.emit(channelId, channelResponse);
+								var globalQueryOptions = self.queryOptions && self.queryOptions[channelId] ? self.queryOptions[channelId] : {};
+								self.emitter.emit('global', {
+									channelResponse: channelResponse,
+									depends: channelObj.depends,
+									queryOptions: globalQueryOptions
+								});
+>>>>>>> dev
+							}).on('error', function (error) {
+								console.log(error);
+							});
+							// apply searchStream query and emit streaming data
+							if (_this.streamRef[channelId]) {
+								_this.streamRef[channelId].stop();
+							}
+<<<<<<< HEAD
+							_this.streamRef[channelId] = appbaseRef.searchStream(queryObj).on('data', function (data) {
+								var obj = {
+									method: 'stream',
+=======
+							var streamQueryObj = queryObj;
+							streamQueryObj.type = _this.type[channelId];
+							_this.streamRef[channelId] = appbaseRef.searchStream(streamQueryObj).on('data', function (data) {
+								var obj = {
+									mode: 'streaming',
+>>>>>>> dev
+									data: data,
+									appliedQuery: queryObj
+								};
+								self.emitter.emit(channelId, obj);
+							}).on('error', function (error) {
+								console.log(error);
+							});
+						} else {
+							console.error('appbaseRef is not set for ' + channelId);
+						}
+					})();
+				} else {
+					var obj = _defineProperty({
+						mode: 'historic',
+						startTime: new Date().getTime(),
+						appliedQuery: queryObj,
+						data: {
+							_shards: {},
+							hits: {
+								hits: []
+							}
+						}
+					}, 'appliedQuery', queryObj);
+					self.emitter.emit(channelId, obj);
+				}
+			}
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			documentElement.removeChild( container );
 
@@ -17664,19 +20452,72 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		return ret !== undefined ?
 
+<<<<<<< HEAD
 			// Support: IE <=9 - 11 only
 			// IE returns zIndex value as an integer.
 			ret + "" :
 			ret;
 	}
+=======
+		}, {
+			key: 'create',
+<<<<<<< HEAD
+			value: function create(config, depends) {
+				var _this2 = this;
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
+<<<<<<< HEAD
 	function addGetHookIf( conditionFn, hookFn ) {
 
 		// Define the hook, we'll check on the first run if it's really needed.
 		return {
 			get: function() {
 				if ( conditionFn() ) {
+=======
+				var size = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 100;
+				var from = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
+>>>>>>> dev
+
+				var channelId = btoa(JSON.stringify(depends));
+				var optionValues = {
+					size: size,
+					from: from
+				};
+				this.queryOptions[channelId] = optionValues;
+<<<<<<< HEAD
+				this.appbaseConfig[channelId] = this.setAppbaseRef(config);
+=======
+				this.type[channelId] = type;
+				this.appbaseRef[channelId] = appbaseRef;
+>>>>>>> dev
+				depends['channel-options-' + channelId] = optionValues;
+				var previousSelectedSensor = _defineProperty({}, 'channel-options-' + channelId, optionValues);
+				var obj = {
+					key: 'channel-options-' + channelId,
+					value: optionValues
+				};
+				helper.selectedSensor.set(obj);
+				if (!this.channels.hasOwnProperty(channelId)) {
+					this.channels[channelId] = {
+						depends: depends,
+						size: size,
+						from: from,
+						previousSelectedSensor: previousSelectedSensor
+					};
+					helper.watchForDependencyChange(depends, this.channels[channelId].previousSelectedSensor, this.receive, channelId, this.paginationChanges, this.sortChanges);
+				}
+				setTimeout(function () {
+					if (depends.hasOwnProperty('aggs')) {
+						_this2.receive('aggs', channelId);
+					}
+				}, 100);
+				return {
+					channelId: channelId,
+					emitter: this.emitter
+				};
+			}
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 					// Hook not needed (or it's not possible to use it due
 					// to missing dependency), remove it.
@@ -17693,6 +20534,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var
 
+<<<<<<< HEAD
 		// Swappable if display is none or starts with table
 		// except "table", "table-cell", or "table-caption"
 		// See here for display values: https://developer.mozilla.org/en-US/docs/CSS/display
@@ -17705,6 +20547,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		cssPrefixes = [ "Webkit", "Moz", "ms" ],
 		emptyStyle = document.createElement( "div" ).style;
+=======
+/***/ },
+<<<<<<< HEAD
+/* 68 */
+=======
+/* 69 */
+>>>>>>> dev
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright (c) 2014-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+<<<<<<< HEAD
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	// Return a css property mapped to a potentially vendor prefixed property
 	function vendorPropName( name ) {
@@ -18606,9 +21467,23 @@ return /******/ (function(modules) { // webpackBootstrap
 				props = props.match( rnothtmlwhite );
 			}
 
+<<<<<<< HEAD
 			var prop,
 				index = 0,
 				length = props.length;
+=======
+>>>>>>> dev
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+<<<<<<< HEAD
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			for ( ; index < length; index++ ) {
 				prop = props[ index ];
@@ -19627,9 +22502,14 @@ return /******/ (function(modules) { // webpackBootstrap
 			i = 0;
 			while ( ( cur = eventPath[ i++ ] ) && !event.isPropagationStopped() ) {
 
+<<<<<<< HEAD
 				event.type = i > 1 ?
 					bubbleType :
 					special.bindType || type;
+=======
+	var _classnames = __webpack_require__(67);
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				// jQuery handler
 				handle = ( dataPriv.get( cur, "events" ) || {} )[ event.type ] &&
@@ -19638,6 +22518,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					handle.apply( cur, data );
 				}
 
+<<<<<<< HEAD
 				// Native handler
 				handle = ontype && cur[ ontype ];
 				if ( handle && handle.apply && acceptData( cur ) ) {
@@ -19648,6 +22529,13 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			}
 			event.type = type;
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.Bar = exports.HistoGramComponent = undefined;
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			// If nobody prevented the default action, do it now
 			if ( !onlyHandlers && !event.isDefaultPrevented() ) {
@@ -19714,6 +22602,11 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 	} );
 
+<<<<<<< HEAD
+=======
+			var _this = _possibleConstructorReturn(this, (DropdownList.__proto__ || Object.getPrototypeOf(DropdownList)).call(this, props));
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	jQuery.each( ( "blur focus focusin focusout resize scroll click dblclick " +
 		"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
@@ -19734,6 +22627,11 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 	} );
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
 
@@ -19936,10 +22834,19 @@ return /******/ (function(modules) { // webpackBootstrap
 		rantiCache = /([?&])_=[^&]*/,
 		rheaders = /^(.*?):[ \t]*([^\r\n]*)$/mg,
 
+<<<<<<< HEAD
 		// #7653, #8125, #8152: local protocol detection
 		rlocalProtocol = /^(?:about|app|app-storage|.+-extension|file|res|widget):$/,
 		rnoContent = /^(?:GET|HEAD)$/,
 		rprotocol = /^\/\//,
+=======
+	/*!
+	  Copyright (c) 2016 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/react-select
+	*/
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		/* Prefilters
 		 * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.js for an example)
@@ -19952,12 +22859,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		 */
 		prefilters = {},
 
+<<<<<<< HEAD
 		/* Transports bindings
 		 * 1) key is the dataType
 		 * 2) the catchall symbol "*" can be used
 		 * 3) selection will start with transport dataType and THEN go to "*" if needed
 		 */
 		transports = {},
+=======
+<<<<<<< HEAD
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		// Avoid comment-prolog char sequence (#10098); must appease lint and evade compression
 		allTypes = "*/".concat( "*" ),
@@ -19983,8 +22894,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			if ( jQuery.isFunction( func ) ) {
 
+<<<<<<< HEAD
 				// For each dataType in the dataTypeExpression
 				while ( ( dataType = dataTypes[ i++ ] ) ) {
+=======
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 					// Prepend if requested
 					if ( dataType[ 0 ] === "+" ) {
@@ -20000,8 +22916,13 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 	}
 
+<<<<<<< HEAD
 	// Base inspection function for prefilters and transports
 	function inspectPrefiltersOrTransports( structure, options, originalOptions, jqXHR ) {
+=======
+<<<<<<< HEAD
+	var _reactDom = __webpack_require__(4);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		var inspected = {},
 			seekingTransport = ( structure === transports );
@@ -22725,11 +25646,31 @@ return /******/ (function(modules) { // webpackBootstrap
 				});
 			}
 
+<<<<<<< HEAD
 			if (this.state.isFocused) {
 				// On iOS, we can get into a state where we think the input is focused but it isn't really,
 				// since iOS ignores programmatic calls to input.focus() that weren't triggered by a click event.
 				// Call focus() again here to be safe.
 				this.focus();
+=======
+>>>>>>> dev
+	      methodArray.forEach(function (method) {
+	        _this2[method] = _this2[method].bind(_this2);
+	      });
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.setStyleHeader(); // Set the style to the <link>
+	      this.bindListener(); // Bind listener for tooltip
+	      this.bindWindowEvents(this.props.resizeHide); // Bind global event for static method
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(props) {
+	      var ariaProps = this.state.ariaProps;
+<<<<<<< HEAD
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				var input = this.input;
 				if (typeof input.getInput === 'function') {
@@ -42565,11 +45506,131 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _class, _class2, _temp;
 
+<<<<<<< HEAD
 	/* Decoraters */
+=======
+	var moment = __webpack_require__(261);
+	var momentValidationWrapper = __webpack_require__(375);
+
+	moment.createFromInputFallback = function(config) {
+	  config._d = new Date(config._i);
+	};
+
+	var ANONYMOUS = '<<anonymous>>';
+
+	var ReactPropTypeLocationNames = {
+	  prop : 'prop',
+	  context : 'context',
+	  childContext : 'child context',
+	};
+
+	function createMomentChecker(type, typeValidator, validator, momentType) {
+
+	  function propValidator(isRequired, props, propName, componentName, location, propFullName) {
+
+	    if (isRequired) {
+	      var locationName = ReactPropTypeLocationNames[ location ];
+	      componentName = componentName || ANONYMOUS;
+	      propFullName = propFullName || propName;
+	      if (!props.hasOwnProperty(propName)) {
+	        return new Error(
+	          'Required ' + locationName + ' `' + propFullName +
+	          '` was not specified in `' +
+	          componentName + '`.'
+	        );
+	      }
+	    }
+
+	    var propValue = props[ propName ];
+	    var propType = typeof propValue;
+
+	    if (typeof propValue === 'undefined' || propValue === null) {
+	      return null;
+	    }
+
+	    if (typeValidator && !typeValidator(propValue)) {
+	      return new Error(
+	        'Invalid input type: `' + propName + '` of type `' + propType + '` ' +
+	        'supplied to `' + componentName + '`, expected `' + type + '`.'
+	      );
+	    }
+
+	    if (! validator(propValue)) {
+	      return new Error(
+	        'Invalid ' + location + ' `' + propName + '` of type `' + propType + '` ' +
+	        'supplied to `' + componentName + '`, expected `' + momentType + '`.'
+	      );
+	    }
+
+	    return null;
+
+	  }
+
+	  var requiredPropValidator = propValidator.bind(null, false);
+	  requiredPropValidator.isRequired = propValidator.bind(null, true);
+
+	  return requiredPropValidator;
+
+	}
+
+	module.exports = {
+
+	  momentObj : createMomentChecker(
+	    'object',
+	    function(obj) {
+	      return typeof obj === 'object';
+	    },
+	    function isValid(value) {
+	      return momentValidationWrapper.isValidMoment(value);
+	    },
+	    'Moment'
+	  ),
+
+	  momentString : createMomentChecker(
+	    'string',
+	    function(str) {
+	      return typeof str === 'string';
+	    },
+	    function isValid(value) {
+	      return momentValidationWrapper.isValidMoment(moment(value));
+	    },
+	    'Moment'
+	  ),
+
+	  momentDurationObj : createMomentChecker(
+	    'object',
+	    function(obj) {
+	      return typeof obj === 'object';
+	    },
+	    function isValid(value) {
+	      return moment.isDuration(value);
+	    },
+	    'Duration'
+	  ),
+
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
 	/* Utils */
 
+<<<<<<< HEAD
+=======
+	var moment = __webpack_require__(261);
+
+	function isValidMoment(testMoment) {
+	  if (typeof testMoment.isValid === 'function') {
+	    // moment 1.7.0+
+	    return testMoment.isValid();
+	  }
+
+	  return ! isNaN(testMoment);
+	}
+
+	module.exports = {
+	  isValidMoment : isValidMoment,
+	}
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	/* CSS */
 
@@ -45405,6 +48466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 	var classof   = __webpack_require__(167)
 	  , ITERATOR  = __webpack_require__(159)('iterator')
 	  , Iterators = __webpack_require__(141);
@@ -45414,6 +48476,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    || Iterators[classof(it)];
 	};
 
+=======
+	    var boundLength = Math.max(0, target.length - args.length);
+	    var boundArgs = [];
+	    for (var i = 0; i < boundLength; i++) {
+	        boundArgs.push('$' + i);
+>>>>>>> dev
+	    }
+	  }
+	};
+
+<<<<<<< HEAD
+	var customListener = void 0;
+
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 /***/ },
 /* 167 */
 /***/ function(module, exports, __webpack_require__) {
@@ -47734,11 +50810,32 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _rcAnimate2 = _interopRequireDefault(_rcAnimate);
 
+<<<<<<< HEAD
 	var _PopupInner = __webpack_require__(243);
+=======
+	  // Test for A's keys different from B.
+	  for (var i = 0; i < keysA.length; i++) {
+	    if (!hasOwnProperty.call(objB, keysA[i]) || !is(objA[keysA[i]], objB[keysA[i]])) {
+	      return false;
+>>>>>>> dev
+	    }
+	    this.onChange({
+	      handle: nextHandle,
+	      bounds: nextBounds
+	    });
+	  };
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	var _PopupInner2 = _interopRequireDefault(_PopupInner);
 
+<<<<<<< HEAD
 	var _LazyRenderBox = __webpack_require__(244);
+=======
+<<<<<<< HEAD
+	    var value = this.calcValueByPos(position);
+	    this.startValue = value;
+	    this.startPosition = position;
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	var _LazyRenderBox2 = _interopRequireDefault(_LazyRenderBox);
 
@@ -54704,6 +57801,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return mom;
 	        }
 
+<<<<<<< HEAD
 	        if (typeof value === 'string') {
 	            if (/^\d+$/.test(value)) {
 	                value = toInt(value);
@@ -54715,12 +57813,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	            }
 	        }
+=======
+/***/ },
+/* 428 */
+/***/ function(module, exports, __webpack_require__) {
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	        dayOfMonth = Math.min(mom.date(), daysInMonth(mom.year(), value));
 	        mom._d['set' + (mom._isUTC ? 'UTC' : '') + 'Month'](value, dayOfMonth);
 	        return mom;
 	    }
 
+<<<<<<< HEAD
 	    function getSetMonth (value) {
 	        if (value != null) {
 	            setMonth(this, value);
@@ -54729,6 +57834,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else {
 	            return get_set__get(this, 'Month');
 	        }
+=======
+<<<<<<< HEAD
+	    if (deltaY !== undefined) {
+	      /**
+	       * deltaY of mousewheel event
+	       * @property deltaY
+	       * @member Event.DomEvent.Object
+	       */
+	      event.deltaY = deltaY;
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	    }
 
 	    function getDaysInMonth () {
@@ -54780,6 +57895,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return b.length - a.length;
 	        }
 
+<<<<<<< HEAD
 	        var shortPieces = [], longPieces = [], mixedPieces = [],
 	            i, mom;
 	        for (i = 0; i < 12; i++) {
@@ -54802,6 +57918,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (i = 0; i < 24; i++) {
 	            mixedPieces[i] = regexEscape(mixedPieces[i]);
 	        }
+=======
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	        this._monthsRegex = new RegExp('^(' + mixedPieces.join('|') + ')', 'i');
 	        this._monthsShortRegex = this._monthsRegex;
@@ -54811,10 +57931,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    // FORMATTING
 
+<<<<<<< HEAD
 	    addFormatToken('Y', 0, 0, function () {
 	        var y = this.year();
 	        return y <= 9999 ? '' + y : '+' + y;
 	    });
+=======
+<<<<<<< HEAD
+	function retTrue() {
+	  return TRUE;
+	}
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    addFormatToken(0, ['YY', 2], 0, function () {
 	        return this.year() % 100;
@@ -55756,6 +58883,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (match) {
 	            getParsingFlags(config).iso = true;
 
+<<<<<<< HEAD
 	            for (i = 0, l = isoDates.length; i < l; i++) {
 	                if (isoDates[i][1].exec(match[1])) {
 	                    dateFormat = isoDates[i][0];
@@ -55798,15 +58926,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	            config._isValid = false;
 	        }
 	    }
+=======
+		}, {
+			key: 'setSubCategory',
+			value: function setSubCategory() {
+				var obj = {
+					key: 'subCategory',
+					value: {
+						queryType: 'term',
+						inputData: this.props.appbaseField[0]
+					}
+				};
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    // date from iso format or fallback
 	    function configFromString(config) {
 	        var matched = aspNetJsonRegex.exec(config._i);
 
+<<<<<<< HEAD
 	        if (matched !== null) {
 	            config._d = new Date(+matched[1]);
 	            return;
 	        }
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	        configFromISO(config);
 	        if (config._isValid === false) {
@@ -55852,9 +59000,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function configFromArray (config) {
 	        var i, date, input = [], currentDate, yearToUse;
 
+<<<<<<< HEAD
 	        if (config._d) {
 	            return;
 	        }
+=======
+	var _inherits3 = _interopRequireDefault(_inherits2);
+=======
+				newItems = newItems.map(function (item) {
+					item.key = item.key.toString();
+					item.status = _this5.defaultSelected && _this5.defaultSelected.indexOf(item.key) > -1 ? true : false;
+					return item;
+				});
+				var itemVar = level === 0 ? 'items' : 'subItems';
+				this.setState((_setState = {}, _defineProperty(_setState, itemVar, newItems), _defineProperty(_setState, 'storedItems', newItems), _setState));
+			}
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	        currentDate = currentDateArray(config);
 
@@ -55863,9 +59025,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            dayOfYearFromWeekInfo(config);
 	        }
 
+<<<<<<< HEAD
 	        //if the day of the year is set, figure out what it is
 	        if (config._dayOfYear) {
 	            yearToUse = defaults(config._a[YEAR], currentDate[YEAR]);
+=======
+<<<<<<< HEAD
+	var _rcTooltip = __webpack_require__(203);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	            if (config._dayOfYear > daysInYear(yearToUse)) {
 	                getParsingFlags(config)._overflowDayOfYear = true;
@@ -56093,24 +59260,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // if there is any input that was not parsed add a penalty for that format
 	            currentScore += getParsingFlags(tempConfig).charsLeftOver;
 
+<<<<<<< HEAD
 	            //or tokens
 	            currentScore += getParsingFlags(tempConfig).unusedTokens.length * 10;
+=======
+/***/ },
+/* 430 */
+>>>>>>> dev
+/***/ function(module, exports, __webpack_require__) {
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	            getParsingFlags(tempConfig).score = currentScore;
 
+<<<<<<< HEAD
 	            if (scoreToBeat == null || currentScore < scoreToBeat) {
 	                scoreToBeat = currentScore;
 	                bestMoment = tempConfig;
 	            }
 	        }
+=======
+<<<<<<< HEAD
+	module.exports = __webpack_require__(204);
+=======
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.NestedItem = undefined;
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	        extend(config, bestMoment || tempConfig);
 	    }
 
+<<<<<<< HEAD
 	    function configFromObject(config) {
 	        if (config._d) {
 	            return;
 	        }
+=======
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	        var i = normalizeObjectUnits(config._i);
 	        config._a = map([i.year, i.month, i.day || i.date, i.hour, i.minute, i.second, i.millisecond], function (obj) {
@@ -56120,6 +59309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        configFromArray(config);
 	    }
 
+<<<<<<< HEAD
 	    function createFromConfig (config) {
 	        var res = new Moment(checkOverflow(prepareConfig(config)));
 	        if (res._nextDay) {
@@ -56127,6 +59317,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            res.add(1, 'd');
 	            res._nextDay = undefined;
 	        }
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	        return res;
 	    }
@@ -56455,15 +59651,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }
 
+<<<<<<< HEAD
 	    function setOffsetToUTC (keepLocalTime) {
 	        return this.utcOffset(0, keepLocalTime);
 	    }
+=======
+/***/ },
+/* 431 */
+>>>>>>> dev
+/***/ function(module, exports, __webpack_require__) {
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    function setOffsetToLocal (keepLocalTime) {
 	        if (this._isUTC) {
 	            this.utcOffset(0, keepLocalTime);
 	            this._isUTC = false;
 
+<<<<<<< HEAD
 	            if (keepLocalTime) {
 	                this.subtract(getDateOffset(this), 'm');
 	            }
@@ -56476,6 +59680,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.utcOffset(this._tzm);
 	        } else if (typeof this._i === 'string') {
 	            var tZone = offsetFromString(matchOffset, this._i);
+=======
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+<<<<<<< HEAD
+=======
+	exports.ResultList = undefined;
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	            if (tZone === 0) {
 	                this.utcOffset(0, true);
@@ -56512,6 +59725,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        copyConfig(c, this);
 	        c = prepareConfig(c);
 
+<<<<<<< HEAD
 	        if (c._a) {
 	            var other = c._isUTC ? create_utc__createUTC(c._a) : local__createLocal(c._a);
 	            this._isDSTShifted = this.isValid() &&
@@ -56519,6 +59733,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else {
 	            this._isDSTShifted = false;
 	        }
+=======
+<<<<<<< HEAD
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	        return this._isDSTShifted;
 	    }
@@ -56595,7 +59813,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            duration.M = diffRes.months;
 	        }
 
+<<<<<<< HEAD
 	        ret = new Duration(duration);
+=======
+	var _JsonPrint2 = _interopRequireDefault(_JsonPrint);
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	        if (isDuration(input) && hasOwnProp(input, '_locale')) {
 	            ret._locale = input._locale;
@@ -56629,11 +59852,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return res;
 	    }
 
+<<<<<<< HEAD
 	    function momentsDifference(base, other) {
 	        var res;
 	        if (!(base.isValid() && other.isValid())) {
 	            return {milliseconds: 0, months: 0};
 	        }
+=======
+<<<<<<< HEAD
+	  mixins: [(0, _getContainerRenderMixin2["default"])({
+	    autoMount: false,
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	        other = cloneWithOffset(other, base);
 	        if (base.isBefore(other)) {
@@ -57125,9 +60354,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }
 
+<<<<<<< HEAD
 	    function setWeekAll(weekYear, week, weekday, dow, doy) {
 	        var dayOfYearData = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy),
 	            date = createUTCDate(dayOfYearData.year, 0, dayOfYearData.dayOfYear);
+=======
+/***/ },
+/* 432 */
+/***/ function(module, exports, __webpack_require__) {
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	        this.year(date.getUTCFullYear());
 	        this.month(date.getUTCMonth());
@@ -57135,7 +60371,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this;
 	    }
 
+<<<<<<< HEAD
 	    // FORMATTING
+=======
+<<<<<<< HEAD
+	var _rcAnimate = __webpack_require__(223);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    addFormatToken('Q', 0, 'Qo', 'quarter');
 
@@ -57220,11 +60461,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    addFormatToken('m', ['mm', 2], 0, 'minute');
 
+<<<<<<< HEAD
 	    // ALIASES
+=======
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    addUnitAlias('minute', 'm');
 
+<<<<<<< HEAD
 	    // PRIORITY
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    addUnitPriority('minute', 14);
 
@@ -57754,10 +61007,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var asMonths       = makeAs('M');
 	    var asYears        = makeAs('y');
 
+<<<<<<< HEAD
 	    function duration_get__get (units) {
 	        units = normalizeUnits(units);
 	        return this[units + 's']();
 	    }
+=======
+	var support = {};
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    function makeGetter(name) {
 	        return function () {
@@ -57765,6 +61023,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	    }
 
+<<<<<<< HEAD
 	    var milliseconds = makeGetter('milliseconds');
 	    var seconds      = makeGetter('seconds');
 	    var minutes      = makeGetter('minutes');
@@ -57772,11 +61031,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var days         = makeGetter('days');
 	    var months       = makeGetter('months');
 	    var years        = makeGetter('years');
+=======
+<<<<<<< HEAD
+/***/ },
+/* 214 */
+/***/ function(module, exports, __webpack_require__) {
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    function weeks () {
 	        return absFloor(this.days() / 7);
 	    }
 
+<<<<<<< HEAD
 	    var round = Math.round;
 	    var thresholds = {
 	        s: 45,  // seconds to minute
@@ -57785,6 +61053,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        d: 26,  // days to month
 	        M: 11   // months to year
 	    };
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    // helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
 	    function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale) {
@@ -59668,6 +62942,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(this, function (moment) { 'use strict';
 
 
+<<<<<<< HEAD
 	    var ca = moment.defineLocale('ca', {
 	        months : 'gener_febrer_març_abril_maig_juny_juliol_agost_setembre_octubre_novembre_desembre'.split('_'),
 	        monthsShort : 'gen._febr._mar._abr._mai._jun._jul._ag._set._oct._nov._des.'.split('_'),
@@ -59733,10 +63008,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	            doy : 4  // The week that contains Jan 4th is the first week of the year.
 	        }
 	    });
+=======
+			for ( name in obj ) {
+				return false;
+			}
+			return true;
+		},
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    return ca;
 
+<<<<<<< HEAD
 	}));
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.getTransformName = getTransformName;
+	exports.setTransitionProperty = setTransitionProperty;
+	exports.getTransitionProperty = getTransitionProperty;
+	exports.getTransformXY = getTransformXY;
+	exports.setTransformXY = setTransformXY;
+	var vendorPrefix = void 0;
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 /***/ },
 /* 277 */
@@ -60210,18 +63506,31 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return de;
 
+<<<<<<< HEAD
 	}));
+=======
+			return proxy;
+		},
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 /***/ },
 /* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 	//! moment.js locale configuration
 	//! locale : German (Austria) [de-at]
 	//! author : lluchs : https://github.com/lluchs
 	//! author: Menelion Elensúle: https://github.com/Oire
 	//! author : Martin Groller : https://github.com/MadMG
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	;(function (global, factory) {
 	    true ? factory(__webpack_require__(261)) :
@@ -60653,6 +63962,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(this, function (moment) { 'use strict';
 
 
+<<<<<<< HEAD
 	    var en_gb = moment.defineLocale('en-gb', {
 	        months : 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
 	        monthsShort : 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'),
@@ -60704,10 +64014,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	            doy : 4  // The week that contains Jan 4th is the first week of the year.
 	        }
 	    });
+=======
+				// Control characters and (dependent upon position) numbers get escaped as code points
+				return ch.slice( 0, -1 ) + "\\" + ch.charCodeAt( ch.length - 1 ).toString( 16 ) + " ";
+			}
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    return en_gb;
 
+<<<<<<< HEAD
 	}));
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 /***/ },
 /* 288 */
@@ -61093,13 +64416,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    });
 
+<<<<<<< HEAD
 	    return es_do;
+=======
+					// ID selector
+					if ( (m = match[1]) ) {
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	}));
 
+<<<<<<< HEAD
 /***/ },
 /* 293 */
 /***/ function(module, exports, __webpack_require__) {
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	 * 获取 node 上的 align 对齐点 相对于页面的坐标
+	 */
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	//! moment.js locale configuration
 	//! locale : Estonian [et]
@@ -61265,6 +64604,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
 
+<<<<<<< HEAD
+=======
+				// Take advantage of querySelectorAll
+				if ( support.qsa &&
+					!compilerCache[ selector + " " ] &&
+					(!rbuggyQSA || !rbuggyQSA.test( selector )) ) {
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    var symbolMap = {
 	        '1': '۱',
@@ -61359,7 +64706,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return fa;
 
+<<<<<<< HEAD
 	}));
+=======
+<<<<<<< HEAD
+	// export this package's api
+	module.exports = __webpack_require__(224);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 /***/ },
 /* 296 */
@@ -61832,11 +65185,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	        'Am Faoilleach', 'An Gearran', 'Am Màrt', 'An Giblean', 'An Cèitean', 'An t-Ògmhios', 'An t-Iuchar', 'An Lùnastal', 'An t-Sultain', 'An Dàmhair', 'An t-Samhain', 'An Dùbhlachd'
 	    ];
 
+<<<<<<< HEAD
 	    var monthsShort = ['Faoi', 'Gear', 'Màrt', 'Gibl', 'Cèit', 'Ògmh', 'Iuch', 'Lùn', 'Sult', 'Dàmh', 'Samh', 'Dùbh'];
+=======
+		// ID filter and find
+		if ( support.getById ) {
+			Expr.filter["ID"] = function( id ) {
+				var attrId = id.replace( runescape, funescape );
+				return function( elem ) {
+					return elem.getAttribute("id") === attrId;
+				};
+			};
+			Expr.find["ID"] = function( id, context ) {
+				if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
+					var elem = context.getElementById( id );
+					return elem ? [ elem ] : [];
+				}
+			};
+		} else {
+			Expr.filter["ID"] =  function( id ) {
+				var attrId = id.replace( runescape, funescape );
+				return function( elem ) {
+					var node = typeof elem.getAttributeNode !== "undefined" &&
+						elem.getAttributeNode("id");
+					return node && node.value === attrId;
+				};
+			};
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    var weekdays = ['Didòmhnaich', 'Diluain', 'Dimàirt', 'Diciadain', 'Diardaoin', 'Dihaoine', 'Disathairne'];
 
+<<<<<<< HEAD
 	    var weekdaysShort = ['Did', 'Dil', 'Dim', 'Dic', 'Dia', 'Dih', 'Dis'];
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.toArrayChildren = toArrayChildren;
+	exports.findChildInChildrenByKey = findChildInChildrenByKey;
+	exports.findShownChildInChildrenByKey = findShownChildInChildrenByKey;
+	exports.findHiddenChildInChildrenByKey = findHiddenChildInChildrenByKey;
+	exports.isSameChildren = isSameChildren;
+	exports.mergeChildren = mergeChildren;
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    var weekdaysMin = ['Dò', 'Lu', 'Mà', 'Ci', 'Ar', 'Ha', 'Sa'];
 
@@ -62075,7 +65468,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return he;
 
+<<<<<<< HEAD
 	}));
+=======
+		// Class
+		Expr.find["CLASS"] = support.getElementsByClassName && function( className, context ) {
+			if ( typeof context.getElementsByClassName !== "undefined" && documentIsHTML ) {
+				return context.getElementsByClassName( className );
+			}
+		};
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 /***/ },
 /* 305 */
@@ -62201,7 +65604,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    });
 
+<<<<<<< HEAD
 	    return hi;
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	}));
 
@@ -62667,6 +66077,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
 
+<<<<<<< HEAD
+=======
+			// Flag for duplicate removal
+			if ( a === b ) {
+				hasDuplicate = true;
+				return 0;
+			}
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    function plural(n) {
 	        if (n % 100 === 11) {
@@ -62735,6 +66154,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }
 
+<<<<<<< HEAD
 	    var is = moment.defineLocale('is', {
 	        months : 'janúar_febrúar_mars_apríl_maí_júní_júlí_ágúst_september_október_nóvember_desember'.split('_'),
 	        monthsShort : 'jan_feb_mar_apr_maí_jún_júl_ágú_sep_okt_nóv_des'.split('_'),
@@ -62779,6 +66199,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            doy : 4  // The week that contains Jan 4th is the first week of the year.
 	        }
 	    });
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    return is;
 
@@ -63907,6 +67333,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 
+<<<<<<< HEAD
 	    var me = moment.defineLocale('me', {
 	        months: 'januar_februar_mart_april_maj_jun_jul_avgust_septembar_oktobar_novembar_decembar'.split('_'),
 	        monthsShort: 'jan._feb._mar._apr._maj_jun_jul_avg._sep._okt._nov._dec.'.split('_'),
@@ -63926,6 +67353,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        calendar: {
 	            sameDay: '[danas u] LT',
 	            nextDay: '[sjutra u] LT',
+=======
+					// excess is a negative index
+					match[0] = match[0].slice( 0, excess );
+					match[2] = unquoted.slice( 0, excess );
+				}
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	            nextWeek: function () {
 	                switch (this.day()) {
@@ -63980,7 +67414,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    });
 
+<<<<<<< HEAD
 	    return me;
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var EVENT_NAME_MAP = {
+	  transitionend: {
+	    transition: 'transitionend',
+	    WebkitTransition: 'webkitTransitionEnd',
+	    MozTransition: 'mozTransitionEnd',
+	    OTransition: 'oTransitionEnd',
+	    msTransition: 'MSTransitionEnd'
+	  },
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	}));
 
@@ -65265,6 +68714,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
 
+<<<<<<< HEAD
+=======
+	Expr.pseudos["nth"] = Expr.pseudos["eq"];
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    var pt = moment.defineLocale('pt', {
 	        months : 'Janeiro_Fevereiro_Março_Abril_Maio_Junho_Julho_Agosto_Setembro_Outubro_Novembro_Dezembro'.split('_'),
@@ -65316,7 +68770,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    });
 
+<<<<<<< HEAD
 	    return pt;
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	}));
 
@@ -65462,7 +68923,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return ro;
 
+<<<<<<< HEAD
 	}));
+=======
+		soFar = selector;
+		groups = [];
+		preFilters = Expr.preFilter;
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 /***/ },
 /* 340 */
@@ -65474,11 +68942,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	//! Author : Menelion Elensúle : https://github.com/Oire
 	//! author : Коренберг Марк : https://github.com/socketpair
 
+<<<<<<< HEAD
 	;(function (global, factory) {
 	    true ? factory(__webpack_require__(261)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
+=======
+<<<<<<< HEAD
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
 	    function plural(word, num) {
@@ -68314,7 +71787,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function closePortal() {
 	      var _this2 = this;
 
+<<<<<<< HEAD
 	      var isUnmounted = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+=======
+			// Check for promise aspect first to privilege synchronous behavior
+			if ( value && jQuery.isFunction( ( method = value.promise ) ) ) {
+				method.call( value ).done( resolve ).fail( reject );
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	      var resetPortalState = function resetPortalState() {
 	        if (_this2.node) {
@@ -68328,12 +71808,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      };
 
+<<<<<<< HEAD
 	      if (this.state.active) {
 	        if (this.props.beforeClose) {
 	          this.props.beforeClose(this.node, resetPortalState);
 	        } else {
 	          resetPortalState();
 	        }
+=======
+<<<<<<< HEAD
+	var _extends2 = __webpack_require__(157);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	        this.props.onClose();
 	      }
@@ -68466,7 +71951,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports['default'] = isSameDay;
 
+<<<<<<< HEAD
 	var _moment = __webpack_require__(261);
+=======
+											// Process the value(s)
+											// Default process is resolve
+											( special || deferred.resolveWith )( that, args );
+										}
+									},
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	var _moment2 = _interopRequireDefault(_moment);
 
@@ -68506,9 +72000,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	/******/ 		// Flag the module as loaded
 	/******/ 		module.loaded = true;
 
+<<<<<<< HEAD
 	/******/ 		// Return the exports of the module
 	/******/ 		return module.exports;
 	/******/ 	}
+=======
+<<<<<<< HEAD
+	var _classnames = __webpack_require__(87);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
 	/******/ 	// expose the modules object (__webpack_modules__)
@@ -68662,8 +72161,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		      return _moment2['default'].localeData().longDateFormat('L');
 		    }
 
+<<<<<<< HEAD
 		    return displayFormat;
 		  }(),
+=======
+			// Multiple arguments are aggregated like Promise.all array elements
+			while ( i-- ) {
+				adoptValue( resolveValues[ i ], updateFunc( i ), master.reject );
+			}
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		  onFocusChange: function () {
 		    function onFocusChange() {}
@@ -68673,8 +72180,13 @@ return /******/ (function(modules) { // webpackBootstrap
 		  onDatesChange: function () {
 		    function onDatesChange() {}
 
+<<<<<<< HEAD
 		    return onDatesChange;
 		  }(),
+=======
+<<<<<<< HEAD
+	var _reactDom = __webpack_require__(4);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		  // i18n
 		  phrases: {
@@ -69110,9 +72622,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	/******/ 	// The require function
 	/******/ 	function __webpack_require__(moduleId) {
 
+<<<<<<< HEAD
 	/******/ 		// Check if module is in cache
 	/******/ 		if(installedModules[moduleId])
 	/******/ 			return installedModules[moduleId].exports;
+=======
+	jQuery.ready.then = readyList.then;
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	/******/ 		// Create a new module (and put it into the cache)
 	/******/ 		var module = installedModules[moduleId] = {
@@ -69121,8 +72638,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	/******/ 			loaded: false
 	/******/ 		};
 
+<<<<<<< HEAD
 	/******/ 		// Execute the module function
 	/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+=======
+<<<<<<< HEAD
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	/******/ 		// Flag the module as loaded
 	/******/ 		module.loaded = true;
@@ -69152,9 +72676,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+<<<<<<< HEAD
 		Object.defineProperty(exports, "__esModule", {
 		  value: true
 		});
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		var _createClass = function () {
 		  function defineProperties(target, props) {
@@ -69166,7 +72694,12 @@ return /******/ (function(modules) { // webpackBootstrap
 		  };
 		}();
 
+<<<<<<< HEAD
 		var _react = __webpack_require__(1);
+=======
+<<<<<<< HEAD
+	var _reactDom = __webpack_require__(4);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		var _react2 = _interopRequireDefault(_react);
 
@@ -70731,7 +74264,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* 37 */
 	/***/ function(module, exports) {
 
+<<<<<<< HEAD
 		module.exports = __webpack_require__(409);
+=======
+	var
+		rkeyEvent = /^key/,
+		rmouseEvent = /^(?:mouse|pointer|contextmenu|drag|drop)|click/,
+		rtypenamespace = /^([^.]*)(?:\.(.+)|)/;
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	/***/ },
 	/* 38 */
@@ -70746,6 +74287,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 382 */
 /***/ function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
@@ -70754,24 +74299,55 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _constants = __webpack_require__(367);
 
+<<<<<<< HEAD
 	exports['default'] = _react.PropTypes.oneOf([_constants.HORIZONTAL_ORIENTATION, _constants.VERTICAL_ORIENTATION]);
+=======
+		// Types can be a map of types/handlers
+		if ( typeof types === "object" ) {
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 /***/ },
 /* 383 */
 /***/ function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 	'use strict';
+=======
+<<<<<<< HEAD
+	var _react = __webpack_require__(3);
+=======
+				// ( types-Object, data )
+				data = data || selector;
+				selector = undefined;
+			}
+			for ( type in types ) {
+				on( elem, type, selector, data, types[ type ], one );
+			}
+			return elem;
+		}
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	var define = __webpack_require__(384);
 	var ES = __webpack_require__(388);
 
+<<<<<<< HEAD
 	var implementation = __webpack_require__(405);
 	var getPolyfill = __webpack_require__(406);
 	var polyfill = getPolyfill();
 	var shim = __webpack_require__(407);
+=======
+			// ( types, fn )
+			fn = selector;
+			data = selector = undefined;
+		} else if ( fn == null ) {
+			if ( typeof selector === "string" ) {
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	var slice = Array.prototype.slice;
 
+<<<<<<< HEAD
 	/* eslint-disable no-unused-vars */
 	var boundIncludesShim = function includes(array, searchElement) {
 	/* eslint-enable no-unused-vars */
@@ -70783,6 +74359,11 @@ return /******/ (function(modules) { // webpackBootstrap
 		getPolyfill: getPolyfill,
 		shim: shim
 	});
+=======
+<<<<<<< HEAD
+	function arrowRenderer(_ref) {
+		var onMouseDown = _ref.onMouseDown;
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	module.exports = boundIncludesShim;
 
@@ -71130,9 +74711,13 @@ return /******/ (function(modules) { // webpackBootstrap
 						return this.ToNumber(trimmed);
 					}
 				}
+<<<<<<< HEAD
 			}
 			return Number(value);
 		},
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tointeger
 		// ToInteger: ES5.ToNumber,
@@ -71140,8 +74725,25 @@ return /******/ (function(modules) { // webpackBootstrap
 		// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-toint32
 		// ToInt32: ES5.ToInt32,
 
+<<<<<<< HEAD
 		// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-touint32
 		// ToUint32: ES5.ToUint32,
+=======
+<<<<<<< HEAD
+	function menuRenderer(_ref) {
+		var focusedOption = _ref.focusedOption;
+		var instancePrefix = _ref.instancePrefix;
+		var labelKey = _ref.labelKey;
+		var onFocus = _ref.onFocus;
+		var onSelect = _ref.onSelect;
+		var optionClassName = _ref.optionClassName;
+		var optionComponent = _ref.optionComponent;
+		var optionRenderer = _ref.optionRenderer;
+		var options = _ref.options;
+		var valueArray = _ref.valueArray;
+		var valueKey = _ref.valueKey;
+		var onOptionRef = _ref.onOptionRef;
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-toint16
 		ToInt16: function ToInt16(argument) {
@@ -71880,9 +75482,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return (0, _isSameDay2['default'])(nextDay, b);
 	}
 
+<<<<<<< HEAD
 /***/ },
 /* 409 */
 /***/ function(module, exports, __webpack_require__) {
+=======
+		// See https://github.com/eslint/eslint/issues/3229
+		rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([a-z][^\/\0>\x20\t\r\n\f]*)[^>]*)\/>/gi,
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -71890,7 +75498,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react = __webpack_require__(3);
 
+<<<<<<< HEAD
 	var _constants = __webpack_require__(367);
+=======
+<<<<<<< HEAD
+	var _Select = __webpack_require__(241);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	exports['default'] = _react.PropTypes.oneOf([_constants.START_DATE, _constants.END_DATE]);
 
@@ -72584,7 +76197,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* 4 */
 	/***/ function(module, exports) {
 
+<<<<<<< HEAD
 		module.exports = __webpack_require__(261);
+=======
+						elem = 0;
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	/***/ },
 	/* 5 */
@@ -72592,11 +76210,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		module.exports = __webpack_require__(66);
 
+<<<<<<< HEAD
 	/***/ },
 	/* 6 */,
 	/* 7 */,
 	/* 8 */
 	/***/ function(module, exports) {
+=======
+<<<<<<< HEAD
+	var _classnames = __webpack_require__(87);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		module.exports = __webpack_require__(382);
 
@@ -72964,8 +76587,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/***/ },
 
+<<<<<<< HEAD
 	/***/ 1:
 	/***/ function(module, exports) {
+=======
+		// Define the hook, we'll check on the first run if it's really needed.
+		return {
+			get: function() {
+				if ( conditionFn() ) {
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		module.exports = __webpack_require__(3);
 
@@ -72978,7 +76609,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/***/ }
 
+<<<<<<< HEAD
 	/******/ });
+=======
+<<<<<<< HEAD
+	var _ChannelManager = __webpack_require__(67);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 /***/ },
 /* 416 */
@@ -73053,11 +76689,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		var _reactDom = __webpack_require__(10);
 
+<<<<<<< HEAD
 		var _reactDom2 = _interopRequireDefault(_reactDom);
+=======
+		// If we already have the right measurement, avoid augmentation
+		if ( extra === ( isBorderBox ? "border" : "content" ) ) {
+			i = 4;
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		var _reactAddonsShallowCompare = __webpack_require__(2);
 
+<<<<<<< HEAD
 		var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
+=======
+<<<<<<< HEAD
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 		var _reactMomentProptypes = __webpack_require__(3);
 
@@ -77985,11 +81633,28 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+<<<<<<< HEAD
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+=======
+/***/ },
+/* 445 */
+>>>>>>> dev
+/***/ function(module, exports, __webpack_require__) {
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+<<<<<<< HEAD
 	var helper = __webpack_require__(76);
+=======
+<<<<<<< HEAD
+	var defaults = __webpack_require__(258);
+	var utils = __webpack_require__(255);
+	var InterceptorManager = __webpack_require__(270);
+	var dispatchRequest = __webpack_require__(271);
+	var isAbsoluteURL = __webpack_require__(274);
+	var combineURLs = __webpack_require__(275);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	var Pagination = exports.Pagination = function (_Component) {
 		_inherits(Pagination, _Component);
@@ -79127,6 +82792,65 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function isStream(val) {
 	  return isObject(val) && isFunction(val.pipe);
+<<<<<<< HEAD
+=======
+	}
+
+	/**
+	 * Determine if a value is a URLSearchParams object
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a URLSearchParams object, otherwise false
+	 */
+	function isURLSearchParams(val) {
+	  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
+	}
+>>>>>>> dev
+
+/***/ },
+/* 264 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+<<<<<<< HEAD
+	 * Update an Error with the specified config, error code, and response.
+	 *
+	 * @param {Error} error The error to update.
+	 * @param {Object} config The config.
+	 * @param {string} [code] The error code (for example, 'ECONNABORTED').
+	 @ @param {Object} [response] The response.
+	 * @returns {Error} The error.
+	 */
+	module.exports = function enhanceError(error, config, code, response) {
+	  error.config = config;
+	  if (code) {
+	    error.code = code;
+	  }
+	  error.response = response;
+	  return error;
+	};
+
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(255);
+
+	function encode(val) {
+	  return encodeURIComponent(val).
+	    replace(/%40/gi, '@').
+	    replace(/%3A/gi, ':').
+	    replace(/%24/g, '$').
+	    replace(/%2C/gi, ',').
+	    replace(/%20/g, '+').
+	    replace(/%5B/gi, '[').
+	    replace(/%5D/gi, ']');
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	}
 
 	/**
@@ -79241,8 +82965,55 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return result;
 	}
+<<<<<<< HEAD
 
 	/**
+=======
+>>>>>>> dev
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(255);
+
+	/**
+<<<<<<< HEAD
+	 * Parse headers into an object
+	 *
+	 * ```
+	 * Date: Wed, 27 Aug 2014 08:58:49 GMT
+	 * Content-Type: application/json
+	 * Connection: keep-alive
+	 * Transfer-Encoding: chunked
+	 * ```
+	 *
+	 * @param {String} headers Headers needing to be parsed
+	 * @returns {Object} Headers parsed into an object
+	 */
+	module.exports = function parseHeaders(headers) {
+	  var parsed = {};
+	  var key;
+	  var val;
+	  var i;
+
+	  if (!headers) { return parsed; }
+
+	  utils.forEach(headers.split('\n'), function parser(line) {
+	    i = line.indexOf(':');
+	    key = utils.trim(line.substr(0, i)).toLowerCase();
+	    val = utils.trim(line.substr(i + 1));
+
+	    if (key) {
+	      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+	    }
+	  });
+
+	  return parsed;
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	 * Extends object a by mutably adding to it the properties of object b.
 	 *
 	 * @param {Object} a The object to be extended
@@ -79281,11 +83052,92 @@ return /******/ (function(modules) { // webpackBootstrap
 	  merge: merge,
 	  extend: extend,
 	  trim: trim
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	};
 
 
 /***/ },
+<<<<<<< HEAD
 /* 450 */
+=======
+<<<<<<< HEAD
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(255);
+
+	module.exports = (
+	  utils.isStandardBrowserEnv() ?
+
+	  // Standard browser envs have full support of the APIs needed to test
+	  // whether the request URL is of the same origin as current location.
+	  (function standardBrowserEnv() {
+	    var msie = /(msie|trident)/i.test(navigator.userAgent);
+	    var urlParsingNode = document.createElement('a');
+	    var originURL;
+
+	    /**
+	    * Parse a URL to discover it's components
+	    *
+	    * @param {String} url The URL to be parsed
+	    * @returns {Object}
+	    */
+	    function resolveURL(url) {
+	      var href = url;
+
+	      if (msie) {
+	        // IE needs attribute set twice to normalize properties
+	        urlParsingNode.setAttribute('href', href);
+	        href = urlParsingNode.href;
+	      }
+
+	      urlParsingNode.setAttribute('href', href);
+
+	      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+	      return {
+	        href: urlParsingNode.href,
+	        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+	        host: urlParsingNode.host,
+	        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+	        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+	        hostname: urlParsingNode.hostname,
+	        port: urlParsingNode.port,
+	        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+	                  urlParsingNode.pathname :
+	                  '/' + urlParsingNode.pathname
+	      };
+	    }
+
+	    originURL = resolveURL(window.location.href);
+
+	    /**
+	    * Determine if a URL shares the same origin as the current location
+	    *
+	    * @param {String} requestURL The URL to test
+	    * @returns {boolean} True if URL shares the same origin, otherwise false
+	    */
+	    return function isURLSameOrigin(requestURL) {
+	      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+	      return (parsed.protocol === originURL.protocol &&
+	            parsed.host === originURL.host);
+	    };
+	  })() :
+
+	  // Non standard browser envs (web workers, react-native) lack needed support.
+	  (function nonStandardBrowserEnv() {
+	    return function isURLSameOrigin() {
+	      return true;
+	    };
+	  })()
+	);
+=======
+/* 449 */
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 /***/ function(module, exports) {
 
 	'use strict';
@@ -79302,7 +83154,270 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+<<<<<<< HEAD
 /* 451 */
+=======
+/* 450 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+>>>>>>> dev
+
+	var defaults = __webpack_require__(451);
+	var utils = __webpack_require__(448);
+	var InterceptorManager = __webpack_require__(463);
+	var dispatchRequest = __webpack_require__(464);
+	var isAbsoluteURL = __webpack_require__(467);
+	var combineURLs = __webpack_require__(468);
+
+<<<<<<< HEAD
+/***/ },
+/* 268 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
+
+	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+	function E() {
+	  this.message = 'String contains an invalid character';
+	}
+	E.prototype = new Error;
+	E.prototype.code = 5;
+	E.prototype.name = 'InvalidCharacterError';
+
+	function btoa(input) {
+	  var str = String(input);
+	  var output = '';
+	  for (
+	    // initialize result and counter
+	    var block, charCode, idx = 0, map = chars;
+	    // if the next str index does not exist:
+	    //   change the mapping table to "="
+	    //   check if d has no fractional digits
+	    str.charAt(idx | 0) || (map = '=', idx % 1);
+	    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
+	    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
+	  ) {
+	    charCode = str.charCodeAt(idx += 3 / 4);
+	    if (charCode > 0xFF) {
+	      throw new E();
+	    }
+	    block = block << 8 | charCode;
+	  }
+	  return output;
+	}
+
+	module.exports = btoa;
+
+
+/***/ },
+/* 269 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(255);
+
+	module.exports = (
+	  utils.isStandardBrowserEnv() ?
+
+	  // Standard browser envs support document.cookie
+	  (function standardBrowserEnv() {
+	    return {
+	      write: function write(name, value, expires, path, domain, secure) {
+	        var cookie = [];
+	        cookie.push(name + '=' + encodeURIComponent(value));
+
+	        if (utils.isNumber(expires)) {
+	          cookie.push('expires=' + new Date(expires).toGMTString());
+	        }
+
+	        if (utils.isString(path)) {
+	          cookie.push('path=' + path);
+	        }
+
+	        if (utils.isString(domain)) {
+	          cookie.push('domain=' + domain);
+	        }
+
+	        if (secure === true) {
+	          cookie.push('secure');
+	        }
+
+	        document.cookie = cookie.join('; ');
+	      },
+
+	      read: function read(name) {
+	        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+	        return (match ? decodeURIComponent(match[3]) : null);
+	      },
+
+	      remove: function remove(name) {
+	        this.write(name, '', Date.now() - 86400000);
+	      }
+	    };
+	  })() :
+
+	  // Non standard browser env (web workers, react-native) lack needed support.
+	  (function nonStandardBrowserEnv() {
+	    return {
+	      write: function write() {},
+	      read: function read() { return null; },
+	      remove: function remove() {}
+	    };
+	  })()
+	);
+
+
+/***/ },
+/* 270 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(255);
+
+	function InterceptorManager() {
+	  this.handlers = [];
+	}
+
+	/**
+	 * Add a new interceptor to the stack
+	 *
+	 * @param {Function} fulfilled The function to handle `then` for a `Promise`
+	 * @param {Function} rejected The function to handle `reject` for a `Promise`
+	 *
+	 * @return {Number} An ID used to remove interceptor later
+	 */
+	InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+	  this.handlers.push({
+	    fulfilled: fulfilled,
+	    rejected: rejected
+	  });
+	  return this.handlers.length - 1;
+	};
+
+	/**
+	 * Remove an interceptor from the stack
+	 *
+	 * @param {Number} id The ID that was returned by `use`
+	 */
+	InterceptorManager.prototype.eject = function eject(id) {
+	  if (this.handlers[id]) {
+	    this.handlers[id] = null;
+	  }
+	};
+
+	/**
+	 * Iterate over all the registered interceptors
+	 *
+	 * This method is particularly useful for skipping over any
+	 * interceptors that may have become `null` calling `eject`.
+	 *
+	 * @param {Function} fn The function to call for each interceptor
+	 */
+	InterceptorManager.prototype.forEach = function forEach(fn) {
+	  utils.forEach(this.handlers, function forEachHandler(h) {
+	    if (h !== null) {
+	      fn(h);
+	    }
+	  });
+	};
+
+	module.exports = InterceptorManager;
+
+
+/***/ },
+/* 271 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(255);
+	var transformData = __webpack_require__(272);
+	var isCancel = __webpack_require__(273);
+	var defaults = __webpack_require__(258);
+
+	/**
+	 * Throws a `Cancel` if cancellation has been requested.
+	 */
+	function throwIfCancellationRequested(config) {
+	  if (config.cancelToken) {
+	    config.cancelToken.throwIfRequested();
+	  }
+	}
+
+	/**
+	 * Dispatch a request to the server using the configured adapter.
+	 *
+	 * @param {object} config The config that is to be used for the request
+	 * @returns {Promise} The Promise to be fulfilled
+	 */
+	module.exports = function dispatchRequest(config) {
+	  throwIfCancellationRequested(config);
+
+	  // Ensure headers exist
+	  config.headers = config.headers || {};
+
+	  // Transform request data
+	  config.data = transformData(
+	    config.data,
+	    config.headers,
+	    config.transformRequest
+	  );
+
+	  // Flatten headers
+	  config.headers = utils.merge(
+	    config.headers.common || {},
+	    config.headers[config.method] || {},
+	    config.headers || {}
+	  );
+
+	  utils.forEach(
+	    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
+	    function cleanHeaderConfig(method) {
+	      delete config.headers[method];
+	    }
+	  );
+
+	  var adapter = config.adapter || defaults.adapter;
+
+	  return adapter(config).then(function onAdapterResolution(response) {
+	    throwIfCancellationRequested(config);
+
+	    // Transform response data
+	    response.data = transformData(
+	      response.data,
+	      response.headers,
+	      config.transformResponse
+	    );
+
+	    return response;
+	  }, function onAdapterRejection(reason) {
+	    if (!isCancel(reason)) {
+	      throwIfCancellationRequested(config);
+
+	      // Transform response data
+	      if (reason && reason.response) {
+	        reason.response.data = transformData(
+	          reason.response.data,
+	          reason.response.headers,
+	          config.transformResponse
+	        );
+	      }
+	    }
+
+	    return Promise.reject(reason);
+	  });
+	};
+
+
+/***/ },
+/* 272 */
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -79583,6 +83698,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	}
 	var queue = [];
@@ -79590,6 +83709,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	var currentQueue;
 	var queueIndex = -1;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+/***/ },
+/* 273 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function isCancel(value) {
+	  return !!(value && value.__CANCEL__);
+	};
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	function cleanUpNextTick() {
 	    if (!draining || !currentQueue) {
 	        return;
@@ -79611,6 +83744,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    var timeout = runTimeout(cleanUpNextTick);
 	    draining = true;
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    var len = queue.length;
 	    while(len) {
@@ -79629,6 +83766,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	    runClearTimeout(timeout);
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+/***/ },
+/* 274 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * Determines whether the specified URL is absolute
+	 *
+	 * @param {string} url The URL to test
+	 * @returns {boolean} True if the specified URL is absolute, otherwise false
+	 */
+	module.exports = function isAbsoluteURL(url) {
+	  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+	  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+	  // by any combination of letters, digits, plus, period, or hyphen.
+	  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	process.nextTick = function (fun) {
 	    var args = new Array(arguments.length - 1);
 	    if (arguments.length > 1) {
@@ -79649,6 +83808,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	Item.prototype.run = function () {
 	    this.fun.apply(null, this.array);
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	};
 	process.title = 'browser';
 	process.browser = true;
@@ -79659,6 +83822,26 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function noop() {}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+/***/ },
+/* 275 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * Creates a new URL by combining the specified URLs
+	 *
+	 * @param {string} baseURL The base URL
+	 * @param {string} relativeURL The relative URL
+	 * @returns {string} The combined URL
+	 */
+	module.exports = function combineURLs(baseURL, relativeURL) {
+	  return baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '');
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	process.on = noop;
 	process.addListener = noop;
 	process.once = noop;
@@ -79674,12 +83857,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	process.cwd = function () { return '/' };
 	process.chdir = function (dir) {
 	    throw new Error('process.chdir is not supported');
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	};
 	process.umask = function() { return 0; };
 
 
 /***/ },
+<<<<<<< HEAD
 /* 454 */
+=======
+<<<<<<< HEAD
+/* 276 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * A `Cancel` is an object that is thrown when an operation is canceled.
+	 *
+	 * @class
+	 * @param {string=} message The message.
+	 */
+	function Cancel(message) {
+	  this.message = message;
+	}
+
+	Cancel.prototype.toString = function toString() {
+	  return 'Cancel' + (this.message ? ': ' + this.message : '');
+=======
+/* 453 */
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -79693,9 +83903,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	      delete headers[name];
 	    }
 	  });
+<<<<<<< HEAD
 	};
 
 
+=======
+>>>>>>> dev
+	};
+
+	Cancel.prototype.__CANCEL__ = true;
+
+<<<<<<< HEAD
+	module.exports = Cancel;
+=======
+/***/ },
+/* 454 */
+/***/ function(module, exports, __webpack_require__) {
+>>>>>>> dev
+
+	'use strict';
+
+<<<<<<< HEAD
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 /***/ },
 /* 455 */
 /***/ function(module, exports, __webpack_require__) {
@@ -79781,6 +84010,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // Clean up request
 	      request = null;
 	    };
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	    // Handle low level network errors
 	    request.onerror = function handleError() {
@@ -79788,6 +84021,60 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // onerror should only fire if it's a network error
 	      reject(createError('Network Error', config));
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+/***/ },
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.AppbaseInputField = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(4);
+
+	var _ChannelManager = __webpack_require__(67);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var helper = __webpack_require__(75);
+
+	var AppbaseInputField = exports.AppbaseInputField = function (_Component) {
+		_inherits(AppbaseInputField, _Component);
+
+		function AppbaseInputField(props, context) {
+			_classCallCheck(this, AppbaseInputField);
+
+			var _this = _possibleConstructorReturn(this, (AppbaseInputField.__proto__ || Object.getPrototypeOf(AppbaseInputField)).call(this, props));
+
+			_this.state = {
+				currentValue: ''
+			};
+			_this.type = 'match';
+			_this.handleChange = _this.handleChange.bind(_this);
+			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			return _this;
+		}
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	      // Clean up request
 	      request = null;
 	    };
@@ -79877,6 +84164,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    request.send(requestData);
 	  });
 	};
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+
+		// Set query information
+
+<<<<<<< HEAD
+
+		_createClass(AppbaseInputField, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setQueryInfo();
+			}
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
 /***/ },
@@ -79908,6 +84209,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ));
 	  }
 	};
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+
+			// build query for this sensor only
+
+<<<<<<< HEAD
+		}, {
+			key: 'defaultQuery',
+			value: function defaultQuery(value) {
+				return {
+					'term': _defineProperty({}, this.props.inputData, value)
+				};
+			}
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
 /***/ },
@@ -79931,6 +84247,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var error = new Error(message);
 	  return enhanceError(error, config, code, response);
 	};
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+
+			// handle the input change and pass the value inside sensor info
+
+<<<<<<< HEAD
+		}, {
+			key: 'handleChange',
+			value: function handleChange(event) {
+				var inputVal = event.target.value;
+				this.setState({
+					'currentValue': inputVal
+				});
+				var obj = {
+					key: this.props.sensorId,
+					value: inputVal
+				};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
 /***/ },
@@ -79956,6 +84291,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	  error.response = response;
 	  return error;
 	};
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'ab-component ab-InputFieldComponent' },
+					_react2.default.createElement('input', { className: 'ab-input', type: 'text', onChange: this.handleChange, placeholder: this.props.placeholder, value: this.state.currentValue })
+				);
+			}
+		}]);
+
+<<<<<<< HEAD
+		return AppbaseInputField;
+	}(_react.Component);
+
+	AppbaseInputField.propTypes = {
+		inputData: _react2.default.PropTypes.string,
+		placeholder: _react2.default.PropTypes.string
+	};
+	// Default props value
+	AppbaseInputField.defaultProps = {
+		placeholder: "Search...",
+		size: 10
+	};
+
+	// context type
+	AppbaseInputField.contextTypes = {
+		appbaseConfig: _react2.default.PropTypes.any.isRequired
+	};
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
 /***/ },
@@ -80030,8 +84399,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return url;
 	};
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 /***/ },
 /* 460 */
 /***/ function(module, exports, __webpack_require__) {
@@ -80073,6 +84452,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return parsed;
 	};
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+
+	var _react = __webpack_require__(3);
+
+<<<<<<< HEAD
+	var _react2 = _interopRequireDefault(_react);
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
 /***/ },
@@ -80147,6 +84535,273 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	  })()
 	);
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+<<<<<<< HEAD
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var helper = __webpack_require__(75);
+
+	var AppbaseButtonGroup = exports.AppbaseButtonGroup = function (_Component) {
+		_inherits(AppbaseButtonGroup, _Component);
+
+		function AppbaseButtonGroup(props, context) {
+			_classCallCheck(this, AppbaseButtonGroup);
+
+			var _this = _possibleConstructorReturn(this, (AppbaseButtonGroup.__proto__ || Object.getPrototypeOf(AppbaseButtonGroup)).call(this, props));
+
+			_this.state = {
+				selected: null
+			};
+			_this.type = 'match';
+			_this.handleChange = _this.handleChange.bind(_this);
+			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			return _this;
+		}
+
+		// Set query information
+
+
+		_createClass(AppbaseButtonGroup, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setQueryInfo();
+				if (this.props.defaultSelected) {
+					this.handleChange(this.props.defaultSelected);
+				}
+			}
+
+			// set the query type and input data
+
+		}, {
+			key: 'setQueryInfo',
+			value: function setQueryInfo() {
+				var obj = {
+					key: this.props.sensorId,
+					value: {
+						queryType: this.type,
+						inputData: this.props.inputData,
+						defaultQuery: this.defaultQuery
+					}
+				};
+				helper.selectedSensor.setSensorInfo(obj);
+			}
+
+			// build query for this sensor only
+
+		}, {
+			key: 'defaultQuery',
+			value: function defaultQuery(value) {
+				return {
+					'term': _defineProperty({}, this.props.inputData, value)
+				};
+			}
+
+			// use this only if want to create actuators
+			// Create a channel which passes the depends and receive results whenever depends changes
+
+		}, {
+			key: 'createChannel',
+			value: function createChannel() {
+				var depends = this.props.depends ? this.props.depends : {};
+				var channelObj = _ChannelManager.manager.create(this.context.appbaseConfig, depends);
+			}
+
+			// handle the input change and pass the value inside sensor info
+
+		}, {
+			key: 'handleChange',
+			value: function handleChange(record) {
+				this.setState({
+					'selected': record
+				});
+				var obj = {
+					key: this.props.sensorId,
+					value: record
+				};
+				// pass the selected sensor value with sensorId as key,
+				var isExecuteQuery = true;
+				helper.selectedSensor.set(obj, isExecuteQuery);
+			}
+		}, {
+			key: 'renderButtons',
+			value: function renderButtons() {
+				var _this2 = this;
+
+				var buttons = void 0;
+				var selectedText = this.state.selected && this.state.selected.text ? this.state.selected.text : '';
+				if (this.props.data) {
+					buttons = this.props.data.map(function (record, i) {
+						return _react2.default.createElement(
+							'button',
+							{ key: i, className: "ab-button btn " + (selectedText === record.text ? 'red' : ''),
+								onClick: function onClick() {
+									return _this2.handleChange(record);
+								}, title: record.title ? record.title : record.text },
+							record.text
+						);
+					});
+				}
+				return buttons;
+			}
+			// render
+
+		}, {
+			key: 'render',
+			value: function render() {
+				var title = void 0,
+				    titleExists = void 0;
+				if (this.props.title) {
+					titleExists = true;
+					title = _react2.default.createElement(
+						'h4',
+						{ className: 'ab-componentTitle col s12 col-xs-12' },
+						this.props.title
+					);
+				}
+				return _react2.default.createElement(
+					'div',
+					{ className: "ab-component ab-ButtonGroupComponent col s12 col-xs-12 card thumbnail", style: this.props.defaultStyle },
+					_react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						title,
+						_react2.default.createElement(
+							'div',
+							{ className: 'col s12 col-xs-12' },
+							this.renderButtons()
+						)
+					)
+				);
+			}
+		}]);
+
+		return AppbaseButtonGroup;
+	}(_react.Component);
+
+	AppbaseButtonGroup.propTypes = {
+		inputData: _react2.default.PropTypes.string,
+		placeholder: _react2.default.PropTypes.string,
+		data: _react2.default.PropTypes.any.isRequired
+	};
+	// Default props value
+	AppbaseButtonGroup.defaultProps = {
+		placeholder: "Search...",
+		size: 10
+	};
+
+	// context type
+	AppbaseButtonGroup.contextTypes = {
+		appbaseConfig: _react2.default.PropTypes.any.isRequired
+	};
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.AppbaseGoogleSearch = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(4);
+
+	var _ChannelManager = __webpack_require__(67);
+
+	var _axios = __webpack_require__(253);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _reactSelect = __webpack_require__(241);
+
+	var _reactSelect2 = _interopRequireDefault(_reactSelect);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var helper = __webpack_require__(75);
+
+	var AppbaseGoogleSearch = exports.AppbaseGoogleSearch = function (_Component) {
+		_inherits(AppbaseGoogleSearch, _Component);
+
+		function AppbaseGoogleSearch(props, context) {
+			_classCallCheck(this, AppbaseGoogleSearch);
+
+			var _this = _possibleConstructorReturn(this, (AppbaseGoogleSearch.__proto__ || Object.getPrototypeOf(AppbaseGoogleSearch)).call(this, props));
+
+			_this.state = {
+				currentValue: '',
+				currentDistance: 0,
+				value: 0
+			};
+			_this.type = 'match';
+			_this.locString = '';
+			_this.result = {
+				options: []
+			};
+			_this.handleChange = _this.handleChange.bind(_this);
+			_this.loadOptions = _this.loadOptions.bind(_this);
+			_this.defaultQuery = _this.defaultQuery.bind(_this);
+			_this.handleValuesChange = _this.handleValuesChange.bind(_this);
+			_this.handleResults = _this.handleResults.bind(_this);
+			return _this;
+		}
+
+		_createClass(AppbaseGoogleSearch, [{
+			key: 'componentWillMount',
+			value: function componentWillMount() {
+				this.googleMaps = window.google.maps;
+			}
+
+			// Set query information
+
+		}, {
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setQueryInfo();
+				if (this.props.autoLocation) {
+					this.getUserLocation();
+				}
+			}
+		}, {
+			key: 'getUserLocation',
+			value: function getUserLocation() {
+				var _this2 = this;
+
+				navigator.geolocation.getCurrentPosition(function (location) {
+					_this2.locString = location.coords.latitude + ', ' + location.coords.longitude;
+					_axios2.default.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + _this2.locString + '&key=' + _this2.props.APIkey).then(function (res) {
+						var currentValue = res.data.results[0].formatted_address;
+						_this2.result.options.push({
+							'value': currentValue,
+							'label': currentValue
+						});
+						_this2.setState({
+							currentValue: currentValue
+						}, _this2.executeQuery.bind(_this2));
+					});
+				});
+			}
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
 /***/ },
@@ -80391,7 +85046,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return Promise.reject(reason);
 	  });
 	};
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
+
+			// build query for this sensor only
+
+<<<<<<< HEAD
+		}, {
+			key: 'defaultQuery',
+			value: function defaultQuery(value) {
+				if (value && value.currentValue != '' && value.location != '') {
+					var _type;
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 /***/ },
 /* 466 */
@@ -80428,8 +85096,61 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = function isCancel(value) {
 	  return !!(value && value.__CANCEL__);
 	};
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
+<<<<<<< HEAD
+=======
+		}, {
+			key: 'getCoordinates',
+			value: function getCoordinates(value) {
+				var _this3 = this;
+
+				if (value && value != '') {
+					_axios2.default.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + value + '&key=' + this.props.APIkey).then(function (res) {
+						var location = res.data.results[0].geometry.location;
+						_this3.locString = location.lat + ', ' + location.lng;
+						_this3.executeQuery();
+					});
+				} else {
+					helper.selectedSensor.set(null, true);
+				}
+			}
+
+			// execute query after changing location or distanc
+
+		}, {
+			key: 'executeQuery',
+			value: function executeQuery() {
+				if (this.state.currentValue != '' && this.locString) {
+					var obj = {
+						key: this.props.sensorId,
+						value: {
+							currentValue: this.state.currentValue,
+							location: this.locString
+						}
+					};
+					helper.selectedSensor.set(obj, true);
+				}
+			}
+
+<<<<<<< HEAD
+			// use this only if want to create actuators
+			// Create a channel which passes the depends and receive results whenever depends changes
+
+		}, {
+			key: 'createChannel',
+			value: function createChannel() {
+				var depends = this.props.depends ? this.props.depends : {};
+				var channelObj = _ChannelManager.manager.create(this.context.appbaseConfig, depends);
+			}
+
+			// handle the input change and pass the value inside sensor info
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 /***/ },
 /* 468 */
 /***/ function(module, exports) {
@@ -80466,8 +85187,111 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = function combineURLs(baseURL, relativeURL) {
 	  return baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '');
 	};
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+			// Handle function when value slider option is changing
+
+		}, {
+			key: 'handleValuesChange',
+			value: function handleValuesChange(component, value) {
+				this.setState({
+					value: value
+				});
+			}
+
+			// Handle function when slider option change is completed
+
+		}, {
+			key: 'handleResults',
+			value: function handleResults(component, value) {
+				value = value + this.props.unit;
+				this.setState({
+					currentDistance: value
+				}, this.executeQuery.bind(this));
+			}
+		}, {
+			key: 'loadOptions',
+			value: function loadOptions(input, callback) {
+				var _this4 = this;
+
+				this.callback = callback;
+				if (input) {
+					var googleMaps = this.googleMaps || window.google.maps;
+					this.autocompleteService = new googleMaps.places.AutocompleteService();
+					var options = {
+						input: input
+					};
+					this.result = {
+						options: []
+					};
+					this.autocompleteService.getPlacePredictions(options, function (res) {
+						res.map(function (place) {
+							_this4.result.options.push({
+								'value': place.description,
+								'label': place.description
+							});
+						});
+						_this4.callback(null, _this4.result);
+					});
+				} else {
+					this.callback(null, this.result);
+				}
+			}
+
+			// render
+
+		}, {
+			key: 'render',
+			value: function render() {
+				var title = null;
+				if (this.props.title) {
+					title = _react2.default.createElement(
+						'h4',
+						{ className: 'ab-componentTitle' },
+						this.props.title
+					);
+				}
+
+				return _react2.default.createElement(
+					'div',
+					{ className: 'ab-component ab-GoogleSearchComponent clearfix card thumbnail col s12 col-xs-12' },
+					title,
+					_react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						_react2.default.createElement(_reactSelect2.default.Async, {
+							className: 'ab-select-react col s12 col-xs-6 p-0',
+							name: 'appbase-search',
+							value: this.state.currentValue,
+							loadOptions: this.loadOptions,
+							placeholder: this.props.placeholder,
+							onChange: this.handleChange
+						})
+					)
+				);
+			}
+		}]);
+
+		return AppbaseGoogleSearch;
+	}(_react.Component);
+
+	AppbaseGoogleSearch.propTypes = {
+		inputData: _react2.default.PropTypes.string.isRequired,
+		placeholder: _react2.default.PropTypes.string
+	};
+	// Default props value
+	AppbaseGoogleSearch.defaultProps = {
+		placeholder: "Search...",
+		autoLocation: true
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 /***/ },
 /* 470 */
 /***/ function(module, exports) {
@@ -80586,11 +85410,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return function wrap(arr) {
 	    return callback.apply(null, arr);
 	  };
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	};
 
 
 /***/ },
+<<<<<<< HEAD
 /* 473 */
+=======
+<<<<<<< HEAD
+/* 282 */
+=======
+/* 472 */
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -80598,7 +85434,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+<<<<<<< HEAD
 	exports.GeoDistanceDropdown = undefined;
+=======
+<<<<<<< HEAD
+	exports.AppbaseReactiveMap = undefined;
+=======
+	exports.GeoDistanceDropdown = undefined;
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -80618,11 +85462,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _rcSlider = __webpack_require__(109);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	var _ChannelManager = __webpack_require__(67);
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	var _rcSlider2 = _interopRequireDefault(_rcSlider);
 
 	var _reactSelect = __webpack_require__(82);
 
 	var _reactSelect2 = _interopRequireDefault(_reactSelect);
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -80634,6 +85488,57 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	var helper = __webpack_require__(75);
+
+	var AppbaseReactiveMap = exports.AppbaseReactiveMap = function (_Component) {
+		_inherits(AppbaseReactiveMap, _Component);
+
+		function AppbaseReactiveMap(props, context) {
+			_classCallCheck(this, AppbaseReactiveMap);
+
+			var _this = _possibleConstructorReturn(this, (AppbaseReactiveMap.__proto__ || Object.getPrototypeOf(AppbaseReactiveMap)).call(this, props));
+
+			_this.state = {};
+			_this.appbaseRef = helper.setConfigObject(_this.props.config);
+			_ChannelManager.manager.setConfig(_this.props.config.appbase);
+			return _this;
+		}
+
+		_createClass(AppbaseReactiveMap, [{
+			key: 'getChildContext',
+			value: function getChildContext() {
+				return { appbaseConfig: this.props.config };
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'section',
+					{ className: 'col s12 col-xs-12', style: { 'padding': 0 } },
+					this.props.children
+				);
+			}
+		}]);
+
+		return AppbaseReactiveMap;
+	}(_react.Component);
+
+	AppbaseReactiveMap.defaultProps = {
+		config: _react2.default.PropTypes.any.isRequired
+	};
+
+	AppbaseReactiveMap.childContextTypes = {
+		appbaseConfig: _react2.default.PropTypes.any.isRequired
+	};
+
+/***/ },
+/* 283 */
+/***/ function(module, exports, __webpack_require__) {
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	var GeoDistanceDropdown = exports.GeoDistanceDropdown = function (_Component) {
 		_inherits(GeoDistanceDropdown, _Component);
 
@@ -80715,7 +85620,12 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: 'getUserLocation',
 			value: function getUserLocation() {
+<<<<<<< HEAD
 				var _this3 = this;
+=======
+				var _this2 = this;
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 				navigator.geolocation.getCurrentPosition(function (location) {
 					_this3.locString = location.coords.latitude + ', ' + location.coords.longitude;
@@ -80758,11 +85668,24 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (value && value.start >= 0 && value.end >= 0 && value.location != '') {
 					var _type;
 
+<<<<<<< HEAD
 					return _defineProperty({}, this.type, (_type = {}, _defineProperty(_type, this.props.appbaseField, value.location), _defineProperty(_type, "from", value.start + this.unit), _defineProperty(_type, "to", value.end + this.unit), _type));
+=======
+<<<<<<< HEAD
+	var _sensorJs = __webpack_require__(62);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+=======
+					return _defineProperty({}, this.type, (_type = {}, _defineProperty(_type, this.props.appbaseField, value.location), _defineProperty(_type, 'distance', value.currentDistance), _type));
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 				} else {
 					return;
 				}
 			}
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			// get coordinates
 
@@ -80782,6 +85705,16 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	var MapStyles = exports.MapStyles = function (_Component) {
+		_inherits(MapStyles, _Component);
+
+		function MapStyles(props, context) {
+			_classCallCheck(this, MapStyles);
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 			// execute query after changing location or distance
 
 		}, {
@@ -80807,6 +85740,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					_reactivebase.AppbaseSensorHelper.selectedSensor.set(obj, true);
 				}
 			}
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			// use this only if want to create actuators
 			// Create a channel which passes the actuate and receive results whenever actuate changes
@@ -80820,6 +85757,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// handle the input change and pass the value inside sensor info
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+				var selectedValue = 0;
+				if (this.props.defaultSelected) {
+					_sensorJs.AppbaseSensorHelper.mapStyles.forEach(function (style, index) {
+						if (style.key === _this2.props.defaultSelected) {
+							selectedValue = index;
+						}
+					});
+				}
+				this.setState({
+					items: _sensorJs.AppbaseSensorHelper.mapStyles,
+					selectedValue: selectedValue
+				}, this.themeChanged);
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 		}, {
 			key: 'handleChange',
 			value: function handleChange(input) {
@@ -80834,12 +85788,33 @@ return /******/ (function(modules) { // webpackBootstrap
 						'currentValue': ''
 					});
 				}
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+			}
+
+			// Handle function when value slider option is changing
+
+		}, {
+			key: 'handleValuesChange',
+			value: function handleValuesChange(component, value) {
+				this.setState({
+					value: value
+				});
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 			}
 		}, {
 			key: 'loadOptions',
 			value: function loadOptions(input, callback) {
 				var _this5 = this;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+				var style = _sensorJs.AppbaseSensorHelper.mapStyles[this.state.selectedValue].value;
+				this.props.mapStyleChange(style);
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 				this.callback = callback;
 				if (input) {
 					var googleMaps = this.googleMaps || window.google.maps;
@@ -80879,6 +85854,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						label: input.label
 					}
 				}, this.executeQuery.bind(this));
+<<<<<<< HEAD
 			}
 		}, {
 			key: 'renderValue',
@@ -80888,6 +85864,9 @@ return /******/ (function(modules) { // webpackBootstrap
 					null,
 					option.value
 				);
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 			}
 
 			// render
@@ -80914,7 +85893,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				return _react2.default.createElement(
 					'div',
+<<<<<<< HEAD
 					{ className: 'rbc rbc-geodistancedropdown clearfix card thumbnail col s12 col-xs-12 ' + cx },
+=======
+<<<<<<< HEAD
+					{ className: 'input-field col mapStyles pull-right right' },
+=======
+					{ className: 'rmc rmc-geodistancedropdown clearfix card thumbnail col s12 col-xs-12 ' + cx },
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 					_react2.default.createElement(
 						'div',
 						{ className: 'row' },
@@ -80969,6 +85956,13 @@ return /******/ (function(modules) { // webpackBootstrap
 		placeholder: "Search..."
 	};
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+/***/ },
+/* 284 */
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	// context type
 	GeoDistanceDropdown.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
@@ -80976,7 +85970,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
+<<<<<<< HEAD
 /* 474 */
+=======
+/* 473 */
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -80996,6 +85995,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _classnames = __webpack_require__(66);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	var _sensorJs = __webpack_require__(62);
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	var _classnames2 = _interopRequireDefault(_classnames);
 
 	var _axios = __webpack_require__(447);
@@ -81005,6 +86010,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _reactSelect = __webpack_require__(82);
 
 	var _reactSelect2 = _interopRequireDefault(_reactSelect);
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81094,6 +86103,16 @@ return /******/ (function(modules) { // webpackBootstrap
 				_reactivebase.AppbaseSensorHelper.selectedSensor.setSensorInfo(obj);
 			}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	var ListResult = exports.ListResult = function (_Component) {
+		_inherits(ListResult, _Component);
+
+		function ListResult(props, context) {
+			_classCallCheck(this, ListResult);
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 			// build query for this sensor only
 
 		}, {
@@ -81107,6 +86126,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					return;
 				}
 			}
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 
 			// get coordinates
 
@@ -81129,6 +86152,47 @@ return /******/ (function(modules) { // webpackBootstrap
 			// execute query after changing location or distanc
 
 		}, {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+			key: 'createChannel',
+			value: function createChannel() {
+				// Set the depends - add self aggs query as well with depends
+				var depends = this.props.depends ? this.props.depends : {};
+				// create a channel and listen the changes
+				var channelObj = _sensorJs.AppbaseChannelManager.create(this.context.appbaseConfig, depends, this.props.requestSize);
+				this.channelId = channelObj.channelId;
+				channelObj.emitter.addListener(channelObj.channelId, function (res) {
+					var data = res.data;
+					var rawData = void 0,
+					    markersData = void 0;
+					this.streamFlag = false;
+					if (res.method === 'stream') {
+						this.channelMethod = 'stream';
+						var modData = this.streamDataModify(this.state.rawData, res);
+						rawData = modData.rawData;
+						res = modData.res;
+						this.streamFlag = true;
+						markersData = this.setMarkersData(rawData);
+					} else if (res.method === 'historic') {
+						this.channelMethod = 'historic';
+						rawData = res.appliedQuery && res.appliedQuery.body && res.appliedQuery.body.from !== 0 ? this.appendData(data) : data;
+						markersData = this.setMarkersData(data);
+					}
+					this.setState({
+						rawData: rawData,
+						markersData: markersData
+					}, function () {
+						// Pass the historic or streaming data in index method
+						res.allMarkers = rawData;
+						var generatedData = this.props.markerOnIndex ? this.props.markerOnIndex(res) : this.defaultMarkerOnIndex(res);
+						this.setState({
+							resultMarkup: generatedData
+						});
+						if (this.streamFlag) {
+							this.streamMarkerInterval();
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 			key: 'executeQuery',
 			value: function executeQuery() {
 				if (this.state.currentValue != '' && this.locString) {
@@ -81137,6 +86201,10 @@ return /******/ (function(modules) { // webpackBootstrap
 						value: {
 							currentValue: this.state.currentValue,
 							location: this.locString
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 						}
 					};
 					_reactivebase.AppbaseSensorHelper.selectedSensor.set(obj, true);
@@ -81184,12 +86252,47 @@ return /******/ (function(modules) { // webpackBootstrap
 			// Handle function when slider option change is completed
 
 		}, {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+			key: 'defaultMarkerOnIndex',
+			value: function defaultMarkerOnIndex(res) {
+				var result = void 0;
+				if (res.allMarkers && res.allMarkers.hits && res.allMarkers.hits.hits) {
+					result = res.allMarkers.hits.hits.map(function (marker, index) {
+						return _react2.default.createElement(
+							'div',
+							{ key: index, className: 'makerInfo' },
+							JSON.stringify(marker)
+						);
+					});
+				}
+				return result;
+			}
+		}, {
+			key: 'nextPage',
+			value: function nextPage() {
+				var channelOptionsObj = manager.channels[this.channelId].previousSelectedSensor['channel-options-' + this.channelId];
+				var obj = {
+					key: 'channel-options-' + this.channelId,
+					value: {
+						size: this.props.requestSize,
+						from: channelOptionsObj.from + this.props.requestSize
+					}
+				};
+				manager.nextPage(this.channelId);
+=======
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 			key: 'handleResults',
 			value: function handleResults(component, value) {
 				value = value + this.props.unit;
 				this.setState({
 					currentDistance: value
 				}, this.executeQuery.bind(this));
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 			}
 		}, {
 			key: 'loadOptions',
@@ -81277,9 +86380,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	// context type
+<<<<<<< HEAD
 	PlacesSearch.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
 		type: _react2.default.PropTypes.any.isRequired
+=======
+<<<<<<< HEAD
+	ListResult.contextTypes = {
+		appbaseConfig: _react2.default.PropTypes.any.isRequired
+=======
+	GoogleSearch.contextTypes = {
+		appbaseRef: _react2.default.PropTypes.any.isRequired,
+		type: _react2.default.PropTypes.any.isRequired
+>>>>>>> dev
+>>>>>>> 6cb8c9243519b4ea05aaabfc3ebd75a072cb548b
 	};
 
 /***/ }
