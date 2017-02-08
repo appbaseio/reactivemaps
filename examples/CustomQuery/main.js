@@ -52,7 +52,6 @@ class Main extends Component {
 								componentId="GeoSensor"
 								appbaseField={this.props.mapping.location}
 								title="Geo Distance"
-								APIkey={mapsAPIKey}
 								data={[{
 									start: 0,
 									end: 2,
