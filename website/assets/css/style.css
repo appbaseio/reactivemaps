@@ -134,6 +134,7 @@ section {
       text-align: center; } }
 
 #features {
+  margin: 80px 0px;
   background: #fff; }
   #features .feature .img-container {
     height: 200px;
@@ -145,9 +146,11 @@ section {
     font-family: "Source Sans Pro Semi Bold"; }
   #features .feature .description {
     font-size: 1.2rem;
-    max-width: 280px;
+    max-width: 300px;
     padding: 5px 15px;
     margin: 20px auto; }
+    #features .feature .description .inner-description {
+      font-size: 0.8rem; }
 
 #ui-components {
   background: #6889FF;

@@ -72,6 +72,7 @@ section {
 }
 
 #features {
+	margin: 80px 0px;
 	background: #fff;
 	.feature {
 		.img-container {
@@ -87,9 +88,12 @@ section {
 		}
 		.description {
 			font-size: 1.2rem;
-			max-width: 280px;
+			max-width: 300px;
 			padding: 5px 15px;
 			margin: 20px auto;
+			.inner-description {
+				font-size: 0.8rem;
+			}
 		}
 	}
 }
