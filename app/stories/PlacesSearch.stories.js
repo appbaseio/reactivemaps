@@ -94,8 +94,8 @@ export default class PlacesSearchDefault extends Component {
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							size={100}
 							actuate={{
-								OriginSensor: {"operation": "must", defaultQuery: this.originQuery},
-								DestinationSensor: {"operation": "must", defaultQuery: this.destinationQuery}
+								OriginSensor: {"operation": "must", customQuery: this.originQuery},
+								DestinationSensor: {"operation": "must", customQuery: this.destinationQuery}
 							}}
 						/>
 					</div>

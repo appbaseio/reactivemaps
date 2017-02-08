@@ -23,7 +23,7 @@ export class PlacesSearch extends Component {
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.loadOptions = this.loadOptions.bind(this);
-		this.defaultQuery = this.defaultQuery.bind(this);
+		this.customQuery = this.customQuery.bind(this);
 		this.handleValuesChange = this.handleValuesChange.bind(this);
 		this.handleResults = this.handleResults.bind(this);
 	}
@@ -64,14 +64,14 @@ export class PlacesSearch extends Component {
 			value: {
 				queryType: this.type,
 				inputData: this.props.appbaseField,
-				defaultQuery: this.defaultQuery
+				customQuery: this.customQuery
 			}
 		};
 		helper.selectedSensor.setSensorInfo(obj);
 	}
 
 	// build query for this sensor only
-	defaultQuery(value) {
+	customQuery(value) {
 		if(value && value.currentValue != '' && value.location != '') {
 			return {
 				[this.type]: {

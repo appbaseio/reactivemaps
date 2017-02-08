@@ -87,7 +87,7 @@ class Main extends Component {
 							showMapStyles={true}
 							title="Meetupblast"
 							actuate={{
-								InputSensor: {"operation": "must", defaultQuery: this.cityQuery},
+								InputSensor: {"operation": "must", customQuery: this.cityQuery},
 								GeoSensor: {"operation": "must"}
 							}}
 							/>

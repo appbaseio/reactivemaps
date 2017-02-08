@@ -102,7 +102,7 @@ class Main extends Component {
 									actuate={{
 										CitySensor: {
 											"operation": "must",
-											"defaultQuery": this.topicactuate
+											"customQuery": this.topicactuate
 										}
 									}}
 								/>
@@ -116,7 +116,7 @@ class Main extends Component {
 									actuate={{
 										CitySensor: {
 											"operation": "must",
-											"defaultQuery": this.topicactuate
+											"customQuery": this.topicactuate
 										}
 									}}
 									title="guests"

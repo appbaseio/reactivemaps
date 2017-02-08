@@ -38,7 +38,7 @@ export class GeoDistanceDropdown extends Component {
 
 		this.handleChange = this.handleChange.bind(this);
 		this.loadOptions = this.loadOptions.bind(this);
-		this.defaultQuery = this.defaultQuery.bind(this);
+		this.customQuery = this.customQuery.bind(this);
 		this.handleDistanceChange = this.handleDistanceChange.bind(this);
 		this.renderValue = this.renderValue.bind(this);
 	}
@@ -96,14 +96,14 @@ export class GeoDistanceDropdown extends Component {
 			value: {
 				queryType: this.type,
 				appbaseField: this.props.appbaseField,
-				defaultQuery: this.defaultQuery
+				customQuery: this.customQuery
 			}
 		};
 		helper.selectedSensor.setSensorInfo(obj);
 	}
 
 	// build query for this sensor only
-	defaultQuery(value) {
+	customQuery(value) {
 		if(value && value.start >= 0 && value.end >=0 && value.location != '') {
 			return {
 				[this.type]: {
