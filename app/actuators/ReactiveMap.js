@@ -50,11 +50,12 @@ export class ReactiveMap extends Component {
 
 	componentDidMount() {
 		this.streamProp = this.props.stream;
+		this.sizeProp = this.props.size;
 		this.initialize();
 	}
 
-	initialize() {
-		this.createChannel();
+	initialize(updateExecute=false) {
+		this.createChannel(updateExecute);
 		this.setGeoQueryInfo();
 		let currentMapStyle = this.getMapStyle(this.props.defaultMapStyle);
 		this.setState({
@@ -68,6 +69,11 @@ export class ReactiveMap extends Component {
 				this.streamProp = this.props.stream;
 				this.removeChannel();
 				this.initialize();
+			}
+			if (this.sizeProp != this.props.size) {
+				this.sizeProp = this.props.size;
+				this.removeChannel();
+				this.initialize(true);
 			}
 		}, 300);
 	}
@@ -94,10 +100,11 @@ export class ReactiveMap extends Component {
 	}
 
 	// Create a channel which passes the actuate and receive results whenever actuate changes
-	createChannel() {
+	createChannel(updateExecute=false) {
 		// Set the actuate - add self aggs query as well with actuate
 		let actuate = this.props.actuate ? this.props.actuate : {};
 		actuate['geoQuery'] = { operation: "must" };
+		actuate['updateExecute'] = { operation: "must", defaultQuery: function() {} };
 		// create a channel and listen the changes
 		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate, this.props.size, this.props.from, this.props.stream);
 		this.channelId = channelObj.channelId;
@@ -125,6 +132,9 @@ export class ReactiveMap extends Component {
 				}
 			}
 		}.bind(this));
+		if(updateExecute) {
+			this.updateExecute();
+		}
 	}
 
 	afterChannelResponse(res) {
@@ -278,8 +288,26 @@ export class ReactiveMap extends Component {
 					inputData: this.props.appbaseField
 				}
 		};
+		var obj1 = {
+				key: 'updateExecute',
+				value: {
+					queryType: 'random',
+					inputData: this.props.appbaseField
+				}
+		};
 
 		helper.selectedSensor.setSensorInfo(obj);
+		helper.selectedSensor.setSensorInfo(obj1);
+	}
+
+	updateExecute() {
+		setTimeout(() => {
+			var obj = {
+				key: 'updateExecute',
+				value: Math.random()
+			};
+			helper.selectedSensor.set(obj, true);
+		}, 1000);
 	}
 
 	// Show InfoWindow and re-renders component
