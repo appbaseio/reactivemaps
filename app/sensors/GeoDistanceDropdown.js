@@ -28,6 +28,7 @@ export class GeoDistanceDropdown extends Component {
 			order: 'asc',
 			unit: this.unit
 		};
+		this.allowedUnit = ['mi', 'miles', 'yd', 'yards', 'ft', 'feet', 'in', 'inch', 'km', 'kilometers', 'm', 'meters', 'cm', 'centimeters', 'mm', 'millimeters', 'NM', 'nmi', 'nauticalmiles'];
 
 		if (this.props.defaultSelected) {
 			let selected = this.props.data.filter(item => item.label === this.props.defaultSelected);
@@ -54,12 +55,15 @@ export class GeoDistanceDropdown extends Component {
 				if (selected[0]) {
 					this.setState({
 						selected: selected[0]
-					})
+					}, this.executeQuery);
 				}
 			}
 			if (nextProps.unit != this.unit) {
-				this.unit = nextProps.unit;
-				this.executeQuery();
+				let selected = this.allowedUnit.filter(item => item === nextProps.unit);
+				if (selected[0]) {
+					this.unit = nextProps.unit;
+					this.executeQuery();
+				}
 			}
 		}, 300);
 	}
@@ -140,7 +144,8 @@ export class GeoDistanceDropdown extends Component {
 					currentValue: this.state.currentValue,
 					start: this.state.selected.start,
 					end: this.state.selected.end,
-					location: this.locString
+					location: this.locString,
+					unit: this.unit
 				}
 			};
 			let sortObj = {
@@ -274,7 +279,7 @@ export class GeoDistanceDropdown extends Component {
 GeoDistanceDropdown.propTypes = {
 	appbaseField: React.PropTypes.string.isRequired,
 	placeholder: React.PropTypes.string,
-	unit: React.PropTypes.string,
+	unit: React.PropTypes.oneOf(['mi', 'miles', 'yd', 'yards', 'ft', 'feet', 'in', 'inch', 'km', 'kilometers', 'm', 'meters', 'cm', 'centimeters', 'mm', 'millimeters', 'NM', 'nmi', 'nauticalmiles']),
 	data: React.PropTypes.arrayOf(
 		React.PropTypes.shape({
 			start: helper.validateThreshold,
