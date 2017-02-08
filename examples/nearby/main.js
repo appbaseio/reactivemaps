@@ -19,7 +19,7 @@ class Main extends Component {
 		this.handleSelect = this.handleSelect.bind(this);
 		this.topicactuate = this.topicactuate.bind(this);
 		this.onData = this.onData.bind(this);
-		this.popoverContent = this.popoverContent.bind(this);
+		this.onPopoverTrigger = this.onPopoverTrigger.bind(this);
 		this.DEFAULT_IMAGE = 'http://www.avidog.com/wp-content/uploads/2015/01/BellaHead082712_11-50x65.jpg';
 	}
 
@@ -30,7 +30,7 @@ class Main extends Component {
 		} else return null;
 	}
 
-	popoverContent(marker) {
+	onPopoverTrigger(marker) {
 		return (<div className="popoverComponent row">
 			<span className="imgContainer col s2">
 				<Img src={marker._source.member.photo}  />
@@ -161,7 +161,7 @@ class Main extends Component {
 								showMapStyles={true}
 								title="Reactive Maps"
 								showPopoverOn = "click"
-								popoverContent = {this.popoverContent}
+								onPopoverTrigger = {this.onPopoverTrigger}
 								onData = {this.onData}
 								defaultZoom = {13}
 								defaultCenter={{ lat: 37.74, lng: -122.45 }}

@@ -11,7 +11,7 @@ class Main extends Component {
 	constructor(props) {
 		super(props);
 		this.topicactuate = this.topicactuate.bind(this);
-		this.popoverContent = this.popoverContent.bind(this);
+		this.onPopoverTrigger = this.onPopoverTrigger.bind(this);
 		this.onData =  this.onData.bind(this);
 	}
 
@@ -22,7 +22,7 @@ class Main extends Component {
 		} else return null;
 	}
 
-	popoverContent(marker) {
+	onPopoverTrigger(marker) {
 		console.log(marker);
 		return (<div className="popoverComponent row">
 			<div className="infoContainer col s12">
@@ -97,7 +97,7 @@ class Main extends Component {
 							showMapStyles={true}
 							title="SF Transport"
 							showPopoverOn = "click"
-							popoverContent = {this.popoverContent}
+							onPopoverTrigger = {this.onPopoverTrigger}
 							onData = {this.onData}
 							streamAutoCenter={false}
 							autoMarkerPosition={true}

@@ -300,14 +300,14 @@ export class ReactiveMap extends Component {
 
 	// render infowindow
 	renderInfoWindow(ref, marker) {
-		var popoverContent = this.props.popoverContent ? this.props.popoverContent(marker) : 'Popver';
+		var onPopoverTrigger = this.props.onPopoverTrigger ? this.props.onPopoverTrigger(marker) : 'Popver';
 		return (
 			<InfoWindow
 				zIndex = {500}
 				key={`${ref}_info_window`}
 				onCloseclick={this.handleMarkerClose.bind(this, marker)} >
 				<div>
-					{popoverContent}
+					{onPopoverTrigger}
 				</div>
 			</InfoWindow>
 		);

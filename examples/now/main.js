@@ -51,7 +51,7 @@ class Main extends Component {
 		}
 	}
 
-	popoverContent(marker) {
+	onPopoverTrigger(marker) {
 		console.log(marker);
 		return (<div className="popoverComponent row">
 			<span className="imgContainer col s2">
@@ -106,7 +106,7 @@ class Main extends Component {
 							showSearchAsMove={true}
 							title="Foursquare checkins"
 							showPopoverOn = "click"
-							popoverContent = {this.popoverContent}
+							onPopoverTrigger = {this.onPopoverTrigger}
 							onData = {this.onData}
 							showMapStyles={true}
 							actuate={{

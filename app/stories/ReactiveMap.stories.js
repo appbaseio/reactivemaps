@@ -8,14 +8,14 @@ const historyPin = require('./placeholder.svg');
 export default class ReactiveMapDefault extends Component {
 	constructor(props) {
 		super(props);
-		this.popoverContent = this.popoverContent.bind(this);
+		this.onPopoverTrigger = this.onPopoverTrigger.bind(this);
 	}
 
 	componentDidMount() {
 		helper.ResponsiveStory();
 	}
 
-	popoverContent(marker) {
+	onPopoverTrigger(marker) {
 		return (<div className="popoverComponent row" style={{'margin': '0', 'maxWidth': '300px'}}>
 			<span className="imgContainer col s2" style={{'padding': '0'}}>
 				<Img src={marker._source.member.photo}  />
@@ -54,7 +54,7 @@ export default class ReactiveMapDefault extends Component {
 							searchAsMoveComponent={true}
 							MapStylesComponent={true}
 							historicPin={historyPin}
-							popoverContent = {this.popoverContent}
+							onPopoverTrigger = {this.onPopoverTrigger}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							actuate={{

@@ -20,10 +20,10 @@ class Main extends Component {
 		this.simulationFlag = true;
 		this.mapOnIdle = this.mapOnIdle.bind(this);
 		this.onData = this.onData.bind(this);
-		this.popoverContent = this.popoverContent.bind(this);
+		this.onPopoverTrigger = this.onPopoverTrigger.bind(this);
 	}
 
-	popoverContent(marker) {
+	onPopoverTrigger(marker) {
 		return (<div className="popoverComponent row">
 			<span className="imgContainer col s2">
 				<Img src={marker._source.member.photo}  />
@@ -124,7 +124,7 @@ class Main extends Component {
 						showMapStyles={true}
 						title="Heatmap"
 						showPopoverOn = "click"
-						popoverContent = {this.popoverContent}
+						onPopoverTrigger = {this.onPopoverTrigger}
 						onData = {this.onData}
 						onIdle = {this.mapOnIdle}
 						streamingMarkerTime={10}

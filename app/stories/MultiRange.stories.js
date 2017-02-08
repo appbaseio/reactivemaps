@@ -8,14 +8,14 @@ const historyPin = require('./placeholder.svg');
 export default class MultiRangeDefault extends Component {
 	constructor(props) {
 		super(props);
-		this.popoverContent = this.popoverContent.bind(this);
+		this.onPopoverTrigger = this.onPopoverTrigger.bind(this);
 	}
 
 	componentDidMount() {
 		helper.ResponsiveStory();
 	}
 
-	popoverContent(marker) {
+	onPopoverTrigger(marker) {
 		return (<div className="popoverComponent row">
 			<div className="infoContainer col s12 col-xs-12">
 				<div className="description">
@@ -67,7 +67,7 @@ export default class MultiRangeDefault extends Component {
 							title="Reactive Maps"
 							showPopoverOn = "click"
 							historicPin={historyPin}
-							popoverContent = {this.popoverContent}
+							onPopoverTrigger = {this.onPopoverTrigger}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							actuate={{

@@ -43,7 +43,7 @@ class Main extends Component {
 		} else return null;
 	}
 
-	popoverContent(marker) {
+	onPopoverTrigger(marker) {
 		return (<div className="popoverComponent row">
 			<div className="infoContainer col s12 col-xs-12">
 				<div className="description">
@@ -79,7 +79,7 @@ class Main extends Component {
 							showSearchAsMove={true}
 							title="Earthquake"
 							showPopoverOn = "click"
-							popoverContent = {this.popoverContent}
+							onPopoverTrigger = {this.onPopoverTrigger}
 							actuate={{
 								PlaceSensor: {"operation": "must"},
 								RangeSensor: {"operation": "must"},
