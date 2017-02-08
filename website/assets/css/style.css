@@ -95,7 +95,7 @@ html, body {
       font-size: 14px; } }
 
 section {
-  padding: 60px 0; }
+  padding: 100px 0; }
   section .section-head .title {
     color: #5677FC;
     font-family: "Source Sans Pro Semi Bold";
@@ -189,6 +189,7 @@ section {
         #use-cases .tab-container .tab-content .img-container {
           padding: 15px; } }
   #use-cases .tab-container .nav-tabs {
+    padding-top: 20px;
     border: 0; }
     #use-cases .tab-container .nav-tabs li {
       position: relative; }
@@ -225,6 +226,8 @@ footer {
     color: #fff;
     padding: 10px 15px;
     line-height: 20px; }
+    footer .footer-link:hover, footer .navbar-nav > li > a:hover {
+      background-color: transparent; }
 
 .theme-btn {
   background: #CDDC39;

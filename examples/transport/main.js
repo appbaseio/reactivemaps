@@ -103,6 +103,7 @@ class Main extends Component {
 							autoMarkerPosition={true}
 							historicPin= 'dist/images/bus.png'
 							streamMarkerImage= 'dist/images/bus.png'
+							stream={true}
 							actuate={{
 								RoutesSensor: {"operation": "must"}
 							}}
