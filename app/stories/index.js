@@ -51,8 +51,9 @@ import RangeSliderReadme from "@appbaseio/reactivemaps-manual/docs/v1/components
 import NumberBoxDefault from './NumberBox.stories';
 import NumberBoxReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/NumberBox.md";
 
-require ("../../node_modules/materialize-css/dist/css/materialize.min.css");
+require ("../../node_modules/bootstrap/dist/css/bootstrap.min.css");
 require ("../../dist/css/style.min.css");
+require ("../../dist/css/bootstrap.polyfill.min.css");
 require ("./styles.css");
 
 function removeFirstLine(str) {

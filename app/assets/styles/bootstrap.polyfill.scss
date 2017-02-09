@@ -1,0 +1,25 @@
+.rbc {
+	&.rbc-placessearch {
+		overflow: hidden;
+
+		.row { margin: 0; }
+
+		.col.s12 {
+			padding: 0;
+		}
+	}
+
+	&.rbc-reactivemap {
+		height: auto;
+
+		[type=checkbox]+label {
+			padding-left: 10px;
+		}
+
+		.rbc-checkbox {
+			left: 25px;
+			bottom: 30px;
+			padding: 5px;
+		}
+	}
+}
