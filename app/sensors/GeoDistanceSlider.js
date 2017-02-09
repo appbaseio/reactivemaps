@@ -12,10 +12,12 @@ import Select from 'react-select';
 export class GeoDistanceSlider extends Component {
 	constructor(props, context) {
 		super(props);
-		let value = this.props.defaultSelected < this.props.range.start ? this.props.range.start :  this.props.defaultSelected;
+		let value = this.props.defaultSelected ?
+					this.props.defaultSelected < this.props.range.start ?
+					this.props.range.start : this.props.defaultSelected : this.props.range.start;
 		this.state = {
 			currentValue: '',
-			currentDistance: this.props.defaultSelected + this.props.unit,
+			currentDistance: value + this.props.unit,
 			userLocation: '',
 			value: value
 		};
