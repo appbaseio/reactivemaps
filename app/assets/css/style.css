@@ -495,6 +495,10 @@
 
 .rbc.rbc-placessearch {
   padding: 0; }
+  .rbc.rbc-placessearch > .row {
+    margin: 0; }
+    .rbc.rbc-placessearch > .row .col.s12 {
+      padding: 0; }
   .rbc.rbc-placessearch .is-focused:not(.is-open) > .Select-control {
     box-shadow: none;
     border: 0; }
