@@ -4,11 +4,10 @@ var ReactDOM = require('react-dom');
 import {
 	ReactiveBase,
 	MultiList,
-	ResultList
-} from '@appbaseio/reactivebase';
-
-import { GeoDistanceSlider } from '../../app/sensors/GeoDistanceSlider';
-import { ReactiveMap } from '../../app/app.js';
+	ResultList,
+	GeoDistanceSlider,
+	ReactiveMap
+} from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {
@@ -136,9 +135,11 @@ class Main extends Component {
 								<GeoDistanceSlider
 									componentId="GeoDistanceSlider"
 									appbaseField={this.props.mapping.location}
-									minThreshold={1}
-									maxThreshold={60}
-									value={50}
+									range={{
+										start: 1,
+										end: 200
+									}}
+									defaultSelected={50}
 									unit="mi"
 									title="Geo Distance Search"
 									placeholder="Search Location" />

@@ -10,12 +10,6 @@
   font-weight: 900;
   font-style: normal; }
 
-@font-face {
-  font-family: 'Lato Bold Italic';
-  src: url("../fonts/Lato/Lato-BoldItalic.ttf") format("truetype");
-  font-weight: 900;
-  font-style: normal; }
-
 .rbc-red .rbc.rbc-geodistancedropdown .Select-control .Select-arrow-zone .Select-arrow,
 .rbc-red .rbc.rbc-geodistanceslider .Select-control .Select-arrow-zone .Select-arrow,
 .rbc-red .rbc.rbc-googlesearch .Select-control .Select-arrow-zone .Select-arrow {
@@ -501,6 +495,10 @@
 
 .rbc.rbc-placessearch {
   padding: 0; }
+  .rbc.rbc-placessearch > .row {
+    margin: 0; }
+    .rbc.rbc-placessearch > .row .col.s12 {
+      padding: 0; }
   .rbc.rbc-placessearch .is-focused:not(.is-open) > .Select-control {
     box-shadow: none;
     border: 0; }

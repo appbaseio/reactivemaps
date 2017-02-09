@@ -1,6 +1,14 @@
 .rbc.rbc-placessearch {
 	padding: 0;
 
+	& > .row {
+		margin: 0;
+
+		.col.s12 {
+			padding: 0;
+		}
+	}
+
 	.is-focused:not(.is-open)>.Select-control {
 		box-shadow: none;
 		border: 0;

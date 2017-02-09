@@ -126,7 +126,7 @@ section {
     font-size: 1.5rem;
     font-family: "Source Sans Pro Light"; }
   #top .star-frame {
-    padding-left: 60px; }
+    padding-left: 30px; }
     #top .star-frame .github-btn-large .gh-btn, #top .star-frame .github-btn-large .gh-count {
       font-size: 2rem; }
   @media screen and (max-width: 768px) {
@@ -273,6 +273,18 @@ footer {
 
 .m-b-4 {
   margin-bottom: 60px; }
+
+.m-t-1 {
+  margin-top: 15px; }
+
+.m-t-2 {
+  margin-top: 30px; }
+
+.m-t-3 {
+  margin-top: 45px; }
+
+.m-t-4 {
+  margin-top: 60px; }
 
 .flex-box {
   display: flex; }

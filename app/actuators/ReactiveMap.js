@@ -657,7 +657,7 @@ export class ReactiveMap extends Component {
 		return(
 			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={this.props.componentStyle}>
 				{title}
-				<span className="col s12 m4 col-xs-12 col-sm-4">
+				<span className="col s12 col-xs-12">
 					{showMapStyles}
 				</span>
 				<GoogleMapLoader
@@ -782,9 +782,7 @@ ReactiveMap.defaultProps = {
 	autoMapRender: true,
 	defaultMarkerImage: 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png',
 	streamMarkerImage: 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png',
-	componentStyle: {
-		height: '100%'
-	},
+	componentStyle: {},
 	containerStyle: {
 		height: '700px'
 	},
