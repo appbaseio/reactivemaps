@@ -65,7 +65,9 @@ where
 - **username** is the app's access username,
 - **password** is the app's access password.
 
-username:password form the credentials to access an appbase.io app.
+username:password form the credentials to access an [appbase.io](https://appbase.io) app. Follow the steps as shown in the gif for fetching the app credentials.
+
+![App creation GIF](https://i.imgur.com/Y6HiHnJ.gif)
 
 Additionally, you can also pass **type** and **theme** props. **type** determines the scope of data to be accessed within the app, it defaults to the entire app. **theme** determines the overall look and feel. Available themes include `rbc-blue`, `rbc-green`, `rbc-red`, `rbc-orange`, `rbc-yellow` and `rbc-dark`.
 
