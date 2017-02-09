@@ -38,18 +38,11 @@ And then import the components
 
 ```javascript    
 import {
+  SingleList,
+  ReactiveBase,
   ReactiveMap
 } from '@appbaseio/reactivemaps';
-
-import {
-  SingleList,
-  ReactiveBase
-} from '@appbaseio/reactivebase';
 ```     
-
-ReactiveMaps provides components specific to the map interface. It comes with `GeoDistanceSlider`, `GeoDistanceDropdown`, `PlacesSearch` and `ReactiveMap` components.
-
-ReactiveBase provides components that are generic in nature. Amongst many others, `ReactiveBase` and `SingleList` components belong to ReactiveBase.
 
 Besides importing the components, there is a single CSS file that should be added in your app's &lt;head&gt; element along with a CSS framework of your choice. We have tested with Materialize and Bootstrap while building reactivemaps.
 
