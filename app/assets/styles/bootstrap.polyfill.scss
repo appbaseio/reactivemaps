@@ -1,0 +1,15 @@
+.rbc {
+	&.rbc-reactivemap {
+		height: auto;
+
+		[type=checkbox]+label {
+			padding-left: 10px;
+		}
+
+		.rbc-checkbox {
+			left: 25px;
+			bottom: 30px;
+			padding: 5px;
+		}
+	}
+}

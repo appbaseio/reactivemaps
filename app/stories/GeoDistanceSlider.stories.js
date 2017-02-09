@@ -45,7 +45,7 @@ export default class GeoDistanceSliderDefault extends Component {
 				theme="rbc-blue"
 			>
 				<div className="row">
-					<div className="col s6">
+					<div className="col s6 col-xs-6">
 						<GeoDistanceSlider
 							componentId="GeoDistanceSlider"
 							appbaseField={this.props.mapping.location}
@@ -56,7 +56,7 @@ export default class GeoDistanceSliderDefault extends Component {
 							{...this.props}
 						/>
 					</div>
-					<div className="col s6">
+					<div className="col s6 col-xs-6">
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
 							historicalData={true}

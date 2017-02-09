@@ -32,9 +32,11 @@ gulp.task('sass', function() {
 
 gulp.task('moveCss', ['maincss'], function() {
 	return gulp.src([
-			'app/assets/css/bootstrap.polyfill.css',
-			'app/assets/css/material.polyfill.css'
+			'node_modules/@appbaseio/reactivebase/dist/css/bootstrap.polyfill.min.css',
+			'app/assets/css/bootstrap.polyfill.css'
 		])
+		.pipe(minifyCSS())
+		.pipe(concat('bootstrap.polyfill.min.css'))
 		.pipe(gulp.dest('dist/css'));
 });
 
