@@ -23,7 +23,6 @@ export class PlacesSearch extends Component {
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.loadOptions = this.loadOptions.bind(this);
-		this.customQuery = this.customQuery.bind(this);
 		this.handleValuesChange = this.handleValuesChange.bind(this);
 		this.handleResults = this.handleResults.bind(this);
 	}
@@ -63,25 +62,10 @@ export class PlacesSearch extends Component {
 			key: this.props.componentId,
 			value: {
 				queryType: this.type,
-				inputData: this.props.appbaseField,
-				customQuery: this.customQuery
+				inputData: this.props.appbaseField
 			}
 		};
 		helper.selectedSensor.setSensorInfo(obj);
-	}
-
-	// build query for this sensor only
-	customQuery(value) {
-		if(value && value.currentValue != '' && value.location != '') {
-			return {
-				[this.type]: {
-					[this.props.appbaseField]: value.location,
-					'distance': value.currentDistance
-				}
-			}
-		} else {
-			return;
-		}
 	}
 
 	// get coordinates
