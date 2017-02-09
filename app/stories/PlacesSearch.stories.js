@@ -1,6 +1,9 @@
 import { default as React, Component } from 'react';
-import { ReactiveBase } from '@appbaseio/reactivebase';
-import { ReactiveMap, PlacesSearch } from '../../app/app.js';
+import {
+	ReactiveBase,
+	ReactiveMap,
+	PlacesSearch
+} from '../app.js';
 
 export default class PlacesSearchDefault extends Component {
 	constructor(props) {

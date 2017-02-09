@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import { ReactiveBase, AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
-import { GeoDistanceSlider, ReactiveMap } from '../app.js';
+import {
+	ReactiveBase,
+	ReactiveMap,
+	GeoDistanceSlider,
+	AppbaseSensorHelper as helper
+} from '../app.js';
 
 import { Img } from './Img.js';
 const historyPin = require('./placeholder.svg');
