@@ -4,11 +4,6 @@ import {
 	ReactiveBase,
 	MultiList,
 	RangeSlider,
-	GeoDistanceSlider,
-	ToggleButton
-} from '@appbaseio/reactivebase';
-
-import {
 	ReactiveMap
 } from '../../app/app.js';
 

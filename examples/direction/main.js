@@ -1,9 +1,11 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 
-import { ReactiveBase } from '@appbaseio/reactivebase';
-import { ReactiveMap } from '../../app/app.js';
-import { PlacesSearch } from '../../app/sensors/PlacesSearch.js';
+import { 
+	ReactiveBase,
+	ReactiveMap,
+	PlacesSearch
+} from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {

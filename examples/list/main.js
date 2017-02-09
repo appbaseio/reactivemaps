@@ -8,7 +8,7 @@ import {
 	RangeSlider,
 	DataSearch,
 	ResultList
-} from '@appbaseio/reactivebase';
+} from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {

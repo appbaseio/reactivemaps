@@ -2,10 +2,9 @@ import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import {
 	ReactiveBase,
-	MultiList
-} from '@appbaseio/reactivebase';
-
-import { ReactiveMap } from '../../app/app.js';
+	MultiList,
+	ReactiveMap
+} from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {
