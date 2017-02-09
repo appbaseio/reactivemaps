@@ -38,18 +38,11 @@ And then import the components
 
 ```javascript    
 import {
+  SingleList,
+  ReactiveBase,
   ReactiveMap
 } from '@appbaseio/reactivemaps';
-
-import {
-  SingleList,
-  ReactiveBase
-} from '@appbaseio/reactivebase';
 ```     
-
-ReactiveMaps provides components specific to the map interface. It comes with `GeoDistanceSlider`, `GeoDistanceDropdown`, `PlacesSearch` and `ReactiveMap` components.
-
-ReactiveBase provides components that are generic in nature. Amongst many others, `ReactiveBase` and `SingleList` components belong to ReactiveBase.
 
 Besides importing the components, there is a single CSS file that should be added in your app's &lt;head&gt; element along with a CSS framework of your choice. We have tested with Materialize and Bootstrap while building reactivemaps.
 
@@ -72,7 +65,9 @@ where
 - **username** is the app's access username,
 - **password** is the app's access password.
 
-username:password form the credentials to access an appbase.io app.
+username:password form the credentials to access an [appbase.io](https://appbase.io) app. Follow the steps as shown in the gif for fetching the app credentials.
+
+![App creation GIF](https://i.imgur.com/Y6HiHnJ.gif)
 
 Additionally, you can also pass **type** and **theme** props. **type** determines the scope of data to be accessed within the app, it defaults to the entire app. **theme** determines the overall look and feel. Available themes include `rbc-blue`, `rbc-green`, `rbc-red`, `rbc-orange`, `rbc-yellow` and `rbc-dark`.
 
