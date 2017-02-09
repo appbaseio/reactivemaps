@@ -72,13 +72,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _PlacesSearch = __webpack_require__(553);
 
-	// actuators
-	module.exports = {
+	var _reactivebase = __webpack_require__(62);
+
+	var _reactivebase2 = _interopRequireDefault(_reactivebase);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var combineObj = {
 		ReactiveMap: _ReactiveMap.ReactiveMap,
 		GeoDistanceSlider: _GeoDistanceSlider.GeoDistanceSlider,
 		GeoDistanceDropdown: _GeoDistanceDropdown.GeoDistanceDropdown,
 		PlacesSearch: _PlacesSearch.PlacesSearch
-	};
+	}; // actuators
+
+
+	for (var component in _reactivebase2.default) {
+		combineObj[component] = _reactivebase2.default[component];
+	}
+
+	module.exports = combineObj;
 
 /***/ },
 /* 2 */
@@ -94375,6 +94387,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				order: 'asc',
 				unit: _this.unit
 			};
+			_this.allowedUnit = ['mi', 'miles', 'yd', 'yards', 'ft', 'feet', 'in', 'inch', 'km', 'kilometers', 'm', 'meters', 'cm', 'centimeters', 'mm', 'millimeters', 'NM', 'nmi', 'nauticalmiles'];
 
 			if (_this.props.defaultSelected) {
 				var selected = _this.props.data.filter(function (item) {
@@ -94411,12 +94424,17 @@ return /******/ (function(modules) { // webpackBootstrap
 						if (selected[0]) {
 							_this2.setState({
 								selected: selected[0]
-							});
+							}, _this2.executeQuery);
 						}
 					}
 					if (nextProps.unit != _this2.unit) {
-						_this2.unit = nextProps.unit;
-						_this2.executeQuery();
+						var _selected = _this2.allowedUnit.filter(function (item) {
+							return item === nextProps.unit;
+						});
+						if (_selected[0]) {
+							_this2.unit = nextProps.unit;
+							_this2.executeQuery();
+						}
 					}
 				}, 300);
 			}
@@ -94513,7 +94531,8 @@ return /******/ (function(modules) { // webpackBootstrap
 							currentValue: this.state.currentValue,
 							start: this.state.selected.start,
 							end: this.state.selected.end,
-							location: this.locString
+							location: this.locString,
+							unit: this.unit
 						}
 					};
 					var sortObj = {
@@ -94673,7 +94692,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	GeoDistanceDropdown.propTypes = {
 		appbaseField: _react2.default.PropTypes.string.isRequired,
 		placeholder: _react2.default.PropTypes.string,
-		unit: _react2.default.PropTypes.string,
+		unit: _react2.default.PropTypes.oneOf(['mi', 'miles', 'yd', 'yards', 'ft', 'feet', 'in', 'inch', 'km', 'kilometers', 'm', 'meters', 'cm', 'centimeters', 'mm', 'millimeters', 'NM', 'nmi', 'nauticalmiles']),
 		data: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.shape({
 			start: _reactivebase.AppbaseSensorHelper.validateThreshold,
 			end: _reactivebase.AppbaseSensorHelper.validateThreshold,
