@@ -1,12 +1,10 @@
 import {
 	default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
-import {
-	ReactiveBase,
-	TextField
-} from '@appbaseio/reactivebase';
 
 import {
+	ReactiveBase,
+	TextField,
 	ReactiveMap,
 	GeoDistanceDropdown
 } from '../../app/app.js';

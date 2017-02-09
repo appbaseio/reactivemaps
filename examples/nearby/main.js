@@ -4,11 +4,10 @@ var ReactDOM = require('react-dom');
 import {
 	ReactiveBase,
 	MultiList,
-	ResultList
-} from '@appbaseio/reactivebase';
-
-import { GeoDistanceSlider } from '../../app/sensors/GeoDistanceSlider';
-import { ReactiveMap } from '../../app/app.js';
+	ResultList,
+	GeoDistanceSlider,
+	ReactiveMap
+} from '../../app/app.js';
 
 class Main extends Component {
 	constructor(props) {
