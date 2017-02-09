@@ -122,6 +122,7 @@ class Main extends Component {
 						defaultMapStyle={this.props.mapStyle}
 						autoCenter={true}
 						showSearchAsMove={true}
+						setSearchAsMove={true}
 						searchAsMoveDefault={false}
 						showMapStyles={true}
 						title="Heatmap"

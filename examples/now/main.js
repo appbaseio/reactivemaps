@@ -98,7 +98,6 @@ class Main extends Component {
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
 							defaultZoom={13}
-							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							historicalData={true}
 							setMarkerCluster={false}
 							defaultMapStyle={this.props.mapStyle}
@@ -121,6 +120,7 @@ class Main extends Component {
 								<SingleList
 									componentId="CitySensor"
 									appbaseField={this.props.mapping.city}
+									defaultSelected="new york"
 									showCount={true}
 									size={100}
 									multipleSelect={false}

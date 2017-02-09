@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import { ReactiveBase, SingleDropdownList, AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
-import { ReactiveMap } from '../app.js';
+import {
+	ReactiveBase,
+	SingleDropdownList,
+	ReactiveMap,
+	AppbaseSensorHelper as helper
+} from '../app.js';
 
 import { Img } from './Img.js';
 const historyPin = require('./placeholder.svg');

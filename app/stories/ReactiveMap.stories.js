@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import { ReactiveBase, DataSearch, SingleList, AppbaseSensorHelper as helper } from '@appbaseio/reactivebase';
-import { PlacesSearch, ReactiveMap } from '../app.js';
+import {
+	ReactiveBase,
+	DataSearch,
+	SingleList,
+	ReactiveMap,
+	PlacesSearch,
+	AppbaseSensorHelper as helper
+} from '../app.js';
 
 import { Img } from './Img.js';
 const historyPin = require('./placeholder.svg');
