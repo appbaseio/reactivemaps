@@ -922,11 +922,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					'div',
 					{ className: 'rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ' + cx, style: this.props.componentStyle },
 					title,
-					_react2.default.createElement(
-						'span',
-						{ className: 'col s12 m4 col-xs-12 col-sm-4' },
-						showMapStyles
-					),
+					showMapStyles,
 					_react2.default.createElement(_reactGoogleMaps.GoogleMapLoader, {
 						containerElement: _react2.default.createElement('div', { className: 'rbc-container col s12 col-xs-12', style: this.props.containerStyle }),
 						googleMapElement: _react2.default.createElement(
@@ -1078,9 +1074,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		autoMapRender: true,
 		defaultMarkerImage: 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png',
 		streamMarkerImage: 'https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png',
-		componentStyle: {
-			height: '100%'
-		},
+		componentStyle: {},
 		containerStyle: {
 			height: '700px'
 		},
@@ -92468,10 +92462,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			var _this = _possibleConstructorReturn(this, (GeoDistanceSlider.__proto__ || Object.getPrototypeOf(GeoDistanceSlider)).call(this, props));
 
-			var value = _this.props.defaultSelected < _this.props.range.start ? _this.props.range.start : _this.props.defaultSelected;
+			var value = _this.props.defaultSelected ? _this.props.defaultSelected < _this.props.range.start ? _this.props.range.start : _this.props.defaultSelected : _this.props.range.start;
 			_this.state = {
 				currentValue: '',
-				currentDistance: _this.props.defaultSelected + _this.props.unit,
+				currentDistance: value + _this.props.unit,
 				userLocation: '',
 				value: value
 			};
@@ -94744,8 +94738,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -94772,7 +94764,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			};
 			_this.handleChange = _this.handleChange.bind(_this);
 			_this.loadOptions = _this.loadOptions.bind(_this);
-			_this.customQuery = _this.customQuery.bind(_this);
 			_this.handleValuesChange = _this.handleValuesChange.bind(_this);
 			_this.handleResults = _this.handleResults.bind(_this);
 			return _this;
@@ -94823,25 +94814,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					key: this.props.componentId,
 					value: {
 						queryType: this.type,
-						inputData: this.props.appbaseField,
-						customQuery: this.customQuery
+						inputData: this.props.appbaseField
 					}
 				};
 				_reactivebase.AppbaseSensorHelper.selectedSensor.setSensorInfo(obj);
-			}
-
-			// build query for this sensor only
-
-		}, {
-			key: 'customQuery',
-			value: function customQuery(value) {
-				if (value && value.currentValue != '' && value.location != '') {
-					var _type;
-
-					return _defineProperty({}, this.type, (_type = {}, _defineProperty(_type, this.props.appbaseField, value.location), _defineProperty(_type, 'distance', value.currentDistance), _type));
-				} else {
-					return;
-				}
 			}
 
 			// get coordinates
