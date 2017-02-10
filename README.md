@@ -1,126 +1,126 @@
-# ReactiveMaps
-
 [![Join the chat at https://gitter.im/appbaseio/reactivemaps](https://badges.gitter.im/appbaseio/reactivemaps.svg)](https://gitter.im/appbaseio/reactivemaps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-A React components library for building maps that update in realtime.
 
 ![](https://i.imgur.com/PqRqJDz.png)
 
-## Playground
+# ReactiveMaps
 
-Try the live playground at https://opensource.appbase.io/reactivemaps/playground.
+A React components library for building maps that update in realtime.
 
-## Examples
+1. **[Reactive Maps: Intro](#1-reactive-maps-intro)**   
+2. **[Features](#2-features)**  
+3. **[Component Playground](#3-component-playground)**
+4. **[Live Examples](#4-live-examples)**  
+5. **[Installation](#5-installation)**
+6. **[Geting Started](#6-getting-started)**  
+7. **[Docs Manual](#7-docs-manual)**
+8. **[Developing Locally](#8-developing-locally)**  
 
-- [examples/now](https://opensource.appbase.io/reactivemaps/examples/now)
-- [examples/meetupblast](https://opensource.appbase.io/reactivemaps/examples/meetupblast/)
-- [examples/heatmap](https://opensource.appbase.io/reactivemaps/examples/heatmap/)
-- [examples/earthquake](https://opensource.appbase.io/reactivemaps/examples/earthquake/)
-- [examples/transport](https://opensource.appbase.io/reactivemaps/examples/transport/)
-- [examples/list](https://opensource.appbase.io/reactivemaps/examples/list/)
-- [examples/events](https://opensource.appbase.io/reactivemaps/examples/events/)
+<br>
 
-## Using it
+## 1. Reactive Maps: Intro
 
-ReactiveMaps uses Google Maps underneath. You should include this script in your app's <head> element with an API key to get access to 25,000 daily map views*.
+Reactivemaps is a React based components library for building realtime maps. It is built on top of the appbase.io realtime DB service and ships with 20+ components for Lists, Dropdowns, Numeric Range, Sliders, Data Search, Places Search, Distance Slider and Dropdowns, Calendars, Feeds and Maps.
 
-```javascript    
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=Your_key_here"></script>
-```    
+The library is conceptually divided into two parts:  
 
-### Installation
+1. Sensor components and
+2. Actuator components.
 
-``` javascript
-npm install --save @appbaseio/reactivemaps
-```
+Each sensor component is purpose built for applying a specific filter on the data. For example:
 
-And then import the components
+* A `SingleList` sensor component applies an exact match filter based on the selected item.
+* A `RangeSlider` component applies a numeric range query based on hte values selected from the UI.
 
-```javascript    
-import {
-  SingleList,
-  ReactiveBase,
-  ReactiveMap
-} from '@appbaseio/reactivemaps';
-```     
+On or more sensor components can be configured to create a combined query context to render the results via an actuator.
 
-Besides importing the components, there is a single CSS file that should be added in your app's &lt;head&gt; element along with a CSS framework of your choice. We have tested with Materialize and Bootstrap while building reactivemaps.
+**ReactiveMaps** comes with two actuators: `ReactiveMap` and `ResultList`. The former displays the filtered data from individual sensor components on a map interface while the latter displays the filtered data on a simple list interface.
 
-```html
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
-<link rel="stylesheet" href="node_modules/@appbaseio/reactivemaps/dist/css/style.min.css">
-```
+## 2. Features
 
-### Building a Simple App
+### Design
 
-```javascript
-  <ReactiveBase 
-    app="map-demo"
-    username="mgVijsReD"
-    password="d67f1d62-26c5-49cb-b8b3-c6e2a6f04e74"/>
-```
+* The sensor / actuator design pattern allows creating complex UIs where any number of sensors can be chained together to reactively update an actuator (or even multiple actuators).
+* The library handles the transformation of the UI interactions into database queries. You only need to include the components and associate each with a DB field.
+* Built in live updates - Actuators can be set to update results even when the underlying data changes in the DB.
+* Comes with a cleanly namespaced styles API that allows extending the existing component styles without hassle.
+* Built in `light` and `dark` UI themes. 
 
-where
-- **app** is the app name of the appbase.io app,
-- **username** is the app's access username,
-- **password** is the app's access password.
 
-username:password form the credentials to access an [appbase.io](https://appbase.io) app. Follow the steps as shown in the gif for fetching the app credentials.
+### Ease of Use
 
-![App creation GIF](https://i.imgur.com/Y6HiHnJ.gif)
+* [Can be installed with NPM](https://opensource.appbase.io/reactivemaps/manual/v1/getting-started/Installation.html),
+* Can be run in browser without including any NPM or bundlers (gulp, webpack, etc.), see a demo [here](https://github.com/appbaseio-apps/reactivemaps-starter-app#try-in-browser-without-npm),
+* Works out of the box with Materialize CSS and comes with a polyfill CSS for Bootstrap. Compatibility for other frameworks can be added too.
 
-Additionally, you can also pass **type** and **theme** props. **type** determines the scope of data to be accessed within the app, it defaults to the entire app. **theme** determines the overall look and feel. Available themes include `rbc-blue`, `rbc-green`, `rbc-red`, `rbc-orange`, `rbc-yellow` and `rbc-dark`.
 
-### Adding Components
+## 3. Component Playground
 
-Adding `SingleList` and `ReactiveMap` component inside your React component's render() method should look something like this.
+Try the live component playground at [playground](https://opensource.appbase.io/reactivemaps/playground). Look out for the knobs section in the playground part of the stories to tweak each prop and see the udpates.
 
-```javascript
-  <ReactiveBase ... >
-    <div class="row">
-      <div class="col-xs-6">
-        <SingleList
-          title="SingleList Sensor"
-          componentId="SingleListSensor"
-          appbaseField="group.group_city"
-          size={50}
-          showSearch={true}
-        />
-      </div>
-      <div class="col-xs-6">
-        <ReactiveMap
-          title="ReactiveMap Actuator"
-          componentId="ReactiveMapActuator"
-          appbaseField="venue"
-          actuate={{
-            "SingleListSensor": { "operation": "must" }
-          }}
-        />
-      </div>
-    </div>
-  </ReactiveBase>
-```
 
-If you don't already have a React app, we recommend checking out the [starter app](https://github.com/appbaseio-apps/reactivemaps-starter-app) for getting started with ReactiveMaps.
+## 4. Live Examples
 
-## Developing Locally
+A set of examples inspired by real world apps built with the ReactiveMaps library.
+
+- [examples/now](https://opensource.appbase.io/reactivemaps/examples/now) - A checkins based discovery experience.
+- [examples/meetupblast](https://opensource.appbase.io/reactivemaps/examples/meetupblast/) - A live feed of meetup RSVPs displayed on a map.
+- [examples/heatmap](https://opensource.appbase.io/reactivemaps/examples/heatmap/) - A hetmap example using polygons on a map.
+- [examples/earthquake](https://opensource.appbase.io/reactivemaps/examples/earthquake/) - A historical visualization of earthquake data across the globe.
+- [examples/transport](https://opensource.appbase.io/reactivemaps/examples/transport/) - A simulated transport example of buses in San Francisco.
+- [examples/events](https://opensource.appbase.io/reactivemaps/examples/events/) - An example of the events exposed by the library.
+
+You can check all of them on the [examples page](https://opensource.appbase.io/reactivemaps/examples/).
+
+## 5. Installation
+
+Follow the installation guide from the official docs [here](https://opensource.appbase.io/reactivemaps/manual/v1/getting-started/Installation.html).
+
+You can try out the library live without any installation via the [interactive tutorial](https://opensource.appbase.io/reactivemaps/onboarding/).
+
+## 6. Getting Started
+
+Follow the getting started guide to build a Hello Maps! app from the official docs [here](https://opensource.appbase.io/reactivemaps/manual/v1/getting-started/Start.html).
+
+
+## 7. Docs Manual
+
+The official docs for the library are at [https://opensource.appbase.io/manual](https://opensource.appbase.io/manual).
+
+The components are divided into two sections:
+* Generic UI components are at [https://opensource.appbase.io/manual/v1/components](https://opensource.appbase.io/manual/v1/components/).
+* Map based UI components are at [https://opensource.appbase.io/manual/v1/map-components](https://opensource.appbase.io/manual/v1/map-components/).
+* Each component's styles API is mentioned in a separate **CSS Styles API** section. See here for [SingleList](https://opensource.appbase.io/reactivemaps/manual/v1/components/SingleList.html#-singlelist-css-styles-api).
+* You can read more about the Styles API here - https://opensource.appbase.io/reactivemaps/manual/v1/getting-started/StyleGuide.html.
+
+TODO - Add docs for the mapping section between UI components and DB backend.
+
+
+## 8. Developing Locally
 
 ```
+git clone https://github.com/appbasieo/reactivemaps
 npm install
 ```
 
-Start the development server on port `8012`:
+Start the development server on port `8012`.
 
 ```
 npm start
 ```
 
-Examples can be accessed at http://localhost:8012/examples.  
+Examples can be accessed at [https://localhost:8012/examples](https://localhost:8012/examples).  
 
-Docs can be accessed at http://localhost:8012/manual.
-
-You can also run storybook (aka component playground) on port `9009` with
+You can also start the component playground on port `9009` with
 
 ```
 npm run storybook
 ```
+
+By adding the `manual` submodule, you can access the docs locally.
+
+```
+git submodule init
+cd manual && git submodule update
+```
+
+Once added, the docs manual can be accessed at [http://localhost:8012/manual](http://localhost:8012/manual).
