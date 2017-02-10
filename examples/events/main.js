@@ -1,10 +1,10 @@
 import { default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
-
-import { 
+import {
 	ReactiveBase,
 	ReactiveMap
 } from '../../app/app.js';
+var $ = require('jquery');
 
 class Main extends Component {
 	constructor(props) {
