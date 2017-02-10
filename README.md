@@ -11,7 +11,7 @@ A React components library for building maps that update in realtime.
 3. **[Component Playground](#3-component-playground)**
 4. **[Live Examples](#4-live-examples)**  
 5. **[Installation](#5-installation)**
-6. **[Geting Started](#6-getting-started)**  
+6. **[Getting Started](#6-getting-started)**  
 7. **[Docs Manual](#7-docs-manual)**
 8. **[Developing Locally](#8-developing-locally)**  
 
