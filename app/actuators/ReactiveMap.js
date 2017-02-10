@@ -657,9 +657,7 @@ export class ReactiveMap extends Component {
 		return(
 			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={this.props.componentStyle}>
 				{title}
-				<span className="col s12 col-xs-12">
-					{showMapStyles}
-				</span>
+				{showMapStyles}
 				<GoogleMapLoader
 					containerElement={
 						<div className="rbc-container col s12 col-xs-12" style={this.props.containerStyle}/>
