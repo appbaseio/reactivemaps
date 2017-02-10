@@ -6,13 +6,14 @@
 
 A React components library for building maps that update in realtime.
 
-1. **[Reactive Maps: Intro](#1-reactivemaps-intro)**   
+1. **[Reactive Maps: Intro](#1-reactive-maps-intro)**   
 2. **[Features](#2-features)**  
 3. **[Component Playground](#3-component-playground)**
-4. **[Live Examples](#4-build-locally)**  
+4. **[Live Examples](#4-live-examples)**  
 5. **[Installation](#5-installation)**
 6. **[Geting Started](#6-getting-started)**  
-7. **[Developing Locally](#6-developing-locally)**  
+7. **[Docs Manual](#7-docs-manual)**
+8. **[Developing Locally](#8-developing-locally)**  
 
 <br>
 
@@ -52,8 +53,6 @@ On or more sensor components can be configured to create a combined query contex
 * Works out of the box with Materialize CSS and comes with a polyfill CSS for Bootstrap. Compatibility for other frameworks can be added too.
 
 
-
-
 ## 3. Component Playground
 
 Try the live component playground at [playground](https://opensource.appbase.io/reactivemaps/playground). Look out for the knobs section in the playground part of the stories to tweak each prop and see the udpates.
@@ -72,7 +71,7 @@ A set of examples inspired by real world apps built with the ReactiveMaps librar
 
 You can check all of them on the [examples page](https://opensource.appbase.io/reactivemaps/examples/).
 
-## 5. Installation Guide
+## 5. Installation
 
 Follow the installation guide from the official docs [here](https://opensource.appbase.io/reactivemaps/manual/v1/getting-started/Installation.html).
 
@@ -82,8 +81,21 @@ You can try out the library live without any installation via the [interactive t
 
 Follow the getting started guide to build a Hello Maps! app from the official docs [here](https://opensource.appbase.io/reactivemaps/manual/v1/getting-started/Start.html).
 
-## 7. Developing Locally
 
+## 7. Docs Manual
+
+The official docs for the library are at [https://opensource.appbase.io/manual](https://opensource.appbase.io/manual).
+
+The components are divided into two sections:
+* Generic UI components are at [https://opensource.appbase.io/manual/v1/components](https://opensource.appbase.io/manual/v1/components/).
+* Map based UI components are at [https://opensource.appbase.io/manual/v1/map-components](https://opensource.appbase.io/manual/v1/map-components/).
+* Each component's styles API is mentioned in a separate **CSS Styles API** section. See here for [SingleList](https://opensource.appbase.io/reactivemaps/manual/v1/components/SingleList.html#-singlelist-css-styles-api).
+* You can read more about the Styles API here - https://opensource.appbase.io/reactivemaps/manual/v1/getting-started/StyleGuide.html.
+
+TODO - Add docs for the mapping section between UI components and DB backend.
+
+
+## 8. Developing Locally
 
 ```
 git clone https://github.com/appbasieo/reactivemaps
@@ -96,7 +108,7 @@ Start the development server on port `8012`.
 npm start
 ```
 
-Examples can be accessed at [https://localhost:8012/examples]().  
+Examples can be accessed at [https://localhost:8012/examples](https://localhost:8012/examples).  
 
 You can also start the component playground on port `9009` with
 
@@ -111,4 +123,4 @@ git submodule init
 cd manual && git submodule update
 ```
 
-Once added, the docs manual can be accessed at [http://localhost:8012/manual]().
+Once added, the docs manual can be accessed at [http://localhost:8012/manual](http://localhost:8012/manual).
