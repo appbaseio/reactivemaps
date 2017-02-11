@@ -1,10 +1,12 @@
 # Reactive Maps
 
+A React components library for building maps that update in realtime.
+
 [![Join the chat at https://gitter.im/appbaseio/reactivemaps](https://badges.gitter.im/appbaseio/reactivemaps.svg)](https://gitter.im/appbaseio/reactivemaps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) ![Build Status Image](https://img.shields.io/badge/build-passing-brightgreen.svg)
 
 ![](https://i.imgur.com/PqRqJDz.png)
 
-A React components library for building maps that update in realtime.
+## TOC
 
 1. **[Reactive Maps: Intro](#1-reactive-maps-intro)**   
 2. **[Features](#2-features)**  
