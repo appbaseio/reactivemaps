@@ -20,6 +20,7 @@ class Main extends Component {
 			}
 		};
 		this.simulationFlag = true;
+		this.onDataExecuted = false;
 		this.mapOnIdle = this.mapOnIdle.bind(this);
 		this.onData = this.onData.bind(this);
 		this.onPopoverTrigger = this.onPopoverTrigger.bind(this);
@@ -47,6 +48,7 @@ class Main extends Component {
 
 	// get the markers create polygon accordingly
 	onData(res) {
+		this.onDataExecuted = true;
 		this.markers = res.allMarkers;
 		this.passExistingData(res);
 		console.log('Applying polgon', res.mode);
@@ -69,7 +71,7 @@ class Main extends Component {
 			return grid.cell;
 		})
 		setTimeout(() => {
-			if(this.simulationFlag) {
+			if(this.simulationFlag && this.onDataExecuted) {
 				HeatmapWorker.init(this.props.config, this.props.mapping.location, res.boundingBoxCoordinates);
 			}
 		}, 10*1000);
@@ -122,7 +124,7 @@ class Main extends Component {
 						defaultMapStyle={this.props.mapStyle}
 						autoCenter={true}
 						showSearchAsMove={true}
-						setSearchAsMove={true}
+						applyGeoQuery={true}
 						searchAsMoveDefault={false}
 						showMapStyles={true}
 						title="Heatmap"
