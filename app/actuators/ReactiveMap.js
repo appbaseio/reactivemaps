@@ -29,10 +29,12 @@ export class ReactiveMap extends Component {
 			externalData: {},
 			mapBounds: null
 		};
+		this.geoRelatedEvents = ['onDragend', 'onZoomChanged'];
 		this.previousSelectedSensor = {};
 		this.handleSearch = this.handleSearch.bind(this);
 		this.searchAsMoveChange = this.searchAsMoveChange.bind(this);
 		this.mapStyleChange = this.mapStyleChange.bind(this);
+		this.geoCustomQuery = this.geoCustomQuery.bind(this);
 		this.queryStartTime = 0;
 		this.reposition = false;
 	}
@@ -52,14 +54,14 @@ export class ReactiveMap extends Component {
 	componentDidMount() {
 		this.streamProp = this.props.stream;
 		this.sizeProp = this.props.size;
-		this.initialBoundInclude = false;
 		this.initialize();
 	}
 
 	initialize(updateExecute=false) {
-		this.createChannel(updateExecute);
 		this.setGeoQueryInfo();
+		this.createChannel(updateExecute);
 		let currentMapStyle = this.getMapStyle(this.props.defaultMapStyle);
+		this.applyGeoQuery = this.props.applyGeoQuery ? this.props.applyGeoQuery : this.props.setSearchAsMove;
 		this.setState({
 			currentMapStyle: currentMapStyle
 		});
@@ -289,7 +291,8 @@ export class ReactiveMap extends Component {
 				key: 'geoQuery',
 				value: {
 					queryType: 'geo_bounding_box',
-					inputData: this.props.appbaseField
+					inputData: this.props.appbaseField,
+					customQuery: this.geoCustomQuery
 				}
 		};
 		var obj1 = {
@@ -302,6 +305,24 @@ export class ReactiveMap extends Component {
 
 		helper.selectedSensor.setSensorInfo(obj);
 		helper.selectedSensor.setSensorInfo(obj1);
+	}
+
+	geoCustomQuery(value) {
+		if(value) {
+			let query = {
+				geo_bounding_box: {
+					[this.props.appbaseField]: value
+				}
+			};
+			if(this.geoRelatedEventsChange) {
+				this.geoRelatedEventsChange = false;
+				return query;
+			}
+			else if(this.applyGeoQuery) {
+				this.applyGeoQuery = false;
+				return query;
+			}
+		}
 	}
 
 	updateExecute() {
@@ -367,10 +388,9 @@ export class ReactiveMap extends Component {
 				});
 				stateObj.externalData = generatedData;
 			}
-			if(!this.initialBoundInclude || (this.searchAsMove && !this.searchQueryProgress)) {
-				let executeQuery = !this.initialBoundInclude ? true : this.searchAsMove;
-				this.setValue(boundingBoxCoordinates, executeQuery);
-				this.initialBoundInclude = true;
+			if(this.applyGeoQuery || (this.geoRelatedEventsChange && this.searchAsMove && !this.searchQueryProgress)) {
+				let flag = this.applyGeoQuery ? this.applyGeoQuery : this.searchAsMove;
+				this.setValue(boundingBoxCoordinates, flag);
 			}
 			this.setState(stateObj);
 		}
@@ -596,6 +616,9 @@ export class ReactiveMap extends Component {
 	}
 
 	mapEvents(eventName) {
+		if(this.geoRelatedEvents.indexOf(eventName) > -1) {
+			this.geoRelatedEventsChange = true;
+		}
 		if(this.props[eventName]) {
 			let externalData = this.props[eventName](this.refs.map);
 			if(externalData) {
@@ -626,7 +649,7 @@ export class ReactiveMap extends Component {
 		if(this.channelMethod === 'streaming' && !this.props.streamAutoCenter) {
 			streamCenterFlag = false;
 		}
-		if(!this.searchAsMove && this.props.autoCenter && this.reposition && streamCenterFlag) {
+		if(this.props.autoCenter && this.reposition && streamCenterFlag) {
 			center =  generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : (this.storeCenter ? this.storeCenter : this.state.center);
 			this.storeCenter = center;
 			this.reposition = false;
