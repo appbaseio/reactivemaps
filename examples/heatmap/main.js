@@ -77,7 +77,7 @@ class Main extends Component {
 	}
 
 	generatePolyColor() {
-		if(this.polygonGrid.length && this.markers && this.markers.hits && this.markers.hits.hits.length) {
+		if(this.polygonGrid && this.polygonGrid.length && this.markers && this.markers.hits && this.markers.hits.hits.length) {
 			let polygonGrid = this.polygonGrid.map((polygon) => {
 				polygon.markers = this.markers.hits.hits.filter((hit) => {
 					let markerPosition = [hit._source[this.props.mapping.location].lat, hit._source[this.props.mapping.location].lon];
