@@ -52,6 +52,7 @@ export class ReactiveMap extends Component {
 	componentDidMount() {
 		this.streamProp = this.props.stream;
 		this.sizeProp = this.props.size;
+		this.initialBoundInclude = false;
 		this.initialize();
 	}
 
@@ -366,8 +367,10 @@ export class ReactiveMap extends Component {
 				});
 				stateObj.externalData = generatedData;
 			}
-			if(this.searchAsMove && !this.searchQueryProgress) {
-				this.setValue(boundingBoxCoordinates, this.searchAsMove);
+			if(!this.initialBoundInclude || (this.searchAsMove && !this.searchQueryProgress)) {
+				let executeQuery = !this.initialBoundInclude ? true : this.searchAsMove;
+				this.setValue(boundingBoxCoordinates, executeQuery);
+				this.initialBoundInclude = true;
 			}
 			this.setState(stateObj);
 		}
