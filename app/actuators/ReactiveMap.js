@@ -106,11 +106,14 @@ export class ReactiveMap extends Component {
 	// Create a channel which passes the actuate and receive results whenever actuate changes
 	createChannel(updateExecute=false) {
 		// Set the actuate - add self aggs query as well with actuate
-		let actuate = this.props.actuate ? this.props.actuate : {};
-		actuate['geoQuery'] = { operation: "must" };
-		actuate.streamChanges = {operation: 'must'};
+		const react = this.props.react ? this.props.react : {};
+		if (react && react.and && typeof react.and === "string") {
+			react.and = [react.and];
+		}
+		react.and.push("geoQuery");
+		react.and.push("streamChanges");
 		// create a channel and listen the changes
-		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate, this.props.size, this.props.from, this.props.stream);
+		var channelObj = manager.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream);
 		this.channelId = channelObj.channelId;
 		this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function(res) {
 			let data = res.data;
@@ -783,6 +786,7 @@ ReactiveMap.propTypes = {
 	streamMarkerImage: React.PropTypes.string,
 	stream: React.PropTypes.bool,
 	defaultZoom: validation.defaultZoom,
+	applyGeoQuery: React.PropTypes.bool,
 	showPopoverOn: React.PropTypes.oneOf(['click', 'mouseover']),
 	defaultCenter: React.PropTypes.shape({
 		lat: validation.validCenter,
@@ -811,6 +815,7 @@ ReactiveMap.defaultProps = {
 		height: '700px'
 	},
 	stream: false,
+	applyGeoQuery: false,
 	defaultZoom: 13,
 	defaultCenter: {
 		"lat": 37.74,

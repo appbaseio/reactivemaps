@@ -74,8 +74,8 @@ export default class MultiDropdownRangeDefault extends Component {
 							onPopoverTrigger = {this.onPopoverTrigger}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
-							actuate={{
-								EarthquakeSensor: {"operation": "must"},
+							react={{
+								"and": "EarthquakeSensor"
 							}}
 						/>
 					</div>

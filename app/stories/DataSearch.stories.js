@@ -72,8 +72,8 @@ export default class DataSearchDefault extends Component {
 							onPopoverTrigger = {this.onPopoverTrigger}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
-							actuate={{
-								VenueSensor: {"operation": "must"}
+							react={{
+								"and": "VenueSensor"
 							}}
 						/>
 					</div>

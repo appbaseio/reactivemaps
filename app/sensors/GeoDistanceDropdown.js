@@ -1,9 +1,8 @@
-import { default as React, Component } from 'react';
 import {
-	AppbaseChannelManager as manager,
+	default as React, Component } from 'react';
+import {
 	AppbaseSensorHelper as helper
 } from '@appbaseio/reactivebase';
-
 import classNames from 'classnames';
 import axios from 'axios';
 import Slider from 'rc-slider';
@@ -100,7 +99,7 @@ export class GeoDistanceDropdown extends Component {
 			value: {
 				queryType: this.type,
 				appbaseField: this.props.appbaseField,
-				customQuery: this.customQuery
+				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
 			}
 		};
 		helper.selectedSensor.setSensorInfo(obj);
@@ -108,7 +107,7 @@ export class GeoDistanceDropdown extends Component {
 
 	// build query for this sensor only
 	customQuery(value) {
-		if(value && value.start >= 0 && value.end >=0 && value.location != '') {
+		if (value && value.start >= 0 && value.end >= 0 && value.location != '') {
 			return {
 				[this.type]: {
 					[this.props.appbaseField]: value.location,
@@ -123,7 +122,7 @@ export class GeoDistanceDropdown extends Component {
 
 	// get coordinates
 	getCoordinates(value) {
-		if(value && value != '') {
+		if (value && value != '') {
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}`)
 				.then(res => {
 					let location = res.data.results[0].geometry.location;
@@ -163,13 +162,6 @@ export class GeoDistanceDropdown extends Component {
 		}
 	}
 
-	// use this only if want to create actuators
-	// Create a channel which passes the actuate and receive results whenever actuate changes
-	createChannel() {
-		let actuate = this.props.actuate ? this.props.actuate : {};
-		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate);
-	}
-
 	// handle the input change and pass the value inside sensor info
 	handleChange(input) {
 		if (input) {
@@ -178,8 +170,7 @@ export class GeoDistanceDropdown extends Component {
 				'currentValue': inputVal
 			});
 			this.getCoordinates(inputVal);
-		}
-		else {
+		} else {
 			this.setState({
 				'currentValue': ''
 			});
@@ -235,7 +226,7 @@ export class GeoDistanceDropdown extends Component {
 	render() {
 		let title = null;
 
-		if(this.props.title) {
+		if (this.props.title) {
 			title = (<h4 className="rbc-title">{this.props.title}</h4>);
 		}
 

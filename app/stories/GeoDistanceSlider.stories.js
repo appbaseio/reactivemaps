@@ -75,8 +75,8 @@ export default class GeoDistanceSliderDefault extends Component {
 							onPopoverTrigger = {this.onPopoverTrigger}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
-							actuate={{
-								GeoDistanceSlider: {"operation": "must"}
+							react={{
+								"and": "GeoDistanceSlider"
 							}}
 						/>
 					</div>

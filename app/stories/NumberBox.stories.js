@@ -71,8 +71,8 @@ export default class NumberBoxDefault extends Component {
 							onPopoverTrigger = {this.onPopoverTrigger}
 							defaultZoom = {5}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
-							actuate={{
-								GuestsSensor: {"operation": "must"}
+							react={{
+								"and": "GuestsSensor"
 							}}
 						/>
 					</div>

@@ -1,9 +1,7 @@
 import { default as React, Component } from 'react';
 import {
-	AppbaseChannelManager as manager,
 	AppbaseSensorHelper as helper
 } from '@appbaseio/reactivebase';
-
 import classNames from 'classnames';
 import axios from 'axios';
 import Slider from 'rc-slider';
@@ -91,7 +89,7 @@ export class GeoDistanceSlider extends Component {
 			value: {
 				queryType: this.type,
 				appbaseField: this.props.appbaseField,
-				customQuery: this.customQuery
+				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
 			}
 		};
 		helper.selectedSensor.setSensorInfo(obj);
@@ -149,14 +147,6 @@ export class GeoDistanceSlider extends Component {
 			helper.selectedSensor.setSortInfo(sortObj);
 			helper.selectedSensor.set(obj, true);
 		}
-	}
-
-	// use this only if want to create actuators
-	// Create a channel which passes the actuate and receive results whenever actuate changes
-	createChannel() {
-		let actuate = this.props.actuate ? this.props.actuate : {};
-		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate);
-		this.channelId = channelObj.channelId;
 	}
 
 	// handle the input change and pass the value inside sensor info

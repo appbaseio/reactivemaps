@@ -63,9 +63,8 @@ export default class ReactiveMapDefault extends Component {
 							onPopoverTrigger = {this.onPopoverTrigger}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
-							actuate={{
-								CitySensor: {"operation": "must"},
-								VenueSensor: {"operation": "must"}
+							react={{
+								"and": ["CitySensor", "VenueSensor"]
 							}}
 							{...this.props}
 						/>

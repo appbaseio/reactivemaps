@@ -73,8 +73,8 @@ export default class MultiDropdownListDefault extends Component {
 							onPopoverTrigger = {this.onPopoverTrigger}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
-							actuate={{
-								CitySensor: {"operation": "must"},
+							react={{
+								"and": "CitySensor"
 							}}
 						/>
 					</div>

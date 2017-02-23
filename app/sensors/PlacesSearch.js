@@ -1,9 +1,7 @@
 import { default as React, Component } from 'react';
 import {
-	AppbaseChannelManager as manager,
 	AppbaseSensorHelper as helper
 } from '@appbaseio/reactivebase';
-
 import classNames from 'classnames';
 import axios from 'axios';
 import Select from 'react-select';
@@ -65,6 +63,9 @@ export class PlacesSearch extends Component {
 				inputData: this.props.appbaseField
 			}
 		};
+		if(this.props.customQuery) {
+			obj.value.customQuery = this.props.customQuery;
+		}
 		helper.selectedSensor.setSensorInfo(obj);
 	}
 
@@ -94,13 +95,6 @@ export class PlacesSearch extends Component {
 			};
 			helper.selectedSensor.set(obj, true);
 		}
-	}
-
-	// use this only if want to create actuators
-	// Create a channel which passes the actuate and receive results whenever actuate changes
-	createChannel() {
-		let actuate = this.props.actuate ? this.props.actuate : {};
-		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate);
 	}
 
 	// handle the input change and pass the value inside sensor info

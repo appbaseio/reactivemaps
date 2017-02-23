@@ -72,8 +72,8 @@ export default class NestedListDefault extends Component {
 							onPopoverTrigger = {this.onPopoverTrigger}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
-							actuate={{
-								TopicSensor: {"operation": "must"}
+							react={{
+								"and": "TopicSensor"
 							}}
 						/>
 					</div>
