@@ -41,6 +41,7 @@ class Main extends Component {
 									componentId="InputSensor"
 									title="Cities"
 									placeholder="Search City (i.e London)"
+									customQuery={this.cityQuery}
 								/>
 							</div>
 						</div>
@@ -84,11 +85,10 @@ class Main extends Component {
 							showSearchAsMove={true}
 							showMapStyles={true}
 							title="Meetupblast"
-							actuate={{
-								InputSensor: {"operation": "must", customQuery: this.cityQuery},
-								GeoSensor: {"operation": "must"}
+							react={{
+								"and": ["InputSensor", "GeoSensor"]
 							}}
-							/>
+						/>
 					</div>
 				</ReactiveBase>
 			</div>

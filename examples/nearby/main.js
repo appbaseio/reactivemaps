@@ -121,12 +121,6 @@ class Main extends Component {
 									showCount={true}
 									size={100}
 									title="Topics"
-									actuate={{
-										CitySensor: {
-											"operation": "must",
-											"customQuery": this.topicactuate
-										}
-									}}
 								/>
 							</div>
 						</div>
@@ -166,9 +160,8 @@ class Main extends Component {
 								onData = {this.onData}
 								defaultZoom = {13}
 								defaultCenter={{ lat: 37.74, lng: -122.45 }}
-								actuate={{
-									TopicSensor: {"operation": "must"},
-									GeoDistanceSlider: {"operation": "must"}
+								react={{
+									and: ["TopicSensor", "GeoDistanceSlider"]
 								}}
 							/>
 						</div>
@@ -182,9 +175,8 @@ class Main extends Component {
 								size={20}
 								requestOnScroll={true}
 								onData={this.onData}
-								actuate={{
-									TopicSensor: {"operation": "must"},
-									GeoDistanceSlider: {"operation": "must"}
+								react={{
+									and: ["TopicSensor", "GeoDistanceSlider"]
 								}}
 							/>
 						</div>

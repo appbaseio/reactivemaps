@@ -75,12 +75,10 @@ class Main extends Component {
 							title="Earthquake"
 							showPopoverOn = "click"
 							onPopoverTrigger = {this.onPopoverTrigger}
-							actuate={{
-								PlaceSensor: {"operation": "must"},
-								RangeSensor: {"operation": "must"},
-								YearSensor: {"operation": "must"},
+							react={{
+								"and":["PlaceSensor", "RangeSensor", "YearSensor"]
 							}}
-							/>
+						/>
 					</div>
 					<div className="col s12 m4 col-xs-12 col-sm-4">
 						<div className="row h-100">

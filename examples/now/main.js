@@ -1,13 +1,14 @@
 import { default as React, Component } from 'react';
 import {Img} from '../HelperComponent/Img.js';
+
 var ReactDOM = require('react-dom');
+
 import {
 	ReactiveBase,
 	SingleList,
 	MultiList,
 	ReactiveMap
 } from '../../app/app.js';
-
 
 class Main extends Component {
 	constructor(props) {
@@ -108,9 +109,8 @@ class Main extends Component {
 							onPopoverTrigger = {this.onPopoverTrigger}
 							onData = {this.onData}
 							showMapStyles={true}
-							actuate={{
-								CitySensor: {"operation": "must", customQuery: this.cityQuery},
-								CategorySensor: {"operation": "must", customQuery: this.categoryQuery}
+							react={{
+								and: ["CitySensor", "CategorySensor"]
 							}}
 							/>
 					</div>
@@ -128,6 +128,7 @@ class Main extends Component {
 									showSearch={true}
 									title="Cities"
 									searchPlaceholder="Search City"
+									customQuery= {this.cityQuery}
 								/>
 							</div>
 							<div className="col s12">
@@ -139,6 +140,7 @@ class Main extends Component {
 									multipleSelect={true}
 									includeGeo={true}
 									title="Categories"
+									customQuery= {this.categoryQuery}
 									actuate={{
 										CitySensor: {"operation": "must", customQuery: this.cityQuery}
 									}}
