@@ -17,7 +17,7 @@
     "build-storybook": "build-storybook -s public -o playground"
   },
   "jest": {
-    "rootDir": "./tests/GeoDistanceSlider"
+    "rootDir": "./tests"
   },
   "files": [
     "lib/",

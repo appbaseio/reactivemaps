@@ -6,6 +6,8 @@ import classNames from "classnames";
 import axios from "axios";
 import Select from "react-select";
 
+const _ = require("lodash");
+
 export default class GeoDistanceDropdown extends Component {
 	constructor(props) {
 		super(props);
@@ -47,28 +49,54 @@ export default class GeoDistanceDropdown extends Component {
 
 	// Set query information
 	componentDidMount() {
+		this.defaultSelected = this.props.defaultSelected;
+		this.unit = this.props.unit;
 		this.setQueryInfo();
-		this.getUserLocation();
+		this.checkDefault();
 	}
 
-	componentWillReceiveProps(nextProps) {
-		setTimeout(() => {
-			if (nextProps.defaultSelected !== this.props.defaultSelected) {
-				const selected = nextProps.data.filter(item => item.label === this.props.defaultSelected);
-				if (selected[0]) {
-					this.setState({
-						selected: selected[0]
-					}, this.executeQuery);
-				}
+	componentWillUpdate() {
+		if(!_.isEqual(this.defaultSelected, this.props.defaultSelected)) {
+			this.defaultSelected = this.props.defaultSelected;
+			this.checkDefault();
+		}
+		if(this.props.unit !== this.unit) {
+			const selected = this.allowedUnit.filter(item => item === this.props.unit);
+			if (selected[0]) {
+				this.unit = this.props.unit;
+				this.executeQuery();
 			}
-			if (nextProps.unit !== this.unit) {
-				const selected = this.allowedUnit.filter(item => item === nextProps.unit);
-				if (selected[0]) {
-					this.unit = nextProps.unit;
-					this.executeQuery();
-				}
-			}
-		}, 300);
+		}
+	}
+
+	checkDefault() {
+		if(this.props.defaultSelected && this.props.defaultSelected.location) {
+			let currentValue = this.props.defaultSelected.location;
+			this.result.options.push({
+				value: currentValue,
+				label: currentValue
+			});
+			this.setState({
+				currentValue
+			}, this.getCoordinates(currentValue, this.handleResults));
+		}
+		else if(this.props.defaultSelected && this.props.defaultSelected.distance) {
+			this.getUserLocation();
+			this.handleResults(this.props.defaultSelected.distance);
+		}
+		else {
+			this.getUserLocation();
+		}
+	}
+
+
+	handleResults(distance) {
+		const selected = this.props.data.filter(item => item.label === distance);
+		if (selected[0]) {
+			this.setState({
+				selected: selected[0]
+			}, this.executeQuery);
+		}
 	}
 
 	getUserLocation() {
@@ -119,13 +147,17 @@ export default class GeoDistanceDropdown extends Component {
 	}
 
 	// get coordinates
-	getCoordinates(value) {
+	getCoordinates(value, cb) {
 		if (value && value !== "") {
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}`)
 				.then((res) => {
 					const location = res.data.results[0].geometry.location;
 					this.locString = `${location.lat}, ${location.lng}`;
-					this.executeQuery();
+					if(cb) {
+						cb.call(this, this.props.defaultSelected.distance);
+					} else {
+						this.executeQuery();
+					}
 				});
 		} else {
 			helper.selectedSensor.set(null, true);
@@ -270,10 +302,10 @@ GeoDistanceDropdown.propTypes = {
 	appbaseField: React.PropTypes.string.isRequired,
 	title: React.PropTypes.string,
 	customQuery: React.PropTypes.func,
-	defaultSelected: React.PropTypes.oneOfType([
-		React.PropTypes.string,
-		React.PropTypes.number
-	]),
+	defaultSelected: React.PropTypes.shape({
+		distance: React.PropTypes.string,
+		location: React.PropTypes.string
+	}),
 	placeholder: React.PropTypes.string,
 	unit: React.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"]),
 	data: React.PropTypes.arrayOf(

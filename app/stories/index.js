@@ -136,7 +136,7 @@ storiesOf("GeoDistanceDropdown", module)
 		<GeoDistanceDropdownDefault
 			unit="mi"
 			data={
-			[{ start: 0, end: 100, label: "Less than 100 miles" },
+			[{ start: 1, end: 100, label: "Less than 100 miles" },
 				{ start: 101, end: 200, label: "Between 100 and 200 miles" },
 				{ start: 201, end: 500, label: "Between 200 and 500 miles" },
 				{ start: 501, end: 1000, label: "Above 500 miles" }]
@@ -149,7 +149,7 @@ storiesOf("GeoDistanceDropdown", module)
 		<GeoDistanceDropdownDefault
 			unit="mi"
 			data={
-			[{ start: 0, end: 100, label: "Less than 100 miles" },
+			[{ start: 1, end: 100, label: "Less than 100 miles" },
 				{ start: 101, end: 200, label: "Between 100 and 200 miles" },
 				{ start: 201, end: 500, label: "Between 200 and 500 miles" },
 				{ start: 501, end: 1000, label: "Above 500 miles" }]
@@ -163,12 +163,15 @@ storiesOf("GeoDistanceDropdown", module)
 		<GeoDistanceDropdownDefault
 			unit="mi"
 			data={
-			[{ start: 0, end: 100, label: "Less than 100 miles" },
+			[{ start: 1, end: 100, label: "Less than 100 miles" },
 				{ start: 101, end: 200, label: "Between 100 and 200 miles" },
 				{ start: 201, end: 500, label: "Between 200 and 500 miles" },
 				{ start: 501, end: 1000, label: "Above 500 miles" }]
 			}
-			defaultSelected="Between 200 and 500 miles"
+			defaultSelected={{
+				distance: "Less than 100 miles",
+				location: "London"
+			}}
 			title="Geo Distance Search"
 			placeholder="Search Location"
 		/>
@@ -176,14 +179,17 @@ storiesOf("GeoDistanceDropdown", module)
 	.add("Playground", withReadme(removeFirstLine(GeoDistanceDropdownReadme), () => (
 		<GeoDistanceDropdownDefault
 			data={
-			[{ start: 0, end: 100, label: "Less than 100 miles" },
+			[{ start: 1, end: 100, label: "Less than 100 miles" },
 				{ start: 101, end: 200, label: "Between 100 and 200 miles" },
 				{ start: 201, end: 500, label: "Between 200 and 500 miles" },
 				{ start: 501, end: 1000, label: "Above 500 miles" }]
 			}
 			unit={select("unit", { mi: "mi", miles: "miles", yd: "yd", yards: "yards", ft: "ft", feet: "feet", in: "in", inch: "inch", km: "km", kilometers: "kilometers", m: "m", meters: "meters", cm: "cm", centimeters: "centimeters", mm: "mm", millimeters: "millimeters", NM: "NM", nmi: "nmi", nauticalmiles: "nauticalmiles" }, "mi")}
 			title={text("title", "Geo Distance Slider")}
-			defaultSelected={text("defaultSelected", "Between 200 and 500 miles")}
+			defaultSelected={object("defaultSelected", {
+				distance: "Less than 100 miles",
+				location: "London"
+			})}
 			placeholder={text("placeholder", "Search Location")}
 		/>
 	)));
