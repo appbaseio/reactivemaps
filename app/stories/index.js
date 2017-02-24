@@ -63,14 +63,18 @@ storiesOf("GeoDistanceSlider", module)
 	.addDecorator(withKnobs)
 	.add("Basic", withReadme(removeFirstLine(GeoDistanceSliderReadme), () => (
 		<GeoDistanceSliderDefault
-			defaultSelected={50}
+			defaultSelected={{
+				distance: 50
+			}}
 			unit="mi"
 			placeholder="Search Location"
 		/>
 	)))
 	.add("With Title", withReadme(removeFirstLine(GeoDistanceSliderReadme), () => (
 		<GeoDistanceSliderDefault
-			defaultSelected={50}
+			defaultSelected={{
+				distance: 50
+			}}
 			unit="mi"
 			title="Geo Distance Search"
 			placeholder="Search Location"
@@ -78,7 +82,24 @@ storiesOf("GeoDistanceSlider", module)
 	)))
 	.add("With Range Labels", withReadme(removeFirstLine(GeoDistanceSliderReadme), () => (
 		<GeoDistanceSliderDefault
-			defaultSelected={50}
+			defaultSelected={{
+				distance: 50
+			}}
+			unit="mi"
+			title="Geo Distance Search"
+			placeholder="Search Location"
+			rangeLabels={{
+				start: "Start",
+				end: "End"
+			}}
+		/>
+	)))
+	.add("With defaultSelected", withReadme(removeFirstLine(GeoDistanceSliderReadme), () => (
+		<GeoDistanceSliderDefault
+			defaultSelected={{
+				location:'London',
+				distance: 5
+			}}
 			unit="mi"
 			title="Geo Distance Search"
 			placeholder="Search Location"
@@ -90,7 +111,10 @@ storiesOf("GeoDistanceSlider", module)
 	)))
 	.add("Playground", withReadme(removeFirstLine(GeoDistanceSliderReadme), () => (
 		<GeoDistanceSliderDefault
-			defaultSelected={number("defaultSelected", 50)}
+			defaultSelected={object("defaultSelected", {
+				location:'London',
+				distance: 5
+			})}
 			stepValue={number("stepValue", 1)}
 			unit={text("unit", "mi")}
 			title={text("title", "Geo Distance Slider")}

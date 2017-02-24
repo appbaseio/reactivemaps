@@ -9,12 +9,14 @@ import axios from "axios";
 import Slider from "rc-slider";
 import Select from "react-select";
 
+const _ = require("lodash");
+
 export default class GeoDistanceSlider extends Component {
 	constructor(props) {
 		super(props);
-		const value = this.props.defaultSelected ?
-			this.props.defaultSelected < this.props.range.start ?
-			this.props.range.start : this.props.defaultSelected : this.props.range.start;
+		const value = this.props.defaultSelected && this.props.defaultSelected.distance ?
+			this.props.defaultSelected.distance < this.props.range.start ?
+			this.props.range.start : this.props.defaultSelected.distance : this.props.range.start;
 		this.state = {
 			currentValue: "",
 			currentDistance: value + this.props.unit,
@@ -46,14 +48,16 @@ export default class GeoDistanceSlider extends Component {
 
 	// Set query information
 	componentDidMount() {
+		this.defaultSelected = this.props.defaultSelected;
 		this.setQueryInfo();
-		this.getUserLocation();
+		this.checkDefault();
 	}
 
-	componentWillReceiveProps(nextProps) {
-		setTimeout(() => {
-			this.handleResults(nextProps.defaultSelected);
-		}, 300);
+	componentWillUpdate() {
+		if(!_.isEqual(this.defaultSelected, this.props.defaultSelected)) {
+			this.defaultSelected = this.props.defaultSelected;
+			this.checkDefault();
+		}
 	}
 
 	componentWillUnmount() {
@@ -62,6 +66,26 @@ export default class GeoDistanceSlider extends Component {
 		}
 		if (this.channelListener) {
 			this.channelListener.remove();
+		}
+	}
+
+	checkDefault() {
+		if(this.props.defaultSelected && this.props.defaultSelected.location) {
+			let currentValue = this.props.defaultSelected.location;
+			this.result.options.push({
+				value: currentValue,
+				label: currentValue
+			});
+			this.setState({
+				currentValue
+			}, this.getCoordinates(currentValue, this.handleResults));
+		}
+		else if(this.props.defaultSelected && this.props.defaultSelected.distance) {
+			this.getUserLocation();
+			this.handleResults(this.props.defaultSelected.distance);
+		}
+		else {
+			this.getUserLocation();
 		}
 	}
 
@@ -112,13 +136,17 @@ export default class GeoDistanceSlider extends Component {
 	}
 
 	// get coordinates
-	getCoordinates(value) {
+	getCoordinates(value, cb) {
 		if (value && value !== "") {
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}`)
 				.then((res) => {
 					const location = res.data.results[0].geometry.location;
 					this.locString = `${location.lat}, ${location.lng}`;
-					this.executeQuery();
+					if(cb) {
+						cb(this.props.defaultSelected.distance);
+					} else {
+						this.executeQuery();
+					}
 				});
 		} else {
 			helper.selectedSensor.set(null, true);
@@ -152,13 +180,13 @@ export default class GeoDistanceSlider extends Component {
 	}
 
 	// handle the input change and pass the value inside sensor info
-	handleChange(input) {
+	handleChange(input, cb) {
 		if (input) {
 			const inputVal = input.value;
 			this.setState({
 				currentValue: inputVal
 			});
-			this.getCoordinates(inputVal);
+			this.getCoordinates(inputVal, cb);
 		} else {
 			this.setState({
 				currentValue: ""
@@ -283,7 +311,10 @@ GeoDistanceSlider.propTypes = {
 	appbaseField: React.PropTypes.string.isRequired,
 	title: React.PropTypes.string,
 	customQuery: React.PropTypes.func,
-	defaultSelected: React.PropTypes.number,
+	defaultSelected: React.PropTypes.shape({
+		distance: React.PropTypes.number,
+		location: React.PropTypes.string
+	}),
 	placeholder: React.PropTypes.string,
 	unit: React.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"]),
 	stepValue: helper.stepValidation,

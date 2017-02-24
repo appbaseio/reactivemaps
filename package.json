@@ -4,7 +4,7 @@
   "description": "Data Components for building map UIs",
   "main": "lib/app.js",
   "scripts": {
-    "test": "react-scripts test --env=jsdom",
+    "test": "jest",
     "lint": "esw app --color --watch",
     "webpack-server": "webpack-dev-server --hot --inline --progress --colors --port 8012",
     "web-server": "http-server -p 3000 .",
@@ -17,7 +17,7 @@
     "build-storybook": "build-storybook -s public -o playground"
   },
   "jest": {
-    "rootDir": "./tests"
+    "rootDir": "./tests/GeoDistanceSlider"
   },
   "files": [
     "lib/",
@@ -39,10 +39,12 @@
     "classnames": "^2.2.5",
     "fbemitter": "^2.0.2",
     "google-map-react": "^0.14.5",
+    "google-maps": "^3.2.1",
     "lodash": "^4.15.0",
     "rc-slider": "^5.4.0",
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0",
+    "react": "^15.4.2",
+    "react-addons-test-utils": "^15.4.2",
+    "react-dom": "^15.4.2",
     "react-google-maps": "^4.11.0",
     "react-select": "^1.0.0-rc.3",
     "react-tooltip": "^3.1.8"
@@ -85,6 +87,7 @@
     "raw": "^0.1.4",
     "raw-loader": "^0.5.1",
     "react-addons-shallow-compare": "^15.4.2",
+    "react-addons-test-utils": "^15.4.2",
     "react-scripts": "^0.7.0",
     "rimraf": "^2.5.4",
     "shebang-loader": "0.0.1",
