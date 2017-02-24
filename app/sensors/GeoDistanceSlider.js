@@ -1,33 +1,35 @@
-import { default as React, Component } from 'react';
+/* eslint max-lines: 0 */
+import React, { Component } from "react";
 import {
-	AppbaseSensorHelper as helper
-} from '@appbaseio/reactivebase';
-import classNames from 'classnames';
-import axios from 'axios';
-import Slider from 'rc-slider';
-import Select from 'react-select';
+	AppbaseSensorHelper as helper,
+	AppbaseChannelManager as manager
+} from "@appbaseio/reactivebase";
+import classNames from "classnames";
+import axios from "axios";
+import Slider from "rc-slider";
+import Select from "react-select";
 
-export class GeoDistanceSlider extends Component {
-	constructor(props, context) {
+export default class GeoDistanceSlider extends Component {
+	constructor(props) {
 		super(props);
-		let value = this.props.defaultSelected ?
-					this.props.defaultSelected < this.props.range.start ?
-					this.props.range.start : this.props.defaultSelected : this.props.range.start;
+		const value = this.props.defaultSelected ?
+			this.props.defaultSelected < this.props.range.start ?
+			this.props.range.start : this.props.defaultSelected : this.props.range.start;
 		this.state = {
-			currentValue: '',
+			currentValue: "",
 			currentDistance: value + this.props.unit,
-			userLocation: '',
-			value: value
+			userLocation: "",
+			value
 		};
-		this.type = 'geo_distance';
-		this.locString = '';
+		this.type = "geo_distance";
+		this.locString = "";
 		this.result = {
 			options: []
 		};
 		this.sortInfo = {
-			type: '_geo_distance',
-			order: 'asc',
-			unit: 'mi'
+			type: "_geo_distance",
+			order: "asc",
+			unit: "mi"
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.loadOptions = this.loadOptions.bind(this);
@@ -55,27 +57,27 @@ export class GeoDistanceSlider extends Component {
 	}
 
 	componentWillUnmount() {
-		if(this.channelId) {
+		if (this.channelId) {
 			manager.stopStream(this.channelId);
 		}
-		if(this.channelListener) {
+		if (this.channelListener) {
 			this.channelListener.remove();
 		}
 	}
 
 	getUserLocation() {
 		navigator.geolocation.getCurrentPosition((location) => {
-			this.locString = location.coords.latitude + ', ' + location.coords.longitude;
+			this.locString = `${location.coords.latitude}, ${location.coords.longitude}`;
 
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}`)
-				.then(res => {
-					let currentValue = res.data.results[0].formatted_address;
+				.then((res) => {
+					const currentValue = res.data.results[0].formatted_address;
 					this.result.options.push({
 						value: currentValue,
 						label: currentValue
 					});
 					this.setState({
-						currentValue: currentValue,
+						currentValue,
 						userLocation: currentValue
 					}, this.executeQuery.bind(this));
 				});
@@ -84,7 +86,7 @@ export class GeoDistanceSlider extends Component {
 
 	// set the query type and input data
 	setQueryInfo() {
-		let obj = {
+		const obj = {
 			key: this.props.componentId,
 			value: {
 				queryType: this.type,
@@ -97,25 +99,25 @@ export class GeoDistanceSlider extends Component {
 
 	// build query for this sensor only
 	customQuery(value) {
-		if(value && value.currentValue != '' && value.location != '') {
-			return {
+		let query = null;
+		if (value && value.currentValue !== "" && value.location !== "") {
+			query = {
 				[this.type]: {
 					[this.props.appbaseField]: value.location,
-					'distance': value.currentDistance
+					distance: value.currentDistance
 				}
-			}
-		} else {
-			return;
+			};
 		}
+		return query;
 	}
 
 	// get coordinates
 	getCoordinates(value) {
-		if(value && value != '') {
+		if (value && value !== "") {
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}`)
-				.then(res => {
-					let location = res.data.results[0].geometry.location;
-					this.locString = location.lat + ', ' + location.lng;
+				.then((res) => {
+					const location = res.data.results[0].geometry.location;
+					this.locString = `${location.lat}, ${location.lng}`;
 					this.executeQuery();
 				});
 		} else {
@@ -125,8 +127,8 @@ export class GeoDistanceSlider extends Component {
 
 	// execute query after changing location or distanc
 	executeQuery() {
-		if (this.state.currentValue != '' && this.state.currentDistance && this.locString) {
-			var obj = {
+		if (this.state.currentValue !== "" && this.state.currentDistance && this.locString) {
+			const obj = {
 				key: this.props.componentId,
 				value: {
 					currentValue: this.state.currentValue,
@@ -134,13 +136,13 @@ export class GeoDistanceSlider extends Component {
 					location: this.locString
 				}
 			};
-			let sortObj = {
+			const sortObj = {
 				key: this.props.componentId,
 				value: {
 					[this.sortInfo.type]: {
 						[this.props.appbaseField]: this.locString,
-						'order': this.sortInfo.order,
-						'unit': this.sortInfo.unit
+						order: this.sortInfo.order,
+						unit: this.sortInfo.unit
 					}
 				}
 			};
@@ -152,35 +154,34 @@ export class GeoDistanceSlider extends Component {
 	// handle the input change and pass the value inside sensor info
 	handleChange(input) {
 		if (input) {
-			let inputVal = input.value;
+			const inputVal = input.value;
 			this.setState({
-				'currentValue': inputVal
+				currentValue: inputVal
 			});
 			this.getCoordinates(inputVal);
-		}
-		else {
+		} else {
 			this.setState({
-				'currentValue': ''
+				currentValue: ""
 			});
 		}
 	}
 
 	unitFormatter(v) {
-		return v+' '+this.props.unit;
+		return `${v} ${this.props.unit}`;
 	}
 
 	// Handle function when value slider option is changing
 	handleValuesChange(component, value) {
 		this.setState({
-			value: value,
+			value
 		});
 	}
 
 	// Handle function when slider option change is completed
 	handleResults(value) {
-		let distValue = value + this.props.unit;
+		const distValue = value + this.props.unit;
 		this.setState({
-			value: value,
+			value,
 			currentDistance: distValue
 		}, this.executeQuery.bind(this));
 	}
@@ -188,22 +189,22 @@ export class GeoDistanceSlider extends Component {
 	loadOptions(input, callback) {
 		this.callback = callback;
 		if (input) {
-			let googleMaps = this.googleMaps || window.google.maps;
+			const googleMaps = this.googleMaps || window.google.maps;
 			this.autocompleteService = new googleMaps.places.AutocompleteService();
-			let options = {
-				input: input
-			}
+			const options = {
+				input
+			};
 			this.result = {
 				options: []
 			};
-			this.autocompleteService.getPlacePredictions(options, res => {
-				res.map(place => {
+			this.autocompleteService.getPlacePredictions(options, (res) => {
+				res.forEach((place) => {
 					this.result.options.push({
 						label: place.description,
 						value: place.description
 					});
 				});
-				if (this.result.options[0]["label"] != "Use my current location") {
+				if (this.result.options[0].label !== "Use my current location") {
 					this.result.options.unshift({
 						label: "Use my current location",
 						value: this.state.userLocation
@@ -225,7 +226,7 @@ export class GeoDistanceSlider extends Component {
 		let title = null,
 			marks = {};
 
-		if(this.props.title) {
+		if (this.props.title) {
 			title = (<h4 className="rbc-title">{this.props.title}</h4>);
 		}
 
@@ -233,16 +234,16 @@ export class GeoDistanceSlider extends Component {
 			marks = {
 				[this.props.range.start]: this.props.rangeLabels.start,
 				[this.props.range.end]: this.props.rangeLabels.end
-			}
+			};
 		}
 
-		let cx = classNames({
-			'rbc-title-active': this.props.title,
-			'rbc-title-inactive': !this.props.title,
-			'rbc-placeholder-active': this.props.placeholder,
-			'rbc-placeholder-inactive': !this.props.placeholder,
-			'rbc-labels-active': this.props.rangeLabels.start || this.props.rangeLabels.end,
-			'rbc-labels-inactive': !this.props.rangeLabels.start && !this.props.rangeLabels.end
+		const cx = classNames({
+			"rbc-title-active": this.props.title,
+			"rbc-title-inactive": !this.props.title,
+			"rbc-placeholder-active": this.props.placeholder,
+			"rbc-placeholder-inactive": !this.props.placeholder,
+			"rbc-labels-active": this.props.rangeLabels.start || this.props.rangeLabels.end,
+			"rbc-labels-inactive": !this.props.rangeLabels.start && !this.props.rangeLabels.end
 		});
 
 		return (
@@ -257,7 +258,7 @@ export class GeoDistanceSlider extends Component {
 							onChange={this.handleChange}
 							filterOption={() => true}
 							valueRenderer={this.renderValue}
-							/>
+						/>
 					</div>
 
 					<div className="rbc-rangeslider-container col s12 col-xs-12">
@@ -278,8 +279,13 @@ export class GeoDistanceSlider extends Component {
 }
 
 GeoDistanceSlider.propTypes = {
+	componentId: React.PropTypes.string.isRequired,
 	appbaseField: React.PropTypes.string.isRequired,
+	title: React.PropTypes.string,
+	customQuery: React.PropTypes.func,
+	defaultSelected: React.PropTypes.number,
 	placeholder: React.PropTypes.string,
+	unit: React.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"]),
 	stepValue: helper.stepValidation,
 	range: React.PropTypes.shape({
 		start: helper.validateThreshold,
@@ -294,7 +300,7 @@ GeoDistanceSlider.propTypes = {
 // Default props value
 GeoDistanceSlider.defaultProps = {
 	stepValue: 1,
-	unit: 'mi',
+	unit: "mi",
 	placeholder: "Search...",
 	range: {
 		start: 0,

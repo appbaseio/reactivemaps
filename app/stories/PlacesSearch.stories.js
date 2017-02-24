@@ -1,9 +1,9 @@
-import { default as React, Component } from 'react';
+import { default as React, Component } from "react";
 import {
 	ReactiveBase,
 	ReactiveMap,
 	PlacesSearch
-} from '../app.js';
+} from "../app.js";
 
 export default class PlacesSearchDefault extends Component {
 	constructor(props) {
@@ -15,8 +15,8 @@ export default class PlacesSearchDefault extends Component {
 		this.origin = null;
 		this.destination = null;
 		this.mapRef = null;
-		this.directionsDisplay = new google.maps.DirectionsRenderer;
-		this.directionsService = new google.maps.DirectionsService;
+		this.directionsDisplay = new google.maps.DirectionsRenderer();
+		this.directionsService = new google.maps.DirectionsService();
 	}
 
 	originQuery(value) {
@@ -30,20 +30,20 @@ export default class PlacesSearchDefault extends Component {
 	}
 
 	executeQuery() {
-		if(this.mapRef && this.origin && this.destination) {
+		if (this.mapRef && this.origin && this.destination) {
 			this.directionsDisplay.setMap(this.mapRef);
 			this.directionsService.route({
 				origin: this.origin.location,
 				destination: this.destination.location,
-				travelMode: google.maps.TravelMode['DRIVING']
+				travelMode: google.maps.TravelMode.DRIVING
 			},
-			function(response, status) {
-				if (status == 'OK') {
+			(response, status) => {
+				if (status == "OK") {
 					this.directionsDisplay.setDirections(response);
 				} else {
-					window.alert('Directions request failed due to ' + status);
+					window.alert(`Directions request failed due to ${status}`);
 				}
-			}.bind(this));
+			});
 		}
 	}
 
@@ -59,7 +59,7 @@ export default class PlacesSearchDefault extends Component {
 					username={this.props.config.appbase.username}
 					password={this.props.config.appbase.password}
 					type={this.props.config.appbase.type}
-					>
+				>
 					<div className="col s12 m6 col-xs-12 col-sm-6">
 						<div className="row h-100">
 							<div className="col s12 col-xs-12">
@@ -86,20 +86,20 @@ export default class PlacesSearchDefault extends Component {
 					<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
-							historicalData={true}
+							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"
 							autoMapRender={false}
 							autoCenter={false}
-							showSearchAsMove={true}
-							showMapStyles={true}
+							showSearchAsMove
+							showMapStyles
 							title="Reactive Maps"
 							onIdle={this.onIdle}
-							defaultZoom = {13}
+							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							size={100}
 							react={{
-								"and": ["OriginSensor", "DestinationSensor"]
+								and: ["OriginSensor", "DestinationSensor"]
 							}}
 						/>
 					</div>
@@ -111,15 +111,15 @@ export default class PlacesSearchDefault extends Component {
 
 PlacesSearchDefault.defaultProps = {
 	mapping: {
-		venue: 'venue_name_ngrams',
-		location: 'location'
+		venue: "venue_name_ngrams",
+		location: "location"
 	},
 	config: {
-		"appbase": {
-			"app": "reactivemap_demo",
-			"username": "y4pVxY2Ok",
-			"password": "c92481e2-c07f-4473-8326-082919282c18",
-			"type": "meetupdata1"
+		appbase: {
+			app: "reactivemap_demo",
+			username: "y4pVxY2Ok",
+			password: "c92481e2-c07f-4473-8326-082919282c18",
+			type: "meetupdata1"
 		}
 	}
 };

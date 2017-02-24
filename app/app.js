@@ -1,8 +1,8 @@
 // actuators
-import {ReactiveMap} from './actuators/ReactiveMap';
-import {GeoDistanceSlider} from './sensors/GeoDistanceSlider';
-import {GeoDistanceDropdown} from './sensors/GeoDistanceDropdown';
-import {PlacesSearch} from './sensors/PlacesSearch';
+import ReactiveMap from './actuators/ReactiveMap';
+import GeoDistanceSlider from './sensors/GeoDistanceSlider';
+import GeoDistanceDropdown from './sensors/GeoDistanceDropdown';
+import PlacesSearch from './sensors/PlacesSearch';
 import reactivebase from '@appbaseio/reactivebase';
 
 var combineObj = {
