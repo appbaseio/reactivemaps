@@ -105,8 +105,10 @@ export default class ReactiveMap extends Component {
 	createChannel() {
 		// Set the actuate - add self aggs query as well with actuate
 		const react = this.props.react ? this.props.react : {};
-		if (react && react.and && typeof react.and === "string") {
-			react.and = [react.and];
+		if (react && react.and) {
+			if(typeof react.and === "string") {
+				react.and = [react.and];
+			}
 		} else {
 			react.and = [];
 		}
