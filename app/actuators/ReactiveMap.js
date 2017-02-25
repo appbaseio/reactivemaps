@@ -107,6 +107,8 @@ export default class ReactiveMap extends Component {
 		const react = this.props.react ? this.props.react : {};
 		if (react && react.and && typeof react.and === "string") {
 			react.and = [react.and];
+		} else {
+			react.and = [];
 		}
 		react.and.push("geoQuery");
 		react.and.push("streamChanges");
@@ -154,7 +156,7 @@ export default class ReactiveMap extends Component {
 	}
 
 	afterChannelResponse(res) {
-		const getResult = afterChannelResponse(res, this.state.rawData, this.props.appbaseField);
+		const getResult = afterChannelResponse(res, this.state.rawData, this.props.appbaseField, this.state.markersData);
 		this.reposition = true;
 		this.streamFlag = getResult.streamFlag;
 		this.queryStartTime = getResult.queryStartTime;

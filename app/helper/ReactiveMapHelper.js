@@ -113,7 +113,7 @@ export function identifyGeoData(input) {
 	return convertedGeo;
 }
 
-export function afterChannelResponse(res, rawData, appbaseField) {
+export function afterChannelResponse(res, rawData, appbaseField, oldMarkersData) {
 	const data = res.data;
 	let markersData;
 	const response = {
@@ -128,6 +128,9 @@ export function afterChannelResponse(res, rawData, appbaseField) {
 		res = modData.res;
 		response.streamFlag = true;
 		markersData = setMarkersData(rawData, appbaseField);
+		response.currentData = oldMarkersData;
+		res.data._source.mapPoint = identifyGeoData(res.data._source[appbaseField]);
+		response.newData = res.data;
 	} else if (res.mode === "historic") {
 		response.channelMethod = "historic";
 		response.queryStartTime = res.startTime;
