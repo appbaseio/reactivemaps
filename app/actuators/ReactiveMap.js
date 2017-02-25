@@ -173,9 +173,11 @@ export default class ReactiveMap extends Component {
 				modifiedData.newData = getResult.newData;
 				modifiedData.currentData = getResult.currentData;
 				delete modifiedData.data;
-				modifiedData.mapRef = this.mapRef;
 				modifiedData = helper.prepareResultData(modifiedData, res.data);
 				if (this.props.onData) {
+					if(modifiedData.res) {
+						modifiedData.res.mapRef = this.mapRef;
+					}
 					const generatedData = this.props.onData(modifiedData.res, modifiedData.err);
 					this.setState({
 						externalData: generatedData

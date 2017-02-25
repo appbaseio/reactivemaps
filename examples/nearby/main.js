@@ -1,6 +1,7 @@
 import { default as React, Component } from 'react';
 import { Img } from '../HelperComponent/Img.js';
 var ReactDOM = require('react-dom');
+import { AppbaseSensorHelper as helper } from "@appbaseio/reactivebase";
 import {
 	ReactiveBase,
 	MultiList,
@@ -83,15 +84,20 @@ class Main extends Component {
 	}
 
 	onData(res) {
-		let result, combineData = res.currentData;
-		if(res.mode === 'historic' && res.currentData) {
-			combineData = res.currentData.concat(res.newData);
-		}
-		if (combineData) {
-			result = combineData.map((markerData, index) => {
-				let marker = markerData._source;
-				return this.itemMarkup(marker, markerData);
-			});
+		let result = null;
+		if (res) {
+			let combineData = res.currentData;
+			if (res.mode === 'historic') {
+				combineData = res.currentData.concat(res.newData);
+			} else if (res.mode === 'streaming') {
+				combineData = helper.combineStreamData(res.currentData, res.newData);
+			}
+			if (combineData) {
+				result = combineData.map((markerData, index) => {
+					let marker = markerData._source;
+					return this.itemMarkup(marker, markerData);
+				});
+			}
 		}
 		return result;
 	}
