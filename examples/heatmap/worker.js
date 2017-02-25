@@ -125,7 +125,7 @@ module.exports = {
 		}
 	},
 	heatmapExistingData: function(markers) {
-		this.heatmapData = markers.hits.hits;
+		this.heatmapData = markers;
 	},
 	pickRandom: function(min, max) {
 		max = max-1;

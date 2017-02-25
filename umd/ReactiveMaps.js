@@ -271,6 +271,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				var react = this.props.react ? this.props.react : {};
 				if (react && react.and && typeof react.and === "string") {
 					react.and = [react.and];
+				} else {
+					react.and = [];
 				}
 				react.and.push("geoQuery");
 				react.and.push("streamChanges");
@@ -321,7 +323,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function afterChannelResponse(res) {
 				var _this4 = this;
 
-				var getResult = (0, _ReactiveMapHelper.afterChannelResponse)(res, this.state.rawData, this.props.appbaseField);
+				var getResult = (0, _ReactiveMapHelper.afterChannelResponse)(res, this.state.rawData, this.props.appbaseField, this.state.markersData);
 				this.reposition = true;
 				this.streamFlag = getResult.streamFlag;
 				this.queryStartTime = getResult.queryStartTime;
@@ -75384,7 +75386,7 @@ return /******/ (function(modules) { // webpackBootstrap
 							showPlaceholder: false
 						});
 						if (_this3.props.onData) {
-							var modifiedData = helper.prepareResultData(res.data);
+							var modifiedData = helper.prepareResultData(res);
 							_this3.props.onData(modifiedData.res, modifiedData.err);
 						}
 					}
@@ -75495,9 +75497,6 @@ return /******/ (function(modules) { // webpackBootstrap
 						resultMarkup: _this5.wrapMarkup(generatedData),
 						currentData: _this5.combineCurrentData(newData)
 					});
-					if (_this5.streamFlag) {
-						_this5.streamMarkerInterval();
-					}
 				});
 			}
 		}, {
@@ -76310,7 +76309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 							showPlaceholder: false
 						});
 						if (_this3.props.onData) {
-							var modifiedData = helper.prepareResultData(res.data);
+							var modifiedData = helper.prepareResultData(res);
 							_this3.props.onData(modifiedData.res, modifiedData.err);
 						}
 					}
@@ -92058,7 +92057,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		return convertedGeo;
 	}
 
-	function afterChannelResponse(res, rawData, appbaseField) {
+	function afterChannelResponse(res, rawData, appbaseField, oldMarkersData) {
 		var data = res.data;
 		var markersData = void 0;
 		var response = {
@@ -92073,6 +92072,9 @@ return /******/ (function(modules) { // webpackBootstrap
 			res = modData.res;
 			response.streamFlag = true;
 			markersData = setMarkersData(rawData, appbaseField);
+			response.currentData = oldMarkersData;
+			res.data._source.mapPoint = identifyGeoData(res.data._source[appbaseField]);
+			response.newData = res.data;
 		} else if (res.mode === "historic") {
 			response.channelMethod = "historic";
 			response.queryStartTime = res.startTime;
