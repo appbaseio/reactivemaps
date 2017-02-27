@@ -1,4 +1,5 @@
-import { default as React, Component } from 'react';
+import {
+	default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import { Marker } from "react-google-maps";
 import {
@@ -18,24 +19,31 @@ class Main extends Component {
 	}
 
 	onData(res) {
-		if (res.allMarkers && res.allMarkers.hits && res.allMarkers.hits.hits) {
-			this.heatmapCreation(res);
-			return this.markerCreation(res);
+		if (res) {
+			let markers = {};
+			let combineData = res.currentData;
+			if (res.mode === 'historic') {
+				combineData = res.currentData.concat(res.newData);
+			} else if (res.mode === 'streaming') {
+				combineData = helper.combineStreamData(res.currentData, res.newData);
+			}
+			this.heatmapCreation(res, combineData);
+			return this.markerCreation(combineData);
 		}
+		return null;
 	}
 
 	markerIcons(markerData) {
 		let icon = null;
-		if(markerData.clouds.all > 20 && markerData.clouds.all < 70) {
+		if (markerData.clouds.all > 20 && markerData.clouds.all < 70) {
 			icon = 'dist/images/cloud-32.png';
-		}
-		else if(markerData.clouds.all > 70) {
+		} else if (markerData.clouds.all > 70) {
 			icon = 'dist/images/too-cloud-32.png';
 		}
-		if(markerData.rain) {
+		if (markerData.rain) {
 			icon = 'dist/images/rain-32.png';
 		}
-		if(markerData.snow) {
+		if (markerData.snow) {
 			icon = 'dist/images/snow-32.png';
 		}
 		return icon;
@@ -44,13 +52,12 @@ class Main extends Component {
 	identifyGeoData(input) {
 		let type = Object.prototype.toString.call(input);
 		let convertedGeo = null;
-		if(type === '[object Object]' && input.hasOwnProperty('lat') && input.hasOwnProperty('lon')) {
+		if (type === '[object Object]' && input.hasOwnProperty('lat') && input.hasOwnProperty('lon')) {
 			convertedGeo = {
 				lat: Number(input.lat),
 				lng: Number(input.lon)
 			};
-		}
-		else if(type === '[object Array]' && input.length === 2) {
+		} else if (type === '[object Array]' && input.length === 2) {
 			convertedGeo = {
 				lat: Number(input[0]),
 				lng: Number(input[1])
@@ -59,11 +66,11 @@ class Main extends Component {
 		return convertedGeo;
 	}
 
-	markerCreation(res) {
+	markerCreation(hits) {
 		let markers = [];
-		res.allMarkers.hits.hits.forEach((hit, index) => {
+		hits.forEach((hit, index) => {
 			let icon = this.markerIcons(hit._source);
-			if(icon) {
+			if (icon) {
 				let field = this.identifyGeoData(hit._source[this.props.mapping.location]);
 				let position = {
 					position: field
@@ -84,14 +91,15 @@ class Main extends Component {
 		};
 	}
 
-	heatmapCreation(res) {
-		if(this.heatmap) {
+	heatmapCreation(res, hits) {
+		if (this.heatmap) {
 			this.heatmap.getData().clear();
 		}
-		res.allMarkers.hits.hits.forEach((markerData, index) => {
+		
+		hits.forEach((markerData, index) => {
 			let location = markerData._source[this.props.mapping.location];
 			this.result.markers.forEach((result_marker, index) => {
-				if(location.lat === result_marker.lat && location.lon === result_marker.lon) {
+				if (location.lat === result_marker.lat && location.lon === result_marker.lon) {
 					this.result.markers.splice(index, 1);
 				}
 			});
@@ -100,7 +108,7 @@ class Main extends Component {
 				location: new google.maps.LatLng(location.lat, location.lon),
 				weight: temp
 			};
-			this.result.markers.push({lat: location.lat, lon: location.lon, weight: point.weight});
+			this.result.markers.push({ lat: location.lat, lon: location.lon, weight: point.weight });
 			this.result.heatmapPoints.push(point);
 		});
 		this.heatmap = new google.maps.visualization.HeatmapLayer({

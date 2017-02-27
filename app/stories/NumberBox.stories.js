@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
 	ReactiveBase,
 	ReactiveMap,
 	NumberBox,
 	AppbaseSensorHelper as helper
-} from '../app.js';
+} from "../app.js";
 
-import { Img } from './Img.js';
-const historyPin = require('./placeholder.svg');
+import { Img } from "./Img.js";
+const historyPin = require("./placeholder.svg");
 
 export default class NumberBoxDefault extends Component {
 	constructor(props) {
@@ -20,16 +20,16 @@ export default class NumberBoxDefault extends Component {
 	}
 
 	onPopoverTrigger(marker) {
-		return (<div className="popoverComponent row" style={{'margin': '0', 'maxWidth': '300px'}}>
-			<span className="imgContainer col s2" style={{'padding': '0'}}>
-				<Img src={marker._source.member.photo}  />
+		return (<div className="popoverComponent row" style={{ margin: "0", maxWidth: "300px" }}>
+			<span className="imgContainer col s2" style={{ padding: "0" }}>
+				<Img src={marker._source.member.photo} />
 			</span>
 			<div className="infoContainer col s10">
 				<div className="nameContainer">
 					<strong>{marker._source.member.member_name}</strong>
 				</div>
 				<div className="description">
-					<p style={{'margin': '5px 0', 'lineHeight': '18px'}}>is going to&nbsp;
+					<p style={{ margin: "5px 0", lineHeight: "18px" }}>is going to&nbsp;
 						<a href={marker._source.event.event_url} target="_blank">
 							{marker._source.event.event_name}
 						</a>
@@ -59,20 +59,20 @@ export default class NumberBoxDefault extends Component {
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
-							historicalData={true}
+							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"
-							autoCenter={true}
-							searchAsMoveComponent={true}
-							MapStylesComponent={true}
+							autoCenter
+							searchAsMoveComponent
+							MapStylesComponent
 							title="Reactive Maps"
-							showPopoverOn = "click"
+							showPopoverOn="click"
 							historicPin={historyPin}
-							onPopoverTrigger = {this.onPopoverTrigger}
-							defaultZoom = {5}
+							onPopoverTrigger={this.onPopoverTrigger}
+							defaultZoom={5}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
-							actuate={{
-								GuestsSensor: {"operation": "must"}
+							react={{
+								and: "GuestsSensor"
 							}}
 						/>
 					</div>
@@ -84,7 +84,7 @@ export default class NumberBoxDefault extends Component {
 
 NumberBoxDefault.defaultProps = {
 	mapping: {
-		guests: 'guests',
-		location: 'location'
+		guests: "guests",
+		location: "location"
 	}
 };

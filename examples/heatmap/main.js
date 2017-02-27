@@ -1,7 +1,8 @@
-import { default as React, Component } from 'react';
+import {default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import { Img } from '../HelperComponent/Img.js';
 import { Polygon } from "react-google-maps";
+import { AppbaseSensorHelper as helper } from "@appbaseio/reactivebase";
 var HeatmapCreator = require('./HeatmapCreator.js');
 var HeatmapWorker = require('./worker.js');
 
@@ -20,6 +21,7 @@ class Main extends Component {
 			}
 		};
 		this.simulationFlag = true;
+		this.onDataExecuted = false;
 		this.mapOnIdle = this.mapOnIdle.bind(this);
 		this.onData = this.onData.bind(this);
 		this.onPopoverTrigger = this.onPopoverTrigger.bind(this);
@@ -47,14 +49,24 @@ class Main extends Component {
 
 	// get the markers create polygon accordingly
 	onData(res) {
-		this.markers = res.allMarkers;
-		this.passExistingData(res);
-		console.log('Applying polgon', res.mode);
-		return this.generatePolyColor();
+		if (res) {
+			this.onDataExecuted = true;
+			let combineData = res.currentData;
+			if (res.mode === 'historic') {
+				combineData = res.currentData.concat(res.newData);
+			} else if (res.mode === 'streaming') {
+				combineData = helper.combineStreamData(res.currentData, res.newData);
+			}
+			this.markers = combineData;
+			this.passExistingData(res);
+			console.log('Applying polgon', res.mode);
+			return this.generatePolyColor();
+		}
+		return null;
 	}
 
 	passExistingData(res) {
-		if(res.mode === 'streaming') {
+		if (res.mode === 'streaming') {
 			this.simulationFlag = false;
 		}
 		HeatmapWorker.heatmapExistingData(this.markers);
@@ -69,19 +81,23 @@ class Main extends Component {
 			return grid.cell;
 		})
 		setTimeout(() => {
-			if(this.simulationFlag) {
+			if (this.simulationFlag && this.onDataExecuted) {
 				HeatmapWorker.init(this.props.config, this.props.mapping.location, res.boundingBoxCoordinates);
 			}
-		}, 10*1000);
+		}, 10 * 1000);
 		return this.generatePolyColor();
 	}
 
 	generatePolyColor() {
-		if(this.polygonGrid.length && this.markers && this.markers.hits && this.markers.hits.hits.length) {
+		if (this.polygonGrid && this.polygonGrid.length && this.markers && this.markers.length) {
 			let polygonGrid = this.polygonGrid.map((polygon) => {
-				polygon.markers = this.markers.hits.hits.filter((hit) => {
-					let markerPosition = [hit._source[this.props.mapping.location].lat, hit._source[this.props.mapping.location].lon];
-					return HeatmapCreator.isInside(markerPosition, polygon.boundaries);
+				polygon.markers = this.markers.filter((hit) => {
+					let flag = false;
+					if(hit && hit._source && this.props.mapping.location in hit._source) {
+						let markerPosition = [hit._source[this.props.mapping.location].lat, hit._source[this.props.mapping.location].lon];
+						flag = HeatmapCreator.isInside(markerPosition, polygon.boundaries);
+					}
+					return flag;
 				});
 				return polygon;
 			});
@@ -92,10 +108,10 @@ class Main extends Component {
 
 	applyPoloygon(polygonData) {
 		let polygons = polygonData.map((polyProp, index) => {
-		  let options = {
-			options: polyProp
-		  };
-		  return (<Polygon key={index} {...options}  />);
+			let options = {
+				options: polyProp
+			};
+			return (<Polygon key={index} {...options}  />);
 		});
 		return {
 			polygons: polygons
@@ -122,7 +138,7 @@ class Main extends Component {
 						defaultMapStyle={this.props.mapStyle}
 						autoCenter={true}
 						showSearchAsMove={true}
-						setSearchAsMove={true}
+						applyGeoQuery={true}
 						searchAsMoveDefault={false}
 						showMapStyles={true}
 						title="Heatmap"
@@ -130,7 +146,7 @@ class Main extends Component {
 						onPopoverTrigger = {this.onPopoverTrigger}
 						onData = {this.onData}
 						onIdle = {this.mapOnIdle}
-						streamingMarkerTime={10}
+						streamTTL={10}
 						stream={true}
 						/>
 					</div>

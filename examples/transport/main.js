@@ -1,4 +1,5 @@
-import { default as React, Component } from 'react';
+import {
+	default as React, Component } from 'react';
 var ReactDOM = require('react-dom');
 import {
 	ReactiveBase,
@@ -11,11 +12,11 @@ class Main extends Component {
 		super(props);
 		this.topicactuate = this.topicactuate.bind(this);
 		this.onPopoverTrigger = this.onPopoverTrigger.bind(this);
-		this.onData =  this.onData.bind(this);
+		this.onData = this.onData.bind(this);
 	}
 
 	topicactuate(value) {
-		if(this.props.mapping.city && value) {
+		if (this.props.mapping.city && value) {
 			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
 			return { Match: match };
 		} else return null;
@@ -36,23 +37,32 @@ class Main extends Component {
 	}
 
 	onData(res) {
-		let markers = {};
-		res.allMarkers.hits.hits.forEach((hit, index) => {
-			markers[hit._id] = {};
-			let icon;
-			switch(hit._source.vehicle) {
-				case 'Bus':
-					icon = this.props.markerIcons.Bus;
-				break;
-				case 'Train':
-					icon = this.props.markerIcons.Train;
-				break;
+		if (res) {
+			let markers = {};
+			let combineData = res.currentData;
+			if (res.mode === 'historic') {
+				combineData = res.currentData.concat(res.newData);
+			} else if (res.mode === 'streaming') {
+				combineData = helper.combineStreamData(res.currentData, res.newData);
 			}
-			markers[hit._id].icon = icon;
-		});
-		return {
-			markers: markers
-		};
+			combineData.forEach((hit, index) => {
+				markers[hit._id] = {};
+				let icon;
+				switch (hit._source.vehicle) {
+					case 'Bus':
+						icon = this.props.markerIcons.Bus;
+						break;
+					case 'Train':
+						icon = this.props.markerIcons.Train;
+						break;
+				}
+				markers[hit._id].icon = icon;
+			});
+			return {
+				markers: markers
+			};
+		}
+		return null;
 	}
 
 	render() {

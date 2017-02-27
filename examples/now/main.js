@@ -1,13 +1,14 @@
 import { default as React, Component } from 'react';
 import {Img} from '../HelperComponent/Img.js';
+
 var ReactDOM = require('react-dom');
+
 import {
 	ReactiveBase,
 	SingleList,
 	MultiList,
 	ReactiveMap
 } from '../../app/app.js';
-
 
 class Main extends Component {
 	constructor(props) {
@@ -73,16 +74,26 @@ class Main extends Component {
 		</div>);
 	}
 
+	// get the markers create polygon accordingly
 	onData(res) {
-		let markers = {};
-		res.allMarkers.hits.hits.forEach((hit, index) => {
-			markers[hit._id] = {};
-			let icon = this.props.markerIcons[hit._source.category] ? this.props.markerIcons[hit._source.category] : 'dist/images/historic-pin.png';
-			markers[hit._id].icon = icon;
-		});
-		return {
-			markers: markers
-		};
+		if (res) {
+			let markers = {};
+			let combineData = res.currentData;
+			if (res.mode === 'historic') {
+				combineData = res.currentData.concat(res.newData);
+			} else if (res.mode === 'streaming') {
+				combineData = helper.combineStreamData(res.currentData, res.newData);
+			}
+			combineData.forEach((hit, index) => {
+				markers[hit._id] = {};
+				let icon = this.props.markerIcons[hit._source.category] ? this.props.markerIcons[hit._source.category] : 'dist/images/historic-pin.png';
+				markers[hit._id].icon = icon;
+			});
+			return {
+				markers: markers
+			};
+		}
+		return null;
 	}
 
 	render() {
@@ -108,9 +119,8 @@ class Main extends Component {
 							onPopoverTrigger = {this.onPopoverTrigger}
 							onData = {this.onData}
 							showMapStyles={true}
-							actuate={{
-								CitySensor: {"operation": "must", customQuery: this.cityQuery},
-								CategorySensor: {"operation": "must", customQuery: this.categoryQuery}
+							react={{
+								and: ["CitySensor", "CategorySensor"]
 							}}
 							/>
 					</div>
@@ -128,6 +138,7 @@ class Main extends Component {
 									showSearch={true}
 									title="Cities"
 									searchPlaceholder="Search City"
+									customQuery= {this.cityQuery}
 								/>
 							</div>
 							<div className="col s12">
@@ -139,8 +150,9 @@ class Main extends Component {
 									multipleSelect={true}
 									includeGeo={true}
 									title="Categories"
-									actuate={{
-										CitySensor: {"operation": "must", customQuery: this.cityQuery}
+									customQuery= {this.categoryQuery}
+									react={{
+										and: "CitySensor"
 									}}
 								/>
 							</div>

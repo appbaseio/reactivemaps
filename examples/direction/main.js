@@ -70,6 +70,7 @@ class Main extends Component {
 									componentId="OriginSensor"
 									placeholder="Search Venue"
 									title="Origin"
+									customQuery={this.originQuery}
 								/>
 							</div>
 							<div className="col s12 col-xs-12">
@@ -79,6 +80,7 @@ class Main extends Component {
 									placeholder="Search Venue"
 									autoLocation={false}
 									title="Destination"
+									customQuery={this.destinationQuery}
 								/>
 							</div>
 						</div>
@@ -98,9 +100,8 @@ class Main extends Component {
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							size={100}
-							actuate={{
-								OriginSensor: {"operation": "must", customQuery: this.originQuery},
-								DestinationSensor: {"operation": "must", customQuery: this.destinationQuery}
+							react={{
+								"and": ["OriginSensor", "DestinationSensor"]
 							}}
 						/>
 					</div>

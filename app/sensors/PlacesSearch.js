@@ -1,23 +1,21 @@
-import { default as React, Component } from 'react';
+import React, { Component } from "react";
 import {
-	AppbaseChannelManager as manager,
 	AppbaseSensorHelper as helper
-} from '@appbaseio/reactivebase';
+} from "@appbaseio/reactivebase";
+import classNames from "classnames";
+import axios from "axios";
+import Select from "react-select";
 
-import classNames from 'classnames';
-import axios from 'axios';
-import Select from 'react-select';
-
-export class PlacesSearch extends Component {
-	constructor(props, context) {
+export default class PlacesSearch extends Component {
+	constructor(props) {
 		super(props);
 		this.state = {
-			currentValue: '',
+			currentValue: "",
 			currentDistance: 0,
 			value: 0
 		};
-		this.type = 'match';
-		this.locString = '';
+		this.type = "match";
+		this.locString = "";
 		this.result = {
 			options: []
 		};
@@ -34,23 +32,23 @@ export class PlacesSearch extends Component {
 	// Set query information
 	componentDidMount() {
 		this.setQueryInfo();
-		if(this.props.autoLocation) {
+		if (this.props.autoLocation) {
 			this.getUserLocation();
 		}
 	}
 
 	getUserLocation() {
 		navigator.geolocation.getCurrentPosition((location) => {
-			this.locString = location.coords.latitude + ', ' + location.coords.longitude;
+			this.locString = `${location.coords.latitude}, ${location.coords.longitude}`;
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}`)
-				.then(res => {
-					let currentValue = res.data.results[0].formatted_address;
+				.then((res) => {
+					const currentValue = res.data.results[0].formatted_address;
 					this.result.options.push({
-						'value': currentValue,
-						'label': currentValue
+						value: currentValue,
+						label: currentValue
 					});
 					this.setState({
-						currentValue: currentValue
+						currentValue
 					}, this.executeQuery.bind(this));
 				});
 		});
@@ -58,23 +56,26 @@ export class PlacesSearch extends Component {
 
 	// set the query type and input data
 	setQueryInfo() {
-		let obj = {
+		const obj = {
 			key: this.props.componentId,
 			value: {
 				queryType: this.type,
 				inputData: this.props.appbaseField
 			}
 		};
+		if (this.props.customQuery) {
+			obj.value.customQuery = this.props.customQuery;
+		}
 		helper.selectedSensor.setSensorInfo(obj);
 	}
 
 	// get coordinates
 	getCoordinates(value) {
-		if(value && value != '') {
+		if (value && value !== "") {
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}`)
-				.then(res => {
-					let location = res.data.results[0].geometry.location;
-					this.locString = location.lat + ', ' + location.lng;
+				.then((res) => {
+					const location = res.data.results[0].geometry.location;
+					this.locString = `${location.lat}, ${location.lng}`;
 					this.executeQuery();
 				});
 		} else {
@@ -84,8 +85,8 @@ export class PlacesSearch extends Component {
 
 	// execute query after changing location or distanc
 	executeQuery() {
-		if (this.state.currentValue != '' && this.locString) {
-			var obj = {
+		if (this.state.currentValue !== "" && this.locString) {
+			const obj = {
 				key: this.props.componentId,
 				value: {
 					currentValue: this.state.currentValue,
@@ -96,25 +97,17 @@ export class PlacesSearch extends Component {
 		}
 	}
 
-	// use this only if want to create actuators
-	// Create a channel which passes the actuate and receive results whenever actuate changes
-	createChannel() {
-		let actuate = this.props.actuate ? this.props.actuate : {};
-		var channelObj = manager.create(this.context.appbaseRef, this.context.type, actuate);
-	}
-
 	// handle the input change and pass the value inside sensor info
 	handleChange(input) {
 		if (input) {
-			let inputVal = input.value;
+			const inputVal = input.value;
 			this.setState({
-				'currentValue': inputVal
+				currentValue: inputVal
 			});
 			this.getCoordinates(inputVal);
-		}
-		else {
+		} else {
 			this.setState({
-				'currentValue': ''
+				currentValue: ""
 			});
 		}
 	}
@@ -122,13 +115,13 @@ export class PlacesSearch extends Component {
 	// Handle function when value slider option is changing
 	handleValuesChange(component, value) {
 		this.setState({
-			value: value,
+			value
 		});
 	}
 
 	// Handle function when slider option change is completed
 	handleResults(component, value) {
-		value = value + this.props.unit;
+		value += this.props.unit;
 		this.setState({
 			currentDistance: value
 		}, this.executeQuery.bind(this));
@@ -137,21 +130,21 @@ export class PlacesSearch extends Component {
 	loadOptions(input, callback) {
 		this.callback = callback;
 		if (input) {
-			let googleMaps = this.googleMaps || window.google.maps;
+			const googleMaps = this.googleMaps || window.google.maps;
 			this.autocompleteService = new googleMaps.places.AutocompleteService();
-			let options = {
-				input: input
-			}
+			const options = {
+				input
+			};
 			this.result = {
 				options: []
 			};
-			this.autocompleteService.getPlacePredictions(options, res => {
-				res.map(place => {
+			this.autocompleteService.getPlacePredictions(options, (res) => {
+				res.map((place) => {
 					this.result.options.push({
-						'value': place.description,
-						'label': place.description
+						value: place.description,
+						label: place.description
 					});
-				})
+				});
 				this.callback(null, this.result);
 			});
 		} else {
@@ -162,15 +155,15 @@ export class PlacesSearch extends Component {
 	// render
 	render() {
 		let title = null;
-		if(this.props.title) {
+		if (this.props.title) {
 			title = (<h4 className="rbc-title">{this.props.title}</h4>);
 		}
 
-		let cx = classNames({
-			'rbc-title-active': this.props.title,
-			'rbc-title-inactive': !this.props.title,
-			'rbc-placeholder-active': this.props.placeholder,
-			'rbc-placeholder-inactive': !this.props.placeholder
+		const cx = classNames({
+			"rbc-title-active": this.props.title,
+			"rbc-title-inactive": !this.props.title,
+			"rbc-placeholder-active": this.props.placeholder,
+			"rbc-placeholder-inactive": !this.props.placeholder
 		});
 
 		return (
@@ -192,8 +185,13 @@ export class PlacesSearch extends Component {
 }
 
 PlacesSearch.propTypes = {
+	componentId: React.PropTypes.string.isRequired,
 	appbaseField: React.PropTypes.string.isRequired,
-	placeholder: React.PropTypes.string
+	title: React.PropTypes.string,
+	customQuery: React.PropTypes.func,
+	placeholder: React.PropTypes.string,
+	autoLocation: React.PropTypes.bool,
+	unit: React.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"])
 };
 // Default props value
 PlacesSearch.defaultProps = {

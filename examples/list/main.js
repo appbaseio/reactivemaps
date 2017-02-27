@@ -7,7 +7,7 @@ import {
 	MultiList,
 	RangeSlider,
 	DataSearch,
-	ResultList
+	ReactiveList
 } from '../../app/app.js';
 
 class Main extends Component {
@@ -56,15 +56,20 @@ class Main extends Component {
 	}
 
 	onData(res) {
-		let result, combineData = res.currentData;
-		if(res.mode === 'historic') {
-			combineData = res.currentData.concat(res.newData);
-		}
-		if (combineData) {
-			result = combineData.map((markerData, index) => {
-				let marker = markerData._source;
-				return this.itemMarkup(marker, markerData);
-			});
+		let result = null;
+		if (res) {
+			let combineData = res.currentData;
+			if (res.mode === 'historic') {
+				combineData = res.currentData.concat(res.newData);
+			} else if (res.mode === 'streaming') {
+				combineData = combineStreamData(res.currentData, res.newData);
+			}
+			if (combineData) {
+				result = combineData.map((markerData, index) => {
+					let marker = markerData._source;
+					return this.itemMarkup(marker, markerData);
+				});
+			}
 		}
 		return result;
 	}
@@ -90,6 +95,7 @@ class Main extends Component {
 									showSearch={true}
 									title="Cities"
 									searchPlaceholder="Search City"
+									customQuery= {this.topicactuate}
 								/>
 							</div>
 							<div className="col s12 m6">
@@ -99,11 +105,8 @@ class Main extends Component {
 									showCount={true}
 									size={100}
 									title="Topics"
-									actuate={{
-										CitySensor: {
-											"operation": "must",
-											"customQuery": this.topicactuate
-										}
+									react={{
+										and: "CitySensor"
 									}}
 								/>
 							</div>
@@ -113,11 +116,8 @@ class Main extends Component {
 								<RangeSlider
 									componentId="RangeSensor"
 									appbaseField={this.props.mapping.guests}
-									actuate={{
-										CitySensor: {
-											"operation": "must",
-											"customQuery": this.topicactuate
-										}
+									react={{
+										and: "CitySensor"
 									}}
 									title="guests"
 									startThreshold={0}
@@ -125,25 +125,9 @@ class Main extends Component {
 									stepValue={1} />
 							</div>
 						</div>
-						<div className="row">
-							<div className="col s12">
-								<DataSearch
-									appbaseField={this.props.mapping.venue}
-									componentId="VenueSensor"
-									searchRef="CityVenue"
-									placeholder="Search Venue"
-									actuate={{
-										'CitySensor': {
-											"operation": "must",
-											"doNotExecute": {true}
-										}
-									}}
-								/>
-							</div>
-						</div>
 					</div>
 					<div className="col s12 m6 h-100">
-						<ResultList
+						<ReactiveList
 							appbaseField={this.props.mapping.topic}
 							containerStyle={{height: '100%'}}
 							onData={this.onData}
@@ -151,11 +135,8 @@ class Main extends Component {
 							size={10}
 							requestOnScroll={true}
 							title="Results"
-							actuate={{
-								CitySensor: {"operation": "must"},
-								TopicSensor: {"operation": "must"},
-								RangeSensor: {"operation": "must"},
-								VenueSensor: {"operation": "must"}
+							react={{
+								and: ["CitySensor", "TopicSensor", "RangeSensor"]
 							}}
 						/>
 					</div>

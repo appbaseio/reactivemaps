@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
 	ReactiveBase,
 	ReactiveMap,
 	MultiDropdownRange,
 	AppbaseSensorHelper as helper
-} from '../app.js';
+} from "../app.js";
 
-import { Img } from './Img.js';
-const historyPin = require('./placeholder.svg');
+import { Img } from "./Img.js";
+const historyPin = require("./placeholder.svg");
 
 export default class MultiDropdownRangeDefault extends Component {
 	constructor(props) {
@@ -48,12 +48,12 @@ export default class MultiDropdownRangeDefault extends Component {
 							appbaseField={this.props.mapping.mag}
 							title="MultiDropdownRange"
 							data={
-								[{"start": 3, "end": 3.9, "label": "Minor"},
-								{"start": 4, "end": 4.9, "label": "Light"},
-								{"start": 5, "end": 5.9, "label": "Moderate"},
-								{"start": 6, "end": 6.9, "label": "Strong"},
-								{"start": 7, "end": 7.9, "label": "Major"},
-								{"start": 8, "end": 10, "label": "Great"}]
+							[{ start: 3, end: 3.9, label: "Minor" },
+								{ start: 4, end: 4.9, label: "Light" },
+								{ start: 5, end: 5.9, label: "Moderate" },
+								{ start: 6, end: 6.9, label: "Strong" },
+								{ start: 7, end: 7.9, label: "Major" },
+								{ start: 8, end: 10, label: "Great" }]
 							}
 							{...this.props}
 						/>
@@ -62,20 +62,20 @@ export default class MultiDropdownRangeDefault extends Component {
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
-							historicalData={true}
+							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"
-							autoCenter={true}
-							searchAsMoveComponent={true}
-							MapStylesComponent={true}
+							autoCenter
+							searchAsMoveComponent
+							MapStylesComponent
 							title="Reactive Maps"
-							showPopoverOn = "click"
+							showPopoverOn="click"
 							historicPin={historyPin}
-							onPopoverTrigger = {this.onPopoverTrigger}
-							defaultZoom = {13}
+							onPopoverTrigger={this.onPopoverTrigger}
+							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
-							actuate={{
-								EarthquakeSensor: {"operation": "must"},
+							react={{
+								and: "EarthquakeSensor"
 							}}
 						/>
 					</div>
@@ -87,7 +87,7 @@ export default class MultiDropdownRangeDefault extends Component {
 
 MultiDropdownRangeDefault.defaultProps = {
 	mapping: {
-		mag: 'mag',
-		location: 'location'
+		mag: "mag",
+		location: "location"
 	}
 };
