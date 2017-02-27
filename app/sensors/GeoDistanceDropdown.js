@@ -80,9 +80,9 @@ export default class GeoDistanceDropdown extends Component {
 				currentValue
 			}, this.getCoordinates(currentValue, this.handleResults));
 		}
-		else if(this.props.defaultSelected && this.props.defaultSelected.distance) {
+		else if(this.props.defaultSelected && this.props.defaultSelected.label) {
 			this.getUserLocation();
-			this.handleResults(this.props.defaultSelected.distance);
+			this.handleResults(this.props.defaultSelected.label);
 		}
 		else {
 			this.getUserLocation();
@@ -154,7 +154,7 @@ export default class GeoDistanceDropdown extends Component {
 					const location = res.data.results[0].geometry.location;
 					this.locString = `${location.lat}, ${location.lng}`;
 					if(cb) {
-						cb.call(this, this.props.defaultSelected.distance);
+						cb.call(this, this.props.defaultSelected.label);
 					} else {
 						this.executeQuery();
 					}
@@ -303,7 +303,7 @@ GeoDistanceDropdown.propTypes = {
 	title: React.PropTypes.string,
 	customQuery: React.PropTypes.func,
 	defaultSelected: React.PropTypes.shape({
-		distance: React.PropTypes.string,
+		label: React.PropTypes.string,
 		location: React.PropTypes.string
 	}),
 	placeholder: React.PropTypes.string,

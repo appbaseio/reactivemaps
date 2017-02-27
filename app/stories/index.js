@@ -169,7 +169,7 @@ storiesOf("GeoDistanceDropdown", module)
 				{ start: 501, end: 1000, label: "Above 500 miles" }]
 			}
 			defaultSelected={{
-				distance: "Less than 100 miles",
+				label: "Less than 100 miles",
 				location: "London"
 			}}
 			title="Geo Distance Search"

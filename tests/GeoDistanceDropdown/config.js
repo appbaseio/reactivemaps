@@ -11,7 +11,7 @@ const config = {
 		data: data,
 		defaultSelected: {
 			location: 'London',
-			distance: data[0].label
+			label: data[0].label
 		},
 		"locationLatLng": "51.5073509, -0.1277583",
 		"unit": "mi"
