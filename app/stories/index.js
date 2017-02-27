@@ -4,59 +4,62 @@ import { withKnobs, text, number, array, object, select, boolean } from "@kadira
 import withReadme from "storybook-readme/with-readme";
 
 import GeoDistanceSliderDefault from "./GeoDistanceSlider.stories";
-import GeoDistanceSliderReadme from "@appbaseio/reactivemaps-manual/docs/v1/map-components/GeoDistanceSlider.md";
+import GeoDistanceSliderReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/map-components/GeoDistanceSlider.md";
 
 import GeoDistanceDropdownDefault from "./GeoDistanceDropdown.stories";
-import GeoDistanceDropdownReadme from "@appbaseio/reactivemaps-manual/docs/v1/map-components/GeoDistanceDropdown.md";
+import GeoDistanceDropdownReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/map-components/GeoDistanceDropdown.md";
 
 import PlacesSearchDefault from "./PlacesSearch.stories";
-import PlacesSearchReadme from "@appbaseio/reactivemaps-manual/docs/v1/map-components/PlacesSearch.md";
+import PlacesSearchReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/map-components/PlacesSearch.md";
 
 import ReactiveMapDefault from "./ReactiveMap.stories";
-import ReactiveMapReadme from "@appbaseio/reactivemaps-manual/docs/v1/map-components/ReactiveMap.md";
+import ReactiveMapReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/map-components/ReactiveMap.md";
 
 import SingleListDefault from "./SingleList.stories";
-import SingleListReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/SingleList.md";
+import SingleListReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/SingleList.md";
 
 import MultiListDefault from "./MultiList.stories";
-import MultiListReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/MultiList.md";
+import MultiListReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/MultiList.md";
 
 import SingleDropdownListDefault from "./SingleDropdownList.stories";
-import SingleDropdownListReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/SingleDropdownList.md";
+import SingleDropdownListReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/SingleDropdownList.md";
 
 import MultiDropdownListDefault from "./MultiDropdownList.stories";
-import MultiDropdownListReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/MultiDropdownList.md";
+import MultiDropdownListReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/MultiDropdownList.md";
 
 import SingleRangeDefault from "./SingleRange.stories";
-import SingleRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/SingleRange.md";
+import SingleRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/SingleRange.md";
 
 import MultiRangeDefault from "./MultiRange.stories";
-import MultiRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/MultiRange.md";
+import MultiRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/MultiRange.md";
 
 import SingleDropdownRangeDefault from "./SingleDropdownRange.stories";
-import SingleDropdownRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/SingleDropdownRange.md";
+import SingleDropdownRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/SingleDropdownRange.md";
 
 import MultiDropdownRangeDefault from "./MultiDropdownRange.stories";
-import MultiDropdownRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/MultiDropdownRange.md";
+import MultiDropdownRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/MultiDropdownRange.md";
 
 import DataSearchDefault from "./DataSearch.stories";
-import DataSearchReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/DataSearch.md";
+import DataSearchReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/DataSearch.md";
 
 import NestedListDefault from "./NestedList.stories";
-import NestedListReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/NestedList.md";
+import NestedListReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/NestedList.md";
 
 import RangeSliderDefault from "./RangeSlider.stories";
-import RangeSliderReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/RangeSlider.md";
+import RangeSliderReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/RangeSlider.md";
 
 import NumberBoxDefault from "./NumberBox.stories";
-import NumberBoxReadme from "@appbaseio/reactivemaps-manual/docs/v1/components/NumberBox.md";
+import NumberBoxReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/NumberBox.md";
 
 require("../../node_modules/materialize-css/dist/css/materialize.min.css");
 require("../../dist/css/style.min.css");
 require("./styles.css");
 
-function removeFirstLine(str) {
-	return str.substring(str.indexOf("\n") + 1);
+function removeFirstLine(str, number=1) {
+	while (number--) {
+		str = str.substring(str.indexOf("\n") + 1);
+	}
+	return str;
 }
 
 storiesOf("GeoDistanceSlider", module)
@@ -202,15 +205,15 @@ storiesOf("PlacesSearch", module)
 
 storiesOf("ReactiveMap", module)
 	.addDecorator(withKnobs)
-	.add("Basic", withReadme(removeFirstLine(ReactiveMapReadme), () => (
+	.add("Basic", withReadme(removeFirstLine(ReactiveMapReadme, 3), () => (
 		<ReactiveMapDefault />
 	)))
-	.add("With Title", withReadme(removeFirstLine(ReactiveMapReadme), () => (
+	.add("With Title", withReadme(removeFirstLine(ReactiveMapReadme, 3), () => (
 		<ReactiveMapDefault
 			title="Reactive Maps"
 		/>
 	)))
-	.add("With Popover onClick", withReadme(removeFirstLine(ReactiveMapReadme), () => (
+	.add("With Popover onClick", withReadme(removeFirstLine(ReactiveMapReadme, 3), () => (
 		<ReactiveMapDefault
 			title="Reactive Maps"
 			showPopoverOn="click"

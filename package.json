@@ -50,7 +50,7 @@
     "react-tooltip": "^3.1.8"
   },
   "devDependencies": {
-    "@appbaseio/reactivemaps-manual": "^0.2.0",
+    "@appbaseio/reactivemaps-manual": "latest",
     "@kadira/storybook": "^2.34.0",
     "@kadira/storybook-addon-knobs": "^1.7.1",
     "@kadira/storybook-addon-options": "^1.0.1",
