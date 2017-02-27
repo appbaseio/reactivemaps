@@ -1,6 +1,6 @@
 {
   "name": "@appbaseio/reactivemaps",
-  "version": "0.1.6",
+  "version": "1.0.0-alpha",
   "description": "Data Components for building map UIs",
   "main": "lib/app.js",
   "scripts": {
@@ -32,7 +32,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@appbaseio/reactivebase": "^1.0.0-alpha3",
+    "@appbaseio/reactivebase": "^1.0.0-alpha5",
     "appbase-js": "^0.10.8",
     "axios": "^0.15.2",
     "babel-preset-stage-0": "^6.5.0",
@@ -54,6 +54,7 @@
     "@kadira/storybook": "^2.34.0",
     "@kadira/storybook-addon-knobs": "^1.7.1",
     "@kadira/storybook-addon-options": "^1.0.1",
+    "babel-cli": "^6.23.0",
     "babel-core": "^6.9.1",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.4",
