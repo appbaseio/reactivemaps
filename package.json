@@ -1,6 +1,6 @@
 {
   "name": "@appbaseio/reactivemaps",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0-alpha1",
   "description": "Data Components for building map UIs",
   "main": "lib/app.js",
   "scripts": {
@@ -33,6 +33,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@appbaseio/reactivebase": "^1.0.0-alpha5",
+    "@appbaseio/reactivemaps-manual": "^1.0.0-alpha",
     "appbase-js": "^0.10.8",
     "axios": "^0.15.2",
     "babel-preset-stage-0": "^6.5.0",

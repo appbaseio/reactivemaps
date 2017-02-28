@@ -214,7 +214,7 @@ export default class ReactiveMap extends Component {
 
 	geoCustomQuery(value) {
 		let query = null;
-		if (value) {
+		if (value && this.searchAsMove) {
 			query = {
 				geo_bounding_box: {
 					[this.props.appbaseField]: value
@@ -319,6 +319,7 @@ export default class ReactiveMap extends Component {
 	searchAsMoveChange(value) {
 		this.searchAsMove = value;
 		if (value && this.mapRef) {
+			this.geoRelatedEventsChange = true;
 			this.handleOnIdle();
 		}
 	}

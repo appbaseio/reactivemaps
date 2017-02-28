@@ -42,9 +42,9 @@ export default class MultiListDefault extends Component {
 	render() {
 		return (
 			<ReactiveBase
-				app="meetup_demo"
-				username="LPpISlEBe"
-				password="2a8935f5-0f63-4084-bc3e-2b2b4d1a8e02"
+				app="reactivemap-demo"
+				username="SL8fiQ1fg"
+				password="71ea4254-49ba-4685-8276-e44da225c141"
 				type="meetupdata1"
 			>
 				<div className="row">
