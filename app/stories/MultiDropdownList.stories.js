@@ -42,7 +42,7 @@ export default class MultiDropdownListDefault extends Component {
 	render() {
 		return (
 			<ReactiveBase
-				aapp="reactivemap-demo"
+				app="reactivemap-demo"
 				username="SL8fiQ1fg"
 				password="71ea4254-49ba-4685-8276-e44da225c141"
 				type="meetupdata1"
