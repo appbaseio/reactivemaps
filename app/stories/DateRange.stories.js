@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import {
 	ReactiveBase,
+	DateRange,
 	ReactiveMap,
-	MultiList,
 	AppbaseSensorHelper as helper
-} from "../app.js";
+} from "../app";
+import { Img } from "./Img";
 
-import { Img } from "./Img.js";
 const historyPin = require("./placeholder.svg");
 
-export default class MultiListDefault extends Component {
+export default class DatePickerDefault extends Component {
 	constructor(props) {
 		super(props);
 		this.onPopoverTrigger = this.onPopoverTrigger.bind(this);
@@ -49,11 +49,10 @@ export default class MultiListDefault extends Component {
 			>
 				<div className="row">
 					<div className="col s6 col-xs-6">
-						<MultiList
-							componentId="CitySensor"
-							appbaseField="group.group_city.raw"
-							title="MultiList"
-							size={100}
+						<DateRange
+							componentId="DateRangeSensor"
+							appbaseField="mtime"
+							title="title"
 							{...this.props}
 						/>
 					</div>
@@ -74,7 +73,7 @@ export default class MultiListDefault extends Component {
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							react={{
-								and: "CitySensor"
+								and: "DateRangeSensor"
 							}}
 						/>
 					</div>
