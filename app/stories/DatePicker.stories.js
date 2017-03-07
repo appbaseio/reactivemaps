@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import {
 	ReactiveBase,
+	DatePicker,
 	ReactiveMap,
-	MultiDropdownList,
 	AppbaseSensorHelper as helper
-} from "../app.js";
+} from "../app";
+import { Img } from "./Img";
 
-import { Img } from "./Img.js";
 const historyPin = require("./placeholder.svg");
 
-export default class MultiDropdownListDefault extends Component {
+export default class DatePickerDefault extends Component {
 	constructor(props) {
 		super(props);
 		this.onPopoverTrigger = this.onPopoverTrigger.bind(this);
@@ -49,18 +49,17 @@ export default class MultiDropdownListDefault extends Component {
 			>
 				<div className="row">
 					<div className="col s6 col-xs-6">
-						<MultiDropdownList
-							componentId="CitySensor"
-							appbaseField={this.props.mapping.city}
-							title="MultiDropdownList"
-							size={100}
+						<DatePicker
+							componentId="DateSensor"
+							appbaseField="mtime"
+							title="title"
 							{...this.props}
 						/>
 					</div>
 
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							appbaseField="location"
 							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"
@@ -74,7 +73,7 @@ export default class MultiDropdownListDefault extends Component {
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lng: -122.45 }}
 							react={{
-								and: "CitySensor"
+								and: "DateSensor"
 							}}
 						/>
 					</div>
@@ -83,10 +82,3 @@ export default class MultiDropdownListDefault extends Component {
 		);
 	}
 }
-
-MultiDropdownListDefault.defaultProps = {
-	mapping: {
-		city: "group.group_city.raw",
-		location: "location"
-	}
-};

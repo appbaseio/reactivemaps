@@ -1,59 +1,57 @@
+/* eslint max-lines: 0 */
 import React from "react";
-import { storiesOf, addDecorator } from "@kadira/storybook";
+import { storiesOf } from "@kadira/storybook";
 import { withKnobs, text, number, array, object, select, boolean } from "@kadira/storybook-addon-knobs";
 import withReadme from "storybook-readme/with-readme";
 
-import GeoDistanceSliderDefault from "./GeoDistanceSlider.stories";
 import GeoDistanceSliderReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/map-components/GeoDistanceSlider.md";
-
-import GeoDistanceDropdownDefault from "./GeoDistanceDropdown.stories";
 import GeoDistanceDropdownReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/map-components/GeoDistanceDropdown.md";
-
-import PlacesSearchDefault from "./PlacesSearch.stories";
 import PlacesSearchReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/map-components/PlacesSearch.md";
-
-import ReactiveMapDefault from "./ReactiveMap.stories";
 import ReactiveMapReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/map-components/ReactiveMap.md";
 
-import SingleListDefault from "./SingleList.stories";
 import SingleListReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/SingleList.md";
-
-import MultiListDefault from "./MultiList.stories";
 import MultiListReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/MultiList.md";
-
-import SingleDropdownListDefault from "./SingleDropdownList.stories";
 import SingleDropdownListReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/SingleDropdownList.md";
-
-import MultiDropdownListDefault from "./MultiDropdownList.stories";
 import MultiDropdownListReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/MultiDropdownList.md";
 
-import SingleRangeDefault from "./SingleRange.stories";
 import SingleRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/SingleRange.md";
-
-import MultiRangeDefault from "./MultiRange.stories";
 import MultiRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/MultiRange.md";
-
-import SingleDropdownRangeDefault from "./SingleDropdownRange.stories";
 import SingleDropdownRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/SingleDropdownRange.md";
-
-import MultiDropdownRangeDefault from "./MultiDropdownRange.stories";
 import MultiDropdownRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/MultiDropdownRange.md";
 
-import DataSearchDefault from "./DataSearch.stories";
 import DataSearchReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/DataSearch.md";
-
-import NestedListDefault from "./NestedList.stories";
 import NestedListReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/NestedList.md";
-
-import RangeSliderDefault from "./RangeSlider.stories";
 import RangeSliderReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/RangeSlider.md";
-
-import NumberBoxDefault from "./NumberBox.stories";
 import NumberBoxReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/NumberBox.md";
+import DatePickerReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/DatePicker.md";
+import DateRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/DateRange.md";
+
+import GeoDistanceSliderDefault from "./GeoDistanceSlider.stories";
+import GeoDistanceDropdownDefault from "./GeoDistanceDropdown.stories";
+import PlacesSearchDefault from "./PlacesSearch.stories";
+import ReactiveMapDefault from "./ReactiveMap.stories";
+
+import SingleListDefault from "./SingleList.stories";
+import MultiListDefault from "./MultiList.stories";
+import SingleDropdownListDefault from "./SingleDropdownList.stories";
+import MultiDropdownListDefault from "./MultiDropdownList.stories";
+import SingleRangeDefault from "./SingleRange.stories";
+import MultiRangeDefault from "./MultiRange.stories";
+import SingleDropdownRangeDefault from "./SingleDropdownRange.stories";
+import MultiDropdownRangeDefault from "./MultiDropdownRange.stories";
+
+import DataSearchDefault from "./DataSearch.stories";
+import NestedListDefault from "./NestedList.stories";
+import RangeSliderDefault from "./RangeSlider.stories";
+import NumberBoxDefault from "./NumberBox.stories";
+import DatePickerDefault from "./DatePicker.stories";
+import DateRangeDefault from "./DateRange.stories";
 
 require("../../node_modules/materialize-css/dist/css/materialize.min.css");
 require("../../dist/css/style.min.css");
 require("./styles.css");
+
+const moment = require("moment");
 
 function removeFirstLine(str, number=1) {
 	while (number--) {
@@ -100,7 +98,7 @@ storiesOf("GeoDistanceSlider", module)
 	.add("With defaultSelected", withReadme(removeFirstLine(GeoDistanceSliderReadme), () => (
 		<GeoDistanceSliderDefault
 			defaultSelected={{
-				location:'London',
+				location: "London",
 				distance: 5
 			}}
 			unit="mi"
@@ -115,7 +113,7 @@ storiesOf("GeoDistanceSlider", module)
 	.add("Playground", withReadme(removeFirstLine(GeoDistanceSliderReadme), () => (
 		<GeoDistanceSliderDefault
 			defaultSelected={object("defaultSelected", {
-				location:'London',
+				location: "London",
 				distance: 5
 			})}
 			stepValue={number("stepValue", 1)}
@@ -551,5 +549,81 @@ storiesOf("NumberBox", module)
 				label: "Guests"
 			})}
 			labelPosition={select("labelPosition", { bottom: "bottom", top: "top", left: "left", right: "right" }, "right")}
+		/>
+	)));
+
+
+storiesOf("DatePicker", module)
+	.addDecorator(withKnobs)
+	.add("Basic", withReadme(removeFirstLine(DatePickerReadme), () => (
+		<DatePickerDefault />
+	)))
+	.add("Show more than 1 month", withReadme(removeFirstLine(DatePickerReadme), () => (
+		<DatePickerDefault
+			numberOfMonths={2}
+		/>
+	)))
+	.add("Default date", withReadme(removeFirstLine(DatePickerReadme), () => (
+		<DatePickerDefault
+			defaultSelected={moment().subtract(1, "day")}
+		/>
+	)))
+	.add("Enable days from today only", withReadme(removeFirstLine(DatePickerReadme), () => (
+		<DatePickerDefault
+			allowAllDates={false}
+		/>
+	)))
+	.add("Using extra prop object", withReadme(removeFirstLine(DatePickerReadme), () => (
+		<DatePickerDefault
+			extra={{
+				withFullScreenPortal: true,
+				showClearDate: true
+			}}
+		/>
+	)))
+	.add("Playground", withReadme(removeFirstLine(DatePickerReadme), () => (
+		<DatePickerDefault
+			title={text("title", "Date Picker")}
+			numberOfMonths={number("numberOfMonths", 1)}
+			allowAllDates={boolean("allowAllDates", true)}
+		/>
+	)));
+
+storiesOf("DateRange", module)
+	.addDecorator(withKnobs)
+	.add("Basic", withReadme(removeFirstLine(DateRangeReadme), () => (
+		<DateRangeDefault />
+	)))
+	.add("Show more than 1 month", withReadme(removeFirstLine(DateRangeReadme), () => (
+		<DateRangeDefault
+			numberOfMonths={3}
+		/>
+	)))
+	.add("Default date", withReadme(removeFirstLine(DateRangeReadme), () => (
+		<DateRangeDefault
+			defaultSelected={{
+				start: moment().subtract(7, "days"),
+				end: moment()
+			}}
+		/>
+	)))
+	.add("Enable days from today only", withReadme(removeFirstLine(DateRangeReadme), () => (
+		<DateRangeDefault
+			allowAllDates={false}
+		/>
+	)))
+	.add("Using extra prop object", withReadme(removeFirstLine(DateRangeReadme), () => (
+		<DateRangeDefault
+			extra={{
+				withFullScreenPortal: true,
+				showClearDate: true
+			}}
+		/>
+	)))
+	.add("Playground", withReadme(removeFirstLine(DateRangeReadme), () => (
+		<DateRangeDefault
+			title={text("title", "Date Range")}
+			numberOfMonths={number("numberOfMonths", 2)}
+			allowAllDates={boolean("allowAllDates", true)}
 		/>
 	)));
