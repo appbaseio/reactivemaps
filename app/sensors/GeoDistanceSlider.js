@@ -191,6 +191,11 @@ export default class GeoDistanceSlider extends Component {
 			this.setState({
 				currentValue: ""
 			});
+			const obj = {
+				key: this.props.componentId,
+				value: null
+			};
+			helper.selectedSensor.set(obj, true);
 		}
 	}
 
