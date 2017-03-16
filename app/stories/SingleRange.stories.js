@@ -38,8 +38,7 @@ export default class SingleRangeDefault extends Component {
 		return (
 			<ReactiveBase
 				app="earthquake"
-				username="OrXIHcgHn"
-				password="d539c6e7-ed14-4407-8214-c227b0600d8e"
+				credentials="OrXIHcgHn:d539c6e7-ed14-4407-8214-c227b0600d8e"
 			>
 				<div className="row">
 					<div className="col s6 col-xs-6">

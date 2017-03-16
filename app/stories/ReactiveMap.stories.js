@@ -44,9 +44,9 @@ export default class ReactiveMapDefault extends Component {
 	render() {
 		return (
 			<ReactiveBase
-				app="reactivemap-demo"
-				username="SL8fiQ1fg"
-				password="71ea4254-49ba-4685-8276-e44da225c141"
+				app="meetup2"
+				credentials="qz4ZD8xq1:a0edfc7f-5611-46f6-8fe1-d4db234631f3"
+				type="meetup"
 				theme="rbc-blue"
 			>
 				<div className="row reverse-labels">
@@ -107,13 +107,5 @@ ReactiveMapDefault.defaultProps = {
 		location: "location",
 		venue: "venue_name_ngrams",
 		city: "group.group_city.raw"
-	},
-	config: {
-		appbase: {
-			app: "meetup2",
-			username: "qz4ZD8xq1",
-			password: "a0edfc7f-5611-46f6-8fe1-d4db234631f3",
-			type: "meetup"
-		}
 	}
 };
