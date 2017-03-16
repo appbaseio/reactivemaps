@@ -165,8 +165,10 @@ var examples_config = {
 				test: /node_modules\/JSONStream\/index\.js$/,
 				loaders: ['shebang', 'babel']
 			}
-		]
+		],
+		noParse: ['ws']
 	},
+	externals: ['ws']
 };
 
 var final_config;
