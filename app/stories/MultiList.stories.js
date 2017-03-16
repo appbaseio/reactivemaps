@@ -53,8 +53,6 @@ export default class MultiListDefault extends Component {
 							appbaseField="group.group_city.raw"
 							title="MultiList"
 							size={100}
-							selectAllLabel="all"
-							defaultSelected={["all"]}
 							{...this.props}
 						/>
 					</div>
@@ -73,7 +71,7 @@ export default class MultiListDefault extends Component {
 							historicPin={historyPin}
 							onPopoverTrigger={this.onPopoverTrigger}
 							defaultZoom={13}
-							defaultCenter={{ lat: 37.74, lng: -122.45 }}
+							defaultCenter={{ lat: 37.74, lon: -122.45 }}
 							react={{
 								and: "CitySensor"
 							}}

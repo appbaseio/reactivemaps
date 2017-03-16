@@ -130,7 +130,7 @@ class Main extends Component {
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
 							defaultZoom={4}
-							defaultCenter={{ lat: 40.673940, lng: -101.314026 }}
+							defaultCenter={{ lat: 40.673940, lon: -101.314026 }}
 							historicalData={true}
 							setMarkerCluster={false}
 							defaultMapStyle={this.props.mapStyle}

@@ -95,7 +95,7 @@ export default class PlacesSearchDefault extends Component {
 							title="Reactive Maps"
 							onIdle={this.onIdle}
 							defaultZoom={13}
-							defaultCenter={{ lat: 37.74, lng: -122.45 }}
+							defaultCenter={{ lat: 37.74, lon: -122.45 }}
 							size={100}
 							react={{
 								and: ["OriginSensor", "DestinationSensor"]

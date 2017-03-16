@@ -10,7 +10,7 @@ import {
 } from "@appbaseio/reactivebase";
 import { SearchAsMove } from "../addons/SearchAsMove";
 import { MapStyles, mapStylesCollection } from "../addons/MapStyles";
-import { identifyGeoData, validation, afterChannelResponse } from "../helper/ReactiveMapHelper";
+import { identifyGeoData, validation, afterChannelResponse, normalizeCenter, normalizeProps } from "../helper/ReactiveMapHelper";
 
 export default class ReactiveMap extends Component {
 	constructor(props) {
@@ -535,10 +535,10 @@ export default class ReactiveMap extends Component {
 			center = generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : this.getStoreCenter();
 			this.storeCenter = center;
 			this.reposition = false;
-			centerComponent.center = center;
+			centerComponent.center = normalizeCenter(center);
 		} else if (this.storeCenter) {
 			center = this.storeCenter;
-			centerComponent.center = center;
+			centerComponent.center = normalizeCenter(center);
 		} else {
 			center = null;
 		}
@@ -579,7 +579,7 @@ export default class ReactiveMap extends Component {
 								styles: this.state.currentMapStyle
 							}}
 							{...centerComponent}
-							{...this.props}
+							{...normalizeProps(this.props)}
 							onDragstart={() => {
 								this.handleOnDrage();
 								this.mapEvents("onDragstart");
@@ -642,7 +642,7 @@ ReactiveMap.propTypes = {
 	showPopoverOn: React.PropTypes.oneOf(["click", "mouseover"]),
 	defaultCenter: React.PropTypes.shape({
 		lat: validation.validCenter,
-		lng: validation.validCenter
+		lon: validation.validCenter
 	}),
 	react: React.PropTypes.object,
 	markerOnClick: React.PropTypes.func,
@@ -677,7 +677,7 @@ ReactiveMap.defaultProps = {
 	defaultZoom: 13,
 	defaultCenter: {
 		lat: 37.74,
-		lng: -122.45
+		lon: -122.45
 	}
 };
 

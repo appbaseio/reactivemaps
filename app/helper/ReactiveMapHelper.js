@@ -170,3 +170,18 @@ export const validation = {
 		}
 	}
 };
+
+export const normalizeCenter = (center) => {
+	if(center && center.lon) {
+		center.lng = center.lon
+	}
+	return center;
+}
+
+export const normalizeProps = (props) => {
+	const propsCopy = JSON.parse(JSON.stringify(props));
+	if(propsCopy.defaultCenter) {
+		propsCopy.defaultCenter = normalizeCenter(propsCopy.defaultCenter);
+	}
+	return propsCopy;
+}

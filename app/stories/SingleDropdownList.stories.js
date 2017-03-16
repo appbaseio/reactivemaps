@@ -71,7 +71,7 @@ export default class SingleDropdownListDefault extends Component {
 							historicPin={historyPin}
 							onPopoverTrigger={this.onPopoverTrigger}
 							defaultZoom={13}
-							defaultCenter={{ lat: 37.74, lng: -122.45 }}
+							defaultCenter={{ lat: 37.74, lon: -122.45 }}
 							react={{
 								and: ["CitySensor"]
 							}}

@@ -168,7 +168,7 @@ class Main extends Component {
 								onPopoverTrigger = {this.onPopoverTrigger}
 								onData = {this.onData}
 								defaultZoom = {13}
-								defaultCenter={{ lat: 37.74, lng: -122.45 }}
+								defaultCenter={{ lat: 37.74, lon: -122.45 }}
 								react={{
 									and: ["TopicSensor", "GeoDistanceSlider"]
 								}}
