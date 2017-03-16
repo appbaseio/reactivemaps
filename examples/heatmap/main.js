@@ -123,8 +123,7 @@ class Main extends Component {
 			<div className="row m-0 h-100">
 				<ReactiveBase
 					app={this.props.config.appbase.app}
-					username={this.props.config.appbase.username}
-					password={this.props.config.appbase.password}
+					credentials={`${this.props.config.appbase.username}:${this.props.config.appbase.password}`}
 					type={this.props.config.appbase.type}
 					>
 					<div className="col s12 h-100">

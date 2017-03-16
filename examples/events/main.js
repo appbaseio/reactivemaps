@@ -122,10 +122,9 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					app={this.props.config.appbase.app}
-					username={this.props.config.appbase.username}
-					password={this.props.config.appbase.password}
-					type={this.props.config.appbase.type}
+					app="checkin"
+					credentials="6PdfXag4h:b614d8fa-03d8-4005-b6f1-f2ff31cd0f91"
+					type="city"
 					>
 					<div className="col s12 m9 h-100">
 						<ReactiveMap
@@ -174,14 +173,6 @@ Main.defaultProps = {
 	mapStyle: "Light Monochrome",
 	mapping: {
 		location: 'location'
-	},
-	config: {
-		"appbase": {
-			"app": "checkin",
-			"username": "6PdfXag4h",
-			"password": "b614d8fa-03d8-4005-b6f1-f2ff31cd0f91",
-			"type": "city"
-		}
 	}
 };
 

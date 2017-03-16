@@ -78,10 +78,9 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					app={this.props.config.appbase.app}
-					username={this.props.config.appbase.username}
-					password={this.props.config.appbase.password}
-					type={this.props.config.appbase.type}
+					app="meetup_demo"
+					credentials="LPpISlEBe:2a8935f5-0f63-4084-bc3e-2b2b4d1a8e02"
+					type="meetupdata1"
 					>
 					<div className="col s12 m6">
 						<div className="row h-100">
@@ -153,14 +152,6 @@ Main.defaultProps = {
 		topic: 'group.group_topics.topic_name_raw.raw',
 		venue: 'venue_name_ngrams',
 		guests: 'guests'
-	},
-	config: {
-		"appbase": {
-			"app": "meetup_demo",
-			"username": "LPpISlEBe",
-			"password": "2a8935f5-0f63-4084-bc3e-2b2b4d1a8e02",
-			"type": "meetupdata1"
-		}
 	}
 };
 
