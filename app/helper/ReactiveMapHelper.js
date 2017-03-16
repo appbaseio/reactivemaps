@@ -188,6 +188,9 @@ export const normalizeProps = (props) => {
 	if(propsCopy.defaultCenter) {
 		propsCopy.defaultCenter = normalizeCenter(propsCopy.defaultCenter);
 	}
+	if(propsCopy.center) {
+		propsCopy.center = normalizeCenter(propsCopy.center);
+	}
 	return propsCopy;
 }
 
