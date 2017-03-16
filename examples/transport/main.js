@@ -69,10 +69,9 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					app={this.props.config.appbase.app}
-					username={this.props.config.appbase.username}
-					password={this.props.config.appbase.password}
-					type={this.props.config.appbase.type}
+					app="bus"
+					credentials="UzOKXiRYK:000fb7ce-c92e-4f78-b3b7-0d4e33964134"
+					type="sftransport"
 					>
 					<div className="col s12 m3">
 						<div className="row h-100">
@@ -97,7 +96,7 @@ class Main extends Component {
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
 							defaultZoom={11}
-							defaultCenter={{ lat: 37.74, lng: -122.45 }}
+							defaultCenter={{ lat: 37.74, lon: -122.45 }}
 							historicalData={true}
 							setMarkerCluster={false}
 							defaultMapStyle={this.props.mapStyle}
@@ -129,14 +128,6 @@ Main.defaultProps = {
 	mapping: {
 		routes: 'tag.raw',
 		location: 'location'
-	},
-	config: {
-		"appbase": {
-			"app": "bus",
-			"username": "UzOKXiRYK",
-			"password": "000fb7ce-c92e-4f78-b3b7-0d4e33964134",
-			"type": "sftransport"
-		}
 	},
 	markerIcons: {
 		Bus: {

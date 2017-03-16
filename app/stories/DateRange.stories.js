@@ -43,8 +43,7 @@ export default class DatePickerDefault extends Component {
 		return (
 			<ReactiveBase
 				app="reactivemap-demo"
-				username="SL8fiQ1fg"
-				password="71ea4254-49ba-4685-8276-e44da225c141"
+				credentials="qMzzgez0t:a9138c3f-f246-4cd8-ba3d-0b99f9550c05"
 				type="meetupdata1"
 			>
 				<div className="row">
@@ -71,7 +70,7 @@ export default class DatePickerDefault extends Component {
 							historicPin={historyPin}
 							onPopoverTrigger={this.onPopoverTrigger}
 							defaultZoom={13}
-							defaultCenter={{ lat: 37.74, lng: -122.45 }}
+							defaultCenter={{ lat: 37.74, lon: -122.45 }}
 							react={{
 								and: "DateRangeSensor"
 							}}

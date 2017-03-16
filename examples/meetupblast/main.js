@@ -34,9 +34,9 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					app={this.props.config.appbase.app}
-					username={this.props.config.appbase.username}
-					password={this.props.config.appbase.password}
+					app="reactivemap-demo"
+					credentials="SL8fiQ1fg:71ea4254-49ba-4685-8276-e44da225c141"
+					type="meetup"
 					>
 					<div className="col s6">
 						<div className="row h-100">
@@ -72,7 +72,7 @@ class Main extends Component {
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
 							defaultZoom={13}
-							defaultCenter={{ lat: 37.74, lng: -122.45 }}
+							defaultCenter={{ lat: 37.74, lon: -122.45 }}
 							historicalData={true}
 							setMarkerCluster={false}
 							defaultMapStyle={this.props.mapStyle}
@@ -98,14 +98,6 @@ Main.defaultProps = {
 		topic: 'group.group_topics.topic_name_raw.raw',
 		location: 'location',
 		city: 'group.group_city.raw'
-	},
-	config: {
-		"appbase": {
-			"app": "reactivemap-demo",
-			"username": "SL8fiQ1fg",
-			"password": "71ea4254-49ba-4685-8276-e44da225c141",
-			"type": "meetup"
-		}
 	}
 };
 

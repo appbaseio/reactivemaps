@@ -55,10 +55,9 @@ export default class PlacesSearchDefault extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					app={this.props.config.appbase.app}
-					username={this.props.config.appbase.username}
-					password={this.props.config.appbase.password}
-					type={this.props.config.appbase.type}
+					app="reactivemap_demo"
+					credentials="y4pVxY2Ok:c92481e2-c07f-4473-8326-082919282c18"
+					type="meetupdata1"
 				>
 					<div className="col s12 m6 col-xs-12 col-sm-6">
 						<div className="row h-100">
@@ -96,7 +95,7 @@ export default class PlacesSearchDefault extends Component {
 							title="Reactive Maps"
 							onIdle={this.onIdle}
 							defaultZoom={13}
-							defaultCenter={{ lat: 37.74, lng: -122.45 }}
+							defaultCenter={{ lat: 37.74, lon: -122.45 }}
 							size={100}
 							react={{
 								and: ["OriginSensor", "DestinationSensor"]
@@ -113,13 +112,5 @@ PlacesSearchDefault.defaultProps = {
 	mapping: {
 		venue: "venue_name_ngrams",
 		location: "location"
-	},
-	config: {
-		appbase: {
-			app: "reactivemap_demo",
-			username: "y4pVxY2Ok",
-			password: "c92481e2-c07f-4473-8326-082919282c18",
-			type: "meetupdata1"
-		}
 	}
 };

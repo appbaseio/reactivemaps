@@ -38,8 +38,7 @@ export default class MultiDropdownRangeDefault extends Component {
 		return (
 			<ReactiveBase
 				app="earthquake"
-				username="OrXIHcgHn"
-				password="d539c6e7-ed14-4407-8214-c227b0600d8e"
+				credentials="OrXIHcgHn:d539c6e7-ed14-4407-8214-c227b0600d8e"
 			>
 				<div className="row">
 					<div className="col s6 col-xs-6">
@@ -73,7 +72,7 @@ export default class MultiDropdownRangeDefault extends Component {
 							historicPin={historyPin}
 							onPopoverTrigger={this.onPopoverTrigger}
 							defaultZoom={13}
-							defaultCenter={{ lat: 37.74, lng: -122.45 }}
+							defaultCenter={{ lat: 37.74, lon: -122.45 }}
 							react={{
 								and: "EarthquakeSensor"
 							}}

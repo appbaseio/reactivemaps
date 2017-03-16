@@ -43,8 +43,7 @@ export default class DataSearchDefault extends Component {
 		return (
 			<ReactiveBase
 				app="reactivemap_demo"
-				username="y4pVxY2Ok"
-				password="c92481e2-c07f-4473-8326-082919282c18"
+				credentials="y4pVxY2Ok:c92481e2-c07f-4473-8326-082919282c18"
 				type="meetupdata1"
 			>
 				<div className="row">
@@ -71,7 +70,7 @@ export default class DataSearchDefault extends Component {
 							historicPin={historyPin}
 							onPopoverTrigger={this.onPopoverTrigger}
 							defaultZoom={13}
-							defaultCenter={{ lat: 37.74, lng: -122.45 }}
+							defaultCenter={{ lat: 37.74, lon: -122.45 }}
 							react={{
 								and: "VenueSensor"
 							}}

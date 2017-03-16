@@ -1,6 +1,6 @@
 {
   "name": "@appbaseio/reactivemaps",
-  "version": "1.0.0-alpha1",
+  "version": "1.0.0-alpha2",
   "description": "Data Components for building map UIs",
   "main": "lib/app.js",
   "scripts": {
@@ -14,7 +14,8 @@
     "build:umd": "cross-env NODE_ENV=development && webpack --config webpack.config.umd.js app/app.js umd/ReactiveMaps.js",
     "build-bro": "browserify -t [ babelify --presets [ es2015 stage-0 react ] ] main.js -o dist/main.bundle.js",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public -o playground"
+    "build-storybook": "build-storybook -s public -o playground",
+    "build:all": "npm run build && npm run build:lib && npm run build:umd && npm run build-storybook"
   },
   "jest": {
     "rootDir": "./tests"
@@ -32,7 +33,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@appbaseio/reactivebase": "^1.0.0-alpha5",
+    "@appbaseio/reactivebase": "^1.0.0-alpha8",
     "@appbaseio/reactivemaps-manual": "^1.0.0-alpha",
     "appbase-js": "^0.11.0",
     "axios": "^0.15.2",

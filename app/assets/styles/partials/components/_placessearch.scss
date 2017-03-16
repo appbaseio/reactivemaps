@@ -19,11 +19,15 @@
 		height: 48px;
 		border-radius: 0;
 		font-family: $font-regular;
-		background: darken($light-grey, 2%);
+		background: $select-bg;
 		outline: none;
 
 		&:hover, &:focus {
 			outline: none;
+		}
+
+		.Select-clear {
+			background: $select-bg;
 		}
 
 		.Select-arrow-zone {

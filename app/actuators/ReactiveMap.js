@@ -10,7 +10,7 @@ import {
 } from "@appbaseio/reactivebase";
 import { SearchAsMove } from "../addons/SearchAsMove";
 import { MapStyles, mapStylesCollection } from "../addons/MapStyles";
-import { identifyGeoData, validation, afterChannelResponse } from "../helper/ReactiveMapHelper";
+import { identifyGeoData, validation, afterChannelResponse, normalizeCenter, normalizeProps, mapPropsStyles } from "../helper/ReactiveMapHelper";
 
 export default class ReactiveMap extends Component {
 	constructor(props) {
@@ -38,6 +38,7 @@ export default class ReactiveMap extends Component {
 		this.handleMarkerClose = this.handleMarkerClose.bind(this);
 		this.queryStartTime = 0;
 		this.reposition = false;
+		this.mapDefaultHeight = "700px";
 	}
 
 	getMapStyle(styleName) {
@@ -245,6 +246,10 @@ export default class ReactiveMap extends Component {
 		this.reposition = false;
 		this.setState({
 			rerender: true
+		}, () => {
+			if(this.props.popoverTTL) {
+				this.watchPopoverTTL(marker);
+			}
 		});
 	}
 
@@ -253,6 +258,24 @@ export default class ReactiveMap extends Component {
 		marker.showInfo = false;
 		this.reposition = false;
 		this.setState(this.state);
+	}
+
+	// watch and close popover on timeout
+	watchPopoverTTL(marker) {
+		this.popoverTTLStore = this.popoverTTLStore ? this.popoverTTLStore : {};
+		if(this.popoverTTLStore[marker._type+marker._id]) {
+			this.clearTTL(marker._type+marker._id);
+		} else {
+			this.popoverTTLStore[marker._type+marker._id] = setTimeout(() => {
+				this.handleMarkerClose(marker);
+				this.clearTTL(marker._type+marker._id);
+			}, this.props.popoverTTL*1000);
+		}
+	}
+
+	clearTTL(id) {
+		clearTimeout(this.popoverTTLStore[id])
+		delete this.popoverTTLStore[id];
 	}
 
 	// render infowindow
@@ -535,10 +558,10 @@ export default class ReactiveMap extends Component {
 			center = generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : this.getStoreCenter();
 			this.storeCenter = center;
 			this.reposition = false;
-			centerComponent.center = center;
+			centerComponent.center = normalizeCenter(center);
 		} else if (this.storeCenter) {
 			center = this.storeCenter;
-			centerComponent.center = center;
+			centerComponent.center = normalizeCenter(center);
 		} else {
 			center = null;
 		}
@@ -561,12 +584,12 @@ export default class ReactiveMap extends Component {
 		});
 
 		return (
-			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={this.props.componentStyle}>
+			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={mapPropsStyles(this.props.componentStyle, "component")}>
 				{title}
 				{showMapStyles}
 				<GoogleMapLoader
 					containerElement={
-						<div className="rbc-container col s12 col-xs-12" style={this.props.containerStyle} />
+						<div className="rbc-container col s12 col-xs-12" />
 					}
 					googleMapElement={
 						<GoogleMap
@@ -576,10 +599,10 @@ export default class ReactiveMap extends Component {
 								}
 							}
 							options={{
-								styles: this.state.currentMapStyle
+								styles: mapPropsStyles(this.props.componentStyle, "map", this.mapDefaultHeight)
 							}}
 							{...centerComponent}
-							{...this.props}
+							{...normalizeProps(this.props)}
 							onDragstart={() => {
 								this.handleOnDrage();
 								this.mapEvents("onDragstart");
@@ -623,11 +646,11 @@ ReactiveMap.propTypes = {
 	autoMarkerPosition: React.PropTypes.bool,
 	showMarkers: React.PropTypes.bool,
 	streamTTL: validation.streamTTL,
+	popoverTTL: validation.popoverTTL,
 	size: helper.sizeValidation,
 	from: validation.fromValidation,
 	autoMapRender: React.PropTypes.bool, // usecase?
 	componentStyle: React.PropTypes.object,
-	containerStyle: React.PropTypes.object,
 	autoCenter: React.PropTypes.bool,
 	showSearchAsMove: React.PropTypes.bool,
 	setSearchAsMove: React.PropTypes.bool,
@@ -642,7 +665,7 @@ ReactiveMap.propTypes = {
 	showPopoverOn: React.PropTypes.oneOf(["click", "mouseover"]),
 	defaultCenter: React.PropTypes.shape({
 		lat: validation.validCenter,
-		lng: validation.validCenter
+		lon: validation.validCenter
 	}),
 	react: React.PropTypes.object,
 	markerOnClick: React.PropTypes.func,
@@ -662,6 +685,7 @@ ReactiveMap.defaultProps = {
 	from: 0,
 	size: 100,
 	streamTTL: 5,
+	popoverTTL: null,
 	streamAutoCenter: false,
 	autoMarkerPosition: false,
 	showMarkers: true,
@@ -669,15 +693,12 @@ ReactiveMap.defaultProps = {
 	defaultMarkerImage: "https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png",
 	streamMarkerImage: "https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png",
 	componentStyle: {},
-	containerStyle: {
-		height: "700px"
-	},
 	stream: false,
 	applyGeoQuery: false,
 	defaultZoom: 13,
 	defaultCenter: {
 		lat: 37.74,
-		lng: -122.45
+		lon: -122.45
 	}
 };
 

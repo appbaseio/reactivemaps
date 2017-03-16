@@ -106,8 +106,8 @@ export function identifyGeoData(input) {
 		};
 	} else if (type === "[object Array]" && input.length === 2) {
 		convertedGeo = {
-			lat: Number(input[0]),
-			lng: Number(input[1])
+			lat: Number(input[1]),
+			lng: Number(input[0])
 		};
 	}
 	return convertedGeo;
@@ -168,5 +168,42 @@ export const validation = {
 		if (props[propName] < 0 || props[propName] > 1000) {
 			return new Error(`${propName} should be a positive integer between 0 and 1000, counted in seconds for a streaming update to be visible.`);
 		}
+	},
+	popoverTTL(props, propName, componentName) {
+		if (props[propName] < 0 || props[propName] > 60) {
+			return new Error(`${propName} should be a positive integer between 0 and 60, counted in seconds for a popover to be visible.`);
+		}
 	}
 };
+
+export const normalizeCenter = (center) => {
+	if(center && center.lon) {
+		center.lng = center.lon
+	}
+	return center;
+}
+
+export const normalizeProps = (props) => {
+	const propsCopy = JSON.parse(JSON.stringify(props));
+	if(propsCopy.defaultCenter) {
+		propsCopy.defaultCenter = normalizeCenter(propsCopy.defaultCenter);
+	}
+	if(propsCopy.center) {
+		propsCopy.center = normalizeCenter(propsCopy.center);
+	}
+	return propsCopy;
+}
+
+export const mapPropsStyles = (styles, comp, height) => {
+	let stylesCopy = JSON.parse(JSON.stringify(styles));
+	let finalStyles;
+	if(comp === "component") {
+		finalStyles = stylesCopy;
+	}
+	else if(comp === "map") {
+		finalStyles = {
+			height: stylesCopy.height ? stylesCopy.height : height
+		};
+	}
+	return finalStyles;
+}

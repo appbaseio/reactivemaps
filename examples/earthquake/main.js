@@ -57,16 +57,15 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					app={this.props.config.appbase.app}
-					username={this.props.config.appbase.username}
-					password={this.props.config.appbase.password}
-					type={this.props.config.appbase.type}
+					app="earthquake"
+					credentials="OrXIHcgHn:d539c6e7-ed14-4407-8214-c227b0600d8e"
+					type="places"
 					>
 					<div className="col s12 m8 h-100 col-xs-12 col-sm-8">
 						<ReactiveMap
 							appbaseField={this.props.mapping.location}
 							defaultZoom={8}
-							defaultCenter={{ lat: 35.272, lng: 138.582 }}
+							defaultCenter={{ lat: 35.272, lon: 138.582 }}
 							historicalData={true}
 							setMarkerCluster={false}
 							defaultMapStyle={this.props.mapStyle}
@@ -157,14 +156,6 @@ Main.defaultProps = {
 		venue: 'place.raw',
 		location: 'location',
 		time: 'time'
-	},
-	config: {
-		"appbase": {
-			"app": "earthquake",
-			"username": "OrXIHcgHn",
-			"password": "d539c6e7-ed14-4407-8214-c227b0600d8e",
-			"type": "places"
-		}
 	}
 };
 

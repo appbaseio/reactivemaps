@@ -242,7 +242,7 @@ storiesOf("ReactiveMap", module)
 			defaultZoom={number("defaultZoom", 13)}
 			defaultCenter={object("defaultCenter", {
 				lat: 37.74,
-				lng: -122.45
+				lon: -122.45
 			})}
 			defaultMarkerImage={text("defaultMarkerImage", "https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png")}
 			streamMarkerImage={text("streamMarkerImage", "https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png")}

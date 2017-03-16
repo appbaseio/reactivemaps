@@ -123,8 +123,7 @@ class Main extends Component {
 			<div className="row m-0 h-100">
 				<ReactiveBase
 					app={this.props.config.appbase.app}
-					username={this.props.config.appbase.username}
-					password={this.props.config.appbase.password}
+					credentials={`${this.props.config.appbase.username}:${this.props.config.appbase.password}`}
 					type={this.props.config.appbase.type}
 					>
 					<div className="col s12 h-100">
@@ -132,7 +131,7 @@ class Main extends Component {
 						appbaseField="location"
 						requestSize={5}
 						defaultZoom={13}
-						defaultCenter={{ lat: 37.74, lng: -122.45 }}
+						defaultCenter={{ lat: 37.74, lon: -122.45 }}
 						historicalData={true}
 						setMarkerCluster={false}
 						defaultMapStyle={this.props.mapStyle}

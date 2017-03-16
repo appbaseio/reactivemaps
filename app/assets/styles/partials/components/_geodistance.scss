@@ -32,12 +32,16 @@
 			border: 0;
 		}
 
+		.Select-clear {
+			background: $select-bg;
+		}
+
 		.Select-control {
 			border: 0;
 			height: 48px;
 			border-radius: 0;
 			font-family: $font-regular;
-			background: darken($light-grey, 2%);
+			background: $select-bg;
 			outline: none;
 
 			&:hover, &:focus {

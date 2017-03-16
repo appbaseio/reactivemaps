@@ -19,10 +19,17 @@ export default class PlacesSearch extends Component {
 		this.result = {
 			options: []
 		};
+		this.queryInfo = {
+			type: "geo_distance",
+			unit: "mi",
+			start: 0,
+			end: 10
+		};
 		this.handleChange = this.handleChange.bind(this);
 		this.loadOptions = this.loadOptions.bind(this);
 		this.handleValuesChange = this.handleValuesChange.bind(this);
 		this.handleResults = this.handleResults.bind(this);
+		this.customQuery = this.customQuery.bind(this);
 	}
 
 	componentWillMount() {
@@ -60,13 +67,33 @@ export default class PlacesSearch extends Component {
 			key: this.props.componentId,
 			value: {
 				queryType: this.type,
-				inputData: this.props.appbaseField
+				inputData: this.props.appbaseField,
+				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
 			}
 		};
-		if (this.props.customQuery) {
-			obj.value.customQuery = this.props.customQuery;
-		}
 		helper.selectedSensor.setSensorInfo(obj);
+	}
+
+	// build query for this sensor only
+	customQuery(value) {
+		let query = null;
+		if (value && value.location) {
+			query = {
+				[this.queryInfo.type]: {
+					[this.props.appbaseField]: this.parseValue(value.location),
+					distance: this.queryInfo.end + this.queryInfo.unit
+				}
+			};
+		}
+		return query;
+	}
+
+	parseValue(location) {
+		location = location.split(',');
+		return {
+			lat: Number(location[0]),
+			lon: Number(location[1])
+		};
 	}
 
 	// get coordinates
@@ -109,6 +136,11 @@ export default class PlacesSearch extends Component {
 			this.setState({
 				currentValue: ""
 			});
+			const obj = {
+				key: this.props.componentId,
+				value: null
+			};
+			helper.selectedSensor.set(obj, true);
 		}
 	}
 

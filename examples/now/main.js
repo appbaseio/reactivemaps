@@ -100,10 +100,9 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					app={this.props.config.appbase.app}
-					username={this.props.config.appbase.username}
-					password={this.props.config.appbase.password}
-					type={this.props.config.appbase.type}
+					app="checkinNew"
+					credentials="FUNb872sF:03616fcc-e4a1-4598-9401-3ad2d7f7f5ce"
+					type="checkinData"
 					>
 					<div className="col s12 m9 h-100">
 						<ReactiveMap
@@ -170,14 +169,6 @@ Main.defaultProps = {
 		city: 'city',
 		topic: 'category.raw',
 		location: 'location'
-	},
-	config: {
-		"appbase": {
-			"app": "checkinNew",
-			"username": "FUNb872sF",
-			"password": "03616fcc-e4a1-4598-9401-3ad2d7f7f5ce",
-			"type": "checkinData"
-		}
 	},
 	markerIcons: {
 		'Train Station': 'dist/images/railway_station-32.png',
