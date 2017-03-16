@@ -190,3 +190,17 @@ export const normalizeProps = (props) => {
 	}
 	return propsCopy;
 }
+
+export const mapPropsStyles = (styles, comp, height) => {
+	let stylesCopy = JSON.parse(JSON.stringify(styles));
+	let finalStyles;
+	if(comp === "component") {
+		finalStyles = stylesCopy;
+	}
+	else if(comp === "map") {
+		finalStyles = {
+			height: stylesCopy.height ? stylesCopy.height : height
+		};
+	}
+	return finalStyles;
+}

@@ -10,7 +10,7 @@ import {
 } from "@appbaseio/reactivebase";
 import { SearchAsMove } from "../addons/SearchAsMove";
 import { MapStyles, mapStylesCollection } from "../addons/MapStyles";
-import { identifyGeoData, validation, afterChannelResponse, normalizeCenter, normalizeProps } from "../helper/ReactiveMapHelper";
+import { identifyGeoData, validation, afterChannelResponse, normalizeCenter, normalizeProps, mapPropsStyles } from "../helper/ReactiveMapHelper";
 
 export default class ReactiveMap extends Component {
 	constructor(props) {
@@ -38,6 +38,7 @@ export default class ReactiveMap extends Component {
 		this.handleMarkerClose = this.handleMarkerClose.bind(this);
 		this.queryStartTime = 0;
 		this.reposition = false;
+		this.mapDefaultHeight = "700px";
 	}
 
 	getMapStyle(styleName) {
@@ -583,12 +584,12 @@ export default class ReactiveMap extends Component {
 		});
 
 		return (
-			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={this.props.componentStyle}>
+			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={mapPropsStyles(this.props.componentStyle, "component")}>
 				{title}
 				{showMapStyles}
 				<GoogleMapLoader
 					containerElement={
-						<div className="rbc-container col s12 col-xs-12" style={this.props.containerStyle} />
+						<div className="rbc-container col s12 col-xs-12" />
 					}
 					googleMapElement={
 						<GoogleMap
@@ -598,7 +599,7 @@ export default class ReactiveMap extends Component {
 								}
 							}
 							options={{
-								styles: this.state.currentMapStyle
+								styles: mapPropsStyles(this.props.componentStyle, "map", this.mapDefaultHeight)
 							}}
 							{...centerComponent}
 							{...normalizeProps(this.props)}
@@ -650,7 +651,6 @@ ReactiveMap.propTypes = {
 	from: validation.fromValidation,
 	autoMapRender: React.PropTypes.bool, // usecase?
 	componentStyle: React.PropTypes.object,
-	containerStyle: React.PropTypes.object,
 	autoCenter: React.PropTypes.bool,
 	showSearchAsMove: React.PropTypes.bool,
 	setSearchAsMove: React.PropTypes.bool,
@@ -693,9 +693,6 @@ ReactiveMap.defaultProps = {
 	defaultMarkerImage: "https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png",
 	streamMarkerImage: "https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png",
 	componentStyle: {},
-	containerStyle: {
-		height: "700px"
-	},
 	stream: false,
 	applyGeoQuery: false,
 	defaultZoom: 13,
