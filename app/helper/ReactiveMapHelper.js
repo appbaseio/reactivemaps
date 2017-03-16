@@ -106,8 +106,8 @@ export function identifyGeoData(input) {
 		};
 	} else if (type === "[object Array]" && input.length === 2) {
 		convertedGeo = {
-			lat: Number(input[0]),
-			lng: Number(input[1])
+			lat: Number(input[1]),
+			lng: Number(input[0])
 		};
 	}
 	return convertedGeo;
