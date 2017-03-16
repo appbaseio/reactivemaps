@@ -245,6 +245,10 @@ export default class ReactiveMap extends Component {
 		this.reposition = false;
 		this.setState({
 			rerender: true
+		}, () => {
+			if(this.props.popoverTTL) {
+				this.watchPopoverTTL(marker);
+			}
 		});
 	}
 
@@ -253,6 +257,24 @@ export default class ReactiveMap extends Component {
 		marker.showInfo = false;
 		this.reposition = false;
 		this.setState(this.state);
+	}
+
+	// watch and close popover on timeout
+	watchPopoverTTL(marker) {
+		this.popoverTTLStore = this.popoverTTLStore ? this.popoverTTLStore : {};
+		if(this.popoverTTLStore[marker._type+marker._id]) {
+			this.clearTTL(marker._type+marker._id);
+		} else {
+			this.popoverTTLStore[marker._type+marker._id] = setTimeout(() => {
+				this.handleMarkerClose(marker);
+				this.clearTTL(marker._type+marker._id);
+			}, this.props.popoverTTL*1000);
+		}
+	}
+
+	clearTTL(id) {
+		clearTimeout(this.popoverTTLStore[id])
+		delete this.popoverTTLStore[id];
 	}
 
 	// render infowindow
@@ -623,6 +645,7 @@ ReactiveMap.propTypes = {
 	autoMarkerPosition: React.PropTypes.bool,
 	showMarkers: React.PropTypes.bool,
 	streamTTL: validation.streamTTL,
+	popoverTTL: validation.popoverTTL,
 	size: helper.sizeValidation,
 	from: validation.fromValidation,
 	autoMapRender: React.PropTypes.bool, // usecase?
@@ -662,6 +685,7 @@ ReactiveMap.defaultProps = {
 	from: 0,
 	size: 100,
 	streamTTL: 5,
+	popoverTTL: null,
 	streamAutoCenter: false,
 	autoMarkerPosition: false,
 	showMarkers: true,

@@ -168,6 +168,11 @@ export const validation = {
 		if (props[propName] < 0 || props[propName] > 1000) {
 			return new Error(`${propName} should be a positive integer between 0 and 1000, counted in seconds for a streaming update to be visible.`);
 		}
+	},
+	popoverTTL(props, propName, componentName) {
+		if (props[propName] < 0 || props[propName] > 60) {
+			return new Error(`${propName} should be a positive integer between 0 and 60, counted in seconds for a popover to be visible.`);
+		}
 	}
 };
 
