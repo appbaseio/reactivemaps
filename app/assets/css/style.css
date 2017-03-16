@@ -440,6 +440,8 @@
     margin-bottom: 12px; }
     .rbc.rbc-geodistancedropdown .rbc-search-container .is-focused:not(.is-open) > .Select-control, .rbc.rbc-geodistanceslider .rbc-search-container .is-focused:not(.is-open) > .Select-control {
       border: 0; }
+    .rbc.rbc-geodistancedropdown .rbc-search-container .Select-clear, .rbc.rbc-geodistanceslider .rbc-search-container .Select-clear {
+      background: whitesmoke; }
     .rbc.rbc-geodistancedropdown .rbc-search-container .Select-control, .rbc.rbc-geodistanceslider .rbc-search-container .Select-control {
       border: 0;
       height: 48px;
@@ -511,6 +513,8 @@
     outline: none; }
     .rbc.rbc-placessearch .Select-control:hover, .rbc.rbc-placessearch .Select-control:focus {
       outline: none; }
+    .rbc.rbc-placessearch .Select-control .Select-clear {
+      background: whitesmoke; }
     .rbc.rbc-placessearch .Select-control .Select-arrow-zone {
       position: absolute;
       right: 6px;
