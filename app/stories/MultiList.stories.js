@@ -42,8 +42,8 @@ export default class MultiListDefault extends Component {
 	render() {
 		return (
 			<ReactiveBase
-				app="meetup_demo"
-				credentials="LPpISlEBe:2a8935f5-0f63-4084-bc3e-2b2b4d1a8e02"
+				app="reactivemap-demo"
+				credentials="qMzzgez0t:a9138c3f-f246-4cd8-ba3d-0b99f9550c05"
 				type="meetupdata1"
 			>
 				<div className="row">
@@ -53,6 +53,8 @@ export default class MultiListDefault extends Component {
 							appbaseField="group.group_city.raw"
 							title="MultiList"
 							size={100}
+							selectAllLabel="all"
+							defaultSelected={["all"]}
 							{...this.props}
 						/>
 					</div>
