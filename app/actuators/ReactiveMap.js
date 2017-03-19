@@ -10,7 +10,7 @@ import {
 } from "@appbaseio/reactivebase";
 import { SearchAsMove } from "../addons/SearchAsMove";
 import { MapStyles, mapStylesCollection } from "../addons/MapStyles";
-import { identifyGeoData, validation, afterChannelResponse, normalizeCenter, normalizeProps, mapPropsStyles } from "../helper/ReactiveMapHelper";
+import * as ReactiveMapHelper from "../helper/ReactiveMapHelper";
 
 export default class ReactiveMap extends Component {
 	constructor(props) {
@@ -159,7 +159,7 @@ export default class ReactiveMap extends Component {
 	}
 
 	afterChannelResponse(res) {
-		const getResult = afterChannelResponse(res, this.state.rawData, this.props.appbaseField, this.state.markersData);
+		const getResult = ReactiveMapHelper.afterChannelResponse(res, this.state.rawData, this.props.appbaseField, this.state.markersData);
 		this.reposition = true;
 		this.streamFlag = getResult.streamFlag;
 		this.queryStartTime = getResult.queryStartTime;
@@ -447,10 +447,10 @@ export default class ReactiveMap extends Component {
 		};
 		if (markersData && markersData.length) {
 			markersData = markersData.filter((hit) => {
-				return identifyGeoData(hit._source[self.props.appbaseField]);
+				return ReactiveMapHelper.identifyGeoData(hit._source[self.props.appbaseField]);
 			});
 			response.markerComponent = markersData.map((hit, index) => {
-				const field = identifyGeoData(hit._source[self.props.appbaseField]);
+				const field = ReactiveMapHelper.identifyGeoData(hit._source[self.props.appbaseField]);
 				response.convertedGeo.push(field);
 				const position = {
 					position: field
@@ -558,10 +558,10 @@ export default class ReactiveMap extends Component {
 			center = generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : this.getStoreCenter();
 			this.storeCenter = center;
 			this.reposition = false;
-			centerComponent.center = normalizeCenter(center);
+			centerComponent.center = ReactiveMapHelper.normalizeCenter(center);
 		} else if (this.storeCenter) {
 			center = this.storeCenter;
-			centerComponent.center = normalizeCenter(center);
+			centerComponent.center = ReactiveMapHelper.normalizeCenter(center);
 		} else {
 			center = null;
 		}
@@ -584,7 +584,7 @@ export default class ReactiveMap extends Component {
 		});
 
 		return (
-			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={mapPropsStyles(this.props.componentStyle, "component")}>
+			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={ReactiveMapHelper.mapPropsStyles(this.props.componentStyle, "component")}>
 				{title}
 				{showMapStyles}
 				<GoogleMapLoader
@@ -599,10 +599,10 @@ export default class ReactiveMap extends Component {
 								}
 							}
 							options={{
-								styles: mapPropsStyles(this.props.componentStyle, "map", this.mapDefaultHeight)
+								styles: ReactiveMapHelper.mapPropsStyles(this.props.componentStyle, "map", this.mapDefaultHeight)
 							}}
 							{...centerComponent}
-							{...normalizeProps(this.props)}
+							{...ReactiveMapHelper.normalizeProps(this.props)}
 							onDragstart={() => {
 								this.handleOnDrage();
 								this.mapEvents("onDragstart");
@@ -645,10 +645,10 @@ ReactiveMap.propTypes = {
 	setMarkerCluster: React.PropTypes.bool,
 	autoMarkerPosition: React.PropTypes.bool,
 	showMarkers: React.PropTypes.bool,
-	streamTTL: validation.streamTTL,
-	popoverTTL: validation.popoverTTL,
+	streamTTL: ReactiveMapHelper.validation.streamTTL,
+	popoverTTL: ReactiveMapHelper.validation.popoverTTL,
 	size: helper.sizeValidation,
-	from: validation.fromValidation,
+	from: ReactiveMapHelper.validation.fromValidation,
 	autoMapRender: React.PropTypes.bool, // usecase?
 	componentStyle: React.PropTypes.object,
 	autoCenter: React.PropTypes.bool,
@@ -660,12 +660,12 @@ ReactiveMap.propTypes = {
 	defaultMarkerImage: React.PropTypes.string,
 	streamMarkerImage: React.PropTypes.string,
 	stream: React.PropTypes.bool,
-	defaultZoom: validation.defaultZoom,
+	defaultZoom: ReactiveMapHelper.validation.defaultZoom,
 	applyGeoQuery: React.PropTypes.bool,
 	showPopoverOn: React.PropTypes.oneOf(["click", "mouseover"]),
 	defaultCenter: React.PropTypes.shape({
-		lat: validation.validCenter,
-		lon: validation.validCenter
+		lat: ReactiveMapHelper.validation.validCenter,
+		lon: ReactiveMapHelper.validation.validCenter
 	}),
 	react: React.PropTypes.object,
 	markerOnClick: React.PropTypes.func,

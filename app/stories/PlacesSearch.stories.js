@@ -67,7 +67,7 @@ export default class PlacesSearchDefault extends Component {
 									componentId="OriginSensor"
 									placeholder="Search Venue"
 									title="Origin"
-									customQuery={this.originQuery}
+									onPlaceChange={this.originQuery}
 								/>
 							</div>
 							<div className="col s12 col-xs-12">
@@ -77,7 +77,7 @@ export default class PlacesSearchDefault extends Component {
 									placeholder="Search Venue"
 									autoLocation={false}
 									title="Destination"
-									customQuery={this.destinationQuery}
+									onPlaceChange={this.destinationQuery}
 								/>
 							</div>
 						</div>
@@ -97,9 +97,6 @@ export default class PlacesSearchDefault extends Component {
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lon: -122.45 }}
 							size={100}
-							react={{
-								and: ["OriginSensor", "DestinationSensor"]
-							}}
 						/>
 					</div>
 				</ReactiveBase>

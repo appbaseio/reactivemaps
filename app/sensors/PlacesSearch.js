@@ -120,6 +120,9 @@ export default class PlacesSearch extends Component {
 					location: this.locString
 				}
 			};
+			if(this.props.onPlaceChange) {
+				this.props.onPlaceChange(obj.value);
+			}
 			helper.selectedSensor.set(obj, true);
 		}
 	}
@@ -223,6 +226,7 @@ PlacesSearch.propTypes = {
 	customQuery: React.PropTypes.func,
 	placeholder: React.PropTypes.string,
 	autoLocation: React.PropTypes.bool,
+	onPlaceChange: React.PropTypes.func,
 	unit: React.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"])
 };
 // Default props value
