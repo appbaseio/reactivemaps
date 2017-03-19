@@ -187,7 +187,6 @@ export const normalizeProps = (props) => {
 	const propsCopy = JSON.parse(JSON.stringify(props));
 	if(propsCopy.defaultCenter) {
 		propsCopy.defaultCenter = normalizeCenter(propsCopy.defaultCenter);
-		// propsCopy.center = normalizeCenter(propsCopy.defaultCenter);
 	}
 	if(propsCopy.center) {
 		propsCopy.center = normalizeCenter(propsCopy.center);
