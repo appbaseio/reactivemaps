@@ -138,6 +138,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _ReactiveMapHelper = __webpack_require__(571);
 
+	var ReactiveMapHelper = _interopRequireWildcard(_ReactiveMapHelper);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -326,7 +330,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function afterChannelResponse(res) {
 				var _this4 = this;
 
-				var getResult = (0, _ReactiveMapHelper.afterChannelResponse)(res, this.state.rawData, this.props.appbaseField, this.state.markersData);
+				var getResult = ReactiveMapHelper.afterChannelResponse(res, this.state.rawData, this.props.appbaseField, this.state.markersData);
 				this.reposition = true;
 				this.streamFlag = getResult.streamFlag;
 				this.queryStartTime = getResult.queryStartTime;
@@ -686,10 +690,10 @@ return /******/ (function(modules) { // webpackBootstrap
 				};
 				if (markersData && markersData.length) {
 					markersData = markersData.filter(function (hit) {
-						return (0, _ReactiveMapHelper.identifyGeoData)(hit._source[self.props.appbaseField]);
+						return ReactiveMapHelper.identifyGeoData(hit._source[self.props.appbaseField]);
 					});
 					response.markerComponent = markersData.map(function (hit, index) {
-						var field = (0, _ReactiveMapHelper.identifyGeoData)(hit._source[self.props.appbaseField]);
+						var field = ReactiveMapHelper.identifyGeoData(hit._source[self.props.appbaseField]);
 						response.convertedGeo.push(field);
 						var position = {
 							position: field
@@ -813,13 +817,18 @@ return /******/ (function(modules) { // webpackBootstrap
 					center = generatedMarkers.defaultCenter ? generatedMarkers.defaultCenter : this.getStoreCenter();
 					this.storeCenter = center;
 					this.reposition = false;
-					centerComponent.center = (0, _ReactiveMapHelper.normalizeCenter)(center);
+					centerComponent.center = ReactiveMapHelper.normalizeCenter(center);
 				} else if (this.storeCenter) {
 					center = this.storeCenter;
-					centerComponent.center = (0, _ReactiveMapHelper.normalizeCenter)(center);
+					centerComponent.center = ReactiveMapHelper.normalizeCenter(center);
 				} else {
 					center = null;
 				}
+				if (!_.isEqual(this.props.defaultCenter, this.propDefaultCenter)) {
+					this.propDefaultCenter = this.props.defaultCenter;
+					centerComponent.center = ReactiveMapHelper.normalizeCenter(this.propDefaultCenter);
+				}
+
 				// include searchasMove component
 				if (this.props.showSearchAsMove) {
 					showSearchAsMove = _react2.default.createElement(_SearchAsMove.SearchAsMove, { searchAsMoveDefault: this.props.setSearchAsMove, searchAsMoveChange: this.searchAsMoveChange });
@@ -844,7 +853,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				return _react2.default.createElement(
 					"div",
-					{ className: "rbc rbc-reactivemap col s12 col-xs-12 card thumbnail " + cx, style: (0, _ReactiveMapHelper.mapPropsStyles)(this.props.componentStyle, "component") },
+					{ className: "rbc rbc-reactivemap col s12 col-xs-12 card thumbnail " + cx, style: ReactiveMapHelper.mapPropsStyles(this.props.componentStyle, "component") },
 					title,
 					showMapStyles,
 					_react2.default.createElement(_reactGoogleMaps.GoogleMapLoader, {
@@ -856,9 +865,9 @@ return /******/ (function(modules) { // webpackBootstrap
 									_this13.mapRef = map;
 								},
 								options: {
-									styles: (0, _ReactiveMapHelper.mapPropsStyles)(this.props.componentStyle, "map", this.mapDefaultHeight)
+									styles: ReactiveMapHelper.mapPropsStyles(this.props.componentStyle, "map", this.mapDefaultHeight)
 								}
-							}, centerComponent, (0, _ReactiveMapHelper.normalizeProps)(this.props), {
+							}, centerComponent, ReactiveMapHelper.normalizeProps(this.props), {
 								onDragstart: function onDragstart() {
 									_this13.handleOnDrage();
 									_this13.mapEvents("onDragstart");
@@ -936,10 +945,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		setMarkerCluster: _react2.default.PropTypes.bool,
 		autoMarkerPosition: _react2.default.PropTypes.bool,
 		showMarkers: _react2.default.PropTypes.bool,
-		streamTTL: _ReactiveMapHelper.validation.streamTTL,
-		popoverTTL: _ReactiveMapHelper.validation.popoverTTL,
+		streamTTL: ReactiveMapHelper.validation.streamTTL,
+		popoverTTL: ReactiveMapHelper.validation.popoverTTL,
 		size: _reactivebase.AppbaseSensorHelper.sizeValidation,
-		from: _ReactiveMapHelper.validation.fromValidation,
+		from: ReactiveMapHelper.validation.fromValidation,
 		autoMapRender: _react2.default.PropTypes.bool, // usecase?
 		componentStyle: _react2.default.PropTypes.object,
 		autoCenter: _react2.default.PropTypes.bool,
@@ -951,12 +960,12 @@ return /******/ (function(modules) { // webpackBootstrap
 		defaultMarkerImage: _react2.default.PropTypes.string,
 		streamMarkerImage: _react2.default.PropTypes.string,
 		stream: _react2.default.PropTypes.bool,
-		defaultZoom: _ReactiveMapHelper.validation.defaultZoom,
+		defaultZoom: ReactiveMapHelper.validation.defaultZoom,
 		applyGeoQuery: _react2.default.PropTypes.bool,
 		showPopoverOn: _react2.default.PropTypes.oneOf(["click", "mouseover"]),
 		defaultCenter: _react2.default.PropTypes.shape({
-			lat: _ReactiveMapHelper.validation.validCenter,
-			lon: _ReactiveMapHelper.validation.validCenter
+			lat: ReactiveMapHelper.validation.validCenter,
+			lon: ReactiveMapHelper.validation.validCenter
 		}),
 		react: _react2.default.PropTypes.object,
 		markerOnClick: _react2.default.PropTypes.func,
@@ -103937,8 +103946,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		},
 		popoverTTL: function popoverTTL(props, propName, componentName) {
-			if (props[propName] < 0 || props[propName] > 60) {
-				return new Error(propName + " should be a positive integer between 0 and 60, counted in seconds for a popover to be visible.");
+			if (props[propName] < 1 || props[propName] > 60) {
+				return new Error(propName + " should be a positive integer between 1 and 60, counted in seconds for a popover to be visible.");
 			}
 		}
 	};
@@ -106509,6 +106518,9 @@ return /******/ (function(modules) { // webpackBootstrap
 							location: this.locString
 						}
 					};
+					if (this.props.onPlaceChange) {
+						this.props.onPlaceChange(obj.value);
+					}
 					_reactivebase.AppbaseSensorHelper.selectedSensor.set(obj, true);
 				}
 			}
@@ -106641,6 +106653,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: _react2.default.PropTypes.func,
 		placeholder: _react2.default.PropTypes.string,
 		autoLocation: _react2.default.PropTypes.bool,
+		onPlaceChange: _react2.default.PropTypes.func,
 		unit: _react2.default.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"])
 	};
 	// Default props value
