@@ -104333,6 +104333,9 @@ return /******/ (function(modules) { // webpackBootstrap
 						key: this.props.componentId,
 						value: _defineProperty({}, this.sortInfo.type, (_sortInfo$type = {}, _defineProperty(_sortInfo$type, this.props.appbaseField, this.locString), _defineProperty(_sortInfo$type, "order", this.sortInfo.order), _defineProperty(_sortInfo$type, "unit", this.sortInfo.unit), _sortInfo$type))
 					};
+					if (this.props.onValueChange) {
+						this.props.onValueChange(obj.value);
+					}
 					_reactivebase.AppbaseSensorHelper.selectedSensor.setSortInfo(sortObj);
 					_reactivebase.AppbaseSensorHelper.selectedSensor.set(obj, true);
 				}
@@ -104357,6 +104360,9 @@ return /******/ (function(modules) { // webpackBootstrap
 						key: this.props.componentId,
 						value: null
 					};
+					if (this.props.onValueChange) {
+						this.props.onValueChange(obj.value);
+					}
 					_reactivebase.AppbaseSensorHelper.selectedSensor.set(obj, true);
 				}
 			}
@@ -104526,7 +104532,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		rangeLabels: _react2.default.PropTypes.shape({
 			start: _react2.default.PropTypes.string,
 			end: _react2.default.PropTypes.string
-		})
+		}),
+		onValueChange: _react2.default.PropTypes.func
 	};
 
 	// Default props value
@@ -106285,6 +106292,9 @@ return /******/ (function(modules) { // webpackBootstrap
 						key: this.props.componentId,
 						value: _defineProperty({}, this.sortInfo.type, (_sortInfo$type = {}, _defineProperty(_sortInfo$type, this.props.appbaseField, this.locString), _defineProperty(_sortInfo$type, "order", this.sortInfo.order), _defineProperty(_sortInfo$type, "unit", this.unit), _sortInfo$type))
 					};
+					if (this.props.onValueChange) {
+						this.props.onValueChange(obj.value);
+					}
 					_reactivebase.AppbaseSensorHelper.selectedSensor.setSortInfo(sortObj);
 					_reactivebase.AppbaseSensorHelper.selectedSensor.set(obj, true);
 				}
@@ -106309,6 +106319,9 @@ return /******/ (function(modules) { // webpackBootstrap
 						key: this.props.componentId,
 						value: null
 					};
+					if (this.props.onValueChange) {
+						this.props.onValueChange(obj.value);
+					}
 					_reactivebase.AppbaseSensorHelper.selectedSensor.set(obj, true);
 				}
 			}
@@ -106448,7 +106461,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			start: _reactivebase.AppbaseSensorHelper.validateThreshold,
 			end: _reactivebase.AppbaseSensorHelper.validateThreshold,
 			label: _react2.default.PropTypes.string.isRequired
-		}))
+		})),
+		onValueChange: _react2.default.PropTypes.func
 	};
 	// Default props value
 	GeoDistanceDropdown.defaultProps = {
@@ -106640,8 +106654,8 @@ return /******/ (function(modules) { // webpackBootstrap
 							location: this.locString
 						}
 					};
-					if (this.props.onPlaceChange) {
-						this.props.onPlaceChange(obj.value);
+					if (this.props.onValueChange) {
+						this.props.onValueChange(obj.value);
 					}
 					_reactivebase.AppbaseSensorHelper.selectedSensor.set(obj, true);
 				}
@@ -106775,7 +106789,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: _react2.default.PropTypes.func,
 		placeholder: _react2.default.PropTypes.string,
 		autoLocation: _react2.default.PropTypes.bool,
-		onPlaceChange: _react2.default.PropTypes.func,
+		onValueChange: _react2.default.PropTypes.func,
 		unit: _react2.default.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"])
 	};
 	// Default props value
