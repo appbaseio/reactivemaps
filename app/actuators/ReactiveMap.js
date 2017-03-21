@@ -690,7 +690,6 @@ ReactiveMap.defaultProps = {
 	from: 0,
 	size: 100,
 	streamTTL: 5,
-	popoverTTL: null,
 	streamAutoCenter: false,
 	autoMarkerPosition: false,
 	showMarkers: true,
