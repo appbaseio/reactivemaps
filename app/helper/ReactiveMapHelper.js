@@ -170,7 +170,7 @@ export const validation = {
 		}
 	},
 	popoverTTL(props, propName, componentName) {
-		if (props[propName] < 1 || props[propName] > 60) {
+		if (props[propName] < 0.1 || props[propName] > 60) {
 			return new Error(`${propName} should be a positive integer between 1 and 60, counted in seconds for a popover to be visible.`);
 		}
 	}
