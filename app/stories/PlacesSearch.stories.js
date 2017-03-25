@@ -67,7 +67,7 @@ export default class PlacesSearchDefault extends Component {
 									componentId="OriginSensor"
 									placeholder="Search Venue"
 									title="Origin"
-									onPlaceChange={this.originQuery}
+									onValueChange={this.originQuery}
 								/>
 							</div>
 							<div className="col s12 col-xs-12">
@@ -77,7 +77,7 @@ export default class PlacesSearchDefault extends Component {
 									placeholder="Search Venue"
 									autoLocation={false}
 									title="Destination"
-									onPlaceChange={this.destinationQuery}
+									onValueChange={this.destinationQuery}
 								/>
 							</div>
 						</div>
