@@ -188,7 +188,7 @@ storiesOf("GeoDistanceDropdown", module)
 			unit={select("unit", { mi: "mi", miles: "miles", yd: "yd", yards: "yards", ft: "ft", feet: "feet", in: "in", inch: "inch", km: "km", kilometers: "kilometers", m: "m", meters: "meters", cm: "cm", centimeters: "centimeters", mm: "mm", millimeters: "millimeters", NM: "NM", nmi: "nmi", nauticalmiles: "nauticalmiles" }, "mi")}
 			title={text("title", "Geo Distance Slider")}
 			defaultSelected={object("defaultSelected", {
-				distance: "Less than 100 miles",
+				label: "Less than 100 miles",
 				location: "London"
 			})}
 			placeholder={text("placeholder", "Search Location")}
