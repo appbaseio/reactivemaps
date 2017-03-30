@@ -29,11 +29,11 @@ The library is conceptually divided into two parts:
 Each sensor component is purpose built for applying a specific filter on the data. For example:
 
 * A `SingleList` sensor component applies an exact match filter based on the selected item.
-* A `RangeSlider` component applies a numeric range query based on hte values selected from the UI.
+* A `RangeSlider` component applies a numeric range query based on the values selected from the UI.
 
-On or more sensor components can be configured to create a combined query context to render the results via an actuator.
+One or more sensor components can be configured to create a combined query context to render the results via an actuator.
 
-**ReactiveMaps** comes with two actuators: `ReactiveMap` and `ResultList`. The former displays the filtered data from individual sensor components on a map interface while the latter displays the filtered data on a simple list interface.
+**ReactiveMaps** comes with two actuators: `ReactiveMap` and `ReactiveList`. The former displays the filtered data from individual sensor components on a map interface while latter displays the filtered data on a simple list interface.
 
 ## 2. Features
 
@@ -91,8 +91,6 @@ The components are divided into two sections:
 * Map based UI components are at [https://opensource.appbase.io/manual/v1.0.0/map-components](https://opensource.appbase.io/manual/v1.0.0/map-components/).
 * Each component's styles API is mentioned in a separate **CSS Styles API** section. See here for [SingleList](https://opensource.appbase.io/reactivemaps/manual/v1.0.0/components/SingleList.html#-singlelist-css-styles-api).
 * You can read more about the Styles API here - https://opensource.appbase.io/reactivemaps/manual/v1.0.0/getting-started/StyleGuide.html.
-
-TODO - Add docs for the mapping section between UI components and DB backend.
 
 
 ## 8. Developing Locally
