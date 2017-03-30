@@ -824,10 +824,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				} else {
 					center = null;
 				}
-				if (!_.isEqual(this.props.defaultCenter, this.propDefaultCenter)) {
-					this.propDefaultCenter = this.props.defaultCenter;
-					centerComponent.center = ReactiveMapHelper.normalizeCenter(this.propDefaultCenter);
-				}
 
 				// include searchasMove component
 				if (this.props.showSearchAsMove) {
@@ -5466,6 +5462,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'getMarkers',
 	    value: function getMarkers() {
+	      debugger
 	      return this.state.markerClusterer.getMarkers();
 	    }
 	  }, {
@@ -104180,6 +104177,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			_this.handleChange = _this.handleChange.bind(_this);
 			_this.loadOptions = _this.loadOptions.bind(_this);
 			_this.customQuery = _this.customQuery.bind(_this);
+			_this.getUserLocation = _this.getUserLocation.bind(_this);
+			_this.setDefaultLocation = _this.setDefaultLocation.bind(_this);
 			_this.handleValuesChange = _this.handleValuesChange.bind(_this);
 			_this.handleResults = _this.handleResults.bind(_this);
 			_this.unitFormatter = _this.unitFormatter.bind(_this);
@@ -104199,6 +104198,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "componentDidMount",
 			value: function componentDidMount() {
 				this.defaultSelected = this.props.defaultSelected;
+				this.getUserLocation();
 				this.setQueryInfo();
 				this.checkDefault();
 			}
@@ -104233,10 +104233,10 @@ return /******/ (function(modules) { // webpackBootstrap
 						currentValue: currentValue
 					}, this.getCoordinates(currentValue, this.handleResults));
 				} else if (this.props.defaultSelected && this.props.defaultSelected.distance) {
-					this.getUserLocation();
+					this.getUserLocation(this.setDefaultLocation);
 					this.handleResults(this.props.defaultSelected.distance);
 				} else {
-					this.getUserLocation();
+					this.getUserLocation(this.setDefaultLocation);
 				}
 			}
 		}, {
@@ -104258,6 +104258,41 @@ return /******/ (function(modules) { // webpackBootstrap
 							userLocation: currentValue
 						}, _this2.executeQuery.bind(_this2));
 					});
+				});
+			}
+		}, {
+			key: "getUserLocation",
+			value: function getUserLocation(cb) {
+				var _this3 = this;
+
+				navigator.geolocation.getCurrentPosition(function (location) {
+					_this3.locString = location.coords.latitude + ", " + location.coords.longitude;
+
+					_axios2.default.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + _this3.locString).then(function (res) {
+						var currentValue = res.data.results[0].formatted_address;
+						_this3.setState({
+							userLocation: currentValue
+						});
+					}).then(function () {
+						if (cb) {
+							cb();
+						}
+					});
+				});
+			}
+		}, {
+			key: "setDefaultLocation",
+			value: function setDefaultLocation() {
+				var _this4 = this;
+
+				this.result.options.push({
+					value: this.state.userLocation,
+					label: this.state.userLocation
+				});
+				this.setState({
+					currentValue: this.state.userLocation
+				}, function () {
+					_this4.executeQuery();
 				});
 			}
 
@@ -104296,16 +104331,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "getCoordinates",
 			value: function getCoordinates(value, cb) {
-				var _this3 = this;
+				var _this5 = this;
 
 				if (value && value !== "") {
 					_axios2.default.get("https://maps.googleapis.com/maps/api/geocode/json?address=" + value).then(function (res) {
 						var location = res.data.results[0].geometry.location;
-						_this3.locString = location.lat + ", " + location.lng;
+						_this5.locString = location.lat + ", " + location.lng;
 						if (cb) {
-							cb(_this3.props.defaultSelected.distance);
+							cb(_this5.props.defaultSelected.distance);
 						} else {
-							_this3.executeQuery();
+							_this5.executeQuery();
 						}
 					});
 				} else {
@@ -104396,7 +104431,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "loadOptions",
 			value: function loadOptions(input, callback) {
-				var _this4 = this;
+				var _this6 = this;
 
 				this.callback = callback;
 				if (input) {
@@ -104410,18 +104445,18 @@ return /******/ (function(modules) { // webpackBootstrap
 					};
 					this.autocompleteService.getPlacePredictions(options, function (res) {
 						res.forEach(function (place) {
-							_this4.result.options.push({
+							_this6.result.options.push({
 								label: place.description,
 								value: place.description
 							});
 						});
-						if (_this4.result.options[0].label !== "Use my current location") {
-							_this4.result.options.unshift({
+						if (_this6.state.userLocation.length && _this6.result.options[0].label !== "Use my current location") {
+							_this6.result.options.unshift({
 								label: "Use my current location",
-								value: _this4.state.userLocation
+								value: _this6.state.userLocation
 							});
 						}
-						_this4.callback(null, _this4.result);
+						_this6.callback(null, _this6.result);
 					});
 				} else {
 					this.callback(null, this.result);
@@ -106125,6 +106160,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			_this.handleChange = _this.handleChange.bind(_this);
 			_this.loadOptions = _this.loadOptions.bind(_this);
 			_this.customQuery = _this.customQuery.bind(_this);
+			_this.getUserLocation = _this.getUserLocation.bind(_this);
+			_this.setDefaultLocation = _this.setDefaultLocation.bind(_this);
 			_this.handleDistanceChange = _this.handleDistanceChange.bind(_this);
 			_this.renderValue = _this.renderValue.bind(_this);
 			return _this;
@@ -106143,6 +106180,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function componentDidMount() {
 				this.defaultSelected = this.props.defaultSelected;
 				this.unit = this.props.unit;
+				this.getUserLocation();
 				this.setQueryInfo();
 				this.checkDefault();
 			}
@@ -106178,10 +106216,10 @@ return /******/ (function(modules) { // webpackBootstrap
 						currentValue: currentValue
 					}, this.getCoordinates(currentValue, this.handleResults));
 				} else if (this.props.defaultSelected && this.props.defaultSelected.label) {
-					this.getUserLocation();
+					this.getUserLocation(this.setDefaultLocation);
 					this.handleResults(this.props.defaultSelected.label);
 				} else {
-					this.getUserLocation();
+					this.getUserLocation(this.setDefaultLocation);
 				}
 			}
 		}, {
@@ -106198,7 +106236,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}, {
 			key: "getUserLocation",
-			value: function getUserLocation() {
+			value: function getUserLocation(cb) {
 				var _this3 = this;
 
 				navigator.geolocation.getCurrentPosition(function (location) {
@@ -106206,15 +106244,29 @@ return /******/ (function(modules) { // webpackBootstrap
 
 					_axios2.default.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + _this3.locString).then(function (res) {
 						var currentValue = res.data.results[0].formatted_address;
-						_this3.result.options.push({
-							value: currentValue,
-							label: currentValue
-						});
 						_this3.setState({
-							currentValue: currentValue,
 							userLocation: currentValue
-						}, _this3.executeQuery.bind(_this3));
+						});
+					}).then(function () {
+						if (cb) {
+							cb();
+						}
 					});
+				});
+			}
+		}, {
+			key: "setDefaultLocation",
+			value: function setDefaultLocation() {
+				var _this4 = this;
+
+				this.result.options.push({
+					value: this.state.userLocation,
+					label: this.state.userLocation
+				});
+				this.setState({
+					currentValue: this.state.userLocation
+				}, function () {
+					_this4.executeQuery();
 				});
 			}
 
@@ -106253,16 +106305,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "getCoordinates",
 			value: function getCoordinates(value, cb) {
-				var _this4 = this;
+				var _this5 = this;
 
 				if (value && value !== "") {
 					_axios2.default.get("https://maps.googleapis.com/maps/api/geocode/json?address=" + value).then(function (res) {
 						var location = res.data.results[0].geometry.location;
-						_this4.locString = location.lat + ", " + location.lng;
+						_this5.locString = location.lat + ", " + location.lng;
 						if (cb) {
-							cb.call(_this4, _this4.props.defaultSelected.label);
+							cb.call(_this5, _this5.props.defaultSelected.label);
 						} else {
-							_this4.executeQuery();
+							_this5.executeQuery();
 						}
 					});
 				} else {
@@ -106328,7 +106380,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "loadOptions",
 			value: function loadOptions(input, callback) {
-				var _this5 = this;
+				var _this6 = this;
 
 				this.callback = callback;
 				if (input) {
@@ -106342,18 +106394,18 @@ return /******/ (function(modules) { // webpackBootstrap
 					};
 					this.autocompleteService.getPlacePredictions(options, function (res) {
 						res.forEach(function (place) {
-							_this5.result.options.push({
+							_this6.result.options.push({
 								label: place.description,
 								value: place.description
 							});
 						});
-						if (_this5.result.options[0].label !== "Use my current location") {
-							_this5.result.options.unshift({
+						if (_this6.state.userLocation.length && _this6.result.options[0].label !== "Use my current location") {
+							_this6.result.options.unshift({
 								label: "Use my current location",
-								value: _this5.state.userLocation
+								value: _this6.state.userLocation
 							});
 						}
-						_this5.callback(null, _this5.result);
+						_this6.callback(null, _this6.result);
 					});
 				} else {
 					this.callback(null, this.result);
@@ -106464,6 +106516,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		})),
 		onValueChange: _react2.default.PropTypes.func
 	};
+
 	// Default props value
 	GeoDistanceDropdown.defaultProps = {
 		unit: "mi",
