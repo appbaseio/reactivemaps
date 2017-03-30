@@ -565,10 +565,6 @@ export default class ReactiveMap extends Component {
 		} else {
 			center = null;
 		}
-		if(!_.isEqual(this.props.defaultCenter, this.propDefaultCenter)) {
-			this.propDefaultCenter = this.props.defaultCenter
-			centerComponent.center = ReactiveMapHelper.normalizeCenter(this.propDefaultCenter);
-		}
 
 		// include searchasMove component
 		if (this.props.showSearchAsMove) {
