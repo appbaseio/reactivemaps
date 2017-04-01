@@ -590,7 +590,10 @@ export default class ReactiveMap extends Component {
 				{showMapStyles}
 				<GoogleMapLoader
 					containerElement={
-						<div className="rbc-container col s12 col-xs-12" />
+						<div
+							className="rbc-container col s12 col-xs-12"
+							style={ReactiveMapHelper.mapPropsStyles(this.props.componentStyle, "map", this.mapDefaultHeight)}
+						/>
 					}
 					googleMapElement={
 						<GoogleMap
@@ -599,9 +602,6 @@ export default class ReactiveMap extends Component {
 									this.mapRef = map;
 								}
 							}
-							options={{
-								styles: ReactiveMapHelper.mapPropsStyles(this.props.componentStyle, "map", this.mapDefaultHeight)
-							}}
 							{...centerComponent}
 							{...ReactiveMapHelper.normalizeProps(this.props)}
 							onDragstart={() => {
