@@ -1,6 +1,6 @@
 {
   "name": "@appbaseio/reactivemaps",
-  "version": "1.0.0-alpha2",
+  "version": "1.0.0-alpha6",
   "description": "Data Components for building map UIs",
   "main": "lib/app.js",
   "scripts": {
@@ -32,7 +32,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@appbaseio/reactivebase": "^1.0.0-alpha8",
+    "@appbaseio/reactivebase": "^1.0.0-alpha9",
     "@appbaseio/reactivemaps-manual": "^1.0.0-alpha",
     "appbase-js": "^0.11.0",
     "axios": "^0.15.2",
@@ -42,6 +42,7 @@
     "google-map-react": "^0.14.5",
     "google-maps": "^3.2.1",
     "lodash": "^4.15.0",
+    "node-sass": "^4.5.1",
     "rc-slider": "^5.4.0",
     "react": "^15.4.2",
     "react-addons-test-utils": "^15.4.2",

@@ -6,6 +6,7 @@ ratings:
   paths:
     - "app/**"
 exclude_paths:
+  - "app/assets/**"
   - "lib/**"
   - "dist/**"
   - "umd/**"

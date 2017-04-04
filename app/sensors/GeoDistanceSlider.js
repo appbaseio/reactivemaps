@@ -36,6 +36,8 @@ export default class GeoDistanceSlider extends Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.loadOptions = this.loadOptions.bind(this);
 		this.customQuery = this.customQuery.bind(this);
+		this.getUserLocation = this.getUserLocation.bind(this);
+		this.setDefaultLocation = this.setDefaultLocation.bind(this);
 		this.handleValuesChange = this.handleValuesChange.bind(this);
 		this.handleResults = this.handleResults.bind(this);
 		this.unitFormatter = this.unitFormatter.bind(this);
@@ -49,6 +51,7 @@ export default class GeoDistanceSlider extends Component {
 	// Set query information
 	componentDidMount() {
 		this.defaultSelected = this.props.defaultSelected;
+		this.getUserLocation();
 		this.setQueryInfo();
 		this.checkDefault();
 	}
@@ -81,11 +84,11 @@ export default class GeoDistanceSlider extends Component {
 			}, this.getCoordinates(currentValue, this.handleResults));
 		}
 		else if(this.props.defaultSelected && this.props.defaultSelected.distance) {
-			this.getUserLocation();
+			this.getUserLocation(this.setDefaultLocation);
 			this.handleResults(this.props.defaultSelected.distance);
 		}
 		else {
-			this.getUserLocation();
+			this.getUserLocation(this.setDefaultLocation);
 		}
 	}
 
@@ -105,6 +108,37 @@ export default class GeoDistanceSlider extends Component {
 						userLocation: currentValue
 					}, this.executeQuery.bind(this));
 				});
+		});
+	}
+
+	getUserLocation(cb) {
+		navigator.geolocation.getCurrentPosition((location) => {
+			this.locString = `${location.coords.latitude}, ${location.coords.longitude}`;
+
+			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}`)
+				.then((res) => {
+					const currentValue = res.data.results[0].formatted_address;
+					this.setState({
+						userLocation: currentValue
+					});
+				})
+				.then(() => {
+					if (cb) {
+						cb();
+					}
+				});
+		});
+	}
+
+	setDefaultLocation() {
+		this.result.options.push({
+			value: this.state.userLocation,
+			label: this.state.userLocation
+		});
+		this.setState({
+			currentValue: this.state.userLocation
+		}, () => {
+			this.executeQuery();
 		});
 	}
 
@@ -174,6 +208,9 @@ export default class GeoDistanceSlider extends Component {
 					}
 				}
 			};
+			if(this.props.onValueChange) {
+				this.props.onValueChange(obj.value);
+			}
 			helper.selectedSensor.setSortInfo(sortObj);
 			helper.selectedSensor.set(obj, true);
 		}
@@ -195,6 +232,9 @@ export default class GeoDistanceSlider extends Component {
 				key: this.props.componentId,
 				value: null
 			};
+			if(this.props.onValueChange) {
+				this.props.onValueChange(obj.value);
+			}
 			helper.selectedSensor.set(obj, true);
 		}
 	}
@@ -237,7 +277,7 @@ export default class GeoDistanceSlider extends Component {
 						value: place.description
 					});
 				});
-				if (this.result.options[0].label !== "Use my current location") {
+				if (this.state.userLocation.length && this.result.options[0].label !== "Use my current location") {
 					this.result.options.unshift({
 						label: "Use my current location",
 						value: this.state.userLocation
@@ -330,7 +370,8 @@ GeoDistanceSlider.propTypes = {
 	rangeLabels: React.PropTypes.shape({
 		start: React.PropTypes.string,
 		end: React.PropTypes.string
-	})
+	}),
+	onValueChange: React.PropTypes.func
 };
 
 // Default props value
