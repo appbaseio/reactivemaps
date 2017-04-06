@@ -1,17 +1,19 @@
 [![Join the chat at https://gitter.im/appbaseio/reactivemaps](https://badges.gitter.im/appbaseio/reactivemaps.svg)](https://gitter.im/appbaseio/reactivemaps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) ![Build Status Image](https://img.shields.io/badge/build-passing-brightgreen.svg) [![Code Climate](https://codeclimate.com/github/appbaseio/reactivemaps/badges/gpa.svg)](https://codeclimate.com/github/appbaseio/reactivemaps)
 
+A React components library for building maps that update in realtime.
+
+[![Join the chat at https://gitter.im/appbaseio/reactivemaps](https://badges.gitter.im/appbaseio/reactivemaps.svg)](https://gitter.im/appbaseio/reactivemaps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) ![Build Status Image](https://img.shields.io/badge/build-passing-brightgreen.svg)
+
 ![](https://i.imgur.com/PqRqJDz.png)
 
-# ReactiveMaps
-
-A React components library for building maps that update in realtime.
+## TOC
 
 1. **[Reactive Maps: Intro](#1-reactive-maps-intro)**   
 2. **[Features](#2-features)**  
 3. **[Component Playground](#3-component-playground)**
 4. **[Live Examples](#4-live-examples)**  
 5. **[Installation](#5-installation)**
-6. **[Geting Started](#6-getting-started)**  
+6. **[Getting Started](#6-getting-started)**  
 7. **[Docs Manual](#7-docs-manual)**
 8. **[Developing Locally](#8-developing-locally)**  
 
