@@ -605,6 +605,9 @@ export default class ReactiveMap extends Component {
 							}
 							{...centerComponent}
 							{...ReactiveMapHelper.normalizeProps(this.props)}
+							options = {{
+								styles: this.state.currentMapStyle
+							}}
 							onDragstart={() => {
 								this.handleOnDrage();
 								this.mapEvents("onDragstart");
