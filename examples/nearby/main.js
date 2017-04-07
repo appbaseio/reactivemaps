@@ -18,7 +18,7 @@ class Main extends Component {
 		};
 		this.handleSelect = this.handleSelect.bind(this);
 		this.topicactuate = this.topicactuate.bind(this);
-		this.onData = this.onData.bind(this);
+		this.onAllData = this.onAllData.bind(this);
 		this.onPopoverTrigger = this.onPopoverTrigger.bind(this);
 		this.DEFAULT_IMAGE = "http://www.avidog.com/wp-content/uploads/2015/01/BellaHead082712_11-50x65.jpg";
 	}
@@ -83,7 +83,7 @@ class Main extends Component {
 		);
 	}
 
-	onData(res) {
+	onAllData(res) {
 		let result = null;
 		if (res) {
 			let combineData = res.currentData;
@@ -166,7 +166,7 @@ class Main extends Component {
 								title="Reactive Maps"
 								showPopoverOn = "click"
 								onPopoverTrigger = {this.onPopoverTrigger}
-								onData = {this.onData}
+								onAllData = {this.onAllData}
 								defaultZoom = {13}
 								defaultCenter={{ lat: 37.74, lon: -122.45 }}
 								react={{
@@ -185,7 +185,7 @@ class Main extends Component {
 								from={0}
 								size={20}
 								requestOnScroll={true}
-								onData={this.onData}
+								onAllData={this.onAllData}
 								react={{
 									and: ["TopicSensor", "GeoDistanceSlider"]
 								}}

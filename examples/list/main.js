@@ -14,7 +14,7 @@ class Main extends Component {
 	constructor(props) {
 		super(props);
 		this.topicactuate = this.topicactuate.bind(this);
-		this.onData = this.onData.bind(this);
+		this.onAllData = this.onAllData.bind(this);
 		this.DEFAULT_IMAGE = 'http://www.avidog.com/wp-content/uploads/2015/01/BellaHead082712_11-50x65.jpg';
 	}
 
@@ -55,7 +55,7 @@ class Main extends Component {
 		);
 	}
 
-	onData(res) {
+	onAllData(res) {
 		let result = null;
 		if (res) {
 			let combineData = res.currentData;
@@ -129,7 +129,7 @@ class Main extends Component {
 						<ReactiveList
 							appbaseField={this.props.mapping.topic}
 							containerStyle={{height: '100%'}}
-							onData={this.onData}
+							onAllData={this.onAllData}
 							from={0}
 							size={10}
 							requestOnScroll={true}

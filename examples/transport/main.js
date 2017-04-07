@@ -36,33 +36,17 @@ class Main extends Component {
 		</div>);
 	}
 
-	onData(res) {
-		if (res) {
-			let markers = {};
-			let combineData = res.currentData;
-			if (res.mode === 'historic') {
-				combineData = res.currentData.concat(res.newData);
-			} else if (res.mode === 'streaming') {
-				combineData = helper.combineStreamData(res.currentData, res.newData);
-			}
-			combineData.forEach((hit, index) => {
-				markers[hit._id] = {};
-				let icon;
-				switch (hit._source.vehicle) {
-					case 'Bus':
-						icon = this.props.markerIcons.Bus;
-						break;
-					case 'Train':
-						icon = this.props.markerIcons.Train;
-						break;
-				}
-				markers[hit._id].icon = icon;
-			});
-			return {
-				markers: markers
-			};
-		}
-		return null;
+	onData(hit) {
+		let icon;
+		switch (hit._source.vehicle) {
+			case 'Bus':
+				icon = this.props.markerIcons.Bus;
+				break;
+			case 'Train':
+				icon = this.props.markerIcons.Train;
+				break;
+		};
+		return icon;
 	}
 
 	render() {

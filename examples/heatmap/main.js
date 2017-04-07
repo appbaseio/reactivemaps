@@ -14,16 +14,16 @@ import {
 class Main extends Component {
 	constructor(props) {
 		super(props);
-		this.polygonData = [];
+		this.polygonAllData = [];
 		this.markers = {
 			hits: {
 				hits: []
 			}
 		};
 		this.simulationFlag = true;
-		this.onDataExecuted = false;
+		this.onAllDataExecuted = false;
 		this.mapOnIdle = this.mapOnIdle.bind(this);
-		this.onData = this.onData.bind(this);
+		this.onAllData = this.onAllData.bind(this);
 		this.onPopoverTrigger = this.onPopoverTrigger.bind(this);
 	}
 
@@ -48,9 +48,9 @@ class Main extends Component {
 	}
 
 	// get the markers create polygon accordingly
-	onData(res) {
+	onAllData(res) {
 		if (res) {
-			this.onDataExecuted = true;
+			this.onAllDataExecuted = true;
 			let combineData = res.currentData;
 			if (res.mode === 'historic') {
 				combineData = res.currentData.concat(res.newData);
@@ -77,11 +77,11 @@ class Main extends Component {
 		this.simulationFlag = true;
 		this.boundingBoxCoordinates = res.boundingBoxCoordinates;
 		this.polygonGrid = HeatmapCreator.createGridLines(res.mapBounds, 0);
-		this.polygonData = this.polygonGrid.map((grid) => {
+		this.polygonAllData = this.polygonGrid.map((grid) => {
 			return grid.cell;
 		})
 		setTimeout(() => {
-			if (this.simulationFlag && this.onDataExecuted) {
+			if (this.simulationFlag && this.onAllDataExecuted) {
 				HeatmapWorker.init(this.props.config, this.props.mapping.location, res.boundingBoxCoordinates);
 			}
 		}, 10 * 1000);
@@ -101,13 +101,13 @@ class Main extends Component {
 				});
 				return polygon;
 			});
-			let polygonData = HeatmapCreator.fillColor(polygonGrid);
-			return this.applyPoloygon(polygonData);
+			let polygonAllData = HeatmapCreator.fillColor(polygonGrid);
+			return this.applyPoloygon(polygonAllData);
 		}
 	}
 
-	applyPoloygon(polygonData) {
-		let polygons = polygonData.map((polyProp, index) => {
+	applyPoloygon(polygonAllData) {
+		let polygons = polygonAllData.map((polyProp, index) => {
 			let options = {
 				options: polyProp
 			};
@@ -143,7 +143,7 @@ class Main extends Component {
 						title="Heatmap"
 						showPopoverOn = "click"
 						onPopoverTrigger = {this.onPopoverTrigger}
-						onData = {this.onData}
+						onAllData = {this.onAllData}
 						onIdle = {this.mapOnIdle}
 						streamTTL={10}
 						stream={true}

@@ -10,7 +10,7 @@ import {
 class Main extends Component {
 	constructor(props) {
 		super(props);
-		this.onData = this.onData.bind(this);
+		this.onAllData = this.onAllData.bind(this);
 		this.result = {
 			markers: [],
 			heatmapPoints: []
@@ -18,7 +18,7 @@ class Main extends Component {
 		this.heatmap = null;
 	}
 
-	onData(res) {
+	onAllData(res) {
 		if (res) {
 			let markers = {};
 			let combineData = res.currentData;
@@ -134,7 +134,7 @@ class Main extends Component {
 							historicalData={true}
 							setMarkerCluster={false}
 							defaultMapStyle={this.props.mapStyle}
-							onData={this.onData}
+							onAllData={this.onAllData}
 							autoCenter={false}
 							size={100}
 							showSearchAsMove={true}

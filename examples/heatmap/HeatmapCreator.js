@@ -102,15 +102,15 @@ module.exports = {
 		return inside;
 	},
 
-	fillColor: function(polygonData) {
-		polygonData = polygonData.map((polygon) => {
+	fillColor: function(polygonAllData) {
+		polygonAllData = polygonAllData.map((polygon) => {
 			let cellProp = detectColor(polygon.markers.length);
 			polygon.color = cellProp.color;
 			polygon.opacity = cellProp.opacity;
 			polygon.cell = this.createCell(polygon.opacity, polygon.color, polygon.upLeftCoord, polygon.upRightCoord, polygon.lowRightCoord, polygon.lowLeftCoord);
 			return polygon.cell;
 		});
-		return polygonData;
+		return polygonAllData;
 
 		function detectColor(markers) {
 			let polygon = {};
