@@ -134,9 +134,9 @@ export default class ReactiveMap extends Component {
 
 			function initialize() {
 				if (res.error && res.startTime > this.queryStartTime) {
-					if (this.props.onData) {
+					if (this.props.onAllData) {
 						const modifiedData = helper.prepareResultData(res);
-						this.props.onData(modifiedData.res, modifiedData.err);
+						this.props.onAllData(modifiedData.res, modifiedData.err);
 					}
 				} else if (res.appliedQuery) {
 					if (!this.state.mapBounds) {
@@ -167,7 +167,7 @@ export default class ReactiveMap extends Component {
 			rawData: getResult.rawData,
 			markersData: getResult.markersData
 		}, () => {
-			if (this.props.onData) {
+			if (this.props.onAllData) {
 				// Pass the historic or streaming data in index method
 				res.allMarkers = getResult.rawData;
 				let modifiedData = JSON.parse(JSON.stringify(res));
@@ -175,11 +175,11 @@ export default class ReactiveMap extends Component {
 				modifiedData.currentData = getResult.currentData;
 				delete modifiedData.data;
 				modifiedData = helper.prepareResultData(modifiedData, res.data);
-				if (this.props.onData) {
+				if (this.props.onAllData) {
 					if(modifiedData.res) {
 						modifiedData.res.mapRef = this.mapRef;
 					}
-					const generatedData = this.props.onData(modifiedData.res, modifiedData.err);
+					const generatedData = this.props.onAllData(modifiedData.res, modifiedData.err);
 					this.setState({
 						externalData: generatedData
 					});
@@ -411,6 +411,7 @@ export default class ReactiveMap extends Component {
 
 	chooseIcon(hit) {
 		let icon = hit.external_icon ? hit.external_icon : this.getIcon(hit);
+		icon = this.props.onData ? this.props.onData(hit) : icon;
 		const isSvg = !!(typeof icon === "object" && ("path" in icon));
 		if (isSvg) {
 			icon = JSON.parse(JSON.stringify(icon));
@@ -422,7 +423,7 @@ export default class ReactiveMap extends Component {
 		return icon;
 	}
 
-	// here we accepts marker props which we received from onData and apply those external props in Marker component
+	// here we accepts marker props which we received from onAllData and apply those external props in Marker component
 	combineProps(hit) {
 		let externalProps;
 		const markerProp = {};
@@ -641,6 +642,7 @@ export default class ReactiveMap extends Component {
 ReactiveMap.propTypes = {
 	appbaseField: React.PropTypes.string.isRequired,
 	onIdle: React.PropTypes.func,
+	onAllData: React.PropTypes.func,
 	onData: React.PropTypes.func,
 	onPopoverTrigger: React.PropTypes.func,
 	setMarkerCluster: React.PropTypes.bool,
