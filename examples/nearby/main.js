@@ -159,7 +159,7 @@ class Main extends Component {
 								appbaseField="location"
 								historicalData={true}
 								setMarkerCluster={false}
-								defaultMapStyle={this.props.mapStyle}
+								defaultMapStyle="Light Monochrome"
 								autoCenter={true}
 								showSearchAsMove={true}
 								showMapStyles={true}
@@ -197,9 +197,5 @@ class Main extends Component {
 		);
 	}
 }
-
-Main.defaultProps = {
-	mapStyle: "Light Monochrome"
-};
 
 ReactDOM.render(<Main />, document.getElementById("map"));
