@@ -164,7 +164,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			_this.state = {
 				markers: [],
 				selectedMarker: null,
-				streamingStatus: "Intializing..",
+				streamingStatus: "Initializing..",
 				center: _this.props.defaultCenter,
 				query: {},
 				rawData: {
@@ -272,7 +272,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function createChannel() {
 				var _this3 = this;
 
-				// Set the actuate - add self aggs query as well with actuate
+				// Set the actuate - add self aggregation query as well with actuate
 				var react = this.props.react ? this.props.react : {};
 				if (react && react.and) {
 					if (typeof react.and === "string") {
@@ -333,7 +333,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				var getResult = ReactiveMapHelper.afterChannelResponse(res, this.state.rawData, this.props.appbaseField, this.state.markersData);
 				this.reposition = true;
 				this.streamFlag = getResult.streamFlag;
-				this.queryStartTime = getResult.queryStartTime;
+				this.queryStartTime = getResult.queryStartTime ? getResult.queryStartTime : 0;
 				this.setState({
 					rawData: getResult.rawData,
 					markersData: getResult.markersData
@@ -432,7 +432,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				});
 			}
 
-			// Close infowindow
+			// Close info window
 
 		}, {
 			key: "handleMarkerClose",
@@ -466,7 +466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				delete this.popoverTTLStore[id];
 			}
 
-			// render infowindow
+			// render info window
 
 		}, {
 			key: "renderInfoWindow",
@@ -546,7 +546,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				_reactivebase.AppbaseSensorHelper.selectedSensor.set(obj, isExecuteQuery);
 			}
 
-			// on change of selectiong
+			// on change of selecting
 
 		}, {
 			key: "searchAsMoveChange",
@@ -9079,6 +9079,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	var _ = __webpack_require__(76);
+
 	var _require = __webpack_require__(69);
 
 	var EventEmitter = _require.EventEmitter;
@@ -9101,14 +9103,33 @@ return /******/ (function(modules) { // webpackBootstrap
 			this.sortChanges = this.sortChanges.bind(this);
 		}
 
-		// Receive: This method will be executed whenever dependency value changes
-		// It receives which dependency changes and which channeldId should be affected.
-
-
 		_createClass(ChannelManager, [{
+			key: "highlightModify",
+			value: function highlightModify(data, queryObj) {
+				if (queryObj && queryObj.body && queryObj.body.highlight && data && data.hits && data.hits.hits && data.hits.hits.length) {
+					data.hits.hits = data.hits.hits.map(this.highlightItem);
+				}
+				return data;
+			}
+		}, {
+			key: "highlightItem",
+			value: function highlightItem(item) {
+				if (item.highlight) {
+					Object.keys(item.highlight).forEach(function (highlightItem) {
+						var highlightValue = item.highlight[highlightItem][0];
+						_.set(item._source, highlightItem, highlightValue);
+					});
+				}
+				return item;
+			}
+
+			// Receive: This method will be executed whenever dependency value changes
+			// It receives which dependency changes and which channeldId should be affected.
+
+		}, {
 			key: "receive",
 			value: function receive(depend, channelId) {
-				var _this = this;
+				var _this2 = this;
 
 				var queryOptions = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
@@ -9123,6 +9144,9 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 
 				function activateStream(currentChannelId, currentQueryObj, appbaseRef) {
+					var _this = this;
+
+					console.log("streaming activate");
 					if (this.streamRef[currentChannelId]) {
 						this.streamRef[currentChannelId].stop();
 					}
@@ -9134,6 +9158,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						delete streamQueryObj.body.sort;
 					}
 					this.streamRef[currentChannelId] = appbaseRef.searchStream(streamQueryObj).on("data", function (data) {
+						data = _this.highlightItem(data, currentQueryObj);
 						var obj = {
 							mode: "streaming",
 							data: data,
@@ -9163,15 +9188,15 @@ return /******/ (function(modules) { // webpackBootstrap
 							startTime: new Date().getTime(),
 							appliedQuery: queryObj
 						};
-						var appbaseRef = _this.appbaseRef[channelId];
+						var appbaseRef = _this2.appbaseRef[channelId];
 						if (appbaseRef) {
 							// apply search query and emit historic queryResult
 							var searchQueryObj = queryObj;
-							searchQueryObj.type = _this.type[channelId] === "*" ? "" : _this.type[channelId];
+							searchQueryObj.type = _this2.type[channelId] === "*" ? "" : _this2.type[channelId];
 							setQueryState(channelResponse);
 							appbaseRef.search(searchQueryObj).on("data", function (data) {
 								channelResponse.mode = "historic";
-								channelResponse.data = data;
+								channelResponse.data = _this2.highlightModify(data, channelResponse.appliedQuery);
 								self.emitter.emit(channelId, channelResponse);
 								var globalQueryOptions = self.queryOptions && self.queryOptions[channelId] ? self.queryOptions[channelId] : {};
 								self.emitter.emit("global", {
@@ -9189,7 +9214,7 @@ return /******/ (function(modules) { // webpackBootstrap
 							});
 							// apply searchStream query and emit streaming data
 							if (channelObj.stream) {
-								activateStream.call(_this, channelId, queryObj, appbaseRef);
+								activateStream.call(_this2, channelId, queryObj, appbaseRef);
 							}
 						} else {
 							console.error("appbaseRef is not set for " + channelId);
@@ -9272,7 +9297,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function create(appbaseRef, type, react) {
 				var size = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 100;
 
-				var _this2 = this;
+				var _this3 = this;
 
 				var from = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
 				var stream = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : false;
@@ -9307,7 +9332,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 				setTimeout(function () {
 					if ("aggs" in react) {
-						_this2.receive("aggs", channelId);
+						_this3.receive("aggs", channelId);
 					}
 				}, 100);
 				return {
@@ -9347,6 +9372,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		function sortAvailable(depend) {
 			var sortInfo = helper.selectedSensor.get(depend, "sortInfo");
 			return sortInfo;
+		}
+
+		// check if external query part is availbale (i.e. highlight)
+		function isExternalQuery(depend) {
+			var finalValue = null;
+			var sensorInfo = helper.selectedSensor.get(depend, "sensorInfo");
+			if (sensorInfo && sensorInfo.externalQuery) {
+				finalValue = sensorInfo.externalQuery;
+			}
+			return finalValue;
 		}
 
 		// build single query or if default query present in sensor itself use that
@@ -9407,9 +9442,15 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (depend === "aggs") {
 					dependsQuery[depend] = aggsQuery(depend);
 				} else if (depend && depend.indexOf("channel-options-") > -1) {
-					requestOptions = previousSelectedSensor[depend];
+					requestOptions = requestOptions ? requestOptions : {};
+					requestOptions = Object.assign(requestOptions, previousSelectedSensor[depend]);
 				} else {
 					dependsQuery[depend] = singleQuery(depend);
+					var externalQuery = isExternalQuery(depend);
+					if (externalQuery) {
+						requestOptions = requestOptions ? requestOptions : {};
+						requestOptions = Object.assign(requestOptions, externalQuery);
+					}
 				}
 				var sortField = sortAvailable(depend);
 				if (sortField && !("aggSort" in sortField)) {
@@ -49246,8 +49287,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -49330,6 +49369,25 @@ return /******/ (function(modules) { // webpackBootstrap
 					this.channelListener.remove();
 				}
 			}
+		}, {
+			key: "highlightQuery",
+			value: function highlightQuery() {
+				var fields = {};
+				if (typeof this.props.appbaseField === "string") {
+					fields[this.props.appbaseField] = {};
+				} else if (_.isArray(this.props.appbaseField)) {
+					this.props.appbaseField.forEach(function (item) {
+						fields[item] = {};
+					});
+				}
+				return {
+					"highlight": {
+						"pre_tags": ["<span class=\"rbc-highlight\">"],
+						"post_tags": ["</span>"],
+						"fields": fields
+					}
+				};
+			}
 
 			// set the query type and input data
 
@@ -49344,6 +49402,9 @@ return /******/ (function(modules) { // webpackBootstrap
 						customQuery: this.props.customQuery ? this.props.customQuery : this.defaultSearchQuery
 					}
 				};
+				if (this.props.highlight) {
+					obj.value.externalQuery = this.highlightQuery();
+				}
 				helper.selectedSensor.setSensorInfo(obj);
 				var searchObj = {
 					key: this.searchInputId,
@@ -49386,6 +49447,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "getValue",
 			value: function getValue(field, hit) {
+				var index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
 				var val = void 0;
 				if (_.has(hit, field)) {
 					val = hit[field];
@@ -49396,7 +49459,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						fieldSplit.forEach(function (item, index) {
 							prefix += item;
 							if (_.isArray(_.get(hit, prefix))) {
-								prefix += "[0]";
+								prefix += "[" + index + "]";
 							}
 							if (fieldSplit.length - 1 !== index) {
 								prefix += ".";
@@ -49417,6 +49480,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				var _this2 = this;
 
 				var options = [];
+				var appbaseField = _.isArray(this.props.appbaseField) ? this.props.appbaseField : [this.props.appbaseField];
 				data.hits.hits.map(function (hit) {
 					if (_this2.fieldType === "string") {
 						var tempField = _this2.getValue(_this2.props.appbaseField.trim(), hit._source);
@@ -49448,33 +49512,33 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "defaultSearchQuery",
 			value: function defaultSearchQuery(value) {
-				var _this3 = this;
-
-				var finalQuery = null;
+				var finalQuery = null,
+				    fields = void 0;
 				if (value) {
-					var _ret2 = function () {
-						if (_this3.fieldType === "string") {
-							return {
-								v: {
-									match_phrase_prefix: _defineProperty({}, _this3.props.appbaseField, value)
+					if (this.fieldType === "string") {
+						fields = [this.props.appbaseField];
+					} else {
+						fields = this.props.appbaseField;
+					}
+					finalQuery = {
+						"bool": {
+							"should": [{
+								"multi_match": {
+									"query": value,
+									fields: fields,
+									"type": "phrase_prefix"
 								}
-							};
+							}, {
+								"multi_match": {
+									"query": value,
+									fields: fields,
+									"type": "boolean",
+									"minimum_should_match": "50%"
+								}
+							}],
+							"minimum_should_match": "1"
 						}
-						var query = [];
-						_this3.props.appbaseField.map(function (field) {
-							query.push({
-								match_phrase_prefix: _defineProperty({}, field, value)
-							});
-						});
-						finalQuery = {
-							bool: {
-								should: query,
-								minimum_should_match: 1
-							}
-						};
-					}();
-
-					if ((typeof _ret2 === "undefined" ? "undefined" : _typeof(_ret2)) === "object") return _ret2.v;
+					};
 				}
 				return finalQuery;
 			}
@@ -49484,7 +49548,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "createChannel",
 			value: function createChannel() {
-				var _this4 = this;
+				var _this3 = this;
 
 				var react = this.props.react ? this.props.react : {};
 				if (react && react.and && typeof react.and === "string") {
@@ -49499,16 +49563,16 @@ return /******/ (function(modules) { // webpackBootstrap
 					var data = res.data;
 					var rawData = void 0;
 					if (res.mode === "streaming") {
-						rawData = _this4.state.rawData;
+						rawData = _this3.state.rawData;
 						rawData.hits.hits.push(res.data);
 					} else if (res.mode === "historic") {
 						rawData = data;
 					}
-					_this4.setState({
+					_this3.setState({
 						rawData: rawData
 					});
-					if (_this4.props.autocomplete) {
-						_this4.setData(rawData);
+					if (_this3.props.autocomplete) {
+						_this3.setData(rawData);
 					}
 				});
 			}
@@ -49621,14 +49685,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: _react2.default.PropTypes.func,
 		onValueChange: _react2.default.PropTypes.func,
 		react: _react2.default.PropTypes.object,
-		componentStyle: _react2.default.PropTypes.object
+		componentStyle: _react2.default.PropTypes.object,
+		highlight: _react2.default.PropTypes.bool
 	};
 
 	// Default props value
 	DataSearch.defaultProps = {
 		placeholder: "Search",
 		autocomplete: true,
-		componentStyle: {}
+		componentStyle: {},
+		highlight: false
 	};
 
 	// context type
@@ -49647,7 +49713,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		autocomplete: TYPES.BOOLEAN,
 		defaultSelected: TYPES.STRING,
 		customQuery: TYPES.FUNCTION,
-		componentStyle: TYPES.OBJECT
+		componentStyle: TYPES.OBJECT,
+		highlight: TYPES.BOOLEAN
 	};
 
 /***/ },
@@ -103870,7 +103937,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				return _react2.default.createElement(
 					"div",
-					{ className: "rbc rbc-geodistanceslider clearfix card thumbnail col s12 col-xs-12 " + cx },
+					{ className: "rbc rbc-geodistanceslider clearfix card thumbnail col s12 col-xs-12 " + cx, style: this.props.componentStyle },
 					_react2.default.createElement(
 						"div",
 						{ className: "row" },
@@ -103933,7 +104000,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			start: _react2.default.PropTypes.string,
 			end: _react2.default.PropTypes.string
 		}),
-		onValueChange: _react2.default.PropTypes.func
+		onValueChange: _react2.default.PropTypes.func,
+		componentStyle: _react2.default.PropTypes.object
 	};
 
 	// Default props value
@@ -103948,7 +104016,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		rangeLabels: {
 			start: null,
 			end: null
-		}
+		},
+		componentStyle: {}
 	};
 
 	// context type
@@ -105821,7 +105890,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				return _react2.default.createElement(
 					"div",
-					{ className: "rbc rbc-geodistancedropdown clearfix card thumbnail col s12 col-xs-12 " + cx },
+					{ className: "rbc rbc-geodistancedropdown clearfix card thumbnail col s12 col-xs-12 " + cx, style: this.props.componentStyle },
 					_react2.default.createElement(
 						"div",
 						{ className: "row" },
@@ -105879,13 +105948,15 @@ return /******/ (function(modules) { // webpackBootstrap
 			end: _reactivebase.AppbaseSensorHelper.validateThreshold,
 			label: _react2.default.PropTypes.string.isRequired
 		})),
-		onValueChange: _react2.default.PropTypes.func
+		onValueChange: _react2.default.PropTypes.func,
+		componentStyle: _react2.default.PropTypes.object
 	};
 
 	// Default props value
 	GeoDistanceDropdown.defaultProps = {
 		unit: "mi",
-		placeholder: "Search..."
+		placeholder: "Search...",
+		componentStyle: {}
 	};
 
 	// context type
@@ -106174,7 +106245,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				return _react2.default.createElement(
 					"div",
-					{ className: "rbc rbc-placessearch clearfix card thumbnail col s12 col-xs-12 " + cx },
+					{ className: "rbc rbc-placessearch clearfix card thumbnail col s12 col-xs-12 " + cx, style: this.props.componentStyle },
 					_react2.default.createElement(
 						"div",
 						{ className: "row" },
@@ -106208,12 +106279,14 @@ return /******/ (function(modules) { // webpackBootstrap
 		placeholder: _react2.default.PropTypes.string,
 		autoLocation: _react2.default.PropTypes.bool,
 		onValueChange: _react2.default.PropTypes.func,
+		componentStyle: _react2.default.PropTypes.object,
 		unit: _react2.default.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"])
 	};
 	// Default props value
 	PlacesSearch.defaultProps = {
 		placeholder: "Search..",
-		autoLocation: true
+		autoLocation: true,
+		componentStyle: {}
 	};
 
 	// context type
