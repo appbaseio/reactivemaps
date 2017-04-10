@@ -65,7 +65,7 @@ class Main extends Component {
 						<div className="row h-100">
 							<div className="col s12 col-xs-12">
 								<PlacesSearch
-									appbaseField={this.props.mapping.venue}
+									appbaseField="venue_name_ngrams"
 									componentId="OriginSensor"
 									placeholder="Search Venue"
 									title="Origin"
@@ -74,7 +74,7 @@ class Main extends Component {
 							</div>
 							<div className="col s12 col-xs-12">
 								<PlacesSearch
-									appbaseField={this.props.mapping.venue}
+									appbaseField="venue_name_ngrams"
 									componentId="DestinationSensor"
 									placeholder="Search Venue"
 									autoLocation={false}
@@ -86,10 +86,10 @@ class Main extends Component {
 					</div>
 					<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							appbaseField="location"
 							historicalData={true}
 							setMarkerCluster={false}
-							defaultMapStyle={this.props.mapStyle}
+							defaultMapStyle="Light Monochrome"
 							autoCenter={false}
 							showSearchAsMove={true}
 							showMapStyles={true}
@@ -109,13 +109,5 @@ class Main extends Component {
 		);
 	}
 }
-
-Main.defaultProps = {
-	mapStyle: "Light Monochrome",
-	mapping: {
-		venue: 'venue_name_ngrams',
-		location: 'location'
-	}
-};
 
 ReactDOM.render(<Main />, document.getElementById('map'));
