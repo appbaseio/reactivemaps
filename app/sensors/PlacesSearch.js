@@ -202,7 +202,7 @@ export default class PlacesSearch extends Component {
 		});
 
 		return (
-			<div className={`rbc rbc-placessearch clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
+			<div className={`rbc rbc-placessearch clearfix card thumbnail col s12 col-xs-12 ${cx}`} style={this.props.componentStyle}>
 				<div className="row">
 					{title}
 					<div className="col s12 col-xs-12">
@@ -227,12 +227,14 @@ PlacesSearch.propTypes = {
 	placeholder: React.PropTypes.string,
 	autoLocation: React.PropTypes.bool,
 	onValueChange: React.PropTypes.func,
+	componentStyle: React.PropTypes.object,
 	unit: React.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"])
 };
 // Default props value
 PlacesSearch.defaultProps = {
 	placeholder: "Search..",
-	autoLocation: true
+	autoLocation: true,
+	componentStyle: {}
 };
 
 // context type
