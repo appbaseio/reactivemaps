@@ -20,7 +20,6 @@ import SingleDropdownRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.
 import MultiDropdownRangeReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/MultiDropdownRange.md";
 
 import DataSearchReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/DataSearch.md";
-import NestedListReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/NestedList.md";
 import RangeSliderReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/RangeSlider.md";
 import NumberBoxReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/NumberBox.md";
 import DatePickerReadme from "@appbaseio/reactivemaps-manual/docs/v1.0.0/components/DatePicker.md";
@@ -41,7 +40,6 @@ import SingleDropdownRangeDefault from "./SingleDropdownRange.stories";
 import MultiDropdownRangeDefault from "./MultiDropdownRange.stories";
 
 import DataSearchDefault from "./DataSearch.stories";
-import NestedListDefault from "./NestedList.stories";
 import RangeSliderDefault from "./RangeSlider.stories";
 import NumberBoxDefault from "./NumberBox.stories";
 import DatePickerDefault from "./DatePicker.stories";
@@ -454,32 +452,6 @@ storiesOf("DataSearch", module)
 			title={text("title", "DataSearch: Meetups")}
 			placeholder={text("placeholder", "Search Venue")}
 			autocomplete={boolean("autocomplete", true)}
-		/>
-	)));
-
-storiesOf("NestedList", module)
-	.addDecorator(withKnobs)
-	.add("Basic", withReadme(removeFirstLine(NestedListReadme), () => (
-		<NestedListDefault />
-	)))
-	.add("With Title", withReadme(removeFirstLine(NestedListReadme), () => (
-		<NestedListDefault
-			title={text("title", "City-wise Meetups")}
-		/>
-	)))
-	.add("Default selection", withReadme(removeFirstLine(NestedListReadme), () => (
-		<NestedListDefault
-			defaultSelected={["London", "Travel"]}
-		/>
-	))).add("Playground", withReadme(removeFirstLine(NestedListReadme), () => (
-		<NestedListDefault
-			title={text("title", "NestedList: City-wise Meetup Topics")}
-			size={number("size", 100)}
-			sortBy={select("sortBy", { asc: "asc", desc: "desc", count: "count" }, "count")}
-			defaultSelected={array("defaultSelected", ["London", "Travel"])}
-			showCount={boolean("showCount", true)}
-			showSearch={boolean("showSearch", true)}
-			placeholder={text("placeholder", "Search Topics")}
 		/>
 	)));
 
