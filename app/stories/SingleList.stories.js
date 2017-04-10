@@ -53,7 +53,6 @@ export default class SingleListDefault extends Component {
 							appbaseField={this.props.mapping.city}
 							title="SingleList"
 							size={100}
-							defaultSelected="Melbourne"
 							{...this.props}
 						/>
 					</div>
