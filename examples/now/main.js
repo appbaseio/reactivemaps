@@ -13,43 +13,7 @@ import {
 class Main extends Component {
 	constructor(props) {
 		super(props);
-		this.cityQuery = this.cityQuery.bind(this);
-		this.categoryQuery = this.categoryQuery.bind(this);
 		this.onData = this.onData.bind(this);
-	}
-
-	cityQuery(value) {
-		if(value) {
-			let field = 'city';
-			let match = JSON.parse(`{"${field}":` + JSON.stringify(value) + '}');
-			return { match: match };
-		} else return null;
-	}
-
-	categoryQuery(value) {
-		let query = {
-			bool: {
-				should: []
-			}
-		};
-		if(value && value.length) {
-			let field = 'category';
-			let queryBunch = value.map((val) => { return createMatchQuery(field, val); });
-			query = {
-				bool: {
-					should: queryBunch,
-					minimum_should_match: 1
-				}
-			};
-			return query;
-		} else {
-			return query;
-		}
-
-		function createMatchQuery(field, val) {
-			let match = JSON.parse(`{"${field}":` + JSON.stringify(val) + '}');
-			return { match: match };
-		}
 	}
 
 	onPopoverTrigger(marker) {
@@ -89,18 +53,17 @@ class Main extends Component {
 					>
 					<div className="col s12 m9 h-100">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							appbaseField="location"
 							defaultZoom={13}
-							historicalData={true}
 							setMarkerCluster={false}
-							defaultMapStyle={this.props.mapStyle}
-							autoCenter={true}
-							showSearchAsMove={true}
-							title="Foursquare checkins"
+							defaultMapStyle="Light Monochrome"
+							autoCenter
+							showSearchAsMove
+							title="Foursquare check-ins"
 							showPopoverOn = "click"
 							onPopoverTrigger = {this.onPopoverTrigger}
 							onData = {this.onData}
-							showMapStyles={true}
+							showMapStyles
 							react={{
 								and: ["CitySensor", "CategorySensor"]
 							}}
@@ -111,28 +74,22 @@ class Main extends Component {
 							<div className="col s12">
 								<SingleList
 									componentId="CitySensor"
-									appbaseField={this.props.mapping.city}
+									appbaseField="city"
 									defaultSelected="new york"
-									showCount={true}
+									showCount
 									size={100}
-									multipleSelect={false}
-									includeGeo={false}
-									showSearch={true}
+									showSearch
 									title="Cities"
 									searchPlaceholder="Search City"
-									customQuery= {this.cityQuery}
 								/>
 							</div>
 							<div className="col s12">
 								<MultiList
-									appbaseField={this.props.mapping.topic}
+									appbaseField="category.raw"
 									componentId="CategorySensor"
 									showCount={true}
 									size={100}
-									multipleSelect={true}
-									includeGeo={true}
 									title="Categories"
-									customQuery= {this.categoryQuery}
 									react={{
 										and: "CitySensor"
 									}}
@@ -147,12 +104,6 @@ class Main extends Component {
 }
 
 Main.defaultProps = {
-	mapStyle: "Light Monochrome",
-	mapping: {
-		city: 'city',
-		topic: 'category.raw',
-		location: 'location'
-	},
 	markerIcons: {
 		'Train Station': 'dist/images/railway_station-32.png',
 		'Pub': 'dist/images/bar-32.png',

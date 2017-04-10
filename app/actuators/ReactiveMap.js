@@ -18,7 +18,7 @@ export default class ReactiveMap extends Component {
 		this.state = {
 			markers: [],
 			selectedMarker: null,
-			streamingStatus: "Intializing..",
+			streamingStatus: "Initializing..",
 			center: this.props.defaultCenter,
 			query: {},
 			rawData: {
@@ -104,7 +104,7 @@ export default class ReactiveMap extends Component {
 
 	// Create a channel which passes the actuate and receive results whenever actuate changes
 	createChannel() {
-		// Set the actuate - add self aggs query as well with actuate
+		// Set the actuate - add self aggregation query as well with actuate
 		const react = this.props.react ? this.props.react : {};
 		if (react && react.and) {
 			if(typeof react.and === "string") {
@@ -162,7 +162,7 @@ export default class ReactiveMap extends Component {
 		const getResult = ReactiveMapHelper.afterChannelResponse(res, this.state.rawData, this.props.appbaseField, this.state.markersData);
 		this.reposition = true;
 		this.streamFlag = getResult.streamFlag;
-		this.queryStartTime = getResult.queryStartTime;
+		this.queryStartTime = getResult.queryStartTime ? getResult.queryStartTime : 0;
 		this.setState({
 			rawData: getResult.rawData,
 			markersData: getResult.markersData
@@ -253,7 +253,7 @@ export default class ReactiveMap extends Component {
 		});
 	}
 
-	// Close infowindow
+	// Close info window
 	handleMarkerClose(marker) {
 		marker.showInfo = false;
 		this.reposition = false;
@@ -278,7 +278,7 @@ export default class ReactiveMap extends Component {
 		delete this.popoverTTLStore[id];
 	}
 
-	// render infowindow
+	// render info window
 	renderInfoWindow(ref, marker) {
 		const onPopoverTrigger = this.props.onPopoverTrigger ? this.props.onPopoverTrigger(marker) : "Popver";
 		return (
@@ -338,7 +338,7 @@ export default class ReactiveMap extends Component {
 		helper.selectedSensor.set(obj, isExecuteQuery);
 	}
 
-	// on change of selectiong
+	// on change of selecting
 	searchAsMoveChange(value) {
 		this.searchAsMove = value;
 		if (value && this.mapRef) {

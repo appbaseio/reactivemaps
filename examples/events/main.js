@@ -128,12 +128,11 @@ class Main extends Component {
 					>
 					<div className="col s12 m9 h-100">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							appbaseField="location"
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lon: -122.45 }}
-							historicalData={true}
 							setMarkerCluster={false}
-							defaultMapStyle={this.props.mapStyle}
+							defaultMapStyle="Light Monochrome"
 							autoCenter={true}
 							showSearchAsMove={true}
 							title="Events Example"
@@ -168,12 +167,5 @@ class Main extends Component {
 		);
 	}
 }
-
-Main.defaultProps = {
-	mapStyle: "Light Monochrome",
-	mapping: {
-		location: 'location'
-	}
-};
 
 ReactDOM.render(<Main />, document.getElementById('map'));

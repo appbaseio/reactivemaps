@@ -10,32 +10,6 @@ import {
 class Main extends Component {
 	constructor(props) {
 		super(props);
-		this.placeQuery = this.placeQuery.bind(this);
-		this.magQuery = this.magQuery.bind(this);
-	}
-
-	placeQuery(value) {
-		if(value) {
-			let field = 'place.raw';
-			let match = JSON.parse(`{"${field}":` + JSON.stringify(value) + '}');
-			return { term: match };
-		} else return null;
-	}
-
-	magQuery(value) {
-		if(value) {
-			let field = 'mag';
-			let range = JSON.parse(`{"${field}":` + JSON.stringify(value) + '}');
-			return { range: range };
-		} else return null;
-	}
-
-	yearQuery(value) {
-		if(value) {
-			let field = 'time';
-			let range = JSON.parse(`{"${field}":` + JSON.stringify(value) + '}');
-			return { range: range };
-		} else return null;
 	}
 
 	onPopoverTrigger(marker) {
@@ -63,14 +37,13 @@ class Main extends Component {
 					>
 					<div className="col s12 m8 h-100 col-xs-12 col-sm-8">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							appbaseField="location"
 							defaultZoom={8}
 							defaultCenter={{ lat: 35.272, lon: 138.582 }}
-							historicalData={true}
 							setMarkerCluster={false}
-							defaultMapStyle={this.props.mapStyle}
-							autoCenter={true}
-							showSearchAsMove={true}
+							defaultMapStyle="Light Monochrome"
+							autoCenter
+							showSearchAsMove
 							title="Earthquake"
 							showPopoverOn = "click"
 							onPopoverTrigger = {this.onPopoverTrigger}
@@ -84,7 +57,7 @@ class Main extends Component {
 							<div className="col s12 col-xs-12">
 								<MultiList
 									componentId="PlaceSensor"
-									appbaseField={this.props.mapping.venue}
+									appbaseField="place.raw"
 									defaultSelected={["Japan"]}
 									showCount={true}
 									size={1000}
@@ -98,11 +71,9 @@ class Main extends Component {
 							<div className="col s12 col-xs-12">
 								<RangeSlider
 									componentId="RangeSensor"
-									appbaseField={this.props.mapping.mag}
-									actuate={{
-										PlaceSensor: {
-											"operation": "must"
-										}
+									appbaseField="mag"
+									react={{
+										"and": "PlaceSensor"
 									}}
 									defaultSelected={
 										{
@@ -122,11 +93,9 @@ class Main extends Component {
 							<div className="col s12 col-xs-12">
 								<RangeSlider
 									componentId="YearSensor"
-									appbaseField={this.props.mapping.time}
-									actuate={{
-										PlaceSensor: {
-											"operation": "must"
-										}
+									appbaseField="time"
+									react={{
+										"and": "PlaceSensor"
 									}}
 									defaultSelected={
 										{
@@ -148,15 +117,5 @@ class Main extends Component {
 		);
 	}
 }
-
-Main.defaultProps = {
-	mapStyle: "Light Monochrome",
-	mapping: {
-		mag: 'mag',
-		venue: 'place.raw',
-		location: 'location',
-		time: 'time'
-	}
-};
 
 ReactDOM.render(<Main />, document.getElementById('map'));

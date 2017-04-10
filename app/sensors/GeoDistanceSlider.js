@@ -320,7 +320,7 @@ export default class GeoDistanceSlider extends Component {
 		});
 
 		return (
-			<div className={`rbc rbc-geodistanceslider clearfix card thumbnail col s12 col-xs-12 ${cx}`}>
+			<div className={`rbc rbc-geodistanceslider clearfix card thumbnail col s12 col-xs-12 ${cx}`} style={this.props.componentStyle}>
 				<div className="row">
 					{title}
 					<div className="rbc-search-container col s12 col-xs-12">
@@ -371,7 +371,8 @@ GeoDistanceSlider.propTypes = {
 		start: React.PropTypes.string,
 		end: React.PropTypes.string
 	}),
-	onValueChange: React.PropTypes.func
+	onValueChange: React.PropTypes.func,
+	componentStyle: React.PropTypes.object
 };
 
 // Default props value
@@ -386,7 +387,8 @@ GeoDistanceSlider.defaultProps = {
 	rangeLabels: {
 		start: null,
 		end: null
-	}
+	},
+	componentStyle: {}
 };
 
 // context type

@@ -10,16 +10,8 @@ import {
 class Main extends Component {
 	constructor(props) {
 		super(props);
-		this.topicactuate = this.topicactuate.bind(this);
 		this.onPopoverTrigger = this.onPopoverTrigger.bind(this);
 		this.onData = this.onData.bind(this);
-	}
-
-	topicactuate(value) {
-		if (this.props.mapping.city && value) {
-			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + '}');
-			return { Match: match };
-		} else return null;
 	}
 
 	onPopoverTrigger(marker) {
@@ -62,12 +54,11 @@ class Main extends Component {
 							<div className="col s12">
 								<MultiList
 									componentId="RoutesSensor"
-									appbaseField={this.props.mapping.routes}
+									appbaseField="tag.raw"
 									showCount={false}
 									defaultSelected={['Bus-12', 'Bus-14', 'Bus-22', 'Bus-43', 'Train-1']}
 									size={1000}
-									includeSelectAll={true}
-									includeGeo={false}
+									selectAllLabel="All"
 									staticSearch={true}
 									title="Bus"
 									searchPlaceholder="Search Bus"
@@ -78,12 +69,10 @@ class Main extends Component {
 					</div>
 					<div className="col s12 m9 h-100">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							appbaseField="location"
 							defaultZoom={11}
 							defaultCenter={{ lat: 37.74, lon: -122.45 }}
-							historicalData={true}
 							setMarkerCluster={false}
-							defaultMapStyle={this.props.mapStyle}
 							autoCenter={true}
 							showSearchAsMove={true}
 							showMapStyles={true}
@@ -96,10 +85,10 @@ class Main extends Component {
 							historicPin= 'dist/images/bus.png'
 							streamMarkerImage= 'dist/images/bus.png'
 							stream={true}
-							actuate={{
-								RoutesSensor: {"operation": "must"}
+							react={{
+								and: "RoutesSensor"
 							}}
-							/>
+						/>
 					</div>
 				</ReactiveBase>
 			</div>
@@ -108,11 +97,6 @@ class Main extends Component {
 }
 
 Main.defaultProps = {
-	mapStyle: "Standard",
-	mapping: {
-		routes: 'tag.raw',
-		location: 'location'
-	},
 	markerIcons: {
 		Bus: {
 			path: `M122 1923 c-34 -3 -55 -9 -59 -19 -3 -7 -11 -14 -18 -14 -7 0 -15 -8
