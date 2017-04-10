@@ -1,4 +1,4 @@
-import { default as React, Component } from 'react';
+import { default as React } from 'react';
 var ReactDOM = require('react-dom');
 import {
 	ReactiveBase,
