@@ -73,7 +73,6 @@ class Main extends Component {
 							defaultZoom={11}
 							defaultCenter={{ lat: 37.74, lon: -122.45 }}
 							setMarkerCluster={false}
-							defaultMapStyle={this.props.mapStyle}
 							autoCenter={true}
 							showSearchAsMove={true}
 							showMapStyles={true}
@@ -86,10 +85,10 @@ class Main extends Component {
 							historicPin= 'dist/images/bus.png'
 							streamMarkerImage= 'dist/images/bus.png'
 							stream={true}
-							actuate={{
-								RoutesSensor: {"operation": "must"}
+							react={{
+								and: "RoutesSensor"
 							}}
-							/>
+						/>
 					</div>
 				</ReactiveBase>
 			</div>
