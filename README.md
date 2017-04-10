@@ -86,11 +86,11 @@ Follow the getting started guide to build a Hello Maps! app from the official do
 
 ## 7. Docs Manual
 
-The official docs for the library are at [https://opensource.appbase.io/manual](https://opensource.appbase.io/manual).
+The official docs for the library are at [https://opensource.appbase.io/reactivemaps/manual](https://opensource.appbase.io/reactivemaps/manual).
 
 The components are divided into two sections:
-* Generic UI components are at [https://opensource.appbase.io/manual/v1.0.0/components](https://opensource.appbase.io/manual/v1.0.0/components/).
-* Map based UI components are at [https://opensource.appbase.io/manual/v1.0.0/map-components](https://opensource.appbase.io/manual/v1.0.0/map-components/).
+* Generic UI components are at [https://opensource.appbase.io/reactivemaps/manual/v1.0.0/components](https://opensource.appbase.io/reactivemaps/manual/v1.0.0/components/).
+* Map based UI components are at [https://opensource.appbase.io/reactivemaps/manual/v1.0.0/map-components](https://opensource.appbase.io/reactivemaps/manual/v1.0.0/map-components/).
 * Each component's styles API is mentioned in a separate **CSS Styles API** section. See here for [SingleList](https://opensource.appbase.io/reactivemaps/manual/v1.0.0/components/SingleList.html#-singlelist-css-styles-api).
 * You can read more about the Styles API here - https://opensource.appbase.io/reactivemaps/manual/v1.0.0/getting-started/StyleGuide.html.
 
