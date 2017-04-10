@@ -45,6 +45,7 @@ export default class DatePickerDefault extends Component {
 				app="reactivemap-demo"
 				credentials="qMzzgez0t:a9138c3f-f246-4cd8-ba3d-0b99f9550c05"
 				type="meetupdata1"
+				theme="rbc-red"
 			>
 				<div className="row">
 					<div className="col s6 col-xs-6">

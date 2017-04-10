@@ -53,6 +53,7 @@ export default class SingleListDefault extends Component {
 							appbaseField={this.props.mapping.city}
 							title="SingleList"
 							size={100}
+							defaultSelected="Melbourne"
 							{...this.props}
 						/>
 					</div>
@@ -64,6 +65,7 @@ export default class SingleListDefault extends Component {
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"
 							autoCenter
+							stream
 							searchAsMoveComponent
 							MapStylesComponent
 							title="Reactive Maps"

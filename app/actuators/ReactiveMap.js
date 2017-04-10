@@ -162,7 +162,7 @@ export default class ReactiveMap extends Component {
 		const getResult = ReactiveMapHelper.afterChannelResponse(res, this.state.rawData, this.props.appbaseField, this.state.markersData);
 		this.reposition = true;
 		this.streamFlag = getResult.streamFlag;
-		this.queryStartTime = getResult.queryStartTime;
+		this.queryStartTime = getResult.queryStartTime ? getResult.queryStartTime : 0;
 		this.setState({
 			rawData: getResult.rawData,
 			markersData: getResult.markersData
