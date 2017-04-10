@@ -71,7 +71,7 @@ class Main extends Component {
 		hits.forEach((hit, index) => {
 			let icon = this.markerIcons(hit._source);
 			if (icon) {
-				let field = this.identifyGeoData(hit._source[this.props.mapping.location]);
+				let field = this.identifyGeoData(hit._source["coord"]);
 				let position = {
 					position: field
 				};
@@ -97,7 +97,7 @@ class Main extends Component {
 		}
 		
 		hits.forEach((markerData, index) => {
-			let location = markerData._source[this.props.mapping.location];
+			let location = markerData._source["coord"];
 			this.result.markers.forEach((result_marker, index) => {
 				if (location.lat === result_marker.lat && location.lon === result_marker.lon) {
 					this.result.markers.splice(index, 1);
@@ -128,12 +128,12 @@ class Main extends Component {
 					>
 					<div className="col s12 h-100">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							appbaseField="coord"
 							defaultZoom={4}
 							defaultCenter={{ lat: 40.673940, lon: -101.314026 }}
 							historicalData={true}
 							setMarkerCluster={false}
-							defaultMapStyle={this.props.mapStyle}
+							defaultMapStyle="Light Monochrome"
 							onAllData={this.onAllData}
 							autoCenter={false}
 							size={100}
@@ -149,12 +149,5 @@ class Main extends Component {
 		);
 	}
 }
-
-Main.defaultProps = {
-	mapStyle: "Light Monochrome",
-	mapping: {
-		location: 'coord'
-	}
-};
 
 ReactDOM.render(<Main />, document.getElementById('map'));
