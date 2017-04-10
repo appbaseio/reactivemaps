@@ -101,8 +101,8 @@ class Main extends Component {
 			let polygonGrid = this.polygonGrid.map((polygon) => {
 				polygon.markers = this.markers.filter((hit) => {
 					let flag = false;
-					if(hit && hit._source && this.props.mapping.location in hit._source) {
-						let markerPosition = [hit._source[this.props.mapping.location].lat, hit._source[this.props.mapping.location].lon];
+					if(hit && hit._source && "location" in hit._source) {
+						let markerPosition = [hit._source["location"].lat, hit._source["location"].lon];
 						flag = HeatmapCreator.isInside(markerPosition, polygon.boundaries);
 					}
 					return flag;
@@ -144,7 +144,6 @@ class Main extends Component {
 						defaultMapStyle="Light Monochrome"
 						autoCenter={true}
 						showSearchAsMove={true}
-						applyGeoQuery={true}
 						searchAsMoveDefault={false}
 						showMapStyles={true}
 						title="Heat-map"
