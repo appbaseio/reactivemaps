@@ -48,10 +48,10 @@ class Main extends Component {
 						<div className="row">
 							<GeoDistanceDropdown
 								componentId="GeoSensor"
-								appbaseField={this.props.mapping.location}
+								appbaseField="location"
 								title="Geo Distance"
 								data={[{
-									start: 0,
+									start: 1,
 									end: 2,
 									label: '0-2 mi'
 								}, {
@@ -73,12 +73,11 @@ class Main extends Component {
 					</div>
 					<div className="col s6 h-100">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							appbaseField="location"
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lon: -122.45 }}
-							historicalData={true}
 							setMarkerCluster={false}
-							defaultMapStyle={this.props.mapStyle}
+							defaultMapStyle="Light Monochrome"
 							autoCenter={true}
 							size={100}
 							showSearchAsMove={true}
@@ -94,13 +93,5 @@ class Main extends Component {
 		);
 	}
 }
-
-Main.defaultProps = {
-	mapStyle: "Light Monochrome",
-	mapping: {
-		city: 'group.group_city.group_city_simple',
-		location: 'location'
-	}
-};
 
 ReactDOM.render(<Main />, document.getElementById('map'));

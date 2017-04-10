@@ -20,6 +20,14 @@ class Main extends Component {
 				hits: []
 			}
 		};
+		this.config = {
+			"appbase": {
+				"app": "heatmap-app",
+				"username": "SIhtMbkv4",
+				"password": "ad153ba9-4475-40e7-be53-69389c4f7f68",
+				"type": "meetupdata1"
+			}
+		};
 		this.simulationFlag = true;
 		this.onAllDataExecuted = false;
 		this.mapOnIdle = this.mapOnIdle.bind(this);
@@ -82,7 +90,7 @@ class Main extends Component {
 		})
 		setTimeout(() => {
 			if (this.simulationFlag && this.onAllDataExecuted) {
-				HeatmapWorker.init(this.props.config, this.props.mapping.location, res.boundingBoxCoordinates);
+				HeatmapWorker.init(this.config, "location", res.boundingBoxCoordinates);
 			}
 		}, 10 * 1000);
 		return this.generatePolyColor();
@@ -122,9 +130,9 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					app={this.props.config.appbase.app}
-					credentials={`${this.props.config.appbase.username}:${this.props.config.appbase.password}`}
-					type={this.props.config.appbase.type}
+					app="heatmap-app"
+					credentials="SIhtMbkv4:ad153ba9-4475-40e7-be53-69389c4f7f68"
+					type="meetupdata1"
 					>
 					<div className="col s12 h-100">
 					<ReactiveMap
@@ -132,15 +140,14 @@ class Main extends Component {
 						requestSize={5}
 						defaultZoom={13}
 						defaultCenter={{ lat: 37.74, lon: -122.45 }}
-						historicalData={true}
 						setMarkerCluster={false}
-						defaultMapStyle={this.props.mapStyle}
+						defaultMapStyle="Light Monochrome"
 						autoCenter={true}
 						showSearchAsMove={true}
 						applyGeoQuery={true}
 						searchAsMoveDefault={false}
 						showMapStyles={true}
-						title="Heatmap"
+						title="Heat-map"
 						showPopoverOn = "click"
 						onPopoverTrigger = {this.onPopoverTrigger}
 						onAllData = {this.onAllData}
@@ -154,20 +161,5 @@ class Main extends Component {
 		);
 	}
 }
-
-Main.defaultProps = {
-	mapStyle: "Light Monochrome",
-	mapping: {
-		location: 'location'
-	},
-	config: {
-		"appbase": {
-			"app": "heatmap-app",
-			"username": "SIhtMbkv4",
-			"password": "ad153ba9-4475-40e7-be53-69389c4f7f68",
-			"type": "meetupdata1"
-		}
-	}
-};
 
 ReactDOM.render(<Main />, document.getElementById('map'));

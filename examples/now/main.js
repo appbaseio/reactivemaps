@@ -55,12 +55,11 @@ class Main extends Component {
 						<ReactiveMap
 							appbaseField="location"
 							defaultZoom={13}
-							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"
 							autoCenter
 							showSearchAsMove
-							title="Foursquare checkins"
+							title="Foursquare check-ins"
 							showPopoverOn = "click"
 							onPopoverTrigger = {this.onPopoverTrigger}
 							onData = {this.onData}
@@ -79,8 +78,6 @@ class Main extends Component {
 									defaultSelected="new york"
 									showCount
 									size={100}
-									multipleSelect={false}
-									includeGeo
 									showSearch
 									title="Cities"
 									searchPlaceholder="Search City"
@@ -92,8 +89,6 @@ class Main extends Component {
 									componentId="CategorySensor"
 									showCount={true}
 									size={100}
-									multipleSelect={true}
-									includeGeo={true}
 									title="Categories"
 									react={{
 										and: "CitySensor"

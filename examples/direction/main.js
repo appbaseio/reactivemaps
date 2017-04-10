@@ -87,18 +87,15 @@ class Main extends Component {
 					<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
 						<ReactiveMap
 							appbaseField="location"
-							historicalData={true}
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"
 							autoCenter={false}
-							showSearchAsMove={true}
 							showMapStyles={true}
 							autoMapRender={false}
 							title="Reactive Maps"
 							onIdle={this.onIdle}
 							defaultZoom = {13}
 							defaultCenter={{ lat: 37.74, lon: -122.45 }}
-							size={100}
 							react={{
 								"and": ["OriginSensor", "DestinationSensor"]
 							}}

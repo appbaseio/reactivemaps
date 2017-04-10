@@ -40,7 +40,6 @@ class Main extends Component {
 							appbaseField="location"
 							defaultZoom={8}
 							defaultCenter={{ lat: 35.272, lon: 138.582 }}
-							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"
 							autoCenter
@@ -73,10 +72,8 @@ class Main extends Component {
 								<RangeSlider
 									componentId="RangeSensor"
 									appbaseField="mag"
-									actuate={{
-										PlaceSensor: {
-											"operation": "must"
-										}
+									react={{
+										"and": "PlaceSensor"
 									}}
 									defaultSelected={
 										{
@@ -97,10 +94,8 @@ class Main extends Component {
 								<RangeSlider
 									componentId="YearSensor"
 									appbaseField="time"
-									actuate={{
-										PlaceSensor: {
-											"operation": "must"
-										}
+									react={{
+										"and": "PlaceSensor"
 									}}
 									defaultSelected={
 										{

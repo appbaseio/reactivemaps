@@ -17,17 +17,9 @@ class Main extends Component {
 			view: "map"
 		};
 		this.handleSelect = this.handleSelect.bind(this);
-		this.topicactuate = this.topicactuate.bind(this);
-		this.onAllData = this.onAllData.bind(this);
+		this.onData = this.onData.bind(this);
 		this.onPopoverTrigger = this.onPopoverTrigger.bind(this);
 		this.DEFAULT_IMAGE = "http://www.avidog.com/wp-content/uploads/2015/01/BellaHead082712_11-50x65.jpg";
-	}
-
-	topicactuate(value) {
-		if(this.props.mapping.city && value) {
-			let match = JSON.parse(`{"${this.props.mapping.city}":` + JSON.stringify(value) + "}");
-			return { Match: match };
-		} else return null;
 	}
 
 	onPopoverTrigger(marker) {
@@ -50,7 +42,8 @@ class Main extends Component {
 		</div>);
 	}
 
-	itemMarkup(marker, markerData) {
+	onData(markerData) {
+		const marker = markerData._source;
 		return (
 			<a className="full_row single-record single_record_for_clone"
 				href={marker.event ? marker.event.event_url : ""}
@@ -81,25 +74,6 @@ class Main extends Component {
 				</div>
 			</a>
 		);
-	}
-
-	onAllData(res) {
-		let result = null;
-		if (res) {
-			let combineData = res.currentData;
-			if (res.mode === "historic") {
-				combineData = res.currentData.concat(res.newData);
-			} else if (res.mode === "streaming") {
-				combineData = helper.combineStreamData(res.currentData, res.newData);
-			}
-			if (combineData) {
-				result = combineData.map((markerData, index) => {
-					let marker = markerData._source;
-					return this.itemMarkup(marker, markerData);
-				});
-			}
-		}
-		return result;
 	}
 
 	// Handler function when a value is selected
@@ -166,7 +140,6 @@ class Main extends Component {
 								title="Reactive Maps"
 								showPopoverOn = "click"
 								onPopoverTrigger = {this.onPopoverTrigger}
-								onAllData = {this.onAllData}
 								defaultZoom = {13}
 								defaultCenter={{ lat: 37.74, lon: -122.45 }}
 								react={{
@@ -185,7 +158,7 @@ class Main extends Component {
 								from={0}
 								size={20}
 								requestOnScroll={true}
-								onAllData={this.onAllData}
+								onData={this.onData}
 								react={{
 									and: ["TopicSensor", "GeoDistanceSlider"]
 								}}

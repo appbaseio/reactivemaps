@@ -24,7 +24,6 @@ const Main = () => {
 								defaultSelected="London"
 								showCount={true}
 								size={100}
-								includeGeo={false}
 								showSearch={true}
 								title="Cities"
 								searchPlaceholder="Search City"
@@ -36,7 +35,6 @@ const Main = () => {
 								componentId="TopicSensor"
 								showCount={true}
 								size={100}
-								includeGeo={true}
 								title="Topics"
 								react={{
 									and: "CitySensor"
@@ -48,7 +46,6 @@ const Main = () => {
 				<div className="col s6 h-100">
 					<ReactiveMap
 						appbaseField="location"
-						historicalData
 						autoCenter
 						showSearchAsMove
 						showMapStyles

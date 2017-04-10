@@ -131,7 +131,6 @@ class Main extends Component {
 							appbaseField="coord"
 							defaultZoom={4}
 							defaultCenter={{ lat: 40.673940, lon: -101.314026 }}
-							historicalData={true}
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"
 							onAllData={this.onAllData}
