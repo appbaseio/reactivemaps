@@ -51,7 +51,9 @@ export default class GeoDistanceSlider extends Component {
 	// Set query information
 	componentDidMount() {
 		this.defaultSelected = this.props.defaultSelected;
-		this.getUserLocation();
+		if (this.props.autoLocation) {
+			this.getUserLocation();
+		}
 		this.setQueryInfo();
 		this.checkDefault();
 	}
@@ -371,6 +373,7 @@ GeoDistanceSlider.propTypes = {
 		start: React.PropTypes.string,
 		end: React.PropTypes.string
 	}),
+	autoLocation: React.PropTypes.bool,
 	onValueChange: React.PropTypes.func,
 	componentStyle: React.PropTypes.object
 };
@@ -388,6 +391,7 @@ GeoDistanceSlider.defaultProps = {
 		start: null,
 		end: null
 	},
+	autoLocation: true,
 	componentStyle: {}
 };
 
