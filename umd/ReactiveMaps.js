@@ -165,6 +165,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				markers: [],
 				selectedMarker: null,
 				streamingStatus: "Initializing..",
+				defaultCenter: _this.props.defaultCenter ? _this.props.defaultCenter : { lat: 37.74, lon: -122.45 },
 				center: _this.props.defaultCenter,
 				query: {},
 				rawData: {
@@ -215,7 +216,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.setGeoQueryInfo();
 				this.createChannel(updateExecute);
 				var currentMapStyle = this.getMapStyle(this.props.defaultMapStyle);
-				this.initialMapBoundQuery = true;
+				this.initialMapBoundQuery = this.props.defaultCenter ? true : false;
 				this.applyGeoQuery = this.props.applyGeoQuery ? this.props.applyGeoQuery : this.props.setSearchAsMove;
 				this.setState({
 					currentMapStyle: currentMapStyle
@@ -282,7 +283,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				} else {
 					react.and = [];
 				}
-				react.and.push("geoQuery");
+				react.or = react.or ? react.or : [];
+				react.or.push("geoQuery");
 				react.and.push("streamChanges");
 				// create a channel and listen the changes
 				var channelObj = _reactivebase.AppbaseChannelManager.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream);
@@ -870,6 +872,7 @@ return /******/ (function(modules) { // webpackBootstrap
 								options: {
 									styles: this.state.currentMapStyle
 								},
+								defaultCenter: ReactiveMapHelper.normalizeCenter(this.state.defaultCenter),
 								onDragstart: function onDragstart() {
 									_this13.handleOnDrage();
 									_this13.mapEvents("onDragstart");
@@ -997,11 +1000,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: {},
 		stream: false,
 		applyGeoQuery: false,
-		defaultZoom: 13,
-		defaultCenter: {
-			lat: 37.74,
-			lon: -122.45
-		}
+		defaultZoom: 13
 	};
 
 	ReactiveMap.contextTypes = {
