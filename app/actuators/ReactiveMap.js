@@ -60,6 +60,7 @@ export default class ReactiveMap extends Component {
 		this.setGeoQueryInfo();
 		this.createChannel(updateExecute);
 		const currentMapStyle = this.getMapStyle(this.props.defaultMapStyle);
+		this.initialMapBoundQuery = true;
 		this.applyGeoQuery = this.props.applyGeoQuery ? this.props.applyGeoQuery : this.props.setSearchAsMove;
 		this.setState({
 			currentMapStyle
@@ -215,7 +216,7 @@ export default class ReactiveMap extends Component {
 
 	geoCustomQuery(value) {
 		let query = null;
-		if (value && this.searchAsMove) {
+		if (value && (this.initialMapBoundQuery || this.searchAsMove)) {
 			query = {
 				geo_bounding_box: {
 					[this.props.appbaseField]: value
@@ -226,6 +227,7 @@ export default class ReactiveMap extends Component {
 			} else if (this.applyGeoQuery) {
 				this.applyGeoQuery = false;
 			}
+			this.initialMapBoundQuery = false;
 		}
 		return query;
 	}
@@ -316,8 +318,8 @@ export default class ReactiveMap extends Component {
 				});
 				stateObj.externalData = generatedData;
 			}
-			if (this.applyGeoQuery || (this.geoRelatedEventsChange && this.searchAsMove && !this.searchQueryProgress)) {
-				const flag = this.applyGeoQuery ? this.applyGeoQuery : this.searchAsMove;
+			if (this.initialMapBoundQuery || (this.applyGeoQuery || (this.geoRelatedEventsChange && this.searchAsMove && !this.searchQueryProgress))) {
+				const flag = this.initialMapBoundQuery ? true : (this.applyGeoQuery ? this.applyGeoQuery : this.searchAsMove);
 				this.setValue(boundingBoxCoordinates, flag);
 			}
 			this.setState(stateObj);
