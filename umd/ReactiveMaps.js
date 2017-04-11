@@ -215,6 +215,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.setGeoQueryInfo();
 				this.createChannel(updateExecute);
 				var currentMapStyle = this.getMapStyle(this.props.defaultMapStyle);
+				this.initialMapBoundQuery = true;
 				this.applyGeoQuery = this.props.applyGeoQuery ? this.props.applyGeoQuery : this.props.setSearchAsMove;
 				this.setState({
 					currentMapStyle: currentMapStyle
@@ -390,7 +391,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "geoCustomQuery",
 			value: function geoCustomQuery(value) {
 				var query = null;
-				if (value && this.searchAsMove) {
+				if (value && (this.initialMapBoundQuery || this.searchAsMove)) {
 					query = {
 						geo_bounding_box: _defineProperty({}, this.props.appbaseField, value)
 					};
@@ -399,6 +400,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					} else if (this.applyGeoQuery) {
 						this.applyGeoQuery = false;
 					}
+					this.initialMapBoundQuery = false;
 				}
 				return query;
 			}
@@ -516,8 +518,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						});
 						stateObj.externalData = generatedData;
 					}
-					if (this.applyGeoQuery || this.geoRelatedEventsChange && this.searchAsMove && !this.searchQueryProgress) {
-						var flag = this.applyGeoQuery ? this.applyGeoQuery : this.searchAsMove;
+					if (this.initialMapBoundQuery || this.applyGeoQuery || this.geoRelatedEventsChange && this.searchAsMove && !this.searchQueryProgress) {
+						var flag = this.initialMapBoundQuery ? true : this.applyGeoQuery ? this.applyGeoQuery : this.searchAsMove;
 						this.setValue(boundingBoxCoordinates, flag);
 					}
 					this.setState(stateObj);
@@ -990,8 +992,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		autoMarkerPosition: false,
 		showMarkers: true,
 		autoMapRender: true,
-		defaultMarkerImage: "https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/historic-pin.png",
-		streamMarkerImage: "https://cdn.rawgit.com/appbaseio/reactivemaps/6500c73a/dist/images/stream-pin.png",
+		defaultMarkerImage: "https://opensource.appbase.io/reactivemaps/dist/images/historic-pin.png",
+		streamMarkerImage: "https://opensource.appbase.io/reactivemaps/dist/images/stream-pin.png",
 		componentStyle: {},
 		stream: false,
 		applyGeoQuery: false,
@@ -8361,7 +8363,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function defaultUpdate() {
 				var _this2 = this;
 
-				var defaultSelectAll = this.props.defaultSelected.indexOf(this.props.selectAllLabel) > -1 ? true : false;
+				var defaultSelectAll = this.props.defaultSelected.indexOf(this.props.selectAllLabel) > -1;
 				if (defaultSelectAll) {
 					this.setDefaultSelectAll();
 				} else {
@@ -8805,7 +8807,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -8850,7 +8852,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 
 		_createClass(ItemList, [{
-			key: 'componentWillUpdate',
+			key: "componentWillUpdate",
 			value: function componentWillUpdate() {
 				if (this.defaultSelected != this.props.defaultSelected) {
 					this.defaultSelected = this.props.defaultSelected;
@@ -8858,7 +8860,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			}
 		}, {
-			key: 'componentDidUpdate',
+			key: "componentDidUpdate",
 			value: function componentDidUpdate() {
 				if (this.props.items.length && this.defaultAllowed) {
 					this.defaultAllowed = false;
@@ -8866,7 +8868,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			}
 		}, {
-			key: 'defaultSelection',
+			key: "defaultSelection",
 			value: function defaultSelection() {
 				if (this.props.defaultSelected) {
 					if (this.props.defaultSelected === this.props.selectAllLabel) {
@@ -8877,8 +8879,10 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			}
 		}, {
-			key: 'handleListClickAll',
+			key: "handleListClickAll",
 			value: function handleListClickAll(value) {
+				var _this2 = this;
+
 				var selectedItems = this.props.items.map(function (item) {
 					return item.key;
 				});
@@ -8886,14 +8890,14 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.setState({
 					selectedItem: value
 				}, function () {
-					this.props.onSelect(selectedItems, value);
-				}.bind(this));
+					_this2.props.onSelect(selectedItems, value);
+				});
 			}
 
 			// Handler function is called when the list item is clicked
 
 		}, {
-			key: 'handleClick',
+			key: "handleClick",
 			value: function handleClick(value) {
 				// Pass the previously selected value to be removed from the query
 				this.props.onRemove(this.state.selectedItem);
@@ -8904,43 +8908,47 @@ return /******/ (function(modules) { // webpackBootstrap
 				});
 			}
 		}, {
-			key: 'renderItemsComponent',
+			key: "renderItemsComponent",
 			value: function renderItemsComponent() {
+				var _this3 = this;
+
 				var items = this.props.items;
 				var itemsComponent = [];
 				// Build the array of components for each item
 				items.forEach(function (item) {
-					var visibleFlag = !item.hasOwnProperty('visible') ? true : item.visible ? true : false;
+					var visibleFlag = !item.hasOwnProperty("visible") ? true : !!item.visible;
 					itemsComponent.push(_react2.default.createElement(ItemRow, {
 						key: item.key,
 						value: item.key,
 						doc_count: item.doc_count,
-						countField: this.props.showCount,
-						handleClick: this.handleClick,
+						countField: _this3.props.showCount,
+						handleClick: _this3.handleClick,
 						visible: visibleFlag,
-						selectedItem: this.state.selectedItem }));
-				}.bind(this));
+						selectedItem: _this3.state.selectedItem
+					}));
+				});
 
 				// include select all if set from parent
 				if (this.props.selectAllLabel && items && items.length) {
 					itemsComponent.unshift(_react2.default.createElement(ItemRow, {
-						key: 'selectall',
+						key: "selectall",
 						visible: true,
 						value: this.props.selectAllLabel,
 						countField: false,
 						handleClick: this.handleListClickAll,
 						selectedItem: this.state.selectedItem,
-						ref: "refselectall" }));
+						ref: "refselectall"
+					}));
 				}
 
 				return itemsComponent;
 			}
 		}, {
-			key: 'render',
+			key: "render",
 			value: function render() {
 				return _react2.default.createElement(
-					'div',
-					{ className: 'rbc-list-container col s12 col-xs-12' },
+					"div",
+					{ className: "rbc-list-container col s12 col-xs-12" },
 					this.renderItemsComponent()
 				);
 			}
@@ -8961,44 +8969,44 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 
 		_createClass(ItemRow, [{
-			key: 'renderItem',
+			key: "renderItem",
 			value: function renderItem() {
 				var count = void 0;
 				// Check if user wants to show count field
 				if (this.props.countField) {
 					count = _react2.default.createElement(
-						'span',
-						{ className: 'rbc-count' },
-						' (',
+						"span",
+						{ className: "rbc-count" },
+						" (",
 						this.props.doc_count,
-						') '
+						") "
 					);
 				}
 				var item = _react2.default.createElement(
-					'a',
-					{ href: 'javascript:void(0)', className: "col s12 col-xs-12" },
+					"a",
+					{ href: "javascript:void(0)", className: "col s12 col-xs-12" },
 					_react2.default.createElement(
-						'span',
+						"span",
 						null,
-						' ',
+						" ",
 						this.props.value,
-						' '
+						" "
 					),
 					count
 				);
 				if (this.props.value === this.props.selectedItem) {
 					item = _react2.default.createElement(
-						'a',
-						{ href: 'javascript:void(0)', className: "col s12 col-xs-12" },
+						"a",
+						{ href: "javascript:void(0)", className: "col s12 col-xs-12" },
 						_react2.default.createElement(
-							'strong',
+							"strong",
 							null,
 							_react2.default.createElement(
-								'span',
+								"span",
 								null,
-								' ',
+								" ",
 								this.props.value,
-								' '
+								" "
 							),
 							count
 						)
@@ -9007,47 +9015,49 @@ return /******/ (function(modules) { // webpackBootstrap
 				return item;
 			}
 		}, {
-			key: 'renderCount',
+			key: "renderCount",
 			value: function renderCount() {
 				var count = void 0;
 				// Check if user wants to show count field
 				if (this.props.countField) {
 					count = _react2.default.createElement(
-						'span',
-						{ className: 'rbc-count' },
-						' ',
+						"span",
+						{ className: "rbc-count" },
+						" ",
 						this.props.doc_count,
-						' '
+						" "
 					);
 				}
 				return count;
 			}
 		}, {
-			key: 'render',
+			key: "render",
 			value: function render() {
-				var _this3 = this;
+				var _this5 = this;
 
 				var cx = (0, _classnames2.default)({
-					'rbc-count-active': this.props.countField,
-					'rbc-count-inactive': !this.props.countField,
-					'rbc-item-show': this.props.visible,
-					'rbc-item-hide': !this.props.visible
+					"rbc-count-active": this.props.countField,
+					"rbc-count-inactive": !this.props.countField,
+					"rbc-item-show": this.props.visible,
+					"rbc-item-hide": !this.props.visible
 				});
 				// let activeClass = this.props.value === this.props.selectedItem ? 'active' : '';
 				return _react2.default.createElement(
-					'div',
-					{ className: 'rbc-list-item row ' + cx, onClick: function onClick() {
-							return _this3.props.handleClick(_this3.props.value);
+					"div",
+					{ className: "rbc-list-item row " + cx, onClick: function onClick() {
+							return _this5.props.handleClick(_this5.props.value);
 						} },
-					_react2.default.createElement('input', { type: 'radio',
-						className: 'rbc-radio-item',
+					_react2.default.createElement("input", {
+						type: "radio",
+						className: "rbc-radio-item",
 						checked: this.props.value === this.props.selectedItem,
-						value: this.props.value }),
+						value: this.props.value
+					}),
 					_react2.default.createElement(
-						'label',
-						{ className: 'rbc-label' },
+						"label",
+						{ className: "rbc-label" },
 						this.props.value,
-						' ',
+						" ",
 						this.renderCount()
 					)
 				);
@@ -9097,6 +9107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			this.queryOptions = {};
 			this.appbaseRef = {};
 			this.type = {};
+			this.app = {};
 			this.receive = this.receive.bind(this);
 			this.nextPage = this.nextPage.bind(this);
 			this.paginationChanges = this.paginationChanges.bind(this);
@@ -9193,6 +9204,7 @@ return /******/ (function(modules) { // webpackBootstrap
 							// apply search query and emit historic queryResult
 							var searchQueryObj = queryObj;
 							searchQueryObj.type = _this2.type[channelId] === "*" ? "" : _this2.type[channelId];
+							searchQueryObj.preference = _this2.app[channelId];
 							setQueryState(channelResponse);
 							appbaseRef.search(searchQueryObj).on("data", function (data) {
 								channelResponse.mode = "historic";
@@ -9273,12 +9285,17 @@ return /******/ (function(modules) { // webpackBootstrap
 				var queryOptions = JSON.parse(JSON.stringify(this.channels[channelId].previousSelectedSensor));
 				var options = {
 					size: this.queryOptions[channelId].size,
-					from: this.queryOptions[channelId].size * (pageNumber - 1) + 1
+					from: this.getFrom(pageNumber, channelId)
 				};
 				queryOptions["channel-options-" + channelId] = JSON.parse(JSON.stringify(options));
 				// queryOptions["channel-options-"+channelId].from += 1;
 				this.queryOptions[channelId] = options;
 				this.receive("channel-options-" + channelId, channelId, queryOptions);
+			}
+		}, {
+			key: "getFrom",
+			value: function getFrom(pageNumber, channelId) {
+				return pageNumber !== 1 ? this.queryOptions[channelId].size * (pageNumber - 1) + 1 : 0;
 			}
 
 			// sort changes
@@ -9296,11 +9313,12 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "create",
 			value: function create(appbaseRef, type, react) {
 				var size = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 100;
+				var from = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
 
 				var _this3 = this;
 
-				var from = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
 				var stream = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : false;
+				var app = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : "xyz123";
 
 				var channelId = btoa(JSON.stringify(react));
 				var optionValues = {
@@ -9309,6 +9327,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				};
 				this.queryOptions[channelId] = optionValues;
 				this.type[channelId] = type;
+				this.app[channelId] = app;
 				this.appbaseRef[channelId] = appbaseRef;
 				react["channel-options-" + channelId] = optionValues;
 				var previousSelectedSensor = _defineProperty({}, "channel-options-" + channelId, optionValues);
@@ -9422,8 +9441,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					type = "_term";
 				}
 				query = _defineProperty({}, aggsObj.key, {
-					"terms": {
-						"field": aggsObj.key
+					terms: {
+						field: aggsObj.key
 					}
 				});
 				if (aggsObj.size) {
@@ -9442,13 +9461,13 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (depend === "aggs") {
 					dependsQuery[depend] = aggsQuery(depend);
 				} else if (depend && depend.indexOf("channel-options-") > -1) {
-					requestOptions = requestOptions ? requestOptions : {};
+					requestOptions = requestOptions || {};
 					requestOptions = Object.assign(requestOptions, previousSelectedSensor[depend]);
 				} else {
 					dependsQuery[depend] = singleQuery(depend);
 					var externalQuery = isExternalQuery(depend);
 					if (externalQuery) {
-						requestOptions = requestOptions ? requestOptions : {};
+						requestOptions = requestOptions || {};
 						requestOptions = Object.assign(requestOptions, externalQuery);
 					}
 				}
@@ -9548,7 +9567,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		// initialize the process
 		this.init = function () {
 			react.forEach(function (depend) {
-				if (!(depend.indexOf('channel-options-') > -1 || depend.indexOf('aggs') > -1)) {
+				if (!(depend.indexOf("channel-options-") > -1 || depend.indexOf("aggs") > -1)) {
 					checkDependExists(depend);
 					if (_typeof(selectedSensor[depend]) === "object") {
 						var newData = _(selectedSensor[depend]).toPairs().sortBy(0).fromPairs().value();
@@ -9569,7 +9588,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				var foundDepend = false;
 
 				Object.keys(data).forEach(function (item) {
-					if (item.indexOf('channel-options-') < 0 && react.indexOf(item) > -1) {
+					if (item.indexOf("channel-options-") < 0 && react.indexOf(item) > -1) {
 						foundDepend = true;
 					}
 				});
@@ -37856,7 +37875,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -37888,32 +37907,36 @@ return /******/ (function(modules) { // webpackBootstrap
 			var _this = _possibleConstructorReturn(this, (StaticSearch.__proto__ || Object.getPrototypeOf(StaticSearch)).call(this, props));
 
 			_this.state = {
-				searchValue: ''
+				searchValue: ""
 			};
 			_this.handleChange = _this.handleChange.bind(_this);
 			return _this;
 		}
 
 		_createClass(StaticSearch, [{
-			key: 'handleChange',
+			key: "handleChange",
 			value: function handleChange(event) {
+				var _this2 = this;
+
 				var value = event.target.value;
 				this.setState({
 					searchValue: value
 				}, function () {
-					this.props.changeCallback(this.state.searchValue);
-				}.bind(this));
+					_this2.props.changeCallback(_this2.state.searchValue);
+				});
 			}
 		}, {
-			key: 'render',
+			key: "render",
 			value: function render() {
 				return _react2.default.createElement(
-					'div',
-					{ className: 'rbc-search-container col s12 col-xs-12' },
-					_react2.default.createElement('input', { type: 'text', className: 'rbc-input col s12 col-xs-12 form-control',
+					"div",
+					{ className: "rbc-search-container col s12 col-xs-12" },
+					_react2.default.createElement("input", {
+						type: "text", className: "rbc-input col s12 col-xs-12 form-control",
 						value: this.state.searchValue,
 						placeholder: this.props.placeholder,
-						onChange: this.handleChange })
+						onChange: this.handleChange
+					})
 				);
 			}
 		}]);
@@ -41224,12 +41247,14 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			};
 			_this.maxSize = 100;
+			_this.queryStartTime = 0;
 			_this.type = "range";
 			_this.channelId = null;
 			_this.channelListener = null;
 			_this.handleValuesChange = _this.handleValuesChange.bind(_this);
 			_this.handleResults = _this.handleResults.bind(_this);
 			_this.customQuery = _this.customQuery.bind(_this);
+			_this.histogramQuery = _this.histogramQuery.bind(_this);
 			return _this;
 		}
 
@@ -41438,6 +41463,16 @@ return /******/ (function(modules) { // webpackBootstrap
 					};
 				}
 			}
+		}, {
+			key: "histogramQuery",
+			value: function histogramQuery() {
+				return _defineProperty({}, this.props.appbaseField, {
+					"histogram": {
+						"field": this.props.appbaseField,
+						"interval": this.props.interval ? this.props.interval : Math.ceil((this.props.range.end - this.props.range.start) / 10)
+					}
+				});
+			}
 
 			// Create a channel which passes the react and receive results whenever react changes
 
@@ -41451,7 +41486,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				react.aggs = {
 					key: this.props.appbaseField,
 					sort: "asc",
-					size: 1000
+					size: 1000,
+					customQuery: this.histogramQuery
 				};
 				if (react && react.and && typeof react.and === "string") {
 					react.and = [react.and];
@@ -41468,7 +41504,8 @@ return /******/ (function(modules) { // webpackBootstrap
 							queryStart: false
 						});
 					}
-					if (res.appliedQuery) {
+					if (res.appliedQuery && res.startTime > _this3.queryStartTime) {
+						_this3.queryStartTime = res.startTime ? res.startTime : 0;
 						var data = res.data;
 						var rawData = void 0;
 						if (res.mode === "streaming") {
@@ -41526,21 +41563,20 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "countCalc",
 			value: function countCalc(min, max, newItems) {
-				var counts = [];
-				var storeItems = {};
-				newItems.forEach(function (item) {
-					item.key = Math.floor(item.key);
-					if (!(item.key in storeItems)) {
-						storeItems[item.key] = item.doc_count;
-					} else {
-						storeItems[item.key] += item.doc_count;
-					}
+				// const counts = [];
+				// const storeItems = {};
+				// newItems.forEach((item) => {
+				// 	item.key = Math.floor(item.key);
+				// 	if (!(item.key in storeItems)) {
+				// 		storeItems[item.key] = item.doc_count;
+				// 	} else {
+				// 		storeItems[item.key] += item.doc_count;
+				// 	}
+				// });
+				// return counts;
+				return newItems.map(function (item) {
+					return item.doc_count;
 				});
-				for (var i = min; i <= max; i += 1) {
-					var val = storeItems[i] ? storeItems[i] : 0;
-					counts.push(val);
-				}
-				return counts;
 			}
 		}, {
 			key: "addItemsToList",
@@ -41683,7 +41719,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		initialLoader: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.element]),
 		react: _react2.default.PropTypes.object,
 		onValueChange: _react2.default.PropTypes.func,
-		componentStyle: _react2.default.PropTypes.object
+		componentStyle: _react2.default.PropTypes.object,
+		interval: _react2.default.PropTypes.number
 	};
 
 	RangeSlider.defaultProps = {
@@ -41724,7 +41761,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		showHistogram: TYPES.BOOLEAN,
 		customQuery: TYPES.FUNCTION,
 		initialLoader: TYPES.OBJECT,
-		componentStyle: TYPES.OBJECT
+		componentStyle: TYPES.OBJECT,
+		interval: TYPES.NUMBER
 	};
 
 /***/ },
@@ -48918,7 +48956,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -48953,16 +48991,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			_this.style = {
 				barContainer: {
-					position: 'relative',
-					height: '50px',
-					width: '100%'
+					position: "relative",
+					height: "50px",
+					width: "100%"
 				}
 			};
 			return _this;
 		}
 
 		_createClass(HistoGramComponent, [{
-			key: 'createBars',
+			key: "createBars",
 			value: function createBars() {
 				var max = _.max(this.props.data);
 				var dataLength = this.props.data.length;
@@ -48990,12 +49028,12 @@ return /******/ (function(modules) { // webpackBootstrap
 				return bars;
 			}
 		}, {
-			key: 'render',
+			key: "render",
 			value: function render() {
 				var bars = this.createBars();
 				return _react2.default.createElement(
-					'div',
-					{ className: 'rbc-bar-container col s12 col-xs-12', style: this.style.barContainer },
+					"div",
+					{ className: "rbc-bar-container col s12 col-xs-12", style: this.style.barContainer },
 					bars
 				);
 			}
@@ -49014,30 +49052,32 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			_this2.style = {
 				bar: {
-					display: 'block',
-					width: '100%',
-					height: '100%'
+					display: "block",
+					width: "100%",
+					height: "100%"
 				}
 			};
 			return _this2;
 		}
 
 		_createClass(Bar, [{
-			key: 'render',
+			key: "render",
 			value: function render() {
 				var element = this.props.element;
 				var barStyle = {
-					height: element.height + '%',
-					width: element.width + '%',
-					display: 'inline-block',
-					background: '#efefef',
-					position: 'relative'
+					height: element.height + "%",
+					width: element.width + "%",
+					display: "inline-block",
+					background: "#efefef",
+					position: "relative"
 				};
 				return _react2.default.createElement(
-					'span',
-					{ className: 'rbc-bar-item', style: barStyle },
-					_react2.default.createElement('span', { className: 'bar', style: this.style.bar,
-						title: element.count })
+					"span",
+					{ className: "rbc-bar-item", style: barStyle },
+					_react2.default.createElement("span", {
+						className: "bar", style: this.style.bar,
+						title: element.count
+					})
 				);
 			}
 		}]);
@@ -49373,18 +49413,19 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "highlightQuery",
 			value: function highlightQuery() {
 				var fields = {};
-				if (typeof this.props.appbaseField === "string") {
-					fields[this.props.appbaseField] = {};
-				} else if (_.isArray(this.props.appbaseField)) {
-					this.props.appbaseField.forEach(function (item) {
+				var highlightFields = this.props.highlightFields ? this.props.highlightFields : this.props.appbaseField;
+				if (typeof highlightFields === "string") {
+					fields[highlightFields] = {};
+				} else if (_.isArray(highlightFields)) {
+					highlightFields.forEach(function (item) {
 						fields[item] = {};
 					});
 				}
 				return {
-					"highlight": {
-						"pre_tags": ["<span class=\"rbc-highlight\">"],
-						"post_tags": ["</span>"],
-						"fields": fields
+					highlight: {
+						pre_tags: ["<span class=\"rbc-highlight\">"],
+						post_tags: ["</span>"],
+						fields: fields
 					}
 				};
 			}
@@ -49521,22 +49562,20 @@ return /******/ (function(modules) { // webpackBootstrap
 						fields = this.props.appbaseField;
 					}
 					finalQuery = {
-						"bool": {
-							"should": [{
-								"multi_match": {
-									"query": value,
+						bool: {
+							should: [{
+								multi_match: {
+									query: value,
 									fields: fields,
-									"type": "phrase_prefix"
+									type: "phrase_prefix"
 								}
 							}, {
-								"multi_match": {
-									"query": value,
-									fields: fields,
-									"type": "boolean",
-									"minimum_should_match": "50%"
+								multi_match: {
+									query: value,
+									fields: fields
 								}
 							}],
-							"minimum_should_match": "1"
+							minimum_should_match: "1"
 						}
 					};
 				}
@@ -49686,7 +49725,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		onValueChange: _react2.default.PropTypes.func,
 		react: _react2.default.PropTypes.object,
 		componentStyle: _react2.default.PropTypes.object,
-		highlight: _react2.default.PropTypes.bool
+		highlight: _react2.default.PropTypes.bool,
+		highlightFields: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string)])
 	};
 
 	// Default props value
@@ -50250,7 +50290,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				return _react2.default.createElement(
 					"div",
-					{ className: "rbc rbc-multirange col s12 col-xs-12 card thumbnail " + cx },
+					{ className: "rbc rbc-multirange col s12 col-xs-12 card thumbnail " + cx, style: this.props.componentStyle },
 					_react2.default.createElement(
 						"div",
 						{ className: "row" },
@@ -50276,12 +50316,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = MultiRange;
 
 
-	function Tag(props) {
+	var Tag = function Tag(props) {
 		return _react2.default.createElement(
 			"span",
 			{ onClick: function onClick() {
 					return props.onClick(props.value);
-				}, className: "rbc-tag-item col", style: this.props.componentStyle },
+				}, className: "rbc-tag-item col" },
 			_react2.default.createElement(
 				"a",
 				{ className: "close" },
@@ -50293,7 +50333,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				props.value
 			)
 		);
-	}
+	};
 
 	Tag.propTypes = {
 		onClick: _react2.default.PropTypes.func.isRequired,
@@ -74481,12 +74521,12 @@ return /******/ (function(modules) { // webpackBootstrap
 					query = {
 						bool: {
 							must: [{
-								"range": _defineProperty({}, this.props.appbaseField[0], {
-									"lte": moment(value.startDate).format("YYYYMMDD")
+								range: _defineProperty({}, this.props.appbaseField[0], {
+									lte: moment(value.startDate).format("YYYYMMDD")
 								})
 							}, {
-								"range": _defineProperty({}, this.props.appbaseField[1], {
-									"gte": moment(value.endDate).format("YYYYMMDD")
+								range: _defineProperty({}, this.props.appbaseField[1], {
+									gte: moment(value.endDate).format("YYYYMMDD")
 								})
 							}]
 						}
@@ -75120,7 +75160,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					var flag = resultElement.get(0).scrollHeight - padding > resultElement.height();
 					var scrollFlag = scrollElement.get(0).scrollHeight > scrollElement.height();
 					if (!flag && !scrollFlag && scrollElement.length && !_this4.props.pagination) {
-						var headerHeight = getHeight(resultElement.find('.rbc-title')) + getHeight(resultElement.find('.rbc-pagination')) * resultElement.find('.rbc-pagination').length;
+						var headerHeight = getHeight(resultElement.find(".rbc-title")) + getHeight(resultElement.find(".rbc-pagination")) * resultElement.find(".rbc-pagination").length;
 						var finalHeight = resultElement.height() - 60 - headerHeight;
 						if (finalHeight > 0) {
 							scrollElement.css("height", finalHeight);
@@ -75175,7 +75215,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					this.enableSort(react);
 				}
 				// create a channel and listen the changes
-				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream);
+				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream, this.context.app);
 				this.channelId = channelObj.channelId;
 
 				this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function (res) {
@@ -75443,14 +75483,14 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "setQueryForPagination",
 			value: function setQueryForPagination() {
 				var valObj = {
-					queryType: 'match',
+					queryType: "match",
 					inputData: this.props.appbaseField,
 					customQuery: function customQuery() {
 						return null;
 					}
 				};
 				var obj = {
-					key: 'paginationChanges',
+					key: "paginationChanges",
 					value: valObj
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -75470,7 +75510,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "paginationAt",
 			value: function paginationAt(method) {
 				var pageinationComp = void 0;
-				if (this.props.pagination && (this.props.paginationAt === method || this.props.paginationAt === 'both')) {
+				if (this.props.pagination && (this.props.paginationAt === method || this.props.paginationAt === "both")) {
 					pageinationComp = _react2.default.createElement(
 						"div",
 						{ className: "rbc-pagination-container col s12 col-xs-12" },
@@ -75647,7 +75687,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						title,
 						sortOptions,
 						this.props.showResultStats && this.state.resultStats.resultFound ? _react2.default.createElement(_ResultStats2.default, { onResultStats: this.props.onResultStats, took: this.state.resultStats.took, total: this.state.resultStats.total }) : null,
-						this.paginationAt('top'),
+						this.paginationAt("top"),
 						_react2.default.createElement(
 							"div",
 							{ ref: function ref(div) {
@@ -75657,7 +75697,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						),
 						this.state.isLoading ? _react2.default.createElement("div", { className: "rbc-loader" }) : null,
 						this.state.showPlaceholder ? placeholder : null,
-						this.paginationAt('bottom')
+						this.paginationAt("bottom")
 					),
 					this.props.noResults && this.state.visibleNoResults ? _react2.default.createElement(_NoResults2.default, { defaultText: this.props.noResults }) : null,
 					this.props.initialLoader && this.state.queryStart && this.state.showInitialLoader ? _react2.default.createElement(_InitialLoader2.default, { defaultText: this.props.initialLoader }) : null,
@@ -75704,13 +75744,14 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: {},
 		showResultStats: true,
 		pagination: false,
-		paginationAt: 'bottom'
+		paginationAt: "bottom"
 	};
 
 	// context type
 	ReactiveList.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		app: _react2.default.PropTypes.any.isRequired
 	};
 
 	ReactiveList.types = {
@@ -75739,7 +75780,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 422 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -75774,7 +75815,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 
 		_createClass(JsonPrint, [{
-			key: 'render',
+			key: "render",
 			value: function render() {
 				var _this2 = this;
 
@@ -75785,20 +75826,20 @@ return /******/ (function(modules) { // webpackBootstrap
 					tree = JSON.stringify(this.props.data);
 				}
 				return _react2.default.createElement(
-					'div',
-					{ className: 'row rbc-json-print' },
+					"div",
+					{ className: "row rbc-json-print" },
 					_react2.default.createElement(
-						'span',
+						"span",
 						{
-							className: 'head ' + (this.state.open ? null : 'collapsed'),
+							className: "head " + (this.state.open ? null : "collapsed"),
 							onClick: function onClick() {
 								return _this2.setState({ open: !_this2.state.open });
 							}
 						},
-						'Object'
+						"Object"
 					),
 					_react2.default.createElement(
-						'pre',
+						"pre",
 						null,
 						tree
 					)
@@ -75839,7 +75880,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			_react2.default.createElement("img", { className: "rbc-img-responsive rbc-poweredby-light", src: "https://cdn.rawgit.com/appbaseio/cdn/master/appbase/logos/rbc-logo.svg", alt: "Poweredby appbase" })
 		);
 		if (props.container) {
-			showMarkup = $(props.container).height() < 300 ? false : true;
+			showMarkup = !($(props.container).height() < 300);
 		}
 		return showMarkup ? markup : null;
 	}
@@ -75910,7 +75951,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 425 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -75944,20 +75985,19 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 
 		_createClass(ResultStats, [{
-			key: 'defaultText',
+			key: "defaultText",
 			value: function defaultText() {
 				if (this.props.onResultStats) {
 					return this.props.onResultStats(this.props.total, this.props.took);
-				} else {
-					return this.props.total + ' results found in ' + this.props.took + ' ms';
 				}
+				return this.props.total + " results found in " + this.props.took + " ms";
 			}
 		}, {
-			key: 'render',
+			key: "render",
 			value: function render() {
 				return _react2.default.createElement(
-					'div',
-					{ className: 'rbc rbc-resultstats col s12 col-xs-12' },
+					"div",
+					{ className: "rbc rbc-resultstats col s12 col-xs-12" },
 					this.defaultText()
 				);
 			}
@@ -75977,7 +76017,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 426 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -76031,7 +76071,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		_createClass(Pagination, [{
-			key: 'componentDidMount',
+			key: "componentDidMount",
 			value: function componentDidMount() {
 				this.setQueryInfo();
 				this.listenGlobal();
@@ -76040,7 +76080,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			// stop streaming request and remove listener when component will unmount
 
 		}, {
-			key: 'componentWillUnmount',
+			key: "componentWillUnmount",
 			value: function componentWillUnmount() {
 				if (this.globalListener) {
 					this.globalListener.remove();
@@ -76050,7 +76090,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			// set the query type and input data
 
 		}, {
-			key: 'setQueryInfo',
+			key: "setQueryInfo",
 			value: function setQueryInfo() {
 				var obj = {
 					key: this.props.componentId,
@@ -76062,31 +76102,33 @@ return /******/ (function(modules) { // webpackBootstrap
 			// listen all results
 
 		}, {
-			key: 'listenGlobal',
+			key: "listenGlobal",
 			value: function listenGlobal() {
-				this.globalListener = _ChannelManager2.default.emitter.addListener('global', function (res) {
-					if (res.react && Object.keys(res.react).indexOf(this.props.componentId) > -1) {
+				var _this2 = this;
+
+				this.globalListener = _ChannelManager2.default.emitter.addListener("global", function (res) {
+					if (res.react && Object.keys(res.react).indexOf(_this2.props.componentId) > -1) {
 						var totalHits = res.channelResponse && res.channelResponse.data && res.channelResponse.data.hits ? res.channelResponse.data.hits.total : 0;
 						var maxPageNumber = Math.ceil(totalHits / res.queryOptions.size) < 1 ? 1 : Math.ceil(totalHits / res.queryOptions.size);
 						var size = res.queryOptions.size ? res.queryOptions.size : 20;
 						var currentPage = Math.round(res.queryOptions.from / size) + 1;
-						this.setState({
+						_this2.setState({
 							totalHits: totalHits,
 							size: size,
 							maxPageNumber: maxPageNumber,
 							currentValue: currentPage
 						});
 					}
-				}.bind(this));
+				});
 			}
 
 			// handle the input change and pass the value inside sensor info
 
 		}, {
-			key: 'handleChange',
+			key: "handleChange",
 			value: function handleChange(inputVal) {
 				this.setState({
-					'currentValue': inputVal
+					currentValue: inputVal
 				});
 				var obj = {
 					key: this.props.componentId,
@@ -76095,7 +76137,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				// pass the selected sensor value with componentId as key,
 				var isExecuteQuery = true;
-				helper.selectedSensor.set(obj, isExecuteQuery, 'paginationChange');
+				helper.selectedSensor.set(obj, isExecuteQuery, "paginationChange");
 				if (this.props.onPageChange) {
 					this.props.onPageChange(inputVal);
 				}
@@ -76104,7 +76146,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			// first page
 
 		}, {
-			key: 'firstPage',
+			key: "firstPage",
 			value: function firstPage() {
 				if (this.state.currentValue !== 1) {
 					this.handleChange.call(this, 1);
@@ -76114,7 +76156,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			// last page
 
 		}, {
-			key: 'lastPage',
+			key: "lastPage",
 			value: function lastPage() {
 				if (this.state.currentValue !== this.state.maxPageNumber) {
 					this.handleChange.call(this, this.state.maxPageNumber);
@@ -76124,7 +76166,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			// pre page
 
 		}, {
-			key: 'prePage',
+			key: "prePage",
 			value: function prePage() {
 				var currentValue = this.state.currentValue > 1 ? this.state.currentValue - 1 : 1;
 				if (this.state.currentValue !== currentValue) {
@@ -76135,7 +76177,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			// next page
 
 		}, {
-			key: 'nextPage',
+			key: "nextPage",
 			value: function nextPage() {
 				var currentValue = this.state.currentValue < this.state.maxPageNumber ? this.state.currentValue + 1 : this.state.maxPageNumber;
 				if (this.state.currentValue !== currentValue) {
@@ -76143,9 +76185,9 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			}
 		}, {
-			key: 'renderPageNumber',
+			key: "renderPageNumber",
 			value: function renderPageNumber() {
-				var _this2 = this;
+				var _this3 = this;
 
 				var start = void 0,
 				    numbers = [];
@@ -76158,17 +76200,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				var _loop = function _loop(_i) {
 					var singleItem = _react2.default.createElement(
-						'li',
-						{ key: _i, className: 'rbc-page-number ' + (_this2.state.currentValue === _i ? 'active rbc-pagination-active' : 'waves-effect') },
+						"li",
+						{ key: _i, className: "rbc-page-number " + (_this3.state.currentValue === _i ? "active rbc-pagination-active" : "waves-effect") },
 						_react2.default.createElement(
-							'a',
+							"a",
 							{ onClick: function onClick() {
-									return _this2.handleChange(_i);
+									return _this3.handleChange(_i);
 								} },
 							_i
 						)
 					);
-					if (_i <= _this2.state.maxPageNumber) {
+					if (_i <= _this3.state.maxPageNumber) {
 						numbers.push(singleItem);
 					}
 				};
@@ -76177,43 +76219,43 @@ return /******/ (function(modules) { // webpackBootstrap
 					_loop(_i);
 				}
 				return _react2.default.createElement(
-					'ul',
-					{ className: 'pagination' },
+					"ul",
+					{ className: "pagination" },
 					_react2.default.createElement(
-						'li',
-						{ className: this.state.currentValue === 1 ? 'disabled' : 'waves-effect' },
+						"li",
+						{ className: this.state.currentValue === 1 ? "disabled" : "waves-effect" },
 						_react2.default.createElement(
-							'a',
-							{ className: 'rbc-page-previous', onClick: this.firstPage },
-							_react2.default.createElement('i', { className: 'fa fa-angle-double-left' })
+							"a",
+							{ className: "rbc-page-previous", onClick: this.firstPage },
+							_react2.default.createElement("i", { className: "fa fa-angle-double-left" })
 						)
 					),
 					_react2.default.createElement(
-						'li',
-						{ className: this.state.currentValue === 1 ? 'disabled' : 'waves-effect' },
+						"li",
+						{ className: this.state.currentValue === 1 ? "disabled" : "waves-effect" },
 						_react2.default.createElement(
-							'a',
-							{ className: 'rbc-page-previous', onClick: this.prePage },
-							_react2.default.createElement('i', { className: 'fa fa-angle-left' })
+							"a",
+							{ className: "rbc-page-previous", onClick: this.prePage },
+							_react2.default.createElement("i", { className: "fa fa-angle-left" })
 						)
 					),
 					numbers,
 					_react2.default.createElement(
-						'li',
-						{ className: this.state.currentValue === this.state.maxPageNumber ? 'disabled' : 'waves-effect' },
+						"li",
+						{ className: this.state.currentValue === this.state.maxPageNumber ? "disabled" : "waves-effect" },
 						_react2.default.createElement(
-							'a',
-							{ className: 'rbc-page-next', onClick: this.nextPage },
-							_react2.default.createElement('i', { className: 'fa fa-angle-right' })
+							"a",
+							{ className: "rbc-page-next", onClick: this.nextPage },
+							_react2.default.createElement("i", { className: "fa fa-angle-right" })
 						)
 					),
 					_react2.default.createElement(
-						'li',
-						{ className: this.state.currentValue === this.state.maxPageNumber ? 'disabled' : 'waves-effect' },
+						"li",
+						{ className: this.state.currentValue === this.state.maxPageNumber ? "disabled" : "waves-effect" },
 						_react2.default.createElement(
-							'a',
-							{ className: 'rbc-page-previous', onClick: this.lastPage },
-							_react2.default.createElement('i', { className: 'fa fa-angle-double-right' })
+							"a",
+							{ className: "rbc-page-previous", onClick: this.lastPage },
+							_react2.default.createElement("i", { className: "fa fa-angle-double-right" })
 						)
 					)
 				);
@@ -76222,30 +76264,30 @@ return /******/ (function(modules) { // webpackBootstrap
 			// render
 
 		}, {
-			key: 'render',
+			key: "render",
 			value: function render() {
 				var title = null;
 				var titleExists = false;
 				if (this.props.title) {
 					title = _react2.default.createElement(
-						'h4',
-						{ className: 'rbc-title col s12 col-xs-12' },
+						"h4",
+						{ className: "rbc-title col s12 col-xs-12" },
 						this.props.title
 					);
 				}
 
 				var cx = (0, _classnames2.default)({
-					'rbc-title-active': this.props.title,
-					'rbc-title-inactive': !this.props.title
+					"rbc-title-active": this.props.title,
+					"rbc-title-inactive": !this.props.title
 				});
 
 				return _react2.default.createElement(
-					'div',
-					{ className: 'rbc rbc-pagination col s12 col-xs-12 ' + cx + ' ' + this.props.className },
+					"div",
+					{ className: "rbc rbc-pagination col s12 col-xs-12 " + cx + " " + this.props.className },
 					title,
 					_react2.default.createElement(
-						'div',
-						{ className: 'col s12 col-xs-12' },
+						"div",
+						{ className: "col s12 col-xs-12" },
 						this.renderPageNumber()
 					)
 				);
@@ -76470,7 +76512,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					this.enableSort(react);
 				}
 				// create a channel and listen the changes
-				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream);
+				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream, this.context.app);
 				this.channelId = channelObj.channelId;
 
 				this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function (res) {
@@ -76737,7 +76779,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	ReactiveElement.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		app: _react2.default.PropTypes.any.isRequired
 	};
 
 	ReactiveElement.types = {
@@ -76923,7 +76966,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		defaultSelected: _react2.default.PropTypes.any
 	};
 
-	title: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.element]);
+	_react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.element]);
 
 	// Default props value
 	DataController.defaultProps = {
@@ -76953,7 +76996,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 429 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -77000,19 +77043,20 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 
 		_createClass(ReactiveBase, [{
-			key: 'getChildContext',
+			key: "getChildContext",
 			value: function getChildContext() {
 				return {
 					appbaseRef: this.appbaseRef,
-					type: this.type
+					type: this.type,
+					app: this.props.app
 				};
 			}
 		}, {
-			key: 'render',
+			key: "render",
 			value: function render() {
 				return _react2.default.createElement(
-					'section',
-					{ className: "rbc-base col s12 col-xs-12 " + this.props.theme, style: { "padding": 0 } },
+					"section",
+					{ className: "rbc-base col s12 col-xs-12 " + this.props.theme, style: { padding: 0 } },
 					this.props.children
 				);
 			}
@@ -77038,7 +77082,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	ReactiveBase.childContextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		app: _react2.default.PropTypes.any
 	};
 
 /***/ },
