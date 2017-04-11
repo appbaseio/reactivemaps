@@ -19,6 +19,7 @@ export default class ReactiveMap extends Component {
 			markers: [],
 			selectedMarker: null,
 			streamingStatus: "Initializing..",
+			defaultCenter: this.props.defaultCenter ? this.props.defaultCenter : { lat: 37.74, lon: -122.45 },
 			center: this.props.defaultCenter,
 			query: {},
 			rawData: {
@@ -60,7 +61,7 @@ export default class ReactiveMap extends Component {
 		this.setGeoQueryInfo();
 		this.createChannel(updateExecute);
 		const currentMapStyle = this.getMapStyle(this.props.defaultMapStyle);
-		this.initialMapBoundQuery = true;
+		this.initialMapBoundQuery = this.props.defaultCenter ? true : false;
 		this.applyGeoQuery = this.props.applyGeoQuery ? this.props.applyGeoQuery : this.props.setSearchAsMove;
 		this.setState({
 			currentMapStyle
@@ -114,7 +115,8 @@ export default class ReactiveMap extends Component {
 		} else {
 			react.and = [];
 		}
-		react.and.push("geoQuery");
+		react.or = react.or ? react.or : [];
+		react.or.push("geoQuery");
 		react.and.push("streamChanges");
 		// create a channel and listen the changes
 		const channelObj = manager.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream);
@@ -610,6 +612,7 @@ export default class ReactiveMap extends Component {
 							options = {{
 								styles: this.state.currentMapStyle
 							}}
+							defaultCenter={ReactiveMapHelper.normalizeCenter(this.state.defaultCenter)}
 							onDragstart={() => {
 								this.handleOnDrage();
 								this.mapEvents("onDragstart");
@@ -702,11 +705,7 @@ ReactiveMap.defaultProps = {
 	componentStyle: {},
 	stream: false,
 	applyGeoQuery: false,
-	defaultZoom: 13,
-	defaultCenter: {
-		lat: 37.74,
-		lon: -122.45
-	}
+	defaultZoom: 13
 };
 
 ReactiveMap.contextTypes = {
