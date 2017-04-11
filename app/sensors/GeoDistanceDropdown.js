@@ -53,7 +53,9 @@ export default class GeoDistanceDropdown extends Component {
 	componentDidMount() {
 		this.defaultSelected = this.props.defaultSelected;
 		this.unit = this.props.unit;
-		this.getUserLocation();
+		if (this.props.autoLocation) {
+			this.getUserLocation();
+		}
 		this.setQueryInfo();
 		this.checkDefault();
 	}
@@ -314,7 +316,7 @@ export default class GeoDistanceDropdown extends Component {
 							clearable={false}
 							searchable={false}
 							onChange={this.handleDistanceChange}
-							placeholder="Select Distance"
+							placeholder={this.props.placeholderDropdown}
 						/>
 					</div>
 				</div>
@@ -333,6 +335,8 @@ GeoDistanceDropdown.propTypes = {
 		location: React.PropTypes.string
 	}),
 	placeholder: React.PropTypes.string,
+	placeholderDropdown: React.PropTypes.string,
+	autoLocation: React.PropTypes.bool,
 	unit: React.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"]),
 	data: React.PropTypes.arrayOf(
 		React.PropTypes.shape({
@@ -349,6 +353,8 @@ GeoDistanceDropdown.propTypes = {
 GeoDistanceDropdown.defaultProps = {
 	unit: "mi",
 	placeholder: "Search...",
+	placeholderDropdown: "Select Distance",
+	autoLocation: true,
 	componentStyle: {}
 };
 
