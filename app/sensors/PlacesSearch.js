@@ -10,6 +10,7 @@ export default class PlacesSearch extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			userLocation: "",
 			currentValue: "",
 			currentDistance: 0,
 			value: 0
@@ -30,6 +31,7 @@ export default class PlacesSearch extends Component {
 		this.handleValuesChange = this.handleValuesChange.bind(this);
 		this.handleResults = this.handleResults.bind(this);
 		this.customQuery = this.customQuery.bind(this);
+		this.setDefaultLocation = this.setDefaultLocation.bind(this);
 	}
 
 	componentWillMount() {
@@ -39,26 +41,40 @@ export default class PlacesSearch extends Component {
 	// Set query information
 	componentDidMount() {
 		this.setQueryInfo();
-		if (this.props.autoLocation) {
-			this.getUserLocation();
-		}
+		this.getUserLocation(this.setDefaultLocation);
 	}
 
-	getUserLocation() {
+	getUserLocation(cb) {
 		navigator.geolocation.getCurrentPosition((location) => {
 			this.locString = `${location.coords.latitude}, ${location.coords.longitude}`;
+
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}`)
 				.then((res) => {
-					const currentValue = res.data.results[0].formatted_address;
-					this.result.options.push({
-						value: currentValue,
-						label: currentValue
-					});
+					const userLocation = res.data.results[0].formatted_address;
 					this.setState({
-						currentValue
-					}, this.executeQuery.bind(this));
+						userLocation
+					});
+				})
+				.then(() => {
+					if (cb) {
+						cb();
+					}
 				});
 		});
+	}
+
+	setDefaultLocation() {
+		this.result.options.push({
+			value: this.state.userLocation,
+			label: "Use my current location"
+		});
+		if (this.props.autoLocation) {
+			this.setState({
+				currentValue: this.state.userLocation
+			}, () => {
+				this.executeQuery();
+			});
+		}
 	}
 
 	// set the query type and input data
@@ -180,11 +196,21 @@ export default class PlacesSearch extends Component {
 						label: place.description
 					});
 				});
+				if (this.state.userLocation.length && this.result.options[0].label !== "Use my current location") {
+					this.result.options.unshift({
+						label: "Use my current location",
+						value: this.state.userLocation
+					});
+				}
 				this.callback(null, this.result);
 			});
 		} else {
 			this.callback(null, this.result);
 		}
+	}
+
+	renderValue(option) {
+		return <span>{option.value}</span>;
 	}
 
 	// render
@@ -211,6 +237,7 @@ export default class PlacesSearch extends Component {
 							loadOptions={this.loadOptions}
 							placeholder={this.props.placeholder}
 							onChange={this.handleChange}
+							valueRenderer={this.renderValue}
 						/>
 					</div>
 				</div>
