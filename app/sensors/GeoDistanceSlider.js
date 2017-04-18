@@ -41,7 +41,6 @@ export default class GeoDistanceSlider extends Component {
 		this.handleValuesChange = this.handleValuesChange.bind(this);
 		this.handleResults = this.handleResults.bind(this);
 		this.unitFormatter = this.unitFormatter.bind(this);
-		this.renderValue = this.renderValue.bind(this);
 	}
 
 	componentWillMount() {

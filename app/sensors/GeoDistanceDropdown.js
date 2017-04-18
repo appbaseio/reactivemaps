@@ -42,7 +42,6 @@ export default class GeoDistanceDropdown extends Component {
 		this.getUserLocation = this.getUserLocation.bind(this);
 		this.setDefaultLocation = this.setDefaultLocation.bind(this);
 		this.handleDistanceChange = this.handleDistanceChange.bind(this);
-		this.renderValue = this.renderValue.bind(this);
 	}
 
 	componentWillMount() {
