@@ -42,7 +42,6 @@ export default class GeoDistanceDropdown extends Component {
 		this.getUserLocation = this.getUserLocation.bind(this);
 		this.setDefaultLocation = this.setDefaultLocation.bind(this);
 		this.handleDistanceChange = this.handleDistanceChange.bind(this);
-		this.renderValue = this.renderValue.bind(this);
 	}
 
 	componentWillMount() {
@@ -53,9 +52,7 @@ export default class GeoDistanceDropdown extends Component {
 	componentDidMount() {
 		this.defaultSelected = this.props.defaultSelected;
 		this.unit = this.props.unit;
-		if (this.props.autoLocation) {
-			this.getUserLocation();
-		}
+		this.getUserLocation();
 		this.setQueryInfo();
 		this.checkDefault();
 	}
@@ -110,9 +107,9 @@ export default class GeoDistanceDropdown extends Component {
 
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}`)
 				.then((res) => {
-					const currentValue = res.data.results[0].formatted_address;
+					const userLocation = res.data.results[0].formatted_address;
 					this.setState({
-						userLocation: currentValue
+						userLocation
 					});
 				})
 				.then(() => {
@@ -126,13 +123,15 @@ export default class GeoDistanceDropdown extends Component {
 	setDefaultLocation() {
 		this.result.options.push({
 			value: this.state.userLocation,
-			label: this.state.userLocation
+			label: "Use my current location"
 		});
-		this.setState({
-			currentValue: this.state.userLocation
-		}, () => {
-			this.executeQuery();
-		});
+		if (this.props.autoLocation) {
+			this.setState({
+				currentValue: this.state.userLocation
+			}, () => {
+				this.executeQuery();
+			});
+		}
 	}
 
 	// set the query type and input data

@@ -41,7 +41,6 @@ export default class GeoDistanceSlider extends Component {
 		this.handleValuesChange = this.handleValuesChange.bind(this);
 		this.handleResults = this.handleResults.bind(this);
 		this.unitFormatter = this.unitFormatter.bind(this);
-		this.renderValue = this.renderValue.bind(this);
 	}
 
 	componentWillMount() {
@@ -51,9 +50,7 @@ export default class GeoDistanceSlider extends Component {
 	// Set query information
 	componentDidMount() {
 		this.defaultSelected = this.props.defaultSelected;
-		if (this.props.autoLocation) {
-			this.getUserLocation();
-		}
+		this.getUserLocation();
 		this.setQueryInfo();
 		this.checkDefault();
 	}
@@ -94,34 +91,15 @@ export default class GeoDistanceSlider extends Component {
 		}
 	}
 
-	getUserLocation() {
-		navigator.geolocation.getCurrentPosition((location) => {
-			this.locString = `${location.coords.latitude}, ${location.coords.longitude}`;
-
-			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}`)
-				.then((res) => {
-					const currentValue = res.data.results[0].formatted_address;
-					this.result.options.push({
-						value: currentValue,
-						label: currentValue
-					});
-					this.setState({
-						currentValue,
-						userLocation: currentValue
-					}, this.executeQuery.bind(this));
-				});
-		});
-	}
-
 	getUserLocation(cb) {
 		navigator.geolocation.getCurrentPosition((location) => {
 			this.locString = `${location.coords.latitude}, ${location.coords.longitude}`;
 
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}`)
 				.then((res) => {
-					const currentValue = res.data.results[0].formatted_address;
+					const userLocation = res.data.results[0].formatted_address;
 					this.setState({
-						userLocation: currentValue
+						userLocation
 					});
 				})
 				.then(() => {
@@ -135,13 +113,15 @@ export default class GeoDistanceSlider extends Component {
 	setDefaultLocation() {
 		this.result.options.push({
 			value: this.state.userLocation,
-			label: this.state.userLocation
+			label: "Use my current location"
 		});
-		this.setState({
-			currentValue: this.state.userLocation
-		}, () => {
-			this.executeQuery();
-		});
+		if (this.props.autoLocation) {
+			this.setState({
+				currentValue: this.state.userLocation
+			}, () => {
+				this.executeQuery();
+			});
+		}
 	}
 
 	// set the query type and input data
