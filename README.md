@@ -14,6 +14,7 @@ A React components library for building maps that update in realtime.
 6. **[Getting Started](#6-getting-started)**  
 7. **[Docs Manual](#7-docs-manual)**
 8. **[Developing Locally](#8-developing-locally)**  
+9. **[Acknowledgements](#9-acknowledgements)**
 
 <br>
 
@@ -122,3 +123,7 @@ cd manual && git submodule update
 ```
 
 Once added, the docs manual can be accessed at [http://localhost:8012/manual](http://localhost:8012/manual).
+
+## 9. Acknowledgements
+
+Cross-browser testing supported via [BrowserStack ![](https://i.imgur.com/yeYJhJJ.png)](https://browserstack.com).
