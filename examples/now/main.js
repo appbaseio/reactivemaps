@@ -47,9 +47,9 @@ class Main extends Component {
 		return (
 			<div className="row m-0 h-100">
 				<ReactiveBase
-					app="checkinNew"
-					credentials="FUNb872sF:03616fcc-e4a1-4598-9401-3ad2d7f7f5ce"
-					type="checkinData"
+					app="checkinNew1"
+					credentials="lyqUBfULs:baec1429-ebd4-42fe-b11e-cf94934816de"
+					type="checkinNew1"
 					>
 					<div className="col s12 m9 h-100">
 						<ReactiveMap
@@ -74,7 +74,7 @@ class Main extends Component {
 							<div className="col s12">
 								<SingleList
 									componentId="CitySensor"
-									appbaseField="city"
+									appbaseField="city.raw"
 									defaultSelected="new york"
 									showCount
 									size={100}
