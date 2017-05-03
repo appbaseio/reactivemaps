@@ -249,7 +249,10 @@ export default class PlacesSearch extends Component {
 PlacesSearch.propTypes = {
 	componentId: React.PropTypes.string.isRequired,
 	appbaseField: React.PropTypes.string.isRequired,
-	title: React.PropTypes.string,
+	title: React.PropTypes.oneOfType([
+		React.PropTypes.string,
+		React.PropTypes.element
+	]),
 	customQuery: React.PropTypes.func,
 	placeholder: React.PropTypes.string,
 	autoLocation: React.PropTypes.bool,
