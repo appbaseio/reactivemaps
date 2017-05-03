@@ -660,13 +660,16 @@ ReactiveMap.propTypes = {
 	popoverTTL: ReactiveMapHelper.validation.popoverTTL,
 	size: helper.sizeValidation,
 	from: ReactiveMapHelper.validation.fromValidation,
-	autoMapRender: React.PropTypes.bool, // usecase?
+	autoMapRender: React.PropTypes.bool,
 	componentStyle: React.PropTypes.object,
 	autoCenter: React.PropTypes.bool,
 	showSearchAsMove: React.PropTypes.bool,
 	setSearchAsMove: React.PropTypes.bool,
 	defaultMapStyle: React.PropTypes.oneOf(["Standard", "Blue Essence", "Blue Water", "Flat Map", "Light Monochrome", "Midnight Commander", "Unsaturated Browns"]),
-	title: React.PropTypes.string,
+	title: React.PropTypes.oneOfType([
+		React.PropTypes.string,
+		React.PropTypes.element
+	]),
 	streamAutoCenter: React.PropTypes.bool,
 	defaultMarkerImage: React.PropTypes.string,
 	streamMarkerImage: React.PropTypes.string,

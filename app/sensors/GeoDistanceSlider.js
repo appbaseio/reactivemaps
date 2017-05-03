@@ -336,7 +336,10 @@ export default class GeoDistanceSlider extends Component {
 GeoDistanceSlider.propTypes = {
 	componentId: React.PropTypes.string.isRequired,
 	appbaseField: React.PropTypes.string.isRequired,
-	title: React.PropTypes.string,
+	title: React.PropTypes.oneOfType([
+		React.PropTypes.string,
+		React.PropTypes.element
+	]),
 	customQuery: React.PropTypes.func,
 	defaultSelected: React.PropTypes.shape({
 		distance: React.PropTypes.number,

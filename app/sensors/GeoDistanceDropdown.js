@@ -327,7 +327,10 @@ export default class GeoDistanceDropdown extends Component {
 GeoDistanceDropdown.propTypes = {
 	componentId: React.PropTypes.string.isRequired,
 	appbaseField: React.PropTypes.string.isRequired,
-	title: React.PropTypes.string,
+	title: React.PropTypes.oneOfType([
+		React.PropTypes.string,
+		React.PropTypes.element
+	]),
 	customQuery: React.PropTypes.func,
 	defaultSelected: React.PropTypes.shape({
 		label: React.PropTypes.string,
