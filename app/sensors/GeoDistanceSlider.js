@@ -198,7 +198,7 @@ export default class GeoDistanceSlider extends Component {
 				this.props.onValueChange(obj.value);
 			}
 			helper.selectedSensor.setSortInfo(sortObj);
-			helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParam);
+			helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
 			helper.selectedSensor.set(obj, true);
 		}
 	}
@@ -373,7 +373,7 @@ GeoDistanceSlider.propTypes = {
 	autoLocation: React.PropTypes.bool,
 	onValueChange: React.PropTypes.func,
 	componentStyle: React.PropTypes.object,
-	URLParam: React.PropTypes.bool
+	URLParams: React.PropTypes.bool
 };
 
 // Default props value
@@ -391,7 +391,7 @@ GeoDistanceSlider.defaultProps = {
 	},
 	autoLocation: true,
 	componentStyle: {},
-	URLParam: false
+	URLParams: false
 };
 
 // context type

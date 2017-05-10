@@ -209,7 +209,7 @@ export default class GeoDistanceDropdown extends Component {
 				this.props.onValueChange(obj.value);
 			}
 			helper.selectedSensor.setSortInfo(sortObj);
-			helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParam);
+			helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
 			helper.selectedSensor.set(obj, true);
 		}
 	}
@@ -240,7 +240,7 @@ export default class GeoDistanceDropdown extends Component {
 			if(this.props.onValueChange) {
 				this.props.onValueChange(obj.value);
 			}
-			helper.URLParams.update(this.props.componentId, null, this.props.URLParam);
+			helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
 			helper.selectedSensor.set(obj, true);
 		}
 	}
@@ -360,7 +360,7 @@ GeoDistanceDropdown.propTypes = {
 	),
 	onValueChange: React.PropTypes.func,
 	componentStyle: React.PropTypes.object,
-	URLParam: React.PropTypes.bool
+	URLParams: React.PropTypes.bool
 };
 
 // Default props value
@@ -370,7 +370,7 @@ GeoDistanceDropdown.defaultProps = {
 	placeholderDropdown: "Select Distance",
 	autoLocation: true,
 	componentStyle: {},
-	URLParam: false
+	URLParams: false
 };
 
 // context type
