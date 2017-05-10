@@ -28,9 +28,10 @@ export default class GeoDistanceDropdown extends Component {
 			unit: this.unit
 		};
 		this.allowedUnit = ["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"];
-
-		if (this.props.defaultSelected) {
-			const selected = this.props.data.filter(item => item.label === this.props.defaultSelected);
+		this.urlParams = helper.URLParams.get(this.props.componentId, false, true);
+		this.defaultSelected = this.urlParams !== null ? this.urlParams : this.props.defaultSelected;
+		if (this.defaultSelected) {
+			const selected = this.props.data.filter(item => item.label === this.defaultSelected);
 			if (selected[0]) {
 				this.state.selected = selected[0];
 			}
@@ -50,7 +51,6 @@ export default class GeoDistanceDropdown extends Component {
 
 	// Set query information
 	componentDidMount() {
-		this.defaultSelected = this.props.defaultSelected;
 		this.unit = this.props.unit;
 		this.getUserLocation();
 		this.setQueryInfo();
@@ -58,8 +58,9 @@ export default class GeoDistanceDropdown extends Component {
 	}
 
 	componentWillUpdate() {
-		if(!_.isEqual(this.defaultSelected, this.props.defaultSelected)) {
-			this.defaultSelected = this.props.defaultSelected;
+		const defaultValue = this.urlParams !== null ? this.urlParams : this.props.defaultSelected;
+		if(!_.isEqual(this.defaultSelected, defaultValue)) {
+			this.defaultSelected = defaultValue;
 			this.checkDefault();
 		}
 		if(this.props.unit !== this.unit) {
@@ -72,8 +73,9 @@ export default class GeoDistanceDropdown extends Component {
 	}
 
 	checkDefault() {
-		if(this.props.defaultSelected && this.props.defaultSelected.location) {
-			let currentValue = this.props.defaultSelected.location;
+		const defaultValue = this.urlParams !== null ? this.urlParams : this.props.defaultSelected;
+		if(defaultValue && defaultValue.location) {
+			let currentValue = defaultValue.location;
 			this.result.options.push({
 				value: currentValue,
 				label: currentValue
@@ -82,9 +84,9 @@ export default class GeoDistanceDropdown extends Component {
 				currentValue
 			}, this.getCoordinates(currentValue, this.handleResults));
 		}
-		else if(this.props.defaultSelected && this.props.defaultSelected.label) {
+		else if(defaultValue && defaultValue.label) {
 			this.getUserLocation(this.setDefaultLocation);
-			this.handleResults(this.props.defaultSelected.label);
+			this.handleResults(defaultValue.label);
 		}
 		else {
 			this.getUserLocation(this.setDefaultLocation);
@@ -170,7 +172,7 @@ export default class GeoDistanceDropdown extends Component {
 					const location = res.data.results[0].geometry.location;
 					this.locString = `${location.lat}, ${location.lng}`;
 					if(cb) {
-						cb.call(this, this.props.defaultSelected.label);
+						cb.call(this, this.defaultSelected.label);
 					} else {
 						this.executeQuery();
 					}
@@ -207,8 +209,16 @@ export default class GeoDistanceDropdown extends Component {
 				this.props.onValueChange(obj.value);
 			}
 			helper.selectedSensor.setSortInfo(sortObj);
+			helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParam);
 			helper.selectedSensor.set(obj, true);
 		}
+	}
+
+	setURLValue(){
+		return JSON.stringify({
+			location: this.state.currentValue,
+			label: this.state.selected.label
+		});
 	}
 
 	// handle the input change and pass the value inside sensor info
@@ -230,6 +240,7 @@ export default class GeoDistanceDropdown extends Component {
 			if(this.props.onValueChange) {
 				this.props.onValueChange(obj.value);
 			}
+			helper.URLParams.update(this.props.componentId, null, this.props.URLParam);
 			helper.selectedSensor.set(obj, true);
 		}
 	}
@@ -348,7 +359,8 @@ GeoDistanceDropdown.propTypes = {
 		})
 	),
 	onValueChange: React.PropTypes.func,
-	componentStyle: React.PropTypes.object
+	componentStyle: React.PropTypes.object,
+	URLParam: React.PropTypes.bool
 };
 
 // Default props value
@@ -357,7 +369,8 @@ GeoDistanceDropdown.defaultProps = {
 	placeholder: "Search...",
 	placeholderDropdown: "Select Distance",
 	autoLocation: true,
-	componentStyle: {}
+	componentStyle: {},
+	URLParam: false
 };
 
 // context type
