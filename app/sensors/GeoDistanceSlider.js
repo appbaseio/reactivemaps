@@ -14,9 +14,13 @@ const _ = require("lodash");
 export default class GeoDistanceSlider extends Component {
 	constructor(props) {
 		super(props);
-		const value = this.props.defaultSelected && this.props.defaultSelected.distance ?
-			this.props.defaultSelected.distance < this.props.range.start ?
-			this.props.range.start : this.props.defaultSelected.distance : this.props.range.start;
+		this.urlParams = helper.URLParams.get(this.props.componentId, false, true);
+		this.defaultSelected = this.urlParams !== null ? this.urlParams : this.props.defaultSelected;
+		let value = this.defaultSelected && this.defaultSelected.distance ?
+			this.defaultSelected.distance < this.props.range.start ?
+			this.props.range.start : this.defaultSelected.distance : this.props.range.start;
+		value = parseInt(value, 10);
+		this.defaultSelected.distance = parseInt(this.defaultSelected.distance, 10);
 		this.state = {
 			currentValue: "",
 			currentDistance: value + this.props.unit,
@@ -49,15 +53,14 @@ export default class GeoDistanceSlider extends Component {
 
 	// Set query information
 	componentDidMount() {
-		this.defaultSelected = this.props.defaultSelected;
 		this.getUserLocation();
 		this.setQueryInfo();
 		this.checkDefault();
 	}
 
 	componentWillUpdate() {
-		if(!_.isEqual(this.defaultSelected, this.props.defaultSelected)) {
-			this.defaultSelected = this.props.defaultSelected;
+		if(!_.isEqual(this.defaultSelected, this.defaultSelected)) {
+			this.defaultSelected = this.defaultSelected;
 			this.checkDefault();
 		}
 	}
@@ -72,8 +75,9 @@ export default class GeoDistanceSlider extends Component {
 	}
 
 	checkDefault() {
-		if(this.props.defaultSelected && this.props.defaultSelected.location) {
-			let currentValue = this.props.defaultSelected.location;
+		const defaultValue = this.urlParams !== null ? this.urlParams : this.props.defaultSelected;
+		if(defaultValue && defaultValue.location) {
+			let currentValue = defaultValue.location;
 			this.result.options.push({
 				value: currentValue,
 				label: currentValue
@@ -82,9 +86,9 @@ export default class GeoDistanceSlider extends Component {
 				currentValue
 			}, this.getCoordinates(currentValue, this.handleResults));
 		}
-		else if(this.props.defaultSelected && this.props.defaultSelected.distance) {
+		else if(defaultValue && defaultValue.distance) {
 			this.getUserLocation(this.setDefaultLocation);
-			this.handleResults(this.props.defaultSelected.distance);
+			this.handleResults(defaultValue.distance);
 		}
 		else {
 			this.getUserLocation(this.setDefaultLocation);
@@ -159,7 +163,7 @@ export default class GeoDistanceSlider extends Component {
 					const location = res.data.results[0].geometry.location;
 					this.locString = `${location.lat}, ${location.lng}`;
 					if(cb) {
-						cb(this.props.defaultSelected.distance);
+						cb(this.defaultSelected.distance);
 					} else {
 						this.executeQuery();
 					}
@@ -169,7 +173,7 @@ export default class GeoDistanceSlider extends Component {
 		}
 	}
 
-	// execute query after changing location or distanc
+	// execute query after changing location or distance
 	executeQuery() {
 		if (this.state.currentValue !== "" && this.state.currentDistance && this.locString) {
 			const obj = {
@@ -194,8 +198,18 @@ export default class GeoDistanceSlider extends Component {
 				this.props.onValueChange(obj.value);
 			}
 			helper.selectedSensor.setSortInfo(sortObj);
+			helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParam);
 			helper.selectedSensor.set(obj, true);
 		}
+	}
+
+	setURLValue(){
+		let distance = this.state.currentDistance.split(this.props.unit);
+		distance = distance[0];
+		return JSON.stringify({
+			location: this.state.currentValue,
+			distance
+		});
 	}
 
 	// handle the input change and pass the value inside sensor info
@@ -358,7 +372,8 @@ GeoDistanceSlider.propTypes = {
 	}),
 	autoLocation: React.PropTypes.bool,
 	onValueChange: React.PropTypes.func,
-	componentStyle: React.PropTypes.object
+	componentStyle: React.PropTypes.object,
+	URLParam: React.PropTypes.bool
 };
 
 // Default props value
@@ -375,7 +390,8 @@ GeoDistanceSlider.defaultProps = {
 		end: null
 	},
 	autoLocation: true,
-	componentStyle: {}
+	componentStyle: {},
+	URLParam: false
 };
 
 // context type
