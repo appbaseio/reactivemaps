@@ -96628,7 +96628,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						this.props.onValueChange(obj.value);
 					}
 					_reactivebase.AppbaseSensorHelper.selectedSensor.setSortInfo(sortObj);
-					_reactivebase.AppbaseSensorHelper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParam);
+					_reactivebase.AppbaseSensorHelper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
 					_reactivebase.AppbaseSensorHelper.selectedSensor.set(obj, true);
 				}
 			}
@@ -96838,7 +96838,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		autoLocation: _react2.default.PropTypes.bool,
 		onValueChange: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
-		URLParam: _react2.default.PropTypes.bool
+		URLParams: _react2.default.PropTypes.bool
 	};
 
 	// Default props value
@@ -96856,7 +96856,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		},
 		autoLocation: true,
 		componentStyle: {},
-		URLParam: false
+		URLParams: false
 	};
 
 	// context type
@@ -98624,7 +98624,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						this.props.onValueChange(obj.value);
 					}
 					_reactivebase.AppbaseSensorHelper.selectedSensor.setSortInfo(sortObj);
-					_reactivebase.AppbaseSensorHelper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParam);
+					_reactivebase.AppbaseSensorHelper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
 					_reactivebase.AppbaseSensorHelper.selectedSensor.set(obj, true);
 				}
 			}
@@ -98659,7 +98659,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					if (this.props.onValueChange) {
 						this.props.onValueChange(obj.value);
 					}
-					_reactivebase.AppbaseSensorHelper.URLParams.update(this.props.componentId, null, this.props.URLParam);
+					_reactivebase.AppbaseSensorHelper.URLParams.update(this.props.componentId, null, this.props.URLParams);
 					_reactivebase.AppbaseSensorHelper.selectedSensor.set(obj, true);
 				}
 			}
@@ -98804,7 +98804,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		})),
 		onValueChange: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
-		URLParam: _react2.default.PropTypes.bool
+		URLParams: _react2.default.PropTypes.bool
 	};
 
 	// Default props value
@@ -98814,7 +98814,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		placeholderDropdown: "Select Distance",
 		autoLocation: true,
 		componentStyle: {},
-		URLParam: false
+		URLParams: false
 	};
 
 	// context type
