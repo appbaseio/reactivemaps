@@ -9173,45 +9173,43 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 
 				if (validQuery) {
-					(function () {
-						var channelResponse = {
-							startTime: new Date().getTime(),
-							appliedQuery: queryObj
-						};
-						var appbaseRef = _this2.appbaseRef[channelId];
-						if (appbaseRef) {
-							// apply search query and emit historic queryResult
-							var searchQueryObj = queryObj;
-							searchQueryObj.type = _this2.type[channelId] === "*" ? "" : _this2.type[channelId];
-							searchQueryObj.preference = _this2.app[channelId];
-							setQueryState(channelResponse);
-							// console.log(JSON.stringify(searchQueryObj, null, 4));
-							appbaseRef.search(searchQueryObj).on("data", function (data) {
-								channelResponse.mode = "historic";
-								channelResponse.data = _this2.highlightModify(data, channelResponse.appliedQuery);
-								self.emitter.emit(channelId, channelResponse);
-								var globalQueryOptions = self.queryOptions && self.queryOptions[channelId] ? self.queryOptions[channelId] : {};
-								self.emitter.emit("global", {
-									channelResponse: channelResponse,
-									react: channelObj.react,
-									queryOptions: globalQueryOptions
-								});
-							}).on("error", function (error) {
-								var channelError = {
-									appliedQuery: channelResponse.appliedQuery,
-									error: error,
-									startTime: channelResponse.startTime
-								};
-								self.emitter.emit(channelId, channelError);
+					var channelResponse = {
+						startTime: new Date().getTime(),
+						appliedQuery: queryObj
+					};
+					var appbaseRef = this.appbaseRef[channelId];
+					if (appbaseRef) {
+						// apply search query and emit historic queryResult
+						var searchQueryObj = queryObj;
+						searchQueryObj.type = this.type[channelId] === "*" ? "" : this.type[channelId];
+						searchQueryObj.preference = this.app[channelId];
+						setQueryState(channelResponse);
+						// console.log(JSON.stringify(searchQueryObj, null, 4));
+						appbaseRef.search(searchQueryObj).on("data", function (data) {
+							channelResponse.mode = "historic";
+							channelResponse.data = _this2.highlightModify(data, channelResponse.appliedQuery);
+							self.emitter.emit(channelId, channelResponse);
+							var globalQueryOptions = self.queryOptions && self.queryOptions[channelId] ? self.queryOptions[channelId] : {};
+							self.emitter.emit("global", {
+								channelResponse: channelResponse,
+								react: channelObj.react,
+								queryOptions: globalQueryOptions
 							});
-							// apply searchStream query and emit streaming data
-							if (channelObj.stream) {
-								activateStream.call(_this2, channelId, queryObj, appbaseRef);
-							}
-						} else {
-							console.error("appbaseRef is not set for " + channelId);
+						}).on("error", function (error) {
+							var channelError = {
+								appliedQuery: channelResponse.appliedQuery,
+								error: error,
+								startTime: channelResponse.startTime
+							};
+							self.emitter.emit(channelId, channelError);
+						});
+						// apply searchStream query and emit streaming data
+						if (channelObj.stream) {
+							activateStream.call(this, channelId, queryObj, appbaseRef);
 						}
-					})();
+					} else {
+						console.error("appbaseRef is not set for " + channelId);
+					}
 				} else {
 					var obj = {
 						mode: "historic",
@@ -20424,7 +20422,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "setOrDelete",
 			value: function setOrDelete(componentId, value) {
 				if (componentId) {
-					if (value === null) {
+					if (value === null || value === undefined) {
 						this.params.delete(componentId);
 					} else {
 						this.params.set(componentId, value);
@@ -41755,52 +41753,48 @@ return /******/ (function(modules) { // webpackBootstrap
 					if (defaultValue.start !== _this2.state.values.min || defaultValue.end !== _this2.state.values.max && nextProps.range.start <= defaultValue.start && nextProps.range.end >= defaultValue.end) {
 						var rem = (defaultValue.end - defaultValue.start) % nextProps.stepValue;
 						if (rem) {
-							(function () {
-								_this2.setState({
-									values: {
-										min: _this2.state.values.min,
-										max: defaultValue.end - rem
-									}
-								});
-								var obj = {
-									key: _this2.props.componentId,
-									value: {
-										from: _this2.state.values.min,
-										to: defaultValue.end - rem
-									}
-								};
-								setTimeout(function () {
-									if (_this2.props.onValueChange) {
-										_this2.props.onValueChange(obj.value);
-									}
-									helper.URLParams.update(_this2.props.componentId, _this2.setURLParam(obj.value), _this2.props.URLParams);
-									helper.selectedSensor.set(obj, true);
-								}, 1000);
-							})();
+							_this2.setState({
+								values: {
+									min: _this2.state.values.min,
+									max: defaultValue.end - rem
+								}
+							});
+							var obj = {
+								key: _this2.props.componentId,
+								value: {
+									from: _this2.state.values.min,
+									to: defaultValue.end - rem
+								}
+							};
+							setTimeout(function () {
+								if (_this2.props.onValueChange) {
+									_this2.props.onValueChange(obj.value);
+								}
+								helper.URLParams.update(_this2.props.componentId, _this2.setURLParam(obj.value), _this2.props.URLParams);
+								helper.selectedSensor.set(obj, true);
+							}, 1000);
 						} else {
-							(function () {
-								var values = {};
-								values.min = defaultValue.start;
-								values.max = defaultValue.end;
-								_this2.setState({
-									values: values,
-									currentValues: values
-								});
-								var obj = {
-									key: _this2.props.componentId,
-									value: {
-										from: values.min,
-										to: values.max
-									}
-								};
-								setTimeout(function () {
-									if (_this2.props.onValueChange) {
-										_this2.props.onValueChange(obj.value);
-									}
-									helper.URLParams.update(_this2.props.componentId, _this2.setURLParam(obj.value), _this2.props.URLParams);
-									helper.selectedSensor.set(obj, true);
-								}, 1000);
-							})();
+							var values = {};
+							values.min = defaultValue.start;
+							values.max = defaultValue.end;
+							_this2.setState({
+								values: values,
+								currentValues: values
+							});
+							var _obj = {
+								key: _this2.props.componentId,
+								value: {
+									from: values.min,
+									to: values.max
+								}
+							};
+							setTimeout(function () {
+								if (_this2.props.onValueChange) {
+									_this2.props.onValueChange(_obj.value);
+								}
+								helper.URLParams.update(_this2.props.componentId, _this2.setURLParam(_obj.value), _this2.props.URLParams);
+								helper.selectedSensor.set(_obj, true);
+							}, 1000);
 						}
 					}
 					// check range
@@ -41830,15 +41824,15 @@ return /******/ (function(modules) { // webpackBootstrap
 								from: _values.min,
 								to: _values.max
 							};
-							var _obj = {
+							var _obj2 = {
 								key: _this2.props.componentId,
 								value: currentRange
 							};
 							if (_this2.props.onValueChange) {
-								_this2.props.onValueChange(_obj.value);
+								_this2.props.onValueChange(_obj2.value);
 							}
-							helper.URLParams.update(_this2.props.componentId, _this2.setURLParam(_obj.value), _this2.props.URLParams);
-							helper.selectedSensor.set(_obj, true);
+							helper.URLParams.update(_this2.props.componentId, _this2.setURLParam(_obj2.value), _this2.props.URLParams);
+							helper.selectedSensor.set(_obj2, true);
 						}
 						_this2.setRangeValue();
 					}
@@ -41852,7 +41846,7 @@ return /******/ (function(modules) { // webpackBootstrap
 									max: defaultValue.end - _rem
 								}
 							});
-							var _obj2 = {
+							var _obj3 = {
 								key: _this2.props.componentId,
 								value: {
 									from: _this2.state.values.min,
@@ -41860,10 +41854,10 @@ return /******/ (function(modules) { // webpackBootstrap
 								}
 							};
 							if (_this2.props.onValueChange) {
-								_this2.props.onValueChange(_obj2.value);
+								_this2.props.onValueChange(_obj3.value);
 							}
-							helper.URLParams.update(_this2.props.componentId, _this2.setURLParam(_obj2.value), _this2.props.URLParams);
-							helper.selectedSensor.set(_obj2, true);
+							helper.URLParams.update(_this2.props.componentId, _this2.setURLParam(_obj3.value), _this2.props.URLParams);
+							helper.selectedSensor.set(_obj3, true);
 						}
 					}
 				}, 300);
@@ -42081,22 +42075,20 @@ return /******/ (function(modules) { // webpackBootstrap
 				var min = this.state.startThreshold ? this.state.startThreshold : newItems[0].key;
 				var max = this.state.endThreshold ? this.state.endThreshold : newItems[itemLength - 1].key;
 				if (itemLength > 1) {
-					(function () {
-						var rangeValue = {
-							counts: _this5.countCalc(min, max, newItems),
-							startThreshold: min,
-							endThreshold: max,
-							values: {
-								min: _this5.state.values.min,
-								max: _this5.state.values.max
-							}
-						};
-						_this5.setState(rangeValue, function () {
-							if (!_lodash2.default.isEqual(rangeValue.values, _this5.state.currentValues)) {
-								_this5.handleResults(null, rangeValue.values);
-							}
-						});
-					})();
+					var rangeValue = {
+						counts: this.countCalc(min, max, newItems),
+						startThreshold: min,
+						endThreshold: max,
+						values: {
+							min: this.state.values.min,
+							max: this.state.values.max
+						}
+					};
+					this.setState(rangeValue, function () {
+						if (!_lodash2.default.isEqual(rangeValue.values, _this5.state.currentValues)) {
+							_this5.handleResults(null, rangeValue.values);
+						}
+					});
 				}
 			}
 
@@ -51735,21 +51727,19 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (_lodash2.default.has(hit, field)) {
 					val = hit[field];
 				} else if (field.indexOf(".") > -1) {
-					(function () {
-						var prefix = "";
-						var fieldSplit = field.split(".");
-						fieldSplit.forEach(function (item, index) {
-							prefix += item;
-							if (_lodash2.default.isArray(_lodash2.default.get(hit, prefix))) {
-								prefix += "[" + index + "]";
-							}
-							if (fieldSplit.length - 1 !== index) {
-								prefix += ".";
-							} else {
-								val = _lodash2.default.get(hit, prefix);
-							}
-						});
-					})();
+					var prefix = "";
+					var fieldSplit = field.split(".");
+					fieldSplit.forEach(function (item, index) {
+						prefix += item;
+						if (_lodash2.default.isArray(_lodash2.default.get(hit, prefix))) {
+							prefix += "[" + index + "]";
+						}
+						if (fieldSplit.length - 1 !== index) {
+							prefix += ".";
+						} else {
+							val = _lodash2.default.get(hit, prefix);
+						}
+					});
 				}
 				return val;
 			}
@@ -78571,10 +78561,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	var NumberComponent = function NumberComponent(props) {
-		var label = props.label;
-		var end = props.end;
-		var start = props.start;
-		var handleChange = props.handleChange;
+		var label = props.label,
+		    end = props.end,
+		    start = props.start,
+		    handleChange = props.handleChange;
 
 		var value = props.value != undefined ? props.value : start;
 		var isPlusActive = end != undefined ? value < end : true;
@@ -78704,9 +78694,9 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "setQueryInfo",
 			value: function setQueryInfo() {
-				var _props = this.props;
-				var componentId = _props.componentId;
-				var appbaseField = _props.appbaseField;
+				var _props = this.props,
+				    componentId = _props.componentId,
+				    appbaseField = _props.appbaseField;
 
 				var obj = {
 					key: componentId,
@@ -78725,11 +78715,11 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "handleChange",
 			value: function handleChange() {
 				var increment = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-				var _props2 = this.props;
-				var componentId = _props2.componentId;
-				var data = _props2.data;
-				var start = data.start;
-				var end = data.end;
+				var _props2 = this.props,
+				    componentId = _props2.componentId,
+				    data = _props2.data;
+				var start = data.start,
+				    end = data.end;
 
 				var inputVal = this.state.currentValue;
 
@@ -78767,10 +78757,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "render",
 			value: function render() {
-				var _props3 = this.props;
-				var title = _props3.title;
-				var data = _props3.data;
-				var labelPosition = _props3.labelPosition;
+				var _props3 = this.props,
+				    title = _props3.title,
+				    data = _props3.data,
+				    labelPosition = _props3.labelPosition;
 				var currentValue = this.state.currentValue;
 
 				var ComponentTitle = title ? _react2.default.createElement(TitleComponent, { title: title }) : null;

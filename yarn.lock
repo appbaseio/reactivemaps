@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@appbaseio/reactivebase@1.0.0-alpha26":
-  version "1.0.0-alpha26"
-  resolved "https://registry.yarnpkg.com/@appbaseio/reactivebase/-/reactivebase-1.0.0-alpha26.tgz#a325b7dd3d167ff51eff042fb0ef5307357b7d1a"
+"@appbaseio/reactivebase@1.0.0-alpha27":
+  version "1.0.0-alpha27"
+  resolved "https://registry.yarnpkg.com/@appbaseio/reactivebase/-/reactivebase-1.0.0-alpha27.tgz#9c8876c1c5e762d58a3d2bb6e5bf7bacefe90aff"
   dependencies:
     appbase-js "^0.11.0"
     babel-preset-stage-0 "^6.5.0"
