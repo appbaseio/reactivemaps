@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+	TYPES,
 	AppbaseSensorHelper as helper
 } from "@appbaseio/reactivebase";
 import classNames from "classnames";
@@ -377,4 +378,20 @@ GeoDistanceDropdown.defaultProps = {
 GeoDistanceDropdown.contextTypes = {
 	appbaseRef: React.PropTypes.any.isRequired,
 	type: React.PropTypes.any.isRequired
+};
+
+GeoDistanceDropdown.types = {
+	componentId: TYPES.STRING,
+	appbaseField: TYPES.STRING,
+	appbaseFieldType: TYPES.GEO_POINT,
+	title: TYPES.STRING,
+	data: TYPES.ARRAY,
+	unit: TYPES.STRING,
+	autoLocation: TYPES.BOOLEAN,
+	defaultSelected: TYPES.OBJECT,
+	placeholder: TYPES.STRING,
+	placeholderDropdown: TYPES.STRING,
+	customQuery: TYPES.FUNCTION,
+	componentStyle: TYPES.OBJECT,
+	URLParams: TYPES.BOOLEAN
 };
