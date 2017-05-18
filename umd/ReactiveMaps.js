@@ -20432,8 +20432,9 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "applyURLUpdate",
 			value: function applyURLUpdate() {
-				if (history.pushState && this.params.toString()) {
-					var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + this.params.toString();
+				if (history.pushState) {
+					var paramsSting = this.params.toString() ? "?" + this.params.toString() : "";
+					var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + paramsSting;
 					window.history.pushState({ path: newurl }, '', newurl);
 				}
 			}
@@ -38492,6 +38493,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ARRAY = exports.ARRAY = "array";
 	var OBJECT = exports.OBJECT = "object";
 	var FUNCTION = exports.FUNCTION = "function";
+	var GEO_POINT = exports.GEO_POINT = "geo_point";
+	var DATE = exports.DATE = "date";
 
 /***/ }),
 /* 83 */
@@ -97198,6 +97201,23 @@ return /******/ (function(modules) { // webpackBootstrap
 		type: _react2.default.PropTypes.any.isRequired
 	};
 
+	GeoDistanceSlider.types = {
+		componentId: _reactivebase.TYPES.STRING,
+		appbaseField: _reactivebase.TYPES.STRING,
+		appbaseFieldType: _reactivebase.TYPES.GEO_POINT,
+		title: _reactivebase.TYPES.STRING,
+		range: _reactivebase.TYPES.OBJECT,
+		rangeLabels: _reactivebase.TYPES.OBJECT,
+		stepValue: _reactivebase.TYPES.NUMBER,
+		unit: _reactivebase.TYPES.STRING,
+		autoLocation: _reactivebase.TYPES.BOOLEAN,
+		defaultSelected: _reactivebase.TYPES.OBJECT,
+		placeholder: _reactivebase.TYPES.STRING,
+		customQuery: _reactivebase.TYPES.FUNCTION,
+		componentStyle: _reactivebase.TYPES.OBJECT,
+		URLParams: _reactivebase.TYPES.BOOLEAN
+	};
+
 /***/ }),
 /* 550 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -99156,6 +99176,22 @@ return /******/ (function(modules) { // webpackBootstrap
 		type: _react2.default.PropTypes.any.isRequired
 	};
 
+	GeoDistanceDropdown.types = {
+		componentId: _reactivebase.TYPES.STRING,
+		appbaseField: _reactivebase.TYPES.STRING,
+		appbaseFieldType: _reactivebase.TYPES.GEO_POINT,
+		title: _reactivebase.TYPES.STRING,
+		data: _reactivebase.TYPES.ARRAY,
+		unit: _reactivebase.TYPES.STRING,
+		autoLocation: _reactivebase.TYPES.BOOLEAN,
+		defaultSelected: _reactivebase.TYPES.OBJECT,
+		placeholder: _reactivebase.TYPES.STRING,
+		placeholderDropdown: _reactivebase.TYPES.STRING,
+		customQuery: _reactivebase.TYPES.FUNCTION,
+		componentStyle: _reactivebase.TYPES.OBJECT,
+		URLParams: _reactivebase.TYPES.BOOLEAN
+	};
+
 /***/ }),
 /* 576 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -99518,6 +99554,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	PlacesSearch.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
 		type: _react2.default.PropTypes.any.isRequired
+	};
+
+	PlacesSearch.types = {
+		componentId: _reactivebase.TYPES.STRING,
+		appbaseField: _reactivebase.TYPES.STRING,
+		title: _reactivebase.TYPES.STRING,
+		customQuery: _reactivebase.TYPES.FUNCTION,
+		placeholder: _reactivebase.TYPES.STRING,
+		autoLocation: _reactivebase.TYPES.BOOLEAN,
+		componentStyle: _reactivebase.TYPES.OBJECT,
+		unit: _reactivebase.TYPES.STRING
 	};
 
 /***/ })
