@@ -1,6 +1,7 @@
 /* eslint max-lines: 0 */
 import React, { Component } from "react";
 import {
+	TYPES,
 	AppbaseSensorHelper as helper,
 	AppbaseChannelManager as manager
 } from "@appbaseio/reactivebase";
@@ -398,4 +399,21 @@ GeoDistanceSlider.defaultProps = {
 GeoDistanceSlider.contextTypes = {
 	appbaseRef: React.PropTypes.any.isRequired,
 	type: React.PropTypes.any.isRequired
+};
+
+GeoDistanceSlider.types = {
+	componentId: TYPES.STRING,
+	appbaseField: TYPES.STRING,
+	appbaseFieldType: TYPES.GEO_POINT,
+	title: TYPES.STRING,
+	range: TYPES.OBJECT,
+	rangeLabels: TYPES.OBJECT,
+	stepValue: TYPES.NUMBER,
+	unit: TYPES.STRING,
+	autoLocation: TYPES.BOOLEAN,
+	defaultSelected: TYPES.OBJECT,
+	placeholder: TYPES.STRING,
+	customQuery: TYPES.FUNCTION,
+	componentStyle: TYPES.OBJECT,
+	URLParams: TYPES.BOOLEAN
 };

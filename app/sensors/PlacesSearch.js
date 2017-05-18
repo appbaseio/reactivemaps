@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+	TYPES,
 	AppbaseSensorHelper as helper
 } from "@appbaseio/reactivebase";
 import classNames from "classnames";
@@ -271,4 +272,15 @@ PlacesSearch.defaultProps = {
 PlacesSearch.contextTypes = {
 	appbaseRef: React.PropTypes.any.isRequired,
 	type: React.PropTypes.any.isRequired
+};
+
+PlacesSearch.types = {
+	componentId: TYPES.STRING,
+	appbaseField: TYPES.STRING,
+	title: TYPES.STRING,
+	customQuery: TYPES.FUNCTION,
+	placeholder: TYPES.STRING,
+	autoLocation: TYPES.BOOLEAN,
+	componentStyle: TYPES.OBJECT,
+	unit: TYPES.STRING
 };
