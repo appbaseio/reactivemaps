@@ -26257,7 +26257,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						searchQueryObj.type = this.type[channelId] === "*" ? "" : this.type[channelId];
 						searchQueryObj.preference = this.app[channelId];
 						setQueryState(channelResponse);
-						console.log(JSON.stringify(searchQueryObj, null, 4));
+						// console.log(JSON.stringify(searchQueryObj, null, 4));
 						appbaseQuery(appbaseRef, searchQueryObj, channelResponse, channelObj, queryObj);
 					} else {
 						console.error("appbaseRef is not set for " + channelId);
@@ -79115,13 +79115,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				children = _.isArray(children) ? children : [children];
 				children.forEach(function (child) {
-					if (child.props && child.props.componentId && child.props.allowFilter !== false) {
+					if (child && child.props && child.props.componentId && child.props.allowFilter !== false) {
 						_this2.components.push({
 							component: child.type.name,
 							componentId: child.props.componentId
 						});
 					}
-					if (child.props.children) {
+					if (child && child.props && child.props.children) {
 						_this2.getComponents(child.props.children);
 					}
 				});
