@@ -37,7 +37,6 @@ export default class GeoDistanceDropdown extends Component {
 				this.state.selected = selected[0];
 			}
 		}
-
 		this.handleChange = this.handleChange.bind(this);
 		this.loadOptions = this.loadOptions.bind(this);
 		this.customQuery = this.customQuery.bind(this);
@@ -56,6 +55,7 @@ export default class GeoDistanceDropdown extends Component {
 		this.getUserLocation();
 		this.setQueryInfo();
 		this.checkDefault();
+		this.listenFilter();
 	}
 
 	componentWillUpdate() {
@@ -73,8 +73,29 @@ export default class GeoDistanceDropdown extends Component {
 		}
 	}
 
+	// stop streaming request and remove listener when component will unmount
+	componentWillUnmount() {
+		if(this.filterListener) {
+			this.filterListener.remove();
+		}
+	}
+
+	listenFilter() {
+		this.filterListener = helper.sensorEmitter.addListener("clearFilter", (data) => {
+			if(data === this.props.componentId) {
+				this.defaultValue = null;
+				this.changeValue(this.defaultValue);
+			}
+		});
+	}
+
 	checkDefault() {
+		this.urlParams = helper.URLParams.get(this.props.componentId, false, true);
 		const defaultValue = this.urlParams !== null ? this.urlParams : this.props.defaultSelected;
+		this.changeValue(defaultValue);
+	}
+
+	changeValue(defaultValue) {
 		if(defaultValue && defaultValue.location) {
 			let currentValue = defaultValue.location;
 			this.result.options.push({
@@ -88,6 +109,12 @@ export default class GeoDistanceDropdown extends Component {
 		else if(defaultValue && defaultValue.label) {
 			this.getUserLocation(this.setDefaultLocation);
 			this.handleResults(defaultValue.label);
+		}
+		else if(defaultValue === null) {
+			this.setState({
+				selected: null,
+				currentValue: ""
+			}, this.executeQuery)
 		}
 		else {
 			this.getUserLocation(this.setDefaultLocation);
@@ -212,6 +239,13 @@ export default class GeoDistanceDropdown extends Component {
 			helper.selectedSensor.setSortInfo(sortObj);
 			helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
 			helper.selectedSensor.set(obj, true);
+		} else if(this.state.selected === null && this.state.currentValue === "") {
+			const obj = {
+				key: this.props.componentId,
+				value: null
+			};
+			helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
+			helper.selectedSensor.set(obj, true);
 		}
 	}
 
@@ -322,7 +356,7 @@ export default class GeoDistanceDropdown extends Component {
 					</div>
 					<div className="col s12 col-xs-12">
 						<Select
-							value={this.state.selected.label ? this.state.selected : ""}
+							value={this.state.selected && this.state.selected.label ? this.state.selected : ""}
 							options={this.props.data}
 							clearable={false}
 							searchable={false}
@@ -361,7 +395,8 @@ GeoDistanceDropdown.propTypes = {
 	),
 	onValueChange: React.PropTypes.func,
 	componentStyle: React.PropTypes.object,
-	URLParams: React.PropTypes.bool
+	URLParams: React.PropTypes.bool,
+	allowFilter: React.PropTypes.bool
 };
 
 // Default props value
@@ -371,7 +406,8 @@ GeoDistanceDropdown.defaultProps = {
 	placeholderDropdown: "Select Distance",
 	autoLocation: true,
 	componentStyle: {},
-	URLParams: false
+	URLParams: false,
+	allowFilter: true
 };
 
 // context type
@@ -393,5 +429,6 @@ GeoDistanceDropdown.types = {
 	placeholderDropdown: TYPES.STRING,
 	customQuery: TYPES.FUNCTION,
 	componentStyle: TYPES.OBJECT,
-	URLParams: TYPES.BOOLEAN
+	URLParams: TYPES.BOOLEAN,
+	allowFilter: TYPES.BOOLEAN
 };

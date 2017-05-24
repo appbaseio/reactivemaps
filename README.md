@@ -97,7 +97,7 @@ The components are divided into two sections:
 ## 8. Developing Locally
 
 ```
-git clone https://github.com/appbasieo/reactivemaps
+git clone https://github.com/appbaseio/reactivemaps
 npm install
 ```
 

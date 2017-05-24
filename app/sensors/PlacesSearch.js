@@ -33,22 +33,43 @@ export default class PlacesSearch extends Component {
 		this.handleResults = this.handleResults.bind(this);
 		this.customQuery = this.customQuery.bind(this);
 		this.setDefaultLocation = this.setDefaultLocation.bind(this);
+		this.urlParams = helper.URLParams.get(this.props.componentId);
 	}
 
 	componentWillMount() {
 		this.googleMaps = window.google.maps;
 	}
 
+	componentWillReceiveProps(nextProps) {
+		this.checkDefault(nextProps);
+	}
+
 	// Set query information
 	componentDidMount() {
 		this.setQueryInfo();
 		this.getUserLocation(this.setDefaultLocation);
+		this.checkDefault(this.props);
+		this.listenFilter();
+	}
+
+	componentWillUnmount() {
+		if(this.filterListener) {
+			this.filterListener.remove();
+		}
+	}
+
+	listenFilter() {
+		this.filterListener = helper.sensorEmitter.addListener("clearFilter", (data) => {
+			if(data === this.props.componentId) {
+				this.defaultValue = null;
+				this.changeValue(this.defaultValue);
+			}
+		});
 	}
 
 	getUserLocation(cb) {
 		navigator.geolocation.getCurrentPosition((location) => {
 			this.locString = `${location.coords.latitude}, ${location.coords.longitude}`;
-
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}`)
 				.then((res) => {
 					const userLocation = res.data.results[0].formatted_address;
@@ -64,12 +85,37 @@ export default class PlacesSearch extends Component {
 		});
 	}
 
+	checkDefault(props) {
+		this.urlParams = helper.URLParams.get(props.componentId);
+		this.defaultValue = this.urlParams !== null ? this.urlParams : props.defaultSelected;
+		this.changeValue(this.defaultValue);
+	}
+
+	changeValue(defaultValue) {
+		if (this.defaultSelected != defaultValue) {
+			this.defaultSelected = defaultValue;
+			if(this.defaultSelected !== null) {
+				const isExists = this.result.options.length ? this.result.options.every(item => item.value !== this.defaultSelected && item.label !== this.defaultSelected) : false;
+				
+				if(!isExists) {
+					this.result.options.push({
+						value: this.defaultSelected,
+						label: this.defaultSelected
+					});
+				}
+			}
+			this.handleChange({
+				value: this.defaultSelected
+			});
+		}
+	}
+
 	setDefaultLocation() {
 		this.result.options.push({
 			value: this.state.userLocation,
 			label: "Use my current location"
 		});
-		if (this.props.autoLocation) {
+		if (this.props.autoLocation && !this.props.URLParams) {
 			this.setState({
 				currentValue: this.state.userLocation
 			}, () => {
@@ -140,13 +186,14 @@ export default class PlacesSearch extends Component {
 			if(this.props.onValueChange) {
 				this.props.onValueChange(obj.value);
 			}
+			helper.URLParams.update(this.props.componentId, this.state.currentValue, this.props.URLParams);
 			helper.selectedSensor.set(obj, true);
 		}
 	}
 
 	// handle the input change and pass the value inside sensor info
 	handleChange(input) {
-		if (input) {
+		if (input && input.value) {
 			const inputVal = input.value;
 			this.setState({
 				currentValue: inputVal
@@ -160,6 +207,10 @@ export default class PlacesSearch extends Component {
 				key: this.props.componentId,
 				value: null
 			};
+			if(this.props.onValueChange) {
+				this.props.onValueChange(obj.value);
+			}
+			helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
 			helper.selectedSensor.set(obj, true);
 		}
 	}
@@ -259,13 +310,17 @@ PlacesSearch.propTypes = {
 	autoLocation: React.PropTypes.bool,
 	onValueChange: React.PropTypes.func,
 	componentStyle: React.PropTypes.object,
+	URLParams: React.PropTypes.bool,
+	allowFilter: React.PropTypes.bool,
 	unit: React.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"])
 };
 // Default props value
 PlacesSearch.defaultProps = {
 	placeholder: "Search..",
 	autoLocation: true,
-	componentStyle: {}
+	componentStyle: {},
+	URLParams: false,
+	allowFilter: true
 };
 
 // context type
@@ -282,5 +337,7 @@ PlacesSearch.types = {
 	placeholder: TYPES.STRING,
 	autoLocation: TYPES.BOOLEAN,
 	componentStyle: TYPES.OBJECT,
-	unit: TYPES.STRING
+	unit: TYPES.STRING,
+	URLParams: TYPES.BOOLEAN,
+	allowFilter: TYPES.BOOLEAN
 };
