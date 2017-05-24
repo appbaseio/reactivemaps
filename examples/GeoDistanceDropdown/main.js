@@ -53,7 +53,7 @@ class Main extends Component {
 							URLParams={true}
 							unit="mi"
 							data={
-							[{ start: 1, end: 100, label: "Less than 100 miles" },
+								[{ start: 1, end: 100, label: "Less than 100 miles" },
 								{ start: 101, end: 200, label: "Between 100 and 200 miles" },
 								{ start: 201, end: 500, label: "Between 200 and 500 miles" },
 								{ start: 501, end: 1000, label: "Above 500 miles" }]
