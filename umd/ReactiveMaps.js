@@ -38696,6 +38696,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "componentWillReceiveProps",
 			value: function componentWillReceiveProps(nextProps) {
 				var items = this.state.items;
+				this.checkDefault(nextProps);
 				if (nextProps.selectAllLabel !== this.props.selectAllLabel) {
 					if (this.props.selectAllLabel) {
 						items.shift();
@@ -38712,11 +38713,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (this.filterListener) {
 					this.filterListener.remove();
 				}
-			}
-		}, {
-			key: "componentWillReceiveProps",
-			value: function componentWillReceiveProps() {
-				this.checkDefault(nextProps);
 			}
 		}, {
 			key: "listenFilter",
@@ -76716,7 +76712,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "updateQuery",
 			value: function updateQuery() {
-				var currentValue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.start.currentValue;
+				var currentValue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.state.currentValue;
 
 				var obj = {
 					key: this.props.componentId,
@@ -77988,38 +77984,39 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			}
 		}, {
+			key: "getStart",
+			value: function getStart() {
+				var midValue = parseInt(this.props.pages / 2, 10);
+				var start = this.state.currentValue - midValue;
+				return start > 1 ? start : 1;
+			}
+		}, {
 			key: "renderPageNumber",
 			value: function renderPageNumber() {
 				var _this3 = this;
 
-				var start = void 0,
+				var start = this.getStart(),
 				    numbers = [];
-				for (var i = this.state.currentValue; i > 0; i--) {
-					if (i % this.props.pages === 0 || i % (this.props.pages - 1) === 0 || i === 1) {
-						start = i;
-						break;
-					}
-				}
 
-				var _loop = function _loop(_i) {
+				var _loop = function _loop(i) {
 					var singleItem = _react2.default.createElement(
 						"li",
-						{ key: _i, className: "rbc-page-number " + (_this3.state.currentValue === _i ? "active rbc-pagination-active" : "waves-effect") },
+						{ key: i, className: "rbc-page-number " + (_this3.state.currentValue === i ? "active rbc-pagination-active" : "waves-effect") },
 						_react2.default.createElement(
 							"a",
 							{ onClick: function onClick() {
-									return _this3.handleChange(_i);
+									return _this3.handleChange(i);
 								} },
-							_i
+							i
 						)
 					);
-					if (_i <= _this3.state.maxPageNumber) {
+					if (i <= _this3.state.maxPageNumber) {
 						numbers.push(singleItem);
 					}
 				};
 
-				for (var _i = start; _i < start + this.props.pages; _i++) {
-					_loop(_i);
+				for (var i = start; i < start + this.props.pages; i++) {
+					_loop(i);
 				}
 				return _react2.default.createElement(
 					"ul",
@@ -78033,7 +78030,7 @@ return /******/ (function(modules) { // webpackBootstrap
 							_react2.default.createElement("i", { className: "fa fa-angle-left" })
 						)
 					),
-					this.state.currentValue > this.props.pages ? _react2.default.createElement(
+					start !== 1 ? _react2.default.createElement(
 						"li",
 						{ className: "rbc-page-one " + (this.state.currentValue === 1 ? "disabled" : "waves-effect") },
 						_react2.default.createElement(
