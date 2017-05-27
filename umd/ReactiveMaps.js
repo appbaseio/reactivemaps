@@ -38959,6 +38959,9 @@ return /******/ (function(modules) { // webpackBootstrap
 					}
 					return item;
 				});
+				newItems = newItems.filter(function (item) {
+					return item && item.label && item.label.trim();
+				});
 				if (this.props.selectAllLabel) {
 					newItems.unshift({ label: this.props.selectAllLabel, value: this.props.selectAllLabel });
 				}
@@ -50256,7 +50259,9 @@ return /******/ (function(modules) { // webpackBootstrap
 						options: this.state.options,
 						onInputChange: this.setValue,
 						onChange: this.handleSearch,
-						onBlurResetsInput: false
+						onBlurResetsInput: false,
+						backspaceRemoves: false,
+						deleteRemoves: false
 					}, this.props)) : _react2.default.createElement(
 						"div",
 						{ className: "rbc-search-container col s12 col-xs-12" },
@@ -76979,7 +76984,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "componentDidUpdate",
 			value: function componentDidUpdate() {
-				if (!this.state.showPlaceholder) {
+				if (!this.state.showPlaceholder && !this.props.scrollOnTarget) {
 					this.applyScroll();
 				}
 			}
@@ -77440,15 +77445,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 					if (node) {
 						node.addEventListener("scroll", function () {
-							if (_this9.state.requestOnScroll && $(node).scrollTop() + $(node).innerHeight() >= node.scrollHeight && _this9.state.resultStats.total > _this9.state.currentData.length && !_this9.state.queryStart) {
+							var scrollHeight = node.scrollHeight || node.scrollHeight === 0 ? node.scrollHeight : $(node).height();
+							if (_this9.state.requestOnScroll && $(node).scrollTop() + $(node).innerHeight() >= scrollHeight && _this9.state.resultStats.total > _this9.state.currentData.length && !_this9.state.queryStart) {
 								_this9.nextPage();
 							}
 						});
 					}
 				}
-
-				setScroll.call(this, this.listParentElement);
-				setScroll.call(this, this.listChildElement);
+				if (this.props.scrollOnTarget) {
+					setScroll.call(this, this.props.scrollOnTarget);
+				} else {
+					setScroll.call(this, this.listParentElement);
+					setScroll.call(this, this.listChildElement);
+				}
 			}
 		}, {
 			key: "handleSortSelect",
@@ -77462,6 +77471,17 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: this.sortObj
 				};
 				helper.selectedSensor.set(obj, true, "sortChange");
+			}
+		}, {
+			key: "getComponentStyle",
+			value: function getComponentStyle() {
+				var componentStyle = {};
+				if (this.props.scrollOnTarget) {
+					componentStyle.maxHeight = "none";
+					componentStyle.height = "auto";
+				}
+				componentStyle = Object.assign(componentStyle, this.props.componentStyle);
+				return componentStyle;
 			}
 		}, {
 			key: "render",
@@ -77532,7 +77552,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						"div",
 						{ ref: function ref(div) {
 								_this10.listParentElement = div;
-							}, className: "rbc rbc-reactivelist card thumbnail " + cx, style: this.props.componentStyle },
+							}, className: "rbc rbc-reactivelist card thumbnail " + cx, style: this.getComponentStyle() },
 						title,
 						sortOptions,
 						this.props.showResultStats && this.state.resultStats.resultFound ? _react2.default.createElement(_ResultStats2.default, { onResultStats: this.props.onResultStats, took: this.state.resultStats.took, total: this.state.resultStats.total }) : null,
@@ -77584,7 +77604,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		react: _react2.default.PropTypes.object,
 		paginationAt: _react2.default.PropTypes.string,
 		pagination: _react2.default.PropTypes.bool,
-		pages: _react2.default.PropTypes.number
+		pages: _react2.default.PropTypes.number,
+		scrollOnTarget: _react2.default.PropTypes.object
 	};
 
 	ReactiveList.defaultProps = {
@@ -77626,7 +77647,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		placeholder: TYPES.STRING,
 		pagination: TYPES.BOOLEAN,
 		paginationAt: TYPES.STRING,
-		pages: TYPES.NUMBER
+		pages: TYPES.NUMBER,
+		scrollOnTarget: TYPES.OBJECT
 	};
 
 /***/ },
