@@ -107,17 +107,11 @@ export default class ReactiveMap extends Component {
 	// Create a channel which passes the actuate and receive results whenever actuate changes
 	createChannel() {
 		// Set the actuate - add self aggregation query as well with actuate
-		const react = this.props.react ? this.props.react : {};
-		if (react && react.and) {
-			if(typeof react.and === "string") {
-				react.and = [react.and];
-			}
-		} else {
-			react.and = [];
-		}
-		react.or = react.or ? react.or : [];
-		react.or.push("geoQuery");
-		react.and.push("streamChanges");
+		let react = this.props.react ? this.props.react : {};
+		const reactOr = ["geoQuery"];
+		const reactAnd = ["streamChanges"];
+		react = helper.setupReact(react, reactAnd);
+		react = ReactiveMapHelper.setupOrReact(react, reactOr);
 		// create a channel and listen the changes
 		const channelObj = manager.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream);
 		this.channelId = channelObj.channelId;

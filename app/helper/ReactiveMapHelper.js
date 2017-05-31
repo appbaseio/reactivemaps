@@ -184,7 +184,7 @@ export const normalizeCenter = (center) => {
 }
 
 export const normalizeProps = (props) => {
-	const propsCopy = JSON.parse(JSON.stringify(props));
+	const propsCopy = _.clone(props);
 	if(propsCopy.defaultCenter) {
 		propsCopy.defaultCenter = normalizeCenter(propsCopy.defaultCenter);
 	}
@@ -206,4 +206,20 @@ export const mapPropsStyles = (styles, comp, height) => {
 		};
 	}
 	return finalStyles;
+}
+
+export const setupOrReact = (react, reactAnd) => {
+	if (react && react.or) {
+		if (typeof react.or === "string") {
+			react.or = [react.or];
+			react.or = react.or.concat(reactAnd);
+		} else if (_.isArray(react.or)) {
+			react.or = react.or.concat(reactAnd);
+		} else if (_.isObject(react.or)) {
+			react.or = setupReact(react.or, reactAnd);
+		}
+	} else {
+		react.or = reactAnd;
+	}
+	return react;
 }
