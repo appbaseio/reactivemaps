@@ -276,16 +276,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				// Set the actuate - add self aggregation query as well with actuate
 				var react = this.props.react ? this.props.react : {};
-				if (react && react.and) {
-					if (typeof react.and === "string") {
-						react.and = [react.and];
-					}
-				} else {
-					react.and = [];
-				}
-				react.or = react.or ? react.or : [];
-				react.or.push("geoQuery");
-				react.and.push("streamChanges");
+				var reactOr = ["geoQuery"];
+				var reactAnd = ["streamChanges"];
+				react = _reactivebase.AppbaseSensorHelper.setupReact(react, reactAnd);
+				react = ReactiveMapHelper.setupOrReact(react, reactOr);
 				// create a channel and listen the changes
 				var channelObj = _reactivebase.AppbaseChannelManager.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream);
 				this.channelId = channelObj.channelId;
@@ -8023,13 +8017,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					size: this.props.size,
 					sortRef: this.props.componentId + "-sort"
 				};
-				if (react && react.and && typeof react.and === "string") {
-					react.and = [react.and];
-				} else {
-					react.and = react.and ? react.and : [];
-				}
-				react.and.push(this.props.componentId + "-sort");
-				react.and.push("nativeListChanges");
+				var reactAnd = [this.props.componentId + "-sort", "nativeListChanges"];
+				react = helper.setupReact(react, reactAnd);
 				this.includeAggQuery();
 				// create a channel and listen the changes
 				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react);
@@ -26975,8 +26964,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				var getParent = serializeResultQuery.filter(function (dep) {
 					return dep.componentId === depend.parentId;
 				});
-
-				if (Object.prototype.toString.call(depend.components) === "[object Array]") {
+				if (_lodash2.default.isArray(depend.components)) {
 					depend.components.forEach(function (comp) {
 						if (dependsQuery[comp]) {
 							if (queryArray) {
@@ -27018,6 +27006,38 @@ return /******/ (function(modules) { // webpackBootstrap
 				return flag;
 			}
 
+			function mixQuery() {
+				serializeResultQuery.forEach(function (sub) {
+					setnewquery(sub);
+				});
+			}
+
+			function setnewquery(sub) {
+				if (!sub.query && sub.components) {
+					sub.query = [];
+					var child = serializeResultQuery.filter(function (item) {
+						return item.parentId === sub.componentId;
+					});
+					child.forEach(function (sub2, index2) {
+						var semiquery = setnewquery(sub2);
+						if (semiquery) {
+							if (_lodash2.default.isArray(semiquery)) {
+								if (semiquery.length) {
+									sub.query.push(semiquery);
+								}
+							} else {
+								sub.query.push(semiquery);
+							}
+						}
+						if (index2 === child.length - 1 && sub.query.length && sub.conjunction && sub.conjunction !== "aggs") {
+							sub.query = createBoolQuery(sub.conjunction, sub.query);
+						}
+					});
+				} else {
+					return sub.query;
+				}
+			}
+
 			function finalQuery() {
 				var query = {};
 				var aggs = null;
@@ -27034,9 +27054,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (query && Object.keys(query).length) {
 					fullQuery = {
 						body: {
-							query: {
-								bool: query
-							}
+							query: query
 						}
 					};
 				}
@@ -27066,6 +27084,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (uncheckedQueryFound) {
 					return checkAndMake();
 				}
+				mixQuery();
 				return finalQuery();
 			}
 
@@ -27098,7 +27117,9 @@ return /******/ (function(modules) { // webpackBootstrap
 				var query = queryArray;
 				var operation = getOperation(conjunction);
 				if (conjunctions.indexOf(conjunction) > -1) {
-					query = _defineProperty({}, operation, queryArray);
+					query = {
+						bool: _defineProperty({}, operation, queryArray)
+					};
 				}
 				return query;
 			}
@@ -27297,6 +27318,22 @@ return /******/ (function(modules) { // webpackBootstrap
 		"basic_date_time_no_millis": "YYYYMMDDTHHmmssZ",
 		"basic_time": "HHmmss.SSSZ",
 		"basic_time_no_millis": "HHmmssZ"
+	};
+
+	var setupReact = exports.setupReact = function setupReact(react, reactAnd) {
+		if (react && react.and) {
+			if (typeof react.and === "string") {
+				react.and = [react.and];
+				react.and = react.and.concat(reactAnd);
+			} else if (_.isArray(react.and)) {
+				react.and = react.and.concat(reactAnd);
+			} else if (_.isObject(react.and)) {
+				react.and = setupReact(react.and, reactAnd);
+			}
+		} else {
+			react.and = reactAnd;
+		}
+		return react;
 	};
 
 /***/ }),
@@ -39005,13 +39042,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					size: this.props.size,
 					sortRef: this.props.componentId + "-sort"
 				};
-				if (react && react.and && typeof react.and === "string") {
-					react.and = [react.and];
-				} else {
-					react.and = react.and ? react.and : [];
-				}
-				react.and.push(this.props.componentId + "-sort");
-				react.and.push("dropdownListChanges");
+				var reactAnd = [this.props.componentId + "-sort", "dropdownListChanges"];
+				react = helper.setupReact(react, reactAnd);
 				this.includeAggQuery();
 				// create a channel and listen the changes
 				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react);
@@ -42112,12 +42144,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					size: 1000,
 					customQuery: this.histogramQuery
 				};
-				if (react && react.and && typeof react.and === "string") {
-					react.and = [react.and];
-				} else {
-					react.and = react.and ? react.and : [];
-				}
-				react.and.push(this.props.componentId + "-internal");
+				var reactAnd = [this.props.componentId + "-internal"];
+				react = helper.setupReact(react, reactAnd);
 				// create a channel and listen the changes
 				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react);
 				this.channelId = channelObj.channelId;
@@ -51757,6 +51785,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			_this.onInputChange = _this.onInputChange.bind(_this);
 			_this.onSuggestionSelected = _this.onSuggestionSelected.bind(_this);
 			_this.clearSuggestions = _this.clearSuggestions.bind(_this);
+			_this.handleBlur = _this.handleBlur.bind(_this);
+			_this.handleKeyPress = _this.handleKeyPress.bind(_this);
 			_this.defaultSearchQuery = _this.defaultSearchQuery.bind(_this);
 			_this.previousSelectedSensor = {};
 			_this.urlParams = helper.URLParams.get(_this.props.componentId);
@@ -51977,6 +52007,13 @@ return /******/ (function(modules) { // webpackBootstrap
 						}
 					};
 				}
+
+				if (value === "") {
+					finalQuery = {
+						"match_all": {}
+					};
+				}
+
 				return finalQuery;
 			}
 		}, {
@@ -52012,12 +52049,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				var _this5 = this;
 
 				var react = this.props.react ? this.props.react : {};
-				if (react && react.and && typeof react.and === "string") {
-					react.and = [react.and];
-				} else {
-					react.and = react.and ? react.and : [];
-				}
-				react.and.push(this.searchInputId);
+				var reactAnd = [this.searchInputId];
+				react = helper.setupReact(react, reactAnd);
 				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react);
 				this.channelId = channelObj.channelId;
 				this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function (res) {
@@ -52092,6 +52125,20 @@ return /******/ (function(modules) { // webpackBootstrap
 				helper.selectedSensor.set(obj, isExecuteQuery);
 			}
 		}, {
+			key: "handleBlur",
+			value: function handleBlur() {
+				this.handleSearch({
+					value: this.state.currentValue
+				});
+			}
+		}, {
+			key: "handleKeyPress",
+			value: function handleKeyPress(event) {
+				if (event.key === "Enter") {
+					event.target.blur();
+				}
+			}
+		}, {
 			key: "onInputChange",
 			value: function onInputChange(event, _ref) {
 				var method = _ref.method,
@@ -52164,7 +52211,9 @@ return /******/ (function(modules) { // webpackBootstrap
 						inputProps: {
 							placeholder: this.props.placeholder,
 							value: this.state.currentValue === null ? "" : this.state.currentValue,
-							onChange: this.onInputChange
+							onChange: this.onInputChange,
+							onBlur: this.handleBlur,
+							onKeyPress: this.handleKeyPress
 						}
 					}) : _react2.default.createElement(
 						"div",
@@ -81392,21 +81441,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				// Set the react - add self aggs query as well with react
 				var react = this.props.react ? this.props.react : {};
-				if (react && react.and) {
-					if (typeof react.and === "string") {
-						react.and = [react.and];
-					}
-				} else {
-					react.and = [];
-				}
-				react.and.push("streamChanges");
+				var reactAnd = ["streamChanges"];
 				if (this.props.pagination) {
-					react.and.push("paginationChanges");
+					reactAnd.push("paginationChanges");
 					react.pagination = null;
 				}
 				if (this.sortObj) {
-					this.enableSort(react);
+					this.enableSort(reactAnd);
 				}
+				react = helper.setupReact(react, reactAnd);
 				// create a channel and listen the changes
 				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream, this.context.app, this.context.appbaseCrdentials);
 				this.channelId = channelObj.channelId;
@@ -81604,8 +81647,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		}, {
 			key: "enableSort",
-			value: function enableSort(react) {
-				react.and.push(this.resultSortKey);
+			value: function enableSort(reactAnd) {
+				reactAnd.push(this.resultSortKey);
 				var sortObj = {
 					key: this.resultSortKey,
 					value: this.sortObj
@@ -82653,17 +82696,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				// Set the react - add self aggs query as well with react
 				var react = this.props.react ? this.props.react : {};
-				if (react && react.and) {
-					if (typeof react.and === "string") {
-						react.and = [react.and];
-					}
-				} else {
-					react.and = [];
-				}
-				react.and.push("streamChanges");
-				if (this.sortObj) {
-					this.enableSort(react);
-				}
+				var reactAnd = ["streamChanges"];
+				react = helper.setupReact(react, reactAnd);
+
 				// create a channel and listen the changes
 				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream, this.context.app);
 				this.channelId = channelObj.channelId;
@@ -99297,7 +99332,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	var normalizeProps = exports.normalizeProps = function normalizeProps(props) {
-		var propsCopy = JSON.parse(JSON.stringify(props));
+		var propsCopy = _.clone(props);
 		if (propsCopy.defaultCenter) {
 			propsCopy.defaultCenter = normalizeCenter(propsCopy.defaultCenter);
 		}
@@ -99318,6 +99353,22 @@ return /******/ (function(modules) { // webpackBootstrap
 			};
 		}
 		return finalStyles;
+	};
+
+	var setupOrReact = exports.setupOrReact = function setupOrReact(react, reactAnd) {
+		if (react && react.or) {
+			if (typeof react.or === "string") {
+				react.or = [react.or];
+				react.or = react.or.concat(reactAnd);
+			} else if (_.isArray(react.or)) {
+				react.or = react.or.concat(reactAnd);
+			} else if (_.isObject(react.or)) {
+				react.or = setupReact(react.or, reactAnd);
+			}
+		} else {
+			react.or = reactAnd;
+		}
+		return react;
 	};
 
 /***/ }),
