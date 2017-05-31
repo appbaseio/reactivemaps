@@ -49,7 +49,7 @@ One or more sensor components can be configured to create a combined query conte
 
 ### Ease of Use
 
-* [Can be installed with NPM](https://opensource.appbase.io/reactivemaps/manual/v1.0.0/getting-started/Installation.html),
+* [Can be installed with NPM](https://opensource.appbase.io/reactive-manual/v1.0.0/getting-started/Installation.html),
 * Can be run in browser without including any NPM or bundlers (gulp, webpack, etc.), see a demo [here](https://github.com/appbaseio-apps/reactivemaps-starter-app#try-in-browser-without-npm),
 * Works out of the box with Materialize CSS and comes with a polyfill CSS for Bootstrap. Compatibility for other frameworks can be added too.
 
