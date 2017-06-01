@@ -52126,10 +52126,14 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}, {
 			key: "handleBlur",
-			value: function handleBlur() {
-				this.handleSearch({
-					value: this.state.currentValue
-				});
+			value: function handleBlur(event, _ref) {
+				var highlightedSuggestion = _ref.highlightedSuggestion;
+
+				if (!highlightedSuggestion || !highlightedSuggestion.label) {
+					this.handleSearch({
+						value: this.state.currentValue
+					});
+				}
 			}
 		}, {
 			key: "handleKeyPress",
@@ -52140,9 +52144,9 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}, {
 			key: "onInputChange",
-			value: function onInputChange(event, _ref) {
-				var method = _ref.method,
-				    newValue = _ref.newValue;
+			value: function onInputChange(event, _ref2) {
+				var method = _ref2.method,
+				    newValue = _ref2.newValue;
 
 				if (method === "type") {
 					this.setValue(newValue);
@@ -52150,8 +52154,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}, {
 			key: "onSuggestionSelected",
-			value: function onSuggestionSelected(event, _ref2) {
-				var suggestion = _ref2.suggestion;
+			value: function onSuggestionSelected(event, _ref3) {
+				var suggestion = _ref3.suggestion;
 
 				this.handleSearch(suggestion);
 			}
