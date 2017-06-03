@@ -8217,7 +8217,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						showCheckbox: this.props.showCheckbox,
 						defaultSelected: this.state.defaultSelected,
 						selectAllLabel: this.props.selectAllLabel,
-						selectAllValue: this.state.selectAll
+						selectAllValue: this.state.selectAll,
+						showTags: this.props.showTags
 					});
 				} else {
 					listComponent = _react2.default.createElement(_ItemList2.default, {
@@ -8298,7 +8299,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		showRadio: _react2.default.PropTypes.bool,
 		showCheckbox: _react2.default.PropTypes.bool,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		allowFilter: _react2.default.PropTypes.bool,
+		showTags: _react2.default.PropTypes.bool
 	};
 
 	// Default props value
@@ -8315,7 +8317,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		showRadio: true,
 		showCheckbox: true,
 		URLParams: false,
-		allowFilter: true
+		allowFilter: true,
+		showTags: true
 	};
 
 	// context type
@@ -26257,6 +26260,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			this.appbaseCrdentials = {};
 			this.type = {};
 			this.app = {};
+			this.channelQueries = {};
 			this.receive = this.receive.bind(this);
 			this.nextPage = this.nextPage.bind(this);
 			this.paginationChanges = this.paginationChanges.bind(this);
@@ -26378,9 +26382,11 @@ return /******/ (function(modules) { // webpackBootstrap
 						var searchQueryObj = queryObj;
 						searchQueryObj.type = this.type[channelId] === "*" ? "" : this.type[channelId];
 						searchQueryObj.preference = this.app[channelId];
-						setQueryState(channelResponse);
-						// console.log(JSON.stringify(searchQueryObj, null, 4));
-						appbaseQuery(appbaseRef, searchQueryObj, channelResponse, channelObj, queryObj);
+						if (!_lodash2.default.isEqual(this.channelQueries[channelId], searchQueryObj)) {
+							this.channelQueries[channelId] = searchQueryObj;
+							setQueryState(channelResponse);
+							appbaseQuery(appbaseRef, searchQueryObj, channelResponse, channelObj, queryObj);
+						}
 					} else {
 						console.error("appbaseRef is not set for " + channelId);
 					}
@@ -26413,6 +26419,9 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (this.channels[channelId] && this.channels[channelId].watchDependency) {
 					this.channels[channelId].watchDependency.stop();
 					delete this.channels[channelId];
+				}
+				if (this.channelQueries[channelId]) {
+					delete this.channelQueries[channelId];
 				}
 			}
 		}, {
@@ -38674,7 +38683,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: _react2.default.PropTypes.object,
 		showCheckbox: _react2.default.PropTypes.bool,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		allowFilter: _react2.default.PropTypes.bool,
+		showTags: _react2.default.PropTypes.bool
 	};
 
 	// Default props value
@@ -38686,7 +38696,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		title: null,
 		placeholder: "Search",
 		showCheckbox: true,
-		URLParams: false
+		URLParams: false,
+		showTags: true
 	};
 
 	// context type
@@ -38712,7 +38723,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: TYPES.OBJECT,
 		URLParams: TYPES.BOOLEAN,
 		showCheckbox: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN
+		allowFilter: TYPES.BOOLEAN,
+		showTags: TYPES.BOOLEAN
 	};
 
 /***/ }),
@@ -52065,7 +52077,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					_this5.setState({
 						rawData: rawData
 					});
-					if (_this5.props.autocomplete) {
+					if (_this5.props.autoSuggest) {
 						_this5.setData(rawData);
 					}
 				});
@@ -52121,7 +52133,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 				// pass the selected sensor value with componentId as key,
 				var isExecuteQuery = true;
-				helper.URLParams.update(this.props.componentId, value, this.props.URLParams);
+				helper.URLParams.update(this.props.componentId, inputVal, this.props.URLParams);
 				helper.selectedSensor.set(obj, isExecuteQuery);
 			}
 		}, {
@@ -52196,15 +52208,15 @@ return /******/ (function(modules) { // webpackBootstrap
 					"rbc-title-inactive": !this.props.title,
 					"rbc-placeholder-active": this.props.placeholder,
 					"rbc-placeholder-inactive": !this.props.placeholder,
-					"rbc-autocomplete-active": this.props.autocomplete,
-					"rbc-autocomplete-inactive": !this.props.autocomplete
+					"rbc-autoSuggest-active": this.props.autoSuggest,
+					"rbc-autoSuggest-inactive": !this.props.autoSuggest
 				});
 
 				return _react2.default.createElement(
 					"div",
 					{ className: "rbc rbc-datasearch col s12 col-xs-12 card thumbnail " + cx + " " + (this.state.isLoadingOptions ? "is-loading" : ""), style: this.props.componentStyle },
 					title,
-					this.props.autocomplete ? _react2.default.createElement(_reactAutosuggest2.default, {
+					this.props.autoSuggest ? _react2.default.createElement(_reactAutosuggest2.default, {
 						suggestions: this.state.options,
 						onSuggestionsFetchRequested: function onSuggestionsFetchRequested() {},
 						onSuggestionsClearRequested: this.clearSuggestions,
@@ -52247,7 +52259,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		weights: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.number),
 		title: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.element]),
 		placeholder: _react2.default.PropTypes.string,
-		autocomplete: _react2.default.PropTypes.bool,
+		autoSuggest: _react2.default.PropTypes.bool,
 		defaultSelected: _react2.default.PropTypes.string,
 		customQuery: _react2.default.PropTypes.func,
 		onValueChange: _react2.default.PropTypes.func,
@@ -52262,7 +52274,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Default props value
 	DataSearch.defaultProps = {
 		placeholder: "Search",
-		autocomplete: true,
+		autoSuggest: true,
 		componentStyle: {},
 		highlight: false,
 		URLParams: false,
@@ -52282,7 +52294,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		react: TYPES.OBJECT,
 		title: TYPES.STRING,
 		placeholder: TYPES.STRING,
-		autocomplete: TYPES.BOOLEAN,
+		autoSuggest: TYPES.BOOLEAN,
 		defaultSelected: TYPES.STRING,
 		customQuery: TYPES.FUNCTION,
 		componentStyle: TYPES.OBJECT,
@@ -54767,7 +54779,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					);
 				}
 
-				if (this.state.selected) {
+				if (this.state.selected && this.props.showTags) {
 					this.state.selected.forEach(function (item) {
 						TagItemsArray.push(_react2.default.createElement(Tag, {
 							key: item.label,
@@ -54844,13 +54856,15 @@ return /******/ (function(modules) { // webpackBootstrap
 		onValueChange: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		allowFilter: _react2.default.PropTypes.bool,
+		showTags: _react2.default.PropTypes.bool
 	};
 
 	// Default props value
 	MultiRange.defaultProps = {
 		URLParams: false,
-		allowFilter: true
+		allowFilter: true,
+		showTags: true
 	};
 
 	// context type
@@ -54869,7 +54883,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: TYPES.FUNCTION,
 		componentStyle: TYPES.OBJECT,
 		URLParams: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN
+		allowFilter: TYPES.BOOLEAN,
+		showTags: TYPES.BOOLEAN
 	};
 
 /***/ }),
@@ -81319,8 +81334,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 
 		_createClass(ReactiveList, [{
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				this.streamProp = this.props.stream;
 				this.size = this.props.size;
 				this.initialize();
@@ -82657,8 +82672,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				return result;
 			}
 		}, {
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				this.streamProp = this.props.stream;
 				this.initialize();
 			}
@@ -83041,8 +83056,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		_createClass(DataController, [{
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				this.setQueryInfo();
 				this.checkDefault();
 			}
