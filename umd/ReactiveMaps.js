@@ -38904,7 +38904,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				this.filterListener = helper.sensorEmitter.addListener("clearFilter", function (data) {
 					if (data === _this2.props.componentId) {
-						_this2.changeValue(null);
+						_this2.reset();
 					}
 				});
 			}
@@ -38946,6 +38946,12 @@ return /******/ (function(modules) { // webpackBootstrap
 								}
 							});
 						}
+					} else if (defaultValue === null) {
+						if (this.props.multipleSelect) {
+							this.handleCheckboxChange(null);
+						} else {
+							this.handleChange(null);
+						}
 					}
 				}
 			}
@@ -38968,8 +38974,30 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "customQuery",
 			value: function customQuery(record) {
-				var listQuery = _defineProperty({}, this.type, _defineProperty({}, this.props.appbaseField, record));
-				return this.props.multipleSelect ? record.length ? listQuery : null : listQuery;
+				if (record) {
+					var listQuery = _defineProperty({}, this.type, _defineProperty({}, this.props.appbaseField, record));
+					return this.props.multipleSelect ? record.length ? listQuery : null : listQuery;
+				}
+				return null;
+			}
+		}, {
+			key: "reset",
+			value: function reset() {
+				this.setState({
+					selected: this.props.multipleSelect ? [] : ""
+				});
+
+				var obj = {
+					key: this.props.componentId,
+					value: null
+				};
+
+				if (this.props.onValueChange) {
+					this.props.onValueChange(null);
+				}
+
+				helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
+				helper.selectedSensor.set(obj, true);
 			}
 		}, {
 			key: "handleChange",
@@ -39029,16 +39057,9 @@ return /******/ (function(modules) { // webpackBootstrap
 					this.props.onValueChange(value);
 				}
 
-				var selectedValue = typeof value === "string" ? value.trim() ? value : null : this.getSelectedLabels(value);
+				var selectedValue = typeof value === "string" ? value.trim() ? value : null : value;
 				helper.URLParams.update(this.props.componentId, selectedValue, this.props.URLParams);
 				helper.selectedSensor.set(obj, true);
-			}
-		}, {
-			key: "getSelectedLabels",
-			value: function getSelectedLabels(selected) {
-				return selected ? selected.map(function (item) {
-					return item.label;
-				}) : null;
 			}
 		}, {
 			key: "renderObjectList",
