@@ -39074,17 +39074,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				if (data) {
 					if (this.props.multipleSelect) {
-						list = data.map(function (record) {
+						list = data.map(function (record, i) {
 							return _react2.default.createElement(
 								"div",
-								{ className: "rbc-list-item row", key: record.label, onClick: function onClick() {
+								{ className: "rbc-list-item row", key: record.label + "-" + i, onClick: function onClick() {
 										return _this4.handleCheckboxChange(record);
 									} },
 								_react2.default.createElement("input", {
 									type: "checkbox",
 									className: "rbc-checkbox-item",
-									name: _this4.props.componentId,
-									defaultChecked: selected && selected.indexOf(record.value) >= 0
+									checked: selected && selected.indexOf(record.value) >= 0,
+									onChange: function onChange() {}
 								}),
 								_react2.default.createElement(
 									"label",
@@ -39094,17 +39094,17 @@ return /******/ (function(modules) { // webpackBootstrap
 							);
 						});
 					} else {
-						list = data.map(function (record) {
+						list = data.map(function (record, i) {
 							return _react2.default.createElement(
 								"div",
-								{ className: "rbc-list-item row", key: record.label, onClick: function onClick() {
+								{ className: "rbc-list-item row", key: record.label + "-" + i, onClick: function onClick() {
 										return _this4.handleChange(record);
 									} },
 								_react2.default.createElement("input", {
 									type: "radio",
 									className: "rbc-radio-item",
-									name: _this4.props.componentId,
-									defaultChecked: selected && selected === record.value
+									checked: selected && selected === record.value,
+									onChange: function onChange() {}
 								}),
 								_react2.default.createElement(
 									"label",
@@ -39130,17 +39130,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				if (data) {
 					if (this.props.multipleSelect) {
-						list = data.map(function (record) {
+						list = data.map(function (record, i) {
 							return _react2.default.createElement(
 								"div",
-								{ className: "rbc-list-item row", key: record, onClick: function onClick() {
+								{ className: "rbc-list-item row", key: record + "-" + i, onClick: function onClick() {
 										return _this5.handleCheckboxChange(record);
 									} },
 								_react2.default.createElement("input", {
 									type: "checkbox",
 									className: "rbc-checkbox-item",
-									name: _this5.props.componentId,
-									defaultChecked: selected && selected.indexOf(record) >= 0
+									checked: selected && selected.indexOf(record) >= 0,
+									onChange: function onChange() {}
 								}),
 								_react2.default.createElement(
 									"label",
@@ -39153,14 +39153,14 @@ return /******/ (function(modules) { // webpackBootstrap
 						list = data.map(function (record) {
 							return _react2.default.createElement(
 								"div",
-								{ className: "rbc-list-item row", key: record, onClick: function onClick() {
+								{ className: "rbc-list-item row", key: record + "-" + i, onClick: function onClick() {
 										return _this5.handleChange(record);
 									} },
 								_react2.default.createElement("input", {
 									type: "radio",
 									className: "rbc-radio-item",
-									name: _this5.props.componentId,
-									checked: selected === record
+									checked: selected === record,
+									onChange: function onChange() {}
 								}),
 								_react2.default.createElement(
 									"label",
