@@ -171,7 +171,10 @@ export default class GeoDistanceDropdown extends Component {
 			value: {
 				queryType: this.type,
 				appbaseField: this.props.appbaseField,
-				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+				reactiveId: this.context.reactiveId,
+				allowFilter: this.props.allowFilter,
+				component: "GeoDistanceDropdown"
 			}
 		};
 		helper.selectedSensor.setSensorInfo(obj);
@@ -413,7 +416,8 @@ GeoDistanceDropdown.defaultProps = {
 // context type
 GeoDistanceDropdown.contextTypes = {
 	appbaseRef: React.PropTypes.any.isRequired,
-	type: React.PropTypes.any.isRequired
+	type: React.PropTypes.any.isRequired,
+	reactiveId: React.PropTypes.number
 };
 
 GeoDistanceDropdown.types = {

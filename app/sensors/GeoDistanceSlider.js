@@ -160,7 +160,10 @@ export default class GeoDistanceSlider extends Component {
 			value: {
 				queryType: this.type,
 				appbaseField: this.props.appbaseField,
-				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+				reactiveId: this.context.reactiveId,
+				allowFilter: this.props.allowFilter,
+				component: "GeoDistanceSlider"
 			}
 		};
 		helper.selectedSensor.setSensorInfo(obj);
@@ -431,7 +434,8 @@ GeoDistanceSlider.defaultProps = {
 // context type
 GeoDistanceSlider.contextTypes = {
 	appbaseRef: React.PropTypes.any.isRequired,
-	type: React.PropTypes.any.isRequired
+	type: React.PropTypes.any.isRequired,
+	reactiveId: React.PropTypes.number
 };
 
 GeoDistanceSlider.types = {

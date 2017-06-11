@@ -131,7 +131,10 @@ export default class PlacesSearch extends Component {
 			value: {
 				queryType: this.type,
 				inputData: this.props.appbaseField,
-				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+				reactiveId: this.context.reactiveId,
+				allowFilter: this.props.allowFilter,
+				component: "PlacesSearch"
 			}
 		};
 		helper.selectedSensor.setSensorInfo(obj);
@@ -326,7 +329,8 @@ PlacesSearch.defaultProps = {
 // context type
 PlacesSearch.contextTypes = {
 	appbaseRef: React.PropTypes.any.isRequired,
-	type: React.PropTypes.any.isRequired
+	type: React.PropTypes.any.isRequired,
+	reactiveId: React.PropTypes.number
 };
 
 PlacesSearch.types = {
