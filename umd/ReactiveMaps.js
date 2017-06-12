@@ -8096,14 +8096,18 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function addItemsToList(newItems) {
 				var _this6 = this;
 
-				newItems = newItems.map(function (item) {
-					item.key = item.key.toString();
-					item.status = !!(_this6.selectedValue && _this6.selectedValue.indexOf(item.key) > -1);
-					return item;
+				var items = [];
+				newItems.forEach(function (item) {
+					var key = item.key.toString();
+					if (key.trim() !== "") {
+						item.key = key;
+						item.status = !!(_this6.selectedValue && _this6.selectedValue.indexOf(item.key) > -1);
+						items.push(item);
+					}
 				});
 				this.setState({
-					items: newItems,
-					storedItems: newItems
+					items: items,
+					storedItems: items
 				}, function () {
 					if (_this6.selectAllWhenReady) {
 						_this6.onSelectAll(_this6.props.selectAllLabel);
@@ -8685,7 +8689,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					);
 				}
 
-				if (this.props.value && this.props.value.trim() === "") {
+				if (this.props.value.trim() === "") {
 					return null;
 				}
 
@@ -9008,7 +9012,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function render() {
 				var _this7 = this;
 
-				if (this.props.value && this.props.value.trim() === "") {
+				if (this.props.value.trim() === "") {
 					return null;
 				}
 
