@@ -7705,6 +7705,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function SingleList(props) {
 		return _react2.default.createElement(_NativeList2.default, _extends({}, props, {
+			component: "SingleList",
 			multipleSelect: false
 		}));
 	}
@@ -7984,7 +7985,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						customQuery: this.customQuery
+						customQuery: this.customQuery,
+						reactiveId: this.context.reactiveId,
+						allowFilter: this.props.allowFilter,
+						component: this.props.component
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -8032,7 +8036,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				react = helper.setupReact(react, reactAnd);
 				this.includeAggQuery();
 				// create a channel and listen the changes
-				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react);
+				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, 100, 0, false, this.props.componentId);
 				this.channelId = channelObj.channelId;
 				this.channelListener = channelObj.emitter.addListener(this.channelId, function (res) {
 					if (res.error) {
@@ -8343,7 +8347,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	NativeList.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 /***/ }),
@@ -8670,7 +8675,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "render",
 			value: function render() {
 				var count = void 0;
-				// Check if the user has set to display countField
 				if (this.props.countField) {
 					count = _react2.default.createElement(
 						"span",
@@ -8680,6 +8684,11 @@ return /******/ (function(modules) { // webpackBootstrap
 						" "
 					);
 				}
+
+				if (this.props.value && this.props.value.trim() === "") {
+					return null;
+				}
+
 				var cx = (0, _classnames2.default)({
 					"rbc-count-active": this.props.countField,
 					"rbc-count-inactive": !this.props.countField,
@@ -8688,6 +8697,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					"rbc-list-item-active": this.state.status,
 					"rbc-list-item-inactive": !this.state.status
 				});
+
 				return _react2.default.createElement(
 					"div",
 					{ onClick: this.handleClick.bind(this), className: "rbc-list-item row " + cx },
@@ -8998,6 +9008,10 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function render() {
 				var _this7 = this;
 
+				if (this.props.value && this.props.value.trim() === "") {
+					return null;
+				}
+
 				var cx = (0, _classnames2.default)({
 					"rbc-count-active": this.props.countField,
 					"rbc-count-inactive": !this.props.countField,
@@ -9175,7 +9189,6 @@ return /******/ (function(modules) { // webpackBootstrap
 						activateStream.call(_this2, channelId, queryObj, appbaseRef);
 					}
 				};
-
 				if (!queryOptions) {
 					queryObj = ChannelHelper.queryBuild(channelObj, channelObj.previousSelectedSensor);
 					this.queryOptions[channelId] = channelObj.previousSelectedSensor["channel-options-" + channelId];
@@ -9188,7 +9201,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				} catch (e) {
 					console.log(e);
 				}
-
 				if (validQuery) {
 					var channelResponse = {
 						startTime: new Date().getTime(),
@@ -9206,9 +9218,11 @@ return /******/ (function(modules) { // webpackBootstrap
 							appbaseQuery(appbaseRef, searchQueryObj, channelResponse, channelObj, queryObj);
 						}
 					} else {
+						this.channelQueries[channelId] = queryObj;
 						console.error("appbaseRef is not set for " + channelId);
 					}
 				} else {
+					this.channelQueries[channelId] = queryObj;
 					var obj = {
 						mode: "historic",
 						startTime: new Date().getTime(),
@@ -20482,7 +20496,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "setOrDelete",
 			value: function setOrDelete(componentId, value) {
 				if (componentId) {
-					if (value === null || value === undefined) {
+					if (value === undefined || value === null || typeof value === "string" && value.trim() === "" || Array.isArray(value) && value.length === 0) {
 						this.params.delete(componentId);
 					} else {
 						this.params.set(componentId, value);
@@ -38588,6 +38602,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function MultiList(props) {
 		return _react2.default.createElement(_NativeList2.default, _extends({}, props, {
+			component: "MultiList",
 			multipleSelect: true
 		}));
 	}
@@ -38681,6 +38696,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function SingleDataList(props) {
 		return _react2.default.createElement(_DataList2.default, _extends({}, props, {
+			component: "SingleDataList",
 			multipleSelect: false
 		}));
 	}
@@ -38776,7 +38792,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			};
 
 			_this.type = _this.props.multipleSelect ? "Terms" : "Term";
-			_this.urlParams = helper.URLParams.get(_this.props.componentId, true);
+			_this.urlParams = helper.URLParams.get(_this.props.componentId, props.multipleSelect);
 			_this.customQuery = _this.customQuery.bind(_this);
 			_this.renderObjectList = _this.renderObjectList.bind(_this);
 			_this.renderStringList = _this.renderStringList.bind(_this);
@@ -38791,11 +38807,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.listenFilter();
 			}
 		}, {
-			key: "componentWillReceiveProps",
-			value: function componentWillReceiveProps(nextProps) {
-				this.checkDefault(nextProps);
-			}
-		}, {
 			key: "componentWillUnmount",
 			value: function componentWillUnmount() {
 				if (this.filterListener) {
@@ -38808,6 +38819,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.setState({
 					data: nextProps.data
 				});
+				this.checkDefault(nextProps);
 			}
 		}, {
 			key: "listenFilter",
@@ -38823,7 +38835,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "checkDefault",
 			value: function checkDefault(props) {
-				this.urlParams = helper.URLParams.get(props.componentId, true);
+				this.urlParams = helper.URLParams.get(props.componentId, props.multipleSelect);
 				var defaultValue = this.urlParams !== null ? this.urlParams : props.defaultSelected;
 				this.changeValue(defaultValue);
 			}
@@ -38878,7 +38890,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						reactiveId: this.context.reactiveId,
+						allowFilter: this.props.allowFilter,
+						component: this.props.component
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -39062,7 +39077,7 @@ return /******/ (function(modules) { // webpackBootstrap
 							);
 						});
 					} else {
-						list = data.map(function (record) {
+						list = data.map(function (record, i) {
 							return _react2.default.createElement(
 								"div",
 								{ className: "rbc-list-item row", key: record + "-" + i, onClick: function onClick() {
@@ -39163,7 +39178,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	DataList.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 /***/ }),
@@ -39198,6 +39214,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function MultiDataList(props) {
 		return _react2.default.createElement(_DataList2.default, _extends({}, props, {
+			component: "MultiDataList",
 			multipleSelect: true
 		}));
 	}
@@ -39272,6 +39289,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function SingleDropdownList(props) {
 		return _react2.default.createElement(_DropdownList2.default, _extends({}, props, {
+			component: "SingleDropdownList",
 			multipleSelect: false
 		}));
 	}
@@ -39520,7 +39538,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						reactiveId: this.context.reactiveId,
+						allowFilter: this.props.allowFilter,
+						component: this.props.component
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -39571,7 +39592,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				react = helper.setupReact(react, reactAnd);
 				this.includeAggQuery();
 				// create a channel and listen the changes
-				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react);
+				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, 100, 0, false, this.props.componentId);
 				this.channelId = channelObj.channelId;
 				this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function (res) {
 					if (res.error) {
@@ -39836,7 +39857,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	DropdownList.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 /***/ }),
@@ -42300,6 +42322,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function MultiDropdownList(props) {
 		return _react2.default.createElement(_DropdownList2.default, _extends({}, props, {
+			component: "MultiDropdownList",
 			multipleSelect: true
 		}));
 	}
@@ -42672,7 +42695,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				var reactAnd = [this.props.componentId + "-internal"];
 				react = helper.setupReact(react, reactAnd);
 				// create a channel and listen the changes
-				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react);
+				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, 100, 0, false, this.props.componentId);
 				this.channelId = channelObj.channelId;
 				this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function (res) {
 					if (res.error) {
@@ -52107,7 +52130,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						reactiveId: this.context.reactiveId,
+						allowFilter: this.props.allowFilter,
+						component: "TextField"
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -52212,7 +52238,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	TextField.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 	TextField.types = {
@@ -52329,11 +52356,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.checkDefault();
 				this.listenFilter();
 			}
-		}, {
-			key: "componentWillUpdate",
-			value: function componentWillUpdate() {
-				this.checkDefault();
-			}
 
 			// stop streaming request and remove listener when component will unmount
 
@@ -52393,7 +52415,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.defaultSearchQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.defaultSearchQuery,
+						reactiveId: this.context.reactiveId,
+						allowFilter: this.props.allowFilter,
+						component: "DataSearch"
 					}
 				};
 				if (this.props.highlight) {
@@ -52576,7 +52601,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				var react = this.props.react ? this.props.react : {};
 				var reactAnd = [this.searchInputId];
 				react = helper.setupReact(react, reactAnd);
-				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react);
+				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, 100, 0, false, this.props.componentId);
 				this.channelId = channelObj.channelId;
 				this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function (res) {
 					var data = res.data;
@@ -52699,11 +52724,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "renderSuggestion",
 			value: function renderSuggestion(suggestion) {
-				return _react2.default.createElement(
-					"span",
-					null,
-					suggestion.label
-				);
+				return suggestion.label;
 			}
 		}, {
 			key: "render",
@@ -52797,7 +52818,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	DataSearch.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 	DataSearch.types = {
@@ -54830,7 +54852,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						reactiveId: this.context.reactiveId,
+						allowFilter: this.props.allowFilter,
+						component: "SingleRange"
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -54968,7 +54993,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	SingleRange.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 	SingleRange.types = {
@@ -55114,7 +55140,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						reactiveId: this.context.reactiveId,
+						allowFilter: this.props.allowFilter,
+						component: "MultiRange"
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -55383,7 +55412,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	MultiRange.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 	MultiRange.types = {
@@ -55530,7 +55560,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						reactiveId: this.context.reactiveId,
+						allowFilter: this.props.allowFilter,
+						component: "SingleDropdownRange"
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -55647,7 +55680,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	SingleDropdownRange.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 	SingleDropdownRange.types = {
@@ -56100,7 +56134,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						reactiveId: this.context.reactiveId,
+						allowFilter: this.props.allowFilter,
+						component: "ToggleButton"
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -56280,7 +56317,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	ToggleButton.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 	ToggleButton.types = {
@@ -56414,7 +56452,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						reactiveId: this.context.reactiveId,
+						allowFilter: this.props.allowFilter,
+						component: "DatePicker"
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -56583,7 +56624,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	DatePicker.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 	DatePicker.types = {
@@ -81124,7 +81166,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						reactiveId: this.context.reactiveId,
+						allowFilter: this.props.allowFilter,
+						component: "DateRange"
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -81370,7 +81415,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	DateRange.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 	DateRange.types = {
@@ -81983,7 +82029,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 				react = helper.setupReact(react, reactAnd);
 				// create a channel and listen the changes
-				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream, this.context.app, this.context.appbaseCrdentials);
+				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream, this.props.componentId, this.context.appbaseCrdentials);
 				this.channelId = channelObj.channelId;
 
 				this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function (res) {
@@ -83232,7 +83278,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				react = helper.setupReact(react, reactAnd);
 
 				// create a channel and listen the changes
-				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream, this.context.app);
+				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream, this.props.componentId);
 				this.channelId = channelObj.channelId;
 
 				this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function (res) {
@@ -83596,7 +83642,10 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function setQueryInfo() {
 				var valObj = {
 					queryType: this.type,
-					inputData: this.props.appbaseField
+					inputData: this.props.appbaseField,
+					reactiveId: this.context.reactiveId,
+					allowFilter: this.props.allowFilter,
+					component: "DataController"
 				};
 				if (this.props.customQuery) {
 					valObj.customQuery = this.props.customQuery;
@@ -83701,7 +83750,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	DataController.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 	DataController.types = {
@@ -83797,7 +83847,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				Object.keys(data).forEach(function (item) {
 					var selectedFilter = _this2.isSibling(item);
 					if (selectedFilter) {
-						if (data[item] !== null) {
+						if (data[item] && (typeof data[item] === "string" ? data[item].trim() !== "" : true)) {
 							filters[item] = {
 								value: data[item],
 								component: selectedFilter.component
@@ -83820,31 +83870,14 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "isSibling",
 			value: function isSibling(siblingComponentId) {
-				var _this3 = this;
-
 				var filter = null;
-				helper.RecactivebaseComponents.forEach(function (item) {
-					filter = _this3.getItem(item, siblingComponentId);
-				});
+				var sensorInfo = helper.selectedSensor.get(siblingComponentId, "sensorInfo");
+				if (sensorInfo && sensorInfo.allowFilter && sensorInfo.component && (sensorInfo.reactiveId === 0 || sensorInfo.reactiveId) && this.blacklist.indexOf(sensorInfo.component) < 0 && this.context.reactiveId === sensorInfo.reactiveId) {
+					filter = {
+						component: sensorInfo.component
+					};
+				}
 				return filter;
-			}
-		}, {
-			key: "getItem",
-			value: function getItem(items, siblingComponentId) {
-				var _this4 = this;
-
-				var selectedItem = null;
-				items.forEach(function (item) {
-					if (_this4.blacklist.indexOf(item.component) < 0 && item.componentId === siblingComponentId) {
-						var isSameReactivebase = !items.every(function (subitem) {
-							return subitem.componentId !== _this4.props.componentId;
-						});
-						if (isSameReactivebase) {
-							selectedItem = item;
-						}
-					}
-				});
-				return selectedItem;
 			}
 		}, {
 			key: "clearFilter",
@@ -83887,7 +83920,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					}
 				} else if (item.component === "CategorySearch") {
 					value = item && item.value && item.value.value ? item.value.value : null;
-					if (item.value.category) {
+					if (item.value.category && value) {
 						value += " in " + item.value.category;
 					}
 				} else if (item.component === "PlacesSearch") {
@@ -83904,7 +83937,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "render",
 			value: function render() {
-				var _this5 = this;
+				var _this3 = this;
 
 				return Object.keys(this.state.filters).length ? _react2.default.createElement(
 					"div",
@@ -83916,7 +83949,7 @@ return /******/ (function(modules) { // webpackBootstrap
 							_react2.default.createElement(
 								"button",
 								{ className: "close", onClick: function onClick() {
-										return _this5.clearFilter(item);
+										return _this3.clearFilter(item);
 									} },
 								"x"
 							),
@@ -83929,7 +83962,7 @@ return /******/ (function(modules) { // webpackBootstrap
 									item
 								),
 								" : ",
-								_this5.parseValue(_this5.state.filters[item])
+								_this3.parseValue(_this3.state.filters[item])
 							)
 						);
 					})
@@ -83950,6 +83983,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	SelectedFilters.defaultProps = {
 		componentStyle: {}
+	};
+
+	// context type
+	SelectedFilters.contextTypes = {
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 /***/ }),
@@ -84053,7 +84091,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					appbaseRef: this.appbaseRef,
 					type: this.type,
 					app: this.props.app,
-					appbaseCrdentials: this.appbaseCrdentials
+					appbaseCrdentials: this.appbaseCrdentials,
+					reactiveId: this.reactiveId
 				};
 			}
 		}, {
@@ -84089,7 +84128,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
 		type: _react2.default.PropTypes.any.isRequired,
 		app: _react2.default.PropTypes.any,
-		appbaseCrdentials: _react2.default.PropTypes.any.isRequired
+		appbaseCrdentials: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 /***/ }),
@@ -100118,7 +100158,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						appbaseField: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						reactiveId: this.context.reactiveId,
+						allowFilter: this.props.allowFilter,
+						component: "GeoDistanceSlider"
 					}
 				};
 				_reactivebase.AppbaseSensorHelper.selectedSensor.setSensorInfo(obj);
@@ -100427,7 +100470,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	GeoDistanceSlider.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 	GeoDistanceSlider.types = {
@@ -102172,7 +102216,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						appbaseField: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						reactiveId: this.context.reactiveId,
+						allowFilter: this.props.allowFilter,
+						component: "GeoDistanceDropdown"
 					}
 				};
 				_reactivebase.AppbaseSensorHelper.selectedSensor.setSensorInfo(obj);
@@ -102445,7 +102492,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	GeoDistanceDropdown.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 	GeoDistanceDropdown.types = {
@@ -102658,7 +102706,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						reactiveId: this.context.reactiveId,
+						allowFilter: this.props.allowFilter,
+						component: "PlacesSearch"
 					}
 				};
 				_reactivebase.AppbaseSensorHelper.selectedSensor.setSensorInfo(obj);
@@ -102892,7 +102943,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// context type
 	PlacesSearch.contextTypes = {
 		appbaseRef: _react2.default.PropTypes.any.isRequired,
-		type: _react2.default.PropTypes.any.isRequired
+		type: _react2.default.PropTypes.any.isRequired,
+		reactiveId: _react2.default.PropTypes.number
 	};
 
 	PlacesSearch.types = {
