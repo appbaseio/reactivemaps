@@ -38820,19 +38820,22 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "componentWillReceiveProps",
 			value: function componentWillReceiveProps(nextProps) {
+				var _this2 = this;
+
 				this.setState({
 					data: nextProps.data
+				}, function () {
+					_this2.checkDefault(nextProps);
 				});
-				this.checkDefault(nextProps);
 			}
 		}, {
 			key: "listenFilter",
 			value: function listenFilter() {
-				var _this2 = this;
+				var _this3 = this;
 
 				this.filterListener = helper.sensorEmitter.addListener("clearFilter", function (data) {
-					if (data === _this2.props.componentId) {
-						_this2.reset();
+					if (data === _this3.props.componentId) {
+						_this3.reset();
 					}
 				});
 			}
@@ -38846,7 +38849,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "changeValue",
 			value: function changeValue(defaultValue) {
-				var _this3 = this;
+				var _this4 = this;
 
 				if (!_.isEqual(this.defaultSelected, defaultValue)) {
 					this.defaultSelected = defaultValue;
@@ -38854,10 +38857,10 @@ return /******/ (function(modules) { // webpackBootstrap
 						if (this.props.multipleSelect) {
 							if (Array.isArray(defaultValue)) {
 								defaultValue.forEach(function (item) {
-									_this3.state.data.some(function (record) {
+									_this4.state.data.some(function (record) {
 										if (record.label ? record.label === item : record === item) {
 											setTimeout(function () {
-												_this3.handleCheckboxChange(record);
+												_this4.handleCheckboxChange(record);
 											}, 100);
 											return true;
 										}
@@ -38869,7 +38872,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						} else {
 							this.state.data.some(function (record) {
 								if (record.label ? record.label === defaultValue : record === defaultValue) {
-									_this3.handleChange(record);
+									_this4.handleChange(record);
 									return true;
 								}
 							});
@@ -38933,6 +38936,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "handleChange",
 			value: function handleChange(record) {
+				var _this5 = this;
+
 				var value = record;
 
 				if (_typeof(this.state.data[0]) === "object") {
@@ -38941,6 +38946,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				this.setState({
 					selected: value
+				}, function () {
+					_this5.defaultSelected = value;
 				});
 
 				this.executeQuery(value);
@@ -38948,6 +38955,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "handleCheckboxChange",
 			value: function handleCheckboxChange(record) {
+				var _this6 = this;
+
 				var _state = this.state,
 				    selected = _state.selected,
 				    data = _state.data;
@@ -38972,6 +38981,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				this.setState({
 					selected: selected
+				}, function () {
+					_this6.defaultSelected = selected;
 				});
 
 				this.executeQuery(selected);
@@ -38995,7 +39006,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "renderObjectList",
 			value: function renderObjectList() {
-				var _this4 = this;
+				var _this7 = this;
 
 				var _state2 = this.state,
 				    data = _state2.data,
@@ -39009,7 +39020,7 @@ return /******/ (function(modules) { // webpackBootstrap
 							return _react2.default.createElement(
 								"div",
 								{ className: "rbc-list-item row", key: record.label + "-" + i, onClick: function onClick() {
-										return _this4.handleCheckboxChange(record);
+										return _this7.handleCheckboxChange(record);
 									} },
 								_react2.default.createElement("input", {
 									type: "checkbox",
@@ -39029,7 +39040,7 @@ return /******/ (function(modules) { // webpackBootstrap
 							return _react2.default.createElement(
 								"div",
 								{ className: "rbc-list-item row", key: record.label + "-" + i, onClick: function onClick() {
-										return _this4.handleChange(record);
+										return _this7.handleChange(record);
 									} },
 								_react2.default.createElement("input", {
 									type: "radio",
@@ -39051,7 +39062,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "renderStringList",
 			value: function renderStringList() {
-				var _this5 = this;
+				var _this8 = this;
 
 				var _state3 = this.state,
 				    data = _state3.data,
@@ -39065,7 +39076,7 @@ return /******/ (function(modules) { // webpackBootstrap
 							return _react2.default.createElement(
 								"div",
 								{ className: "rbc-list-item row", key: record + "-" + i, onClick: function onClick() {
-										return _this5.handleCheckboxChange(record);
+										return _this8.handleCheckboxChange(record);
 									} },
 								_react2.default.createElement("input", {
 									type: "checkbox",
@@ -39085,7 +39096,7 @@ return /******/ (function(modules) { // webpackBootstrap
 							return _react2.default.createElement(
 								"div",
 								{ className: "rbc-list-item row", key: record + "-" + i, onClick: function onClick() {
-										return _this5.handleChange(record);
+										return _this8.handleChange(record);
 									} },
 								_react2.default.createElement("input", {
 									type: "radio",
@@ -39177,7 +39188,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		title: null,
 		componentStyle: {},
 		URLParams: false,
-		multipleSelect: false
+		multipleSelect: false,
+		allowFilter: true
 	};
 
 	DataList.contextTypes = {
@@ -52449,6 +52461,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					key: this.searchInputId,
 					value: value
 				};
+				this.defaultSelected = value;
 				helper.URLParams.update(this.props.componentId, value, this.props.URLParams);
 				helper.selectedSensor.set(obj, true);
 				if (value && value.trim() !== "") {
