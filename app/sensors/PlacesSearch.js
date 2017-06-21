@@ -133,7 +133,7 @@ export default class PlacesSearch extends Component {
 				inputData: this.props.appbaseField,
 				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 				reactiveId: this.context.reactiveId,
-				allowFilter: this.props.allowFilter,
+				showFilter: this.props.showFilter,
 				component: "PlacesSearch"
 			}
 		};
@@ -314,7 +314,7 @@ PlacesSearch.propTypes = {
 	onValueChange: React.PropTypes.func,
 	componentStyle: React.PropTypes.object,
 	URLParams: React.PropTypes.bool,
-	allowFilter: React.PropTypes.bool,
+	showFilter: React.PropTypes.bool,
 	unit: React.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"])
 };
 // Default props value
@@ -323,7 +323,7 @@ PlacesSearch.defaultProps = {
 	autoLocation: true,
 	componentStyle: {},
 	URLParams: false,
-	allowFilter: true
+	showFilter: true
 };
 
 // context type
@@ -343,5 +343,5 @@ PlacesSearch.types = {
 	componentStyle: TYPES.OBJECT,
 	unit: TYPES.STRING,
 	URLParams: TYPES.BOOLEAN,
-	allowFilter: TYPES.BOOLEAN
+	showFilter: TYPES.BOOLEAN
 };

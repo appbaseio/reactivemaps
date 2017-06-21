@@ -12,7 +12,7 @@ var combineObj = {
 	PlacesSearch: PlacesSearch
 };
 
-for(let component in reactivebase) {
+for (let component in reactivebase) {
 	combineObj[component] = reactivebase[component];
 }
 
