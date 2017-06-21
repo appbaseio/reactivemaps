@@ -7726,7 +7726,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: _react2.default.PropTypes.object,
 		showRadio: _react2.default.PropTypes.bool,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool
 	};
 
 	// Default props value
@@ -7765,7 +7765,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: TYPES.OBJECT,
 		URLParams: TYPES.BOOLEAN,
 		showRadio: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN
+		showFilter: TYPES.BOOLEAN
 	};
 
 /***/ }),
@@ -7987,7 +7987,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						inputData: this.props.appbaseField,
 						customQuery: this.customQuery,
 						reactiveId: this.context.reactiveId,
-						allowFilter: this.props.allowFilter,
+						showFilter: this.props.showFilter,
+						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 						component: this.props.component
 					}
 				};
@@ -8328,7 +8329,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		showRadio: _react2.default.PropTypes.bool,
 		showCheckbox: _react2.default.PropTypes.bool,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool,
+		filterLabel: _react2.default.PropTypes.string
 	};
 
 	// Default props value
@@ -8345,7 +8347,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		showRadio: true,
 		showCheckbox: true,
 		URLParams: false,
-		allowFilter: true
+		showFilter: true
 	};
 
 	// context type
@@ -8689,7 +8691,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					);
 				}
 
-				if (this.props.value.trim() === "") {
+				if (this.props.value.trim() === "" || !this.props.visible) {
 					return null;
 				}
 
@@ -9457,6 +9459,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		function generateQuery() {
 			var dependsQuery = {};
+			var isDataSearchInternal = false;
+			channelObj.serializeDepends.dependsList.forEach(function (depend) {
+				var sensorInfo = helper.selectedSensor.get(depend, "sensorInfo");
+				if (sensorInfo && sensorInfo.component === "DataSearchInternal") {
+					isDataSearchInternal = true;
+				}
+			});
 			channelObj.serializeDepends.dependsList.forEach(function (depend) {
 				if (depend === "aggs") {
 					dependsQuery[depend] = aggsQuery(depend);
@@ -9466,7 +9475,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				} else {
 					dependsQuery[depend] = singleQuery(depend);
 					var externalQuery = isExternalQuery(depend);
-					if (externalQuery) {
+					if (externalQuery && !isDataSearchInternal) {
 						requestOptions = requestOptions || {};
 						requestOptions = Object.assign(requestOptions, externalQuery);
 					}
@@ -38627,7 +38636,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: _react2.default.PropTypes.object,
 		showCheckbox: _react2.default.PropTypes.bool,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool
 	};
 
 	// Default props value
@@ -38665,7 +38674,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: TYPES.OBJECT,
 		URLParams: TYPES.BOOLEAN,
 		showCheckbox: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN
+		showFilter: TYPES.BOOLEAN
 	};
 
 /***/ }),
@@ -38714,7 +38723,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool
 	};
 
 	// Default props value
@@ -38740,7 +38749,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: TYPES.FUNCTION,
 		componentStyle: TYPES.OBJECT,
 		URLParams: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN
+		showFilter: TYPES.BOOLEAN
 	};
 
 /***/ }),
@@ -38899,7 +38908,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						inputData: this.props.appbaseField,
 						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 						reactiveId: this.context.reactiveId,
-						allowFilter: this.props.allowFilter,
+						showFilter: this.props.showFilter,
+						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 						component: this.props.component
 					}
 				};
@@ -39180,7 +39190,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool,
+		filterLabel: _react2.default.PropTypes.string
 	};
 
 	// Default props value
@@ -39189,7 +39200,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: {},
 		URLParams: false,
 		multipleSelect: false,
-		allowFilter: true
+		showFilter: true
 	};
 
 	DataList.contextTypes = {
@@ -39244,7 +39255,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool
 	};
 
 	// Default props value
@@ -39270,7 +39281,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: TYPES.FUNCTION,
 		componentStyle: TYPES.OBJECT,
 		URLParams: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN
+		showFilter: TYPES.BOOLEAN
 	};
 
 /***/ }),
@@ -39313,7 +39324,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	SingleDropdownList.propTypes = {
 		defaultSelected: _react2.default.PropTypes.string,
 		componentStyle: _react2.default.PropTypes.object,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool
 	};
 
 	SingleDropdownList.types = {
@@ -39332,7 +39343,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		initialLoader: TYPES.OBJECT,
 		componentStyle: TYPES.OBJECT,
 		URLParams: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN
+		showFilter: TYPES.BOOLEAN
 	};
 
 /***/ }),
@@ -39556,7 +39567,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						inputData: this.props.appbaseField,
 						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 						reactiveId: this.context.reactiveId,
-						allowFilter: this.props.allowFilter,
+						showFilter: this.props.showFilter,
+						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 						component: this.props.component
 					}
 				};
@@ -39855,7 +39867,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		onValueChange: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool,
+		filterLabel: _react2.default.PropTypes.string
 	};
 
 	// Default props value
@@ -39867,7 +39880,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		placeholder: "Select...",
 		selectAllLabel: null,
 		URLParams: false,
-		allowFilter: true
+		showFilter: true
 	};
 
 	// context type
@@ -42347,7 +42360,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		defaultSelected: _react2.default.PropTypes.array,
 		componentStyle: _react2.default.PropTypes.object,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool
 	};
 
 	MultiDropdownList.types = {
@@ -42366,7 +42379,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		initialLoader: TYPES.OBJECT,
 		componentStyle: TYPES.OBJECT,
 		URLParams: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN
+		showFilter: TYPES.BOOLEAN
 	};
 
 /***/ }),
@@ -52148,7 +52161,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						inputData: this.props.appbaseField,
 						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 						reactiveId: this.context.reactiveId,
-						allowFilter: this.props.allowFilter,
+						showFilter: this.props.showFilter,
+						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 						component: "TextField"
 					}
 				};
@@ -52241,14 +52255,15 @@ return /******/ (function(modules) { // webpackBootstrap
 		onValueChange: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool,
+		filterLabel: _react2.default.PropTypes.string
 	};
 
 	// Default props value
 	TextField.defaultProps = {
 		componentStyle: {},
 		URLParams: false,
-		allowFilter: true
+		showFilter: true
 	};
 
 	// context type
@@ -52268,7 +52283,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: TYPES.FUNCTION,
 		componentStyle: TYPES.OBJECT,
 		URLParams: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN
+		showFilter: TYPES.BOOLEAN,
+		filterLabel: TYPES.STRING
 	};
 
 /***/ }),
@@ -52433,7 +52449,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						inputData: this.props.appbaseField,
 						customQuery: this.props.customQuery ? this.props.customQuery : this.defaultSearchQuery,
 						reactiveId: this.context.reactiveId,
-						allowFilter: this.props.allowFilter,
+						showFilter: this.props.showFilter,
+						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 						component: "DataSearch"
 					}
 				};
@@ -52446,7 +52463,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: "multi_match",
 						inputData: this.props.appbaseField,
-						customQuery: this.defaultSearchQuery
+						customQuery: this.defaultSearchQuery,
+						component: "DataSearchInternal"
 					}
 				};
 				helper.selectedSensor.setSensorInfo(searchObj);
@@ -52819,7 +52837,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		highlight: _react2.default.PropTypes.bool,
 		highlightFields: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string)]),
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool,
+		filterLabel: _react2.default.PropTypes.string
 	};
 
 	// Default props value
@@ -52829,7 +52848,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: {},
 		highlight: false,
 		URLParams: false,
-		allowFilter: true
+		showFilter: true
 	};
 
 	// context type
@@ -52852,7 +52871,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: TYPES.OBJECT,
 		highlight: TYPES.BOOLEAN,
 		URLParams: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN,
+		showFilter: TYPES.BOOLEAN,
+		filterLabel: TYPES.STRING,
 		weights: TYPES.OBJECT
 	};
 
@@ -54871,7 +54891,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						inputData: this.props.appbaseField,
 						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 						reactiveId: this.context.reactiveId,
-						allowFilter: this.props.allowFilter,
+						showFilter: this.props.showFilter,
+						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 						component: "SingleRange"
 					}
 				};
@@ -54997,14 +55018,15 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: _react2.default.PropTypes.func,
 		onValueChange: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool,
+		filterLabel: _react2.default.PropTypes.string
 	};
 
 	// Default props value
 	SingleRange.defaultProps = {
 		title: null,
 		componentStyle: {},
-		allowFilter: true
+		showFilter: true
 	};
 
 	// context type
@@ -55023,7 +55045,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		defaultSelected: TYPES.STRING,
 		customQuery: TYPES.FUNCTION,
 		componentStyle: TYPES.OBJECT,
-		allowFilter: TYPES.BOOLEAN
+		showFilter: TYPES.BOOLEAN,
+		filterLabel: TYPES.STRING
 	};
 
 /***/ }),
@@ -55159,7 +55182,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						inputData: this.props.appbaseField,
 						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 						reactiveId: this.context.reactiveId,
-						allowFilter: this.props.allowFilter,
+						showFilter: this.props.showFilter,
+						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 						component: "MultiRange"
 					}
 				};
@@ -55415,14 +55439,15 @@ return /******/ (function(modules) { // webpackBootstrap
 		onValueChange: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool,
+		showFilter: _react2.default.PropTypes.bool,
+		filterLabel: _react2.default.PropTypes.string,
 		showTags: _react2.default.PropTypes.bool
 	};
 
 	// Default props value
 	MultiRange.defaultProps = {
 		URLParams: false,
-		allowFilter: true,
+		showFilter: true,
 		showTags: true
 	};
 
@@ -55443,8 +55468,9 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: TYPES.FUNCTION,
 		componentStyle: TYPES.OBJECT,
 		URLParams: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN,
-		showTags: TYPES.BOOLEAN
+		showFilter: TYPES.BOOLEAN,
+		showTags: TYPES.BOOLEAN,
+		filterLabel: TYPES.STRING
 	};
 
 /***/ }),
@@ -55579,7 +55605,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						inputData: this.props.appbaseField,
 						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 						reactiveId: this.context.reactiveId,
-						allowFilter: this.props.allowFilter,
+						showFilter: this.props.showFilter,
 						component: "SingleDropdownRange"
 					}
 				};
@@ -55988,13 +56014,13 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool
 	};
 
 	// Default props value
 	MultiDropdownRange.defaultProps = {
 		URLParams: false,
-		allowFilter: true
+		showFilter: true
 	};
 
 	// context type
@@ -56014,7 +56040,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: TYPES.FUNCTION,
 		componentStyle: TYPES.OBJECT,
 		URLParams: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN
+		showFilter: TYPES.BOOLEAN
 	};
 
 /***/ }),
@@ -56153,7 +56179,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						inputData: this.props.appbaseField,
 						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 						reactiveId: this.context.reactiveId,
-						allowFilter: this.props.allowFilter,
+						showFilter: this.props.showFilter,
+						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 						component: "ToggleButton"
 					}
 				};
@@ -56320,7 +56347,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		onValueChange: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool,
+		filterLabel: _react2.default.PropTypes.string
 	};
 
 	// Default props value
@@ -56328,7 +56356,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		multiSelect: true,
 		componentStyle: {},
 		URLParams: false,
-		allowFilter: true
+		showFilter: true
 	};
 
 	// context type
@@ -56349,7 +56377,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: TYPES.FUNCTION,
 		componentStyle: TYPES.OBJECT,
 		URLParams: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN
+		showFilter: TYPES.BOOLEAN,
+		filterLabel: TYPES.STRING
 	};
 
 /***/ }),
@@ -56471,7 +56500,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						inputData: this.props.appbaseField,
 						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 						reactiveId: this.context.reactiveId,
-						allowFilter: this.props.allowFilter,
+						showFilter: this.props.showFilter,
+						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 						component: "DatePicker"
 					}
 				};
@@ -56622,7 +56652,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: _react2.default.PropTypes.object,
 		queryFormat: _react2.default.PropTypes.oneOf(Object.keys(helper.dateFormat)),
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool,
+		filterLabel: _react2.default.PropTypes.string
 	};
 
 	// Default props value
@@ -56635,7 +56666,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: {},
 		queryFormat: "epoch_millis",
 		URLParams: false,
-		allowFilter: true
+		showFilter: true
 	};
 
 	// context type
@@ -56660,7 +56691,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: TYPES.OBJECT,
 		queryFormat: TYPES.STRING,
 		URLParams: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN
+		showFilter: TYPES.BOOLEAN,
+		filterLabel: TYPES.STRING
 	};
 
 /***/ }),
@@ -81185,7 +81217,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						inputData: this.props.appbaseField,
 						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 						reactiveId: this.context.reactiveId,
-						allowFilter: this.props.allowFilter,
+						showFilter: this.props.showFilter,
+						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 						component: "DateRange"
 					}
 				};
@@ -81413,7 +81446,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: _react2.default.PropTypes.object,
 		queryFormat: _react2.default.PropTypes.oneOf(Object.keys(helper.dateFormat)),
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool,
+		filterLabel: _react2.default.PropTypes.string
 	};
 
 	// Default props value
@@ -81426,7 +81460,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		},
 		queryFormat: "epoch_millis",
 		URLParams: false,
-		allowFilter: true
+		showFilter: true
 	};
 
 	// context type
@@ -81448,7 +81482,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: TYPES.FUNCTION,
 		queryFormat: TYPES.STRING,
 		URLParams: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN
+		showFilter: TYPES.BOOLEAN,
+		filterLabel: TYPES.STRING
 	};
 
 /***/ }),
@@ -83661,7 +83696,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					queryType: this.type,
 					inputData: this.props.appbaseField,
 					reactiveId: this.context.reactiveId,
-					allowFilter: this.props.allowFilter,
+					showFilter: this.props.showFilter,
+					filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 					component: "DataController"
 				};
 				if (this.props.customQuery) {
@@ -83750,7 +83786,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: _react2.default.PropTypes.object,
 		defaultSelected: _react2.default.PropTypes.any,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool,
+		filterLabel: _react2.default.PropTypes.string
 	};
 
 	_react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.element]);
@@ -83761,7 +83798,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		defaultSelected: "default",
 		componentStyle: {},
 		URLParams: false,
-		allowFilter: true
+		showFilter: true
 	};
 
 	// context type
@@ -83781,7 +83818,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: TYPES.FUNCTION,
 		componentStyle: TYPES.OBJECT,
 		URLParams: TYPES.BOOLEAN,
-		allowFilter: TYPES.BOOLEAN
+		showFilter: TYPES.BOOLEAN,
+		filterLabel: TYPES.STRING
 	};
 
 /***/ }),
@@ -83861,13 +83899,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				var isanyChange = false;
 				var filters = this.state.filters;
+
 				Object.keys(data).forEach(function (item) {
 					var selectedFilter = _this2.isSibling(item);
 					if (selectedFilter) {
-						if (data[item] && (typeof data[item] === "string" ? data[item].trim() !== "" : true)) {
+						if (data[item] && (typeof data[item] === "string" && data[item].trim() !== "" || Array.isArray(data[item]) && data[item].length > 0)) {
 							filters[item] = {
 								value: data[item],
-								component: selectedFilter.component
+								component: selectedFilter.component,
+								filterLabel: selectedFilter.filterLabel
 							};
 						} else {
 							if (item in filters) {
@@ -83889,9 +83929,10 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function isSibling(siblingComponentId) {
 				var filter = null;
 				var sensorInfo = helper.selectedSensor.get(siblingComponentId, "sensorInfo");
-				if (sensorInfo && sensorInfo.allowFilter && sensorInfo.component && (sensorInfo.reactiveId === 0 || sensorInfo.reactiveId) && this.blacklist.indexOf(sensorInfo.component) < 0 && this.context.reactiveId === sensorInfo.reactiveId) {
+				if (sensorInfo && sensorInfo.showFilter && sensorInfo.component && (sensorInfo.reactiveId === 0 || sensorInfo.reactiveId) && this.blacklist.indexOf(sensorInfo.component) < 0 && this.context.reactiveId === sensorInfo.reactiveId) {
 					filter = {
-						component: sensorInfo.component
+						component: sensorInfo.component,
+						filterLabel: sensorInfo.filterLabel
 					};
 				}
 				return filter;
@@ -83900,6 +83941,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "clearFilter",
 			value: function clearFilter(item) {
 				var filters = this.state.filters;
+
 				delete filters[item];
 				this.setState({
 					filters: filters
@@ -83976,7 +84018,7 @@ return /******/ (function(modules) { // webpackBootstrap
 								_react2.default.createElement(
 									"strong",
 									null,
-									item
+									_this3.state.filters[item].filterLabel
 								),
 								" : ",
 								_this3.parseValue(_this3.state.filters[item])
@@ -84090,7 +84132,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				children = _.isArray(children) ? children : [children];
 				children.forEach(function (child) {
-					if (child && child.props && child.props.componentId && child.props.allowFilter !== false) {
+					if (child && child.props && child.props.componentId && child.props.showFilter !== false) {
 						_this2.components.push({
 							component: child.type.name,
 							componentId: child.props.componentId
@@ -100177,7 +100219,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						appbaseField: this.props.appbaseField,
 						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 						reactiveId: this.context.reactiveId,
-						allowFilter: this.props.allowFilter,
+						showFilter: this.props.showFilter,
+						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 						component: "GeoDistanceSlider"
 					}
 				};
@@ -100462,7 +100505,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		onValueChange: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool,
+		filterLabel: _react2.default.PropTypes.string
 	};
 
 	// Default props value
@@ -100481,7 +100525,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		autoLocation: true,
 		componentStyle: {},
 		URLParams: false,
-		allowFilter: true
+		showFilter: true
 	};
 
 	// context type
@@ -100506,7 +100550,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: _reactivebase.TYPES.FUNCTION,
 		componentStyle: _reactivebase.TYPES.OBJECT,
 		URLParams: _reactivebase.TYPES.BOOLEAN,
-		allowFilter: _reactivebase.TYPES.BOOLEAN
+		showFilter: _reactivebase.TYPES.BOOLEAN,
+		filterLabel: _reactivebase.TYPES.STRING
 	};
 
 /***/ }),
@@ -102235,7 +102280,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						appbaseField: this.props.appbaseField,
 						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 						reactiveId: this.context.reactiveId,
-						allowFilter: this.props.allowFilter,
+						showFilter: this.props.showFilter,
+						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 						component: "GeoDistanceDropdown"
 					}
 				};
@@ -102492,7 +102538,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		onValueChange: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool
+		showFilter: _react2.default.PropTypes.bool,
+		filterLabel: _react2.default.PropTypes.string
 	};
 
 	// Default props value
@@ -102503,7 +102550,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		autoLocation: true,
 		componentStyle: {},
 		URLParams: false,
-		allowFilter: true
+		showFilter: true
 	};
 
 	// context type
@@ -102527,7 +102574,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: _reactivebase.TYPES.FUNCTION,
 		componentStyle: _reactivebase.TYPES.OBJECT,
 		URLParams: _reactivebase.TYPES.BOOLEAN,
-		allowFilter: _reactivebase.TYPES.BOOLEAN
+		showFilter: _reactivebase.TYPES.BOOLEAN,
+		filterLabel: _reactivebase.TYPES.STRING
 	};
 
 /***/ }),
@@ -102725,7 +102773,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						inputData: this.props.appbaseField,
 						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 						reactiveId: this.context.reactiveId,
-						allowFilter: this.props.allowFilter,
+						showFilter: this.props.showFilter,
+						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 						component: "PlacesSearch"
 					}
 				};
@@ -102945,7 +102994,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		onValueChange: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
 		URLParams: _react2.default.PropTypes.bool,
-		allowFilter: _react2.default.PropTypes.bool,
+		showFilter: _react2.default.PropTypes.bool,
+		filterLabel: _react2.default.PropTypes.string,
 		unit: _react2.default.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"])
 	};
 	// Default props value
@@ -102954,7 +103004,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		autoLocation: true,
 		componentStyle: {},
 		URLParams: false,
-		allowFilter: true
+		showFilter: true
 	};
 
 	// context type
@@ -102974,7 +103024,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		componentStyle: _reactivebase.TYPES.OBJECT,
 		unit: _reactivebase.TYPES.STRING,
 		URLParams: _reactivebase.TYPES.BOOLEAN,
-		allowFilter: _reactivebase.TYPES.BOOLEAN
+		showFilter: _reactivebase.TYPES.BOOLEAN,
+		filterLabel: _reactivebase.TYPES.STRING
 	};
 
 /***/ })

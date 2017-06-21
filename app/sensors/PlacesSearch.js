@@ -96,7 +96,7 @@ export default class PlacesSearch extends Component {
 			this.defaultSelected = defaultValue;
 			if(this.defaultSelected !== null) {
 				const isExists = this.result.options.length ? this.result.options.every(item => item.value !== this.defaultSelected && item.label !== this.defaultSelected) : false;
-				
+
 				if(!isExists) {
 					this.result.options.push({
 						value: this.defaultSelected,
@@ -133,7 +133,8 @@ export default class PlacesSearch extends Component {
 				inputData: this.props.appbaseField,
 				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 				reactiveId: this.context.reactiveId,
-				allowFilter: this.props.allowFilter,
+				showFilter: this.props.showFilter,
+				filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
 				component: "PlacesSearch"
 			}
 		};
@@ -314,7 +315,8 @@ PlacesSearch.propTypes = {
 	onValueChange: React.PropTypes.func,
 	componentStyle: React.PropTypes.object,
 	URLParams: React.PropTypes.bool,
-	allowFilter: React.PropTypes.bool,
+	showFilter: React.PropTypes.bool,
+	filterLabel: React.PropTypes.string,
 	unit: React.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"])
 };
 // Default props value
@@ -323,7 +325,7 @@ PlacesSearch.defaultProps = {
 	autoLocation: true,
 	componentStyle: {},
 	URLParams: false,
-	allowFilter: true
+	showFilter: true
 };
 
 // context type
@@ -343,5 +345,6 @@ PlacesSearch.types = {
 	componentStyle: TYPES.OBJECT,
 	unit: TYPES.STRING,
 	URLParams: TYPES.BOOLEAN,
-	allowFilter: TYPES.BOOLEAN
+	showFilter: TYPES.BOOLEAN,
+	filterLabel: TYPES.STRING
 };
