@@ -45,12 +45,9 @@ export default class GeoDistanceDropdown extends Component {
 		this.handleDistanceChange = this.handleDistanceChange.bind(this);
 	}
 
+	// Set query information
 	componentWillMount() {
 		this.googleMaps = window.google.maps;
-	}
-
-	// Set query information
-	componentDidMount() {
 		this.unit = this.props.unit;
 		this.getUserLocation();
 		this.setQueryInfo();
@@ -175,7 +172,8 @@ export default class GeoDistanceDropdown extends Component {
 				reactiveId: this.context.reactiveId,
 				showFilter: this.props.showFilter,
 				filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-				component: "GeoDistanceDropdown"
+				component: "GeoDistanceDropdown",
+				defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 			}
 		};
 		helper.selectedSensor.setSensorInfo(obj);

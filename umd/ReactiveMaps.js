@@ -7861,16 +7861,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		_createClass(NativeList, [{
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				this.size = this.props.size;
 				this.setQueryInfo();
-				if (this.urlParams === null) {
-					var value = this.props.multipleSelect ? null : null;
-					this.handleSelect(value);
-				} else {
-					this.handleSelect(this.urlParams);
-				}
 				this.createChannel(true);
 				this.defaultValue = this.urlParams !== null ? this.urlParams : this.props.defaultSelected;
 				this.changeValues(this.defaultValue);
@@ -7989,7 +7983,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						reactiveId: this.context.reactiveId,
 						showFilter: this.props.showFilter,
 						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-						component: this.props.component
+						component: this.props.component,
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -9576,28 +9571,30 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		};
 		// apply depend changes when new value received
-		var applyDependChange = function applyDependChange(currentReact, depend) {
+		var applyDependChange = function applyDependChange(currentReact, depend, rbcInitialize) {
 			if (selectedSensor[depend] && _typeof(selectedSensor[depend]) === "object") {
 				previousSelectedSensor[depend] = JSON.parse(JSON.stringify(selectedSensor[depend]));
 			} else {
 				previousSelectedSensor[depend] = selectedSensor[depend];
 			}
-			// if (!selectedSensor[depend].doNotExecute) {
-			cb(depend, channelId);
-			// }
+			if (!rbcInitialize) {
+				cb(depend, channelId);
+			}
 		};
 
 		// initialize the process
 		this.init = function () {
+			var rbcInitialize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
 			react.forEach(function (depend) {
 				if (!(depend.indexOf("channel-options-") > -1 || depend.indexOf("aggs") > -1)) {
 					checkDependExists(depend);
 					if (_typeof(selectedSensor[depend]) === "object") {
 						if (!_lodash2.default.isEqual(selectedSensor[depend], previousSelectedSensor[depend])) {
-							applyDependChange(react, depend);
+							applyDependChange(react, depend, rbcInitialize);
 						}
 					} else if (selectedSensor[depend] !== previousSelectedSensor[depend]) {
-						applyDependChange(react, depend);
+						applyDependChange(react, depend, rbcInitialize);
 					}
 				}
 			});
@@ -9607,8 +9604,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			var self = this;
 			this.sensorListener = sensorEmitter.addListener("sensorChange", function (data) {
 				var foundDepend = false;
-
-				Object.keys(data).forEach(function (item) {
+				var dataValue = data.rbcInitialize ? data.value : data;
+				Object.keys(dataValue).forEach(function (item) {
 					if (item.indexOf("channel-options-") < 0 && react.indexOf(item) > -1) {
 						foundDepend = true;
 					}
@@ -9616,7 +9613,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				if (foundDepend) {
 					selectedSensor = data;
-					self.init();
+					self.init(data.rbcInitialize);
 				}
 			});
 
@@ -9697,6 +9694,9 @@ return /******/ (function(modules) { // webpackBootstrap
 		// Set fieldname
 		var setSensorInfo = function setSensorInfo(obj) {
 			self.sensorInfo[obj.key] = obj.value;
+			if (obj.value && obj.value.defaultSelected) {
+				self.selectedSensor[obj.key] = obj.value.defaultSelected;
+			}
 		};
 
 		// Set sort info
@@ -38813,8 +38813,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 
 		_createClass(DataList, [{
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				this.setQueryInfo();
 				this.checkDefault(this.props);
 				this.listenFilter();
@@ -38910,7 +38910,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						reactiveId: this.context.reactiveId,
 						showFilter: this.props.showFilter,
 						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-						component: this.props.component
+						component: this.props.component,
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -39430,8 +39431,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		_createClass(DropdownList, [{
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				this.size = this.props.size;
 				this.setQueryInfo();
 				this.checkDefault(this.props);
@@ -39569,7 +39570,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						reactiveId: this.context.reactiveId,
 						showFilter: this.props.showFilter,
 						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-						component: this.props.component
+						component: this.props.component,
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -42482,8 +42484,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		_createClass(RangeSlider, [{
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				this.setQueryInfo();
 				this.createChannel();
 			}
@@ -42663,7 +42665,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: "range",
 						inputData: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -52104,8 +52107,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		_createClass(TextField, [{
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				this.setQueryInfo();
 				this.checkDefault(this.props);
 				this.listenFilter();
@@ -52163,7 +52166,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						reactiveId: this.context.reactiveId,
 						showFilter: this.props.showFilter,
 						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-						component: "TextField"
+						component: "TextField",
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -52381,8 +52385,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		_createClass(DataSearch, [{
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				this.setQueryInfo();
 				this.createChannel();
 				this.checkDefault();
@@ -52451,7 +52455,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						reactiveId: this.context.reactiveId,
 						showFilter: this.props.showFilter,
 						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-						component: "DataSearch"
+						component: "DataSearch",
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				if (this.props.highlight) {
@@ -54823,8 +54828,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		_createClass(SingleRange, [{
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				this.setQueryInfo();
 				this.checkDefault(this.props);
 				this.listenFilter();
@@ -54893,7 +54898,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						reactiveId: this.context.reactiveId,
 						showFilter: this.props.showFilter,
 						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-						component: "SingleRange"
+						component: "SingleRange",
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -55115,8 +55121,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		_createClass(MultiRange, [{
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				this.setQueryInfo();
 				this.checkDefault(this.props);
 				this.listenFilter();
@@ -55184,7 +55190,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						reactiveId: this.context.reactiveId,
 						showFilter: this.props.showFilter,
 						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-						component: "MultiRange"
+						component: "MultiRange",
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -55537,8 +55544,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		_createClass(SingleDropdownRange, [{
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				this.setQueryInfo();
 				this.checkDefault(this.props);
 				this.listenFilter();
@@ -55606,7 +55613,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 						reactiveId: this.context.reactiveId,
 						showFilter: this.props.showFilter,
-						component: "SingleDropdownRange"
+						component: "SingleDropdownRange",
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -55813,8 +55821,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		_createClass(MultiDropdownRange, [{
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				var _this2 = this;
 
 				this.setQueryInfo();
@@ -55884,7 +55892,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: this.props.appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -56107,8 +56116,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		_createClass(ToggleButton, [{
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				this.setQueryInfo();
 				this.checkDefault(this.props);
 				this.listenFilter();
@@ -56181,7 +56190,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						reactiveId: this.context.reactiveId,
 						showFilter: this.props.showFilter,
 						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-						component: "ToggleButton"
+						component: "ToggleButton",
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -81606,8 +81616,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 
 		_createClass(NumberBox, [{
-			key: "componentDidMount",
-			value: function componentDidMount() {
+			key: "componentWillMount",
+			value: function componentWillMount() {
 				this.setQueryInfo();
 				if (this.urlParams !== null) {
 					this.updateQuery(this.urlParams);
@@ -81694,7 +81704,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					value: {
 						queryType: this.type,
 						inputData: appbaseField,
-						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery
+						customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				helper.selectedSensor.setSensorInfo(obj);
@@ -83698,7 +83709,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					reactiveId: this.context.reactiveId,
 					showFilter: this.props.showFilter,
 					filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-					component: "DataController"
+					component: "DataController",
+					defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 				};
 				if (this.props.customQuery) {
 					valObj.customQuery = this.props.customQuery;
@@ -100089,17 +100101,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			return _this;
 		}
 
+		// Set query information
+
+
 		_createClass(GeoDistanceSlider, [{
 			key: "componentWillMount",
 			value: function componentWillMount() {
 				this.googleMaps = window.google.maps;
-			}
-
-			// Set query information
-
-		}, {
-			key: "componentDidMount",
-			value: function componentDidMount() {
 				this.getUserLocation();
 				this.setQueryInfo();
 				this.checkDefault();
@@ -100221,7 +100229,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						reactiveId: this.context.reactiveId,
 						showFilter: this.props.showFilter,
 						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-						component: "GeoDistanceSlider"
+						component: "GeoDistanceSlider",
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				_reactivebase.AppbaseSensorHelper.selectedSensor.setSensorInfo(obj);
@@ -102128,17 +102137,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			return _this;
 		}
 
+		// Set query information
+
+
 		_createClass(GeoDistanceDropdown, [{
 			key: "componentWillMount",
 			value: function componentWillMount() {
 				this.googleMaps = window.google.maps;
-			}
-
-			// Set query information
-
-		}, {
-			key: "componentDidMount",
-			value: function componentDidMount() {
 				this.unit = this.props.unit;
 				this.getUserLocation();
 				this.setQueryInfo();
@@ -102282,7 +102287,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						reactiveId: this.context.reactiveId,
 						showFilter: this.props.showFilter,
 						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-						component: "GeoDistanceDropdown"
+						component: "GeoDistanceDropdown",
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				_reactivebase.AppbaseSensorHelper.selectedSensor.setSensorInfo(obj);
@@ -102657,22 +102663,15 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "componentWillMount",
 			value: function componentWillMount() {
 				this.googleMaps = window.google.maps;
+				this.setQueryInfo();
+				this.getUserLocation(this.setDefaultLocation);
+				this.checkDefault(this.props);
+				this.listenFilter();
 			}
 		}, {
 			key: "componentWillReceiveProps",
 			value: function componentWillReceiveProps(nextProps) {
 				this.checkDefault(nextProps);
-			}
-
-			// Set query information
-
-		}, {
-			key: "componentDidMount",
-			value: function componentDidMount() {
-				this.setQueryInfo();
-				this.getUserLocation(this.setDefaultLocation);
-				this.checkDefault(this.props);
-				this.listenFilter();
 			}
 		}, {
 			key: "componentWillUnmount",
@@ -102775,7 +102774,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						reactiveId: this.context.reactiveId,
 						showFilter: this.props.showFilter,
 						filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-						component: "PlacesSearch"
+						component: "PlacesSearch",
+						defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 					}
 				};
 				_reactivebase.AppbaseSensorHelper.selectedSensor.setSensorInfo(obj);

@@ -38,18 +38,14 @@ export default class PlacesSearch extends Component {
 
 	componentWillMount() {
 		this.googleMaps = window.google.maps;
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.checkDefault(nextProps);
-	}
-
-	// Set query information
-	componentDidMount() {
 		this.setQueryInfo();
 		this.getUserLocation(this.setDefaultLocation);
 		this.checkDefault(this.props);
 		this.listenFilter();
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.checkDefault(nextProps);
 	}
 
 	componentWillUnmount() {
@@ -135,7 +131,8 @@ export default class PlacesSearch extends Component {
 				reactiveId: this.context.reactiveId,
 				showFilter: this.props.showFilter,
 				filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-				component: "PlacesSearch"
+				component: "PlacesSearch",
+				defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 			}
 		};
 		helper.selectedSensor.setSensorInfo(obj);
