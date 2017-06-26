@@ -48,12 +48,9 @@ export default class GeoDistanceSlider extends Component {
 		this.unitFormatter = this.unitFormatter.bind(this);
 	}
 
+	// Set query information
 	componentWillMount() {
 		this.googleMaps = window.google.maps;
-	}
-
-	// Set query information
-	componentDidMount() {
 		this.getUserLocation();
 		this.setQueryInfo();
 		this.checkDefault();
@@ -164,7 +161,8 @@ export default class GeoDistanceSlider extends Component {
 				reactiveId: this.context.reactiveId,
 				showFilter: this.props.showFilter,
 				filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
-				component: "GeoDistanceSlider"
+				component: "GeoDistanceSlider",
+				defaultSelected: this.urlParams !== null ? this.urlParams : this.props.defaultSelected
 			}
 		};
 		helper.selectedSensor.setSensorInfo(obj);
