@@ -7873,8 +7873,14 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "componentWillReceiveProps",
 			value: function componentWillReceiveProps(nextProps) {
-				this.defaultValue = this.urlParams !== null ? nextProps.urlParams : nextProps.defaultSelected;
-				this.changeValues(this.defaultValue);
+				this.urlParams = helper.URLParams.get(this.props.componentId, this.props.multipleSelect);
+				if (!_.isEqual(this.props.defaultSelected, nextProps.defaultSelected)) {
+					this.defaultValue = nextProps.defaultSelected;
+					this.changeValues(this.defaultValue);
+				} else if (this.urlParams !== null) {
+					this.defaultValue = this.urlParams;
+					this.changeValues(this.defaultValue);
+				}
 			}
 
 			// build query for this sensor only
@@ -8021,7 +8027,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				var executeChannel = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
 				// Set the react - add self aggs query as well with react
-				var react = this.props.react ? this.props.react : {};
+				var react = Object.assign({}, this.props.react);
 				react.aggs = {
 					key: this.props.appbaseField,
 					sort: this.props.sortBy,
@@ -8417,7 +8423,7 @@ return /******/ (function(modules) { // webpackBootstrap
 							}
 						});
 						this.setState({
-							selectedItems: items.length ? items : null
+							selectedItems: items.length ? items : []
 						}, function () {
 							_this2.props.onSelect(_this2.state.selectedItems);
 						});
@@ -9355,6 +9361,45 @@ return /******/ (function(modules) { // webpackBootstrap
 					emitter: this.emitter
 				};
 			}
+		}, {
+			key: "update",
+			value: function update(channelId, react) {
+				var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;
+
+				var _this4 = this;
+
+				var from = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+				var stream = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
+
+				var optionValues = {
+					size: size,
+					from: from
+				};
+				this.queryOptions[channelId] = optionValues;
+				react["channel-options-" + channelId] = optionValues;
+				var previousSelectedSensor = _defineProperty({}, "channel-options-" + channelId, optionValues);
+				var obj = {
+					key: "channel-options-" + channelId,
+					value: optionValues
+				};
+				var serializeDepends = helper.serializeDepends.serialize(react);
+				helper.selectedSensor.set(obj);
+				this.channels[channelId] = {
+					react: react,
+					size: size,
+					from: from,
+					stream: stream,
+					previousSelectedSensor: previousSelectedSensor,
+					serializeDepends: serializeDepends,
+					watchDependency: new helper.WatchForDependencyChange(serializeDepends.dependsList, previousSelectedSensor, this.receive, channelId, this.paginationChanges, this.sortChanges)
+				};
+				this.channels[channelId].watchDependency.start();
+				setTimeout(function () {
+					if ("aggs" in react) {
+						_this4.receive("aggs", channelId);
+					}
+				}, 100);
+			}
 		}]);
 
 		return ChannelManager;
@@ -9373,9 +9418,29 @@ return /******/ (function(modules) { // webpackBootstrap
 		value: true
 	});
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	var helper = __webpack_require__(65);
+
+	function isObject(item) {
+		return item && (typeof item === "undefined" ? "undefined" : _typeof(item)) === 'object' && !Array.isArray(item);
+	}
+
+	function mergeDeep(target, source) {
+		var output = Object.assign({}, target);
+		if (isObject(target) && isObject(source)) {
+			Object.keys(source).forEach(function (key) {
+				if (isObject(source[key])) {
+					if (!(key in target)) Object.assign(output, _defineProperty({}, key, source[key]));else output[key] = mergeDeep(target[key], source[key]);
+				} else {
+					Object.assign(output, _defineProperty({}, key, source[key]));
+				}
+			});
+		}
+		return output;
+	}
 
 	// queryBuild
 	// Builds the query by using react object and values of sensor
@@ -9466,13 +9531,13 @@ return /******/ (function(modules) { // webpackBootstrap
 					dependsQuery[depend] = aggsQuery(depend);
 				} else if (depend && depend.indexOf("channel-options-") > -1) {
 					requestOptions = requestOptions || {};
-					requestOptions = Object.assign(requestOptions, previousSelectedSensor[depend]);
+					requestOptions = mergeDeep(previousSelectedSensor[depend], requestOptions);
 				} else {
 					dependsQuery[depend] = singleQuery(depend);
 					var externalQuery = isExternalQuery(depend);
 					if (externalQuery && !isDataSearchInternal) {
 						requestOptions = requestOptions || {};
-						requestOptions = Object.assign(requestOptions, externalQuery);
+						requestOptions = mergeDeep(externalQuery, requestOptions);
 					}
 				}
 				var sortField = sortAvailable(depend);
@@ -39443,7 +39508,11 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "componentWillReceiveProps",
 			value: function componentWillReceiveProps(nextProps) {
 				var items = this.state.items;
-				this.checkDefault(nextProps);
+				if (nextProps.multipleSelect && !_lodash2.default.isEqual(this.props.defaultSelected, nextProps.defaultSelected)) {
+					this.changeValue(nextProps.defaultSelected);
+				} else if (!nextProps.multipleSelect && this.props.defaultSelected !== nextProps.defaultSelected) {
+					this.changeValue(nextProps.defaultSelected);
+				}
 				if (nextProps.selectAllLabel !== this.props.selectAllLabel) {
 					if (this.props.selectAllLabel) {
 						items.shift();
@@ -52424,11 +52493,11 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "highlightQuery",
 			value: function highlightQuery() {
 				var fields = {};
-				var highlightFields = this.props.highlightFields ? this.props.highlightFields : this.props.appbaseField;
-				if (typeof highlightFields === "string") {
-					fields[highlightFields] = {};
-				} else if (_lodash2.default.isArray(highlightFields)) {
-					highlightFields.forEach(function (item) {
+				var highlightField = this.props.highlightField ? this.props.highlightField : this.props.appbaseField;
+				if (typeof highlightField === "string") {
+					fields[highlightField] = {};
+				} else if (_lodash2.default.isArray(highlightField)) {
+					highlightField.forEach(function (item) {
 						fields[item] = {};
 					});
 				}
@@ -52840,7 +52909,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		react: _react2.default.PropTypes.object,
 		componentStyle: _react2.default.PropTypes.object,
 		highlight: _react2.default.PropTypes.bool,
-		highlightFields: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string)]),
+		highlightField: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string)]),
 		URLParams: _react2.default.PropTypes.bool,
 		showFilter: _react2.default.PropTypes.bool,
 		filterLabel: _react2.default.PropTypes.string
@@ -52875,6 +52944,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: TYPES.FUNCTION,
 		componentStyle: TYPES.OBJECT,
 		highlight: TYPES.BOOLEAN,
+		highlightField: TYPES.STRING,
 		URLParams: TYPES.BOOLEAN,
 		showFilter: TYPES.BOOLEAN,
 		filterLabel: TYPES.STRING,
@@ -81965,40 +82035,31 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "componentWillUpdate",
 			value: function componentWillUpdate() {
-				var _this2 = this;
-
-				setTimeout(function () {
-					if (_this2.streamProp !== _this2.props.stream) {
-						_this2.streamProp = _this2.props.stream;
-						_this2.removeChannel();
-						_this2.initialize(true);
-					}
-					if (_this2.size !== _this2.props.size) {
-						_this2.size = _this2.props.size;
-						_this2.setState({
-							currentData: []
-						});
-						_this2.removeChannel();
-						_this2.initialize(true);
-					}
-					if (_this2.props.pagination && _this2.paginationAtVal !== _this2.props.paginationAt) {
-						_this2.paginationAtVal = _this2.props.paginationAt;
-						_this2.executePaginationUpdate();
-					}
-				}, 300);
+				if (this.streamProp !== this.props.stream) {
+					this.streamProp = this.props.stream;
+				}
+				if (this.size !== this.props.size) {
+					this.size = this.props.size;
+					this.setState({
+						currentData: []
+					});
+				}
+				if (this.props.pagination && this.paginationAtVal !== this.props.paginationAt) {
+					this.paginationAtVal = this.props.paginationAt;
+					this.executePaginationUpdate();
+				}
 			}
 		}, {
 			key: "componentWillReceiveProps",
 			value: function componentWillReceiveProps(nextProps) {
-				var _this3 = this;
-
+				if (!_lodash2.default.isEqual(this.props, nextProps)) {
+					this.setReact(nextProps);
+					_ChannelManager2.default.update(this.channelId, this.react, nextProps.size, nextProps.from, nextProps.stream);
+				}
 				if (nextProps.pagination !== this.pagination) {
 					this.pagination = nextProps.pagination;
 					this.setState({
 						requestOnScroll: !nextProps.pagination
-					}, function () {
-						_this3.removeChannel();
-						_this3.initialize(true);
 					});
 				}
 			}
@@ -82023,7 +82084,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "applyScroll",
 			value: function applyScroll() {
-				var _this4 = this;
+				var _this2 = this;
 
 				var resultElement = $(this.listParentElement);
 				var scrollElement = $(this.listChildElement);
@@ -82036,7 +82097,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				var checkHeight = function checkHeight() {
 					var flag = resultElement.get(0).scrollHeight - padding > resultElement.height();
 					var scrollFlag = scrollElement.get(0).scrollHeight > scrollElement.height();
-					if (!flag && !scrollFlag && scrollElement.length && !_this4.props.pagination) {
+					if (!flag && !scrollFlag && scrollElement.length && !_this2.props.pagination) {
 						var headerHeight = getHeight(resultElement.find(".rbc-title")) + getHeight(resultElement.find(".rbc-pagination")) * resultElement.find(".rbc-pagination").length;
 						var finalHeight = resultElement.height() - 60 - headerHeight;
 						if (finalHeight > 0) {
@@ -82070,47 +82131,53 @@ return /******/ (function(modules) { // webpackBootstrap
 					this.loadListener.remove();
 				}
 			}
-
-			// Create a channel which passes the react and receive results whenever react changes
-
 		}, {
-			key: "createChannel",
-			value: function createChannel() {
-				var _this5 = this;
-
-				var executeChannel = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
+			key: "setReact",
+			value: function setReact(props) {
 				// Set the react - add self aggs query as well with react
-				var react = this.props.react ? this.props.react : {};
+				var react = Object.assign({}, props.react);
+
 				var reactAnd = ["streamChanges"];
-				if (this.props.pagination) {
+				if (props.pagination) {
 					reactAnd.push("paginationChanges");
 					react.pagination = null;
 				}
 				if (this.sortObj) {
 					this.enableSort(reactAnd);
 				}
-				react = helper.setupReact(react, reactAnd);
+
+				this.react = helper.setupReact(react, reactAnd);
+			}
+
+			// Create a channel which passes the react and receive results whenever react changes
+
+		}, {
+			key: "createChannel",
+			value: function createChannel() {
+				var _this3 = this;
+
+				var executeChannel = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
 				// create a channel and listen the changes
-				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream, this.props.componentId, this.context.appbaseCrdentials);
+				var channelObj = _ChannelManager2.default.create(this.context.appbaseRef, this.context.type, this.react, this.props.size, this.props.from, this.props.stream, this.props.componentId, this.context.appbaseCrdentials);
 				this.channelId = channelObj.channelId;
 
 				this.channelListener = channelObj.emitter.addListener(channelObj.channelId, function (res) {
 					// implementation to prevent initialize query issue if old query response is late then the newer query
 					// then we will consider the response of new query and prevent to apply changes for old query response.
 					// if queryStartTime of channel response is greater than the previous one only then apply changes
-					if (res.error && res.startTime > _this5.queryStartTime) {
-						_this5.setState({
+					if (res.error && res.startTime > _this3.queryStartTime) {
+						_this3.setState({
 							queryStart: false,
 							showPlaceholder: false
 						});
-						if (_this5.props.onAllData) {
+						if (_this3.props.onAllData) {
 							var modifiedData = helper.prepareResultData(res);
-							_this5.props.onAllData(modifiedData.res, modifiedData.err);
+							_this3.props.onAllData(modifiedData.res, modifiedData.err);
 						}
 					}
 					if (res.appliedQuery) {
-						if (res.mode === "historic" && res.startTime > _this5.queryStartTime) {
+						if (res.mode === "historic" && res.startTime > _this3.queryStartTime) {
 							var visibleNoResults = res.appliedQuery && Object.keys(res.appliedQuery).length && res.data && !res.data.error ? !(res.data.hits && res.data.hits.total) : false;
 							var resultStats = {
 								resultFound: !!(res.appliedQuery && res.data && !res.data.error && res.data.hits && res.data.hits.total)
@@ -82119,19 +82186,19 @@ return /******/ (function(modules) { // webpackBootstrap
 								resultStats.total = res.data.hits.total;
 								resultStats.took = res.data.took;
 							}
-							_this5.setState({
+							_this3.setState({
 								queryStart: false,
 								visibleNoResults: visibleNoResults,
 								resultStats: resultStats,
 								showPlaceholder: false
 							});
-							_this5.afterChannelResponse(res);
+							_this3.afterChannelResponse(res);
 						} else if (res.mode === "streaming") {
-							_this5.afterChannelResponse(res);
-							_this5.updateResultStats(res.data);
+							_this3.afterChannelResponse(res);
+							_this3.updateResultStats(res.data);
 						}
 					} else {
-						_this5.setState({
+						_this3.setState({
 							showPlaceholder: true
 						});
 					}
@@ -82159,12 +82226,12 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "listenLoadingChannel",
 			value: function listenLoadingChannel(channelObj) {
-				var _this6 = this;
+				var _this4 = this;
 
 				this.loadListener = channelObj.emitter.addListener(channelObj.channelId + "-query", function (res) {
 					if (res.appliedQuery) {
-						var showInitialLoader = !(_this6.state.requestOnScroll && res.appliedQuery.body && res.appliedQuery.body.from);
-						_this6.setState({
+						var showInitialLoader = !(_this4.state.requestOnScroll && res.appliedQuery.body && res.appliedQuery.body.from);
+						_this4.setState({
 							queryStart: res.queryState,
 							showInitialLoader: showInitialLoader
 						});
@@ -82174,7 +82241,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "afterChannelResponse",
 			value: function afterChannelResponse(res) {
-				var _this7 = this;
+				var _this5 = this;
 
 				var data = res.data;
 				var rawData = void 0,
@@ -82207,14 +82274,14 @@ return /******/ (function(modules) { // webpackBootstrap
 					// Pass the historic or streaming data in index method
 					res.allMarkers = rawData;
 					var modifiedData = JSON.parse(JSON.stringify(res));
-					modifiedData.newData = _this7.state.newData;
-					modifiedData.currentData = _this7.state.currentData;
+					modifiedData.newData = _this5.state.newData;
+					modifiedData.currentData = _this5.state.currentData;
 					delete modifiedData.data;
 					modifiedData = helper.prepareResultData(modifiedData, data);
-					var generatedData = _this7.props.onAllData ? _this7.props.onAllData(modifiedData.res, modifiedData.err) : _this7.defaultonAllData(modifiedData.res, modifiedData.err);
-					_this7.setState({
-						resultMarkup: _this7.wrapMarkup(generatedData),
-						currentData: _this7.combineCurrentData(newData)
+					var generatedData = _this5.props.onAllData ? _this5.props.onAllData(modifiedData.res, modifiedData.err) : _this5.defaultonAllData(modifiedData.res, modifiedData.err);
+					_this5.setState({
+						resultMarkup: _this5.wrapMarkup(generatedData),
+						currentData: _this5.combineCurrentData(newData)
 					});
 				});
 			}
@@ -82349,6 +82416,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function initialize() {
 				var executeChannel = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
+				this.setReact(this.props);
 				this.createChannel(executeChannel);
 				if (this.state.requestOnScroll) {
 					this.listComponent();
@@ -82405,7 +82473,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "defaultonAllData",
 			value: function defaultonAllData(res) {
-				var _this8 = this;
+				var _this6 = this;
 
 				var result = null;
 				if (res) {
@@ -82418,10 +82486,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					if (combineData) {
 						result = combineData.map(function (markerData) {
 							var marker = markerData._source;
-							return _this8.props.onData ? _this8.props.onData(markerData) : _react2.default.createElement(
+							return _this6.props.onData ? _this6.props.onData(markerData) : _react2.default.createElement(
 								"div",
 								{ className: "row", style: { marginTop: "20px" } },
-								_this8.itemMarkup(marker, markerData)
+								_this6.itemMarkup(marker, markerData)
 							);
 						});
 					}
@@ -82459,13 +82527,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			key: "listComponent",
 			value: function listComponent() {
 				function setScroll(node) {
-					var _this9 = this;
+					var _this7 = this;
 
 					if (node) {
 						node.addEventListener("scroll", function () {
 							var scrollHeight = node.scrollHeight || node.scrollHeight === 0 ? node.scrollHeight : $(node).height();
-							if (_this9.state.requestOnScroll && $(node).scrollTop() + $(node).innerHeight() >= scrollHeight && _this9.state.resultStats.total > _this9.state.currentData.length && !_this9.state.queryStart) {
-								_this9.nextPage();
+							if (_this7.state.requestOnScroll && $(node).scrollTop() + $(node).innerHeight() >= scrollHeight && _this7.state.resultStats.total > _this7.state.currentData.length && !_this7.state.queryStart) {
+								_this7.nextPage();
 							}
 						});
 					}
@@ -82504,7 +82572,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "render",
 			value: function render() {
-				var _this10 = this;
+				var _this8 = this;
 
 				var title = null,
 				    placeholder = null,
@@ -82569,7 +82637,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					_react2.default.createElement(
 						"div",
 						{ ref: function ref(div) {
-								_this10.listParentElement = div;
+								_this8.listParentElement = div;
 							}, className: "rbc rbc-reactivelist card thumbnail " + cx, style: this.getComponentStyle() },
 						title,
 						sortOptions,
@@ -82578,7 +82646,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						_react2.default.createElement(
 							"div",
 							{ ref: function ref(div) {
-									_this10.listChildElement = div;
+									_this8.listChildElement = div;
 								}, className: "rbc-reactivelist-scroll-container col s12 col-xs-12" },
 							this.state.resultMarkup
 						),
