@@ -1,6 +1,6 @@
 {
   "name": "@appbaseio/reactivemaps",
-  "version": "1.0.0-alpha45",
+  "version": "1.0.0-alpha46",
   "description": "Data Components for building map UIs",
   "main": "lib/app.js",
   "scripts": {
