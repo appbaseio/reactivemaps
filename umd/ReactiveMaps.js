@@ -9172,16 +9172,15 @@ return /******/ (function(modules) { // webpackBootstrap
 					});
 				}
 
-				var appbaseQuery = function appbaseQuery(appbaseRef, searchQueryObj, channelResponse, channelObj, queryObj) {
+				var appbaseQuery = function appbaseQuery(appbaseRef, searchQueryObj, channelResponse, channelObj, queryObj, queryOptions) {
 					appbaseRef.search(searchQueryObj).on("data", function (data) {
 						channelResponse.mode = "historic";
 						channelResponse.data = _this2.highlightModify(data, channelResponse.appliedQuery);
-						self.emitter.emit(channelId, channelResponse);
-						var globalQueryOptions = self.queryOptions && self.queryOptions[channelId] ? self.queryOptions[channelId] : {};
-						self.emitter.emit("global", {
+						_this2.emitter.emit(channelId, channelResponse);
+						_this2.emitter.emit("global", {
 							channelResponse: channelResponse,
 							react: channelObj.react,
-							queryOptions: globalQueryOptions
+							queryOptions: queryOptions
 						});
 					}).on("error", function (error) {
 						var channelError = {
@@ -9189,7 +9188,7 @@ return /******/ (function(modules) { // webpackBootstrap
 							error: error,
 							startTime: channelResponse.startTime
 						};
-						self.emitter.emit(channelId, channelError);
+						_this2.emitter.emit(channelId, channelError);
 					});
 					// apply searchStream query and emit streaming data
 					if (channelObj.stream) {
@@ -9222,7 +9221,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						if (!_lodash2.default.isEqual(this.channelQueries[channelId], searchQueryObj)) {
 							this.channelQueries[channelId] = searchQueryObj;
 							setQueryState(channelResponse);
-							appbaseQuery(appbaseRef, searchQueryObj, channelResponse, channelObj, queryObj);
+							var qOptions = this.queryOptions && this.queryOptions[channelId] ? this.queryOptions[channelId] : {};
+							appbaseQuery(appbaseRef, searchQueryObj, channelResponse, channelObj, queryObj, qOptions);
 						}
 					} else {
 						this.channelQueries[channelId] = queryObj;
@@ -9251,7 +9251,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: "stopStream",
 			value: function stopStream(channelId) {
-				// debugger
 				if (this.streamRef[channelId]) {
 					this.streamRef[channelId].stop();
 				}
@@ -9315,9 +9314,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				var size = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 100;
 				var from = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
 				var stream = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : false;
-
-				var _this3 = this;
-
 				var app = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : "reactivebase";
 				var appbaseCrdentials = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : null;
 
@@ -9351,11 +9347,9 @@ return /******/ (function(modules) { // webpackBootstrap
 					};
 					this.channels[channelId].watchDependency.start();
 				}
-				setTimeout(function () {
-					if ("aggs" in react) {
-						_this3.receive("aggs", channelId);
-					}
-				}, 100);
+				if ("aggs" in react) {
+					this.receive("aggs", channelId);
+				}
 				return {
 					channelId: channelId,
 					emitter: this.emitter
@@ -9363,19 +9357,16 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}, {
 			key: "update",
-			value: function update(channelId, react) {
-				var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;
-
-				var _this4 = this;
-
-				var from = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+			value: function update(channelId, react, size, from) {
 				var stream = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
 
-				var optionValues = {
-					size: size,
-					from: from
-				};
-				this.queryOptions[channelId] = optionValues;
+				var optionValues = this.queryOptions[channelId];
+				if (size !== null && from !== null) {
+					optionValues = {
+						size: size,
+						from: from
+					};
+				}
 				react["channel-options-" + channelId] = optionValues;
 				var previousSelectedSensor = _defineProperty({}, "channel-options-" + channelId, optionValues);
 				var obj = {
@@ -9394,11 +9385,9 @@ return /******/ (function(modules) { // webpackBootstrap
 					watchDependency: new helper.WatchForDependencyChange(serializeDepends.dependsList, previousSelectedSensor, this.receive, channelId, this.paginationChanges, this.sortChanges)
 				};
 				this.channels[channelId].watchDependency.start();
-				setTimeout(function () {
-					if ("aggs" in react) {
-						_this4.receive("aggs", channelId);
-					}
-				}, 100);
+				if ("aggs" in react) {
+					this.receive("aggs", channelId);
+				}
 			}
 		}]);
 
@@ -9418,29 +9407,9 @@ return /******/ (function(modules) { // webpackBootstrap
 		value: true
 	});
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	var helper = __webpack_require__(65);
-
-	function isObject(item) {
-		return item && (typeof item === "undefined" ? "undefined" : _typeof(item)) === 'object' && !Array.isArray(item);
-	}
-
-	function mergeDeep(target, source) {
-		var output = Object.assign({}, target);
-		if (isObject(target) && isObject(source)) {
-			Object.keys(source).forEach(function (key) {
-				if (isObject(source[key])) {
-					if (!(key in target)) Object.assign(output, _defineProperty({}, key, source[key]));else output[key] = mergeDeep(target[key], source[key]);
-				} else {
-					Object.assign(output, _defineProperty({}, key, source[key]));
-				}
-			});
-		}
-		return output;
-	}
 
 	// queryBuild
 	// Builds the query by using react object and values of sensor
@@ -9531,13 +9500,19 @@ return /******/ (function(modules) { // webpackBootstrap
 					dependsQuery[depend] = aggsQuery(depend);
 				} else if (depend && depend.indexOf("channel-options-") > -1) {
 					requestOptions = requestOptions || {};
-					requestOptions = mergeDeep(previousSelectedSensor[depend], requestOptions);
+					if ("highlight" in previousSelectedSensor[depend] && "highlight" in requestOptions) {
+						requestOptions.highlight.fields = Object.assign({}, previousSelectedSensor[depend].highlight.fields, requestOptions.highlight.fields);
+					}
+					requestOptions = Object.assign(previousSelectedSensor[depend], requestOptions);
 				} else {
 					dependsQuery[depend] = singleQuery(depend);
 					var externalQuery = isExternalQuery(depend);
 					if (externalQuery && !isDataSearchInternal) {
 						requestOptions = requestOptions || {};
-						requestOptions = mergeDeep(externalQuery, requestOptions);
+						if ("highlight" in externalQuery && "highlight" in requestOptions) {
+							requestOptions.highlight.fields = Object.assign({}, externalQuery.highlight.fields, requestOptions.highlight.fields);
+						}
+						requestOptions = Object.assign(externalQuery, requestOptions);
 					}
 				}
 				var sortField = sortAvailable(depend);
@@ -82054,7 +82029,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function componentWillReceiveProps(nextProps) {
 				if (!_lodash2.default.isEqual(this.props, nextProps)) {
 					this.setReact(nextProps);
-					_ChannelManager2.default.update(this.channelId, this.react, nextProps.size, nextProps.from, nextProps.stream);
+					var size = null,
+					    from = null;
+					if (this.props.size !== nextProps.size || this.props.from != nextProps.from) {
+						size = nextProps.size;
+						from = nextProps.from;
+					}
+					_ChannelManager2.default.update(this.channelId, this.react, size, from, nextProps.stream);
 				}
 				if (nextProps.pagination !== this.pagination) {
 					this.pagination = nextProps.pagination;
@@ -83018,13 +82999,17 @@ return /******/ (function(modules) { // webpackBootstrap
 						var totalHits = res.channelResponse && res.channelResponse.data && res.channelResponse.data.hits ? res.channelResponse.data.hits.total : 0;
 						var maxPageNumber = Math.ceil(totalHits / res.queryOptions.size) < 1 ? 1 : Math.ceil(totalHits / res.queryOptions.size);
 						var size = res.queryOptions.size ? res.queryOptions.size : 20;
-						var currentPage = Math.round(res.queryOptions.from / size) + 1;
-						_this2.setState({
-							totalHits: totalHits,
-							size: size,
-							maxPageNumber: maxPageNumber,
-							currentValue: currentPage
-						});
+						var currentPage = Math.floor(res.queryOptions.from / size) + 1;
+						if (currentPage > maxPageNumber) {
+							_this2.handleChange(1);
+						} else {
+							_this2.setState({
+								totalHits: totalHits,
+								size: size,
+								maxPageNumber: maxPageNumber,
+								currentValue: currentPage
+							});
+						}
 					}
 				});
 			}
