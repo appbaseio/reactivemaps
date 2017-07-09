@@ -9500,10 +9500,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					dependsQuery[depend] = aggsQuery(depend);
 				} else if (depend && depend.indexOf("channel-options-") > -1) {
 					requestOptions = requestOptions || {};
-					if ("highlight" in previousSelectedSensor[depend] && "highlight" in requestOptions) {
+					if (previousSelectedSensor[depend] && "highlight" in previousSelectedSensor[depend] && "highlight" in requestOptions) {
 						requestOptions.highlight.fields = Object.assign({}, previousSelectedSensor[depend].highlight.fields, requestOptions.highlight.fields);
 					}
-					requestOptions = Object.assign(previousSelectedSensor[depend], requestOptions);
+					requestOptions = Object.assign({}, previousSelectedSensor[depend], requestOptions);
 				} else {
 					dependsQuery[depend] = singleQuery(depend);
 					var externalQuery = isExternalQuery(depend);
@@ -39504,6 +39504,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (this.filterListener) {
 					this.filterListener.remove();
 				}
+				// stop streaming request and remove listener when component will unmount
+				this.removeChannel();
 			}
 		}, {
 			key: "listenFilter",
@@ -39538,7 +39540,11 @@ return /******/ (function(modules) { // webpackBootstrap
 						if (records.length) {
 							this.handleChange(records);
 						} else {
-							this.handleChange([{ value: this.defaultSelected }]);
+							this.handleChange(this.defaultSelected.map(function (item) {
+								return {
+									value: item
+								};
+							}));
 						}
 					}
 				} else if (this.defaultSelected !== defaultValue) {
@@ -39546,6 +39552,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					var _records = this.state.items.filter(function (record) {
 						return record.value === _this3.defaultSelected;
 					});
+
 					if (_records.length) {
 						this.handleChange(_records);
 					} else {
@@ -39561,14 +39568,6 @@ return /******/ (function(modules) { // webpackBootstrap
 					this.removeChannel();
 					this.createChannel();
 				}
-			}
-
-			// stop streaming request and remove listener when component will unmount
-
-		}, {
-			key: "componentWillUnmount",
-			value: function componentWillUnmount() {
-				this.removeChannel();
 			}
 		}, {
 			key: "removeChannel",
@@ -39639,9 +39638,9 @@ return /******/ (function(modules) { // webpackBootstrap
 					key: this.props.componentId + "-sort",
 					value: this.sortObj
 				};
-				if (this.props.onValueChange) {
-					this.props.onValueChange(obj.value);
-				}
+				// if (this.props.onValueChange) {
+				// 	this.props.onValueChange(obj.value);
+				// }
 				helper.selectedSensor.set(obj, true, "sortChange");
 			}
 
@@ -39787,15 +39786,13 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.selectAll = false;
 				if (this.props.multipleSelect) {
 					if (value) {
-						result = [];
-						value.map(function (item) {
-							result.push(item.value);
+						result = value.map(function (item) {
+							return item.value;
 						});
+
 						if (this.props.selectAllLabel && result.indexOf(this.props.selectAllLabel) > -1) {
 							result = this.props.selectAllLabel;
 							this.selectAll = true;
-						} else {
-							result = result.join();
 						}
 					} else {
 						result = null;
@@ -39806,6 +39803,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						this.selectAll = true;
 					}
 				}
+
+				// string for single and array for multiple
 				this.setState({
 					value: result
 				});
@@ -39820,8 +39819,10 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function setValue(value) {
 				var isExecuteQuery = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
+				if (this.props.onValueChange) {
+					this.props.onValueChange(value);
+				}
 				if (this.props.multipleSelect && value) {
-					value = _lodash2.default.isArray(value) ? value : value.split(",");
 					value = value.length ? value : null;
 				}
 				value = value === "" ? null : value;
@@ -54996,9 +54997,16 @@ return /******/ (function(modules) { // webpackBootstrap
 				var selectedText = this.state.selected && this.state.selected.label ? this.state.selected.label : "";
 				if (this.props.data) {
 					buttons = this.props.data.map(function (record, i) {
+						var cx = (0, _classnames2.default)({
+							"rbc-radio-active": _this4.props.showRadio,
+							"rbc-radio-inactive": !_this4.props.showRadio,
+							"rbc-list-item-active": selectedText === record.label,
+							"rbc-list-item-inactive": selectedText !== record.label
+						});
+
 						return _react2.default.createElement(
 							"div",
-							{ className: "rbc-list-item row", key: i, onClick: function onClick() {
+							{ className: "rbc-list-item row " + cx, key: i, onClick: function onClick() {
 									return _this4.handleChange(record);
 								} },
 							_react2.default.createElement("input", {
@@ -55034,7 +55042,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				var cx = (0, _classnames2.default)({
 					"rbc-title-active": this.props.title,
-					"rbc-title-inactive": !this.props.title
+					"rbc-title-inactive": !this.props.title,
+					"rbc-radio-active": this.props.showRadio,
+					"rbc-radio-inactive": !this.props.showRadio
 				});
 
 				return _react2.default.createElement(
@@ -55070,14 +55080,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		onValueChange: _react2.default.PropTypes.func,
 		componentStyle: _react2.default.PropTypes.object,
 		showFilter: _react2.default.PropTypes.bool,
-		filterLabel: _react2.default.PropTypes.string
+		filterLabel: _react2.default.PropTypes.string,
+		showRadio: _react2.default.PropTypes.bool
 	};
 
 	// Default props value
 	SingleRange.defaultProps = {
 		title: null,
 		componentStyle: {},
-		showFilter: true
+		showFilter: true,
+		showRadio: true
 	};
 
 	// context type
@@ -55097,7 +55109,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		customQuery: TYPES.FUNCTION,
 		componentStyle: TYPES.OBJECT,
 		showFilter: TYPES.BOOLEAN,
-		filterLabel: TYPES.STRING
+		filterLabel: TYPES.STRING,
+		showRadio: TYPES.BOOLEAN
 	};
 
 /***/ }),
@@ -55374,9 +55387,16 @@ return /******/ (function(modules) { // webpackBootstrap
 				}) : "";
 				if (this.props.data) {
 					buttons = this.props.data.map(function (record) {
+						var cx = (0, _classnames2.default)({
+							"rbc-checkbox-active": _this3.props.showCheckbox,
+							"rbc-checkbox-inactive": !_this3.props.showCheckbox,
+							"rbc-list-item-active": selectedText.indexOf(record.label) !== -1,
+							"rbc-list-item-inactive": selectedText.indexOf(record.label) === -1
+						});
+
 						return _react2.default.createElement(
 							"div",
-							{ className: "rbc-list-item row", key: record.label, onClick: function onClick() {
+							{ className: "rbc-list-item row " + cx, key: record.label, onClick: function onClick() {
 									return _this3.handleChange(record);
 								} },
 							_react2.default.createElement("input", {
@@ -55426,7 +55446,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				var cx = (0, _classnames2.default)({
 					"rbc-title-active": this.props.title,
-					"rbc-title-inactive": !this.props.title
+					"rbc-title-inactive": !this.props.title,
+					"rbc-checkbox-active": this.props.showCheckbox,
+					"rbc-checkbox-inactive": !this.props.showCheckbox
 				});
 
 				return _react2.default.createElement(
@@ -55493,14 +55515,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		URLParams: _react2.default.PropTypes.bool,
 		showFilter: _react2.default.PropTypes.bool,
 		filterLabel: _react2.default.PropTypes.string,
-		showTags: _react2.default.PropTypes.bool
+		showTags: _react2.default.PropTypes.bool,
+		showCheckbox: _react2.default.PropTypes.bool
 	};
 
 	// Default props value
 	MultiRange.defaultProps = {
 		URLParams: false,
 		showFilter: true,
-		showTags: true
+		showTags: true,
+		showCheckbox: true
 	};
 
 	// context type
@@ -55522,7 +55546,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		URLParams: TYPES.BOOLEAN,
 		showFilter: TYPES.BOOLEAN,
 		showTags: TYPES.BOOLEAN,
-		filterLabel: TYPES.STRING
+		filterLabel: TYPES.STRING,
+		showCheckbox: TYPES.BOOLEAN
 	};
 
 /***/ }),
@@ -55883,7 +55908,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}, {
 			key: "componentWillReceiveProps",
-			value: function componentWillReceiveProps() {
+			value: function componentWillReceiveProps(nextProps) {
 				this.urlParams = helper.URLParams.get(nextProps.componentId, true);
 				var defaultValue = this.urlParams !== null ? this.urlParams : nextProps.defaultSelected;
 				this.valueChange(defaultValue);
