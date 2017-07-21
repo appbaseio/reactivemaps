@@ -1,4 +1,4 @@
-const _ = require("lodash");
+import _ from "lodash";
 
 export function Bearing(lat1, lng1, lat2, lng2) {
 	function _toRad(deg) {
@@ -213,7 +213,7 @@ export const setupOrReact = (react, reactAnd) => {
 		if (typeof react.or === "string") {
 			react.or = [react.or];
 			react.or = react.or.concat(reactAnd);
-		} else if (_.isArray(react.or)) {
+		} else if (Array.isArray(react.or)) {
 			react.or = react.or.concat(reactAnd);
 		} else if (_.isObject(react.or)) {
 			react.or = setupReact(react.or, reactAnd);

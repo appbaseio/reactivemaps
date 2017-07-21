@@ -12,6 +12,8 @@ import { SearchAsMove } from "../addons/SearchAsMove";
 import { MapStyles, mapStylesCollection } from "../addons/MapStyles";
 import * as ReactiveMapHelper from "../helper/ReactiveMapHelper";
 
+import _ from "lodash";
+
 export default class ReactiveMap extends Component {
 	constructor(props) {
 		super(props);
@@ -42,51 +44,21 @@ export default class ReactiveMap extends Component {
 		this.mapDefaultHeight = "700px";
 	}
 
-	getMapStyle(styleName) {
-		const selectedStyle = mapStylesCollection.filter(style => style.key === styleName);
-
-		if (selectedStyle.length) {
-			return selectedStyle[0].value;
-		}
-		return null;
-	}
-
 	componentDidMount() {
 		this.streamProp = this.props.stream;
 		this.sizeProp = this.props.size;
 		this.initialize();
 	}
 
-	initialize(updateExecute = false) {
-		this.setGeoQueryInfo();
-		this.createChannel(updateExecute);
-		const currentMapStyle = this.getMapStyle(this.props.defaultMapStyle);
-		this.initialMapBoundQuery = this.props.defaultCenter ? true : false;
-		this.applyGeoQuery = this.props.applyGeoQuery ? this.props.applyGeoQuery : this.props.setSearchAsMove;
-		this.setState({
-			currentMapStyle
-		});
-	}
-
 	componentWillReceiveProps(nextProps) {
+		if (!_.isEqual(this.props.react, nextProps.react)) {
+			this.setReact(nextProps);
+			manager.update(this.channelId, this.react, nextProps.size, nextProps.from, nextProps.stream);
+		}
+
 		if (nextProps.defaultMapStyle !== this.props.defaultMapStyle) {
 			this.mapStyleChange(this.getMapStyle(nextProps.defaultMapStyle));
 		}
-	}
-
-	componentWillUpdate() {
-		setTimeout(() => {
-			if (this.streamProp !== this.props.stream) {
-				this.streamProp = this.props.stream;
-				this.removeChannel();
-				this.initialize();
-			}
-			if (this.sizeProp !== this.props.size) {
-				this.sizeProp = this.props.size;
-				this.removeChannel();
-				this.initialize(true);
-			}
-		}, 300);
 	}
 
 	// stop streaming request and remove listener when component will unmount
@@ -104,16 +76,40 @@ export default class ReactiveMap extends Component {
 		}
 	}
 
-	// Create a channel which passes the actuate and receive results whenever actuate changes
-	createChannel() {
+	initialize(updateExecute = false) {
+		this.setGeoQueryInfo();
+		this.setReact(this.props);
+		this.createChannel(updateExecute);
+		const currentMapStyle = this.getMapStyle(this.props.defaultMapStyle);
+		this.initialMapBoundQuery = this.props.defaultCenter ? true : false;
+		this.applyGeoQuery = this.props.applyGeoQuery ? this.props.applyGeoQuery : this.props.setSearchAsMove;
+		this.setState({
+			currentMapStyle
+		});
+	}
+
+	getMapStyle(styleName) {
+		const selectedStyle = mapStylesCollection.filter(style => style.key === styleName);
+
+		if (selectedStyle.length) {
+			return selectedStyle[0].value;
+		}
+		return null;
+	}
+
+	setReact(props) {
 		// Set the actuate - add self aggregation query as well with actuate
-		let react = this.props.react ? this.props.react : {};
+		const react = Object.assign({}, props.react);
 		const reactOr = ["geoQuery"];
 		const reactAnd = ["streamChanges"];
-		react = helper.setupReact(react, reactAnd);
-		react = ReactiveMapHelper.setupOrReact(react, reactOr);
+		this.react = helper.setupReact(react, reactAnd);
+		this.react = ReactiveMapHelper.setupOrReact(this.react, reactOr);
+	}
+
+	// Create a channel which passes the actuate and receive results whenever actuate changes
+	createChannel() {
 		// create a channel and listen the changes
-		const channelObj = manager.create(this.context.appbaseRef, this.context.type, react, this.props.size, this.props.from, this.props.stream);
+		const channelObj = manager.create(this.context.appbaseRef, this.context.type, this.react, this.props.size, this.props.from, this.props.stream);
 		this.channelId = channelObj.channelId;
 		this.channelListener = channelObj.emitter.addListener(channelObj.channelId, (res) => {
 			const data = res.data;
