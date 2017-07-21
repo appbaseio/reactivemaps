@@ -12,6 +12,8 @@ import { SearchAsMove } from "../addons/SearchAsMove";
 import { MapStyles, mapStylesCollection } from "../addons/MapStyles";
 import * as ReactiveMapHelper from "../helper/ReactiveMapHelper";
 
+import _ from "lodash";
+
 export default class ReactiveMap extends Component {
 	constructor(props) {
 		super(props);

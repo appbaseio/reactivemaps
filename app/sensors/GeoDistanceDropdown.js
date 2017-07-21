@@ -335,6 +335,11 @@ export default class GeoDistanceDropdown extends Component {
 			title = (<h4 className="rbc-title">{this.props.title}</h4>);
 		}
 
+		const data = this.props.data.map(item => {
+			item.value = item.label;
+			return item;
+		});
+
 		const cx = classNames({
 			"rbc-title-active": this.props.title,
 			"rbc-title-inactive": !this.props.title,
@@ -358,12 +363,13 @@ export default class GeoDistanceDropdown extends Component {
 					</div>
 					<div className="col s12 col-xs-12">
 						<Select
+							name="distance"
+							placeholder={this.props.placeholderDropdown}
 							value={this.state.selected && this.state.selected.label ? this.state.selected : ""}
-							options={this.props.data}
+							options={data}
+							onChange={this.handleDistanceChange}
 							clearable={false}
 							searchable={false}
-							onChange={this.handleDistanceChange}
-							placeholder={this.props.placeholderDropdown}
 						/>
 					</div>
 				</div>

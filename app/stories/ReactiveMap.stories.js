@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import {
 	ReactiveBase,
-	DataSearch,
-	SingleList,
 	ReactiveMap,
-	PlacesSearch,
 	AppbaseSensorHelper as helper
 } from "../app.js";
 
@@ -44,62 +41,30 @@ export default class ReactiveMapDefault extends Component {
 	render() {
 		return (
 			<ReactiveBase
-				app="meetup2"
-				credentials="qz4ZD8xq1:a0edfc7f-5611-46f6-8fe1-d4db234631f3"
-				type="meetup"
-				theme="rbc-blue"
+				app="reactivemap-demo"
+				credentials="qMzzgez0t:a9138c3f-f246-4cd8-ba3d-0b99f9550c05"
+				type="meetupdata1"
 			>
 				<div className="row reverse-labels">
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							appbaseField="location"
 							historicalData
 							setMarkerCluster={false}
-							defaultMapStyle={this.props.mapStyle}
+							defaultMapStyle="Light Monochrome"
 							autoCenter
 							searchAsMoveComponent
 							MapStylesComponent
+							title="Reactive Maps"
+							showPopoverOn="click"
 							historicPin={historyPin}
 							onPopoverTrigger={this.onPopoverTrigger}
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lon: -122.45 }}
-							react={{
-								and: ["CitySensor", "VenueSensor"]
-							}}
-							{...this.props}
 						/>
-					</div>
-					<div className="col s6 col-xs-6">
-						<div>
-							<DataSearch
-								appbaseField={this.props.mapping.venue}
-								componentId="VenueSensor"
-								placeholder="Search Venue"
-							/>
-						</div>
-						<div>
-							<SingleList
-								componentId="CitySensor"
-								appbaseField={this.props.mapping.city}
-								showCount
-								size={10}
-								title="Input Filter"
-								searchPlaceholder="Search City"
-								includeSelectAll
-							/>
-						</div>
 					</div>
 				</div>
 			</ReactiveBase>
 		);
 	}
 }
-
-ReactiveMapDefault.defaultProps = {
-	mapStyle: "Light Monochrome",
-	mapping: {
-		location: "location",
-		venue: "venue_name_ngrams",
-		city: "group.group_city.raw"
-	}
-};
