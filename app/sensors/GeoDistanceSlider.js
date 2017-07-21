@@ -65,12 +65,6 @@ export default class GeoDistanceSlider extends Component {
 	}
 
 	componentWillUnmount() {
-		if (this.channelId) {
-			manager.stopStream(this.channelId);
-		}
-		if (this.channelListener) {
-			this.channelListener.remove();
-		}
 		if(this.filterListener) {
 			this.filterListener.remove();
 		}
