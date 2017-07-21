@@ -10,7 +10,7 @@ import axios from "axios";
 import Slider from "rc-slider";
 import Select from "react-select";
 
-const _ = require("lodash");
+import _ from "lodash";
 
 export default class GeoDistanceSlider extends Component {
 	constructor(props) {

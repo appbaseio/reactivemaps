@@ -75,12 +75,6 @@ export default class ReactiveMapDefault extends Component {
 								appbaseField={this.props.mapping.venue}
 								componentId="VenueSensor"
 								placeholder="Search Venue"
-								actuate={{
-									CitySensor: {
-										operation: "must",
-										doNotExecute: { true }
-									}
-								}}
 							/>
 						</div>
 						<div>

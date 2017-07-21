@@ -1,191 +1,96 @@
-var path = require('path');
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-var webpack = require('webpack');
-var env = process.env.NODE_ENV;
-var CHOOSE_CONFIG = process.env.CHOOSE_CONFIG;
+const path = require("path");
+const webpack = require("webpack");
+const env = process.env.NODE_ENV;
 
-var umd_config = {
-	entry: './app/app.js',
-
-	output: {
-		library: 'reactive-maps',
-		libraryTarget: 'umd',
-	},
-
-	module: {
-		preLoaders: [
-				{ test: /\.json$/, exclude: /node_modules/, loader: 'json'},
-		],
-		loaders: [
-			{
-				test: /.jsx?$/,
-				loader: 'babel-loader',
-				exclude: /node_modules/,
-				query: {
-					presets: ['es2015','stage-0', 'react']
-				}
-			},
-			{
-				test: /node_modules\/JSONStream\/index\.js$/,
-				loaders: ['shebang-loader', 'babel-loader']
-			}
-		]
-	},
-
-	resolve: {
-		alias: {
-			react: path.resolve(__dirname, './node_modules/react'),
-			'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
-			'react-addons-transition-group':
-					path.resolve(__dirname, './node_modules/react-addons-transition-group'),
-		},
-	},
-
-	externals: {
-		react: {
-			root: 'React',
-			commonjs2: 'react',
-			commonjs: 'react',
-			amd: 'react',
-		},
-		'react-dom': {
-			root: 'ReactDOM',
-			commonjs2: 'react-dom',
-			commonjs: 'react-dom',
-			amd: 'react-dom',
-		},
-		'react-dom/server': {
-			root: 'ReactDOMServer',
-			commonjs2: 'react-dom-server',
-			commonjs: 'react-dom-server',
-			amd: 'react-dom-server',
-		},
-		'react-addons-transition-group': {
-			root: ['React', 'addons', 'TransitionGroup'],
-			commonjs2: 'react-addons-transition-group',
-			commonjs: 'react-addons-transition-group',
-			amd: 'react-addons-transition-group',
-		},
-	},
-
-	plugins: [
-		new LodashModuleReplacementPlugin({
-			collections: true,
-			shorthands: true
-		}),
-		new webpack.DefinePlugin({
-			'process.env.NODE_ENV': JSON.stringify(env),
-		}),
-	],
-};
-
-if (env === 'production') {
-	umd_config.plugins.push(
-		new webpack.optimize.UglifyJsPlugin({
-			compressor: {
-				pure_getters: true,
-				unsafe: true,
-				unsafe_comps: true,
-				warnings: false,
-			},
-			output: {
-				comments: false,
-			},
-			sourceMap: false,
-		})
-	);
-}
-
-// for lib build
-var lib_config = {
+const main_config = {
 	entry: {
-		app: './app/app.js'
+		app: "./app/app.js",
+		meetupblast: "./examples/meetupblast/main.js",
+		now: "./examples/now/main.js",
+		heatmap: "./examples/heatmap/main.js",
+		transport: "./examples/transport/main.js",
+		earthquake: "./examples/earthquake/main.js",
+		weather: "./examples/weather/main.js",
+		list: "./examples/list/main.js",
+		nearby: "./examples/nearby/main.js",
+		events: "./examples/events/main.js",
+		CustomQuery: "./examples/CustomQuery/main.js",
+		direction: "./examples/direction/main.js",
+		PlacesSearch: "./examples/PlacesSearch/main.js",
+		GeoDistanceSlider: "./examples/GeoDistanceSlider/main.js",
+		GeoDistanceDropdown: "./examples/GeoDistanceDropdown/main.js"
 	},
 	output: {
 		path: path.join(__dirname, "dist"),
-		publicPath: "/dist/",
-		filename: '[name].bundle.js'
+		filename: "[name].bundle.js",
+		publicPath: "/dist/"
 	},
 	module: {
-		preLoaders: [
-				{ test: /\.json$/, exclude: /node_modules/, loader: 'json'},
-		],
-		loaders: [
+		rules: [
 			{
 				test: /.jsx?$/,
-				loader: 'babel-loader',
-				exclude: /node_modules/,
-				query: {
-					presets: ['es2015','stage-0', 'react']
-				}
+				use: "babel-loader",
+				include: [
+					path.resolve(__dirname, "app"),
+					path.resolve(__dirname, "examples")
+				],
+				exclude: /node_modules/
 			},
 			{
 				test: /node_modules\/JSONStream\/index\.js$/,
-				loaders: ['shebang', 'babel']
+				use: ["shebang-loader", "babel-loader"]
 			}
 		]
 	},
+	externals: ["ws"]
 };
 
-// for examples build
-var examples_config = {
+const build_config = {
 	entry: {
-		main: './main.js',
-		meetupblast: './examples/meetupblast/main.js',
-		now: './examples/now/main.js',
-		heatmap: './examples/heatmap/main.js',
-		transport: './examples/transport/main.js',
-		earthquake: './examples/earthquake/main.js',
-		weather: './examples/weather/main.js',
-		list: './examples/list/main.js',
-		nearby: './examples/nearby/main.js',
-		events: './examples/events/main.js',
-		CustomQuery: './examples/CustomQuery/main.js',
-		direction: './examples/direction/main.js',
-		PlacesSearch: './examples/PlacesSearch/main.js',
-		GeoDistanceSlider: './examples/GeoDistanceSlider/main.js',
-		GeoDistanceDropdown: './examples/GeoDistanceDropdown/main.js'
+		meetupblast: "./examples/meetupblast/main.js",
+		now: "./examples/now/main.js",
+		heatmap: "./examples/heatmap/main.js",
+		transport: "./examples/transport/main.js",
+		earthquake: "./examples/earthquake/main.js",
+		weather: "./examples/weather/main.js",
+		list: "./examples/list/main.js",
+		nearby: "./examples/nearby/main.js",
+		events: "./examples/events/main.js",
+		CustomQuery: "./examples/CustomQuery/main.js",
+		direction: "./examples/direction/main.js",
+		PlacesSearch: "./examples/PlacesSearch/main.js",
+		GeoDistanceSlider: "./examples/GeoDistanceSlider/main.js",
+		GeoDistanceDropdown: "./examples/GeoDistanceDropdown/main.js"
 	},
 	output: {
 		path: path.join(__dirname, "dist"),
-		publicPath: "/dist/",
-		filename: '[name].bundle.js'
+		filename: "[name].bundle.js",
+		publicPath: "/dist/"
 	},
 	module: {
-		preLoaders: [
-				{ test: /\.json$/, exclude: /node_modules/, loader: 'json'},
-		],
-		loaders: [
+		rules: [
 			{
 				test: /.jsx?$/,
-				loader: 'babel-loader',
-				exclude: /node_modules/,
-				query: {
-					presets: ['es2015','stage-0', 'react']
-				}
+				use: "babel-loader",
+				include: [
+					path.resolve(__dirname, "app"),
+					path.resolve(__dirname, "examples")
+				],
+				exclude: /node_modules/
 			},
 			{
 				test: /node_modules\/JSONStream\/index\.js$/,
-				loaders: ['shebang', 'babel']
+				use: ["shebang-loader", "babel-loader"]
 			}
-		],
-		noParse: ['ws']
+		]
 	},
-	externals: ['ws']
+	externals: ["ws"]
 };
 
-var final_config;
-switch(CHOOSE_CONFIG) {
-	case 'UMD':
-		final_config = umd_config;
-	break;
-	case 'LIB':
-		final_config = lib_config;
-	break;
-	case 'EXAMPLES':
-	default:
-		final_config = examples_config
-	break;
+let config = main_config;
+
+if (env === "production") {
+	config = build_config;
 }
 
-module.exports = final_config;
+module.exports = config;

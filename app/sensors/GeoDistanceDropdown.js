@@ -7,7 +7,7 @@ import classNames from "classnames";
 import axios from "axios";
 import Select from "react-select";
 
-const _ = require("lodash");
+import _ from "lodash";
 
 export default class GeoDistanceDropdown extends Component {
 	constructor(props) {
