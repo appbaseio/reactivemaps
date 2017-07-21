@@ -8,7 +8,7 @@
     "lint": "esw app --color --watch",
     "webpack-server": "webpack-dev-server --hot --inline --progress --colors --port 8012",
     "start": "concurrently \"npm run webpack-server\" \"gulp watch\" ",
-    "storybook": "start-storybook -p 9009 -s public",
+    "storybook": "start-storybook -p 9009",
     "build": "gulp && babel app --out-dir lib",
     "build:umd": "NODE_ENV=production webpack --config webpack.config.umd.js",
     "build:examples": "NODE_ENV=production webpack -p --progress --colors",
@@ -25,7 +25,7 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@appbaseio/reactivebase": "1.0.0-beta01",
+    "@appbaseio/reactivebase": "1.0.0-beta03",
     "axios": "^0.15.2",
     "google-map-react": "^0.14.5",
     "google-maps": "^3.2.1",

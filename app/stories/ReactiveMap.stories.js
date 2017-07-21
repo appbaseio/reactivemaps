@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import {
 	ReactiveBase,
 	ReactiveMap,
+	DataSearch,
+	SingleList,
 	AppbaseSensorHelper as helper
 } from "../app.js";
 
@@ -55,16 +57,44 @@ export default class ReactiveMapDefault extends Component {
 							autoCenter
 							searchAsMoveComponent
 							MapStylesComponent
-							title="Reactive Maps"
-							showPopoverOn="click"
 							historicPin={historyPin}
 							onPopoverTrigger={this.onPopoverTrigger}
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lon: -122.45 }}
+							react={{
+								and: ["CitySensor", "VenueSensor"]
+							}}
+							{...this.props}
 						/>
+					</div>
+					<div className="col s6 col-xs-6">
+						<div>
+							<DataSearch
+								appbaseField={this.props.mapping.venue}
+								componentId="VenueSensor"
+								placeholder="Search Venue"
+							/>
+						</div>
+						<div>
+							<SingleList
+								componentId="CitySensor"
+								appbaseField={this.props.mapping.city}
+								showCount
+								size={10}
+								title="Input Filter"
+								placeholder="Search City"
+							/>
+						</div>
 					</div>
 				</div>
 			</ReactiveBase>
 		);
 	}
 }
+
+ReactiveMapDefault.defaultProps = {
+	mapping: {
+		venue: "venue_name_ngrams",
+		city: "group.group_city.raw"
+	}
+};
