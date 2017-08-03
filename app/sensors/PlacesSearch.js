@@ -184,11 +184,26 @@ export default class PlacesSearch extends Component {
 					location: this.locString
 				}
 			};
-			if(this.props.onValueChange) {
-				this.props.onValueChange(obj.value);
+
+			const execQuery = () => {
+				if(this.props.onValueChange) {
+					this.props.onValueChange(obj.value);
+				}
+				helper.URLParams.update(this.props.componentId, this.state.currentValue, this.props.URLParams);
+				helper.selectedSensor.set(obj, true);
+			};
+
+			if (this.props.beforeValueChange) {
+				this.props.beforeValueChange(obj.value)
+				.then(() => {
+					execQuery();
+				})
+				.catch((e) => {
+					console.warn(`${this.props.componentId} - beforeValueChange rejected the promise with`, e);
+				});
+			} else {
+				execQuery();
 			}
-			helper.URLParams.update(this.props.componentId, this.state.currentValue, this.props.URLParams);
-			helper.selectedSensor.set(obj, true);
 		}
 	}
 
@@ -208,11 +223,25 @@ export default class PlacesSearch extends Component {
 				key: this.props.componentId,
 				value: null
 			};
-			if(this.props.onValueChange) {
-				this.props.onValueChange(obj.value);
+			const execQuery = () => {
+				if(this.props.onValueChange) {
+					this.props.onValueChange(obj.value);
+				}
+				helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
+				helper.selectedSensor.set(obj, true);
+			};
+
+			if (this.props.beforeValueChange) {
+				this.props.beforeValueChange(obj.value)
+				.then(() => {
+					execQuery();
+				})
+				.catch((e) => {
+					console.warn(`${this.props.componentId} - beforeValueChange rejected the promise with`, e);
+				});
+			} else {
+				execQuery();
 			}
-			helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
-			helper.selectedSensor.set(obj, true);
 		}
 	}
 
@@ -309,6 +338,7 @@ PlacesSearch.propTypes = {
 	customQuery: React.PropTypes.func,
 	placeholder: React.PropTypes.string,
 	autoLocation: React.PropTypes.bool,
+	beforeValueChange: React.PropTypes.func,
 	onValueChange: React.PropTypes.func,
 	componentStyle: React.PropTypes.object,
 	URLParams: React.PropTypes.bool,

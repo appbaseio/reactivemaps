@@ -59,6 +59,7 @@ class Main extends Component {
 								{ start: 501, end: 1000, label: "Above 500 miles" }]
 							}
 							placeholder="Search Location"
+							beforeValueChange={() => new Promise((resolve, reject) => resolve())}
 						/>
 					</div>
 					<div className="col s6 col-xs-6">

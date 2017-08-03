@@ -61,6 +61,7 @@ class Main extends Component {
 							unit="mi"
 							placeholder="Search Location"
 							URLParams={true}
+							beforeValueChange={() => new Promise((resolve, reject) => resolve())}
 						/>
 					</div>
 					<div className="col s6 col-xs-6">

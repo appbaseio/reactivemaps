@@ -205,6 +205,7 @@ export default class GeoDistanceSlider extends Component {
 					location: this.locString
 				}
 			};
+
 			const sortObj = {
 				key: this.props.componentId,
 				value: {
@@ -215,19 +216,51 @@ export default class GeoDistanceSlider extends Component {
 					}
 				}
 			};
-			if(this.props.onValueChange) {
-				this.props.onValueChange(obj.value);
-			}
-			helper.selectedSensor.setSortInfo(sortObj);
-			helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
-			helper.selectedSensor.set(obj, true);
-		} else if(this.state.currentDistance === null && this.state.currentValue === "") {
-			const obj = {
-				key: this.props.componentId,
-				value: null
+
+			const execQuery = () => {
+				if(this.props.onValueChange) {
+					this.props.onValueChange(obj.value);
+				}
+				helper.selectedSensor.setSortInfo(sortObj);
+				helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
+				helper.selectedSensor.set(obj, true);
 			};
-			helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
-			helper.selectedSensor.set(obj, true);
+
+			if (this.props.beforeValueChange) {
+				this.props.beforeValueChange(obj.value)
+				.then(() => {
+					execQuery();
+				})
+				.catch((e) => {
+					console.warn(`${this.props.componentId} - beforeValueChange rejected the promise with`, e);
+				});
+			} else {
+				execQuery();
+			}
+		} else if(this.state.currentDistance === null && this.state.currentValue === "") {
+			const execNullQuery = () => {
+				if(this.props.onValueChange) {
+					this.props.onValueChange(null);
+				}
+				const obj = {
+					key: this.props.componentId,
+					value: null
+				};
+				helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
+				helper.selectedSensor.set(obj, true);
+			}
+
+			if (this.props.beforeValueChange) {
+				this.props.beforeValueChange(obj.value)
+				.then(() => {
+					execNullQuery();
+				})
+				.catch((e) => {
+					console.warn(`${this.props.componentId} - beforeValueChange rejected the promise with`, e);
+				});
+			} else {
+				execNullQuery();
+			}
 		}
 	}
 
@@ -252,14 +285,30 @@ export default class GeoDistanceSlider extends Component {
 			this.setState({
 				currentValue: ""
 			});
+
 			const obj = {
 				key: this.props.componentId,
 				value: null
 			};
-			if(this.props.onValueChange) {
-				this.props.onValueChange(obj.value);
+
+			const execQuery = () => {
+				if(this.props.onValueChange) {
+					this.props.onValueChange(obj.value);
+				}
+				helper.selectedSensor.set(obj, true);
+			};
+
+			if (this.props.beforeValueChange) {
+				this.props.beforeValueChange(obj.value)
+				.then(() => {
+					execQuery();
+				})
+				.catch((e) => {
+					console.warn(`${this.props.componentId} - beforeValueChange rejected the promise with`, e);
+				});
+			} else {
+				execQuery();
 			}
-			helper.selectedSensor.set(obj, true);
 		}
 	}
 
@@ -361,10 +410,10 @@ export default class GeoDistanceSlider extends Component {
 					<div className="rbc-rangeslider-container col s12 col-xs-12">
 						<Slider
 							tipFormatter={this.unitFormatter}
-							value={this.state.value}
+							defaultValue={this.state.value}
 							min={this.props.range.start}
 							max={this.props.range.end}
-							onChange={this.handleResults}
+							onAfterChange={this.handleResults}
 							marks={marks}
 							step={this.props.stepValue}
 						/>
@@ -399,6 +448,7 @@ GeoDistanceSlider.propTypes = {
 		end: React.PropTypes.string
 	}),
 	autoLocation: React.PropTypes.bool,
+	beforeValueChange: React.PropTypes.func,
 	onValueChange: React.PropTypes.func,
 	componentStyle: React.PropTypes.object,
 	URLParams: React.PropTypes.bool,
