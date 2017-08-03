@@ -225,6 +225,16 @@ export default class GeoDistanceDropdown extends Component {
 					unit: this.unit
 				}
 			};
+
+			const execQuery = () => {
+				if(this.props.onValueChange) {
+					this.props.onValueChange(obj.value);
+				}
+				helper.selectedSensor.setSortInfo(sortObj);
+				helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
+				helper.selectedSensor.set(obj, true);
+			};
+
 			const sortObj = {
 				key: this.props.componentId,
 				value: {
@@ -235,19 +245,42 @@ export default class GeoDistanceDropdown extends Component {
 					}
 				}
 			};
-			if(this.props.onValueChange) {
-				this.props.onValueChange(obj.value);
+
+			if (this.props.beforeValueChange) {
+				this.props.beforeValueChange(obj.value)
+				.then(() => {
+					execQuery();
+				})
+				.catch((e) => {
+					console.warn(`${this.props.componentId} - beforeValueChange rejected the promise with`, e);
+				});
+			} else {
+				execQuery();
 			}
-			helper.selectedSensor.setSortInfo(sortObj);
-			helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
-			helper.selectedSensor.set(obj, true);
 		} else if(this.state.selected === null && this.state.currentValue === "") {
-			const obj = {
-				key: this.props.componentId,
-				value: null
-			};
-			helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
-			helper.selectedSensor.set(obj, true);
+			const execNullQuery = () => {
+				const obj = {
+					key: this.props.componentId,
+					value: null
+				};
+				if(this.props.onValueChange) {
+					this.props.onValueChange(null);
+				}
+				helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
+				helper.selectedSensor.set(obj, true);
+			}
+
+			if (this.props.beforeValueChange) {
+				this.props.beforeValueChange(obj.value)
+				.then(() => {
+					execNullQuery();
+				})
+				.catch((e) => {
+					console.warn(`${this.props.componentId} - beforeValueChange rejected the promise with`, e);
+				});
+			} else {
+				execNullQuery();
+			}
 		}
 	}
 
@@ -274,11 +307,26 @@ export default class GeoDistanceDropdown extends Component {
 				key: this.props.componentId,
 				value: null
 			};
-			if(this.props.onValueChange) {
-				this.props.onValueChange(obj.value);
+
+			const execQuery = () => {
+				if(this.props.onValueChange) {
+					this.props.onValueChange(obj.value);
+				}
+				helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
+				helper.selectedSensor.set(obj, true);
+			};
+
+			if (this.props.beforeValueChange) {
+				this.props.beforeValueChange(obj.value)
+				.then(() => {
+					execQuery();
+				})
+				.catch((e) => {
+					console.warn(`${this.props.componentId} - beforeValueChange rejected the promise with`, e);
+				});
+			} else {
+				execQuery();
 			}
-			helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
-			helper.selectedSensor.set(obj, true);
 		}
 	}
 
@@ -401,6 +449,7 @@ GeoDistanceDropdown.propTypes = {
 			label: React.PropTypes.string.isRequired
 		})
 	),
+	beforeValueChange: React.PropTypes.func,
 	onValueChange: React.PropTypes.func,
 	componentStyle: React.PropTypes.object,
 	URLParams: React.PropTypes.bool,
