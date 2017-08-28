@@ -487,6 +487,8 @@ GeoDistanceDropdown.types = {
 	placeholder: TYPES.STRING,
 	placeholderDropdown: TYPES.STRING,
 	customQuery: TYPES.FUNCTION,
+	beforeValueChange: TYPES.FUNCTION,
+	onValueChange: TYPES.FUNCTION,
 	componentStyle: TYPES.OBJECT,
 	URLParams: TYPES.BOOLEAN,
 	showFilter: TYPES.BOOLEAN,
