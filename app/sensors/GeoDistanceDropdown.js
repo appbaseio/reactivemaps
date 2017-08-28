@@ -228,7 +228,13 @@ export default class GeoDistanceDropdown extends Component {
 
 			const execQuery = () => {
 				if(this.props.onValueChange) {
-					this.props.onValueChange(obj.value);
+					this.props.onValueChange({
+						input: this.state.currentValue,
+						start: this.state.selected.start,
+						end: this.state.selected.end,
+						location: this.locString,
+						unit: this.unit
+					});
 				}
 				helper.selectedSensor.setSortInfo(sortObj);
 				helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
@@ -247,7 +253,13 @@ export default class GeoDistanceDropdown extends Component {
 			};
 
 			if (this.props.beforeValueChange) {
-				this.props.beforeValueChange(obj.value)
+				this.props.beforeValueChange({
+					input: this.state.currentValue,
+					start: this.state.selected.start,
+					end: this.state.selected.end,
+					location: this.locString,
+					unit: this.unit
+				})
 				.then(() => {
 					execQuery();
 				})
@@ -271,7 +283,7 @@ export default class GeoDistanceDropdown extends Component {
 			}
 
 			if (this.props.beforeValueChange) {
-				this.props.beforeValueChange(obj.value)
+				this.props.beforeValueChange(null)
 				.then(() => {
 					execNullQuery();
 				})
@@ -310,14 +322,26 @@ export default class GeoDistanceDropdown extends Component {
 
 			const execQuery = () => {
 				if(this.props.onValueChange) {
-					this.props.onValueChange(obj.value);
+					this.props.onValueChange({
+						input: null,
+						start: this.state.selected.start,
+						end: this.state.selected.end,
+						location: null,
+						unit: this.unit
+					});
 				}
 				helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
 				helper.selectedSensor.set(obj, true);
 			};
 
 			if (this.props.beforeValueChange) {
-				this.props.beforeValueChange(obj.value)
+				this.props.beforeValueChange({
+					input: null,
+					start: this.state.selected.start,
+					end: this.state.selected.end,
+					location: null,
+					unit: this.unit
+				})
 				.then(() => {
 					execQuery();
 				})

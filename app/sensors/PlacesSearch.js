@@ -187,14 +187,22 @@ export default class PlacesSearch extends Component {
 
 			const execQuery = () => {
 				if(this.props.onValueChange) {
-					this.props.onValueChange(obj.value);
+					this.props.onValueChange({
+						input: this.state.currentValue,
+						location: this.locString,
+						unit: this.props.unit
+					});
 				}
 				helper.URLParams.update(this.props.componentId, this.state.currentValue, this.props.URLParams);
 				helper.selectedSensor.set(obj, true);
 			};
 
 			if (this.props.beforeValueChange) {
-				this.props.beforeValueChange(obj.value)
+				this.props.beforeValueChange({
+					input: this.state.currentValue,
+					location: this.locString,
+					unit: this.props.unit
+				})
 				.then(() => {
 					execQuery();
 				})
@@ -225,14 +233,22 @@ export default class PlacesSearch extends Component {
 			};
 			const execQuery = () => {
 				if(this.props.onValueChange) {
-					this.props.onValueChange(obj.value);
+					this.props.onValueChange({
+						input: null,
+						location: null,
+						unit: this.props.unit
+					});
 				}
 				helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
 				helper.selectedSensor.set(obj, true);
 			};
 
 			if (this.props.beforeValueChange) {
-				this.props.beforeValueChange(obj.value)
+				this.props.beforeValueChange({
+					input: null,
+					location: null,
+					unit: this.props.unit
+				})
 				.then(() => {
 					execQuery();
 				})
@@ -352,7 +368,8 @@ PlacesSearch.defaultProps = {
 	autoLocation: true,
 	componentStyle: {},
 	URLParams: false,
-	showFilter: true
+	showFilter: true,
+	unit: "mi"
 };
 
 // context type

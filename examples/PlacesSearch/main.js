@@ -75,8 +75,15 @@ class Main extends Component {
 									componentId="OriginSensor"
 									placeholder="Search Venue"
 									title="Origin"
-									onValueChange={this.originQuery}
+									// onValueChange={this.originQuery}
 									URLParams={true}
+									onValueChange={(val) => {console.log(val)}}
+									beforeValueChange={(val) => {
+										return new Promise(resolve => {
+											console.log(val);
+											resolve();
+										})
+									}}
 								/>
 							</div>
 							<div className="col s12 col-xs-12">

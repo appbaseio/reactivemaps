@@ -68,6 +68,13 @@ class Main extends Component {
 									label: '10-15 mi'
 								}]}
 								unit="mi"
+								onValueChange={(val) => {console.log(val)}}
+								beforeValueChange={(val) => {
+									return new Promise(resolve => {
+										console.log(val);
+										resolve();
+									})
+								}}
 							/>
 						</div>
 					</div>

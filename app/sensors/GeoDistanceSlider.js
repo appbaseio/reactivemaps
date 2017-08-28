@@ -219,7 +219,12 @@ export default class GeoDistanceSlider extends Component {
 
 			const execQuery = () => {
 				if(this.props.onValueChange) {
-					this.props.onValueChange(obj.value);
+					this.props.onValueChange({
+						input: this.state.currentValue,
+						distance: this.state.currentDistance,
+						location: this.locString,
+						unit: this.props.unit
+					});
 				}
 				helper.selectedSensor.setSortInfo(sortObj);
 				helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
@@ -227,7 +232,12 @@ export default class GeoDistanceSlider extends Component {
 			};
 
 			if (this.props.beforeValueChange) {
-				this.props.beforeValueChange(obj.value)
+				this.props.beforeValueChange({
+					input: this.state.currentValue,
+					distance: this.state.currentDistance,
+					location: this.locString,
+					unit: this.props.unit
+				})
 				.then(() => {
 					execQuery();
 				})
@@ -251,7 +261,7 @@ export default class GeoDistanceSlider extends Component {
 			}
 
 			if (this.props.beforeValueChange) {
-				this.props.beforeValueChange(obj.value)
+				this.props.beforeValueChange(null)
 				.then(() => {
 					execNullQuery();
 				})
@@ -293,13 +303,23 @@ export default class GeoDistanceSlider extends Component {
 
 			const execQuery = () => {
 				if(this.props.onValueChange) {
-					this.props.onValueChange(obj.value);
+					this.props.onValueChange({
+						input: null,
+						distance: this.state.currentDistance,
+						location: null,
+						unit: this.props.unit
+					});
 				}
 				helper.selectedSensor.set(obj, true);
 			};
 
 			if (this.props.beforeValueChange) {
-				this.props.beforeValueChange(obj.value)
+				this.props.beforeValueChange({
+					input: null,
+					distance: this.state.currentDistance,
+					location: null,
+					unit: this.props.unit
+				})
 				.then(() => {
 					execQuery();
 				})
