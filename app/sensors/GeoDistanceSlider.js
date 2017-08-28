@@ -496,6 +496,8 @@ GeoDistanceSlider.types = {
 	placeholder: TYPES.STRING,
 	customQuery: TYPES.FUNCTION,
 	componentStyle: TYPES.OBJECT,
+	beforeValueChange: TYPES.FUNCTION,
+	onValueChange: TYPES.FUNCTION,
 	URLParams: TYPES.BOOLEAN,
 	showFilter: TYPES.BOOLEAN,
 	filterLabel: TYPES.STRING
