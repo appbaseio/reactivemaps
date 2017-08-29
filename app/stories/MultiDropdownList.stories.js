@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import {
 	ReactiveBase,
 	ReactiveMap,
-	MultiDropdownList,
-	AppbaseSensorHelper as helper
+	MultiDropdownList
 } from "../app.js";
+import ResponsiveStory from "./ResponsiveStory";
 
 import { Img } from "./Img.js";
 const historyPin = require("./placeholder.svg");
@@ -16,7 +16,7 @@ export default class MultiDropdownListDefault extends Component {
 	}
 
 	componentDidMount() {
-		helper.ResponsiveStory();
+		ResponsiveStory();
 	}
 
 	onPopoverTrigger(marker) {

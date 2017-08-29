@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import {
 	ReactiveBase,
 	DateRange,
-	ReactiveMap,
-	AppbaseSensorHelper as helper
+	ReactiveMap
 } from "../app";
 import { Img } from "./Img";
+import ResponsiveStory from "./ResponsiveStory";
 
 const historyPin = require("./placeholder.svg");
 
@@ -16,7 +16,7 @@ export default class DatePickerDefault extends Component {
 	}
 
 	componentDidMount() {
-		helper.ResponsiveStory();
+		ResponsiveStory();
 	}
 
 	onPopoverTrigger(marker) {

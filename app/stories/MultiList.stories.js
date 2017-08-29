@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import {
 	ReactiveBase,
 	ReactiveMap,
-	MultiList,
-	AppbaseSensorHelper as helper
+	MultiList
 } from "../app.js";
+import ResponsiveStory from "./ResponsiveStory";
 
 import { Img } from "./Img.js";
 const historyPin = require("./placeholder.svg");
@@ -16,7 +16,7 @@ export default class MultiListDefault extends Component {
 	}
 
 	componentDidMount() {
-		helper.ResponsiveStory();
+		ResponsiveStory();
 	}
 
 	onPopoverTrigger(marker) {

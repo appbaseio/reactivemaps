@@ -3,9 +3,9 @@ import {
 	ReactiveBase,
 	ReactiveMap,
 	DataSearch,
-	SingleList,
-	AppbaseSensorHelper as helper
+	SingleList
 } from "../app.js";
+import ResponsiveStory from "./ResponsiveStory";
 
 import { Img } from "./Img.js";
 const historyPin = require("./placeholder.svg");
@@ -17,7 +17,7 @@ export default class ReactiveMapDefault extends Component {
 	}
 
 	componentDidMount() {
-		helper.ResponsiveStory();
+		ResponsiveStory();
 	}
 
 	onPopoverTrigger(marker) {

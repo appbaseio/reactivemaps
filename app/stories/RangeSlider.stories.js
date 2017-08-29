@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import {
 	ReactiveBase,
 	ReactiveMap,
-	RangeSlider,
-	AppbaseSensorHelper as helper
+	RangeSlider
 } from "../app.js";
+import ResponsiveStory from "./ResponsiveStory";
 
 import { Img } from "./Img.js";
 const historyPin = require("./placeholder.svg");
@@ -16,7 +16,7 @@ export default class RangeSliderDefault extends Component {
 	}
 
 	componentDidMount() {
-		helper.ResponsiveStory();
+		ResponsiveStory();
 	}
 
 	onPopoverTrigger(marker) {
