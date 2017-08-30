@@ -21,7 +21,9 @@ export default class GeoDistanceSlider extends Component {
 			this.defaultSelected.distance < this.props.range.start ?
 			this.props.range.start : this.defaultSelected.distance : this.props.range.start;
 		value = parseInt(value, 10);
-		this.defaultSelected.distance = parseInt(this.defaultSelected.distance, 10);
+		if (this.defaultSelected) {
+			this.defaultSelected.distance = parseInt(this.defaultSelected.distance, 10);
+		}
 		this.state = {
 			currentValue: "",
 			currentDistance: value + this.props.unit,
