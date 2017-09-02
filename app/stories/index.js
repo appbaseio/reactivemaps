@@ -60,13 +60,7 @@ function removeFirstLine(str, number=1) {
 storiesOf("GeoDistanceSlider", module)
 	.addDecorator(withKnobs)
 	.add("Basic", withReadme(removeFirstLine(GeoDistanceSliderReadme), () => (
-		<GeoDistanceSliderDefault
-			defaultSelected={{
-				distance: 50
-			}}
-			unit="mi"
-			placeholder="Search Location"
-		/>
+		<GeoDistanceSliderDefault />
 	)))
 	.add("With Title", withReadme(removeFirstLine(GeoDistanceSliderReadme), () => (
 		<GeoDistanceSliderDefault
