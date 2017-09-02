@@ -87,7 +87,7 @@ class Main extends Component {
 							<div className="col s12 m6">
 								<SingleList
 									componentId="CitySensor"
-									appbaseField={this.props.mapping.city}
+									dataField={this.props.mapping.city}
 									defaultSelected="London"
 									showCount={true}
 									size={1000}
@@ -99,7 +99,7 @@ class Main extends Component {
 							</div>
 							<div className="col s12 m6">
 								<MultiList
-									appbaseField={this.props.mapping.topic}
+									dataField={this.props.mapping.topic}
 									componentId="TopicSensor"
 									showCount={true}
 									size={100}
@@ -114,7 +114,7 @@ class Main extends Component {
 							<div className="col s12">
 								<RangeSlider
 									componentId="RangeSensor"
-									appbaseField={this.props.mapping.guests}
+									dataField={this.props.mapping.guests}
 									react={{
 										and: "CitySensor"
 									}}
@@ -127,7 +127,7 @@ class Main extends Component {
 					</div>
 					<div className="col s12 m6 h-100">
 						<ReactiveList
-							appbaseField={this.props.mapping.topic}
+							dataField={this.props.mapping.topic}
 							containerStyle={{height: '100%'}}
 							onAllData={this.onAllData}
 							from={0}

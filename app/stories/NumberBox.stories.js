@@ -50,7 +50,7 @@ export default class NumberBoxDefault extends Component {
 					<div className="col s6 col-xs-6">
 						<NumberBox
 							componentId="GuestsSensor"
-							appbaseField={this.props.mapping.guests}
+							dataField={this.props.mapping.guests}
 							title="NumberBox"
 							{...this.props}
 						/>
@@ -58,7 +58,7 @@ export default class NumberBoxDefault extends Component {
 
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							dataField={this.props.mapping.location}
 							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"

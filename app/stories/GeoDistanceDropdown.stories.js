@@ -52,13 +52,13 @@ export default class GeoDistanceDropdownDefault extends Component {
 					<div className="col s6 col-xs-6">
 						<GeoDistanceDropdown
 							componentId="GeoDistanceDropdown"
-							appbaseField={this.props.mapping.location}
+							dataField={this.props.mapping.location}
 							{...this.props}
 						/>
 					</div>
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							dataField={this.props.mapping.location}
 							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"

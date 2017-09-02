@@ -150,7 +150,7 @@ export default class GeoDistanceSlider extends Component {
 			key: this.props.componentId,
 			value: {
 				queryType: this.type,
-				appbaseField: this.props.appbaseField,
+				dataField: this.props.dataField,
 				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 				reactiveId: this.context.reactiveId,
 				showFilter: this.props.showFilter,
@@ -168,7 +168,7 @@ export default class GeoDistanceSlider extends Component {
 		if (value && value.currentValue !== "" && value.location !== "") {
 			query = {
 				[this.type]: {
-					[this.props.appbaseField]: value.location,
+					[this.props.dataField]: value.location,
 					distance: value.currentDistance
 				}
 			};
@@ -210,7 +210,7 @@ export default class GeoDistanceSlider extends Component {
 				key: this.props.componentId,
 				value: {
 					[this.sortInfo.type]: {
-						[this.props.appbaseField]: this.locString,
+						[this.props.dataField]: this.locString,
 						order: this.sortInfo.order,
 						unit: this.sortInfo.unit
 					}
@@ -446,7 +446,7 @@ export default class GeoDistanceSlider extends Component {
 
 GeoDistanceSlider.propTypes = {
 	componentId: React.PropTypes.string.isRequired,
-	appbaseField: React.PropTypes.string.isRequired,
+	dataField: React.PropTypes.string.isRequired,
 	title: React.PropTypes.oneOfType([
 		React.PropTypes.string,
 		React.PropTypes.element
@@ -504,8 +504,8 @@ GeoDistanceSlider.contextTypes = {
 
 GeoDistanceSlider.types = {
 	componentId: TYPES.STRING,
-	appbaseField: TYPES.STRING,
-	appbaseFieldType: TYPES.GEO_POINT,
+	dataField: TYPES.STRING,
+	dataFieldType: TYPES.GEO_POINT,
 	title: TYPES.STRING,
 	range: TYPES.OBJECT,
 	rangeLabels: TYPES.OBJECT,

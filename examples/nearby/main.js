@@ -95,7 +95,7 @@ class Main extends Component {
 						<div className="row h-100">
 							<div className="col s12 m6 col-xs-12 col-sm-6">
 								<MultiList
-									appbaseField="group.group_topics.topic_name_raw"
+									dataField="group.group_topics.topic_name_raw"
 									componentId="TopicSensor"
 									showCount={true}
 									size={100}
@@ -107,7 +107,7 @@ class Main extends Component {
 							<div className="col s12 col-xs-12">
 								<GeoDistanceSlider
 									componentId="GeoDistanceSlider"
-									appbaseField="location"
+									dataField="location"
 									range={{
 										start: 1,
 										end: 200
@@ -130,7 +130,7 @@ class Main extends Component {
 						</select>
 						<div className={this.state.view !== "map" ? "invisible" : ""} >
 							<ReactiveMap
-								appbaseField="location"
+								dataField="location"
 								historicalData={true}
 								setMarkerCluster={false}
 								defaultMapStyle="Light Monochrome"
@@ -150,7 +150,7 @@ class Main extends Component {
 						<div className={this.state.view !== "list" ? "invisible" : "h-100"}>
 							<ReactiveList
 								componentId="SearchResult"
-								appbaseField="location"
+								dataField="location"
 								containerStyle={{
 									height: "100%"
 								}}

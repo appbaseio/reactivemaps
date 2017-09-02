@@ -50,7 +50,7 @@ export default class ReactiveMapDefault extends Component {
 				<div className="row reverse-labels">
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
-							appbaseField="location"
+							dataField="location"
 							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"
@@ -70,7 +70,7 @@ export default class ReactiveMapDefault extends Component {
 					<div className="col s6 col-xs-6">
 						<div>
 							<DataSearch
-								appbaseField={this.props.mapping.venue}
+								dataField={this.props.mapping.venue}
 								componentId="VenueSensor"
 								placeholder="Search Venue"
 							/>
@@ -78,7 +78,7 @@ export default class ReactiveMapDefault extends Component {
 						<div>
 							<SingleList
 								componentId="CitySensor"
-								appbaseField={this.props.mapping.city}
+								dataField={this.props.mapping.city}
 								showCount
 								size={10}
 								title="Input Filter"

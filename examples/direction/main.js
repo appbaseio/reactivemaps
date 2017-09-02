@@ -65,7 +65,7 @@ class Main extends Component {
 						<div className="row h-100">
 							<div className="col s12 col-xs-12">
 								<PlacesSearch
-									appbaseField="venue_name_ngrams"
+									dataField="venue_name_ngrams"
 									componentId="OriginSensor"
 									placeholder="Search Venue"
 									title="Origin"
@@ -74,7 +74,7 @@ class Main extends Component {
 							</div>
 							<div className="col s12 col-xs-12">
 								<PlacesSearch
-									appbaseField="venue_name_ngrams"
+									dataField="venue_name_ngrams"
 									componentId="DestinationSensor"
 									placeholder="Search Venue"
 									autoLocation={false}
@@ -86,7 +86,7 @@ class Main extends Component {
 					</div>
 					<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
 						<ReactiveMap
-							appbaseField="location"
+							dataField="location"
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"
 							autoCenter={false}

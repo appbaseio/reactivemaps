@@ -50,7 +50,7 @@ class Main extends Component {
 					<div className="col s6 col-xs-6">
 						<GeoDistanceSlider
 							componentId="GeoDistanceSlider"
-							appbaseField={this.props.mapping.location}
+							dataField={this.props.mapping.location}
 							range={{
 								start: 1,
 								end: 60
@@ -72,7 +72,7 @@ class Main extends Component {
 					</div>
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							dataField={this.props.mapping.location}
 							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"

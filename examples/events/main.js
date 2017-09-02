@@ -128,7 +128,7 @@ class Main extends Component {
 					>
 					<div className="col s12 m9 h-100">
 						<ReactiveMap
-							appbaseField="location"
+							dataField="location"
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lon: -122.45 }}
 							setMarkerCluster={false}

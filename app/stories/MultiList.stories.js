@@ -50,7 +50,7 @@ export default class MultiListDefault extends Component {
 					<div className="col s6 col-xs-6">
 						<MultiList
 							componentId="CitySensor"
-							appbaseField="group.group_city.raw"
+							dataField="group.group_city.raw"
 							title="MultiList"
 							size={100}
 							{...this.props}
@@ -59,7 +59,7 @@ export default class MultiListDefault extends Component {
 
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
-							appbaseField="location"
+							dataField="location"
 							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"

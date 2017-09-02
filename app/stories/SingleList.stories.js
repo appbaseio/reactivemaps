@@ -50,7 +50,7 @@ export default class SingleListDefault extends Component {
 					<div className="col s6 col-xs-6">
 						<SingleList
 							componentId="CitySensor"
-							appbaseField={this.props.mapping.city}
+							dataField={this.props.mapping.city}
 							title="SingleList"
 							size={100}
 							{...this.props}
@@ -59,7 +59,7 @@ export default class SingleListDefault extends Component {
 
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							dataField={this.props.mapping.location}
 							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"

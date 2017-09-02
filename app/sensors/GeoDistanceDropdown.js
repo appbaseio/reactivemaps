@@ -167,7 +167,7 @@ export default class GeoDistanceDropdown extends Component {
 			key: this.props.componentId,
 			value: {
 				queryType: this.type,
-				appbaseField: this.props.appbaseField,
+				dataField: this.props.dataField,
 				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 				reactiveId: this.context.reactiveId,
 				showFilter: this.props.showFilter,
@@ -185,7 +185,7 @@ export default class GeoDistanceDropdown extends Component {
 		if (value && value.start >= 0 && value.end >= 0 && value.location !== "") {
 			query = {
 				[this.type]: {
-					[this.props.appbaseField]: value.location,
+					[this.props.dataField]: value.location,
 					from: value.start + this.unit,
 					to: value.end + this.unit
 				}
@@ -245,7 +245,7 @@ export default class GeoDistanceDropdown extends Component {
 				key: this.props.componentId,
 				value: {
 					[this.sortInfo.type]: {
-						[this.props.appbaseField]: this.locString,
+						[this.props.dataField]: this.locString,
 						order: this.sortInfo.order,
 						unit: this.unit
 					}
@@ -452,7 +452,7 @@ export default class GeoDistanceDropdown extends Component {
 
 GeoDistanceDropdown.propTypes = {
 	componentId: React.PropTypes.string.isRequired,
-	appbaseField: React.PropTypes.string.isRequired,
+	dataField: React.PropTypes.string.isRequired,
 	title: React.PropTypes.oneOfType([
 		React.PropTypes.string,
 		React.PropTypes.element
@@ -501,8 +501,8 @@ GeoDistanceDropdown.contextTypes = {
 
 GeoDistanceDropdown.types = {
 	componentId: TYPES.STRING,
-	appbaseField: TYPES.STRING,
-	appbaseFieldType: TYPES.GEO_POINT,
+	dataField: TYPES.STRING,
+	dataFieldType: TYPES.GEO_POINT,
 	title: TYPES.STRING,
 	data: TYPES.ARRAY,
 	unit: TYPES.STRING,

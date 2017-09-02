@@ -53,7 +53,7 @@ class Main extends Component {
 					>
 					<div className="col s12 m9 h-100">
 						<ReactiveMap
-							appbaseField="location"
+							dataField="location"
 							defaultZoom={13}
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"
@@ -74,7 +74,7 @@ class Main extends Component {
 							<div className="col s12">
 								<SingleList
 									componentId="CitySensor"
-									appbaseField="city.raw"
+									dataField="city.raw"
 									defaultSelected="new york"
 									showCount
 									size={100}
@@ -85,7 +85,7 @@ class Main extends Component {
 							</div>
 							<div className="col s12">
 								<MultiList
-									appbaseField="category.raw"
+									dataField="category.raw"
 									componentId="CategorySensor"
 									showCount={true}
 									size={100}

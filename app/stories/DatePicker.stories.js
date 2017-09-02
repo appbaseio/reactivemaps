@@ -50,7 +50,7 @@ export default class DatePickerDefault extends Component {
 					<div className="col s6 col-xs-6">
 						<DatePicker
 							componentId="DateSensor"
-							appbaseField="mtime"
+							dataField="mtime"
 							title="title"
 							{...this.props}
 						/>
@@ -58,7 +58,7 @@ export default class DatePickerDefault extends Component {
 
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
-							appbaseField="location"
+							dataField="location"
 							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"
