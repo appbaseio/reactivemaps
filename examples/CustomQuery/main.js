@@ -48,7 +48,7 @@ class Main extends Component {
 						<div className="row">
 							<GeoDistanceDropdown
 								componentId="GeoSensor"
-								appbaseField="location"
+								dataField="location"
 								title="Geo Distance"
 								data={[{
 									start: 1,
@@ -68,12 +68,19 @@ class Main extends Component {
 									label: '10-15 mi'
 								}]}
 								unit="mi"
+								onValueChange={(val) => {console.log(val)}}
+								beforeValueChange={(val) => {
+									return new Promise(resolve => {
+										console.log(val);
+										resolve();
+									})
+								}}
 							/>
 						</div>
 					</div>
 					<div className="col s6 h-100">
 						<ReactiveMap
-							appbaseField="location"
+							dataField="location"
 							defaultZoom={13}
 							defaultCenter={{ lat: 37.74, lon: -122.45 }}
 							setMarkerCluster={false}

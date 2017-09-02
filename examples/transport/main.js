@@ -54,7 +54,7 @@ class Main extends Component {
 							<div className="col s12">
 								<MultiList
 									componentId="RoutesSensor"
-									appbaseField="tag.raw"
+									dataField="tag.raw"
 									showCount={false}
 									defaultSelected={['Bus-12', 'Bus-14', 'Bus-22', 'Bus-43', 'Train-1']}
 									size={1000}
@@ -69,7 +69,7 @@ class Main extends Component {
 					</div>
 					<div className="col s12 m9 h-100">
 						<ReactiveMap
-							appbaseField="location"
+							dataField="location"
 							defaultZoom={11}
 							defaultCenter={{ lat: 37.74, lon: -122.45 }}
 							setMarkerCluster={false}

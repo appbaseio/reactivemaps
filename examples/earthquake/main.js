@@ -37,7 +37,7 @@ class Main extends Component {
 					>
 					<div className="col s12 m8 h-100 col-xs-12 col-sm-8">
 						<ReactiveMap
-							appbaseField="location"
+							dataField="location"
 							defaultZoom={8}
 							defaultCenter={{ lat: 35.272, lon: 138.582 }}
 							setMarkerCluster={false}
@@ -57,7 +57,7 @@ class Main extends Component {
 							<div className="col s12 col-xs-12">
 								<MultiList
 									componentId="PlaceSensor"
-									appbaseField="place.raw"
+									dataField="place.raw"
 									defaultSelected={["Japan"]}
 									showCount={true}
 									size={1000}
@@ -71,7 +71,7 @@ class Main extends Component {
 							<div className="col s12 col-xs-12">
 								<RangeSlider
 									componentId="RangeSensor"
-									appbaseField="mag"
+									dataField="mag"
 									react={{
 										"and": "PlaceSensor"
 									}}
@@ -93,7 +93,7 @@ class Main extends Component {
 							<div className="col s12 col-xs-12">
 								<RangeSlider
 									componentId="YearSensor"
-									appbaseField="time"
+									dataField="time"
 									react={{
 										"and": "PlaceSensor"
 									}}

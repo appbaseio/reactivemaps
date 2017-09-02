@@ -21,7 +21,9 @@ export default class GeoDistanceSlider extends Component {
 			this.defaultSelected.distance < this.props.range.start ?
 			this.props.range.start : this.defaultSelected.distance : this.props.range.start;
 		value = parseInt(value, 10);
-		this.defaultSelected.distance = parseInt(this.defaultSelected.distance, 10);
+		if (this.defaultSelected) {
+			this.defaultSelected.distance = parseInt(this.defaultSelected.distance, 10);
+		}
 		this.state = {
 			currentValue: "",
 			currentDistance: value + this.props.unit,
@@ -150,7 +152,7 @@ export default class GeoDistanceSlider extends Component {
 			key: this.props.componentId,
 			value: {
 				queryType: this.type,
-				appbaseField: this.props.appbaseField,
+				dataField: this.props.dataField,
 				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 				reactiveId: this.context.reactiveId,
 				showFilter: this.props.showFilter,
@@ -168,7 +170,7 @@ export default class GeoDistanceSlider extends Component {
 		if (value && value.currentValue !== "" && value.location !== "") {
 			query = {
 				[this.type]: {
-					[this.props.appbaseField]: value.location,
+					[this.props.dataField]: value.location,
 					distance: value.currentDistance
 				}
 			};
@@ -210,7 +212,7 @@ export default class GeoDistanceSlider extends Component {
 				key: this.props.componentId,
 				value: {
 					[this.sortInfo.type]: {
-						[this.props.appbaseField]: this.locString,
+						[this.props.dataField]: this.locString,
 						order: this.sortInfo.order,
 						unit: this.sortInfo.unit
 					}
@@ -219,7 +221,12 @@ export default class GeoDistanceSlider extends Component {
 
 			const execQuery = () => {
 				if(this.props.onValueChange) {
-					this.props.onValueChange(obj.value);
+					this.props.onValueChange({
+						input: this.state.currentValue,
+						distance: this.state.currentDistance,
+						location: this.locString,
+						unit: this.props.unit
+					});
 				}
 				helper.selectedSensor.setSortInfo(sortObj);
 				helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
@@ -227,7 +234,12 @@ export default class GeoDistanceSlider extends Component {
 			};
 
 			if (this.props.beforeValueChange) {
-				this.props.beforeValueChange(obj.value)
+				this.props.beforeValueChange({
+					input: this.state.currentValue,
+					distance: this.state.currentDistance,
+					location: this.locString,
+					unit: this.props.unit
+				})
 				.then(() => {
 					execQuery();
 				})
@@ -251,7 +263,7 @@ export default class GeoDistanceSlider extends Component {
 			}
 
 			if (this.props.beforeValueChange) {
-				this.props.beforeValueChange(obj.value)
+				this.props.beforeValueChange(null)
 				.then(() => {
 					execNullQuery();
 				})
@@ -293,13 +305,23 @@ export default class GeoDistanceSlider extends Component {
 
 			const execQuery = () => {
 				if(this.props.onValueChange) {
-					this.props.onValueChange(obj.value);
+					this.props.onValueChange({
+						input: null,
+						distance: this.state.currentDistance,
+						location: null,
+						unit: this.props.unit
+					});
 				}
 				helper.selectedSensor.set(obj, true);
 			};
 
 			if (this.props.beforeValueChange) {
-				this.props.beforeValueChange(obj.value)
+				this.props.beforeValueChange({
+					input: null,
+					distance: this.state.currentDistance,
+					location: null,
+					unit: this.props.unit
+				})
 				.then(() => {
 					execQuery();
 				})
@@ -426,7 +448,7 @@ export default class GeoDistanceSlider extends Component {
 
 GeoDistanceSlider.propTypes = {
 	componentId: React.PropTypes.string.isRequired,
-	appbaseField: React.PropTypes.string.isRequired,
+	dataField: React.PropTypes.string.isRequired,
 	title: React.PropTypes.oneOfType([
 		React.PropTypes.string,
 		React.PropTypes.element
@@ -484,8 +506,8 @@ GeoDistanceSlider.contextTypes = {
 
 GeoDistanceSlider.types = {
 	componentId: TYPES.STRING,
-	appbaseField: TYPES.STRING,
-	appbaseFieldType: TYPES.GEO_POINT,
+	dataField: TYPES.STRING,
+	dataFieldType: TYPES.GEO_POINT,
 	title: TYPES.STRING,
 	range: TYPES.OBJECT,
 	rangeLabels: TYPES.OBJECT,

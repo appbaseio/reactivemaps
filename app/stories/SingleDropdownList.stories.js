@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import {
 	ReactiveBase,
 	SingleDropdownList,
-	ReactiveMap,
-	AppbaseSensorHelper as helper
+	ReactiveMap
 } from "../app.js";
+import ResponsiveStory from "./ResponsiveStory";
 
 import { Img } from "./Img.js";
 const historyPin = require("./placeholder.svg");
@@ -16,7 +16,7 @@ export default class SingleDropdownListDefault extends Component {
 	}
 
 	componentDidMount() {
-		helper.ResponsiveStory();
+		ResponsiveStory();
 	}
 
 	onPopoverTrigger(marker) {
@@ -50,7 +50,7 @@ export default class SingleDropdownListDefault extends Component {
 					<div className="col s6 col-xs-6">
 						<SingleDropdownList
 							componentId="CitySensor"
-							appbaseField={this.props.mapping.city}
+							dataField={this.props.mapping.city}
 							title="SingleDropdownList"
 							size={100}
 							{...this.props}
@@ -59,7 +59,7 @@ export default class SingleDropdownListDefault extends Component {
 
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							dataField={this.props.mapping.location}
 							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"

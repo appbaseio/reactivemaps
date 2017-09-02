@@ -126,7 +126,7 @@ export default class PlacesSearch extends Component {
 			key: this.props.componentId,
 			value: {
 				queryType: this.type,
-				inputData: this.props.appbaseField,
+				inputData: this.props.dataField,
 				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
 				reactiveId: this.context.reactiveId,
 				showFilter: this.props.showFilter,
@@ -144,7 +144,7 @@ export default class PlacesSearch extends Component {
 		if (value && value.location) {
 			query = {
 				[this.queryInfo.type]: {
-					[this.props.appbaseField]: this.parseValue(value.location),
+					[this.props.dataField]: this.parseValue(value.location),
 					distance: this.queryInfo.end + this.queryInfo.unit
 				}
 			};
@@ -187,14 +187,22 @@ export default class PlacesSearch extends Component {
 
 			const execQuery = () => {
 				if(this.props.onValueChange) {
-					this.props.onValueChange(obj.value);
+					this.props.onValueChange({
+						input: this.state.currentValue,
+						location: this.locString,
+						unit: this.props.unit
+					});
 				}
 				helper.URLParams.update(this.props.componentId, this.state.currentValue, this.props.URLParams);
 				helper.selectedSensor.set(obj, true);
 			};
 
 			if (this.props.beforeValueChange) {
-				this.props.beforeValueChange(obj.value)
+				this.props.beforeValueChange({
+					input: this.state.currentValue,
+					location: this.locString,
+					unit: this.props.unit
+				})
 				.then(() => {
 					execQuery();
 				})
@@ -225,14 +233,22 @@ export default class PlacesSearch extends Component {
 			};
 			const execQuery = () => {
 				if(this.props.onValueChange) {
-					this.props.onValueChange(obj.value);
+					this.props.onValueChange({
+						input: null,
+						location: null,
+						unit: this.props.unit
+					});
 				}
 				helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
 				helper.selectedSensor.set(obj, true);
 			};
 
 			if (this.props.beforeValueChange) {
-				this.props.beforeValueChange(obj.value)
+				this.props.beforeValueChange({
+					input: null,
+					location: null,
+					unit: this.props.unit
+				})
 				.then(() => {
 					execQuery();
 				})
@@ -330,7 +346,7 @@ export default class PlacesSearch extends Component {
 
 PlacesSearch.propTypes = {
 	componentId: React.PropTypes.string.isRequired,
-	appbaseField: React.PropTypes.string.isRequired,
+	dataField: React.PropTypes.string.isRequired,
 	title: React.PropTypes.oneOfType([
 		React.PropTypes.string,
 		React.PropTypes.element
@@ -352,7 +368,8 @@ PlacesSearch.defaultProps = {
 	autoLocation: true,
 	componentStyle: {},
 	URLParams: false,
-	showFilter: true
+	showFilter: true,
+	unit: "mi"
 };
 
 // context type
@@ -364,7 +381,7 @@ PlacesSearch.contextTypes = {
 
 PlacesSearch.types = {
 	componentId: TYPES.STRING,
-	appbaseField: TYPES.STRING,
+	dataField: TYPES.STRING,
 	title: TYPES.STRING,
 	customQuery: TYPES.FUNCTION,
 	placeholder: TYPES.STRING,

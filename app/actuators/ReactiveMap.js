@@ -152,7 +152,7 @@ export default class ReactiveMap extends Component {
 	}
 
 	afterChannelResponse(res) {
-		const getResult = ReactiveMapHelper.afterChannelResponse(res, this.state.rawData, this.props.appbaseField, this.state.markersData);
+		const getResult = ReactiveMapHelper.afterChannelResponse(res, this.state.rawData, this.props.dataField, this.state.markersData);
 		this.reposition = true;
 		this.streamFlag = getResult.streamFlag;
 		this.queryStartTime = getResult.queryStartTime ? getResult.queryStartTime : 0;
@@ -190,7 +190,7 @@ export default class ReactiveMap extends Component {
 			key: "geoQuery",
 			value: {
 				queryType: "geo_bounding_box",
-				inputData: this.props.appbaseField,
+				inputData: this.props.dataField,
 				customQuery: this.geoCustomQuery
 			}
 		};
@@ -198,7 +198,7 @@ export default class ReactiveMap extends Component {
 			key: "updateExecute",
 			value: {
 				queryType: "random",
-				inputData: this.props.appbaseField
+				inputData: this.props.dataField
 			}
 		};
 
@@ -211,7 +211,7 @@ export default class ReactiveMap extends Component {
 		if (value && (this.initialMapBoundQuery || this.searchAsMove)) {
 			query = {
 				geo_bounding_box: {
-					[this.props.appbaseField]: value
+					[this.props.dataField]: value
 				}
 			};
 			if (this.geoRelatedEventsChange) {
@@ -442,10 +442,10 @@ export default class ReactiveMap extends Component {
 		};
 		if (markersData && markersData.length) {
 			markersData = markersData.filter((hit) => {
-				return ReactiveMapHelper.identifyGeoData(hit._source[self.props.appbaseField]);
+				return ReactiveMapHelper.identifyGeoData(hit._source[self.props.dataField]);
 			});
 			response.markerComponent = markersData.map((hit, index) => {
-				const field = ReactiveMapHelper.identifyGeoData(hit._source[self.props.appbaseField]);
+				const field = ReactiveMapHelper.identifyGeoData(hit._source[self.props.dataField]);
 				response.convertedGeo.push(field);
 				const position = {
 					position: field
@@ -638,7 +638,7 @@ export default class ReactiveMap extends Component {
 }
 
 ReactiveMap.propTypes = {
-	appbaseField: React.PropTypes.string.isRequired,
+	dataField: React.PropTypes.string.isRequired,
 	onIdle: React.PropTypes.func,
 	onAllData: React.PropTypes.func,
 	onData: React.PropTypes.func,

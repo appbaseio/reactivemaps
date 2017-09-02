@@ -16,7 +16,7 @@ export function Bearing(lat1, lng1, lat2, lng2) {
 }
 
 // append stream boolean flag and also start time of stream
-export function streamDataModify(rawData, res, appbaseField) {
+export function streamDataModify(rawData, res, dataField) {
 	if (res.data) {
 		res.data.stream = true;
 		res.data.streamStart = new Date();
@@ -26,8 +26,8 @@ export function streamDataModify(rawData, res, appbaseField) {
 		} else {
 			const prevData = rawData.hits.hits.filter(hit => hit._id === res.data._id);
 			if (prevData && prevData.length) {
-				const preCord = prevData[0]._source[appbaseField];
-				const newCord = res.data._source[appbaseField];
+				const preCord = prevData[0]._source[dataField];
+				const newCord = res.data._source[dataField];
 				res.data.angleDeg = Bearing(preCord.lat, preCord.lon, newCord.lat, newCord.lon);
 			}
 			const hits = rawData.hits.hits.filter(hit => hit._id !== res.data._id);
@@ -43,10 +43,10 @@ export function streamDataModify(rawData, res, appbaseField) {
 }
 
 // tranform the raw data to marker data
-export function setMarkersData(data, appbaseField) {
+export function setMarkersData(data, dataField) {
 	if (data && data.hits && data.hits.hits) {
 		let markersData = data.hits.hits.map((hit, index) => {
-			hit._source.mapPoint = identifyGeoData(hit._source[appbaseField]);
+			hit._source.mapPoint = identifyGeoData(hit._source[dataField]);
 			return hit;
 		});
 		markersData = markersData.filter((hit, index) => hit._source.mapPoint && !(hit._source.mapPoint.lat === 0 && hit._source.mapPoint.lng === 0));
@@ -113,7 +113,7 @@ export function identifyGeoData(input) {
 	return convertedGeo;
 }
 
-export function afterChannelResponse(res, rawData, appbaseField, oldMarkersData) {
+export function afterChannelResponse(res, rawData, dataField, oldMarkersData) {
 	const data = res.data;
 	let markersData;
 	const response = {
@@ -123,19 +123,19 @@ export function afterChannelResponse(res, rawData, appbaseField, oldMarkersData)
 	};
 	if (res.mode === "streaming") {
 		response.channelMethod = "streaming";
-		const modData = streamDataModify(rawData, res, appbaseField);
+		const modData = streamDataModify(rawData, res, dataField);
 		rawData = modData.rawData;
 		res = modData.res;
 		response.streamFlag = true;
-		markersData = setMarkersData(rawData, appbaseField);
+		markersData = setMarkersData(rawData, dataField);
 		response.currentData = oldMarkersData;
-		res.data._source.mapPoint = identifyGeoData(res.data._source[appbaseField]);
+		res.data._source.mapPoint = identifyGeoData(res.data._source[dataField]);
 		response.newData = res.data;
 	} else if (res.mode === "historic") {
 		response.channelMethod = "historic";
 		response.queryStartTime = res.startTime;
 		rawData = data;
-		markersData = setMarkersData(data, appbaseField);
+		markersData = setMarkersData(data, dataField);
 		response.newData = markersData;
 	}
 	response.rawData = rawData;

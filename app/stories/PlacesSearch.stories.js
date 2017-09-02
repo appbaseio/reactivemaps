@@ -63,7 +63,7 @@ export default class PlacesSearchDefault extends Component {
 						<div className="row h-100">
 							<div className="col s12 col-xs-12">
 								<PlacesSearch
-									appbaseField={this.props.mapping.venue}
+									dataField={this.props.mapping.venue}
 									componentId="OriginSensor"
 									placeholder="Search Venue"
 									title="Origin"
@@ -72,7 +72,7 @@ export default class PlacesSearchDefault extends Component {
 							</div>
 							<div className="col s12 col-xs-12">
 								<PlacesSearch
-									appbaseField={this.props.mapping.venue}
+									dataField={this.props.mapping.venue}
 									componentId="DestinationSensor"
 									placeholder="Search Venue"
 									autoLocation={false}
@@ -84,7 +84,7 @@ export default class PlacesSearchDefault extends Component {
 					</div>
 					<div className="col s12 m6 h-100 col-xs-12 col-sm-6">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							dataField={this.props.mapping.location}
 							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"

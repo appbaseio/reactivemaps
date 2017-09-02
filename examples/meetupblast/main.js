@@ -20,7 +20,7 @@ const Main = () => {
 						<div className="col s6">
 							<SingleList
 								componentId="CitySensor"
-								appbaseField="group.group_city.raw"
+								dataField="group.group_city.raw"
 								defaultSelected="London"
 								showCount={true}
 								size={100}
@@ -31,7 +31,7 @@ const Main = () => {
 						</div>
 						<div className="col s6">
 							<MultiList
-								appbaseField="group.group_topics.topic_name_raw"
+								dataField="group.group_topics.topic_name_raw"
 								componentId="TopicSensor"
 								showCount={true}
 								size={100}
@@ -45,7 +45,7 @@ const Main = () => {
 				</div>
 				<div className="col s6 h-100">
 					<ReactiveMap
-						appbaseField="location"
+						dataField="location"
 						autoCenter
 						showSearchAsMove
 						showMapStyles

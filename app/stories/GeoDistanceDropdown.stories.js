@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import {
 	ReactiveBase,
 	ReactiveMap,
-	GeoDistanceDropdown,
-	AppbaseSensorHelper as helper
+	GeoDistanceDropdown
 } from "../app.js";
 
 import { Img } from "./Img.js";
+import ResponsiveStory from "./ResponsiveStory";
+
 const historyPin = require("./placeholder.svg");
 
 export default class GeoDistanceDropdownDefault extends Component {
@@ -16,7 +17,7 @@ export default class GeoDistanceDropdownDefault extends Component {
 	}
 
 	componentDidMount() {
-		helper.ResponsiveStory();
+		ResponsiveStory();
 	}
 
 	onPopoverTrigger(marker) {
@@ -52,13 +53,13 @@ export default class GeoDistanceDropdownDefault extends Component {
 					<div className="col s6 col-xs-6">
 						<GeoDistanceDropdown
 							componentId="GeoDistanceDropdown"
-							appbaseField={this.props.mapping.location}
+							dataField={this.props.mapping.location}
 							{...this.props}
 						/>
 					</div>
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							dataField={this.props.mapping.location}
 							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"

@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import {
 	ReactiveBase,
 	SingleDropdownRange,
-	ReactiveMap,
-	AppbaseSensorHelper as helper
+	ReactiveMap
 } from "../app.js";
+import ResponsiveStory from "./ResponsiveStory";
 
 import { Img } from "./Img.js";
 const historyPin = require("./placeholder.svg");
@@ -16,7 +16,7 @@ export default class SingleDropdownRangeDefault extends Component {
 	}
 
 	componentDidMount() {
-		helper.ResponsiveStory();
+		ResponsiveStory();
 	}
 
 	onPopoverTrigger(marker) {
@@ -44,7 +44,7 @@ export default class SingleDropdownRangeDefault extends Component {
 					<div className="col s6 col-xs-6">
 						<SingleDropdownRange
 							componentId="EarthquakeSensor"
-							appbaseField={this.props.mapping.mag}
+							dataField={this.props.mapping.mag}
 							title="SingleDropdownRange"
 							data={
 							[{ start: 3, end: 3.9, label: "Minor" },
@@ -60,7 +60,7 @@ export default class SingleDropdownRangeDefault extends Component {
 
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
-							appbaseField={this.props.mapping.location}
+							dataField={this.props.mapping.location}
 							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"

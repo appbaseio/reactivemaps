@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import {
 	ReactiveBase,
 	DatePicker,
-	ReactiveMap,
-	AppbaseSensorHelper as helper
+	ReactiveMap
 } from "../app";
 import { Img } from "./Img";
+import ResponsiveStory from "./ResponsiveStory";
 
 const historyPin = require("./placeholder.svg");
 
@@ -16,7 +16,7 @@ export default class DatePickerDefault extends Component {
 	}
 
 	componentDidMount() {
-		helper.ResponsiveStory();
+		ResponsiveStory();
 	}
 
 	onPopoverTrigger(marker) {
@@ -50,7 +50,7 @@ export default class DatePickerDefault extends Component {
 					<div className="col s6 col-xs-6">
 						<DatePicker
 							componentId="DateSensor"
-							appbaseField="mtime"
+							dataField="mtime"
 							title="title"
 							{...this.props}
 						/>
@@ -58,7 +58,7 @@ export default class DatePickerDefault extends Component {
 
 					<div className="col s6 col-xs-6">
 						<ReactiveMap
-							appbaseField="location"
+							dataField="location"
 							historicalData
 							setMarkerCluster={false}
 							defaultMapStyle="Light Monochrome"
