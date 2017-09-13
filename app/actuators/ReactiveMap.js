@@ -577,17 +577,17 @@ export default class ReactiveMap extends Component {
 		const cx = classNames({
 			"rbc-title-active": this.props.title,
 			"rbc-title-inactive": !this.props.title
-		});
+		}, this.props.className);
 
 		return (
-			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={ReactiveMapHelper.mapPropsStyles(this.props.componentStyle, "component")}>
+			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={ReactiveMapHelper.mapPropsStyles(this.props.style, "component")}>
 				{title}
 				{showMapStyles}
 				<GoogleMapLoader
 					containerElement={
 						<div
 							className="rbc-container col s12 col-xs-12"
-							style={ReactiveMapHelper.mapPropsStyles(this.props.componentStyle, "map", this.mapDefaultHeight)}
+							style={ReactiveMapHelper.mapPropsStyles(this.props.style, "map", this.mapDefaultHeight)}
 						/>
 					}
 					googleMapElement={
@@ -651,7 +651,7 @@ ReactiveMap.propTypes = {
 	size: helper.sizeValidation,
 	from: ReactiveMapHelper.validation.fromValidation,
 	autoMapRender: React.PropTypes.bool,
-	componentStyle: React.PropTypes.object,
+	style: React.PropTypes.object,
 	autoCenter: React.PropTypes.bool,
 	showSearchAsMove: React.PropTypes.bool,
 	setSearchAsMove: React.PropTypes.bool,
@@ -676,7 +676,8 @@ ReactiveMap.propTypes = {
 	markerOnDblclick: React.PropTypes.func,
 	onMouseover: React.PropTypes.func,
 	onMouseout: React.PropTypes.func,
-	showMapStyles: React.PropTypes.bool
+	showMapStyles: React.PropTypes.bool,
+	className: React.PropTypes.string
 };
 
 ReactiveMap.defaultProps = {
@@ -695,7 +696,7 @@ ReactiveMap.defaultProps = {
 	autoMapRender: true,
 	defaultMarkerImage: "https://opensource.appbase.io/reactivemaps/dist/images/historic-pin.png",
 	streamMarkerImage: "https://opensource.appbase.io/reactivemaps/dist/images/stream-pin.png",
-	componentStyle: {},
+	style: {},
 	stream: false,
 	applyGeoQuery: false,
 	defaultZoom: 13

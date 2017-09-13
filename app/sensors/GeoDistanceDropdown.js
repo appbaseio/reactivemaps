@@ -417,10 +417,10 @@ export default class GeoDistanceDropdown extends Component {
 			"rbc-title-inactive": !this.props.title,
 			"rbc-placeholder-active": this.props.placeholder,
 			"rbc-placeholder-inactive": !this.props.placeholder
-		});
+		}, this.props.className);
 
 		return (
-			<div className={`rbc rbc-geodistancedropdown clearfix card thumbnail col s12 col-xs-12 ${cx}`} style={this.props.componentStyle}>
+			<div className={`rbc rbc-geodistancedropdown clearfix card thumbnail col s12 col-xs-12 ${cx}`} style={this.props.style}>
 				<div className="row">
 					{title}
 					<div className="rbc-search-container col s12 col-xs-12">
@@ -475,10 +475,11 @@ GeoDistanceDropdown.propTypes = {
 	),
 	beforeValueChange: React.PropTypes.func,
 	onValueChange: React.PropTypes.func,
-	componentStyle: React.PropTypes.object,
+	style: React.PropTypes.object,
 	URLParams: React.PropTypes.bool,
 	showFilter: React.PropTypes.bool,
-	filterLabel: React.PropTypes.string
+	filterLabel: React.PropTypes.string,
+	className: React.PropTypes.string
 };
 
 // Default props value
@@ -487,7 +488,7 @@ GeoDistanceDropdown.defaultProps = {
 	placeholder: "Search...",
 	placeholderDropdown: "Select Distance",
 	autoLocation: true,
-	componentStyle: {},
+	style: {},
 	URLParams: false,
 	showFilter: true
 };
@@ -513,8 +514,9 @@ GeoDistanceDropdown.types = {
 	customQuery: TYPES.FUNCTION,
 	beforeValueChange: TYPES.FUNCTION,
 	onValueChange: TYPES.FUNCTION,
-	componentStyle: TYPES.OBJECT,
+	style: TYPES.OBJECT,
 	URLParams: TYPES.BOOLEAN,
 	showFilter: TYPES.BOOLEAN,
-	filterLabel: TYPES.STRING
+	filterLabel: TYPES.STRING,
+	className: TYPES.STRING
 };

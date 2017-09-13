@@ -412,10 +412,10 @@ export default class GeoDistanceSlider extends Component {
 			"rbc-placeholder-inactive": !this.props.placeholder,
 			"rbc-labels-active": this.props.rangeLabels.start || this.props.rangeLabels.end,
 			"rbc-labels-inactive": !this.props.rangeLabels.start && !this.props.rangeLabels.end
-		});
+		}, this.props.className);
 
 		return (
-			<div className={`rbc rbc-geodistanceslider clearfix card thumbnail col s12 col-xs-12 ${cx}`} style={this.props.componentStyle}>
+			<div className={`rbc rbc-geodistanceslider clearfix card thumbnail col s12 col-xs-12 ${cx}`} style={this.props.style}>
 				<div className="row">
 					{title}
 					<div className="rbc-search-container col s12 col-xs-12">
@@ -472,10 +472,11 @@ GeoDistanceSlider.propTypes = {
 	autoLocation: React.PropTypes.bool,
 	beforeValueChange: React.PropTypes.func,
 	onValueChange: React.PropTypes.func,
-	componentStyle: React.PropTypes.object,
+	style: React.PropTypes.object,
 	URLParams: React.PropTypes.bool,
 	showFilter: React.PropTypes.bool,
-	filterLabel: React.PropTypes.string
+	filterLabel: React.PropTypes.string,
+	className: React.PropTypes.string
 };
 
 // Default props value
@@ -492,7 +493,7 @@ GeoDistanceSlider.defaultProps = {
 		end: null
 	},
 	autoLocation: true,
-	componentStyle: {},
+	style: {},
 	URLParams: false,
 	showFilter: true
 };
@@ -517,10 +518,11 @@ GeoDistanceSlider.types = {
 	defaultSelected: TYPES.OBJECT,
 	placeholder: TYPES.STRING,
 	customQuery: TYPES.FUNCTION,
-	componentStyle: TYPES.OBJECT,
+	style: TYPES.OBJECT,
 	beforeValueChange: TYPES.FUNCTION,
 	onValueChange: TYPES.FUNCTION,
 	URLParams: TYPES.BOOLEAN,
 	showFilter: TYPES.BOOLEAN,
-	filterLabel: TYPES.STRING
+	filterLabel: TYPES.STRING,
+	className: TYPES.STRING
 };
