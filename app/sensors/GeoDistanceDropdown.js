@@ -420,7 +420,7 @@ export default class GeoDistanceDropdown extends Component {
 		});
 
 		return (
-			<div className={`rbc rbc-geodistancedropdown clearfix card thumbnail col s12 col-xs-12 ${cx}`} style={this.props.componentStyle}>
+			<div className={`rbc rbc-geodistancedropdown clearfix card thumbnail col s12 col-xs-12 ${cx}`} style={this.props.style}>
 				<div className="row">
 					{title}
 					<div className="rbc-search-container col s12 col-xs-12">
@@ -475,7 +475,7 @@ GeoDistanceDropdown.propTypes = {
 	),
 	beforeValueChange: React.PropTypes.func,
 	onValueChange: React.PropTypes.func,
-	componentStyle: React.PropTypes.object,
+	style: React.PropTypes.object,
 	URLParams: React.PropTypes.bool,
 	showFilter: React.PropTypes.bool,
 	filterLabel: React.PropTypes.string
@@ -487,7 +487,7 @@ GeoDistanceDropdown.defaultProps = {
 	placeholder: "Search...",
 	placeholderDropdown: "Select Distance",
 	autoLocation: true,
-	componentStyle: {},
+	style: {},
 	URLParams: false,
 	showFilter: true
 };
@@ -513,7 +513,7 @@ GeoDistanceDropdown.types = {
 	customQuery: TYPES.FUNCTION,
 	beforeValueChange: TYPES.FUNCTION,
 	onValueChange: TYPES.FUNCTION,
-	componentStyle: TYPES.OBJECT,
+	style: TYPES.OBJECT,
 	URLParams: TYPES.BOOLEAN,
 	showFilter: TYPES.BOOLEAN,
 	filterLabel: TYPES.STRING

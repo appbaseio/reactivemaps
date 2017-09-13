@@ -326,7 +326,7 @@ export default class PlacesSearch extends Component {
 		});
 
 		return (
-			<div className={`rbc rbc-placessearch clearfix card thumbnail col s12 col-xs-12 ${cx}`} style={this.props.componentStyle}>
+			<div className={`rbc rbc-placessearch clearfix card thumbnail col s12 col-xs-12 ${cx}`} style={this.props.style}>
 				<div className="row">
 					{title}
 					<div className="col s12 col-xs-12">
@@ -356,7 +356,7 @@ PlacesSearch.propTypes = {
 	autoLocation: React.PropTypes.bool,
 	beforeValueChange: React.PropTypes.func,
 	onValueChange: React.PropTypes.func,
-	componentStyle: React.PropTypes.object,
+	style: React.PropTypes.object,
 	URLParams: React.PropTypes.bool,
 	showFilter: React.PropTypes.bool,
 	filterLabel: React.PropTypes.string,
@@ -366,7 +366,7 @@ PlacesSearch.propTypes = {
 PlacesSearch.defaultProps = {
 	placeholder: "Search..",
 	autoLocation: true,
-	componentStyle: {},
+	style: {},
 	URLParams: false,
 	showFilter: true,
 	unit: "mi"
@@ -386,7 +386,7 @@ PlacesSearch.types = {
 	customQuery: TYPES.FUNCTION,
 	placeholder: TYPES.STRING,
 	autoLocation: TYPES.BOOLEAN,
-	componentStyle: TYPES.OBJECT,
+	style: TYPES.OBJECT,
 	unit: TYPES.STRING,
 	URLParams: TYPES.BOOLEAN,
 	showFilter: TYPES.BOOLEAN,
