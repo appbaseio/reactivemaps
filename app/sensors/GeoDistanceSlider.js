@@ -412,7 +412,7 @@ export default class GeoDistanceSlider extends Component {
 			"rbc-placeholder-inactive": !this.props.placeholder,
 			"rbc-labels-active": this.props.rangeLabels.start || this.props.rangeLabels.end,
 			"rbc-labels-inactive": !this.props.rangeLabels.start && !this.props.rangeLabels.end
-		});
+		}, this.props.className);
 
 		return (
 			<div className={`rbc rbc-geodistanceslider clearfix card thumbnail col s12 col-xs-12 ${cx}`} style={this.props.componentStyle}>
@@ -475,7 +475,8 @@ GeoDistanceSlider.propTypes = {
 	componentStyle: React.PropTypes.object,
 	URLParams: React.PropTypes.bool,
 	showFilter: React.PropTypes.bool,
-	filterLabel: React.PropTypes.string
+	filterLabel: React.PropTypes.string,
+	className: React.PropTypes.string
 };
 
 // Default props value
@@ -522,5 +523,6 @@ GeoDistanceSlider.types = {
 	onValueChange: TYPES.FUNCTION,
 	URLParams: TYPES.BOOLEAN,
 	showFilter: TYPES.BOOLEAN,
-	filterLabel: TYPES.STRING
+	filterLabel: TYPES.STRING,
+	className: TYPES.STRING
 };
