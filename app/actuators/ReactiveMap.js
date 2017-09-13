@@ -577,7 +577,7 @@ export default class ReactiveMap extends Component {
 		const cx = classNames({
 			"rbc-title-active": this.props.title,
 			"rbc-title-inactive": !this.props.title
-		});
+		}, this.props.className);
 
 		return (
 			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={ReactiveMapHelper.mapPropsStyles(this.props.componentStyle, "component")}>
@@ -676,7 +676,8 @@ ReactiveMap.propTypes = {
 	markerOnDblclick: React.PropTypes.func,
 	onMouseover: React.PropTypes.func,
 	onMouseout: React.PropTypes.func,
-	showMapStyles: React.PropTypes.bool
+	showMapStyles: React.PropTypes.bool,
+	className: React.PropTypes.string
 };
 
 ReactiveMap.defaultProps = {
