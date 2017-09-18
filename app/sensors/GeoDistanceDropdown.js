@@ -47,6 +47,7 @@ export default class GeoDistanceDropdown extends Component {
 
 	// Set query information
 	componentWillMount() {
+		this.previousQuery = null;	// initial value for onQueryChange
 		this.googleMaps = window.google.maps;
 		this.unit = this.props.unit;
 		this.getUserLocation();
@@ -163,12 +164,20 @@ export default class GeoDistanceDropdown extends Component {
 
 	// set the query type and input data
 	setQueryInfo() {
+		const getQuery = (value) => {
+			const currentQuery = this.props.customQuery ? this.props.customQuery(value) : this.customQuery(value);
+			if (this.props.onQueryChange && JSON.stringify(this.previousQuery) !== JSON.stringify(currentQuery)) {
+				this.props.onQueryChange(this.previousQuery, currentQuery);
+			}
+			this.previousQuery = currentQuery;
+			return currentQuery;
+		};
 		const obj = {
 			key: this.props.componentId,
 			value: {
 				queryType: this.type,
 				dataField: this.props.dataField,
-				customQuery: this.props.customQuery ? this.props.customQuery : this.customQuery,
+				customQuery: getQuery,
 				reactiveId: this.context.reactiveId,
 				showFilter: this.props.showFilter,
 				filterLabel: this.props.filterLabel ? this.props.filterLabel : this.props.componentId,
@@ -479,7 +488,8 @@ GeoDistanceDropdown.propTypes = {
 	URLParams: React.PropTypes.bool,
 	showFilter: React.PropTypes.bool,
 	filterLabel: React.PropTypes.string,
-	className: React.PropTypes.string
+	className: React.PropTypes.string,
+	onQueryChange: React.PropTypes.func
 };
 
 // Default props value
@@ -518,5 +528,6 @@ GeoDistanceDropdown.types = {
 	URLParams: TYPES.BOOLEAN,
 	showFilter: TYPES.BOOLEAN,
 	filterLabel: TYPES.STRING,
-	className: TYPES.STRING
+	className: TYPES.STRING,
+	onQueryChange: TYPES.FUNCTION
 };
