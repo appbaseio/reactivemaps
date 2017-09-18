@@ -84,6 +84,10 @@ class Main extends Component {
 											resolve();
 										})
 									}}
+									onQueryChange={(prevQuery, nextQuery) => {
+										console.log("prevQuery", prevQuery);
+										console.log("nextQuery", nextQuery);
+									}}
 								/>
 							</div>
 							<div className="col s12 col-xs-12">
