@@ -55,7 +55,6 @@ class Main extends Component {
 
 	onIdle(res) {
 		this.mapRef = res.props.map;
-		this.executeQuery();
 	}
 
 	render() {
@@ -66,23 +65,19 @@ class Main extends Component {
 					credentials="y4pVxY2Ok:c92481e2-c07f-4473-8326-082919282c18"
 					type="meetupdata1"
 				>
-					<SelectedFilters componentId="SelectedFilters" />
 					<div className="col s12 m6 col-xs-12 col-sm-6">
 						<div className="row h-100">
 							<div className="col s12 col-xs-12">
+								<SelectedFilters componentId={["OriginSensor", "DestinationSensor"]} />
 								<PlacesSearch
 									dataField={this.props.mapping.venue}
 									componentId="OriginSensor"
 									placeholder="Search Venue"
 									title="Origin"
-									// onValueChange={this.originQuery}
-									URLParams={true}
-									onValueChange={(val) => {console.log(val)}}
-									beforeValueChange={(val) => {
-										return new Promise(resolve => {
-											console.log(val);
-											resolve();
-										})
+									onValueChange={this.originQuery}
+									onQueryChange={(prevQuery, nextQuery) => {
+										console.log("prevQuery", prevQuery);
+										console.log("nextQuery", nextQuery);
 									}}
 								/>
 							</div>
@@ -94,7 +89,6 @@ class Main extends Component {
 									autoLocation={false}
 									title="Destination"
 									onValueChange={this.destinationQuery}
-									URLParams={true}
 								/>
 							</div>
 						</div>
