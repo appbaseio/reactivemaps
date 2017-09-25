@@ -88,7 +88,7 @@ export default class GeoDistanceDropdown extends Component {
 	}
 
 	checkDefault() {
-		this.urlParams = helper.URLParams.get(this.props.componentId, false, true);
+		this.urlParams = this.props.URLParams ? helper.URLParams.get(this.props.componentId, false, true) : null;
 		const defaultValue = this.urlParams !== null ? this.urlParams : this.props.defaultSelected;
 		this.changeValue(defaultValue);
 	}
@@ -246,7 +246,9 @@ export default class GeoDistanceDropdown extends Component {
 					});
 				}
 				helper.selectedSensor.setSortInfo(sortObj);
-				helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
+				if(this.props.URLParams) {
+					helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
+				}
 				helper.selectedSensor.set(obj, true);
 			};
 
@@ -287,7 +289,9 @@ export default class GeoDistanceDropdown extends Component {
 				if(this.props.onValueChange) {
 					this.props.onValueChange(null);
 				}
-				helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
+				if(this.props.URLParams) {
+					helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
+				}
 				helper.selectedSensor.set(obj, true);
 			}
 
@@ -339,7 +343,9 @@ export default class GeoDistanceDropdown extends Component {
 						unit: this.unit
 					});
 				}
-				helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
+				if(this.props.URLParams) {
+					helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
+				}
 				helper.selectedSensor.set(obj, true);
 			};
 

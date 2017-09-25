@@ -83,7 +83,7 @@ export default class PlacesSearch extends Component {
 	}
 
 	checkDefault(props) {
-		this.urlParams = helper.URLParams.get(props.componentId);
+		this.urlParams = props.URLParams ? helper.URLParams.get(props.componentId) : null;
 		this.defaultValue = this.urlParams !== null ? this.urlParams : props.defaultSelected;
 		this.changeValue(this.defaultValue);
 	}
@@ -202,7 +202,9 @@ export default class PlacesSearch extends Component {
 						unit: this.props.unit
 					});
 				}
-				helper.URLParams.update(this.props.componentId, this.state.currentValue, this.props.URLParams);
+				if(this.props.URLParams) {
+					helper.URLParams.update(this.props.componentId, this.state.currentValue, this.props.URLParams);
+				}
 				helper.selectedSensor.set(obj, true);
 			};
 
@@ -248,7 +250,9 @@ export default class PlacesSearch extends Component {
 						unit: this.props.unit
 					});
 				}
-				helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
+				if(this.props.URLParams) {
+					helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
+				}
 				helper.selectedSensor.set(obj, true);
 			};
 
