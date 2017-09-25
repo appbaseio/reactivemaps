@@ -15,7 +15,7 @@ import _ from "lodash";
 export default class GeoDistanceSlider extends Component {
 	constructor(props) {
 		super(props);
-		this.urlParams = helper.URLParams.get(this.props.componentId, false, true);
+		this.urlParams = props.URLParams ? helper.URLParams.get(props.componentId, false, true) : null;
 		this.defaultSelected = this.urlParams !== null ? this.urlParams : this.props.defaultSelected;
 		let value = this.defaultSelected && this.defaultSelected.distance ?
 			this.defaultSelected.distance < this.props.range.start ?
@@ -83,7 +83,7 @@ export default class GeoDistanceSlider extends Component {
 	}
 
 	checkDefault() {
-		this.urlParams = helper.URLParams.get(this.props.componentId, false, true);
+		this.urlParams = this.props.URLParams ? helper.URLParams.get(this.props.componentId, false, true) : null;
 		const defaultValue = this.urlParams !== null ? this.urlParams : this.props.defaultSelected;
 		this.changeValue(defaultValue);
 	}
@@ -238,7 +238,9 @@ export default class GeoDistanceSlider extends Component {
 					});
 				}
 				helper.selectedSensor.setSortInfo(sortObj);
-				helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
+				if(this.props.URLParams) {
+					helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
+				}
 				helper.selectedSensor.set(obj, true);
 			};
 
@@ -267,7 +269,9 @@ export default class GeoDistanceSlider extends Component {
 					key: this.props.componentId,
 					value: null
 				};
-				helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
+				if(this.props.URLParams) {
+					helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
+				}
 				helper.selectedSensor.set(obj, true);
 			}
 
