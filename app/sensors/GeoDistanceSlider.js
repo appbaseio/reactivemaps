@@ -15,7 +15,7 @@ import _ from "lodash";
 export default class GeoDistanceSlider extends Component {
 	constructor(props) {
 		super(props);
-		this.urlParams = helper.URLParams.get(this.props.componentId, false, true);
+		this.urlParams = props.URLParams ? helper.URLParams.get(props.componentId, false, true) : null;
 		this.defaultSelected = this.urlParams !== null ? this.urlParams : this.props.defaultSelected;
 		let value = this.defaultSelected && this.defaultSelected.distance ?
 			this.defaultSelected.distance < this.props.range.start ?

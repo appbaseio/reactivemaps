@@ -33,7 +33,7 @@ export default class PlacesSearch extends Component {
 		this.handleResults = this.handleResults.bind(this);
 		this.customQuery = this.customQuery.bind(this);
 		this.setDefaultLocation = this.setDefaultLocation.bind(this);
-		this.urlParams = helper.URLParams.get(this.props.componentId);
+		this.urlParams = props.URLParams ? helper.URLParams.get(props.componentId) : null;
 	}
 
 	componentWillMount() {

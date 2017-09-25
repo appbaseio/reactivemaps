@@ -29,7 +29,7 @@ export default class GeoDistanceDropdown extends Component {
 			unit: this.unit
 		};
 		this.allowedUnit = ["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"];
-		this.urlParams = helper.URLParams.get(this.props.componentId, false, true);
+		this.urlParams = props.URLParams ? helper.URLParams.get(props.componentId, false, true) : null;
 		this.defaultSelected = this.urlParams !== null ? this.urlParams : this.props.defaultSelected;
 		if (this.defaultSelected) {
 			const selected = this.props.data.filter(item => item.label === this.defaultSelected);
