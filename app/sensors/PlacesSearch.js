@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import {
 	TYPES,
 	AppbaseSensorHelper as helper
@@ -358,24 +359,24 @@ export default class PlacesSearch extends Component {
 }
 
 PlacesSearch.propTypes = {
-	componentId: React.PropTypes.string.isRequired,
-	dataField: React.PropTypes.string.isRequired,
-	title: React.PropTypes.oneOfType([
-		React.PropTypes.string,
-		React.PropTypes.element
+	componentId: PropTypes.string.isRequired,
+	dataField: PropTypes.string.isRequired,
+	title: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.element
 	]),
-	customQuery: React.PropTypes.func,
-	placeholder: React.PropTypes.string,
-	autoLocation: React.PropTypes.bool,
-	beforeValueChange: React.PropTypes.func,
-	onValueChange: React.PropTypes.func,
-	style: React.PropTypes.object,
-	URLParams: React.PropTypes.bool,
-	showFilter: React.PropTypes.bool,
-	filterLabel: React.PropTypes.string,
-	unit: React.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"]),
-	className: React.PropTypes.string,
-	onQueryChange: React.PropTypes.func
+	customQuery: PropTypes.func,
+	placeholder: PropTypes.string,
+	autoLocation: PropTypes.bool,
+	beforeValueChange: PropTypes.func,
+	onValueChange: PropTypes.func,
+	style: PropTypes.object,
+	URLParams: PropTypes.bool,
+	showFilter: PropTypes.bool,
+	filterLabel: PropTypes.string,
+	unit: PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"]),
+	className: PropTypes.string,
+	onQueryChange: PropTypes.func
 };
 // Default props value
 PlacesSearch.defaultProps = {
@@ -389,9 +390,9 @@ PlacesSearch.defaultProps = {
 
 // context type
 PlacesSearch.contextTypes = {
-	appbaseRef: React.PropTypes.any.isRequired,
-	type: React.PropTypes.any.isRequired,
-	reactiveId: React.PropTypes.number
+	appbaseRef: PropTypes.any.isRequired,
+	type: PropTypes.any.isRequired,
+	reactiveId: PropTypes.number
 };
 
 PlacesSearch.types = {
