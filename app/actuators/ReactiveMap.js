@@ -1,7 +1,7 @@
 /* eslint max-lines: 0 */
 import React, { Component } from "react";
-import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from "react-google-maps";
-import MarkerClusterer from "react-google-maps/lib/addons/MarkerClusterer";
+import { GoogleMap, Marker, InfoWindow, withGoogleMap } from "react-google-maps";
+import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import classNames from "classnames";
 import {
 	AppbaseChannelManager as manager,
@@ -279,7 +279,7 @@ export default class ReactiveMap extends Component {
 			<InfoWindow
 				zIndex={500}
 				key={`${ref}_info_window`}
-				onCloseclick={() => this.handleMarkerClose(marker)}
+				onCloseClick={() => this.handleMarkerClose(marker)}
 			>
 				<div>
 					{onPopoverTrigger}
@@ -579,55 +579,56 @@ export default class ReactiveMap extends Component {
 			"rbc-title-inactive": !this.props.title
 		}, this.props.className);
 
+		const GettingStartedGoogleMap = withGoogleMap(props => (
+			<GoogleMap
+				ref={
+					(map) => {
+						this.mapRef = map;
+					}
+				}
+				{...centerComponent}
+				{...ReactiveMapHelper.normalizeProps(this.props)}
+				defaultCenter={ReactiveMapHelper.normalizeCenter(this.state.defaultCenter)}
+				onDragStart={() => {
+					this.handleOnDrage();
+					this.mapEvents("onDragStart");
+				}
+				}
+				onIdle={() => this.handleOnIdle()}
+				onClick={() => this.mapEvents("onClick")}
+				onDblclick={() => this.mapEvents("onDblclick")}
+				onDrag={() => this.mapEvents("onDrag")}
+				onDragend={() => this.mapEvents("onDragend")}
+				onMousemove={() => this.mapEvents("onMousemove")}
+				onMouseOut={() => this.mapEvents("onMouseOut")}
+				onMouseover={() => this.mapEvents("onMouseover")}
+				onResize={() => this.mapEvents("onResize")}
+				onRightClick={() => this.mapEvents("onRightClick")}
+				onTilesloaded={() => this.mapEvents("onTilesloaded")}
+				onBoundsChanged={() => this.mapEvents("onBoundsChanged")}
+				onCenterChanged={() => this.mapEvents("onCenterChanged")}
+				onProjectionChanged={() => this.mapEvents("onProjectionChanged")}
+				onTiltChanged={() => this.mapEvents("onTiltChanged")}
+				onZoomChanged={() => this.mapEvents("onZoomChanged")}
+			>
+				{markerComponent}
+				{this.externalData()}
+			</GoogleMap>
+		));
+
 		return (
 			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={ReactiveMapHelper.mapPropsStyles(this.props.style, "component")}>
 				{title}
 				{showMapStyles}
-				<GoogleMapLoader
+				<GettingStartedGoogleMap
 					containerElement={
 						<div
 							className="rbc-container col s12 col-xs-12"
 							style={ReactiveMapHelper.mapPropsStyles(this.props.style, "map", this.mapDefaultHeight)}
 						/>
 					}
-					googleMapElement={
-						<GoogleMap
-							ref={
-								(map) => {
-									this.mapRef = map;
-								}
-							}
-							{...centerComponent}
-							{...ReactiveMapHelper.normalizeProps(this.props)}
-							options = {{
-								styles: this.state.currentMapStyle
-							}}
-							defaultCenter={ReactiveMapHelper.normalizeCenter(this.state.defaultCenter)}
-							onDragstart={() => {
-								this.handleOnDrage();
-								this.mapEvents("onDragstart");
-							}
-							}
-							onIdle={() => this.handleOnIdle()}
-							onClick={() => this.mapEvents("onClick")}
-							onDblclick={() => this.mapEvents("onDblclick")}
-							onDrag={() => this.mapEvents("onDrag")}
-							onDragend={() => this.mapEvents("onDragend")}
-							onMousemove={() => this.mapEvents("onMousemove")}
-							onMouseout={() => this.mapEvents("onMouseout")}
-							onMouseover={() => this.mapEvents("onMouseover")}
-							onResize={() => this.mapEvents("onResize")}
-							onRightclick={() => this.mapEvents("onRightclick")}
-							onTilesloaded={() => this.mapEvents("onTilesloaded")}
-							onBoundsChanged={() => this.mapEvents("onBoundsChanged")}
-							onCenterChanged={() => this.mapEvents("onCenterChanged")}
-							onProjectionChanged={() => this.mapEvents("onProjectionChanged")}
-							onTiltChanged={() => this.mapEvents("onTiltChanged")}
-							onZoomChanged={() => this.mapEvents("onZoomChanged")}
-						>
-							{markerComponent}
-							{this.externalData()}
-						</GoogleMap>
+					mapElement={
+						<div style={this.state.currentMapStyle} />
 					}
 				/>
 				{showSearchAsMove}
