@@ -1,5 +1,6 @@
 /* eslint max-lines: 0 */
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from "react-google-maps";
 import MarkerClusterer from "react-google-maps/lib/addons/MarkerClusterer";
 import classNames from "classnames";
@@ -638,46 +639,46 @@ export default class ReactiveMap extends Component {
 }
 
 ReactiveMap.propTypes = {
-	dataField: React.PropTypes.string.isRequired,
-	onIdle: React.PropTypes.func,
-	onAllData: React.PropTypes.func,
-	onData: React.PropTypes.func,
-	onPopoverTrigger: React.PropTypes.func,
-	setMarkerCluster: React.PropTypes.bool,
-	autoMarkerPosition: React.PropTypes.bool,
-	showMarkers: React.PropTypes.bool,
+	dataField: PropTypes.string.isRequired,
+	onIdle: PropTypes.func,
+	onAllData: PropTypes.func,
+	onData: PropTypes.func,
+	onPopoverTrigger: PropTypes.func,
+	setMarkerCluster: PropTypes.bool,
+	autoMarkerPosition: PropTypes.bool,
+	showMarkers: PropTypes.bool,
 	streamTTL: ReactiveMapHelper.validation.streamTTL,
 	popoverTTL: ReactiveMapHelper.validation.popoverTTL,
 	size: helper.sizeValidation,
 	from: ReactiveMapHelper.validation.fromValidation,
-	autoMapRender: React.PropTypes.bool,
-	style: React.PropTypes.object,
-	autoCenter: React.PropTypes.bool,
-	showSearchAsMove: React.PropTypes.bool,
-	setSearchAsMove: React.PropTypes.bool,
-	defaultMapStyle: React.PropTypes.oneOf(["Standard", "Blue Essence", "Blue Water", "Flat Map", "Light Monochrome", "Midnight Commander", "Unsaturated Browns"]),
-	title: React.PropTypes.oneOfType([
-		React.PropTypes.string,
-		React.PropTypes.element
+	autoMapRender: PropTypes.bool,
+	style: PropTypes.object,
+	autoCenter: PropTypes.bool,
+	showSearchAsMove: PropTypes.bool,
+	setSearchAsMove: PropTypes.bool,
+	defaultMapStyle: PropTypes.oneOf(["Standard", "Blue Essence", "Blue Water", "Flat Map", "Light Monochrome", "Midnight Commander", "Unsaturated Browns"]),
+	title: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.element
 	]),
-	streamAutoCenter: React.PropTypes.bool,
-	defaultMarkerImage: React.PropTypes.string,
-	streamMarkerImage: React.PropTypes.string,
-	stream: React.PropTypes.bool,
+	streamAutoCenter: PropTypes.bool,
+	defaultMarkerImage: PropTypes.string,
+	streamMarkerImage: PropTypes.string,
+	stream: PropTypes.bool,
 	defaultZoom: ReactiveMapHelper.validation.defaultZoom,
-	applyGeoQuery: React.PropTypes.bool,
-	showPopoverOn: React.PropTypes.oneOf(["click", "mouseover"]),
-	defaultCenter: React.PropTypes.shape({
+	applyGeoQuery: PropTypes.bool,
+	showPopoverOn: PropTypes.oneOf(["click", "mouseover"]),
+	defaultCenter: PropTypes.shape({
 		lat: ReactiveMapHelper.validation.validCenter,
 		lon: ReactiveMapHelper.validation.validCenter
 	}),
-	react: React.PropTypes.object,
-	markerOnClick: React.PropTypes.func,
-	markerOnDblclick: React.PropTypes.func,
-	onMouseover: React.PropTypes.func,
-	onMouseout: React.PropTypes.func,
-	showMapStyles: React.PropTypes.bool,
-	className: React.PropTypes.string
+	react: PropTypes.object,
+	markerOnClick: PropTypes.func,
+	markerOnDblclick: PropTypes.func,
+	onMouseover: PropTypes.func,
+	onMouseout: PropTypes.func,
+	showMapStyles: PropTypes.bool,
+	className: PropTypes.string
 };
 
 ReactiveMap.defaultProps = {
@@ -703,6 +704,6 @@ ReactiveMap.defaultProps = {
 };
 
 ReactiveMap.contextTypes = {
-	appbaseRef: React.PropTypes.any.isRequired,
-	type: React.PropTypes.any.isRequired
+	appbaseRef: PropTypes.any.isRequired,
+	type: PropTypes.any.isRequired
 };
