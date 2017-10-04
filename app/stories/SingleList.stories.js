@@ -1,12 +1,14 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
 	ReactiveBase,
 	SingleList,
 	ReactiveMap
-} from "../app.js";
+} from "../app";
 import ResponsiveStory from "./ResponsiveStory";
 
-import { Img } from "./Img.js";
+import { Img } from "./Img";
+
 const historyPin = require("./placeholder.svg");
 
 export default class SingleListDefault extends Component {
@@ -30,7 +32,7 @@ export default class SingleListDefault extends Component {
 				</div>
 				<div className="description">
 					<p style={{ margin: "5px 0", lineHeight: "18px" }}>is going to&nbsp;
-						<a href={marker._source.event.event_url} target="_blank">
+						<a href={marker._source.event.event_url} rel="noopener noreferrer" target="_blank">
 							{marker._source.event.event_name}
 						</a>
 					</p>
@@ -89,4 +91,11 @@ SingleListDefault.defaultProps = {
 		city: "group.group_city.raw",
 		location: "location"
 	}
+};
+
+SingleListDefault.propTypes = {
+	mapping: PropTypes.shape({
+		city: PropTypes.string,
+		location: PropTypes.string
+	}).isRequired
 };
