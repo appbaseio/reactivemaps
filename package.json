@@ -31,7 +31,7 @@
     "google-maps": "^3.2.1",
     "node-sass": "^4.5.1",
     "prop-types": "^15.6.0",
-    "react-google-maps": "^4.11.0"
+    "react-google-maps": "^8.3.4"
   },
   "peerDependencies": {
     "react": "^15.4.2",
