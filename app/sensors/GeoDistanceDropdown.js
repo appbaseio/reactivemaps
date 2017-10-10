@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import {
 	TYPES,
 	AppbaseSensorHelper as helper
@@ -466,36 +467,36 @@ export default class GeoDistanceDropdown extends Component {
 }
 
 GeoDistanceDropdown.propTypes = {
-	componentId: React.PropTypes.string.isRequired,
-	dataField: React.PropTypes.string.isRequired,
-	title: React.PropTypes.oneOfType([
-		React.PropTypes.string,
-		React.PropTypes.element
+	componentId: PropTypes.string.isRequired,
+	dataField: PropTypes.string.isRequired,
+	title: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.element
 	]),
-	customQuery: React.PropTypes.func,
-	defaultSelected: React.PropTypes.shape({
-		label: React.PropTypes.string,
-		location: React.PropTypes.string
+	customQuery: PropTypes.func,
+	defaultSelected: PropTypes.shape({
+		label: PropTypes.string,
+		location: PropTypes.string
 	}),
-	placeholder: React.PropTypes.string,
-	placeholderDropdown: React.PropTypes.string,
-	autoLocation: React.PropTypes.bool,
-	unit: React.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"]),
-	data: React.PropTypes.arrayOf(
-		React.PropTypes.shape({
+	placeholder: PropTypes.string,
+	placeholderDropdown: PropTypes.string,
+	autoLocation: PropTypes.bool,
+	unit: PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"]),
+	data: PropTypes.arrayOf(
+		PropTypes.shape({
 			start: helper.validateThreshold,
 			end: helper.validateThreshold,
-			label: React.PropTypes.string.isRequired
+			label: PropTypes.string.isRequired
 		})
 	),
-	beforeValueChange: React.PropTypes.func,
-	onValueChange: React.PropTypes.func,
-	style: React.PropTypes.object,
-	URLParams: React.PropTypes.bool,
-	showFilter: React.PropTypes.bool,
-	filterLabel: React.PropTypes.string,
-	className: React.PropTypes.string,
-	onQueryChange: React.PropTypes.func
+	beforeValueChange: PropTypes.func,
+	onValueChange: PropTypes.func,
+	style: PropTypes.object,
+	URLParams: PropTypes.bool,
+	showFilter: PropTypes.bool,
+	filterLabel: PropTypes.string,
+	className: PropTypes.string,
+	onQueryChange: PropTypes.func
 };
 
 // Default props value
@@ -511,9 +512,9 @@ GeoDistanceDropdown.defaultProps = {
 
 // context type
 GeoDistanceDropdown.contextTypes = {
-	appbaseRef: React.PropTypes.any.isRequired,
-	type: React.PropTypes.any.isRequired,
-	reactiveId: React.PropTypes.number
+	appbaseRef: PropTypes.any.isRequired,
+	type: PropTypes.any.isRequired,
+	reactiveId: PropTypes.number
 };
 
 GeoDistanceDropdown.types = {
