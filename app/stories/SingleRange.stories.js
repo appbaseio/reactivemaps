@@ -1,12 +1,12 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
 	ReactiveBase,
 	SingleRange,
 	ReactiveMap
-} from "../app.js";
+} from "../app";
 import ResponsiveStory from "./ResponsiveStory";
 
-import { Img } from "./Img.js";
 const historyPin = require("./placeholder.svg");
 
 export default class SingleRangeDefault extends Component {
@@ -89,4 +89,11 @@ SingleRangeDefault.defaultProps = {
 		mag: "mag",
 		location: "location"
 	}
+};
+
+SingleRangeDefault.propTypes = {
+	mapping: PropTypes.shape({
+		mag: PropTypes.string,
+		location: PropTypes.string
+	}).isRequired
 };

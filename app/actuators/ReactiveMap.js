@@ -1,6 +1,6 @@
 /* eslint max-lines: 0 */
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { GoogleMap, withGoogleMap, Marker, InfoWindow } from "react-google-maps";
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import classNames from "classnames";
