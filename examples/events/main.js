@@ -11,16 +11,16 @@ class Main extends Component {
 		super(props);
 		this.eventLists = [
 			'onClick',
-			'onDblclick',
+			'onDblClick',
 			'onDrag',
-			'onDragstart',
-			'onDragend',
-			'onMousemove',
-			'onMouseout',
-			'onMouseover',
+			'onDragStart',
+			'onDragEnd',
+			'onMouseMove',
+			'onMouseOut',
+			'onMouseOver',
 			'onResize',
-			'onRightclick',
-			'onTilesloaded',
+			'onRightClick',
+			'onTilesLoaded',
 			'onBoundsChanged',
 			'onCenterChanged',
 			'onProjectionChanged',
@@ -28,18 +28,18 @@ class Main extends Component {
 			'onZoomChanged'
 		];
 		this.onIdle = this.onIdle.bind(this);
-		this.onMouseover = this.onMouseover.bind(this);
-		this.onMouseout = this.onMouseout.bind(this);
+		this.onMouseOver = this.onMouseOver.bind(this);
+		this.onMouseOut = this.onMouseOut.bind(this);
 		this.onClick = this.onClick.bind(this);
-		this.onDblclick = this.onDblclick.bind(this);
+		this.onDblClick = this.onDblClick.bind(this);
 		this.onDrag = this.onDrag.bind(this);
-		this.onDragstart = this.onDragstart.bind(this);
-		this.onDragend = this.onDragend.bind(this);
-		this.onMousemove = this.onMousemove.bind(this);
-		this.onMouseout = this.onMouseout.bind(this);
-		this.onMouseover = this.onMouseover.bind(this);
+		this.onDragStart = this.onDragStart.bind(this);
+		this.onDragEnd = this.onDragEnd.bind(this);
+		this.onMouseMove = this.onMouseMove.bind(this);
+		this.onMouseOut = this.onMouseOut.bind(this);
+		this.onMouseOver = this.onMouseOver.bind(this);
 		this.onResize = this.onResize.bind(this);
-		this.onRightclick = this.onRightclick.bind(this);
+		this.onRightClick = this.onRightClick.bind(this);
 		this.onTilesloaded = this.onTilesloaded.bind(this);
 		this.onBoundsChanged = this.onBoundsChanged.bind(this);
 		this.onCenterChanged = this.onCenterChanged.bind(this);
@@ -55,44 +55,44 @@ class Main extends Component {
 	onIdle(mapRef) {
 		this.eventActive('event-onIdle');
 	}
-	onMouseover(mapRef) {
-		this.eventActive('event-onMouseover');
+	onMouseOver(mapRef) {
+		this.eventActive('event-onMouseOver');
 	}
-	onMouseout(mapRef) {
-		this.eventActive('event-onMouseout');
+	onMouseOut(mapRef) {
+		this.eventActive('event-onMouseOut');
 	}
 	onClick(mapRef) {
 		this.eventActive('event-onClick');
 	}
-	onDblclick(mapRef) {
-		this.eventActive('event-onDblclick');
+	onDblClick(mapRef) {
+		this.eventActive('event-onDblClick');
 	}
 	onDrag(mapRef) {
 		this.eventActive('event-onDrag');
 	}
-	onDragstart(mapRef) {
-		this.eventActive('event-onDragstart');
+	onDragStart(mapRef) {
+		this.eventActive('event-onDragDtart');
 	}
-	onDragend(mapRef) {
-		this.eventActive('event-onDragend');
+	onDragEnd(mapRef) {
+		this.eventActive('event-onDragEnd');
 	}
-	onMousemove(mapRef) {
-		this.eventActive('event-onMousemove');
+	onMouseMove(mapRef) {
+		this.eventActive('event-onMouseMove');
 	}
-	onMouseout(mapRef) {
-		this.eventActive('event-onMouseout');
+	onMouseOut(mapRef) {
+		this.eventActive('event-onMouseOut');
 	}
-	onMouseover(mapRef) {
-		this.eventActive('event-onMouseover');
+	onMouseOver(mapRef) {
+		this.eventActive('event-onMouseOver');
 	}
 	onResize(mapRef) {
 		this.eventActive('event-onResize');
 	}
-	onRightclick(mapRef) {
-		this.eventActive('event-onRightclick');
+	onRightClick(mapRef) {
+		this.eventActive('event-onRightClick');
 	}
 	onTilesloaded(mapRef) {
-		this.eventActive('event-onTilesloaded');
+		this.eventActive('event-onTilesLoaded');
 	}
 	onBoundsChanged(mapRef) {
 		this.eventActive('event-onBoundsChanged');
@@ -138,18 +138,18 @@ class Main extends Component {
 							title="Events Example"
 							showMapStyles={true}
 							onIdle={this.onIdle}
-							onMouseover={this.onMouseover}
-							onMouseout={this.onMouseout}
+							onMouseOver={this.onMouseOver}
+							onMouseOut={this.onMouseOut}
 							onClick={this.onClick}
-							onDblclick={this.onDblclick}
+							onDblClick={this.onDblClick}
 							onDrag={this.onDrag}
-							onDragstart={this.onDragstart}
-							onDragend={this.onDragend}
-							onMousemove={this.onMousemove}
-							onMouseout={this.onMouseout}
-							onMouseover={this.onMouseover}
+							onDragStart={this.onDragStart}
+							onDragEnd={this.onDragEnd}
+							onMouseMove={this.onMouseMove}
+							onMouseOut={this.onMouseOut}
+							onMouseOver={this.onMouseOver}
 							onResize={this.onResize}
-							onRightclick={this.onRightclick}
+							onRightClick={this.onRightClick}
 							onBoundsChanged={this.onBoundsChanged}
 							onCenterChanged={this.onCenterChanged}
 							onProjectionChanged={this.onProjectionChanged}

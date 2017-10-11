@@ -1,7 +1,8 @@
 /* eslint max-lines: 0 */
 import React, { Component } from "react";
-import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from "react-google-maps";
-import MarkerClusterer from "react-google-maps/lib/addons/MarkerClusterer";
+import PropTypes from "prop-types";
+import { GoogleMap, withGoogleMap, Marker, InfoWindow } from "react-google-maps";
+import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import classNames from "classnames";
 import {
 	AppbaseChannelManager as manager,
@@ -13,6 +14,16 @@ import { MapStyles, mapStylesCollection } from "../addons/MapStyles";
 import * as ReactiveMapHelper from "../helper/ReactiveMapHelper";
 
 import _ from "lodash";
+
+const MapComponent = (withGoogleMap((props) => {
+	const { children: children, onMapMounted: onMapMounted, ...allProps } = props;
+
+	return (
+		<GoogleMap ref={onMapMounted} {...allProps}>
+			{children}
+		</GoogleMap>
+	);
+}));
 
 export default class ReactiveMap extends Component {
 	constructor(props) {
@@ -279,7 +290,7 @@ export default class ReactiveMap extends Component {
 			<InfoWindow
 				zIndex={500}
 				key={`${ref}_info_window`}
-				onCloseclick={() => this.handleMarkerClose(marker)}
+				onCloseClick={() => this.handleMarkerClose(marker)}
 			>
 				<div>
 					{onPopoverTrigger}
@@ -314,7 +325,9 @@ export default class ReactiveMap extends Component {
 				const flag = this.initialMapBoundQuery ? true : (this.applyGeoQuery ? this.applyGeoQuery : this.searchAsMove);
 				this.setValue(boundingBoxCoordinates, flag);
 			}
-			this.setState(stateObj);
+			if (!_.isEqual({mapBounds: this.state.mapBounds}, stateObj)) {
+				this.setState(stateObj);
+			}
 		}
 	}
 
@@ -465,9 +478,9 @@ export default class ReactiveMap extends Component {
 				const defaultFn = function() {};
 				const events = {
 					onClick: this.props.markerOnClick ? this.props.markerOnClick : defaultFn,
-					onDblclick: this.props.markerOnDblclick ? this.props.markerOnDblclick : defaultFn,
-					onMouseover: this.props.onMouseover ? this.props.onMouseover : defaultFn,
-					onMouseout: this.props.onMouseout ? this.props.onMouseout : defaultFn
+					onDblClick: this.props.markerOnDblClick ? this.props.markerOnDblClick : defaultFn,
+					onMouseOver: this.props.onMouseOver ? this.props.onMouseOver : defaultFn,
+					onMouseOut: this.props.onMouseOut ? this.props.onMouseOut : defaultFn
 				};
 				return (
 					<Marker
@@ -477,9 +490,9 @@ export default class ReactiveMap extends Component {
 						ref={ref}
 						{...self.combineProps(hit)}
 						onClick={() => events.onClick(hit._source)}
-						onDblclick={() => events.onDblclick(hit._source)}
-						onMouseover={() => events.onMouseover(hit._source)}
-						onMouseout={() => events.onMouseout(hit._source)}
+						onDblClick={() => events.onDblClick(hit._source)}
+						onMouseOver={() => events.onMouseOver(hit._source)}
+						onMouseOut={() => events.onMouseOut(hit._source)}
 						{...popoverEvent}
 					>
 						{hit.showInfo ? self.renderInfoWindow(ref, hit) : null}
@@ -583,53 +596,45 @@ export default class ReactiveMap extends Component {
 			<div className={`rbc rbc-reactivemap col s12 col-xs-12 card thumbnail ${cx}`} style={ReactiveMapHelper.mapPropsStyles(this.props.style, "component")}>
 				{title}
 				{showMapStyles}
-				<GoogleMapLoader
-					containerElement={
-						<div
-							className="rbc-container col s12 col-xs-12"
-							style={ReactiveMapHelper.mapPropsStyles(this.props.style, "map", this.mapDefaultHeight)}
-						/>
-					}
-					googleMapElement={
-						<GoogleMap
-							ref={
-								(map) => {
-									this.mapRef = map;
-								}
-							}
-							{...centerComponent}
-							{...ReactiveMapHelper.normalizeProps(this.props)}
-							options = {{
-								styles: this.state.currentMapStyle
-							}}
-							defaultCenter={ReactiveMapHelper.normalizeCenter(this.state.defaultCenter)}
-							onDragstart={() => {
-								this.handleOnDrage();
-								this.mapEvents("onDragstart");
-							}
-							}
-							onIdle={() => this.handleOnIdle()}
-							onClick={() => this.mapEvents("onClick")}
-							onDblclick={() => this.mapEvents("onDblclick")}
-							onDrag={() => this.mapEvents("onDrag")}
-							onDragend={() => this.mapEvents("onDragend")}
-							onMousemove={() => this.mapEvents("onMousemove")}
-							onMouseout={() => this.mapEvents("onMouseout")}
-							onMouseover={() => this.mapEvents("onMouseover")}
-							onResize={() => this.mapEvents("onResize")}
-							onRightclick={() => this.mapEvents("onRightclick")}
-							onTilesloaded={() => this.mapEvents("onTilesloaded")}
-							onBoundsChanged={() => this.mapEvents("onBoundsChanged")}
-							onCenterChanged={() => this.mapEvents("onCenterChanged")}
-							onProjectionChanged={() => this.mapEvents("onProjectionChanged")}
-							onTiltChanged={() => this.mapEvents("onTiltChanged")}
-							onZoomChanged={() => this.mapEvents("onZoomChanged")}
-						>
-							{markerComponent}
-							{this.externalData()}
-						</GoogleMap>
-					}
-				/>
+				<MapComponent
+					onMapMounted={(ref) => {
+						this.mapRef = ref
+					}}
+					containerElement={<div
+						className="rbc-container"
+						style={ReactiveMapHelper.mapPropsStyles(this.props.style, "map", this.mapDefaultHeight)}
+					/>}
+					mapElement={<div style={{ height: "100%" }} />}
+					{...centerComponent}
+					{...ReactiveMapHelper.normalizeProps(this.props)}
+					options = {{
+						styles: this.state.currentMapStyle
+					}}
+					defaultCenter={ReactiveMapHelper.normalizeCenter(this.state.defaultCenter)}
+					onDragStart={() => {
+						this.handleOnDrage();
+						this.mapEvents("onDragStart");
+					}}
+					onIdle={() => this.handleOnIdle()}
+					onClick={() => this.mapEvents("onClick")}
+					onDblClick={() => this.mapEvents("onDblClick")}
+					onDrag={() => this.mapEvents("onDrag")}
+					onDragEnd={() => this.mapEvents("onDragEnd")}
+					onMouseMove={() => this.mapEvents("onMouseMove")}
+					onMouseOut={() => this.mapEvents("onMouseOut")}
+					onMouseOver={() => this.mapEvents("onMouseOver")}
+					onResize={() => this.mapEvents("onResize")}
+					onRightClick={() => this.mapEvents("onRightClick")}
+					onTilesLoaded={() => this.mapEvents("onTilesLoaded")}
+					onBoundsChanged={() => this.mapEvents("onBoundsChanged")}
+					onCenterChanged={() => this.mapEvents("onCenterChanged")}
+					onProjectionChanged={() => this.mapEvents("onProjectionChanged")}
+					onTiltChanged={() => this.mapEvents("onTiltChanged")}
+					onZoomChanged={() => this.mapEvents("onZoomChanged")}
+				>
+					{markerComponent}
+					{this.externalData()}
+				</MapComponent>
 				{showSearchAsMove}
 				<PoweredBy />
 			</div >
@@ -638,46 +643,46 @@ export default class ReactiveMap extends Component {
 }
 
 ReactiveMap.propTypes = {
-	dataField: React.PropTypes.string.isRequired,
-	onIdle: React.PropTypes.func,
-	onAllData: React.PropTypes.func,
-	onData: React.PropTypes.func,
-	onPopoverTrigger: React.PropTypes.func,
-	setMarkerCluster: React.PropTypes.bool,
-	autoMarkerPosition: React.PropTypes.bool,
-	showMarkers: React.PropTypes.bool,
+	dataField: PropTypes.string.isRequired,
+	onIdle: PropTypes.func,
+	onAllData: PropTypes.func,
+	onData: PropTypes.func,
+	onPopoverTrigger: PropTypes.func,
+	setMarkerCluster: PropTypes.bool,
+	autoMarkerPosition: PropTypes.bool,
+	showMarkers: PropTypes.bool,
 	streamTTL: ReactiveMapHelper.validation.streamTTL,
 	popoverTTL: ReactiveMapHelper.validation.popoverTTL,
 	size: helper.sizeValidation,
 	from: ReactiveMapHelper.validation.fromValidation,
-	autoMapRender: React.PropTypes.bool,
-	style: React.PropTypes.object,
-	autoCenter: React.PropTypes.bool,
-	showSearchAsMove: React.PropTypes.bool,
-	setSearchAsMove: React.PropTypes.bool,
-	defaultMapStyle: React.PropTypes.oneOf(["Standard", "Blue Essence", "Blue Water", "Flat Map", "Light Monochrome", "Midnight Commander", "Unsaturated Browns"]),
-	title: React.PropTypes.oneOfType([
-		React.PropTypes.string,
-		React.PropTypes.element
+	autoMapRender: PropTypes.bool,
+	style: PropTypes.object,
+	autoCenter: PropTypes.bool,
+	showSearchAsMove: PropTypes.bool,
+	setSearchAsMove: PropTypes.bool,
+	defaultMapStyle: PropTypes.oneOf(["Standard", "Blue Essence", "Blue Water", "Flat Map", "Light Monochrome", "Midnight Commander", "Unsaturated Browns"]),
+	title: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.element
 	]),
-	streamAutoCenter: React.PropTypes.bool,
-	defaultMarkerImage: React.PropTypes.string,
-	streamMarkerImage: React.PropTypes.string,
-	stream: React.PropTypes.bool,
+	streamAutoCenter: PropTypes.bool,
+	defaultMarkerImage: PropTypes.string,
+	streamMarkerImage: PropTypes.string,
+	stream: PropTypes.bool,
 	defaultZoom: ReactiveMapHelper.validation.defaultZoom,
-	applyGeoQuery: React.PropTypes.bool,
-	showPopoverOn: React.PropTypes.oneOf(["click", "mouseover"]),
-	defaultCenter: React.PropTypes.shape({
+	applyGeoQuery: PropTypes.bool,
+	showPopoverOn: PropTypes.oneOf(["click", "mouseover"]),
+	defaultCenter: PropTypes.shape({
 		lat: ReactiveMapHelper.validation.validCenter,
 		lon: ReactiveMapHelper.validation.validCenter
 	}),
-	react: React.PropTypes.object,
-	markerOnClick: React.PropTypes.func,
-	markerOnDblclick: React.PropTypes.func,
-	onMouseover: React.PropTypes.func,
-	onMouseout: React.PropTypes.func,
-	showMapStyles: React.PropTypes.bool,
-	className: React.PropTypes.string
+	react: PropTypes.object,
+	markerOnClick: PropTypes.func,
+	markerOnDblClick: PropTypes.func,
+	onMouseOver: PropTypes.func,
+	onMouseOut: PropTypes.func,
+	showMapStyles: PropTypes.bool,
+	className: PropTypes.string
 };
 
 ReactiveMap.defaultProps = {
@@ -703,6 +708,6 @@ ReactiveMap.defaultProps = {
 };
 
 ReactiveMap.contextTypes = {
-	appbaseRef: React.PropTypes.any.isRequired,
-	type: React.PropTypes.any.isRequired
+	appbaseRef: PropTypes.any.isRequired,
+	type: PropTypes.any.isRequired
 };

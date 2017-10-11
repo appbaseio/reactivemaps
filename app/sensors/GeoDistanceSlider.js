@@ -1,5 +1,6 @@
 /* eslint max-lines: 0 */
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import {
 	TYPES,
 	AppbaseSensorHelper as helper,
@@ -25,9 +26,9 @@ export default class GeoDistanceSlider extends Component {
 			this.defaultSelected.distance = parseInt(this.defaultSelected.distance, 10);
 		}
 		this.state = {
-			currentValue: "",
+			currentValue: null,
 			currentDistance: value + this.props.unit,
-			userLocation: "",
+			userLocation: null,
 			value
 		};
 		this.type = "geo_distance";
@@ -96,7 +97,10 @@ export default class GeoDistanceSlider extends Component {
 				label: currentValue
 			});
 			this.setState({
-				currentValue
+				currentValue: {
+					value: currentValue,
+					label: currentValue
+				}
 			}, this.getCoordinates(currentValue, this.handleResults));
 		}
 		else if(defaultValue && defaultValue.distance) {
@@ -106,7 +110,7 @@ export default class GeoDistanceSlider extends Component {
 		else if(defaultValue === null) {
 			this.setState({
 				currentDistance: null,
-				currentValue: ""
+				currentValue: null
 			}, this.executeQuery)
 		}
 		else {
@@ -120,10 +124,12 @@ export default class GeoDistanceSlider extends Component {
 
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}`)
 				.then((res) => {
-					const userLocation = res.data.results[0].formatted_address;
-					this.setState({
-						userLocation
-					});
+					if (res.data.results) {
+						const userLocation = res.data.results[0].formatted_address;
+						this.setState({
+							userLocation
+						});
+					}
 				})
 				.then(() => {
 					if (cb) {
@@ -140,7 +146,10 @@ export default class GeoDistanceSlider extends Component {
 		});
 		if (this.props.autoLocation) {
 			this.setState({
-				currentValue: this.state.userLocation
+				currentValue: {
+					value: this.state.userLocation,
+					label: this.state.userLocation
+				}
 			}, () => {
 				this.executeQuery();
 			});
@@ -176,7 +185,7 @@ export default class GeoDistanceSlider extends Component {
 	// build query for this sensor only
 	customQuery(value) {
 		let query = null;
-		if (value && value.currentValue !== "" && value.location !== "") {
+		if (value && value.currentValue && value.location !== "") {
 			query = {
 				[this.type]: {
 					[this.props.dataField]: value.location,
@@ -192,12 +201,14 @@ export default class GeoDistanceSlider extends Component {
 		if (value && value !== "") {
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}`)
 				.then((res) => {
-					const location = res.data.results[0].geometry.location;
-					this.locString = `${location.lat}, ${location.lng}`;
-					if(cb) {
-						cb(this.defaultSelected.distance);
-					} else {
-						this.executeQuery();
+					if (res.data.results) {
+						const location = res.data.results[0].geometry.location;
+						this.locString = `${location.lat}, ${location.lng}`;
+						if(cb) {
+							cb(this.defaultSelected.distance);
+						} else {
+							this.executeQuery();
+						}
 					}
 				});
 		} else {
@@ -207,11 +218,11 @@ export default class GeoDistanceSlider extends Component {
 
 	// execute query after changing location or distance
 	executeQuery() {
-		if (this.state.currentValue !== "" && this.state.currentDistance && this.locString) {
+		if (this.state.currentValue && this.state.currentDistance && this.locString) {
 			const obj = {
 				key: this.props.componentId,
 				value: {
-					currentValue: this.state.currentValue,
+					currentValue: this.state.currentValue.value,
 					currentDistance: this.state.currentDistance,
 					location: this.locString
 				}
@@ -231,7 +242,7 @@ export default class GeoDistanceSlider extends Component {
 			const execQuery = () => {
 				if(this.props.onValueChange) {
 					this.props.onValueChange({
-						input: this.state.currentValue,
+						input: this.state.currentValue.value,
 						distance: this.state.currentDistance,
 						location: this.locString,
 						unit: this.props.unit
@@ -246,7 +257,7 @@ export default class GeoDistanceSlider extends Component {
 
 			if (this.props.beforeValueChange) {
 				this.props.beforeValueChange({
-					input: this.state.currentValue,
+					input: this.state.currentValue.value,
 					distance: this.state.currentDistance,
 					location: this.locString,
 					unit: this.props.unit
@@ -260,7 +271,7 @@ export default class GeoDistanceSlider extends Component {
 			} else {
 				execQuery();
 			}
-		} else if(this.state.currentDistance === null && this.state.currentValue === "") {
+		} else if(!this.state.currentDistance && !this.state.currentValue) {
 			const execNullQuery = () => {
 				if(this.props.onValueChange) {
 					this.props.onValueChange(null);
@@ -293,7 +304,7 @@ export default class GeoDistanceSlider extends Component {
 		let distance = this.state.currentDistance.split(this.props.unit);
 		distance = distance[0];
 		return JSON.stringify({
-			location: this.state.currentValue,
+			location: this.state.currentValue.value,
 			distance
 		});
 	}
@@ -301,14 +312,13 @@ export default class GeoDistanceSlider extends Component {
 	// handle the input change and pass the value inside sensor info
 	handleChange(input, cb) {
 		if (input) {
-			const inputVal = input.value;
 			this.setState({
-				currentValue: inputVal
+				currentValue: input
 			});
-			this.getCoordinates(inputVal, cb);
+			this.getCoordinates(input.value, cb);
 		} else {
 			this.setState({
-				currentValue: ""
+				currentValue: null
 			});
 
 			const obj = {
@@ -385,7 +395,7 @@ export default class GeoDistanceSlider extends Component {
 						value: place.description
 					});
 				});
-				if (this.state.userLocation.length && this.result.options[0].label !== "Use my current location") {
+				if (this.state.userLocation && this.state.userLocation.length && this.result.options[0].label !== "Use my current location") {
 					this.result.options.unshift({
 						label: "Use my current location",
 						value: this.state.userLocation
@@ -460,37 +470,37 @@ export default class GeoDistanceSlider extends Component {
 }
 
 GeoDistanceSlider.propTypes = {
-	componentId: React.PropTypes.string.isRequired,
-	dataField: React.PropTypes.string.isRequired,
-	title: React.PropTypes.oneOfType([
-		React.PropTypes.string,
-		React.PropTypes.element
+	componentId: PropTypes.string.isRequired,
+	dataField: PropTypes.string.isRequired,
+	title: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.element
 	]),
-	customQuery: React.PropTypes.func,
-	defaultSelected: React.PropTypes.shape({
-		distance: React.PropTypes.number,
-		location: React.PropTypes.string
+	customQuery: PropTypes.func,
+	defaultSelected: PropTypes.shape({
+		distance: PropTypes.number,
+		location: PropTypes.string
 	}),
-	placeholder: React.PropTypes.string,
-	unit: React.PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"]),
+	placeholder: PropTypes.string,
+	unit: PropTypes.oneOf(["mi", "miles", "yd", "yards", "ft", "feet", "in", "inch", "km", "kilometers", "m", "meters", "cm", "centimeters", "mm", "millimeters", "NM", "nmi", "nauticalmiles"]),
 	stepValue: helper.stepValidation,
-	range: React.PropTypes.shape({
+	range: PropTypes.shape({
 		start: helper.validateThreshold,
 		end: helper.validateThreshold
 	}),
-	rangeLabels: React.PropTypes.shape({
-		start: React.PropTypes.string,
-		end: React.PropTypes.string
+	rangeLabels: PropTypes.shape({
+		start: PropTypes.string,
+		end: PropTypes.string
 	}),
-	autoLocation: React.PropTypes.bool,
-	beforeValueChange: React.PropTypes.func,
-	onValueChange: React.PropTypes.func,
-	style: React.PropTypes.object,
-	URLParams: React.PropTypes.bool,
-	showFilter: React.PropTypes.bool,
-	filterLabel: React.PropTypes.string,
-	className: React.PropTypes.string,
-	onQueryChange: React.PropTypes.func
+	autoLocation: PropTypes.bool,
+	beforeValueChange: PropTypes.func,
+	onValueChange: PropTypes.func,
+	style: PropTypes.object,
+	URLParams: PropTypes.bool,
+	showFilter: PropTypes.bool,
+	filterLabel: PropTypes.string,
+	className: PropTypes.string,
+	onQueryChange: PropTypes.func
 };
 
 // Default props value
@@ -514,9 +524,9 @@ GeoDistanceSlider.defaultProps = {
 
 // context type
 GeoDistanceSlider.contextTypes = {
-	appbaseRef: React.PropTypes.any.isRequired,
-	type: React.PropTypes.any.isRequired,
-	reactiveId: React.PropTypes.number
+	appbaseRef: PropTypes.any.isRequired,
+	type: PropTypes.any.isRequired,
+	reactiveId: PropTypes.number
 };
 
 GeoDistanceSlider.types = {
