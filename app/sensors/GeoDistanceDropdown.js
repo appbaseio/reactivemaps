@@ -15,8 +15,8 @@ export default class GeoDistanceDropdown extends Component {
 		super(props);
 		this.state = {
 			selected: {},
-			currentValue: "",
-			userLocation: ""
+			currentValue: null,
+			userLocation: null
 		};
 		this.type = "geo_distance_range";
 		this.locString = "";
@@ -102,7 +102,10 @@ export default class GeoDistanceDropdown extends Component {
 				label: currentValue
 			});
 			this.setState({
-				currentValue
+				currentValue: {
+					value: currentValue,
+					label: currentValue
+				}
 			}, this.getCoordinates(currentValue, this.handleResults));
 		}
 		else if(defaultValue && defaultValue.label) {
@@ -112,7 +115,7 @@ export default class GeoDistanceDropdown extends Component {
 		else if(defaultValue === null) {
 			this.setState({
 				selected: null,
-				currentValue: ""
+				currentValue: null
 			}, this.executeQuery)
 		}
 		else {
@@ -136,10 +139,12 @@ export default class GeoDistanceDropdown extends Component {
 
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}`)
 				.then((res) => {
-					const userLocation = res.data.results[0].formatted_address;
-					this.setState({
-						userLocation
-					});
+					if (res.data.results) {
+						const userLocation = res.data.results[0].formatted_address;
+						this.setState({
+							userLocation
+						});
+					}
 				})
 				.then(() => {
 					if (cb) {
@@ -156,7 +161,10 @@ export default class GeoDistanceDropdown extends Component {
 		});
 		if (this.props.autoLocation) {
 			this.setState({
-				currentValue: this.state.userLocation
+				currentValue: {
+					value: this.state.userLocation,
+					label: this.state.userLocation
+				}
 			}, () => {
 				this.executeQuery();
 			});
@@ -209,12 +217,14 @@ export default class GeoDistanceDropdown extends Component {
 		if (value && value !== "") {
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}`)
 				.then((res) => {
-					const location = res.data.results[0].geometry.location;
-					this.locString = `${location.lat}, ${location.lng}`;
-					if(cb) {
-						cb.call(this, this.defaultSelected.label);
-					} else {
-						this.executeQuery();
+					if (res.data.results) {
+						const location = res.data.results[0].geometry.location;
+						this.locString = `${location.lat}, ${location.lng}`;
+						if(cb) {
+							cb.call(this, this.defaultSelected.label);
+						} else {
+							this.executeQuery();
+						}
 					}
 				});
 		} else {
@@ -224,11 +234,11 @@ export default class GeoDistanceDropdown extends Component {
 
 	// execute query after changing location or distance
 	executeQuery() {
-		if (this.state.currentValue !== "" && this.state.selected && this.locString) {
+		if (this.state.currentValue && this.state.selected && this.locString) {
 			const obj = {
 				key: this.props.componentId,
 				value: {
-					currentValue: this.state.currentValue,
+					currentValue: this.state.currentValue.value,
 					start: this.state.selected.start,
 					end: this.state.selected.end,
 					location: this.locString,
@@ -239,7 +249,7 @@ export default class GeoDistanceDropdown extends Component {
 			const execQuery = () => {
 				if(this.props.onValueChange) {
 					this.props.onValueChange({
-						input: this.state.currentValue,
+						input: this.state.currentValue.value,
 						start: this.state.selected.start,
 						end: this.state.selected.end,
 						location: this.locString,
@@ -281,7 +291,7 @@ export default class GeoDistanceDropdown extends Component {
 			} else {
 				execQuery();
 			}
-		} else if(this.state.selected === null && this.state.currentValue === "") {
+		} else if(!this.state.selected && !this.state.currentValue) {
 			const execNullQuery = () => {
 				const obj = {
 					key: this.props.componentId,
@@ -312,7 +322,7 @@ export default class GeoDistanceDropdown extends Component {
 
 	setURLValue(){
 		return JSON.stringify({
-			location: this.state.currentValue,
+			location: this.state.currentValue.value,
 			label: this.state.selected.label
 		});
 	}
@@ -320,14 +330,13 @@ export default class GeoDistanceDropdown extends Component {
 	// handle the input change and pass the value inside sensor info
 	handleChange(input) {
 		if (input) {
-			const inputVal = input.value;
 			this.setState({
-				currentValue: inputVal
+				currentValue: input
 			});
-			this.getCoordinates(inputVal);
+			this.getCoordinates(input.value);
 		} else {
 			this.setState({
-				currentValue: ""
+				currentValue: null
 			});
 			const obj = {
 				key: this.props.componentId,
