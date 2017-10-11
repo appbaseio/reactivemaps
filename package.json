@@ -25,20 +25,19 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@appbaseio/reactivebase": "1.3.3",
+    "@appbaseio/reactivebase": "1.4.0",
     "axios": "^0.15.2",
     "google-map-react": "^0.14.5",
     "google-maps": "^3.2.1",
     "node-sass": "^4.5.1",
-    "prop-types": "^15.6.0",
-    "react-google-maps": "^4.11.0"
+    "react-google-maps": "^8.3.4"
   },
   "peerDependencies": {
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   },
   "devDependencies": {
-    "@appbaseio/reactivemaps-manual": "1.0.0-alpha",
+    "@appbaseio/reactive-manual": "1.1.0",
     "@storybook/addon-info": "^3.1.6",
     "@storybook/addon-knobs": "^3.1.8",
     "@storybook/addon-options": "^3.1.6",
@@ -77,10 +76,9 @@
     "lodash-webpack-plugin": "^0.11.4",
     "materialize-css": "^0.98.0",
     "raw-loader": "^0.5.1",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "shebang-loader": "0.0.1",
-    "storybook-readme": "^3.0.5",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "storybook-readme": "^3.0.6",
     "style-loader": "^0.13.1",
     "webpack": "^3.2.0",
     "webpack-dev-server": "^2.5.1"
