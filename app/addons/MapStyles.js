@@ -1,8 +1,4 @@
-import { default as React, Component } from "react";
-import { render } from "react-dom";
-import {
-	AppbaseSensorHelper
-} from "@appbaseio/reactivebase";
+import React, { Component } from "react";
 
 export const mapStylesCollection = [{
 	key: "Standard",
@@ -28,7 +24,7 @@ export const mapStylesCollection = [{
 }];
 
 export class MapStyles extends Component {
-	constructor(props, context) {
+	constructor(props) {
 		super(props);
 		this.state = {
 			items: []
@@ -60,13 +56,13 @@ export class MapStyles extends Component {
 		});
 	}
 
-	themeChanged(isExecute = false) {
+	themeChanged() {
 		const style = mapStylesCollection[this.state.selectedValue].value;
 		this.props.mapStyleChange(style);
 	}
 
 	render() {
-		const options = this.state.items.map((item, index) => <option value={index} key={index}>{item.key}</option>);
+		const options = this.state.items.map((item, index) => <option value={index} key={item.key}>{item.key}</option>);
 		return (
 			<div className="input-field col rbc-mapstyles pull-right right">
 				<select className="browser-default form-control" onChange={this.handleSelect} value={this.state.selectedValue} name="mapStyles" id="mapStyles">
@@ -76,9 +72,6 @@ export class MapStyles extends Component {
 		);
 	}
 }
-
-MapStyles.propTypes = {
-};
 
 // Default props value
 MapStyles.defaultProps = {

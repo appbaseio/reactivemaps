@@ -1,10 +1,6 @@
 const $ = require("jquery");
 
 const ResponsiveStory = function ResponsiveStory() {
-	const paginationHeight = function paginationHeight() {
-		return $(".rbc-pagination").length * 85;
-	};
-
 	const getHeight = function getHeight(item) {
 		return item.height() ? item.height() : 0;
 	};

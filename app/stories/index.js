@@ -50,9 +50,11 @@ require("./styles.css");
 
 const moment = require("moment");
 
-function removeFirstLine(str, number=1) {
-	while (number--) {
+function removeFirstLine(str, num = 1) {
+	let n = num - 1;
+	while (n) {
 		str = str.substring(str.indexOf("\n") + 1);
+		n -= 1;
 	}
 	return str;
 }

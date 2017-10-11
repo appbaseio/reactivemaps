@@ -3,10 +3,9 @@ import {
 	ReactiveBase,
 	ReactiveMap,
 	MultiDropdownRange
-} from "../app.js";
+} from "../app";
 import ResponsiveStory from "./ResponsiveStory";
 
-import { Img } from "./Img.js";
 const historyPin = require("./placeholder.svg");
 
 export default class MultiDropdownRangeDefault extends Component {

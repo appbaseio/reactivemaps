@@ -9,14 +9,13 @@ import {
 	AppbaseSensorHelper as helper,
 	PoweredBy
 } from "@appbaseio/reactivebase";
-import { SearchAsMove } from "../addons/SearchAsMove";
+import _ from "lodash";
+import SearchAsMove from "../addons/SearchAsMove";
 import { MapStyles, mapStylesCollection } from "../addons/MapStyles";
 import * as ReactiveMapHelper from "../helper/ReactiveMapHelper";
 
-import _ from "lodash";
-
 const MapComponent = (withGoogleMap((props) => {
-	const { children: children, onMapMounted: onMapMounted, ...allProps } = props;
+	const { children, onMapMounted, ...allProps } = props;
 
 	return (
 		<GoogleMap ref={onMapMounted} {...allProps}>
@@ -92,7 +91,7 @@ export default class ReactiveMap extends Component {
 		this.setReact(this.props);
 		this.createChannel(updateExecute);
 		const currentMapStyle = this.getMapStyle(this.props.defaultMapStyle);
-		this.initialMapBoundQuery = this.props.defaultCenter ? true : false;
+		this.initialMapBoundQuery = !!this.props.defaultCenter;
 		this.applyGeoQuery = this.props.applyGeoQuery ? this.props.applyGeoQuery : this.props.setSearchAsMove;
 		this.setState({
 			currentMapStyle
@@ -180,7 +179,7 @@ export default class ReactiveMap extends Component {
 				delete modifiedData.data;
 				modifiedData = helper.prepareResultData(modifiedData, res.data);
 				if (this.props.onAllData) {
-					if(modifiedData.res) {
+					if (modifiedData.res) {
 						modifiedData.res.mapRef = this.mapRef;
 					}
 					const generatedData = this.props.onAllData(modifiedData.res, modifiedData.err);
@@ -252,7 +251,7 @@ export default class ReactiveMap extends Component {
 		this.setState({
 			rerender: true
 		}, () => {
-			if(this.props.popoverTTL) {
+			if (this.props.popoverTTL) {
 				this.watchPopoverTTL(marker);
 			}
 		});
@@ -268,18 +267,18 @@ export default class ReactiveMap extends Component {
 	// watch and close popover on timeout
 	watchPopoverTTL(marker) {
 		this.popoverTTLStore = this.popoverTTLStore ? this.popoverTTLStore : {};
-		if(this.popoverTTLStore[marker._type+marker._id]) {
-			this.clearTTL(marker._type+marker._id);
+		if (this.popoverTTLStore[marker._type + marker._id]) {
+			this.clearTTL(marker._type + marker._id);
 		} else {
-			this.popoverTTLStore[marker._type+marker._id] = setTimeout(() => {
+			this.popoverTTLStore[marker._type + marker._id] = setTimeout(() => {
 				this.handleMarkerClose(marker);
-				this.clearTTL(marker._type+marker._id);
-			}, this.props.popoverTTL*1000);
+				this.clearTTL(marker._type + marker._id);
+			}, this.props.popoverTTL * 1000);
 		}
 	}
 
 	clearTTL(id) {
-		clearTimeout(this.popoverTTLStore[id])
+		clearTimeout(this.popoverTTLStore[id]);
 		delete this.popoverTTLStore[id];
 	}
 
@@ -325,7 +324,7 @@ export default class ReactiveMap extends Component {
 				const flag = this.initialMapBoundQuery ? true : (this.applyGeoQuery ? this.applyGeoQuery : this.searchAsMove);
 				this.setValue(boundingBoxCoordinates, flag);
 			}
-			if (!_.isEqual({mapBounds: this.state.mapBounds}, stateObj)) {
+			if (!_.isEqual({ mapBounds: this.state.mapBounds }, stateObj)) {
 				this.setState(stateObj);
 			}
 		}
@@ -454,9 +453,7 @@ export default class ReactiveMap extends Component {
 			convertedGeo: []
 		};
 		if (markersData && markersData.length) {
-			markersData = markersData.filter((hit) => {
-				return ReactiveMapHelper.identifyGeoData(hit._source[self.props.dataField]);
-			});
+			markersData = markersData.filter(hit => ReactiveMapHelper.identifyGeoData(hit._source[self.props.dataField]));
 			response.markerComponent = markersData.map((hit, index) => {
 				const field = ReactiveMapHelper.identifyGeoData(hit._source[self.props.dataField]);
 				response.convertedGeo.push(field);
@@ -475,7 +472,7 @@ export default class ReactiveMap extends Component {
 					popoverEvent = {};
 					popoverEvent.onClick = this.handleMarkerClick.bind(this, hit);
 				}
-				const defaultFn = function() {};
+				const defaultFn = function () {};
 				const events = {
 					onClick: this.props.markerOnClick ? this.props.markerOnClick : defaultFn,
 					onDblClick: this.props.markerOnDblClick ? this.props.markerOnDblClick : defaultFn,
@@ -598,7 +595,7 @@ export default class ReactiveMap extends Component {
 				{showMapStyles}
 				<MapComponent
 					onMapMounted={(ref) => {
-						this.mapRef = ref
+						this.mapRef = ref;
 					}}
 					containerElement={<div
 						className="rbc-container"
@@ -607,7 +604,7 @@ export default class ReactiveMap extends Component {
 					mapElement={<div style={{ height: "100%" }} />}
 					{...centerComponent}
 					{...ReactiveMapHelper.normalizeProps(this.props)}
-					options = {{
+					options={{
 						styles: this.state.currentMapStyle
 					}}
 					defaultCenter={ReactiveMapHelper.normalizeCenter(this.state.defaultCenter)}

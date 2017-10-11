@@ -1,4 +1,4 @@
-export var RotateIcon = function (options) {
+const RotateIcon = function (options) {
 	this.options = options || {};
 	this.rImg = options.img || new Image();
 	this.rImg.src = this.rImg.src || this.options.url || "/static/groups/img/car_map_state_go.png";
@@ -11,12 +11,14 @@ export var RotateIcon = function (options) {
 	this.context = canvas.getContext("2d");
 	this.canvas = canvas;
 };
+
 RotateIcon.makeIcon = function (url) {
 	return new RotateIcon({ url });
 };
+
 RotateIcon.prototype.setRotation = function (options) {
-	let canvas = this.context,
-		angle = options.deg ? options.deg * Math.PI / 180 :
+	const canvas = this.context,
+		angle = options.deg ? (options.deg * Math.PI) / 180 :
 			options.rad,
 		centerX = this.options.width / 2,
 		centerY = this.options.height / 2;
@@ -29,6 +31,9 @@ RotateIcon.prototype.setRotation = function (options) {
 	canvas.restore();
 	return this;
 };
+
 RotateIcon.prototype.getUrl = function () {
 	return this.canvas.toDataURL("idist/images");
 };
+
+export default RotateIcon;

@@ -1,11 +1,10 @@
-import { default as React, Component } from "react";
-import { render } from "react-dom";
+import React, { Component } from "react";
 
-export class Img extends Component {
+export default class Img extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-		  src: this.props.src
+			src: props.src
 		};
 		this.stopImg = false;
 	}
@@ -17,8 +16,6 @@ export class Img extends Component {
 		this.img.onerror = function () {
 			self.setState({
 				src: defaultSrc
-			}, () => {
-
 			});
 		};
 		this.img.src = this.state.src;
@@ -29,6 +26,6 @@ export class Img extends Component {
 	}
 
 	render() {
-		return <img className="responsive-img img-responsive" src={this.state.src} />;
+		return <img className="responsive-img img-responsive" src={this.state.src} alt="" />;
 	}
 }

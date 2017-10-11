@@ -1,9 +1,9 @@
-import { default as React, Component } from "react";
+import React, { Component } from "react";
 import {
 	ReactiveBase,
 	ReactiveMap,
 	PlacesSearch
-} from "../app.js";
+} from "../app";
 
 export default class PlacesSearchDefault extends Component {
 	constructor(props) {
@@ -17,6 +17,10 @@ export default class PlacesSearchDefault extends Component {
 		this.mapRef = null;
 		this.directionsDisplay = new google.maps.DirectionsRenderer();
 		this.directionsService = new google.maps.DirectionsService();
+	}
+
+	onIdle(res) {
+		this.mapRef = res.props.map;
 	}
 
 	originQuery(value) {
@@ -38,17 +42,13 @@ export default class PlacesSearchDefault extends Component {
 				travelMode: google.maps.TravelMode.DRIVING
 			},
 			(response, status) => {
-				if (status == "OK") {
+				if (status === "OK") {
 					this.directionsDisplay.setDirections(response);
 				} else {
 					window.alert(`Directions request failed due to ${status}`);
 				}
 			});
 		}
-	}
-
-	onIdle(res) {
-		this.mapRef = res.props.map;
 	}
 
 	render() {
