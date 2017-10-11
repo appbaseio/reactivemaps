@@ -101,7 +101,7 @@ export default class GeoDistanceSlider extends Component {
 					value: currentValue,
 					label: currentValue
 				}
-			}, this.getCoordinates(currentValue.value, this.handleResults));
+			}, this.getCoordinates(currentValue, this.handleResults));
 		}
 		else if(defaultValue && defaultValue.distance) {
 			this.getUserLocation(this.setDefaultLocation);
