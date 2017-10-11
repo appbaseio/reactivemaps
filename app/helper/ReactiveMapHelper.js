@@ -2,11 +2,11 @@ import _ from "lodash";
 
 export function Bearing(lat1, lng1, lat2, lng2) {
 	function _toRad(deg) {
-		return deg * Math.PI / 180;
+		return (deg * Math.PI) / 180;
 	}
 
 	function _toDeg(rad) {
-		return rad * 180 / Math.PI;
+		return (rad * 180) / Math.PI;
 	}
 	const dLon = _toRad(lng2 - lng1);
 	const y = Math.sin(dLon) * Math.cos(_toRad(lat2));
@@ -42,22 +42,46 @@ export function streamDataModify(rawData, res, dataField) {
 	};
 }
 
-// tranform the raw data to marker data
-export function setMarkersData(data, dataField) {
-	if (data && data.hits && data.hits.hits) {
-		let markersData = data.hits.hits.map((hit, index) => {
-			hit._source.mapPoint = identifyGeoData(hit._source[dataField]);
-			return hit;
-		});
-		markersData = markersData.filter((hit, index) => hit._source.mapPoint && !(hit._source.mapPoint.lat === 0 && hit._source.mapPoint.lng === 0));
-		markersData = sortByDistance(markersData);
-		markersData = markersData.map((marker) => {
-			marker.showInfo = false;
-			return marker;
-		});
-		return markersData;
+export function identifyGeoData(input) {
+	const type = Object.prototype.toString.call(input);
+	let convertedGeo = null;
+	if (type === "[object Object]" && ("lat" in input) && ("lon" in input)) {
+		convertedGeo = {
+			lat: Number(input.lat),
+			lng: Number(input.lon)
+		};
+	} else if (type === "[object Array]" && input.length === 2) {
+		convertedGeo = {
+			lat: Number(input[1]),
+			lng: Number(input[0])
+		};
 	}
-	return [];
+	return convertedGeo;
+}
+
+export function findDistance(data, record) {
+	record.distance = 0;
+	data.forEach((to) => {
+		record.distance += getDistance(record._source.mapPoint.lat, record._source.mapPoint.lng, to._source.mapPoint.lat, to._source.mapPoint.lng);
+	});
+
+	function deg2rad(deg) {
+		return deg * (Math.PI / 180);
+	}
+
+	function getDistance(lat1, lon1, lat2, lon2) {
+		const R = 6371; // Radius of the earth in km
+		const dLat = deg2rad(lat2 - lat1); // deg2rad below
+		const dLon = deg2rad(lon2 - lon1);
+		const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+			Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+			Math.sin(dLon / 2) * Math.sin(dLon / 2);
+		const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		const d = R * c; // Distance in km
+		return d;
+	}
+
+	return record.distance;
 }
 
 // centrialize the map
@@ -72,45 +96,23 @@ export function sortByDistance(data) {
 	return modifiedData;
 }
 
-export function findDistance(data, record) {
-	record.distance = 0;
-	const modifiednData = data.map((to) => {
-		record.distance += getDistance(record._source.mapPoint.lat, record._source.mapPoint.lng, to._source.mapPoint.lat, to._source.mapPoint.lng);
-	});
 
-	function getDistance(lat1, lon1, lat2, lon2) {
-		const R = 6371; // Radius of the earth in km
-		const dLat = deg2rad(lat2 - lat1); // deg2rad below
-		const dLon = deg2rad(lon2 - lon1);
-		const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-			Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-			Math.sin(dLon / 2) * Math.sin(dLon / 2);
-		const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-		const d = R * c; // Distance in km
-		return d;
+// tranform the raw data to marker data
+export function setMarkersData(data, dataField) {
+	if (data && data.hits && data.hits.hits) {
+		let markersData = data.hits.hits.map((hit) => {
+			hit._source.mapPoint = identifyGeoData(hit._source[dataField]);
+			return hit;
+		});
+		markersData = markersData.filter(hit => hit._source.mapPoint && !(hit._source.mapPoint.lat === 0 && hit._source.mapPoint.lng === 0));
+		markersData = sortByDistance(markersData);
+		markersData = markersData.map((marker) => {
+			marker.showInfo = false;
+			return marker;
+		});
+		return markersData;
 	}
-
-	function deg2rad(deg) {
-		return deg * (Math.PI / 180);
-	}
-	return record.distance;
-}
-
-export function identifyGeoData(input) {
-	const type = Object.prototype.toString.call(input);
-	let convertedGeo = null;
-	if (type === "[object Object]" && input.hasOwnProperty("lat") && input.hasOwnProperty("lon")) {
-		convertedGeo = {
-			lat: Number(input.lat),
-			lng: Number(input.lon)
-		};
-	} else if (type === "[object Array]" && input.length === 2) {
-		convertedGeo = {
-			lat: Number(input[1]),
-			lng: Number(input[0])
-		};
-	}
-	return convertedGeo;
+	return [];
 }
 
 export function afterChannelResponse(res, rawData, dataField, oldMarkersData) {
@@ -183,32 +185,31 @@ export const normalizeCenter = (center) => {
 		return { lat, lng };
 	}
 	return null;
-}
+};
 
 export const normalizeProps = (props) => {
 	const propsCopy = _.clone(props);
-	if(propsCopy.defaultCenter) {
+	if (propsCopy.defaultCenter) {
 		propsCopy.defaultCenter = normalizeCenter(propsCopy.defaultCenter);
 	}
-	if(propsCopy.center) {
+	if (propsCopy.center) {
 		propsCopy.center = normalizeCenter(propsCopy.center);
 	}
 	return propsCopy;
-}
+};
 
 export const mapPropsStyles = (styles, comp, height) => {
-	let stylesCopy = JSON.parse(JSON.stringify(styles));
+	const stylesCopy = JSON.parse(JSON.stringify(styles));
 	let finalStyles;
-	if(comp === "component") {
+	if (comp === "component") {
 		finalStyles = stylesCopy;
-	}
-	else if(comp === "map") {
+	}	else if (comp === "map") {
 		finalStyles = {
 			height: stylesCopy.height ? stylesCopy.height : height
 		};
 	}
 	return finalStyles;
-}
+};
 
 export const setupOrReact = (react, reactAnd) => {
 	if (react && react.or) {
@@ -218,10 +219,10 @@ export const setupOrReact = (react, reactAnd) => {
 		} else if (Array.isArray(react.or)) {
 			react.or = react.or.concat(reactAnd);
 		} else if (_.isObject(react.or)) {
-			react.or = setupReact(react.or, reactAnd);
+			react.or = setupOrReact(react.or, reactAnd);
 		}
 	} else {
 		react.or = reactAnd;
 	}
 	return react;
-}
+};

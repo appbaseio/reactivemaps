@@ -1,10 +1,9 @@
 /* eslint max-lines: 0 */
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import {
 	TYPES,
-	AppbaseSensorHelper as helper,
-	AppbaseChannelManager as manager
+	AppbaseSensorHelper as helper
 } from "@appbaseio/reactivebase";
 import classNames from "classnames";
 import axios from "axios";
@@ -62,21 +61,21 @@ export default class GeoDistanceSlider extends Component {
 	}
 
 	componentWillUpdate() {
-		if(!_.isEqual(this.defaultSelected, this.defaultSelected)) {
+		if (!_.isEqual(this.defaultSelected, this.defaultSelected)) {
 			this.defaultSelected = this.defaultSelected;
 			this.checkDefault();
 		}
 	}
 
 	componentWillUnmount() {
-		if(this.filterListener) {
+		if (this.filterListener) {
 			this.filterListener.remove();
 		}
 	}
 
 	listenFilter() {
 		this.filterListener = helper.sensorEmitter.addListener("clearFilter", (data) => {
-			if(data === this.props.componentId) {
+			if (data === this.props.componentId) {
 				this.defaultValue = null;
 				this.changeValue(this.defaultValue);
 			}
@@ -90,8 +89,8 @@ export default class GeoDistanceSlider extends Component {
 	}
 
 	changeValue(defaultValue) {
-		if(defaultValue && defaultValue.location) {
-			let currentValue = defaultValue.location;
+		if (defaultValue && defaultValue.location) {
+			const currentValue = defaultValue.location;
 			this.result.options.push({
 				value: currentValue,
 				label: currentValue
@@ -102,18 +101,15 @@ export default class GeoDistanceSlider extends Component {
 					label: currentValue
 				}
 			}, this.getCoordinates(currentValue, this.handleResults));
-		}
-		else if(defaultValue && defaultValue.distance) {
+		}		else if (defaultValue && defaultValue.distance) {
 			this.getUserLocation(this.setDefaultLocation);
 			this.handleResults(defaultValue.distance);
-		}
-		else if(defaultValue === null) {
+		}		else if (defaultValue === null) {
 			this.setState({
 				currentDistance: null,
 				currentValue: null
-			}, this.executeQuery)
-		}
-		else {
+			}, this.executeQuery);
+		}		else {
 			this.getUserLocation(this.setDefaultLocation);
 		}
 	}
@@ -204,7 +200,7 @@ export default class GeoDistanceSlider extends Component {
 					if (res.data.results) {
 						const location = res.data.results[0].geometry.location;
 						this.locString = `${location.lat}, ${location.lng}`;
-						if(cb) {
+						if (cb) {
 							cb(this.defaultSelected.distance);
 						} else {
 							this.executeQuery();
@@ -240,7 +236,7 @@ export default class GeoDistanceSlider extends Component {
 			};
 
 			const execQuery = () => {
-				if(this.props.onValueChange) {
+				if (this.props.onValueChange) {
 					this.props.onValueChange({
 						input: this.state.currentValue.value,
 						distance: this.state.currentDistance,
@@ -249,7 +245,7 @@ export default class GeoDistanceSlider extends Component {
 					});
 				}
 				helper.selectedSensor.setSortInfo(sortObj);
-				if(this.props.URLParams) {
+				if (this.props.URLParams) {
 					helper.URLParams.update(this.props.componentId, this.setURLValue(), this.props.URLParams);
 				}
 				helper.selectedSensor.set(obj, true);
@@ -271,20 +267,20 @@ export default class GeoDistanceSlider extends Component {
 			} else {
 				execQuery();
 			}
-		} else if(!this.state.currentDistance && !this.state.currentValue) {
+		} else if (!this.state.currentDistance && !this.state.currentValue) {
 			const execNullQuery = () => {
-				if(this.props.onValueChange) {
+				if (this.props.onValueChange) {
 					this.props.onValueChange(null);
 				}
 				const obj = {
 					key: this.props.componentId,
 					value: null
 				};
-				if(this.props.URLParams) {
+				if (this.props.URLParams) {
 					helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
 				}
 				helper.selectedSensor.set(obj, true);
-			}
+			};
 
 			if (this.props.beforeValueChange) {
 				this.props.beforeValueChange(null)
@@ -300,7 +296,7 @@ export default class GeoDistanceSlider extends Component {
 		}
 	}
 
-	setURLValue(){
+	setURLValue() {
 		let distance = this.state.currentDistance.split(this.props.unit);
 		distance = distance[0];
 		return JSON.stringify({
@@ -327,7 +323,7 @@ export default class GeoDistanceSlider extends Component {
 			};
 
 			const execQuery = () => {
-				if(this.props.onValueChange) {
+				if (this.props.onValueChange) {
 					this.props.onValueChange({
 						input: null,
 						distance: this.state.currentDistance,

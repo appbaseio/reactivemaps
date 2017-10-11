@@ -1,25 +1,23 @@
-import { default as React, Component } from "react";
-import { ItemCheckboxList } from "./ItemCheckboxList.js";
+import React, { Component } from "react";
 import { AppbaseSensorHelper } from "@appbaseio/reactivebase";
+import ItemCheckboxList from "./ItemCheckboxList";
 
-export class SearchAsMove extends Component {
-	constructor(props, context) {
+export default class SearchAsMove extends Component {
+	constructor(props) {
 		super(props);
-		this.state = {
-			items: []
-		};
-		this.handleSelect = this.handleSelect.bind(this);
-		this.handleRemove = this.handleRemove.bind(this);
-	}
 
-	componentDidMount() {
-		this.setState({
+		this.state = {
 			items: [{
 				key: "Search as I move the map",
 				value: true,
-				status: this.props.searchAsMoveDefault
+				status: props.searchAsMoveDefault
 			}]
-		});
+		};
+
+		this.handleSelect = this.handleSelect.bind(this);
+	}
+
+	componentDidMount() {
 		if (this.props.searchAsMoveDefault && this.props.searchAsMoveDefault === true) {
 			this.handleSelect(this.props.searchAsMoveDefault);
 		}
@@ -31,17 +29,11 @@ export class SearchAsMove extends Component {
 		this.props.searchAsMoveChange(flag);
 	}
 
-	// Handler function when a value is deselected or removed
-	handleRemove(value) {
-	}
-
 	render() {
-		let listComponent;
-		listComponent = (<ItemCheckboxList
+		const listComponent = (<ItemCheckboxList
 			showTags={false}
 			items={this.state.items}
 			onSelect={this.handleSelect}
-			onRemove={this.handleRemove}
 			showCount={this.props.showCount}
 		/>);
 

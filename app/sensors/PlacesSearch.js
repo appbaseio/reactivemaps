@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import {
 	TYPES,
 	AppbaseSensorHelper as helper
@@ -51,14 +51,14 @@ export default class PlacesSearch extends Component {
 	}
 
 	componentWillUnmount() {
-		if(this.filterListener) {
+		if (this.filterListener) {
 			this.filterListener.remove();
 		}
 	}
 
 	listenFilter() {
 		this.filterListener = helper.sensorEmitter.addListener("clearFilter", (data) => {
-			if(data === this.props.componentId) {
+			if (data === this.props.componentId) {
 				this.defaultValue = null;
 				this.changeValue(this.defaultValue);
 			}
@@ -90,12 +90,12 @@ export default class PlacesSearch extends Component {
 	}
 
 	changeValue(defaultValue) {
-		if (this.defaultSelected != defaultValue) {
+		if (this.defaultSelected !== defaultValue) {
 			this.defaultSelected = defaultValue;
-			if(this.defaultSelected !== null) {
+			if (this.defaultSelected !== null) {
 				const isExists = this.result.options.length ? this.result.options.every(item => item.value !== this.defaultSelected && item.label !== this.defaultSelected) : false;
 
-				if(!isExists) {
+				if (!isExists) {
 					this.result.options.push({
 						value: this.defaultSelected,
 						label: this.defaultSelected
@@ -163,7 +163,7 @@ export default class PlacesSearch extends Component {
 	}
 
 	parseValue(location) {
-		location = location.split(',');
+		location = location.split(",");
 		return {
 			lat: Number(location[0]),
 			lon: Number(location[1])
@@ -196,14 +196,14 @@ export default class PlacesSearch extends Component {
 			};
 
 			const execQuery = () => {
-				if(this.props.onValueChange) {
+				if (this.props.onValueChange) {
 					this.props.onValueChange({
 						input: this.state.currentValue,
 						location: this.locString,
 						unit: this.props.unit
 					});
 				}
-				if(this.props.URLParams) {
+				if (this.props.URLParams) {
 					helper.URLParams.update(this.props.componentId, this.state.currentValue, this.props.URLParams);
 				}
 				helper.selectedSensor.set(obj, true);
@@ -244,14 +244,14 @@ export default class PlacesSearch extends Component {
 				value: null
 			};
 			const execQuery = () => {
-				if(this.props.onValueChange) {
+				if (this.props.onValueChange) {
 					this.props.onValueChange({
 						input: null,
 						location: null,
 						unit: this.props.unit
 					});
 				}
-				if(this.props.URLParams) {
+				if (this.props.URLParams) {
 					helper.URLParams.update(this.props.componentId, null, this.props.URLParams);
 				}
 				helper.selectedSensor.set(obj, true);
@@ -302,7 +302,7 @@ export default class PlacesSearch extends Component {
 				options: []
 			};
 			this.autocompleteService.getPlacePredictions(options, (res) => {
-				res.map((place) => {
+				res.forEach((place) => {
 					this.result.options.push({
 						value: place.description,
 						label: place.description

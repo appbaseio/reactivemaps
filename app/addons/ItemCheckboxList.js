@@ -1,24 +1,22 @@
-import { default as React, Component } from "react";
+import React, { Component } from "react";
 
-export class ItemCheckboxList extends Component {
+export default class ItemCheckboxList extends Component {
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			selectedItems: []
 		};
-		this.handleListClick = this.handleListClick.bind(this);
-		this.handleTagClick = this.handleTagClick.bind(this);
-		this.handleListClickAll = this.handleListClickAll.bind(this);
-	}
 
-	componentDidMount() {
-		if (this.props.defaultSelected) {
-			this.setState({
-				selectedItems: this.props.defaultSelected
-			}, () => {
-				this.updateAction.bind(this);
-				this.props.onSelect(this.state.selectedItems);
-			});
+		this.handleListClick = this.handleListClick.bind(this);
+		this.handleListClickAll = this.handleListClickAll.bind(this);
+
+		if (props.defaultSelected) {
+			this.state = {
+				selectedItems: props.defaultSelected
+			};
+			this.updateAction();
+			this.props.onSelect(this.state.selectedItems);
 		}
 	}
 
@@ -80,39 +78,11 @@ export class ItemCheckboxList extends Component {
 				this.props.onSelect(this.state.selectedItems);
 			}
 		}
-		// If the checkbox selectedStatus is false
-		// Call handleTagClick to remove it from the selected Items
-		else {
-			this.handleTagClick(value);
-		}
-	}
-
-	// Handler function when a cancel button on tag is clicked to remove it
-	handleTagClick(value) {
-		// Pass the older value props to parent components to remove older list in terms query
-		const isExecutable = this.state.selectedItems.length === 1;
-		this.props.onRemove(this.state.selectedItems, isExecutable);
-		const keyRef = value.toString().replace(/ /g, "_");
-		const ref = `ref${keyRef}`;
-		const checkboxElement = this.refs[ref];
-		checkboxElement.state.status = false;
-		const updated = this.state.selectedItems;
-		const index = updated.indexOf(value);
-		updated.splice(index, 1);
-		this.setState({
-			selectedItems: updated
-		}, this.updateAction.bind(this));
-		// Pass the removed value props to parent components to add updated list in terms query
-		if (this.state.selectedItems.length) {
-			this.props.onSelect(this.state.selectedItems);
-		}
 	}
 
 	render() {
 		const items = this.props.items;
-		const selectedItems = this.state.selectedItems;
 		const ListItemsArray = [];
-		const TagItemsArray = [];
 		// Build the array for the checkboxList items
 		items.forEach((item, index) => {
 			try {
@@ -140,29 +110,12 @@ export class ItemCheckboxList extends Component {
 					countField={false}
 					handleClick={this.handleListClickAll}
 					status={this.props.defaultSelectall || false}
-					ref={"refselectall"}
 				/>
 			);
 		}
-		// Build the array of Tags for selected items
-		if (this.props.showTags && selectedItems) {
-			selectedItems.forEach((item) => {
-				TagItemsArray.push(<Tag
-					key={item}
-					value={item}
-					onClick={this.handleTagClick}
-				/>);
-			});
-		}
+
 		return (
 			<div className="rbc-list-container col s12 col-xs-12">
-				{
-					TagItemsArray.length ?
-						<div className="row">
-							{TagItemsArray}
-						</div> :
-					null
-				}
 				<div className="row">
 					{ListItemsArray}
 				</div>
@@ -171,26 +124,17 @@ export class ItemCheckboxList extends Component {
 	}
 }
 
-ItemCheckboxList.defaultProps = {
-	showTags: true
-};
-
 class ListItem extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			initialStatus: this.props.status,
-			status: this.props.status || false
-		};
-	}
 
-	componentDidUpdate() {
-		if (this.props.status !== this.state.initialStatus) {
-			this.setState({
-				status: this.props.status,
-				initialStatus: this.props.status
-			});
-		}
+		this.state = {
+			initialStatus: props.status,
+			status: props.status || false
+		};
+
+		this.handleClick = this.handleClick.bind(this);
+		this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
 	}
 
 	handleClick() {
@@ -213,29 +157,14 @@ class ListItem extends Component {
 			count = <span> ({this.props.doc_count}) </span>;
 		}
 		return (
-			<div onClick={this.handleClick.bind(this)} className="rbc-list-item rbc-checkbox-item col s12 col-xs-12">
+			<div onClick={this.handleClick} className="rbc-list-item rbc-checkbox-item col s12 col-xs-12">
 				<input
 					type="checkbox"
 					checked={this.state.status}
-					onChange={this.handleCheckboxChange.bind(this)}
+					onChange={this.handleCheckboxChange}
 				/>
 				<label> {this.props.value} {count}</label>
 			</div>
-		);
-	}
-}
-
-class Tag extends Component {
-	constructor(props) {
-		super(props);
-	}
-
-	render() {
-		return (
-			<span onClick={this.props.onClick.bind(null, this.props.value)} className="tag-item col">
-				<a href="javascript:void(0)" className="close"> x </a>
-				<span>{this.props.value}</span>
-			</span>
 		);
 	}
 }

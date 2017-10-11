@@ -7,7 +7,7 @@ import {
 } from "../app";
 import ResponsiveStory from "./ResponsiveStory";
 
-import { Img } from "./Img";
+import Img from "./Img";
 
 const historyPin = require("./placeholder.svg");
 
@@ -32,7 +32,7 @@ export default class SingleListDefault extends Component {
 				</div>
 				<div className="description">
 					<p style={{ margin: "5px 0", lineHeight: "18px" }}>is going to&nbsp;
-						<a href={marker._source.event.event_url} rel="noopener noreferrer" target="_blank">
+						<a href={marker._source.event.event_url} target="_blank" rel="noopener noreferrer">
 							{marker._source.event.event_name}
 						</a>
 					</p>
