@@ -177,10 +177,12 @@ export const validation = {
 };
 
 export const normalizeCenter = (center) => {
-	if(center && center.lon) {
-		center.lng = center.lon
+	if (center) {
+		const { lat } = center;
+		const lng = center.lon || center.lng;
+		return { lat, lng };
 	}
-	return center;
+	return null;
 }
 
 export const normalizeProps = (props) => {
