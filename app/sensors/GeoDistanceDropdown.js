@@ -394,7 +394,7 @@ export default class GeoDistanceDropdown extends Component {
 						value: place.description
 					});
 				});
-				if (this.state.userLocation.length && this.result.options[0].label !== "Use my current location") {
+				if (this.state.userLocation && this.state.userLocation.length && this.result.options[0].label !== "Use my current location") {
 					this.result.options.unshift({
 						label: "Use my current location",
 						value: this.state.userLocation
