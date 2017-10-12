@@ -120,7 +120,7 @@ export default class GeoDistanceSlider extends Component {
 
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.locString}`)
 				.then((res) => {
-					if (res.data.results) {
+					if (Array.isArray(res.data.results) && res.data.results.length) {
 						const userLocation = res.data.results[0].formatted_address;
 						this.setState({
 							userLocation
@@ -197,7 +197,7 @@ export default class GeoDistanceSlider extends Component {
 		if (value && value !== "") {
 			axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}`)
 				.then((res) => {
-					if (res.data.results) {
+					if (Array.isArray(res.data.results) && res.data.results.length) {
 						const location = res.data.results[0].geometry.location;
 						this.locString = `${location.lat}, ${location.lng}`;
 						if (cb) {
