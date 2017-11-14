@@ -1,6 +1,3 @@
-[submodule "manual"]
-	path = manual
-	url = https://github.com/appbaseio/reactivemaps-manual.git
 [submodule "onboarding"]
 	path = onboarding
 	url = https://github.com/appbaseio/reactive-maps-onboarding.git
