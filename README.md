@@ -49,7 +49,7 @@ One or more sensor components can be configured to create a combined query conte
 
 ### Ease of Use
 
-* [Can be installed with NPM](https://opensource.appbase.io/reactive-manual/v1/getting-started/Installation.html),
+* [Can be installed with NPM](https://opensource.appbase.io/reactive-manual/getting-started/maps-installation.html),
 * Can be run in browser without including any NPM or bundlers (gulp, webpack, etc.), see a demo [here](https://github.com/appbaseio-apps/reactivemaps-starter-app#try-in-browser-without-npm),
 * Works out of the box with Materialize CSS and comes with a polyfill CSS for Bootstrap. Compatibility for other frameworks can be added too.
 
@@ -74,13 +74,13 @@ You can check all of them on the [examples page](https://opensource.appbase.io/r
 
 ## 5. Installation
 
-Follow the installation guide from the official docs [here](https://opensource.appbase.io/reactive-manual/v1/getting-started/Installation.html).
+Follow the installation guide from the official docs [here](https://opensource.appbase.io/reactive-manual/getting-started/installation.html).
 
 You can try out the library live without any installation via the [interactive tutorial](https://opensource.appbase.io/reactivemaps/onboarding/).
 
 ## 6. Getting Started
 
-Follow the getting started guide to build a Hello Maps! app from the official docs [here](https://opensource.appbase.io/reactive-manual/v1/getting-started/Start.html).
+Follow the getting started guide to build a Hello Maps! app from the official docs [here](https://opensource.appbase.io/reactive-manual/getting-started/maps-start.html).
 
 
 ## 7. Docs Manual
@@ -88,10 +88,10 @@ Follow the getting started guide to build a Hello Maps! app from the official do
 The official docs for the library are at [https://opensource.appbase.io/reactive-manual/](https://opensource.appbase.io/reactive-manual/).
 
 The components are divided into two sections:
-* Generic UI components are at [https://opensource.appbase.io/reactive-manual/v1/components/](https://opensource.appbase.io/reactive-manual/v1/components/).
-* Map based UI components are at [https://opensource.appbase.io/reactive-manual/v1/map-components/](https://opensource.appbase.io/reactive-manual/v1/map-components/).
-* Each component's styles API is mentioned in a separate **CSS Styles API** section. See here for [SingleList](https://opensource.appbase.io/reactive-manual/v1/components/SingleList.html#-singlelist-css-styles-api).
-* You can read more about the Styles API here - https://opensource.appbase.io/reactive-manual/v1/advanced/StyleGuide.html.
+* Generic UI components are at [https://opensource.appbase.io/reactive-manual/basic-components/](https://opensource.appbase.io/reactive-manual/basic-components/).
+* Map based UI components are at [https://opensource.appbase.io/reactive-manual/map-components/](https://opensource.appbase.io/reactive-manual/map-components/).
+* Each component's styles API is mentioned in a separate **CSS Styles API** section. See here for [SingleList](https://opensource.appbase.io/reactive-manual/basic-components/singlelist.html#styles).
+* You can read more about the Styles API here - https://opensource.appbase.io/reactive-manual/advanced/StyleGuide.html.
 
 
 ## 8. Developing Locally
