@@ -9,7 +9,7 @@ import Tools from './pages/Tools';
 import registerServiceWorker from './registerServiceWorker';
 
 const Root = () => (
-	<Router>
+	<Router basename="/reactivemaps">
 		<Fragment>
 			<Route exact path="/" component={Home} />
 			<Route exact path="/learn" component={Learn} />
