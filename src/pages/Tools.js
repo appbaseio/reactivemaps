@@ -37,7 +37,7 @@ class Tools extends Component {
 						<Navbar.Logo>
 							<Logo light href="/">
 								<Logo.Icon>
-									<img src="/icon.svg" alt="Icon" />
+									<img src="icon.svg" alt="Icon" />
 								</Logo.Icon>
 								<Logo.Light>Reactive</Logo.Light>
 								<Logo.Dark>Maps</Logo.Dark>
@@ -53,7 +53,7 @@ class Tools extends Component {
 							<li className="button">
 								<Button href="https://appbase.io/support" bold uppercase dark>
 									<img
-										src="/support.svg"
+										src="support.svg"
 										style={{ marginRight: 8 }}
 										alt="support"
 									/>{' '}
@@ -87,14 +87,14 @@ class Tools extends Component {
 								className={hideMobile}
 							>
 								<div>
-									<img src="/tools/Search.svg" alt="Reactivesearch for web" />
+									<img src="tools/Search.svg" alt="Reactivesearch for web" />
 									<p className={brand}>
 										Reactive <span className={boldFont}>Search</span> for web
 									</p>
 								</div>
 								<div>
 									<img
-										src="/tools/ReactiveNative.svg"
+										src="tools/ReactiveNative.svg"
 										alt="Reactivesearch for mobile"
 									/>
 									<p className={brand}>
@@ -102,7 +102,7 @@ class Tools extends Component {
 									</p>
 								</div>
 								<div>
-									<img src="/tools/ReactiveMaps.svg" alt="Reactivemaps" />
+									<img src="tools/ReactiveMaps.svg" alt="Reactivemaps" />
 									<p className={brand}>
 										Reactive <span className={boldFont}>Maps</span>
 									</p>
@@ -158,7 +158,7 @@ class Tools extends Component {
 								</div>
 								<div style={{ margin: 0 }} className={hideTab}>
 									<img
-										src="/tools/Devices.png"
+										src="tools/Devices.png"
 										srcSet="/tools/Devices@2x.png 2x"
 										alt="Reactivesearch"
 									/>
@@ -173,7 +173,7 @@ class Tools extends Component {
 								<div style={{ margin: 0 }} className={hideTab}>
 									<img
 										width="100%"
-										src="/tools/Native.png"
+										src="tools/Native.png"
 										srcSet="/tools/Native@2x.png 2x"
 										alt="Reactivesearch Native"
 									/>
@@ -269,7 +269,7 @@ class Tools extends Component {
 								<div style={{ margin: 0 }} className={hideTab}>
 									<img
 										width="100%"
-										src="/tools/ReactiveMaps.png"
+										src="tools/ReactiveMaps.png"
 										alt="Reactivemaps"
 									/>
 								</div>
@@ -282,7 +282,7 @@ class Tools extends Component {
 							<H2 light>Build better reactive apps with appbase.io</H2>
 							<img
 								style={{ margin: '60px auto 0', width: '80%' }}
-								src="/tools/ToolsIllustration.png"
+								src="tools/ToolsIllustration.png"
 								srcSet="/tools/ToolsIllustration@2x.png 2x"
 								alt="appbase.io"
 							/>
@@ -302,7 +302,7 @@ class Tools extends Component {
 										dark
 									>
 										<img
-											src="/support.svg"
+											src="support.svg"
 											style={{ marginRight: 8 }}
 											alt="support"
 										/>{' '}

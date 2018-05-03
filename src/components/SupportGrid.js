@@ -11,7 +11,7 @@ export default () => (
 		style={{ marginTop: '60px' }}
 	>
 		<Card big href="https://opensource.appbase.io/reactive-manual">
-			<img src="/support/Documentation.svg" alt="Documentation" />
+			<img src="support/Documentation.svg" alt="Documentation" />
 			<Title>Documentation</Title>
 			<p>
 				Dive in to learn all about <span style={{ color: '#0033FF' }}>Reactive X</span>{' '}
@@ -22,12 +22,12 @@ export default () => (
 			big
 			href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html"
 		>
-			<img src="/support/Tutorials.svg" alt="Tutorials" />
+			<img src="support/Tutorials.svg" alt="Tutorials" />
 			<Title>Tutorials</Title>
 			<p>Go from scratch to a full app with these tutorial guides.</p>
 		</Card>
 		<Card big href="https://appbase.io/support">
-			<img src="/support/Support.png" srcSet="support/Support@2x.png 2x" alt="Support" />
+			<img src="support/Support.png" srcSet="support/Support@2x.png 2x" alt="Support" />
 			<Title>Support</Title>
 			<p>
 				Get first-class support from appbase.io for your{' '}
@@ -35,7 +35,7 @@ export default () => (
 			</p>
 		</Card>
 		<Card big href="https://https://gitter.im/appbaseio/reactivesearch">
-			<img src="/support/Gitter.svg" alt="Gitter" />
+			<img src="support/Gitter.svg" alt="Gitter" />
 			<Title>Gitter</Title>
 			<p>Join our community on Gitter. We{"'"}re always around and happy to help.</p>
 		</Card>

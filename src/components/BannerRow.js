@@ -37,7 +37,7 @@ export default () => (
 				</p>
 				<div className="button-row">
 					<Button href="https://appbase.io/support" bold uppercase big dark>
-						<img src="/support.svg" style={{ marginRight: 8 }} alt="support" /> SUPPORT
+						<img src="support.svg" style={{ marginRight: 8 }} alt="support" /> SUPPORT
 					</Button>
 					<SecondaryLink href="/learn">Learn</SecondaryLink>
 				</div>

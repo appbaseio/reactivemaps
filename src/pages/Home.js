@@ -39,7 +39,7 @@ class Home extends Component {
 						<Navbar.Logo>
 							<Logo light href="/">
 								<Logo.Icon>
-									<img src="/icon.svg" alt="Icon" />
+									<img src="icon.svg" alt="Icon" />
 								</Logo.Icon>
 								<Logo.Light>Reactive</Logo.Light>
 								<Logo.Dark>Maps</Logo.Dark>
@@ -55,7 +55,7 @@ class Home extends Component {
 							<li className="button">
 								<Button href="https://appbase.io/support" bold uppercase dark>
 									<img
-										src="/support.svg"
+										src="support.svg"
 										style={{ marginRight: 8 }}
 										alt="support"
 									/>{' '}
@@ -105,13 +105,13 @@ class Home extends Component {
 					<Row>
 						<Layout>
 							<div className={hideMobile}>
-								<img src="/components.png" width="100%" alt="Components" />
+								<img src="components.png" width="100%" alt="Components" />
 							</div>
 							<div className={vcenter}>
 								<H2>UI Components for every occasion</H2>
 								<img
 									className={showMobile}
-									src="/components-mobile.png"
+									src="components-mobile.png"
 									srcSet="/components-mobile@2x.png 2x"
 									width="100%"
 									alt="Components"
@@ -161,7 +161,7 @@ class Home extends Component {
 							>
 								<ActionCard>
 									<ActionCard.Icon>
-										<img src="/icons/1.png" alt="Icon" />
+										<img src="icons/1.png" alt="Icon" />
 									</ActionCard.Icon>
 									<Title>Works with existing UIs</Title>
 									<p>
@@ -177,7 +177,7 @@ class Home extends Component {
 								</ActionCard>
 								<ActionCard>
 									<ActionCard.Icon>
-										<img src="/icons/2.png" alt="Icon" />
+										<img src="icons/2.png" alt="Icon" />
 									</ActionCard.Icon>
 									<Title>Configurable styles</Title>
 									<p>
@@ -193,7 +193,7 @@ class Home extends Component {
 								</ActionCard>
 								<ActionCard>
 									<ActionCard.Icon>
-										<img src="/icons/3.png" alt="Icon" />
+										<img src="icons/3.png" alt="Icon" />
 									</ActionCard.Icon>
 									<Title>Create cross-platform apps</Title>
 									<p>
@@ -209,7 +209,7 @@ class Home extends Component {
 								</ActionCard>
 								<ActionCard>
 									<ActionCard.Icon>
-										<img src="/icons/4.png" alt="Icon" />
+										<img src="icons/4.png" alt="Icon" />
 									</ActionCard.Icon>
 									<Title>Elasticsearch compatible</Title>
 									<p>
@@ -225,7 +225,7 @@ class Home extends Component {
 								</ActionCard>
 								<ActionCard>
 									<ActionCard.Icon>
-										<img src="/icons/5.png" alt="Icon" />
+										<img src="icons/5.png" alt="Icon" />
 									</ActionCard.Icon>
 									<Title>Customizable queries</Title>
 									<p>
@@ -241,7 +241,7 @@ class Home extends Component {
 								</ActionCard>
 								<ActionCard>
 									<ActionCard.Icon>
-										<img src="/icons/6.png" alt="Icon" />
+										<img src="icons/6.png" alt="Icon" />
 									</ActionCard.Icon>
 									<Title>Easy to secure</Title>
 									<p>
@@ -276,7 +276,7 @@ class Home extends Component {
 								gutter="15px"
 								style={{ marginBottom: '50px' }}
 							>
-								<ImageCard src="/project.png">
+								<ImageCard src="project.png">
 									<div>
 										<Title>Carry</Title>
 										<p>Lorem ipsum dolo. Nunc ac turpis metus.</p>
@@ -285,7 +285,7 @@ class Home extends Component {
 										<SecondaryLink primary>Check Demo</SecondaryLink>
 									</div>
 								</ImageCard>
-								<ImageCard src="/project.png">
+								<ImageCard src="project.png">
 									<div>
 										<Title>Carry</Title>
 										<p>
@@ -297,7 +297,7 @@ class Home extends Component {
 										<SecondaryLink primary>Check Demo</SecondaryLink>
 									</div>
 								</ImageCard>
-								<ImageCard src="/project.png">
+								<ImageCard src="project.png">
 									<div>
 										<Title>Carry</Title>
 										<p>
@@ -309,7 +309,7 @@ class Home extends Component {
 										<SecondaryLink primary>Check Demo</SecondaryLink>
 									</div>
 								</ImageCard>
-								<ImageCard src="/project.png">
+								<ImageCard src="project.png">
 									<div>
 										<Title>Carry</Title>
 										<p>
@@ -331,7 +331,7 @@ class Home extends Component {
 							</div>
 							<Grid size={2} mdSize={1} gutter="10px">
 								<div>
-									<ImageCard src="/project.png" big>
+									<ImageCard src="project.png" big>
 										<div>
 											<Title>Carry</Title>
 											<p>
@@ -347,7 +347,7 @@ class Home extends Component {
 
 								<div>
 									<Grid size={2} smSize={1} gutter="10px">
-										<ImageCard src="/project.png">
+										<ImageCard src="project.png">
 											<div>
 												<Title>Carry</Title>
 												<p>
@@ -359,7 +359,7 @@ class Home extends Component {
 												<SecondaryLink primary>Check Demo</SecondaryLink>
 											</div>
 										</ImageCard>
-										<ImageCard src="/project.png">
+										<ImageCard src="project.png">
 											<div>
 												<Title>Carry</Title>
 												<p>

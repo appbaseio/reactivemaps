@@ -25,7 +25,7 @@ class Learn extends Component {
 						<Navbar.Logo>
 							<Logo href="/">
 								<Logo.Icon>
-									<img src="/icon.svg" alt="Icon" />
+									<img src="icon.svg" alt="Icon" />
 								</Logo.Icon>
 								<Logo.Light>Reactive</Logo.Light>
 								<Logo.Dark>Maps</Logo.Dark>
@@ -41,7 +41,7 @@ class Learn extends Component {
 							<li className="button">
 								<Button href="https://appbase.io/support" bold uppercase primary>
 									<img
-										src="/support-white.svg"
+										src="support-white.svg"
 										style={{ marginRight: 8 }}
 										alt="support"
 									/>{' '}
