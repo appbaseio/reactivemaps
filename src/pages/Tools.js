@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
 import { ThemeProvider } from 'emotion-theming';
 import { Link } from 'react-router-dom';
-import {
-	Navbar,
-	Logo,
-	Button,
-	H1,
-	H2,
-	GithubButton,
-	Grid,
-} from '@appbaseio/designkit';
+import { Navbar, Logo, Button, H1, H2, GithubButton, Grid } from '@appbaseio/designkit';
 
 import {
 	Base,
@@ -24,13 +16,13 @@ import {
 	tabCenter,
 	titleText,
 	featureList,
-	boldFont
+	boldFont,
 } from '../styles';
 import Footer from '../components/Footer';
 
 class Tools extends Component {
 	componentDidMount() {
-		window.scrollTo(0,0);
+		window.scrollTo(0, 0);
 	}
 
 	render() {
@@ -52,31 +44,68 @@ class Tools extends Component {
 							</Logo>
 						</Navbar.Logo>
 						<Navbar.List>
-							<li className="active"><Link to="/tools">TOOLS</Link></li>
-							<li><Link to="/learn">LEARN</Link></li>
-							<li className="button"><Button href="https://appbase.io/support" bold uppercase dark><img src="/support.svg" style={{ marginRight: 8 }} alt="support"/> SUPPORT</Button></li>
+							<li className="active">
+								<Link to="/tools">TOOLS</Link>
+							</li>
+							<li>
+								<Link to="/learn">LEARN</Link>
+							</li>
+							<li className="button">
+								<Button href="https://appbase.io/support" bold uppercase dark>
+									<img
+										src="/support.svg"
+										style={{ marginRight: 8 }}
+										alt="support"
+									/>{' '}
+									SUPPORT
+								</Button>
+							</li>
 						</Navbar.List>
 					</Navbar>
 
 					<Section style={{ backgroundColor: '#00101B' }}>
 						<Layout>
-							<H1 light>Reactive <span className={boldFont}>X</span></H1>
-							<p style={{ color: '#C1C2C3', marginBottom: 40 }} className={titleText}>Everything to build amazing apps lorem ipsum orem ipsum dolor sit amet.</p>
+							<H1 light>
+								Reactive <span className={boldFont}>X</span>
+							</H1>
+							<p style={{ color: '#C1C2C3', marginBottom: 40 }} className={titleText}>
+								Everything to build amazing apps lorem ipsum orem ipsum dolor sit
+								amet.
+							</p>
 
-							<GithubButton count="1,673" href="https://github.com/appbaseio/reactivesearch" />
+							<GithubButton
+								count="1,673"
+								href="https://github.com/appbaseio/reactivesearch"
+							/>
 
-							<Grid size={3} smSize={1} gutter="30px" smGutter="30px" style={{ marginTop: 72 }} className={hideMobile}>
+							<Grid
+								size={3}
+								smSize={1}
+								gutter="30px"
+								smGutter="30px"
+								style={{ marginTop: 72 }}
+								className={hideMobile}
+							>
 								<div>
-									<img src="/tools/Search.svg" alt="Reactivesearch for web"/>
-									<p className={brand}>Reactive <span className={boldFont}>Search</span> for web</p>
+									<img src="/tools/Search.svg" alt="Reactivesearch for web" />
+									<p className={brand}>
+										Reactive <span className={boldFont}>Search</span> for web
+									</p>
 								</div>
 								<div>
-									<img src="/tools/ReactiveNative.svg" alt="Reactivesearch for mobile"/>
-									<p className={brand}>Reactive <span className={boldFont}>Search</span> for mobile</p>
+									<img
+										src="/tools/ReactiveNative.svg"
+										alt="Reactivesearch for mobile"
+									/>
+									<p className={brand}>
+										Reactive <span className={boldFont}>Search</span> for mobile
+									</p>
 								</div>
 								<div>
-									<img src="/tools/ReactiveMaps.svg" alt="Reactivemaps"/>
-									<p className={brand}>Reactive <span className={boldFont}>Maps</span></p>
+									<img src="/tools/ReactiveMaps.svg" alt="Reactivemaps" />
+									<p className={brand}>
+										Reactive <span className={boldFont}>Maps</span>
+									</p>
 								</div>
 							</Grid>
 						</Layout>
@@ -86,22 +115,53 @@ class Tools extends Component {
 						<Layout>
 							<Grid size={2} mdSize={1} gutter="30px" className={tabCenter}>
 								<div className={vcenter} style={{ margin: 0, padding: '0 20px' }}>
-									<H2>Reactive <span className={boldFont}>Search</span></H2>
-									<p>A React UI components library for building Airbnb / Yelp like search interfaces.</p>
+									<H2>
+										Reactive <span className={boldFont}>Search</span>
+									</H2>
+									<p>
+										A React UI components library for building Airbnb / Yelp
+										like search interfaces.
+									</p>
 
 									<ul className={featureList}>
-										<li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem ut sequi facere tempore mollitia. Illum!</li>
-										<li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem ut sequi facere tempore mollitia. Illum!</li>
-										<li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem ut sequi facere tempore mollitia. Illum!</li>
+										<li>
+											Lorem ipsum dolor, sit amet consectetur adipisicing
+											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+										</li>
+										<li>
+											Lorem ipsum dolor, sit amet consectetur adipisicing
+											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+										</li>
+										<li>
+											Lorem ipsum dolor, sit amet consectetur adipisicing
+											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+										</li>
 									</ul>
 
 									<div className="button-row">
-										<Button href="https://opensource.appbase.io/reactive-manual/getting-started/reactivesearch.html" bold uppercase big success>Get Started</Button>
-										<SecondaryLink href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/web" primary>Learn More</SecondaryLink>
+										<Button
+											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivesearch.html"
+											bold
+											uppercase
+											big
+											success
+										>
+											Get Started
+										</Button>
+										<SecondaryLink
+											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/web"
+											primary
+										>
+											Learn More
+										</SecondaryLink>
 									</div>
 								</div>
 								<div style={{ margin: 0 }} className={hideTab}>
-									<img src="/tools/Devices.png" srcSet="/tools/Devices@2x.png 2x" alt="Reactivesearch"/>
+									<img
+										src="/tools/Devices.png"
+										srcSet="/tools/Devices@2x.png 2x"
+										alt="Reactivesearch"
+									/>
 								</div>
 							</Grid>
 						</Layout>
@@ -111,21 +171,53 @@ class Tools extends Component {
 						<Layout>
 							<Grid size={2} mdSize={1} gutter="30px" className={tabCenter}>
 								<div style={{ margin: 0 }} className={hideTab}>
-									<img width="100%" src="/tools/Native.png" srcSet="/tools/Native@2x.png 2x" alt="Reactivesearch Native"/>
+									<img
+										width="100%"
+										src="/tools/Native.png"
+										srcSet="/tools/Native@2x.png 2x"
+										alt="Reactivesearch Native"
+									/>
 								</div>
 								<div className={vcenter} style={{ margin: 0, padding: '0 20px' }}>
-									<H2>Reactive <span className={boldFont}>Search Native</span></H2>
-									<p>A React UI components library for building Airbnb / Yelp like search interfaces.</p>
+									<H2>
+										Reactive <span className={boldFont}>Search Native</span>
+									</H2>
+									<p>
+										A React UI components library for building Airbnb / Yelp
+										like search interfaces.
+									</p>
 
 									<ul className={featureList}>
-										<li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem ut sequi facere tempore mollitia. Illum!</li>
-										<li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem ut sequi facere tempore mollitia. Illum!</li>
-										<li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem ut sequi facere tempore mollitia. Illum!</li>
+										<li>
+											Lorem ipsum dolor, sit amet consectetur adipisicing
+											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+										</li>
+										<li>
+											Lorem ipsum dolor, sit amet consectetur adipisicing
+											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+										</li>
+										<li>
+											Lorem ipsum dolor, sit amet consectetur adipisicing
+											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+										</li>
 									</ul>
 
 									<div className="button-row">
-										<Button href="https://hackernoon.com/building-an-e-commerce-search-app-with-react-native-2c87760a2315" bold uppercase big success>Get Started</Button>
-										<SecondaryLink href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/native" primary>Learn More</SecondaryLink>
+										<Button
+											href="https://hackernoon.com/building-an-e-commerce-search-app-with-react-native-2c87760a2315"
+											bold
+											uppercase
+											big
+											success
+										>
+											Get Started
+										</Button>
+										<SecondaryLink
+											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/native"
+											primary
+										>
+											Learn More
+										</SecondaryLink>
 									</div>
 								</div>
 							</Grid>
@@ -136,22 +228,50 @@ class Tools extends Component {
 						<Layout>
 							<Grid size={2} mdSize={1} gutter="30px" className={tabCenter}>
 								<div className={vcenter} style={{ margin: 0, padding: '0 20px' }}>
-									<H2 light>Reactive <span className={boldFont}>Maps</span></H2>
-									<p style={{ color: '#fff' }}>A React UI components library for building Airbnb / Yelp like search interfaces.</p>
+									<H2 light>
+										Reactive <span className={boldFont}>Maps</span>
+									</H2>
+									<p style={{ color: '#fff' }}>
+										A React UI components library for building Airbnb / Yelp
+										like search interfaces.
+									</p>
 
 									<ul className={featureList}>
-										<li style={{ color: '#fff' }}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem ut sequi facere tempore mollitia. Illum!</li>
-										<li style={{ color: '#fff' }}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem ut sequi facere tempore mollitia. Illum!</li>
-										<li style={{ color: '#fff' }}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem ut sequi facere tempore mollitia. Illum!</li>
+										<li style={{ color: '#fff' }}>
+											Lorem ipsum dolor, sit amet consectetur adipisicing
+											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+										</li>
+										<li style={{ color: '#fff' }}>
+											Lorem ipsum dolor, sit amet consectetur adipisicing
+											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+										</li>
+										<li style={{ color: '#fff' }}>
+											Lorem ipsum dolor, sit amet consectetur adipisicing
+											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+										</li>
 									</ul>
 
 									<div className="button-row">
-										<Button href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html" bold uppercase big success>Get Started</Button>
-										<SecondaryLink href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/maps">Learn More</SecondaryLink>
+										<Button
+											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html"
+											bold
+											uppercase
+											big
+											success
+										>
+											Get Started
+										</Button>
+										<SecondaryLink href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/maps">
+											Learn More
+										</SecondaryLink>
 									</div>
 								</div>
 								<div style={{ margin: 0 }} className={hideTab}>
-									<img width="100%" src="/tools/ReactiveMaps.png" alt="Reactivemaps"/>
+									<img
+										width="100%"
+										src="/tools/ReactiveMaps.png"
+										alt="Reactivemaps"
+									/>
 								</div>
 							</Grid>
 						</Layout>
@@ -160,12 +280,34 @@ class Tools extends Component {
 					<Section style={{ backgroundColor: '#000C26' }}>
 						<Layout>
 							<H2 light>Build better reactive apps with appbase.io</H2>
-							<img style={{ margin: '60px auto 0', width: '80%' }} src="/tools/ToolsIllustration.png" srcSet="/tools/ToolsIllustration@2x.png 2x" alt="appbase.io"/>
+							<img
+								style={{ margin: '60px auto 0', width: '80%' }}
+								src="/tools/ToolsIllustration.png"
+								srcSet="/tools/ToolsIllustration@2x.png 2x"
+								alt="appbase.io"
+							/>
 							<H2 light>Work with us to build your app</H2>
 							<div className={hcenter}>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas venenatis vel nisi ac tincidunt. In vel egestas enim. In bibendum dui eget tristique maximus.</p>
+								<p>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+									Maecenas venenatis vel nisi ac tincidunt. In vel egestas enim.
+									In bibendum dui eget tristique maximus.
+								</p>
 								<div className="button-row">
-									<Button href="https://appbase.io/support" bold uppercase big dark><img src="/support.svg" style={{ marginRight: 8 }} alt="support"/> SUPPORT</Button>
+									<Button
+										href="https://appbase.io/support"
+										bold
+										uppercase
+										big
+										dark
+									>
+										<img
+											src="/support.svg"
+											style={{ marginRight: 8 }}
+											alt="support"
+										/>{' '}
+										SUPPORT
+									</Button>
 									<SecondaryLink href="/learn">Learn</SecondaryLink>
 								</div>
 							</div>
