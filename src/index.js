@@ -6,15 +6,15 @@ import {
 } from 'react-router-dom';
 
 import './index.css';
-import App from './App';
-import Learn from './Learn';
-import Tools from './Tools';
+import Home from './pages/Home';
+import Learn from './pages/Learn';
+import Tools from './pages/Tools';
 import registerServiceWorker from './registerServiceWorker';
 
 const Root = () => (
     <Router>
         <Fragment>
-            <Route exact path="/" component={App} />
+            <Route exact path="/" component={Home} />
             <Route exact path="/learn" component={Learn} />
             <Route exact path="/tools" component={Tools} />
         </Fragment>

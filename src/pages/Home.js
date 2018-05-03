@@ -10,10 +10,7 @@ import {
 	H3,
 	GithubButton,
 	Title,
-	BannerRow,
-	Card,
 	Grid,
-	Footer,
 } from '@appbaseio/designkit';
 
 import {
@@ -27,12 +24,15 @@ import {
 	vcenter,
 	hideMobile,
 	showMobile,
-} from './styles';
-import ActionCard from './ActionCard';
-import Testimonial from './Testimonial';
-import ImageCard from './ImageCard';
+} from '../styles';
+import ActionCard from '../styles/ActionCard';
+import Testimonial from '../styles/Testimonial';
+import ImageCard from '../styles/ImageCard';
+import SupportGrid from '../components/SupportGrid';
+import BannerRow from '../components/BannerRow';
+import Footer from '../components/Footer';
 
-class App extends Component {
+class Home extends Component {
 	componentDidMount() {
 		window.scrollTo(0,0);
 	}
@@ -58,7 +58,7 @@ class App extends Component {
 						<Navbar.List>
 							<li><Link to="/tools">TOOLS</Link></li>
 							<li><Link to="/learn">LEARN</Link></li>
-							<li className="button"><Button bold uppercase dark><img src="/support.svg" style={{ marginRight: 8 }} alt="support"/> SUPPORT</Button></li>
+							<li className="button"><Button href="https://appbase.io/support" bold uppercase dark><img src="/support.svg" style={{ marginRight: 8 }} alt="support"/> SUPPORT</Button></li>
 						</Navbar.List>
 					</Navbar>
 
@@ -68,9 +68,9 @@ class App extends Component {
 							<p>Reactive Maps is a data-driven UI components library for building Map UIs.</p>
 
 							<div className="button-row">
-								<GithubButton count="1,668" />
-								<Button bold uppercase big primary>Get Started</Button>
-								<SecondaryLink>Learn More</SecondaryLink>
+								<GithubButton count="1,673" href="https://github.com/appbaseio/reactivesearch" />
+								<Button href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html" bold uppercase big primary>Get Started</Button>
+								<SecondaryLink href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/maps">Learn More</SecondaryLink>
 							</div>
 
 							<div className="bg-image">
@@ -92,8 +92,8 @@ class App extends Component {
 								<p>Get our designer templates for sketch.</p>
 
 								<div className="button-row">
-									<Button bold uppercase big primary>View Components</Button>
-									<SecondaryLink primary>Create your own</SecondaryLink>
+									<Button href="https://opensource.appbase.io/reactive-manual/map-components/reactivemap.html" bold uppercase big primary>View Components</Button>
+									<SecondaryLink href="https://opensource.appbase.io/reactive-manual/advanced/reactivecomponent.html" primary>Create your own</SecondaryLink>
 								</div>
 							</div>
 						</Layout>
@@ -109,64 +109,43 @@ class App extends Component {
 									<ActionCard.Icon><img src="/icons/1.png" alt="Icon"/></ActionCard.Icon>
 									<Title>Works with existing UIs</Title>
 									<p>Already have your own components? Bring them to ReactiveSearch.</p>
-									<SecondaryLink primary>Read More</SecondaryLink>
+									<SecondaryLink primary href="https://opensource.appbase.io/reactive-manual/advanced/reactivecomponent.html">Read More</SecondaryLink>
 								</ActionCard>
 								<ActionCard>
 									<ActionCard.Icon><img src="/icons/2.png" alt="Icon"/></ActionCard.Icon>
-									<Title>Works with existing UIs</Title>
-									<p>Already have your own components? Bring them to ReactiveSearch.</p>
-									<SecondaryLink primary>Read More</SecondaryLink>
+									<Title>Configurable styles</Title>
+									<p>Reactivesearch components can be ported to create native mobile UIs.</p>
+									<SecondaryLink href="https://opensource.appbase.io/reactive-manual/theming/themes.html" primary>Read More</SecondaryLink>
 								</ActionCard>
 								<ActionCard>
 									<ActionCard.Icon><img src="/icons/3.png" alt="Icon"/></ActionCard.Icon>
-									<Title>Works with existing UIs</Title>
-									<p>Already have your own components? Bring them to ReactiveSearch.</p>
-									<SecondaryLink primary>Read More</SecondaryLink>
+									<Title>Create cross-platform apps</Title>
+									<p>Reactivesearch components can be ported to create native mobile UIs.</p>
+									<SecondaryLink href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/native" primary>Read More</SecondaryLink>
 								</ActionCard>
 								<ActionCard>
 									<ActionCard.Icon><img src="/icons/4.png" alt="Icon"/></ActionCard.Icon>
-									<Title>Works with existing UIs</Title>
-									<p>Already have your own components? Bring them to ReactiveSearch.</p>
-									<SecondaryLink primary>Read More</SecondaryLink>
+									<Title>Elasticsearch compatible</Title>
+									<p>Connect to an ES index hosted anywhere. Supports v2, v5 and v6.</p>
+									<SecondaryLink href="https://opensource.appbase.io/reactive-manual/getting-started/reactivebase.html" primary>Read More</SecondaryLink>
 								</ActionCard>
 								<ActionCard>
 									<ActionCard.Icon><img src="/icons/5.png" alt="Icon"/></ActionCard.Icon>
-									<Title>Works with existing UIs</Title>
-									<p>Already have your own components? Bring them to ReactiveSearch.</p>
-									<SecondaryLink primary>Read More</SecondaryLink>
+									<Title>Customizable queries</Title>
+									<p>Components come with good query defaults, that can be customized with Elasticsearch query DSL.</p>
+									<SecondaryLink href="https://opensource.appbase.io/reactive-manual/advanced/customquery.html" primary>Read More</SecondaryLink>
 								</ActionCard>
 								<ActionCard>
 									<ActionCard.Icon><img src="/icons/6.png" alt="Icon"/></ActionCard.Icon>
-									<Title>Works with existing UIs</Title>
-									<p>Already have your own components? Bring them to ReactiveSearch.</p>
-									<SecondaryLink primary>Read More</SecondaryLink>
+									<Title>Easy to secure</Title>
+									<p>Use appbase.io to get read-only credentials, or set up a middleware proxy with authorization rules.</p>
+									<SecondaryLink href="https://opensource.appbase.io/reactive-manual/getting-started/reactivebase.html#connect-to-elasticsearch" primary>Read More</SecondaryLink>
 								</ActionCard>
 							</Grid>
 						</Layout>
 					</Section>
 
-					<BannerRow>
-						<BannerRow.Column>
-							<div>
-								<H2 light>Build a live app in 5 minutes</H2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas venenatis vel nisi ac tincidunt. In vel egestas enim. In bibendum dui eget tristique maximus.</p>
-								<div className="button-row">
-									<Button bold uppercase big primary>Get Started</Button>
-									<SecondaryLink>Docs</SecondaryLink>
-								</div>
-							</div>
-						</BannerRow.Column>
-						<BannerRow.Column>
-							<div>
-								<H2 light>Work with us to build your app</H2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas venenatis vel nisi ac tincidunt. In vel egestas enim. In bibendum dui eget tristique maximus.</p>
-								<div className="button-row">
-									<Button bold uppercase big dark><img src="/support.svg" style={{ marginRight: 8 }} alt="support"/> SUPPORT</Button>
-									<SecondaryLink>Learn</SecondaryLink>
-								</div>
-							</div>
-						</BannerRow.Column>
-					</BannerRow>
+					<BannerRow />
 
 					<Section>
 						<Layout>
@@ -319,89 +298,20 @@ class App extends Component {
 					<Section>
 						<Layout>
 							<H2>Get started in minutes</H2>
-							<Button bold uppercase style={{ margin: '25px 0 30px' }} big primary>BUILD MY FIRST APP</Button>
+							<Button href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html" bold uppercase style={{ margin: '25px 0 30px' }} big primary>BUILD MY FIRST APP</Button>
 
 							<H2>Need Help?</H2>
 							<p>Resources to get help with Reactive Maps.</p>
 
-							<Grid size={4} lgSize={2} smSize={1} gutter="20px" lgGutter="12px" style={{ marginTop: '60px' }}>
-								<Card big href="https://opensource.appbase.io/reactive-manual">
-									<img
-										src="/support/Documentation.svg"
-										alt="Documentation"
-									/>
-									<Title>Documentation</Title>
-									<p>Dive in to learn all about <span style={{ color: '#0033FF' }}>Reactive X</span> development for all platforms.</p>
-								</Card>
-								<Card big href="https://opensource.appbase.io/reactive-manual">
-									<img
-										src="/support/Tutorials.svg"
-										alt="Tutorials"
-									/>
-									<Title>Tutorials</Title>
-									<p>Go from scratch to a full app with these tutorial guides.</p>
-								</Card>
-								<Card big href="https://opensource.appbase.io/reactive-manual">
-									<img
-										src="/support/Support.png"
-										srcSet="support/Support@2x.png 2x"
-										alt="Support"
-									/>
-									<Title>Support</Title>
-									<p>Get first-class support from appbase.io for your <span style={{ color: '#0033FF' }}>Reactive X</span> app.</p>
-								</Card>
-								<Card big href="https://opensource.appbase.io/reactive-manual">
-									<img
-										src="/support/Gitter.svg"
-										alt="Gitter"
-									/>
-									<Title>Gitter</Title>
-									<p>Join our community on Gitter. We're always around and happy to help.</p>
-								</Card>
-							</Grid>
+							<SupportGrid />
 						</Layout>
 					</Section>
 
-					<Footer>
-						<Footer.Brand>
-							<img width="100%" src="https://opensource.appbase.io/reactivesearch/images/logo.svg" alt="appbase.io" />
-						</Footer.Brand>
-						<Footer.Links>
-							<Footer.List>
-								<Title>Documentation</Title>
-								<li><a href="https://opensource.appbase.io/reactive-manual/getting-started/reactivesearch.html">Quick Start</a></li>
-								<li><a href="https://opensource.appbase.io/reactive-manual/base-components/textfield.html">Base Components</a></li>
-								<li><a href="https://opensource.appbase.io/reactive-manual/list-components/singlelist.html">List Components</a></li>
-								<li><a href="https://opensource.appbase.io/reactive-manual/search-components/categorysearch.html">Search Components</a></li>
-								<li><a href="https://opensource.appbase.io/reactive-manual/result-components/resultlist.html">Result Components</a></li>
-							</Footer.List>
-
-							<Footer.List>
-								<Title>Community</Title>
-								<li><a href="https://github.com/appbaseio/reactivesearch/">GitHub</a></li>
-								<li><a href="http://slack.appbase.io">Slack</a></li>
-								<li><a href="https://twitter.com/appbaseio">Twitter</a></li>
-							</Footer.List>
-
-							<Footer.List>
-								<Title>Helpful Tools</Title>
-								<li><a href="https://opensource.appbase.io/dejavu/">Data Browser</a></li>
-								<li><a href="https://opensource.appbase.io/mirage/">GUI Query Builder</a></li>
-							</Footer.List>
-
-							<Footer.List>
-								<Title className="heading">More</Title>
-								<li><a href="https://medium.appbase.io/">Blog</a></li>
-								<li><a href="http://docs.appbase.io/">Appbase.io Docs</a></li>
-								<li><a href="https://gitter.im/appbaseio/reactivesearch">Gitter</a></li>
-								<li><a href="mailto:support@appbase.io">Support Email</a></li>
-							</Footer.List>
-						</Footer.Links>
-					</Footer>
+					<Footer />
 				</Base>
 			</ThemeProvider>
 		);
 	}
 }
 
-export default App;
+export default Home;

@@ -208,10 +208,12 @@ const SecondaryLink = styled('a')`
     text-transform: uppercase;
     font-size: 0.95rem;
     border-bottom: 1px solid transparent;
+    text-decoration: none;
     ${boldFont};
     ${transition};
 
     &:hover, &:focus {
+        text-decoration: none;
         border-bottom: 1px solid ${props => props.primary ? props.theme.primaryColor : '#fff'};
     }
 `;

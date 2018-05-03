@@ -7,24 +7,16 @@ import {
 	Button,
 	H1,
 	H2,
-	H3,
 	GithubButton,
-	Title,
-	BannerRow,
-	Card,
 	Grid,
-	Footer,
 } from '@appbaseio/designkit';
 
 import {
 	Base,
 	Layout,
-	banner,
 	SecondaryLink,
-	Row,
 	brand,
 	Section,
-	titleRow,
 	vcenter,
 	hcenter,
 	hideMobile,
@@ -33,12 +25,10 @@ import {
 	titleText,
 	featureList,
 	boldFont
-} from './styles';
-import ActionCard from './ActionCard';
-import Testimonial from './Testimonial';
-import ImageCard from './ImageCard';
+} from '../styles';
+import Footer from '../components/Footer';
 
-class App extends Component {
+class Tools extends Component {
 	componentDidMount() {
 		window.scrollTo(0,0);
 	}
@@ -64,7 +54,7 @@ class App extends Component {
 						<Navbar.List>
 							<li className="active"><Link to="/tools">TOOLS</Link></li>
 							<li><Link to="/learn">LEARN</Link></li>
-							<li className="button"><Button bold uppercase dark><img src="/support.svg" style={{ marginRight: 8 }} alt="support"/> SUPPORT</Button></li>
+							<li className="button"><Button href="https://appbase.io/support" bold uppercase dark><img src="/support.svg" style={{ marginRight: 8 }} alt="support"/> SUPPORT</Button></li>
 						</Navbar.List>
 					</Navbar>
 
@@ -73,7 +63,7 @@ class App extends Component {
 							<H1 light>Reactive <span className={boldFont}>X</span></H1>
 							<p style={{ color: '#C1C2C3', marginBottom: 40 }} className={titleText}>Everything to build amazing apps lorem ipsum orem ipsum dolor sit amet.</p>
 
-							<GithubButton count="1,668" />
+							<GithubButton count="1,673" href="https://github.com/appbaseio/reactivesearch" />
 
 							<Grid size={3} smSize={1} gutter="30px" smGutter="30px" style={{ marginTop: 72 }} className={hideMobile}>
 								<div>
@@ -92,7 +82,7 @@ class App extends Component {
 						</Layout>
 					</Section>
 
-					<Section style={{ backgroundColor: '#fcfcfc' }}>
+					<Section style={{ backgroundColor: '#fcfcfc', overflow: 'hidden' }}>
 						<Layout>
 							<Grid size={2} mdSize={1} gutter="30px" className={tabCenter}>
 								<div className={vcenter} style={{ margin: 0, padding: '0 20px' }}>
@@ -106,8 +96,8 @@ class App extends Component {
 									</ul>
 
 									<div className="button-row">
-										<Button bold uppercase big success>Get Started</Button>
-										<SecondaryLink primary>Learn More</SecondaryLink>
+										<Button href="https://opensource.appbase.io/reactive-manual/getting-started/reactivesearch.html" bold uppercase big success>Get Started</Button>
+										<SecondaryLink href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/web" primary>Learn More</SecondaryLink>
 									</div>
 								</div>
 								<div style={{ margin: 0 }} className={hideTab}>
@@ -134,8 +124,8 @@ class App extends Component {
 									</ul>
 
 									<div className="button-row">
-										<Button bold uppercase big success>Get Started</Button>
-										<SecondaryLink primary>Learn More</SecondaryLink>
+										<Button href="https://hackernoon.com/building-an-e-commerce-search-app-with-react-native-2c87760a2315" bold uppercase big success>Get Started</Button>
+										<SecondaryLink href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/native" primary>Learn More</SecondaryLink>
 									</div>
 								</div>
 							</Grid>
@@ -156,8 +146,8 @@ class App extends Component {
 									</ul>
 
 									<div className="button-row">
-										<Button bold uppercase big success>Get Started</Button>
-										<SecondaryLink>Learn More</SecondaryLink>
+										<Button href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html" bold uppercase big success>Get Started</Button>
+										<SecondaryLink href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/maps">Learn More</SecondaryLink>
 									</div>
 								</div>
 								<div style={{ margin: 0 }} className={hideTab}>
@@ -175,53 +165,18 @@ class App extends Component {
 							<div className={hcenter}>
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas venenatis vel nisi ac tincidunt. In vel egestas enim. In bibendum dui eget tristique maximus.</p>
 								<div className="button-row">
-									<Button bold uppercase big dark><img src="/support.svg" style={{ marginRight: 8 }} alt="support"/> SUPPORT</Button>
-									<SecondaryLink>Learn</SecondaryLink>
+									<Button href="https://appbase.io/support" bold uppercase big dark><img src="/support.svg" style={{ marginRight: 8 }} alt="support"/> SUPPORT</Button>
+									<SecondaryLink href="/learn">Learn</SecondaryLink>
 								</div>
 							</div>
 						</Layout>
 					</Section>
 
-					<Footer>
-						<Footer.Brand>
-							<img width="100%" src="https://opensource.appbase.io/reactivesearch/images/logo.svg" alt="appbase.io" />
-						</Footer.Brand>
-						<Footer.Links>
-							<Footer.List>
-								<Title>Documentation</Title>
-								<li><a href="https://opensource.appbase.io/reactive-manual/getting-started/reactivesearch.html">Quick Start</a></li>
-								<li><a href="https://opensource.appbase.io/reactive-manual/base-components/textfield.html">Base Components</a></li>
-								<li><a href="https://opensource.appbase.io/reactive-manual/list-components/singlelist.html">List Components</a></li>
-								<li><a href="https://opensource.appbase.io/reactive-manual/search-components/categorysearch.html">Search Components</a></li>
-								<li><a href="https://opensource.appbase.io/reactive-manual/result-components/resultlist.html">Result Components</a></li>
-							</Footer.List>
-
-							<Footer.List>
-								<Title>Community</Title>
-								<li><a href="https://github.com/appbaseio/reactivesearch/">GitHub</a></li>
-								<li><a href="http://slack.appbase.io">Slack</a></li>
-								<li><a href="https://twitter.com/appbaseio">Twitter</a></li>
-							</Footer.List>
-
-							<Footer.List>
-								<Title>Helpful Tools</Title>
-								<li><a href="https://opensource.appbase.io/dejavu/">Data Browser</a></li>
-								<li><a href="https://opensource.appbase.io/mirage/">GUI Query Builder</a></li>
-							</Footer.List>
-
-							<Footer.List>
-								<Title className="heading">More</Title>
-								<li><a href="https://medium.appbase.io/">Blog</a></li>
-								<li><a href="http://docs.appbase.io/">Appbase.io Docs</a></li>
-								<li><a href="https://gitter.im/appbaseio/reactivesearch">Gitter</a></li>
-								<li><a href="mailto:support@appbase.io">Support Email</a></li>
-							</Footer.List>
-						</Footer.Links>
-					</Footer>
+					<Footer />
 				</Base>
 			</ThemeProvider>
 		);
 	}
 }
 
-export default App;
+export default Tools;
