@@ -1,9 +1,0 @@
-node_modules
-
-build/
-lib/
-coverage/
-
-.vscode
-*.lock
-*.log*
