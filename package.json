@@ -2,10 +2,12 @@
 	"name": "home",
 	"version": "0.1.0",
 	"private": true,
+	"homepage": "https://opensource.appbase.io/reactivemaps",
 	"dependencies": {
 		"@appbaseio/designkit": "^0.7.0",
 		"emotion": "^9.1.2",
 		"emotion-theming": "^9.1.2",
+		"gh-pages": "^1.1.0",
 		"react": "^16.3.2",
 		"react-dom": "^16.3.2",
 		"react-emotion": "^9.1.2",
@@ -28,6 +30,8 @@
 		"build": "react-scripts build",
 		"test": "react-scripts test --env=jsdom",
 		"eject": "react-scripts eject",
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d build",
 		"prettier": "prettier --config ./.prettierrc.js --write src/**/*.js"
 	}
 }
