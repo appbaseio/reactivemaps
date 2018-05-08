@@ -35,7 +35,7 @@ class Tools extends Component {
 				<Base>
 					<Navbar bold dark>
 						<Navbar.Logo>
-							<Logo light href="/">
+							<Logo light href="https://opensource.appbase.io/reactivemaps">
 								<Logo.Icon>
 									<img src="icon.svg" alt="Icon" />
 								</Logo.Icon>

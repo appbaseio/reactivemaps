@@ -8,6 +8,7 @@ export default () => (
 		smSize={1}
 		gutter="20px"
 		lgGutter="12px"
+		smGutter="0px"
 		style={{ marginTop: '60px' }}
 	>
 		<Card big href="https://opensource.appbase.io/reactive-manual">

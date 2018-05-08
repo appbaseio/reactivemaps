@@ -37,7 +37,7 @@ class Home extends Component {
 				<Base>
 					<Navbar bold dark>
 						<Navbar.Logo>
-							<Logo light href="/">
+							<Logo light href="https://opensource.appbase.io/reactivemaps">
 								<Logo.Icon>
 									<img src="icon.svg" alt="Icon" />
 								</Logo.Icon>
@@ -112,7 +112,7 @@ class Home extends Component {
 								<img
 									className={showMobile}
 									src="components-mobile.png"
-									srcSet="/components-mobile@2x.png 2x"
+									srcSet="components-mobile@2x.png 2x"
 									width="100%"
 									alt="Components"
 									style={{ marginTop: 30 }}
@@ -274,6 +274,7 @@ class Home extends Component {
 								mdSize={2}
 								smSize={1}
 								gutter="15px"
+								smGutter="0px"
 								style={{ marginBottom: '50px' }}
 							>
 								<ImageCard src="project.png">
@@ -329,7 +330,7 @@ class Home extends Component {
 									SEE MORE
 								</Button>
 							</div>
-							<Grid size={2} mdSize={1} gutter="10px">
+							<Grid size={2} mdSize={1} gutter="10px" smGutter="0px">
 								<div>
 									<ImageCard src="project.png" big>
 										<div>
@@ -346,7 +347,7 @@ class Home extends Component {
 								</div>
 
 								<div>
-									<Grid size={2} smSize={1} gutter="10px">
+									<Grid size={2} smSize={1} gutter="10px" smGutter="0px">
 										<ImageCard src="project.png">
 											<div>
 												<Title>Carry</Title>

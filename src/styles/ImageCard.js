@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'react-emotion';
 
 const Wrapper = styled('div')`
@@ -44,13 +44,9 @@ const Card = styled('div')`
 	}
 `;
 
-export default class ImageCard extends Component {
-	render() {
-		return (
-			<Wrapper>
-				<Image src={this.props.src} big={this.props.big} />
-				<Card>{this.props.children}</Card>
-			</Wrapper>
-		);
-	}
-}
+export default props => (
+	<Wrapper>
+		<Image src={props.src} big={props.big} />
+		<Card>{props.children}</Card>
+	</Wrapper>
+);

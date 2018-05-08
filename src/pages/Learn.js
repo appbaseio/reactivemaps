@@ -23,7 +23,7 @@ class Learn extends Component {
 				<Base>
 					<Navbar bold>
 						<Navbar.Logo>
-							<Logo href="/">
+							<Logo href="https://opensource.appbase.io/reactivemaps">
 								<Logo.Icon>
 									<img src="icon.svg" alt="Icon" />
 								</Logo.Icon>
@@ -64,6 +64,7 @@ class Learn extends Component {
 								mdSize={2}
 								smSize={1}
 								gutter="12px"
+								smGutter="0px"
 								style={{ marginTop: 60 }}
 							>
 								<div className={stepCard}>
