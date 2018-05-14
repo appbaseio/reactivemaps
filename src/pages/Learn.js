@@ -32,11 +32,11 @@ class Learn extends Component {
 							</Logo>
 						</Navbar.Logo>
 						<Navbar.List>
-							<li>
-								<Link to="/tools">TOOLS</Link>
-							</li>
 							<li className="active">
 								<Link to="/learn">LEARN</Link>
+							</li>
+							<li>
+								<Link to="/tools">TOOLS</Link>
 							</li>
 							<li className="button">
 								<Button href="https://appbase.io/support" bold uppercase primary>

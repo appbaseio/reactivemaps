@@ -44,11 +44,11 @@ class Tools extends Component {
 							</Logo>
 						</Navbar.Logo>
 						<Navbar.List>
-							<li className="active">
-								<Link to="/tools">TOOLS</Link>
-							</li>
 							<li>
 								<Link to="/learn">LEARN</Link>
+							</li>
+							<li className="active">
+								<Link to="/tools">TOOLS</Link>
 							</li>
 							<li className="button">
 								<Button href="https://appbase.io/support" bold uppercase dark>
@@ -74,7 +74,7 @@ class Tools extends Component {
 							</p>
 
 							<GithubButton
-								count="1,673"
+								count="1,711"
 								href="https://github.com/appbaseio/reactivesearch"
 							/>
 

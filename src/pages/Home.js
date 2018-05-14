@@ -47,10 +47,10 @@ class Home extends Component {
 						</Navbar.Logo>
 						<Navbar.List>
 							<li>
-								<Link to="/tools">TOOLS</Link>
+								<Link to="/learn">LEARN</Link>
 							</li>
 							<li>
-								<Link to="/learn">LEARN</Link>
+								<Link to="/tools">TOOLS</Link>
 							</li>
 							<li className="button">
 								<Button href="https://appbase.io/support" bold uppercase dark>
@@ -69,13 +69,12 @@ class Home extends Component {
 						<Layout>
 							<H1 light>Build Geolocation Apps</H1>
 							<p>
-								Reactive Maps is a data-driven UI components library for building
-								Map UIs.
+								Elasticsearch UI components for reactive Map UIs.
 							</p>
 
 							<div className="button-row">
 								<GithubButton
-									count="1,673"
+									count="1,711"
 									href="https://github.com/appbaseio/reactivesearch"
 								/>
 								<Button
@@ -118,12 +117,8 @@ class Home extends Component {
 									style={{ marginTop: 30 }}
 								/>
 								<p>
-									Build the perfect search experience using our UI components or
-									by creating your own. 30+ prebuilt components with customizable
-									queries and configurable styles.
+									Build the perfect geolocation experience with 30+ prebuilt components. Or bring your own UI components into the fold.
 								</p>
-								<p>Get our designer templates for sketch.</p>
-
 								<div className="button-row">
 									<Button
 										href="https://opensource.appbase.io/reactive-manual/map-components/reactivemap.html"
@@ -138,9 +133,10 @@ class Home extends Component {
 										href="https://opensource.appbase.io/reactive-manual/advanced/reactivecomponent.html"
 										primary
 									>
-										Create your own
+										Bring your components
 									</SecondaryLink>
 								</div>
+								<p>Get <a href="/">our designer templates</a> for sketch.</p>
 							</div>
 						</Layout>
 					</Row>
@@ -149,7 +145,7 @@ class Home extends Component {
 						<Layout>
 							<H2>Up to 10x Time Savings</H2>
 							<p>
-								Focus on the design and user experience, let us handle the details.
+								Focus on design and user experience, let us handle the details.
 							</p>
 
 							<Grid
@@ -166,7 +162,7 @@ class Home extends Component {
 									<Title>Works with existing UIs</Title>
 									<p>
 										Already have your own components? Bring them to
-										ReactiveSearch.
+										Reactive Maps.
 									</p>
 									<SecondaryLink
 										primary
@@ -181,8 +177,7 @@ class Home extends Component {
 									</ActionCard.Icon>
 									<Title>Configurable styles</Title>
 									<p>
-										Reactivesearch components can be ported to create native
-										mobile UIs.
+										Styled components with rich theming and CSS injection support.
 									</p>
 									<SecondaryLink
 										href="https://opensource.appbase.io/reactive-manual/theming/themes.html"
@@ -195,9 +190,9 @@ class Home extends Component {
 									<ActionCard.Icon>
 										<img src="icons/3.png" alt="Icon" />
 									</ActionCard.Icon>
-									<Title>Create cross-platform apps</Title>
+									<Title>Create cross platform apps</Title>
 									<p>
-										Reactivesearch components can be ported to create native
+										Reactive Maps components can be ported to create native
 										mobile UIs.
 									</p>
 									<SecondaryLink
@@ -380,7 +375,7 @@ class Home extends Component {
 
 					<Section style={{ backgroundColor: '#fff' }}>
 						<Layout>
-							<H2>Built by the Reactive community</H2>
+							<H2>See what our users say</H2>
 
 							<Testimonial>
 								<Testimonial.Card row={6} color="#66A1FF">

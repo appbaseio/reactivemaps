@@ -12,7 +12,7 @@ const transition = css`
 	transition: all 0.3s ease;
 `;
 
-const Base = styled('div')`
+const Base = styled('div') `
 	font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
 	-webkit-font-smoothing: antialiased;
@@ -28,16 +28,26 @@ const Base = styled('div')`
 
 	p {
 		color: #74767e;
+
+		a {
+			text-decoration: none;
+			border-bottom: 1px dotted #74767e;
+			color: inherit;
+		}
+		a:hover {
+			border-bottom: 1px solid #74767e;
+		}
 	}
 
 	.button-row {
 		display: flex;
-		margin-top: 40px;
+		margin: 30px 0px;
 		flex-direction: row;
 		align-items: center;
 
 		a {
 			margin-right: 20px;
+			border: none;
 		}
 
 		@media all and (max-width: 768px) {
@@ -48,14 +58,14 @@ const Base = styled('div')`
 	}
 `;
 
-const Layout = styled('div')`
+const Layout = styled('div') `
 	width: 100%;
 	max-width: 1200px;
 	padding: 0 15px;
 	margin: 0 auto;
 `;
 
-const Row = styled('div')`
+const Row = styled('div') `
 	width: 100%;
 	min-height: 80vh;
 	height: auto;
@@ -205,7 +215,7 @@ const banner = css`
 	}
 `;
 
-const SecondaryLink = styled('a')`
+const SecondaryLink = styled('a') `
 	color: ${props => (props.primary ? props.theme.primaryColor : '#fff')};
 	cursor: pointer;
 	text-transform: uppercase;
@@ -222,7 +232,7 @@ const SecondaryLink = styled('a')`
 	}
 `;
 
-const Section = styled('div')`
+const Section = styled('div') `
 	width: 100%;
 	padding: 80px 0;
 	background-color: #f8f8f9;

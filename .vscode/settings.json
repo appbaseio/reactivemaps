@@ -3,5 +3,9 @@
 	"prettier.eslintIntegration": true,
 	"files.trimTrailingWhitespace": true,
 	"files.insertFinalNewline": true,
-	"files.trimFinalNewlines": true
+	"files.trimFinalNewlines": true,
+	"cSpell.words": [
+		"designkit",
+		"vcenter"
+	]
 }

@@ -7,10 +7,9 @@ export default () => (
 	<BannerRow>
 		<BannerRow.Column>
 			<div>
-				<H2 light>Build a live app in 5 minutes</H2>
+				<H2 light>Build a live app in 5 easy steps</H2>
 				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas venenatis vel
-					nisi ac tincidunt. In vel egestas enim. In bibendum dui eget tristique maximus.
+					Go from scratch to creating a data-driven Maps UI with our quickstart guide.
 				</p>
 				<div className="button-row">
 					<Button
@@ -23,23 +22,22 @@ export default () => (
 						Get Started
 					</Button>
 					<SecondaryLink href="https://opensource.appbase.io/reactive-manual">
-						Docs
+						Learn More
 					</SecondaryLink>
 				</div>
 			</div>
 		</BannerRow.Column>
 		<BannerRow.Column>
 			<div>
-				<H2 light>Work with us to build your app</H2>
+				<H2 light>Get dedicated support</H2>
 				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas venenatis vel
-					nisi ac tincidunt. In vel egestas enim. In bibendum dui eget tristique maximus.
+					We offer production support for ReactiveMaps. Want to bring your dream project to life? Work with us.
 				</p>
 				<div className="button-row">
 					<Button href="https://appbase.io/support" bold uppercase big dark>
-						<img src="support.svg" style={{ marginRight: 8 }} alt="support" /> SUPPORT
+						<img src="support.svg" style={{ marginRight: 8 }} alt="support" /> SUPPORT PLANS
 					</Button>
-					<SecondaryLink href="/learn">Learn</SecondaryLink>
+					<SecondaryLink href="/learn">Get in touch</SecondaryLink>
 				</div>
 			</div>
 		</BannerRow.Column>
