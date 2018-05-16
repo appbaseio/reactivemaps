@@ -12,7 +12,7 @@ const transition = css`
 	transition: all 0.3s ease;
 `;
 
-const Base = styled('div') `
+const Base = styled('div')`
 	font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
 	-webkit-font-smoothing: antialiased;
@@ -31,11 +31,13 @@ const Base = styled('div') `
 
 		a {
 			text-decoration: none;
-			border-bottom: 1px dotted #74767e;
+			border-bottom: 1px dashed #74767e;
 			color: inherit;
-		}
-		a:hover {
-			border-bottom: 1px solid #74767e;
+			line-height: 38px;
+
+			&:hover {
+				border-bottom: 1px solid #74767e;
+			}
 		}
 	}
 
@@ -50,22 +52,40 @@ const Base = styled('div') `
 			border: none;
 		}
 
+		&.center {
+			text-align: center;
+			justify-content: center;
+		}
+
 		@media all and (max-width: 768px) {
 			margin: 40px auto 20px;
 			text-align: center;
 			justify-content: center;
 		}
+
+		@media all and (max-width: 480px) {
+			margin: 40px auto 20px;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			justify-content: center;
+
+			a {
+				margin: 10px auto;
+				width: 240px;
+			}
+		}
 	}
 `;
 
-const Layout = styled('div') `
+const Layout = styled('div')`
 	width: 100%;
 	max-width: 1200px;
 	padding: 0 15px;
 	margin: 0 auto;
 `;
 
-const Row = styled('div') `
+const Row = styled('div')`
 	width: 100%;
 	min-height: 80vh;
 	height: auto;
@@ -213,9 +233,16 @@ const banner = css`
 			display: none;
 		}
 	}
+
+	@media all and (max-width: 480px) {
+		h1 {
+			margin-top: 70px;
+			font-size: 36px;
+		}
+	}
 `;
 
-const SecondaryLink = styled('a') `
+const SecondaryLink = styled('a')`
 	color: ${props => (props.primary ? props.theme.primaryColor : '#fff')};
 	cursor: pointer;
 	text-transform: uppercase;
@@ -232,7 +259,7 @@ const SecondaryLink = styled('a') `
 	}
 `;
 
-const Section = styled('div') `
+const Section = styled('div')`
 	width: 100%;
 	padding: 80px 0;
 	background-color: #f8f8f9;

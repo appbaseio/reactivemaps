@@ -117,7 +117,9 @@ class Home extends Component {
 									style={{ marginTop: 30 }}
 								/>
 								<p>
-									Build the perfect geolocation experience with 30+ prebuilt components. Or bring your own UI components into the fold.
+									Build the perfect geolocation experience with 30+
+									prebuilt components. Or bring your own UI components
+									into the fold.
 								</p>
 								<div className="button-row">
 									<Button

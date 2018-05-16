@@ -9,9 +9,10 @@ export default () => (
 			<div>
 				<H2 light>Build a live app in 5 easy steps</H2>
 				<p>
-					Go from scratch to creating a data-driven Maps UI with our quickstart guide.
+					Go from scratch to creating a data-driven Maps application with our quickstart
+					guide for beginners.
 				</p>
-				<div className="button-row">
+				<div className="button-row center">
 					<Button
 						href="https://opensource.appbase.io/reactive-manual/getting-started/reactivesearch.html"
 						bold
@@ -31,11 +32,13 @@ export default () => (
 			<div>
 				<H2 light>Get dedicated support</H2>
 				<p>
-					We offer production support for ReactiveMaps. Want to bring your dream project to life? Work with us.
+					We offer production support for ReactiveMaps. Want to bring your dream project
+					to life? Work with us.
 				</p>
-				<div className="button-row">
+				<div className="button-row center">
 					<Button href="https://appbase.io/support" bold uppercase big dark>
-						<img src="support.svg" style={{ marginRight: 8 }} alt="support" /> SUPPORT PLANS
+						<img src="support.svg" style={{ marginRight: 10 }} alt="support" />
+						SUPPORT PLANS
 					</Button>
 					<SecondaryLink href="/learn">Get in touch</SecondaryLink>
 				</div>

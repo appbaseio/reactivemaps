@@ -113,7 +113,13 @@ class Tools extends Component {
 
 					<Section style={{ backgroundColor: '#fcfcfc', overflow: 'hidden' }}>
 						<Layout>
-							<Grid size={2} mdSize={1} gutter="30px" className={tabCenter}>
+							<Grid
+								size={2}
+								mdSize={1}
+								gutter="30px"
+								smGutter="0px"
+								className={tabCenter}
+							>
 								<div className={vcenter} style={{ margin: 0, padding: '0 20px' }}>
 									<H2>
 										Reactive <span className={boldFont}>Search</span>
@@ -169,7 +175,13 @@ class Tools extends Component {
 
 					<Section style={{ backgroundColor: '#F0F0F5' }}>
 						<Layout>
-							<Grid size={2} mdSize={1} gutter="30px" className={tabCenter}>
+							<Grid
+								size={2}
+								mdSize={1}
+								gutter="30px"
+								smGutter="0px"
+								className={tabCenter}
+							>
 								<div style={{ margin: 0 }} className={hideTab}>
 									<img
 										width="100%"
@@ -226,7 +238,13 @@ class Tools extends Component {
 
 					<Section style={{ backgroundColor: '#193244' }}>
 						<Layout>
-							<Grid size={2} mdSize={1} gutter="30px" className={tabCenter}>
+							<Grid
+								size={2}
+								mdSize={1}
+								gutter="30px"
+								smGutter="0px"
+								className={tabCenter}
+							>
 								<div className={vcenter} style={{ margin: 0, padding: '0 20px' }}>
 									<H2 light>
 										Reactive <span className={boldFont}>Maps</span>
@@ -303,9 +321,9 @@ class Tools extends Component {
 									>
 										<img
 											src="support.svg"
-											style={{ marginRight: 8 }}
+											style={{ marginRight: 10 }}
 											alt="support"
-										/>{' '}
+										/>
 										SUPPORT
 									</Button>
 									<SecondaryLink href="/learn">Learn</SecondaryLink>
