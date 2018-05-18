@@ -47,6 +47,9 @@ class Home extends Component {
 						</Navbar.Logo>
 						<Navbar.List>
 							<li>
+								<a href="https://github.com/appbaseio/reactivesearch">GitHub</a>
+							</li>
+							<li>
 								<Link to="/learn">LEARN</Link>
 							</li>
 							<li>
