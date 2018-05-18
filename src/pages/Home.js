@@ -68,9 +68,7 @@ class Home extends Component {
 					<div className={banner}>
 						<Layout>
 							<H1 light>Build Geolocation Apps</H1>
-							<p>
-								Elasticsearch UI components for reactive Map UIs.
-							</p>
+							<p>Elasticsearch UI components for reactive Map UIs.</p>
 
 							<div className="button-row">
 								<GithubButton
@@ -117,9 +115,8 @@ class Home extends Component {
 									style={{ marginTop: 30 }}
 								/>
 								<p>
-									Build the perfect geolocation experience with 30+
-									prebuilt components. Or bring your own UI components
-									into the fold.
+									Build the perfect geolocation experience with 30+ prebuilt
+									components. Or bring your own UI components into the fold.
 								</p>
 								<div className="button-row">
 									<Button
@@ -138,7 +135,9 @@ class Home extends Component {
 										Bring your components
 									</SecondaryLink>
 								</div>
-								<p>Get <a href="/">our designer templates</a> for sketch.</p>
+								<p>
+									Get <a href="/">our designer templates</a> for sketch.
+								</p>
 							</div>
 						</Layout>
 					</Row>
@@ -146,9 +145,7 @@ class Home extends Component {
 					<Section>
 						<Layout>
 							<H2>Up to 10x Time Savings</H2>
-							<p>
-								Focus on design and user experience, let us handle the details.
-							</p>
+							<p>Focus on design and user experience, let us handle the details.</p>
 
 							<Grid
 								size={3}
@@ -163,8 +160,8 @@ class Home extends Component {
 									</ActionCard.Icon>
 									<Title>Works with existing UIs</Title>
 									<p>
-										Already have your own components? Bring them to
-										Reactive Maps.
+										Already have your own components? Bring them to Reactive
+										Maps.
 									</p>
 									<SecondaryLink
 										primary
@@ -179,7 +176,8 @@ class Home extends Component {
 									</ActionCard.Icon>
 									<Title>Configurable styles</Title>
 									<p>
-										Styled components with rich theming and CSS injection support.
+										Styled components with rich theming and CSS injection
+										support.
 									</p>
 									<SecondaryLink
 										href="https://opensource.appbase.io/reactive-manual/theming/themes.html"
@@ -262,9 +260,9 @@ class Home extends Component {
 						<Layout>
 							<div className={titleRow}>
 								<H3>Check our demos</H3>
-								<Button bold uppercase primary>
+								{/* <Button bold uppercase primary>
 									SEE MORE
-								</Button>
+								</Button> */}
 							</div>
 							<Grid
 								size={4}
@@ -274,56 +272,79 @@ class Home extends Component {
 								smGutter="0px"
 								style={{ marginBottom: '50px' }}
 							>
-								<ImageCard src="project.png">
+								<ImageCard src="demos/airbeds.png">
 									<div>
-										<Title>Carry</Title>
-										<p>Lorem ipsum dolo. Nunc ac turpis metus.</p>
-									</div>
-									<div>
-										<SecondaryLink primary>Check Demo</SecondaryLink>
-									</div>
-								</ImageCard>
-								<ImageCard src="project.png">
-									<div>
-										<Title>Carry</Title>
+										<Title>Airbeds</Title>
 										<p>
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-											Nunc ac turpis metus.
+											An airbnb inspired app for browsing housing areas in
+											Seattle
 										</p>
 									</div>
 									<div>
-										<SecondaryLink primary>Check Demo</SecondaryLink>
+										<SecondaryLink
+											primary
+											href="https://opensource.appbase.io/reactivesearch/demos/airbeds/"
+										>
+											Check Demo
+										</SecondaryLink>
 									</div>
 								</ImageCard>
-								<ImageCard src="project.png">
+								<ImageCard src="demos/datalayer.png">
 									<div>
-										<Title>Carry</Title>
+										<Title>Datalayers</Title>
 										<p>
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-											Nunc ac turpis metus.
+											Demo combining the dark forces of datalayer and
+											Reactivemaps
 										</p>
 									</div>
 									<div>
-										<SecondaryLink primary>Check Demo</SecondaryLink>
+										<SecondaryLink
+											primary
+											href="https://opensource.appbase.io/reactivesearch/demos/datalayer/"
+										>
+											Check Demo
+										</SecondaryLink>
 									</div>
 								</ImageCard>
-								<ImageCard src="project.png">
+								<ImageCard src="demos/meetup.png">
 									<div>
-										<Title>Carry</Title>
+										<Title>Meetup Blast</Title>
 										<p>
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-											Nunc ac turpis metus.
+											A kickass meetup inspired search app built with
+											Reactivemaps
 										</p>
 									</div>
 									<div>
-										<SecondaryLink primary>Check Demo</SecondaryLink>
+										<SecondaryLink
+											primary
+											href="https://opensource.appbase.io/reactivesearch/demos/meetup/"
+										>
+											Check Demo
+										</SecondaryLink>
+									</div>
+								</ImageCard>
+								<ImageCard src="demos/bus.png">
+									<div>
+										<Title>Board the bus</Title>
+										<p>
+											Catch realtime bus transportation demo in action with
+											Reactivemaps
+										</p>
+									</div>
+									<div>
+										<SecondaryLink
+											primary
+											href="https://opensource.appbase.io/reactivesearch/demos/transport/"
+										>
+											Check Demo
+										</SecondaryLink>
 									</div>
 								</ImageCard>
 							</Grid>
 
 							<div className={titleRow}>
-								<H3>Featured</H3>
-								<Button bold uppercase primary>
+								<H3>Featured Articles</H3>
+								<Button bold uppercase primary href="https://medium.appbase.io">
 									SEE MORE
 								</Button>
 							</div>
