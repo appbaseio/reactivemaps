@@ -23,7 +23,7 @@ class Learn extends Component {
 				<Base>
 					<Navbar bold>
 						<Navbar.Logo>
-							<Logo href="https://opensource.appbase.io/reactivemaps">
+							<Logo href="/reactivemaps">
 								<Logo.Icon>
 									<img src="icon.svg" alt="Icon" />
 								</Logo.Icon>

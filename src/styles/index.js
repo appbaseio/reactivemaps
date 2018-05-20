@@ -207,7 +207,7 @@ const banner = css`
 		${lightFont};
 		color: #c1c2c3 !important;
 		font-size: 1.6rem;
-		max-width: 600px;
+		max-width: 700px;
 		margin-top: 20px;
 	}
 
@@ -279,7 +279,7 @@ const vcenter = css`
 const hcenter = css`
 	display: block;
 	margin: 0 auto;
-	max-width: 600px;
+	max-width: 700px;
 	text-align: center;
 
 	p {
@@ -305,7 +305,7 @@ const titleRow = css`
 `;
 
 const titleText = css`
-	max-width: 600px;
+	max-width: 700px;
 	font-size: 1.4rem !important;
 	line-height: 2.2rem;
 	margin: 20px auto;
@@ -426,6 +426,16 @@ const featureList = css`
 		line-height: 28px;
 		font-size: 18px;
 		text-align: left;
+		a {
+			text-decoration: none;
+			border-bottom: 1px dashed #74767e;
+			color: inherit;
+			line-height: 38px;
+
+			&:hover {
+				border-bottom: 1px solid #74767e;
+			}
+		}
 	}
 `;
 

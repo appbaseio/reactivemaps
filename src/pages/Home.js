@@ -37,7 +37,7 @@ class Home extends Component {
 				<Base>
 					<Navbar bold dark>
 						<Navbar.Logo>
-							<Logo light href="https://opensource.appbase.io/reactivemaps">
+							<Logo light href="/reactivemaps">
 								<Logo.Icon>
 									<img src="icon.svg" alt="Icon" />
 								</Logo.Icon>
@@ -46,9 +46,6 @@ class Home extends Component {
 							</Logo>
 						</Navbar.Logo>
 						<Navbar.List>
-							<li>
-								<a href="https://github.com/appbaseio/reactivesearch">GitHub</a>
-							</li>
 							<li>
 								<Link to="/learn">LEARN</Link>
 							</li>

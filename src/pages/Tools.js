@@ -35,7 +35,7 @@ class Tools extends Component {
 				<Base>
 					<Navbar bold dark>
 						<Navbar.Logo>
-							<Logo light href="https://opensource.appbase.io/reactivemaps">
+							<Logo light href="/reactivemaps">
 								<Logo.Icon>
 									<img src="icon.svg" alt="Icon" />
 								</Logo.Icon>
@@ -69,8 +69,7 @@ class Tools extends Component {
 								Reactive <span className={boldFont}>X</span>
 							</H1>
 							<p style={{ color: '#C1C2C3', marginBottom: 40 }} className={titleText}>
-								Everything to build amazing apps lorem ipsum orem ipsum dolor sit
-								amet.
+								All of our companion Reactive UI component kits.
 							</p>
 
 							<GithubButton
@@ -93,18 +92,18 @@ class Tools extends Component {
 									</p>
 								</div>
 								<div>
+									<img src="tools/ReactiveMaps.svg" alt="Reactivemaps" />
+									<p className={brand}>
+										Reactive <span className={boldFont}>Maps</span> for web
+									</p>
+								</div>
+								<div>
 									<img
 										src="tools/ReactiveNative.svg"
 										alt="Reactivesearch for mobile"
 									/>
 									<p className={brand}>
-										Reactive <span className={boldFont}>Search</span> for mobile
-									</p>
-								</div>
-								<div>
-									<img src="tools/ReactiveMaps.svg" alt="Reactivemaps" />
-									<p className={brand}>
-										Reactive <span className={boldFont}>Maps</span>
+										Reactive <span className={boldFont}>X</span> for mobile
 									</p>
 								</div>
 							</Grid>
@@ -122,31 +121,31 @@ class Tools extends Component {
 							>
 								<div className={vcenter} style={{ margin: 0, padding: '0 20px' }}>
 									<H2>
+										<img src="tools/Search.svg" alt="Reactivesearch for web" style={{
+											maxHeight: "42px",
+											marginRight: "5px"
+										}} />
 										Reactive <span className={boldFont}>Search</span>
 									</H2>
 									<p>
-										A React UI components library for building Airbnb / Yelp
-										like search interfaces.
+										An Elasticsearch components library for building search UIs.
 									</p>
 
 									<ul className={featureList}>
 										<li>
-											Lorem ipsum dolor, sit amet consectetur adipisicing
-											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+											20+ pre-built React UI components with configurable styles and queries.
 										</li>
 										<li>
-											Lorem ipsum dolor, sit amet consectetur adipisicing
-											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+											Bring your own UI components.
 										</li>
 										<li>
-											Lorem ipsum dolor, sit amet consectetur adipisicing
-											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+											Used in production for B2B, e-commerce, and SaaS search.
 										</li>
 									</ul>
 
 									<div className="button-row">
 										<Button
-											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivesearch.html"
+											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivesearch.html" target="_blank"
 											bold
 											uppercase
 											big
@@ -155,7 +154,7 @@ class Tools extends Component {
 											Get Started
 										</Button>
 										<SecondaryLink
-											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/web"
+											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/web" target="_blank"
 											primary
 										>
 											Learn More
@@ -173,69 +172,6 @@ class Tools extends Component {
 						</Layout>
 					</Section>
 
-					<Section style={{ backgroundColor: '#F0F0F5' }}>
-						<Layout>
-							<Grid
-								size={2}
-								mdSize={1}
-								gutter="30px"
-								smGutter="0px"
-								className={tabCenter}
-							>
-								<div style={{ margin: 0 }} className={hideTab}>
-									<img
-										width="100%"
-										src="tools/Native.png"
-										srcSet="/tools/Native@2x.png 2x"
-										alt="Reactivesearch Native"
-									/>
-								</div>
-								<div className={vcenter} style={{ margin: 0, padding: '0 20px' }}>
-									<H2>
-										Reactive <span className={boldFont}>Search Native</span>
-									</H2>
-									<p>
-										A React UI components library for building Airbnb / Yelp
-										like search interfaces.
-									</p>
-
-									<ul className={featureList}>
-										<li>
-											Lorem ipsum dolor, sit amet consectetur adipisicing
-											elit. Dolorem ut sequi facere tempore mollitia. Illum!
-										</li>
-										<li>
-											Lorem ipsum dolor, sit amet consectetur adipisicing
-											elit. Dolorem ut sequi facere tempore mollitia. Illum!
-										</li>
-										<li>
-											Lorem ipsum dolor, sit amet consectetur adipisicing
-											elit. Dolorem ut sequi facere tempore mollitia. Illum!
-										</li>
-									</ul>
-
-									<div className="button-row">
-										<Button
-											href="https://hackernoon.com/building-an-e-commerce-search-app-with-react-native-2c87760a2315"
-											bold
-											uppercase
-											big
-											success
-										>
-											Get Started
-										</Button>
-										<SecondaryLink
-											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/native"
-											primary
-										>
-											Learn More
-										</SecondaryLink>
-									</div>
-								</div>
-							</Grid>
-						</Layout>
-					</Section>
-
 					<Section style={{ backgroundColor: '#193244' }}>
 						<Layout>
 							<Grid
@@ -245,33 +181,40 @@ class Tools extends Component {
 								smGutter="0px"
 								className={tabCenter}
 							>
+								<div style={{ margin: 0 }} className={hideTab}>
+									<img
+										width="100%"
+										src="tools/ReactiveMaps.png"
+										alt="Reactivemaps"
+									/>
+								</div>
 								<div className={vcenter} style={{ margin: 0, padding: '0 20px' }}>
 									<H2 light>
+										<img src="tools/ReactiveMaps.svg" alt="Reactivesearch for web" style={{
+											maxHeight: "42px",
+											marginRight: "5px"
+										}} />
 										Reactive <span className={boldFont}>Maps</span>
 									</H2>
 									<p style={{ color: '#fff' }}>
-										A React UI components library for building Airbnb / Yelp
-										like search interfaces.
+										An Elasticsearch components library for building geolocation apps.
 									</p>
 
 									<ul className={featureList}>
 										<li style={{ color: '#fff' }}>
-											Lorem ipsum dolor, sit amet consectetur adipisicing
-											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+											Works with ReactiveSearch components, and adds geospatial components for Maps.
 										</li>
 										<li style={{ color: '#fff' }}>
-											Lorem ipsum dolor, sit amet consectetur adipisicing
-											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+											Bring your own UI components.
 										</li>
 										<li style={{ color: '#fff' }}>
-											Lorem ipsum dolor, sit amet consectetur adipisicing
-											elit. Dolorem ut sequi facere tempore mollitia. Illum!
+											Built on top of Google Maps. It can be extended to build routes, places and location streaming apps.
 										</li>
 									</ul>
 
 									<div className="button-row">
 										<Button
-											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html"
+											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html" target="_blank"
 											bold
 											uppercase
 											big
@@ -279,7 +222,62 @@ class Tools extends Component {
 										>
 											Get Started
 										</Button>
-										<SecondaryLink href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/maps">
+										<SecondaryLink href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/maps" target="_blank">
+											Learn More
+										</SecondaryLink>
+									</div>
+								</div>
+							</Grid>
+						</Layout>
+					</Section>
+
+					<Section style={{ backgroundColor: '#F0F0F5' }}>
+						<Layout>
+							<Grid
+								size={2}
+								mdSize={1}
+								gutter="30px"
+								smGutter="0px"
+								className={tabCenter}
+							>
+								<div className={vcenter} style={{ margin: 0, padding: '0 20px' }}>
+									<H2>
+										<img src="tools/ReactiveNative.svg" alt="Reactivesearch for web" style={{
+											maxHeight: "42px",
+											marginRight: "5px"
+										}} />
+										Reactive<span className={boldFont}>Search Native</span>
+									</H2>
+									<p>
+										Elasticsearch UI components for React Native targeting Android and iOS apps.
+									</p>
+
+									<ul className={featureList}>
+										<li>
+											Over 10 pre-built UI components that maintain design parity with web components.
+										</li>
+										<li>
+											Bring your own UI components.
+										</li>
+										<li>
+											Currently in preview. Hit us at <a href="https://gitter.com/appbaseio/reactivesearch" target="_blank">Gitter</a> or <a href="https://github.com/appbaseio/reactivesearch" target="_blank">Github</a> for issues.
+										</li>
+									</ul>
+
+									<div className="button-row">
+										<Button
+											href="https://hackernoon.com/building-an-e-commerce-search-app-with-react-native-2c87760a2315" target="_blank"
+											bold
+											uppercase
+											big
+											success
+										>
+											Get Started
+										</Button>
+										<SecondaryLink
+											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/native" target="_blank"
+											primary
+										>
 											Learn More
 										</SecondaryLink>
 									</div>
@@ -287,8 +285,9 @@ class Tools extends Component {
 								<div style={{ margin: 0 }} className={hideTab}>
 									<img
 										width="100%"
-										src="tools/ReactiveMaps.png"
-										alt="Reactivemaps"
+										src="tools/Native.png"
+										srcSet="/tools/Native@2x.png 2x"
+										alt="Reactivesearch Native"
 									/>
 								</div>
 							</Grid>
@@ -307,9 +306,7 @@ class Tools extends Component {
 							<H2 light>Work with us to build your app</H2>
 							<div className={hcenter}>
 								<p>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-									Maecenas venenatis vel nisi ac tincidunt. In vel egestas enim.
-									In bibendum dui eget tristique maximus.
+									We offer production support for ReactiveMaps. Want to bring your dream project to life? Work with us.
 								</p>
 								<div className="button-row">
 									<Button
@@ -324,9 +321,9 @@ class Tools extends Component {
 											style={{ marginRight: 10 }}
 											alt="support"
 										/>
-										SUPPORT
+										SUPPORT PLANS
 									</Button>
-									<SecondaryLink href="/learn">Learn</SecondaryLink>
+									<SecondaryLink href="https://appbase.io/">Elasticsearch Hosting</SecondaryLink>
 								</div>
 							</div>
 						</Layout>
