@@ -331,14 +331,29 @@ const stepCard = css`
 	justify-content: space-between;
 
 	& > div:last-child {
-		margin-top: 40px;
+		margin-top: 20px;
+	}
+
+	& > div:last-child {
+		margin-top: 0px;
 	}
 
 	p {
-		margin: 0;
+		margin: 8px -10px 0 -40px;
 		max-width: none;
 		font-size: 15px;
 		line-height: 23px;
+	}
+
+	code {
+		margin: 0 -10px 0 -40px;
+		color: rgba(0, 0, 32, 0.8);
+		display: inline-block;
+		font-size: 14px;
+		background-color: rgba(0, 1, 31, 0.03);
+		padding: 4px;
+		white-space: pre-wrap;
+		word-wrap: break-word;
 	}
 
 	h4 {

@@ -53,10 +53,9 @@ class Learn extends Component {
 
 					<Section>
 						<Layout>
-							<H1>Quickstart</H1>
+							<H1>Get Started with Reactive Maps</H1>
 							<p className={titleText}>
-								Use our step-by-step guide to get started with ReactiveMaps in
-								minutes, or check out our docs.
+								Use our step-by-step guide to learn all about Reactive Maps, or check out our <a href="https://opensource.appbase.io/reactive-manual/" target="_blank">docs</a>.
 							</p>
 
 							<Grid
@@ -70,96 +69,92 @@ class Learn extends Component {
 								<div className={stepCard}>
 									<span className="count">1</span>
 									<div>
-										<Title>Download NodeJS</Title>
+										<Title>Install Reactive X</Title>
 										<p>
-											Lorem ipsum dolor sit amet consectetur adipisicing elit.
-											Et nulla nemo quidem natus? Ea natus adipisci illum
-											temporibus quia voluptate suscipit dolores facilis
-											cupiditate, esse sequi ducimus a quasi quae?
+											ReactiveSearch is a set of Elasticsearch components for building data-driven UIs.
+										</p>
+										<p>
+											ReactiveMaps is an extension of ReactiveSearch that provides map focused UI components.
 										</p>
 									</div>
 									<div>
-										<SecondaryLink primary>Download</SecondaryLink>
+										<pre>
+											<code>npm install @appbaseio/reactivesearch
+											</code>
+										</pre>
+										<pre>
+											<code>npm install @appbaseio/reactivemaps
+											</code>
+										</pre>
 									</div>
 								</div>
 
 								<div className={stepCard}>
 									<span className="count">2</span>
 									<div>
-										<Title>Install on your device</Title>
+										<Title>Add Google Maps JS</Title>
 										<p>
-											Lorem ipsum dolor sit amet consectetur adipisicing elit.
-											Et nulla nemo quidem natus? Ea natus adipisci illum
-											temporibus quia voluptate suscipit dolores facilis
-											cupiditate, esse sequi ducimus a quasi quae?
+											ReactiveMaps use Google Maps to render the map component. You can add the following script in the &lt;head> element of your main .html file.
+										</p>
+										<p>
+											Get the <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">API Key</a> and info on how to add the Maps script.
 										</p>
 									</div>
 									<div>
-										<SecondaryLink primary>Download</SecondaryLink>
+										<SecondaryLink primary href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html" target="_blank">Step-by-step installation guide</SecondaryLink>
 									</div>
 								</div>
 
 								<div className={stepCard}>
 									<span className="count">3</span>
 									<div>
-										<Title>Get the command line tool</Title>
+										<Title>Connect to your ES index</Title>
 										<p>
-											Lorem ipsum dolor sit amet consectetur adipisicing elit.
-											Et nulla nemo quidem natus? Ea natus adipisci illum
-											temporibus quia voluptate suscipit dolores facilis
-											cupiditate, esse sequi ducimus a quasi quae?
+											ReactiveMaps components can connect to an Elasticsearch index (hosted anywhere) for performing geospatial queries.
 										</p>
-									</div>
-									<div>
-										<SecondaryLink primary>Download</SecondaryLink>
+										<p>
+											Create a free app with <a href="https://appbase.io" target="_blank">appbase.io</a>, or <a href="https://opensource.appbase.io/reactive-manual/getting-started/reactivebase.html#connect-to-elasticsearch" target="_blank">learn more</a> on how to connect with your Elasticsearch.
+										</p>
 									</div>
 								</div>
 
 								<div className={stepCard}>
 									<span className="count">4</span>
 									<div>
-										<Title>Create your first project</Title>
+										<Title>Create or import dataset</Title>
 										<p>
-											Lorem ipsum dolor sit amet consectetur adipisicing elit.
-											Et nulla nemo quidem natus? Ea natus adipisci illum
-											temporibus quia voluptate suscipit dolores facilis
-											cupiditate, esse sequi ducimus a quasi quae?
+											Use Dejavu, an open-source databrowser from appbase.io to create, view, edit and import dataset into your Elasticsearch index.
 										</p>
 									</div>
 									<div>
-										<SecondaryLink primary>Download</SecondaryLink>
+										<SecondaryLink primary href="https://opensource.appbase.io/dejavu/" target="_blank">Dejavu</SecondaryLink>
+										<SecondaryLink primary href="https://opensource.appbase.io/reactive-manual/getting-started/data.html" target="_blank" style={{marginLeft: "1rem"}}>Import data</SecondaryLink>
 									</div>
 								</div>
 
 								<div className={stepCard}>
 									<span className="count">5</span>
 									<div>
-										<Title>Preview your project</Title>
+										<Title>UI Components</Title>
 										<p>
-											Lorem ipsum dolor sit amet consectetur adipisicing elit.
-											Et nulla nemo quidem natus? Ea natus adipisci illum
-											temporibus quia voluptate suscipit dolores facilis
-											cupiditate, esse sequi ducimus a quasi quae?
+											Add UI components for <a href="https://opensource.appbase.io/reactive-manual/map-components/geodistanceslider.html" target="_blank">Maps</a>, <a href="https://opensource.appbase.io/reactive-manual/list-components/singlelist.html" target="_blank">List</a>, <a href="https://opensource.appbase.io/reactive-manual/range-components/singlerange.html" target="_blank">Range</a>, <a href="https://opensource.appbase.io/reactive-manual/search-components/datasearch.html" target="_blank">Search</a>, <a href="https://opensource.appbase.io/reactive-manual/result-components/resultlist.html" target="_blank">Results</a>.
 										</p>
 									</div>
 									<div>
-										<SecondaryLink primary>Download</SecondaryLink>
+										<SecondaryLink primary href="https://opensource.appbase.io/reactive-manual/getting-started/componentsindex.html" target="_blank">Component Docs</SecondaryLink>
 									</div>
 								</div>
 
 								<div className={stepCard}>
 									<span className="count">6</span>
 									<div>
-										<Title>Start coding!</Title>
+										<Title>Maps for React Native</Title>
 										<p>
-											Lorem ipsum dolor sit amet consectetur adipisicing elit.
-											Et nulla nemo quidem natus? Ea natus adipisci illum
-											temporibus quia voluptate suscipit dolores facilis
-											cupiditate, esse sequi ducimus a quasi quae?
+											ReactiveMaps is also available in preview for React Native.
 										</p>
 									</div>
 									<div>
-										<SecondaryLink primary>Download</SecondaryLink>
+										<SecondaryLink primary>Quickstart with React Native</SecondaryLink>
 									</div>
 								</div>
 							</Grid>
