@@ -55,7 +55,7 @@ class Learn extends Component {
 						<Layout>
 							<H1>Get Started with Reactive Maps</H1>
 							<p className={titleText}>
-								Use our step-by-step guide to learn all about Reactive Maps, or check out our <a href="https://opensource.appbase.io/reactive-manual/" target="_blank">docs</a>.
+								Use our step-by-step guide to learn all about Reactive Maps, or check out our <a rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/" target="_blank">docs</a>.
 							</p>
 
 							<Grid
@@ -94,14 +94,14 @@ class Learn extends Component {
 									<div>
 										<Title>Add Google Maps JS</Title>
 										<p>
-											ReactiveMaps use Google Maps to render the map component. You can add the following script in the &lt;head> element of your main .html file.
+											ReactiveMaps use Google Maps to render the map component. You can add the following script in the &lt;head&gt; element of your main .html file.
 										</p>
 										<p>
-											Get the <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">API Key</a> and info on how to add the Maps script.
+											Get the <a rel="noopener noreferrer" href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">API Key</a> and info on how to add the Maps script.
 										</p>
 									</div>
 									<div>
-										<SecondaryLink primary href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html" target="_blank">Step-by-step installation guide</SecondaryLink>
+										<SecondaryLink primary rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html" target="_blank">Step-by-step installation guide</SecondaryLink>
 									</div>
 								</div>
 
@@ -113,7 +113,7 @@ class Learn extends Component {
 											ReactiveMaps components can connect to an Elasticsearch index (hosted anywhere) for performing geospatial queries.
 										</p>
 										<p>
-											Create a free app with <a href="https://appbase.io" target="_blank">appbase.io</a>, or <a href="https://opensource.appbase.io/reactive-manual/getting-started/reactivebase.html#connect-to-elasticsearch" target="_blank">learn more</a> on how to connect with your Elasticsearch.
+											Create a free app with <a rel="noopener noreferrer" href="https://appbase.io" target="_blank">appbase.io</a>, or <a rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/getting-started/reactivebase.html#connect-to-elasticsearch" target="_blank">learn more</a> on how to connect with your Elasticsearch.
 										</p>
 									</div>
 								</div>
@@ -127,8 +127,8 @@ class Learn extends Component {
 										</p>
 									</div>
 									<div>
-										<SecondaryLink primary href="https://opensource.appbase.io/dejavu/" target="_blank">Dejavu</SecondaryLink>
-										<SecondaryLink primary href="https://opensource.appbase.io/reactive-manual/getting-started/data.html" target="_blank" style={{marginLeft: "1rem"}}>Import data</SecondaryLink>
+										<SecondaryLink primary rel="noopener noreferrer" href="https://opensource.appbase.io/dejavu/" target="_blank">Dejavu</SecondaryLink>
+										<SecondaryLink primary rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/getting-started/data.html" target="_blank" style={{ marginLeft: '1rem' }}>Import data</SecondaryLink>
 									</div>
 								</div>
 
@@ -137,11 +137,11 @@ class Learn extends Component {
 									<div>
 										<Title>UI Components</Title>
 										<p>
-											Add UI components for <a href="https://opensource.appbase.io/reactive-manual/map-components/geodistanceslider.html" target="_blank">Maps</a>, <a href="https://opensource.appbase.io/reactive-manual/list-components/singlelist.html" target="_blank">List</a>, <a href="https://opensource.appbase.io/reactive-manual/range-components/singlerange.html" target="_blank">Range</a>, <a href="https://opensource.appbase.io/reactive-manual/search-components/datasearch.html" target="_blank">Search</a>, <a href="https://opensource.appbase.io/reactive-manual/result-components/resultlist.html" target="_blank">Results</a>.
+											Add UI components for <a rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/map-components/geodistanceslider.html" target="_blank">Maps</a>, <a rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/list-components/singlelist.html" target="_blank">List</a>, <a rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/range-components/singlerange.html" target="_blank">Range</a>, <a rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/search-components/datasearch.html" target="_blank">Search</a>, <a rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/result-components/resultlist.html" target="_blank">Results</a>.
 										</p>
 									</div>
 									<div>
-										<SecondaryLink primary href="https://opensource.appbase.io/reactive-manual/getting-started/componentsindex.html" target="_blank">Component Docs</SecondaryLink>
+										<SecondaryLink primary rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/getting-started/componentsindex.html" target="_blank">Component Docs</SecondaryLink>
 									</div>
 								</div>
 

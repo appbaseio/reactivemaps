@@ -121,10 +121,14 @@ class Tools extends Component {
 							>
 								<div className={vcenter} style={{ margin: 0, padding: '0 20px' }}>
 									<H2>
-										<img src="tools/Search.svg" alt="Reactivesearch for web" style={{
-											maxHeight: "42px",
-											marginRight: "5px"
-										}} />
+										<img
+											src="tools/Search.svg"
+											alt="Reactivesearch for web"
+											style={{
+												maxHeight: '42px',
+												marginRight: '5px',
+											}}
+										/>
 										Reactive <span className={boldFont}>Search</span>
 									</H2>
 									<p>
@@ -145,7 +149,9 @@ class Tools extends Component {
 
 									<div className="button-row">
 										<Button
-											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivesearch.html" target="_blank"
+											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivesearch.html"
+											rel="noopener noreferrer"
+											target="_blank"
 											bold
 											uppercase
 											big
@@ -154,7 +160,9 @@ class Tools extends Component {
 											Get Started
 										</Button>
 										<SecondaryLink
-											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/web" target="_blank"
+											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/web"
+											rel="noopener noreferrer"
+											target="_blank"
 											primary
 										>
 											Learn More
@@ -190,10 +198,14 @@ class Tools extends Component {
 								</div>
 								<div className={vcenter} style={{ margin: 0, padding: '0 20px' }}>
 									<H2 light>
-										<img src="tools/ReactiveMaps.svg" alt="Reactivesearch for web" style={{
-											maxHeight: "42px",
-											marginRight: "5px"
-										}} />
+										<img
+											src="tools/ReactiveMaps.svg"
+											alt="Reactivesearch for web"
+											style={{
+												maxHeight: '42px',
+												marginRight: '5px',
+											}}
+										/>
 										Reactive <span className={boldFont}>Maps</span>
 									</H2>
 									<p style={{ color: '#fff' }}>
@@ -214,7 +226,9 @@ class Tools extends Component {
 
 									<div className="button-row">
 										<Button
-											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html" target="_blank"
+											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html"
+											rel="noopener noreferrer"
+											target="_blank"
 											bold
 											uppercase
 											big
@@ -222,7 +236,11 @@ class Tools extends Component {
 										>
 											Get Started
 										</Button>
-										<SecondaryLink href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/maps" target="_blank">
+										<SecondaryLink
+											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/maps"
+											rel="noopener noreferrer"
+											target="_blank"
+										>
 											Learn More
 										</SecondaryLink>
 									</div>
@@ -242,10 +260,14 @@ class Tools extends Component {
 							>
 								<div className={vcenter} style={{ margin: 0, padding: '0 20px' }}>
 									<H2>
-										<img src="tools/ReactiveNative.svg" alt="Reactivesearch for web" style={{
-											maxHeight: "42px",
-											marginRight: "5px"
-										}} />
+										<img
+											src="tools/ReactiveNative.svg"
+											alt="Reactivesearch for web"
+											style={{
+												maxHeight: '42px',
+												marginRight: '5px',
+											}}
+										/>
 										Reactive<span className={boldFont}>Search Native</span>
 									</H2>
 									<p>
@@ -260,13 +282,29 @@ class Tools extends Component {
 											Bring your own UI components.
 										</li>
 										<li>
-											Currently in preview. Hit us at <a href="https://gitter.com/appbaseio/reactivesearch" target="_blank">Gitter</a> or <a href="https://github.com/appbaseio/reactivesearch" target="_blank">Github</a> for issues.
+											Currently in preview. Hit us at
+											<a
+												href="https://gitter.com/appbaseio/reactivesearch"
+												rel="noopener noreferrer"
+												target="_blank"
+											>
+												Gitter
+											</a> or
+											<a
+												href="https://github.com/appbaseio/reactivesearch"
+												rel="noopener noreferrer"
+												target="_blank"
+											>
+												Github
+											</a> for issues.
 										</li>
 									</ul>
 
 									<div className="button-row">
 										<Button
-											href="https://hackernoon.com/building-an-e-commerce-search-app-with-react-native-2c87760a2315" target="_blank"
+											href="https://hackernoon.com/building-an-e-commerce-search-app-with-react-native-2c87760a2315"
+											rel="noopener noreferrer"
+											target="_blank"
 											bold
 											uppercase
 											big
@@ -275,7 +313,9 @@ class Tools extends Component {
 											Get Started
 										</Button>
 										<SecondaryLink
-											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/native" target="_blank"
+											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/native"
+											rel="noopener noreferrer"
+											target="_blank"
 											primary
 										>
 											Learn More
