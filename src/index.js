@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import './index.css';
 import Home from './pages/Home';
@@ -10,11 +10,11 @@ import registerServiceWorker from './registerServiceWorker';
 
 const Root = () => (
 	<Router basename="/reactivemaps">
-		<Fragment>
+		<Switch>
 			<Route exact path="/" component={Home} />
 			<Route exact path="/learn" component={Learn} />
 			<Route exact path="/tools" component={Tools} />
-		</Fragment>
+		</Switch>
 	</Router>
 );
 
