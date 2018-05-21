@@ -32,8 +32,8 @@ export default () => (
 			<div>
 				<H2 light>Get dedicated support</H2>
 				<p>
-					We offer production support for ReactiveMaps. Want to bring your dream project
-					to life? Work with us.
+					We offer production support for ReactiveMaps. Work with us to bring your dream
+					project to life.
 				</p>
 				<div className="button-row center">
 					<Button href="https://appbase.io/support" bold uppercase big dark>

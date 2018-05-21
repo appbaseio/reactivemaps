@@ -4,7 +4,7 @@
 	"private": true,
 	"homepage": "https://opensource.appbase.io/reactivemaps",
 	"dependencies": {
-		"@appbaseio/designkit": "^0.7.2",
+		"@appbaseio/designkit": "^0.7.4",
 		"emotion": "^9.1.2",
 		"emotion-theming": "^9.1.2",
 		"gh-pages": "^1.1.0",

@@ -17,6 +17,7 @@ import {
 	titleText,
 	featureList,
 	boldFont,
+	showMobileFlex,
 } from '../styles';
 import Footer from '../components/Footer';
 
@@ -49,6 +50,9 @@ class Tools extends Component {
 							</li>
 							<li className="active">
 								<Link to="/tools">TOOLS</Link>
+							</li>
+							<li className={showMobileFlex}>
+								<a href="https://github.com/appbaseio/reactivesearch">GITHUB</a>
 							</li>
 							<li className="button">
 								<Button href="https://appbase.io/support" bold uppercase dark>
@@ -125,8 +129,10 @@ class Tools extends Component {
 											src="tools/Search.svg"
 											alt="Reactivesearch for web"
 											style={{
-												maxHeight: '42px',
-												marginRight: '5px',
+												height: '44px',
+												marginRight: '15px',
+												top: '2px',
+												position: 'relative',
 											}}
 										/>
 										Reactive <span className={boldFont}>Search</span>
@@ -137,11 +143,10 @@ class Tools extends Component {
 
 									<ul className={featureList}>
 										<li>
-											20+ pre-built React UI components with configurable styles and queries.
+											20+ pre-built React UI components with configurable
+											styles and queries.
 										</li>
-										<li>
-											Bring your own UI components.
-										</li>
+										<li>Bring your own UI components.</li>
 										<li>
 											Used in production for B2B, e-commerce, and SaaS search.
 										</li>
@@ -150,8 +155,8 @@ class Tools extends Component {
 									<div className="button-row">
 										<Button
 											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivesearch.html"
-											rel="noopener noreferrer"
 											target="_blank"
+											rel="noopener noreferrer"
 											bold
 											uppercase
 											big
@@ -161,8 +166,8 @@ class Tools extends Component {
 										</Button>
 										<SecondaryLink
 											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/web"
-											rel="noopener noreferrer"
 											target="_blank"
+											rel="noopener noreferrer"
 											primary
 										>
 											Learn More
@@ -202,33 +207,38 @@ class Tools extends Component {
 											src="tools/ReactiveMaps.svg"
 											alt="Reactivesearch for web"
 											style={{
-												maxHeight: '42px',
-												marginRight: '5px',
+												height: '44px',
+												marginRight: '15px',
+												top: '2px',
+												position: 'relative',
 											}}
 										/>
 										Reactive <span className={boldFont}>Maps</span>
 									</H2>
 									<p style={{ color: '#fff' }}>
-										An Elasticsearch components library for building geolocation apps.
+										An Elasticsearch components library for building geolocation
+										apps.
 									</p>
 
 									<ul className={featureList}>
 										<li style={{ color: '#fff' }}>
-											Works with ReactiveSearch components, and adds geospatial components for Maps.
+											Works with ReactiveSearch components, and adds
+											geospatial components for Maps.
 										</li>
 										<li style={{ color: '#fff' }}>
 											Bring your own UI components.
 										</li>
 										<li style={{ color: '#fff' }}>
-											Built on top of Google Maps. It can be extended to build routes, places and location streaming apps.
+											Built on top of Google Maps. It can be extended to build
+											routes, places and location streaming apps.
 										</li>
 									</ul>
 
 									<div className="button-row">
 										<Button
 											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html"
-											rel="noopener noreferrer"
 											target="_blank"
+											rel="noopener noreferrer"
 											bold
 											uppercase
 											big
@@ -238,8 +248,8 @@ class Tools extends Component {
 										</Button>
 										<SecondaryLink
 											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/maps"
-											rel="noopener noreferrer"
 											target="_blank"
+											rel="noopener noreferrer"
 										>
 											Learn More
 										</SecondaryLink>
@@ -264,23 +274,25 @@ class Tools extends Component {
 											src="tools/ReactiveNative.svg"
 											alt="Reactivesearch for web"
 											style={{
-												maxHeight: '42px',
-												marginRight: '5px',
+												height: '44px',
+												marginRight: '15px',
+												top: '2px',
+												position: 'relative',
 											}}
 										/>
 										Reactive<span className={boldFont}>Search Native</span>
 									</H2>
 									<p>
-										Elasticsearch UI components for React Native targeting Android and iOS apps.
+										Elasticsearch UI components for React Native targeting
+										Android and iOS apps.
 									</p>
 
 									<ul className={featureList}>
 										<li>
-											Over 10 pre-built UI components that maintain design parity with web components.
+											Over 10 pre-built UI components that maintain design
+											parity with web components.
 										</li>
-										<li>
-											Bring your own UI components.
-										</li>
+										<li>Bring your own UI components.</li>
 										<li>
 											Currently in preview. Hit us at
 											<a
@@ -289,22 +301,24 @@ class Tools extends Component {
 												target="_blank"
 											>
 												Gitter
-											</a> or
+											</a>{' '}
+											or
 											<a
 												href="https://github.com/appbaseio/reactivesearch"
 												rel="noopener noreferrer"
 												target="_blank"
 											>
 												Github
-											</a> for issues.
+											</a>{' '}
+											for issues.
 										</li>
 									</ul>
 
 									<div className="button-row">
 										<Button
 											href="https://hackernoon.com/building-an-e-commerce-search-app-with-react-native-2c87760a2315"
-											rel="noopener noreferrer"
 											target="_blank"
+											rel="noopener noreferrer"
 											bold
 											uppercase
 											big
@@ -314,8 +328,8 @@ class Tools extends Component {
 										</Button>
 										<SecondaryLink
 											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/native"
-											rel="noopener noreferrer"
 											target="_blank"
+											rel="noopener noreferrer"
 											primary
 										>
 											Learn More
@@ -345,8 +359,9 @@ class Tools extends Component {
 							/>
 							<H2 light>Work with us to build your app</H2>
 							<div className={hcenter}>
-								<p>
-									We offer production support for ReactiveMaps. Want to bring your dream project to life? Work with us.
+								<p style={{ maxWidth: 450, margin: '20px auto 40px' }}>
+									We offer production support for ReactiveMaps. Work with us to
+									bring your dream project to life.
 								</p>
 								<div className="button-row">
 									<Button
@@ -363,7 +378,9 @@ class Tools extends Component {
 										/>
 										SUPPORT PLANS
 									</Button>
-									<SecondaryLink href="https://appbase.io/">Elasticsearch Hosting</SecondaryLink>
+									<SecondaryLink href="https://appbase.io/">
+										Elasticsearch Hosting
+									</SecondaryLink>
 								</div>
 							</div>
 						</Layout>

@@ -339,19 +339,22 @@ const stepCard = css`
 	}
 
 	p {
-		margin: 8px -10px 0 -40px;
 		max-width: none;
-		font-size: 15px;
-		line-height: 23px;
+		font-size: 16px !important;
+		line-height: 26px;
+
+		a {
+			line-height: 23px !important;
+		}
 	}
 
 	code {
-		margin: 0 -10px 0 -40px;
 		color: rgba(0, 0, 32, 0.8);
 		display: inline-block;
 		font-size: 14px;
+		line-height: 24px;
 		background-color: rgba(0, 1, 31, 0.03);
-		padding: 4px;
+		padding: 4px 6px;
 		white-space: pre-wrap;
 		word-wrap: break-word;
 	}
@@ -370,6 +373,12 @@ const stepCard = css`
 		color: #0033ff;
 		${boldFont};
 	}
+
+	@media all and (min-width: 768px) {
+		.full {
+			margin-left: -35px;
+		}
+	}
 `;
 
 const brand = css`
@@ -385,6 +394,14 @@ const showMobile = css`
 
 	@media all and (max-width: 640px) {
 		display: block;
+	}
+`;
+
+const showMobileFlex = css`
+	display: none !important;
+
+	@media all and (max-width: 640px) {
+		display: flex !important;
 	}
 `;
 
@@ -454,6 +471,7 @@ export {
 	brand,
 	hideMobile,
 	showMobile,
+	showMobileFlex,
 	hideTab,
 	tabCenter,
 	boldFont,

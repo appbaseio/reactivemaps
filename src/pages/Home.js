@@ -14,6 +14,7 @@ import {
 	vcenter,
 	hideMobile,
 	showMobile,
+	showMobileFlex,
 } from '../styles';
 import ActionCard from '../styles/ActionCard';
 import Testimonial from '../styles/Testimonial';
@@ -51,6 +52,9 @@ class Home extends Component {
 							</li>
 							<li>
 								<Link to="/tools">TOOLS</Link>
+							</li>
+							<li className={showMobileFlex}>
+								<a href="https://github.com/appbaseio/reactivesearch">GITHUB</a>
 							</li>
 							<li className="button">
 								<Button href="https://appbase.io/support" bold uppercase dark>
