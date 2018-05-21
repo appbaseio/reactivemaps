@@ -160,7 +160,7 @@ class Tools extends Component {
 											bold
 											uppercase
 											big
-											success
+											primary
 										>
 											Get Started
 										</Button>
@@ -242,7 +242,7 @@ class Tools extends Component {
 											bold
 											uppercase
 											big
-											success
+											primary
 										>
 											Get Started
 										</Button>
@@ -294,7 +294,7 @@ class Tools extends Component {
 										</li>
 										<li>Bring your own UI components.</li>
 										<li>
-											Currently in preview. Hit us at
+											Currently in preview. Hit us at{' '}
 											<a
 												href="https://gitter.com/appbaseio/reactivesearch"
 												rel="noopener noreferrer"
@@ -302,7 +302,7 @@ class Tools extends Component {
 											>
 												Gitter
 											</a>{' '}
-											or
+											or{' '}
 											<a
 												href="https://github.com/appbaseio/reactivesearch"
 												rel="noopener noreferrer"
@@ -322,7 +322,7 @@ class Tools extends Component {
 											bold
 											uppercase
 											big
-											success
+											primary
 										>
 											Get Started
 										</Button>
