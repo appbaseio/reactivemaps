@@ -7,7 +7,7 @@ import Home from './pages/Home';
 import Learn from './pages/Learn';
 import Tools from './pages/Tools';
 import Demos from './pages/Demos';
-import registerServiceWorker from './registerServiceWorker';
+import { unregister as unregisterServiceWorker } from './registerServiceWorker';
 
 const Root = () => (
 	<Router basename="/reactivemaps">
@@ -21,4 +21,4 @@ const Root = () => (
 );
 
 ReactDOM.render(<Root />, document.getElementById('root'));
-registerServiceWorker();
+unregisterServiceWorker();
