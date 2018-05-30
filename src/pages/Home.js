@@ -140,7 +140,11 @@ class Home extends Component {
 									</SecondaryLink>
 								</div>
 								<p>
-									Get <a href="/">our designer templates</a> for sketch.
+									Get{' '}
+									<a href="/resources/ReactiveMaps_Playground.sketch">
+										our designer templates
+									</a>{' '}
+									for sketch.
 								</p>
 							</div>
 						</Layout>
