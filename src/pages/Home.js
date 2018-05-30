@@ -264,9 +264,9 @@ class Home extends Component {
 						<Layout>
 							<div className={titleRow}>
 								<H3>Check our demos</H3>
-								{/* <Button bold uppercase primary>
+								<Button bold uppercase primary href="/reactivemaps/demos">
 									SEE MORE
-								</Button> */}
+								</Button>
 							</div>
 							<Grid
 								size={4}

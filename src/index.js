@@ -6,6 +6,7 @@ import './index.css';
 import Home from './pages/Home';
 import Learn from './pages/Learn';
 import Tools from './pages/Tools';
+import Demos from './pages/Demos';
 import registerServiceWorker from './registerServiceWorker';
 
 const Root = () => (
@@ -14,6 +15,7 @@ const Root = () => (
 			<Route exact path="/" component={Home} />
 			<Route exact path="/learn" component={Learn} />
 			<Route exact path="/tools" component={Tools} />
+			<Route exact path="/demos" component={Demos} />
 		</Switch>
 	</Router>
 );
