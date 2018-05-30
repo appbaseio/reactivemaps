@@ -348,53 +348,62 @@ class Home extends Component {
 
 							<div className={titleRow}>
 								<H3>Featured Articles</H3>
-								<Button bold uppercase primary href="https://medium.appbase.io">
+								<Button
+									target="_blank"
+									bold
+									uppercase
+									primary
+									href="https://medium.appbase.io"
+								>
 									SEE MORE
 								</Button>
 							</div>
 							<Grid size={2} mdSize={1} gutter="10px" smGutter="0px">
 								<div>
-									<ImageCard src="project.png" big>
+									<ImageCard src="demos/blog-1.png" big>
 										<div>
-											<Title>Carry</Title>
-											<p>
-												Lorem ipsum dolor sit amet, consectetur adipiscing
-												elit. Nunc ac turpis metus.
+											<Title>
+												Building an Airbnb clone with React and
+												Elasticsearch
+											</Title>
+											<p style={{ maxWidth: 360 }}>
+												Learn to create an airbnb like app with the forces
+												of Reactivesearch and Reactivemaps combined.
 											</p>
 										</div>
 										<div>
-											<SecondaryLink primary>Check Demo</SecondaryLink>
+											<SecondaryLink
+												primary
+												href="https://medium.com/@meghpararajkumar/8eb91e7e85e2"
+												target="_blank"
+											>
+												Read all about it
+											</SecondaryLink>
 										</div>
 									</ImageCard>
 								</div>
-
 								<div>
-									<Grid size={2} smSize={1} gutter="10px" smGutter="0px">
-										<ImageCard src="project.png">
-											<div>
-												<Title>Carry</Title>
-												<p>
-													Lorem ipsum dolor sit amet, consectetur
-													adipiscing elit. Nunc ac turpis metus.
-												</p>
-											</div>
-											<div>
-												<SecondaryLink primary>Check Demo</SecondaryLink>
-											</div>
-										</ImageCard>
-										<ImageCard src="project.png">
-											<div>
-												<Title>Carry</Title>
-												<p>
-													Lorem ipsum dolor sit amet, consectetur
-													adipiscing elit. Nunc ac turpis metus.
-												</p>
-											</div>
-											<div>
-												<SecondaryLink primary>Check Demo</SecondaryLink>
-											</div>
-										</ImageCard>
-									</Grid>
+									<ImageCard src="demos/blog-1.png" big>
+										<div>
+											<Title>
+												Building an Airbnb clone with React and
+												Elasticsearch
+											</Title>
+											<p style={{ maxWidth: 360 }}>
+												Learn to create an airbnb like app with the forces
+												of Reactivesearch and Reactivemaps combined.
+											</p>
+										</div>
+										<div>
+											<SecondaryLink
+												primary
+												href="https://medium.com/@meghpararajkumar/8eb91e7e85e2"
+												target="_blank"
+											>
+												Read all about it
+											</SecondaryLink>
+										</div>
+									</ImageCard>
 								</div>
 							</Grid>
 						</Layout>
