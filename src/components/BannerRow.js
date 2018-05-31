@@ -40,7 +40,7 @@ export default () => (
 						<img src="support.svg" style={{ marginRight: 10 }} alt="support" />
 						SUPPORT PLANS
 					</Button>
-					<SecondaryLink href="/learn">Get in touch</SecondaryLink>
+					<SecondaryLink href="https://appbase.io/contactus">Get in touch</SecondaryLink>
 				</div>
 			</div>
 		</BannerRow.Column>
