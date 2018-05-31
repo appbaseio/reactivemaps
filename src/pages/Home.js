@@ -76,7 +76,7 @@ class Home extends Component {
 
 							<div className="button-row">
 								<GithubButton
-									count="1,825"
+									count="1,827"
 									href="https://github.com/appbaseio/reactivesearch"
 								/>
 								<Button
@@ -378,7 +378,7 @@ class Home extends Component {
 										<div>
 											<SecondaryLink
 												primary
-												href="https://medium.com/@meghpararajkumar/8eb91e7e85e2"
+												href="https://medium.appbase.io/how-to-build-an-airbnb-clone-with-react-and-elasticsearch-8eb91e7e85e2"
 												target="_blank"
 											>
 												Read all about it
@@ -386,7 +386,7 @@ class Home extends Component {
 										</div>
 									</ImageCard>
 								</div>
-								<div>
+								{/* <div>
 									<ImageCard src="demos/blog-1.png" big>
 										<div>
 											<Title>
@@ -408,7 +408,7 @@ class Home extends Component {
 											</SecondaryLink>
 										</div>
 									</ImageCard>
-								</div>
+								</div> */}
 							</Grid>
 						</Layout>
 					</Section>
@@ -425,7 +425,7 @@ class Home extends Component {
 											alt="Heitor Correa"
 										/>
 										<div>
-											<h3>1 Heitor Correa</h3>
+											<h3>Heitor Correa</h3>
 											<p>CTO, Hariken</p>
 										</div>
 									</Testimonial.Author>
