@@ -20,8 +20,7 @@ Elasticsearch UI components for building data-driven Map UIs.
 
 ![](https://i.imgur.com/Dwz8pX4.png)
 
-[Get our designer templates for sketch](https://opensource.appbase.io/resources/ReactiveMaps_Playground.sketch).
-
+[Get our designer templates for sketch](https://opensource.appbase.io/reactivemaps/resources/ReactiveMaps_Playground.sketch).
 
 ## Installation
 
@@ -47,15 +46,14 @@ ReactiveMap creates a data-driven map UI component. It is the key component for 
 
 Besides the sensor components from reactivesearch, reactivemap is compatible with two other pre-defined sensor components - GeoDistanceSlider and GeoDistanceDropdown. You can read more about them in the [docs](https://opensource.appbase.io/map-components/geodistanceslider.html)
 
-
 ## Live Demos
 
 A set of live demos inspired by real world apps, built with Reactivemaps.
 
-- [Airbeds](https://opensource.appbase.io/reactivesearch/demos/airbeds/) - An airbnb-like booking search experience.
-- [Datalayers](https://opensource.appbase.io/reactivesearch/demos/datalayer/) - Demo combining the dark forces of datalayer and Reactivemaps.
-- [Meetup Blast](https://opensource.appbase.io/reactivesearch/demos/meetup/) - A kickass meetup inspired search app built with Reactivemaps.
-- [Board the bus](https://opensource.appbase.io/reactivesearch/demos/transport/) - Catch realtime bus transportation demo in action with Reactivemaps.
+*   [Airbeds](https://opensource.appbase.io/reactivesearch/demos/airbeds/) - An airbnb-like booking search experience.
+*   [Datalayers](https://opensource.appbase.io/reactivesearch/demos/datalayer/) - Demo combining the dark forces of datalayer and Reactivemaps.
+*   [Meetup Blast](https://opensource.appbase.io/reactivesearch/demos/meetup/) - A kickass meetup inspired search app built with Reactivemaps.
+*   [Board the bus](https://opensource.appbase.io/reactivesearch/demos/transport/) - Catch realtime bus transportation demo in action with Reactivemaps.
 
 ## Documentation
 
@@ -63,10 +61,10 @@ The official docs for the library are at [https://opensource.appbase.io/reactive
 
 ## Related tooling and projects
 
-- [**ReactiveSearch**](https://opensource.appbase.io/reactivesearch/) Everything you need to know about reactivesearch.
+*   [**ReactiveSearch**](https://opensource.appbase.io/reactivesearch/) Everything you need to know about reactivesearch.
 
-- [**appbase-js**](https://github.com/appbaseio/appbase-js) While building search UIs is dandy with Reactive Search, you might also need to add some input forms. **appbase-js** comes in handy there.
+*   [**appbase-js**](https://github.com/appbaseio/appbase-js) While building search UIs is dandy with Reactive Search, you might also need to add some input forms. **appbase-js** comes in handy there.
 
-- [**dejavu**](https://github.com/appbaseio/dejavu) allows viewing raw data within an appbase.io (or Elasticsearch) app. **Soon to be released feature:** An ability to import custom data from CSV and JSON files, along with a guided walkthrough on applying data mappings.
+*   [**dejavu**](https://github.com/appbaseio/dejavu) allows viewing raw data within an appbase.io (or Elasticsearch) app. **Soon to be released feature:** An ability to import custom data from CSV and JSON files, along with a guided walkthrough on applying data mappings.
 
-- [**mirage**](https://github.com/appbaseio/mirage) ReactiveSearch components can be extended using custom Elasticsearch queries. For those new to Elasticsearch, Mirage provides an intuitive GUI for composing queries.
+*   [**mirage**](https://github.com/appbaseio/mirage) ReactiveSearch components can be extended using custom Elasticsearch queries. For those new to Elasticsearch, Mirage provides an intuitive GUI for composing queries.

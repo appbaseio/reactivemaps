@@ -141,7 +141,7 @@ class Home extends Component {
 								</div>
 								<p>
 									Get{' '}
-									<a href="/resources/ReactiveMaps_Playground.sketch">
+									<a href="/reactivemaps/resources/ReactiveMaps_Playground.sketch">
 										our designer templates
 									</a>{' '}
 									for sketch.
