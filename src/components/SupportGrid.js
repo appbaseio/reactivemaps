@@ -21,13 +21,13 @@ export default () => (
 		</Card>
 		<Card
 			big
-			href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html"
+			href="https://medium.appbase.io"
 		>
 			<img src="support/Tutorials.svg" alt="Tutorials" />
 			<Title>Tutorials</Title>
 			<p>Go from scratch to a full app with these tutorial guides.</p>
 		</Card>
-		<Card big href="https://appbase.io/support">
+		<Card big href="https://new.appbase.io/support">
 			<img src="support/Support.png" srcSet="support/Support@2x.png 2x" alt="Support" />
 			<Title>Support</Title>
 			<p>
@@ -35,7 +35,7 @@ export default () => (
 				<span style={{ color: '#0033FF' }}>Reactive X</span> app.
 			</p>
 		</Card>
-		<Card big href="https://https://gitter.im/appbaseio/reactivesearch">
+		<Card big href="https://gitter.im/appbaseio/reactivesearch">
 			<img src="support/Gitter.svg" alt="Gitter" />
 			<Title>Gitter</Title>
 			<p>Join our community on Gitter. We{"'"}re always around and happy to help.</p>
