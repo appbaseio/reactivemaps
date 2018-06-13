@@ -77,7 +77,7 @@ class Tools extends Component {
 							</p>
 
 							<GithubButton
-								count="1,827"
+								count="1,995"
 								href="https://github.com/appbaseio/reactivesearch"
 							/>
 

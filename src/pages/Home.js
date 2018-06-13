@@ -76,7 +76,7 @@ class Home extends Component {
 
 							<div className="button-row">
 								<GithubButton
-									count="1,827"
+									count="1,995"
 									href="https://github.com/appbaseio/reactivesearch"
 								/>
 								<Button
