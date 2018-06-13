@@ -50,7 +50,7 @@ class Learn extends Component {
 								<a href="https://github.com/appbaseio/reactivesearch">GITHUB</a>
 							</li>
 							<li className="button">
-								<Button href="https://new.appbase.io/support" bold uppercase primary>
+								<Button href="https://appbase.io/support" bold uppercase primary>
 									<img
 										src="support-white.svg"
 										style={{ marginRight: 8 }}

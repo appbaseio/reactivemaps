@@ -27,7 +27,7 @@ export default () => (
 			<Title>Tutorials</Title>
 			<p>Go from scratch to a full app with these tutorial guides.</p>
 		</Card>
-		<Card big href="https://new.appbase.io/support">
+		<Card big href="https://appbase.io/support">
 			<img src="support/Support.png" srcSet="support/Support@2x.png 2x" alt="Support" />
 			<Title>Support</Title>
 			<p>

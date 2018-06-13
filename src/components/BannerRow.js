@@ -36,7 +36,7 @@ export default () => (
 					project to life.
 				</p>
 				<div className="button-row center">
-					<Button href="https://new.appbase.io/support" bold uppercase big dark>
+					<Button href="https://appbase.io/support" bold uppercase big dark>
 						<img src="support.svg" style={{ marginRight: 10 }} alt="support" />
 						SUPPORT PLANS
 					</Button>

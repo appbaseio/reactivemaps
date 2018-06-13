@@ -55,7 +55,7 @@ class Tools extends Component {
 								<a href="https://github.com/appbaseio/reactivesearch">GITHUB</a>
 							</li>
 							<li className="button">
-								<Button href="https://new.appbase.io/support" bold uppercase dark>
+								<Button href="https://appbase.io/support" bold uppercase dark>
 									<img
 										src="support.svg"
 										style={{ marginRight: 8 }}
