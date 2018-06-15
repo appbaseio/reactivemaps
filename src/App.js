@@ -263,7 +263,7 @@ class App extends Component {
 							<Testimonial>
 								<Testimonial.Card row={6} color="#66A1FF">
 									<Testimonial.Author>
-										<img src="https://appbase.io/images/customers/heitorcorrea.jpg" alt="Heitor Correa" />
+										<img src="https://appbase.io/static/images/customers/heitorcorrea.jpg" alt="Heitor Correa" />
 										<div>
 											<h3>1 Heitor Correa</h3>
 											<p>CTO, Hariken</p>
@@ -271,10 +271,10 @@ class App extends Component {
 									</Testimonial.Author>
 									<p style={{ fontSize: '1.3rem', lineHeight: '2rem' }}>Having appbase.io by our side has been like having a specialist inside the team. They are saving us at least 40 hours every month.</p>
 								</Testimonial.Card>
-								
+
 								<Testimonial.Card row={3}>
 									<Testimonial.Author>
-										<img src="https://appbase.io/images/customers/charliewood.jpg" alt="Heitor Correa" />
+										<img src="https://appbase.io/static/images/customers/charliewood.jpg" alt="Heitor Correa" />
 										<div>
 											<h3>Charlie Wood</h3>
 											<p>CTO, Numerous App</p>
@@ -285,7 +285,7 @@ class App extends Component {
 
 								<Testimonial.Card row={4} color="#893FF3">
 									<Testimonial.Author>
-										<img src="https://appbase.io/images/customers/kishanpatel.jpg" alt="Heitor Correa" />
+										<img src="https://appbase.io/static/images/customers/kishanpatel.jpg" alt="Heitor Correa" />
 										<div>
 											<h3>Kishan Patel</h3>
 											<p>CTO, Lyearn</p>
@@ -300,10 +300,10 @@ class App extends Component {
 										<p>Rob Whitley, Co-Founder, Salespipe</p>
 									</Testimonial.Author>
 								</Testimonial.Card>
-	
+
 								<Testimonial.Card row={2}>
 									<Testimonial.Author>
-										<img src="https://appbase.io/images/customers/patrickhogan.jpg" alt="Heitor Correa" />
+										<img src="https://appbase.io/static/images/customers/patrickhogan.jpg" alt="Heitor Correa" />
 										<div>
 											<h3>Patrick Hogan</h3>
 											<p>CEO, Tenfold</p>

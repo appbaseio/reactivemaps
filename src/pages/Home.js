@@ -76,7 +76,7 @@ class Home extends Component {
 
 							<div className="button-row">
 								<GithubButton
-									count="1,995"
+									count="2,004"
 									href="https://github.com/appbaseio/reactivesearch"
 								/>
 								<Button
@@ -421,7 +421,7 @@ class Home extends Component {
 								<Testimonial.Card row={6} color="#66A1FF">
 									<Testimonial.Author>
 										<img
-											src="https://appbase.io/images/customers/heitorcorrea.jpg"
+											src="https://appbase.io/static/images/customers/heitorcorrea.jpg"
 											alt="Heitor Correa"
 										/>
 										<div>
@@ -439,7 +439,7 @@ class Home extends Component {
 								<Testimonial.Card row={3}>
 									<Testimonial.Author>
 										<img
-											src="https://appbase.io/images/customers/charliewood.jpg"
+											src="https://appbase.io/static/images/customers/charliewood.jpg"
 											alt="Heitor Correa"
 										/>
 										<div>
@@ -456,7 +456,7 @@ class Home extends Component {
 								<Testimonial.Card row={4} color="#893FF3">
 									<Testimonial.Author>
 										<img
-											src="https://appbase.io/images/customers/kishanpatel.jpg"
+											src="https://appbase.io/static/images/customers/kishanpatel.jpg"
 											alt="Heitor Correa"
 										/>
 										<div>
@@ -483,7 +483,7 @@ class Home extends Component {
 								<Testimonial.Card row={2}>
 									<Testimonial.Author>
 										<img
-											src="https://appbase.io/images/customers/patrickhogan.jpg"
+											src="https://appbase.io/static/images/customers/patrickhogan.jpg"
 											alt="Heitor Correa"
 										/>
 										<div>
