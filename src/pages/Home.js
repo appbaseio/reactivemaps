@@ -24,11 +24,29 @@ import BannerRow from '../components/BannerRow';
 import Footer from '../components/Footer';
 
 class Home extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			githubStarCount: 3000,
+		};
+	}
+
 	componentDidMount() {
+		// To fetch reactive search github stars
+		fetch('https://api.github.com/repos/appbaseio/reactivesearch')
+			.then(res => res.json())
+			.then((res) => {
+				this.setState({
+					githubStarCount: res.stargazers_count,
+				});
+			})
+			.catch(e => console.log(e)); // eslint-disable-line
 		window.scrollTo(0, 0);
 	}
 
 	render() {
+		const { githubStarCount } = this.state;
 		return (
 			<ThemeProvider
 				theme={{
@@ -76,7 +94,7 @@ class Home extends Component {
 
 							<div className="button-row">
 								<GithubButton
-									count="2,004"
+									count={githubStarCount}
 									href="https://github.com/appbaseio/reactivesearch"
 								/>
 								<Button
