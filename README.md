@@ -5,8 +5,8 @@
   <br />
 </h2>
 
-<p align="center">Elasticsearch UI components for building data-driven Map UIs. <a href="https://opensource.appbase.io/reactivemaps/">Website 🌐</a></p>
-<p align="center" style="font-size: 1.2rem"><a href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html">Quickstart with Reactivemaps</a>.</p>
+<p align="center">UI components for building data-driven Map UIs with Elasticsearch, OpenSearch and MongoDB Atlas Search. <a href="https://opensource.appbase.io/reactivemaps/">Website 🌐</a></p>
+<p align="center" style="font-size: 1.2rem"><a href="https://docs.appbase.io/docs/reactivesearch/v3/overview/reactivemaps/">Quickstart with ReactiveMaps</a>.</p>
 
 <hr />
 
@@ -40,11 +40,11 @@ Reactivemap efficiently evaluates the map centers dynamically as the map updates
 
 **1. Map component**
 
-ReactiveMap creates a data-driven map UI component. It is the key component for build map based experiences. - [ReactiveMap](https://opensource.appbase.io/reactive-manual/map-components/reactivemap.html)
+ReactiveMaps provides map UI components. There are two flavors of Map components: [ReactiveOpenStreetMap](https://docs.appbase.io/docs/reactivesearch/v3/map/reactiveopenstreetmap/) and [ReactiveGoogleMap](https://docs.appbase.io/docs/reactivesearch/v3/map/reactivegooglemap/)
 
 **2. Complimentary sensor components**
 
-Besides the sensor components from reactivesearch, reactivemap is compatible with two other pre-defined sensor components - GeoDistanceSlider and GeoDistanceDropdown. You can read more about them in the [docs](https://opensource.appbase.io/map-components/geodistanceslider.html)
+Besides the sensor components from reactivesearch, reactivemap is compatible with two other pre-defined sensor components - GeoDistanceSlider and GeoDistanceDropdown. You can read more about them in the [docs](https://docs.appbase.io/docs/reactivesearch/v3/map/geodistanceslider/)
 
 ## Live Demos
 
@@ -57,7 +57,7 @@ A set of live demos inspired by real world apps, built with Reactivemaps.
 
 ## Documentation
 
-The official docs for the library are at [https://opensource.appbase.io/reactive-manual](https://opensource.appbase.io/reactive-manual).
+The official docs for the library are at [docs.appbase.io/docs/reactivesearch/v3/overview/quickstart/](https://docs.appbase.io/docs/reactivesearch/v3/overview/quickstart/).
 
 ## Related tooling and projects
 
@@ -67,6 +67,4 @@ The official docs for the library are at [https://opensource.appbase.io/reactive
 
 *   [**dejavu**](https://github.com/appbaseio/dejavu) allows viewing raw data within an appbase.io (or Elasticsearch) app. **Soon to be released feature:** An ability to import custom data from CSV and JSON files, along with a guided walkthrough on applying data mappings.
 
-*   [**mirage**](https://github.com/appbaseio/mirage) ReactiveSearch components can be extended using custom Elasticsearch queries. For those new to Elasticsearch, Mirage provides an intuitive GUI for composing queries.
-
-<a href="https://appbase.io/support/"><img src="https://i.imgur.com/UL6B0uE.png" width="100%" /></a>
+<a href="https://appbase.io/pricing/#premium-support/"><img src="https://i.imgur.com/UL6B0uE.png" width="100%" /></a>

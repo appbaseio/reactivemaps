@@ -55,7 +55,7 @@ class Tools extends Component {
 								<a href="https://github.com/appbaseio/reactivesearch">GITHUB</a>
 							</li>
 							<li className="button">
-								<Button href="https://appbase.io/support" bold uppercase dark>
+								<Button href="https://appbase.io/pricing/#premium-support" bold uppercase dark>
 									<img
 										src="support.svg"
 										style={{ marginRight: 8 }}
@@ -154,7 +154,7 @@ class Tools extends Component {
 
 									<div className="button-row">
 										<Button
-											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivesearch.html"
+											href="https://docs.appbase.io/docs/reactivesearch/v3/overview/quickstart/"
 											target="_blank"
 											rel="noopener noreferrer"
 											bold
@@ -236,7 +236,7 @@ class Tools extends Component {
 
 									<div className="button-row">
 										<Button
-											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html"
+											href="https://docs.appbase.io/docs/reactivesearch/v3/overview/reactivemaps/"
 											target="_blank"
 											rel="noopener noreferrer"
 											bold
@@ -280,7 +280,7 @@ class Tools extends Component {
 												position: 'relative',
 											}}
 										/>
-										Reactive<span className={boldFont}>Search Native</span>
+										Search<span className={boldFont}>Box Native</span>
 									</H2>
 									<p>
 										Elasticsearch UI components for React Native targeting
@@ -289,22 +289,12 @@ class Tools extends Component {
 
 									<ul className={featureList}>
 										<li>
-											Over 10 pre-built UI components that maintain design
-											parity with web components.
+											Pre-built UI component for search and a controller component to bring your own UI components.
 										</li>
-										<li>Bring your own UI components.</li>
 										<li>
 											Currently in preview. Hit us at{' '}
 											<a
-												href="https://gitter.com/appbaseio/reactivesearch"
-												rel="noopener noreferrer"
-												target="_blank"
-											>
-												Gitter
-											</a>{' '}
-											or{' '}
-											<a
-												href="https://github.com/appbaseio/reactivesearch"
+												href="https://github.com/appbaseio/reactivesearch/discussions"
 												rel="noopener noreferrer"
 												target="_blank"
 											>
@@ -316,7 +306,7 @@ class Tools extends Component {
 
 									<div className="button-row">
 										<Button
-											href="https://hackernoon.com/building-an-e-commerce-search-app-with-react-native-2c87760a2315"
+											href="https://docs.appbase.io/docs/reactivesearch/react-native-searchbox/quickstart/"
 											target="_blank"
 											rel="noopener noreferrer"
 											bold
@@ -326,14 +316,6 @@ class Tools extends Component {
 										>
 											Get Started
 										</Button>
-										<SecondaryLink
-											href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/native"
-											target="_blank"
-											rel="noopener noreferrer"
-											primary
-										>
-											Learn More
-										</SecondaryLink>
 									</div>
 								</div>
 								<div style={{ margin: 0 }} className={hideTab}>
@@ -365,7 +347,7 @@ class Tools extends Component {
 								</p>
 								<div className="button-row">
 									<Button
-										href="https://appbase.io/support"
+										href="https://appbase.io/pricing/#premium-support"
 										bold
 										uppercase
 										big

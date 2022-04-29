@@ -50,7 +50,7 @@ class Learn extends Component {
 								<a href="https://github.com/appbaseio/reactivesearch">GITHUB</a>
 							</li>
 							<li className="button">
-								<Button href="https://appbase.io/support" bold uppercase primary>
+								<Button href="https://appbase.io/pricing/#premium-support" bold uppercase primary>
 									<img
 										src="support-white.svg"
 										style={{ marginRight: 8 }}
@@ -70,7 +70,7 @@ class Learn extends Component {
 								check out our{' '}
 								<a
 									rel="noopener noreferrer"
-									href="https://opensource.appbase.io/reactive-manual/"
+									href="https://docs.appbase.io/docs/reactivesearch/v3/overview/reactivemaps/"
 									target="_blank"
 								>
 									docs
@@ -133,7 +133,7 @@ class Learn extends Component {
 										<SecondaryLink
 											primary
 											rel="noopener noreferrer"
-											href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html"
+											href="https://docs.appbase.io/docs/reactivesearch/v3/overview/reactivemaps/"
 											target="_blank"
 										>
 											Step-by-step installation guide
@@ -151,7 +151,7 @@ class Learn extends Component {
 											queries.
 										</p>
 										<p>
-											Create a free app with{' '}
+											Get a free trial and create a cluster with{' '}
 											<a
 												rel="noopener noreferrer"
 												href="https://appbase.io"
@@ -161,7 +161,7 @@ class Learn extends Component {
 											</a>, or{' '}
 											<a
 												rel="noopener noreferrer"
-												href="https://opensource.appbase.io/reactive-manual/getting-started/reactivebase.html#connect-to-elasticsearch"
+												href="https://docs.appbase.io/docs/hosting/byoc/"
 												target="_blank"
 											>
 												learn more
@@ -185,7 +185,7 @@ class Learn extends Component {
 										<SecondaryLink
 											primary
 											rel="noopener noreferrer"
-											href="https://opensource.appbase.io/dejavu/"
+											href="https://dejavu.appbase.io"
 											target="_blank"
 										>
 											Dejavu
@@ -193,7 +193,7 @@ class Learn extends Component {
 										<SecondaryLink
 											primary
 											rel="noopener noreferrer"
-											href="https://opensource.appbase.io/reactive-manual/getting-started/data.html"
+											href="https://docs.appbase.io/docs/reactivesearch/v3/overview/importing/#importing-custom-data"
 											target="_blank"
 											style={{ marginLeft: '1rem' }}
 										>
@@ -210,28 +210,28 @@ class Learn extends Component {
 											Add UI components for{' '}
 											<a
 												rel="noopener noreferrer"
-												href="https://opensource.appbase.io/reactive-manual/map-components/geodistanceslider.html"
+												href="https://docs.appbase.io/docs/reactivesearch/v3/map/geodistanceslider/"
 												target="_blank"
 											>
 												Maps
 											</a>,{' '}
 											<a
 												rel="noopener noreferrer"
-												href="https://opensource.appbase.io/reactive-manual/list-components/singlelist.html"
+												href="https://docs.appbase.io/docs/reactivesearch/v3/list/singlelist/"
 												target="_blank"
 											>
 												List
 											</a>,{' '}
 											<a
 												rel="noopener noreferrer"
-												href="https://opensource.appbase.io/reactive-manual/range-components/singlerange.html"
+												href="https://docs.appbase.io/docs/reactivesearch/v3/range/singlerange/"
 												target="_blank"
 											>
 												Range
 											</a>,{' '}
 											<a
 												rel="noopener noreferrer"
-												href="https://opensource.appbase.io/reactive-manual/search-components/datasearch.html"
+												href="https://docs.appbase.io/docs/reactivesearch/v3/search/searchbox/"
 												target="_blank"
 											>
 												Search
@@ -249,7 +249,7 @@ class Learn extends Component {
 										<SecondaryLink
 											primary
 											rel="noopener noreferrer"
-											href="https://opensource.appbase.io/reactive-manual/getting-started/componentsindex.html"
+											href="https://docs.appbase.io/docs/reactivesearch/v3/map/geodistanceslider/"
 											target="_blank"
 										>
 											Component Docs
@@ -260,15 +260,14 @@ class Learn extends Component {
 								<div className={stepCard}>
 									<span className="count">6</span>
 									<div>
-										<Title>Maps for React Native</Title>
+										<Title>Maps for Flutter</Title>
 										<p>
-											ReactiveMaps is also available in preview for React
-											Native.
+											ReactiveMaps is also available for Flutter.
 										</p>
 									</div>
 									<div>
-										<SecondaryLink primary>
-											Quickstart with React Native
+										<SecondaryLink primary rel="noopener noreferrer" href="https://docs.appbase.io/docs/reactivesearch/flutter-searchbox-ui/reactive-google-map/">
+											Quickstart with Flutter
 										</SecondaryLink>
 									</div>
 								</div>

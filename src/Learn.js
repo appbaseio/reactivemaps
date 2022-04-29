@@ -157,7 +157,7 @@ class App extends Component {
                             <p>Resources to get help with Reactive Maps.</p>
 
                             <Grid size={4} lgSize={2} smSize={1} gutter="20px" lgGutter="12px" style={{ marginTop: '60px' }}>
-                                <Card big href="https://opensource.appbase.io/reactive-manual">
+                                <Card big href="https://docs.appbase.io/docs/reactivesearch/v3/overview/quickstart/">
                                     <img
                                         src="/support/Documentation.svg"
                                         alt="Documentation"
@@ -165,7 +165,7 @@ class App extends Component {
                                     <Title>Documentation</Title>
                                     <p>Dive in to learn all about <span style={{ color: '#0033FF' }}>Reactive X</span> development for all platforms.</p>
                                 </Card>
-                                <Card big href="https://opensource.appbase.io/reactive-manual">
+                                <Card big href="https://docs.appbase.io/docs/reactivesearch/v3/overview/quickstart/">
                                     <img
                                         src="/support/Tutorials.svg"
                                         alt="Tutorials"
@@ -173,7 +173,7 @@ class App extends Component {
                                     <Title>Tutorials</Title>
                                     <p>Go from scratch to a full app with these tutorial guides.</p>
                                 </Card>
-                                <Card big href="https://opensource.appbase.io/reactive-manual">
+                                <Card big href="https://docs.appbase.io/docs/reactivesearch/v3/overview/quickstart/">
                                     <img
                                         src="/support/Support.png"
                                         srcSet="support/Support@2x.png 2x"
@@ -182,7 +182,7 @@ class App extends Component {
                                     <Title>Support</Title>
                                     <p>Get first-class support from appbase.io for your <span style={{ color: '#0033FF' }}>Reactive X</span> app.</p>
                                 </Card>
-                                <Card big href="https://opensource.appbase.io/reactive-manual">
+                                <Card big>
                                     <img
                                         src="/support/Gitter.svg"
                                         alt="Gitter"

@@ -14,7 +14,7 @@ export default () => (
 				</p>
 				<div className="button-row center">
 					<Button
-						href="https://opensource.appbase.io/reactive-manual/getting-started/reactivesearch.html"
+						href="/reactivemaps/learn"
 						bold
 						uppercase
 						big
@@ -22,7 +22,7 @@ export default () => (
 					>
 						Get Started
 					</Button>
-					<SecondaryLink href="https://opensource.appbase.io/reactive-manual">
+					<SecondaryLink href="https://docs.appbase.io/docs/reactivesearch/v3/overview/reactivemaps/">
 						Learn More
 					</SecondaryLink>
 				</div>
@@ -36,11 +36,11 @@ export default () => (
 					project to life.
 				</p>
 				<div className="button-row center">
-					<Button href="https://appbase.io/support" bold uppercase big dark>
+					<Button href="https://appbase.io/pricing/#premium-support" bold uppercase big dark>
 						<img src="support.svg" style={{ marginRight: 10 }} alt="support" />
 						SUPPORT PLANS
 					</Button>
-					<SecondaryLink href="https://appbase.io/contactus">Get in touch</SecondaryLink>
+					<SecondaryLink href="https://appbase.io/contact">Get in touch</SecondaryLink>
 				</div>
 			</div>
 		</BannerRow.Column>

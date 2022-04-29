@@ -4,7 +4,7 @@
 
 "@appbaseio/designkit@0.7.4":
   version "0.7.4"
-  resolved "https://registry.npmjs.org/@appbaseio/designkit/-/designkit-0.7.4.tgz#1aa12f2fe7fd65289330837ce9c1047ed29f1d7d"
+  resolved "https://registry.yarnpkg.com/@appbaseio/designkit/-/designkit-0.7.4.tgz#1aa12f2fe7fd65289330837ce9c1047ed29f1d7d"
   integrity sha512-DLzSp4rpp4qcVACpSTknHgM+dFwNtGphXhvbI3ALjryFS+xUd7nHw5uScS65xLBhOdLOcyNaUOVn67Rp4Q1BMg==
   dependencies:
     "@storybook/react" "^3.2.19"

@@ -17,7 +17,6 @@ import {
 	showMobileFlex,
 } from '../styles';
 import ActionCard from '../styles/ActionCard';
-import Testimonial from '../styles/Testimonial';
 import ImageCard from '../styles/ImageCard';
 import SupportGrid from '../components/SupportGrid';
 import BannerRow from '../components/BannerRow';
@@ -75,7 +74,7 @@ class Home extends Component {
 								<a href="https://github.com/appbaseio/reactivesearch">GITHUB</a>
 							</li>
 							<li className="button">
-								<Button href="https://appbase.io/support" bold uppercase dark>
+								<Button href="https://appbase.io/pricing/#premium-support" bold uppercase dark>
 									<img
 										src="support.svg"
 										style={{ marginRight: 8 }}
@@ -98,7 +97,7 @@ class Home extends Component {
 									href="https://github.com/appbaseio/reactivesearch"
 								/>
 								<Button
-									href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html"
+									href="https://docs.appbase.io/docs/reactivesearch/v3/overview/reactivemaps/"
 									bold
 									uppercase
 									big
@@ -142,7 +141,7 @@ class Home extends Component {
 								</p>
 								<div className="button-row">
 									<Button
-										href="https://opensource.appbase.io/reactive-manual/map-components/reactivemap.html"
+										href="https://docs.appbase.io/docs/reactivesearch/v3/map/geodistanceslider/"
 										bold
 										uppercase
 										big
@@ -151,7 +150,7 @@ class Home extends Component {
 										View Components
 									</Button>
 									<SecondaryLink
-										href="https://opensource.appbase.io/reactive-manual/advanced/reactivecomponent.html"
+										href="https://docs.appbase.io/docs/reactivesearch/v3/advanced/reactivecomponent/"
 										primary
 									>
 										Bring your components
@@ -191,7 +190,7 @@ class Home extends Component {
 									</p>
 									<SecondaryLink
 										primary
-										href="https://opensource.appbase.io/reactive-manual/advanced/reactivecomponent.html"
+										href="https://docs.appbase.io/docs/reactivesearch/v3/advanced/reactivecomponent/"
 									>
 										Read More
 									</SecondaryLink>
@@ -206,7 +205,7 @@ class Home extends Component {
 										support.
 									</p>
 									<SecondaryLink
-										href="https://opensource.appbase.io/reactive-manual/theming/themes.html"
+										href="https://docs.appbase.io/docs/reactivesearch/v3/theming/overview/"
 										primary
 									>
 										Read More
@@ -218,11 +217,10 @@ class Home extends Component {
 									</ActionCard.Icon>
 									<Title>Create cross platform apps</Title>
 									<p>
-										Reactive Maps components can be ported to create native
-										mobile UIs.
+										Reactive Maps components are also available for Flutter.
 									</p>
 									<SecondaryLink
-										href="https://github.com/appbaseio/reactivesearch/tree/dev/packages/native"
+										href="https://docs.appbase.io/docs/reactivesearch/flutter-searchbox-ui/reactive-google-map/"
 										primary
 									>
 										Read More
@@ -234,11 +232,10 @@ class Home extends Component {
 									</ActionCard.Icon>
 									<Title>Elasticsearch compatible</Title>
 									<p>
-										Connect to an ES index hosted anywhere. Supports v2, v5 and
-										v6.
+										Connect to an Elasticsearch (v6 and above) or an OpenSearch (v1 and above) index hosted anywhere.
 									</p>
 									<SecondaryLink
-										href="https://opensource.appbase.io/reactive-manual/getting-started/reactivebase.html"
+										href="https://docs.appbase.io/docs/reactivesearch/v3/overview/reactivebase/"
 										primary
 									>
 										Read More
@@ -254,7 +251,7 @@ class Home extends Component {
 										customized with Elasticsearch query DSL.
 									</p>
 									<SecondaryLink
-										href="https://opensource.appbase.io/reactive-manual/advanced/customquery.html"
+										href="https://docs.appbase.io/docs/reactivesearch/v3/advanced/customqueries/"
 										primary
 									>
 										Read More
@@ -266,11 +263,10 @@ class Home extends Component {
 									</ActionCard.Icon>
 									<Title>Easy to secure</Title>
 									<p>
-										Use appbase.io to get read-only credentials, or set up a
-										middleware proxy with authorization rules.
+										Use appbase.io to with a fine-grained access control policy. Also works with your Elasticsearch cluster hosted elsewhere.
 									</p>
 									<SecondaryLink
-										href="https://opensource.appbase.io/reactive-manual/getting-started/reactivebase.html#connect-to-elasticsearch"
+										href="https://www.appbase.io/product/access-control/"
 										primary
 									>
 										Read More
@@ -349,23 +345,7 @@ class Home extends Component {
 										</SecondaryLink>
 									</div>
 								</ImageCard>
-								<ImageCard src="demos/bus.png">
-									<div>
-										<Title>Board the bus</Title>
-										<p>
-											Catch realtime bus transportation demo in action with
-											Reactivemaps
-										</p>
-									</div>
-									<div>
-										<SecondaryLink
-											primary
-											href="https://opensource.appbase.io/reactivesearch/demos/transport/"
-										>
-											Check Demo
-										</SecondaryLink>
-									</div>
-								</ImageCard>
+
 							</Grid>
 
 							<div className={titleRow}>
@@ -396,7 +376,7 @@ class Home extends Component {
 										<div>
 											<SecondaryLink
 												primary
-												href="https://medium.appbase.io/how-to-build-an-airbnb-clone-with-react-and-elasticsearch-8eb91e7e85e2"
+												href="https://blog.reactivesearch.io/geo-search-with-react-and-elasticsearch"
 												target="_blank"
 											>
 												Read all about it
@@ -431,97 +411,11 @@ class Home extends Component {
 						</Layout>
 					</Section>
 
-					<Section style={{ backgroundColor: '#fff' }}>
-						<Layout>
-							<H2>See what our users say</H2>
-
-							<Testimonial>
-								<Testimonial.Card row={6} color="#66A1FF">
-									<Testimonial.Author>
-										<img
-											src="https://appbase.io/static/images/customers/heitorcorrea.jpg"
-											alt="Heitor Correa"
-										/>
-										<div>
-											<h3>Heitor Correa</h3>
-											<p>CTO, Hariken</p>
-										</div>
-									</Testimonial.Author>
-									<p style={{ fontSize: '1.3rem', lineHeight: '2rem' }}>
-										Having appbase.io by our side has been like having a
-										specialist inside the team. They are saving us at least 40
-										hours every month.
-									</p>
-								</Testimonial.Card>
-
-								<Testimonial.Card row={3}>
-									<Testimonial.Author>
-										<img
-											src="https://appbase.io/static/images/customers/charliewood.jpg"
-											alt="Heitor Correa"
-										/>
-										<div>
-											<h3>Charlie Wood</h3>
-											<p>CTO, Numerous App</p>
-										</div>
-									</Testimonial.Author>
-									<p style={{ fontSize: '1rem', lineHeight: '1.5rem' }}>
-										Great customer support from @appbaseio, which we use for
-										in-app search.
-									</p>
-								</Testimonial.Card>
-
-								<Testimonial.Card row={4} color="#893FF3">
-									<Testimonial.Author>
-										<img
-											src="https://appbase.io/static/images/customers/kishanpatel.jpg"
-											alt="Heitor Correa"
-										/>
-										<div>
-											<h3>Kishan Patel</h3>
-											<p>CTO, Lyearn</p>
-										</div>
-									</Testimonial.Author>
-									<p style={{ fontSize: '1.2rem', lineHeight: '1.8rem' }}>
-										We use Reactivesearch for powering our search at Lyearn. It
-										has saved us at least a month of work.
-									</p>
-								</Testimonial.Card>
-
-								<Testimonial.Card row={3} small color="#52D65B">
-									<p style={{ fontSize: '1.1rem', lineHeight: '1.6rem' }}>
-										The time savings have been off the charts in getting our
-										search up and running!
-									</p>
-									<Testimonial.Author>
-										<p>Rob Whitley, Co-Founder, Salespipe</p>
-									</Testimonial.Author>
-								</Testimonial.Card>
-
-								<Testimonial.Card row={2}>
-									<Testimonial.Author>
-										<img
-											src="https://appbase.io/static/images/customers/patrickhogan.jpg"
-											alt="Heitor Correa"
-										/>
-										<div>
-											<h3>Patrick Hogan</h3>
-											<p>CEO, Tenfold</p>
-										</div>
-									</Testimonial.Author>
-									<p style={{ fontSize: '1.1rem', lineHeight: '1.6rem' }}>
-										Appbase is fast, like Usain Bolt.
-									</p>
-								</Testimonial.Card>
-							</Testimonial>
-						</Layout>
-					</Section>
-
 					<Section>
 						<Layout>
 							<H2>Get started in minutes</H2>
 							<Button
-								href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html"
+								href="https://docs.appbase.io/docs/reactivesearch/v3/overview/reactivemaps/"
 								bold
 								uppercase
 								style={{ margin: '25px 0 30px' }}

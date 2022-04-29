@@ -14,27 +14,22 @@ export default () => (
 			<Footer.List>
 				<Title>Documentation</Title>
 				<li>
-					<a target="_blank" rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/getting-started/reactivemaps.html">
+					<a target="_blank" rel="noopener noreferrer" href="https://docs.appbase.io/docs/reactivesearch/v3/overview/reactivemaps/">
 						Quick Start Guide
 					</a>
 				</li>
 				<li>
-					<a target="_blank" rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/base-components/textfield.html">
-						Base Components
-					</a>
-				</li>
-				<li>
-					<a target="_blank" rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/map-components/geodistanceslider.html">
+					<a target="_blank" rel="noopener noreferrer" href="https://docs.appbase.io/docs/reactivesearch/v3/map/geodistanceslider/">
 						Map Components
 					</a>
 				</li>
 				<li>
-					<a target="_blank" rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/search-components/datasearch.html">
+					<a target="_blank" rel="noopener noreferrer" href="https://docs.appbase.io/docs/reactivesearch/v3/search/searchbox/">
 						Search Components
 					</a>
 				</li>
 				<li>
-					<a target="_blank" rel="noopener noreferrer" href="https://opensource.appbase.io/reactive-manual/result-components/resultlist.html">
+					<a target="_blank" rel="noopener noreferrer" href="https://docs.appbase.io/docs/reactivesearch/v3/result/reactivelist/">
 						Result Components
 					</a>
 				</li>
@@ -43,10 +38,7 @@ export default () => (
 			<Footer.List>
 				<Title>Community</Title>
 				<li>
-					<a target="_blank" rel="noopener noreferrer" href="https://github.com/appbaseio/reactivesearch/">GitHub</a>
-				</li>
-				<li>
-					<a target="_blank" rel="noopener noreferrer" href="https://gitter.im/appbaseio/reactivesearch">Gitter</a>
+					<a target="_blank" rel="noopener noreferrer" href="https://github.com/appbaseio/reactivesearch/discussions">GitHub</a>
 				</li>
 				<li>
 					<a target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/questions/tagged/reactivesearch">Stackoverflow</a>
@@ -61,9 +53,10 @@ export default () => (
 				<li>
 					<a target="_blank" rel="noopener noreferrer" href="https://opensource.appbase.io/dejavu/">Data Browser</a>
 				</li>
-				<li>
-					<a target="_blank" rel="noopener noreferrer" href="https://opensource.appbase.io/mirage/">GUI Query Builder</a>
-				</li>
+                <li>
+                    <a href="https://github.com/appbaseio/reactivesearch-api">ReactiveSearch API server
+                    </a>
+                </li>
 			</Footer.List>
 
 			<Footer.List>
