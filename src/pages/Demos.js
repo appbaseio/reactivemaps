@@ -118,23 +118,6 @@ export default class Demos extends Component {
 										</SecondaryLink>
 									</div>
 								</ImageCard>
-								<ImageCard src="demos/bus.png">
-									<div>
-										<Title>Board the bus</Title>
-										<p>
-											Catch realtime bus transportation demo in action with
-											Reactivemaps
-										</p>
-									</div>
-									<div>
-										<SecondaryLink
-											primary
-											href="https://opensource.appbase.io/reactivesearch/demos/transport/"
-										>
-											Check Demo
-										</SecondaryLink>
-									</div>
-								</ImageCard>
 								<ImageCard src="demos/weather.png">
 									<div>
 										<Title>Weather Slam</Title>
@@ -152,23 +135,6 @@ export default class Demos extends Component {
 										</SecondaryLink>
 									</div>
 								</ImageCard>
-								<ImageCard src="demos/airbeds-2.png">
-									<div>
-										<Title>Airbeds Seattle</Title>
-										<p>
-											An airbnb inspired app for browsing housing areas in
-											Seattle
-										</p>
-									</div>
-									<div>
-										<SecondaryLink
-											primary
-											href="https://hopeful-wilson-e64d4d.netlify.com/"
-										>
-											Check Demo
-										</SecondaryLink>
-									</div>
-								</ImageCard>
 								<ImageCard src="demos/earthquake.png">
 									<div>
 										<Title>Earthquake Reporter</Title>
@@ -177,24 +143,7 @@ export default class Demos extends Component {
 									<div>
 										<SecondaryLink
 											primary
-											href="https://silly-euler-31f3ec.netlify.com/"
-										>
-											Check Demo
-										</SecondaryLink>
-									</div>
-								</ImageCard>
-								<ImageCard src="demos/earthquake-mobile.png">
-									<div>
-										<Title>Earthquake Mobile</Title>
-										<p>
-											Earthquake reporter built with Reactivemaps and React
-											Native.
-										</p>
-									</div>
-									<div>
-										<SecondaryLink
-											primary
-											href="https://snack.expo.io/@metagrover/earthquake-reporter"
+											href="https://charming-entremet-3088bf.netlify.app/"
 										>
 											Check Demo
 										</SecondaryLink>
