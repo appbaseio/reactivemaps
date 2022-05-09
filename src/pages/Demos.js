@@ -143,7 +143,7 @@ export default class Demos extends Component {
 									<div>
 										<SecondaryLink
 											primary
-											href="https://charming-entremet-3088bf.netlify.app/"
+											href="https://opensource.appbase.io/reactivesearch/demos/earthquake-reporter/"
 										>
 											Check Demo
 										</SecondaryLink>
